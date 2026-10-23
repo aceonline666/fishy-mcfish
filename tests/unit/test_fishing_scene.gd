@@ -11,7 +11,11 @@ var _original_state: PlayerState
 
 func before_each() -> void:
 	_original_state = GameState.state
-	GameState.replace_state(PlayerState.new_game())
+	var state := PlayerState.new_game()
+	# Goal rewards would add coins in the middle of the money checks below.
+	for def in DataRegistry.achievements:
+		state.achievements.append(def.id)
+	GameState.replace_state(state)
 	_scene = FishingSceneFile.instantiate()
 	_scene.auto_spawn = false
 	add_child_autofree(_scene)

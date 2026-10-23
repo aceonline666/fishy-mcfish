@@ -18,6 +18,8 @@ var drone_levels: Array[LevelDef] = []
 var staff_levels: Array[LevelDef] = []
 ## Depth zones, ordered from the shore outwards.
 var zones: Array[ZoneDef] = []
+## Goals, in the order shown.
+var achievements: Array[AchievementDef] = []
 var errors: PackedStringArray = []
 
 
@@ -39,6 +41,17 @@ func load_all(dir: String) -> void:
 	drone_levels = _load_levels(dir.path_join("drones.csv"))
 	staff_levels = _load_levels(dir.path_join("staff.csv"))
 	_load_zones(dir.path_join("zones.csv"))
+	_load_achievements(dir.path_join("achievements.csv"))
+
+
+func _load_achievements(path: String) -> void:
+	achievements.clear()
+	var table := CsvTable.load_file(path)
+	errors.append_array(table.errors)
+	for i in table.rows.size():
+		var def := AchievementDef.from_row(table.rows[i], errors, "%s row %d" % [path, i + 2])
+		if def != null:
+			achievements.append(def)
 
 
 func _load_zones(path: String) -> void:

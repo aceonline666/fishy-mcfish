@@ -16,7 +16,7 @@ const CAMERA_SMOOTHING := 6.0
 ## The camera may show this much (world pixels) beyond the spot's edges.
 const CAMERA_OVERSCROLL := 120.0
 ## Screen pixels covered by the HUD bars at the top and bottom.
-const PLAY_MARGIN_TOP := 170.0
+const PLAY_MARGIN_TOP := 270.0
 const PLAY_MARGIN_BOTTOM := 330.0
 
 #region Layout (ground units; the waterline is at y = 0, the beach at negative y)
@@ -64,6 +64,8 @@ const UNLOAD_INTERVAL_S := 0.09
 ## Seconds between payments on a build square; each pays this share of the price.
 const PAY_INTERVAL_S := 0.05
 const PAY_SHARE := 0.04
+## Seconds between banners when several goals are reached at once.
+const GOAL_BANNER_SPACING_S := 2.0
 const MAX_VISITORS := 6
 const VISITOR_INTERVAL_S := 2.5
 const WAKE_INTERVAL_S := 0.22
@@ -96,6 +98,7 @@ var _tank_nodes: Dictionary[int, TankNode] = {}
 var _visitors: Array[Visitor] = []
 var _visitor_timer := 1.0
 var _drones: Array[Drone] = []
+var _next_goal_banner_at := 0.0
 var _holding := false
 var _combo := 0
 var _combo_timer := 0.0
@@ -130,8 +133,10 @@ var _money_tween: Tween
 @onready var _tank_label: Label = %TankLabel
 @onready var _hint_label: Label = %HintLabel
 @onready var _fishpedia_button: Button = %FishpediaButton
+@onready var _goals_button: Button = %GoalsButton
 
 var fishpedia := Fishpedia.new()
+var goals := GoalsPanel.new()
 
 
 func _ready() -> void:
@@ -143,6 +148,9 @@ func _ready() -> void:
 	fishpedia.art_for = _art_for
 	add_child(fishpedia)
 	_fishpedia_button.pressed.connect(fishpedia.open)
+	add_child(goals)
+	_goals_button.pressed.connect(goals.open)
+	EventBus.achievement_reached.connect(_on_achievement_reached)
 
 	for zone in DataRegistry.zones:
 		var top := maxf(zone.depth_start, SHORE_Y + WATER_MARGIN)
@@ -491,6 +499,7 @@ func _catch(fish: SwimmingFish) -> void:
 		Sfx.play(&"ding", 1.26, -4.0)
 		_sync_drones()
 		_refresh_squares()
+	GameState.check_achievements()
 	_update_hud()
 
 #endregion
@@ -744,6 +753,7 @@ func _complete_purchase(target: ActionSquare) -> void:
 	_action_count = 0
 	_purchase_done = true
 	_refresh_squares()
+	GameState.check_achievements()
 	_update_hud()
 	SaveSystem.save_game()
 
@@ -849,6 +859,31 @@ func _on_drone_delivered(drone: Drone, species_ids: Array[String]) -> void:
 
 
 #region Effects
+
+## A goal was reached: banner, reward coins and a bump of the Goals button. Goals reached
+## together are announced one after the other.
+func _on_achievement_reached(def: AchievementDef) -> void:
+	var now := Time.get_ticks_msec() / 1000.0
+	var delay := maxf(_next_goal_banner_at - now, 0.0)
+	_next_goal_banner_at = now + delay + GOAL_BANNER_SPACING_S
+	if delay > 0.0:
+		get_tree().create_timer(delay).timeout.connect(_show_goal_banner.bind(def))
+	else:
+		_show_goal_banner(def)
+
+
+func _show_goal_banner(def: AchievementDef) -> void:
+	var text := "Goal reached: %s" % def.name
+	if def.reward > 0.0:
+		text += "\n+%s coins" % NumberFormat.compact(def.reward)
+	_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 260.0), text, COMBO_COLOR, 1.2)
+	Sfx.play(&"ding", 1.0)
+	Sfx.play(&"ding", 1.5, -4.0)
+	for i in 5:
+		get_tree().create_timer(0.3 + i * 0.06).timeout.connect(Sfx.play.bind(&"coin", 1.0 + i * 0.06, -4.0))
+	Haptics.bump()
+	_bump(_goals_button)
+
 
 func _announce(at: Vector2, text: String, color: Color, hold_s: float = 0.35) -> void:
 	Juice.popup_text(_popups, at, text, 52, color, hold_s)

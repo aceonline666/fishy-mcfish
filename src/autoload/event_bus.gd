@@ -13,5 +13,6 @@ signal state_replaced
 signal money_changed(money: float)
 signal fish_caught(species_id: String, is_new_species: bool)
 signal fish_stored(species_id: String)
+signal achievement_reached(def: AchievementDef)
 
 @warning_ignore_restore("unused_signal")

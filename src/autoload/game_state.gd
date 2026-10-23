@@ -137,8 +137,18 @@ func hire_cashier() -> void:
 	state.has_cashier = true
 
 
+## Records newly reached goals, pays their rewards and announces them.
+func check_achievements() -> void:
+	for def in Achievements.newly_reached(state):
+		state.achievements.append(def.id)
+		if def.reward > 0.0:
+			add_money(def.reward)
+		EventBus.achievement_reached.emit(def)
+
+
 func _on_sim_tick(dt: float) -> void:
 	Aquarium.advance(state, dt)
+	check_achievements()
 
 
 ## While the player was away, drones kept filling the tanks and visitors kept coming.
