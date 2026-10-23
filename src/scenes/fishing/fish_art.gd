@@ -38,10 +38,11 @@ func has_sprite() -> bool:
 
 
 ## Draws the fish centred on the origin of `view` (fish space: head towards +x, back towards -y)
-## with the given total length. `tail_beat` scales the tail length (1 = at rest).
-func draw(canvas: CanvasItem, view: Transform2D, length: float, tail_beat: float = 1.0) -> void:
+## with the given total length. `tail_beat` scales the tail length (1 = at rest); `tint`
+## multiplies the colours (black gives a silhouette).
+func draw(canvas: CanvasItem, view: Transform2D, length: float, tail_beat: float = 1.0, tint: Color = Color.WHITE) -> void:
 	if not has_sprite():
-		_draw_placeholder(canvas, view, length)
+		_draw_placeholder(canvas, view, length, tint)
 		return
 	var units := length * BODY_SHARE / BODY_SPAN
 	var root := Transform2D(0.0, Vector2(length * (0.5 - BODY_SHARE), 0.0))
@@ -49,16 +50,16 @@ func draw(canvas: CanvasItem, view: Transform2D, length: float, tail_beat: float
 	var tail_size := tail.get_size() * (TAIL_CANVAS_WIDTH / tail.get_width()) * units
 	var beat := Transform2D(Vector2(tail_beat, 0.0), Vector2(0.0, 1.0), Vector2.ZERO)
 	canvas.draw_set_transform_matrix(view * root * beat)
-	canvas.draw_texture_rect(tail, Rect2(Vector2(-TAIL_ROOT_X * units, -tail_size.y * 0.5), tail_size), false)
+	canvas.draw_texture_rect(tail, Rect2(Vector2(-TAIL_ROOT_X * units, -tail_size.y * 0.5), tail_size), false, tint)
 
 	var body_size := body.get_size() * (BODY_CANVAS_WIDTH / body.get_width()) * units
 	canvas.draw_set_transform_matrix(view * root)
-	canvas.draw_texture_rect(body, Rect2(Vector2(-BODY_ROOT_X * units, -body_size.y * 0.5), body_size), false)
+	canvas.draw_texture_rect(body, Rect2(Vector2(-BODY_ROOT_X * units, -body_size.y * 0.5), body_size), false, tint)
 	canvas.draw_set_transform_matrix(Transform2D.IDENTITY)
 
 
 ## A plain oval with a tail in the species colour, for species without sprites yet.
-func _draw_placeholder(canvas: CanvasItem, view: Transform2D, length: float) -> void:
+func _draw_placeholder(canvas: CanvasItem, view: Transform2D, length: float, tint: Color) -> void:
 	var height := length * species.body_aspect
 	var oval := PackedVector2Array()
 	for i in 16:
@@ -69,6 +70,6 @@ func _draw_placeholder(canvas: CanvasItem, view: Transform2D, length: float) -> 
 	])
 	for shape: PackedVector2Array in [fin, oval]:
 		var points := view * shape
-		canvas.draw_colored_polygon(points, species.placeholder_color)
+		canvas.draw_colored_polygon(points, species.placeholder_color * tint)
 		points.append(points[0])
 		canvas.draw_polyline(points, OUTLINE_COLOR, 2.5, true)

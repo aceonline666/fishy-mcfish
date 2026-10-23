@@ -125,6 +125,9 @@ var _money_tween: Tween
 @onready var _backpack_bar: ProgressBar = %BackpackBar
 @onready var _tank_label: Label = %TankLabel
 @onready var _hint_label: Label = %HintLabel
+@onready var _fishpedia_button: Button = %FishpediaButton
+
+var fishpedia := Fishpedia.new()
 
 
 func _ready() -> void:
@@ -133,6 +136,9 @@ func _ready() -> void:
 	EventBus.money_changed.connect(_on_money_changed)
 	EventBus.state_replaced.connect(_rebuild_from_state)
 	resized.connect(_update_camera.bind(0.0, true))
+	fishpedia.art_for = _art_for
+	add_child(fishpedia)
+	_fishpedia_button.pressed.connect(fishpedia.open)
 
 	for zone in DataRegistry.zones:
 		var top := maxf(zone.depth_start, SHORE_Y + WATER_MARGIN)
@@ -464,6 +470,7 @@ func _catch(fish: SwimmingFish) -> void:
 				"New species!\n" + fish.species.common_name, NEW_SPECIES_COLOR, 1.4)
 		Sfx.play(&"ding", 1.5, -4.0)
 		Haptics.bump()
+		_bump(_fishpedia_button)
 	if not was_charted and Charting.is_charted(GameState.state, fish.zone):
 		_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 220.0), "%s charted!" % fish.zone.name, COMBO_COLOR, 1.6)
 		Sfx.play(&"ding", 1.0)
