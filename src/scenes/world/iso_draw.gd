@@ -22,15 +22,18 @@ static func footprint(base: Vector2, half: Vector2) -> PackedVector2Array:
 	])
 
 
-## The screen outline of a ground square with rounded corners, centred on `base`.
-static func rounded_footprint(base: Vector2, half: float, radius: float, corner_points: int = 8) -> PackedVector2Array:
+## A rectangle lying flat on the ground, facing the camera, with rounded corners: `half` is its
+## half size on screen, `radius` the corner radius across (corners are half as tall, as the
+## ground is seen at 2:1).
+static func rounded_rect(center: Vector2, half: Vector2, radius: float, corner_points: int = 8) -> PackedVector2Array:
 	var points := PackedVector2Array()
-	var inner := half - radius
-	var centers: Array[Vector2] = [Vector2(inner, inner), Vector2(-inner, inner), Vector2(-inner, -inner), Vector2(inner, -inner)]
+	var corner := Vector2(radius, radius * 0.5)
+	var inner := half - corner
+	var centers: Array[Vector2] = [Vector2(inner.x, inner.y), Vector2(-inner.x, inner.y), Vector2(-inner.x, -inner.y), Vector2(inner.x, -inner.y)]
 	for i in 4:
 		for step in corner_points + 1:
 			var angle := (i + float(step) / corner_points) * PI * 0.5
-			points.append(base + Iso.to_screen(centers[i] + Vector2(cos(angle), sin(angle)) * radius))
+			points.append(center + centers[i] + Vector2(cos(angle), sin(angle)) * corner)
 	return points
 
 

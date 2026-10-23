@@ -3,8 +3,9 @@ extends RefCounted
 ## milestones are reached, to check the pacing. Started by tools/balance_sim.gd.
 ##
 ## The player model: fish the most useful open zone until the backpack is full, walk up the
-## beach, store what fits, sell the rest and every grown fish at the shop, buy the cheapest
-## affordable upgrade, walk back. Drones and sellers work in the background.
+## beach, store what fits, sell the rest and every grown fish at the shop of its zone (fish no
+## shop buys are let go), buy the cheapest affordable upgrade, walk back. Drones and sellers work
+## in the background.
 
 ## Seconds of searching and walking per fish caught, plus its struggle time.
 const SECONDS_PER_CATCH := 4.0
@@ -25,7 +26,7 @@ var _rng := RandomNumberGenerator.new()
 var _time := 0.0
 var _next_report := REPORT_EVERY_S
 var _drone_progress := 0.0
-var _seller_progress := 0.0
+var _seller_progress: Array[float] = [0.0, 0.0, 0.0, 0.0]
 var _earned_at_report := 0.0
 var _backpack: Array[String] = []
 var _quiet := false
@@ -60,7 +61,8 @@ func _fish_one() -> void:
 	_backpack.append(species_id)
 
 
-## Explore first: the shallowest uncharted open zone; otherwise the zone worth the most.
+## Explore first: the shallowest open zone that is uncharted or still hides an unknown species;
+## otherwise the zone worth the most.
 func _choose_zone() -> ZoneDef:
 	var best: ZoneDef = null
 	var best_value := -1.0
@@ -73,7 +75,7 @@ func _choose_zone() -> ZoneDef:
 		for zone: ZoneDef in DataRegistry.zones_in(location.id):
 			if zone.gear_level > _state.gear_level:
 				continue
-			if not Charting.is_charted(_state, zone):
+			if not Charting.is_charted(_state, zone) or zone.spawns.keys().any(func(id: String) -> bool: return not _state.species_caught.has(id)):
 				return zone
 			var value := 0.0
 			for id: String in zone.spawns:
@@ -87,16 +89,20 @@ func _choose_zone() -> ZoneDef:
 ## Walks up the beach: store what fits, sell the rest and all grown fish, buy upgrades.
 func _trip() -> void:
 	_pass_time(TRIP_OVERHEAD_S)
-	var unsold := 0
-	for id in _backpack:
-		if Aquarium.store(_state, id) == null:
-			_state.add_money(Economy.sale_price(DataRegistry.species[id]))
-			unsold += 1
-	_backpack.clear()
 	var sold := 0
-	while not Selling.sell_best(_state, true).is_empty():
-		sold += 1
-	_pass_time((unsold + sold) * SELL_SECONDS)
+	for id in _backpack:
+		if Aquarium.store(_state, id) == null and Selling.has_shop_for(_state, id):
+			_state.add_money(Economy.sale_price(DataRegistry.species[id]))
+			sold += 1
+	_backpack.clear()
+	for tank in _state.tanks:
+		for i in range(tank.fish.size() - 1, -1, -1):
+			var fish := tank.fish[i]
+			if fish.growth >= 1.0 and Selling.has_shop_for(_state, fish.species_id):
+				_state.add_money(Economy.sale_price(DataRegistry.species[fish.species_id], fish.growth))
+				tank.fish.remove_at(i)
+				sold += 1
+	_pass_time(sold * SELL_SECONDS)
 	while _buy_cheapest():
 		pass
 
@@ -112,7 +118,7 @@ func _buy_cheapest() -> bool:
 	var deepest := Charting.deepest_open_zone(DataRegistry.home().id, _state.gear_level)
 	if Charting.is_charted(_state, deepest):
 		_add_option(options, "gear", Aquarium.gear_upgrade_cost(_state))
-	if not Charting.charted_zones(_state).is_empty():
+	if Automation.next_drone_available(_state):
 		_add_option(options, "drone", Automation.next_drone_cost(_state))
 	_add_option(options, "net", Aquarium.net_upgrade_cost(_state))
 	_add_option(options, "shop", Selling.next_shop_cost(_state))
@@ -173,15 +179,16 @@ func _pass_time(seconds: float) -> void:
 		_drone_progress += _state.drone_count * DRONE_FISH_PER_SECOND * step
 		while _drone_progress >= 1.0:
 			_drone_progress -= 1.0
-			var zone := Automation.drone_zone(_state, _rng.randi())
+			var zone := Automation.drone_zone(_state, _rng.randi() % _state.drone_count)
 			var id := Automation.pick_drone_catch(_state, zone, _rng) if zone != null else ""
 			if not id.is_empty() and Aquarium.store(_state, id) == null:
 				_state.add_money(Economy.sale_price(DataRegistry.species[id]))
-		_seller_progress += Selling.seller_rate(_state) * step
-		while _seller_progress >= 1.0:
-			_seller_progress -= 1.0
-			if Selling.sell_best(_state, true).is_empty():
-				_seller_progress = 0.0
+		for tier in range(1, _state.seller_count + 1):
+			_seller_progress[tier] += Selling.seller_rate(_state, tier) * step
+			while _seller_progress[tier] >= 1.0:
+				_seller_progress[tier] -= 1.0
+				if Selling.sell_best(_state, tier).is_empty():
+					_seller_progress[tier] = 0.0
 		for def in Achievements.newly_reached(_state):
 			_state.achievements.append(def.id)
 			_state.add_money(def.reward)

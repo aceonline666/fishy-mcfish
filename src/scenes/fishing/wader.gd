@@ -7,6 +7,8 @@ extends Node2D
 
 const WALK_SPEED := 320.0
 const ACCELERATION := 2400.0
+## Share of the speed kept when the finger lifts.
+const STOP_KEEP_SPEED := 0.2
 const ARRIVE_DISTANCE := 10.0
 ## Starts slowing down this close to the target, so arrival feels soft.
 const SLOWDOWN_DISTANCE := 70.0
@@ -82,8 +84,10 @@ func walk_to(ground_target: Vector2) -> void:
 	_has_target = true
 
 
+## Stops walking, braking hard so it only takes a short step.
 func stop() -> void:
 	_has_target = false
+	ground_velocity *= STOP_KEEP_SPEED
 
 
 func is_walking() -> bool:

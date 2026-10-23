@@ -80,8 +80,14 @@ msgstr "Baue zu Hause ein Tropenbecken."
 msgid "No room in the tanks!"
 msgstr "Kein Platz in den Becken!"
 
-msgid "Nothing to sell"
-msgstr "Nichts zu verkaufen"
+msgid "Nothing to sell here.\nThis shop buys fish from: %s"
+msgstr "Hier gibt es nichts zu verkaufen.\nDieser Laden kauft Fische aus: %s"
+
+msgid "No shop buys %s yet.\nLet go back into the sea."
+msgstr "Noch kein Laden kauft: %s\nZurück ins Meer damit."
+
+msgid "Some fish in the tanks are from a deeper zone. Build the next shop to sell them!"
+msgstr "Einige Fische in den Becken stammen aus einer tieferen Zone. Baue den nächsten Laden, um sie zu verkaufen!"
 
 msgid "Not enough coins"
 msgstr "Nicht genug Münzen"
@@ -136,9 +142,6 @@ msgstr "Ausgewachsene Fische sind dreimal so viel wert. Verkaufe sie in einem La
 
 msgid "Tap the water to wade there and catch fish."
 msgstr "Tippe aufs Wasser, um hinzuwaten und Fische zu fangen."
-
-msgid "Coins  %s"
-msgstr "Münzen  %s"
 
 msgid "FISH"
 msgstr "FISCH"

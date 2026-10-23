@@ -40,7 +40,9 @@ var _time := 0.0
 var _rng := RandomNumberGenerator.new()
 
 
-func setup(pad: Vector2, home_zone: ZoneDef, zone_area: PlayArea, carry: int) -> void:
+## `size` scales the drawing: later drones are bigger.
+func setup(pad: Vector2, home_zone: ZoneDef, zone_area: PlayArea, carry: int, size: float = 1.0) -> void:
+	scale = Vector2.ONE * size
 	_pad = pad
 	zone = home_zone
 	_area = zone_area
@@ -54,7 +56,7 @@ func setup(pad: Vector2, home_zone: ZoneDef, zone_area: PlayArea, carry: int) ->
 
 ## Screen point of the net below the drone, relative to the parent.
 func net_position() -> Vector2:
-	return position + Vector2(0.0, -HEIGHT + 46.0)
+	return position + Vector2(0.0, -HEIGHT + 46.0) * scale.y
 
 
 ## Moves one step. `fish` holds all swimming fish; `can_take` says if a species may be taken.

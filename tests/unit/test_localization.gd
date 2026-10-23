@@ -80,14 +80,13 @@ func test_the_fishing_screen_switches_language_live() -> void:
 	var hint: Label = scene.get_node("%HintLabel")
 	var language: Button = scene.get_node("%LanguageButton")
 	assert_eq(hint.text, "Tap the water to wade there and catch fish.")
-	assert_eq(language.text, "EN")
+	assert_eq(language.icon, preload("res://assets/ui/flag_us.svg"))
 
 	language.pressed.emit()
 	await wait_process_frames(1)
 	assert_eq(hint.text, "Tippe aufs Wasser, um hinzuwaten und Fische zu fangen.")
-	assert_eq(language.text, "DE")
+	assert_eq(language.icon, preload("res://assets/ui/flag_de.svg"))
 	assert_eq(scene.square("store").title, "Fisch einlagern")
-	assert_string_starts_with(scene.get_node("%MoneyLabel").text, "Münzen")
 
 
 #region Finding the shown texts

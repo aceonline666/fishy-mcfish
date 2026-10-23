@@ -54,8 +54,8 @@ func test_wader_walks_to_the_touched_spot() -> void:
 	# The camera follows the wader, so convert before it moves.
 	var target: Vector2 = _scene.scene_to_ground(target_screen)
 	_touch(target_screen, true)
-	_touch(target_screen, false)
 	await wait_seconds(1.5)
+	_touch(target_screen, false)
 
 	assert_almost_eq(_wader.ground_position.distance_to(target), 0.0, 15.0)
 	assert_false(_wader.is_walking())
@@ -206,7 +206,7 @@ func test_building_a_second_shop() -> void:
 	assert_not_null(_scene.square("sell_1"))
 
 
-func test_hired_sellers_sell_only_grown_fish() -> void:
+func test_a_hired_seller_sells_their_shops_fish_on_their_own() -> void:
 	GameState.add_money(Selling.next_seller_cost(GameState.state))
 	_stand_on("hire_seller")
 	await wait_seconds(3.0)
@@ -216,11 +216,38 @@ func test_hired_sellers_sell_only_grown_fish() -> void:
 	var tank := GameState.state.tanks[0]
 	tank.fish.append(TankFish.new("european_sprat", 0.2))
 	tank.fish.append(TankFish.new("atlantic_herring", 1.0))
+	tank.fish.append(TankFish.new("european_plaice", 1.0))
 	var money := GameState.state.money
-	GameState._run_sellers(30.0)
+	GameState._run_sellers(15.0)
+	assert_eq(tank.fish.size(), 2, "one fish in 15 s")
+	assert_eq(GameState.state.money, money + 24.0, "the grown herring, the most valuable, went first")
+	GameState._run_sellers(15.0)
+	assert_eq(tank.fish.size(), 1, "young fish are sold too")
+	assert_eq(tank.fish[0].species_id, "european_plaice", "plaice is for the second shop")
+
+
+func test_each_shop_sells_the_fish_of_its_zone() -> void:
+	GameState.state.shop_count = 2
+	GameState.replace_state(GameState.state)
+	await wait_process_frames(1)
+	var tank := GameState.state.tanks[0]
+	tank.fish.append(TankFish.new("european_sprat", 0.0))
+	tank.fish.append(TankFish.new("european_plaice", 0.0))
+	_stand_on("sell_1")
+	await wait_seconds(1.0)
 	assert_eq(tank.fish.size(), 1)
-	assert_eq(tank.fish[0].species_id, "european_sprat")
-	assert_eq(GameState.state.money, money + 24.0)
+	assert_eq(tank.fish[0].species_id, "european_sprat", "the second shop only takes Sandbanks fish")
+	assert_eq(GameState.state.money, 70.0)
+
+
+func test_fish_no_shop_buys_are_let_go_at_a_shop() -> void:
+	await _catch(["european_sprat"] as Array[String])
+	_scene.live_well.add("european_plaice")
+	_wader.add_to_stack(_scene._art_for("european_plaice"))
+	_stand_on("sell_0")
+	await wait_seconds(1.0)
+	assert_eq(_scene.live_well.count(), 0, "the sprat is sold, the plaice let go")
+	assert_eq(GameState.state.money, 5.0)
 
 
 func test_a_better_net_lands_big_fish_faster_and_is_wider() -> void:
@@ -236,8 +263,8 @@ func test_deeper_zones_are_closed_without_gear() -> void:
 	var shallows := DataRegistry.zones[0]
 	var deep_target := Vector2(_wader.ground_position.x, shallows.depth_end + 300.0)
 	_touch(_scene.ground_to_scene(deep_target), true)
-	_touch(_scene.ground_to_scene(deep_target), false)
 	await wait_seconds(3.0)
+	_touch(_scene.ground_to_scene(deep_target), false)
 	assert_lte(_wader.ground_position.y, shallows.depth_end)
 
 
@@ -297,6 +324,7 @@ func test_a_drone_catches_known_fish_and_brings_them_to_the_tanks() -> void:
 	assert_eq(GameState.state.tanks[0].fish.size(), 3, "three sprats delivered")
 	assert_eq(_scene.fish_count(), 1, "the unknown lumpsucker is still swimming")
 	assert_eq(_scene._drones[0].zone, shallows)
+	assert_eq(_scene._drones[0].capacity, Automation.drone_capacity(0))
 
 
 func test_the_reef_dock_ships_the_catch_to_a_tropical_tank_at_home() -> void:
@@ -321,12 +349,25 @@ func test_the_reef_dock_ships_the_catch_to_a_tropical_tank_at_home() -> void:
 	assert_eq(tropical.fish[0].species_id, "ocellaris_clownfish")
 
 
-func test_tapping_the_store_square_walks_the_wader_onto_it() -> void:
+func test_holding_on_the_store_square_walks_the_wader_onto_it() -> void:
 	var store: ActionSquare = _scene.square("store")
 	var square_screen: Vector2 = _scene.ground_to_scene(store.ground_center)
 	_touch(square_screen, true)
-	_touch(square_screen, false)
 	await wait_seconds(3.0)
+	_touch(square_screen, false)
 	assert_true(store.contains(_wader.ground_position), "wader at %s" % _wader.ground_position)
+
+
+func test_the_wader_stops_when_the_finger_lifts() -> void:
+	var start := _wader.ground_position
+	var target_screen: Vector2 = _scene.ground_to_scene(start + Vector2(0.0, 400.0))
+	_touch(target_screen, true)
+	await wait_seconds(0.3)
+	_touch(target_screen, false)
+	var stopped_at := _wader.ground_position
+	await wait_seconds(1.0)
+
+	assert_gt(stopped_at.distance_to(start), 20.0, "walked while held")
+	assert_lt(_wader.ground_position.distance_to(stopped_at), 8.0, "stands still after a short step")
 
 #endregion

@@ -1,6 +1,8 @@
 class_name Automation
 extends RefCounted
-## Drones: prices, where they work, and what they achieve while the game is closed.
+## Drones: prices, where they work, and what they achieve while the game is closed. Drone N
+## fishes zone N (the first drone the shallowest zone, ...) once the player has charted it, and
+## only takes species the player has caught themselves.
 
 ## Fish one drone brings in per second while the game is closed. Lower than when playing
 ## (about one fish every 12 s), so being there still pays.
@@ -13,9 +15,14 @@ static func next_drone_cost(state: PlayerState) -> float:
 	return levels[state.drone_count].cost if state.drone_count < levels.size() else -1.0
 
 
-static func drone_capacity(state: PlayerState) -> int:
-	var index := clampi(state.drone_count - 1, 0, DataRegistry.drone_levels.size() - 1)
-	return int(DataRegistry.drone_levels[index].capacity)
+## True if the next drone can be bought: its zone must be charted first.
+static func next_drone_available(state: PlayerState) -> bool:
+	return next_drone_cost(state) >= 0.0 and drone_zone(state, state.drone_count) != null
+
+
+## Fish drone number `index` carries per trip. Later drones are bigger.
+static func drone_capacity(index: int) -> int:
+	return int(DataRegistry.drone_levels[mini(index, DataRegistry.drone_levels.size() - 1)].capacity)
 
 
 ## True if drones may take this species: only ones the player has caught themselves.
@@ -23,11 +30,18 @@ static func drone_can_catch(state: PlayerState, species_id: String) -> bool:
 	return state.species_caught.has(species_id)
 
 
-## The zone drone number `index` works in: charted zones in turn, deepest first. Null if
-## nothing is charted.
+## The zone drone number `index` works in: the zone with order index + 1 where the player is,
+## if charted, else the first charted one of that order elsewhere. Null if none is charted.
 static func drone_zone(state: PlayerState, index: int) -> ZoneDef:
-	var charted := Charting.charted_zones(state)
-	return charted[index % charted.size()] if not charted.is_empty() else null
+	var found: ZoneDef = null
+	for zone in DataRegistry.zones:
+		if zone.order != index + 1 or not Charting.is_charted(state, zone):
+			continue
+		if zone.location == state.current_location:
+			return zone
+		if found == null:
+			found = zone
+	return found
 
 
 ## A species a drone in the zone could bring back right now, by the zone's spawn weights;
@@ -47,7 +61,7 @@ static func run_drones_offline(state: PlayerState, seconds: float, rng: RandomNu
 	for index in state.drone_count:
 		var zone := drone_zone(state, index)
 		if zone == null:
-			return stored
+			continue
 		for i in int(seconds * OFFLINE_DRONE_FISH_PER_SECOND):
 			var species_id := pick_drone_catch(state, zone, rng)
 			if not species_id.is_empty() and Aquarium.store(state, species_id) != null:

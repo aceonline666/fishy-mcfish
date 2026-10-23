@@ -31,13 +31,15 @@ const AWAY_SPOT_RECT := Rect2(0.0, -400.0, 1500.0, 1900.0)
 const SHORE_Y := 0.0
 ## Fish stay this far out in the water.
 const WATER_MARGIN := 50.0
-const SQUARE_HALF := 115.0
+## Half size of the pads on screen. Rows run diagonally on screen, so pads in a row are spaced
+## 330 ground units apart, which puts each one just below its neighbour without touching.
+const SQUARE_HALF := Vector2(120.0, 46.0)
 ## Squares at the waterline. Drones start from and deliver to their pad.
-const DRONE_PAD := Vector2(180.0, -170.0)
-const STORE_SQUARE := Vector2(480.0, -170.0)
-const BACKPACK_SQUARE := Vector2(780.0, -170.0)
-const NET_SQUARE := Vector2(1080.0, -170.0)
-const GEAR_SQUARE := Vector2(1380.0, -170.0)
+const DRONE_PAD := Vector2(165.0, -170.0)
+const STORE_SQUARE := Vector2(495.0, -170.0)
+const BACKPACK_SQUARE := Vector2(825.0, -170.0)
+const NET_SQUARE := Vector2(1155.0, -170.0)
+const GEAR_SQUARE := Vector2(1485.0, -170.0)
 ## Away from home: the dock ships the catch to the tanks at home, or sells it.
 const SHIP_SQUARE := Vector2(480.0, -170.0)
 const DOCK_SELL_SQUARE := Vector2(880.0, -170.0)
@@ -47,15 +49,15 @@ const WRECK_POSITION := Vector2(700.0, 1260.0)
 ## in front of each tank slot.
 const TANK_ROW_Y: Dictionary[String, float] = {"temperate": -680.0, "tropical": -1720.0}
 const TANK_FIRST_X := 330.0
-const TANK_SPACING := 300.0
+const TANK_SPACING := 330.0
 const TANK_SQUARE_OFFSET := Vector2(0.0, 210.0)
 ## The shop row behind the first tanks, each shop with its "Sell fish" square in front, and the
 ## square to hire sellers at the end of the row.
 const SHOP_ROW_Y := -1190.0
 const SHOP_FIRST_X := 330.0
-const SHOP_SPACING := 300.0
+const SHOP_SPACING := 330.0
 const SHOP_SQUARE_OFFSET := Vector2(0.0, 200.0)
-const HIRE_SQUARE := Vector2(1230.0, -990.0)
+const HIRE_SQUARE := Vector2(1320.0, -990.0)
 #endregion
 
 const SPAWN_INTERVAL_S := 0.8
@@ -71,6 +73,12 @@ const UNLOAD_INTERVAL_S := 0.09
 const SELL_INTERVAL_S := 0.3
 ## Walking on sand is faster than wading.
 const BEACH_SPEED := 1.5
+## Each further drone is this much bigger than the first; it carries more and bigger fish.
+const DRONE_SIZE_STEP := 0.3
+const LANGUAGE_FLAGS: Dictionary[String, Texture2D] = {
+	"en": preload("res://assets/ui/flag_us.svg"),
+	"de": preload("res://assets/ui/flag_de.svg"),
+}
 ## Each better net is this much wider.
 const NET_RADIUS_STEP := 0.12
 ## Seconds between payments on a build square; each pays this share of the price.
@@ -146,6 +154,7 @@ var _money_tween: Tween
 @onready var _effects: Node2D = $World/Effects
 @onready var _popups: Control = $Popups
 @onready var _money_label: Label = %MoneyLabel
+@onready var _coin_icon: TextureRect = %CoinIcon
 @onready var _location_label: Label = %LocationLabel
 @onready var _backpack_label: Label = %BackpackLabel
 @onready var _backpack_bar: ProgressBar = %BackpackBar
@@ -200,7 +209,7 @@ func _ready() -> void:
 	_update_camera(0.0, true)
 	_show_money(GameState.state.money)
 	_update_location_label()
-	_language_button.text = Settings.current_language().to_upper()
+	_show_language()
 	_populate.call_deferred()
 	_show_offline_earnings.call_deferred()
 
@@ -208,7 +217,7 @@ func _ready() -> void:
 ## The language changed: redo every text set in code. Panels translate when they open.
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready():
-		_language_button.text = Settings.current_language().to_upper()
+		_show_language()
 		_update_location_label()
 		_refresh_squares()
 		_update_hud()
@@ -237,7 +246,7 @@ func _process(delta: float) -> void:
 			_refill_zones()
 
 
-## Tap to walk somewhere; hold and drag to steer.
+## Touch to walk towards the finger, drag to steer; the wader stops when the finger lifts.
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
 		var touch := event as InputEventScreenTouch
@@ -247,6 +256,8 @@ func _gui_input(event: InputEvent) -> void:
 		if touch.pressed:
 			_gate_warned = false
 			_walk_to(scene_to_ground(touch.position))
+		else:
+			wader.stop()
 		accept_event()
 	elif event is InputEventScreenDrag:
 		var drag := event as InputEventScreenDrag
@@ -620,6 +631,7 @@ func _refresh_squares() -> void:
 			slot_square.hide()
 	for slot in _shop_squares.size():
 		var shop_square := _shop_squares[slot]
+		shop_square.subtitle = _tier_zone_names(slot + 1)
 		if slot < state.shop_count:
 			shop_square.id = "sell_%d" % slot
 			shop_square.kind = ActionSquare.Kind.SELL
@@ -637,10 +649,24 @@ func _refresh_squares() -> void:
 	var gear := square_by_id("upgrade_gear")
 	var next_gear := DataRegistry.gear_levels[mini(state.gear_level, DataRegistry.gear_levels.size() - 1)]
 	_set_purchase(gear, "upgrade_gear", tr(next_gear.name), Aquarium.gear_upgrade_cost(state))
-	# Drones need a charted zone to work in.
-	var drone_cost := Automation.next_drone_cost(state) if not Charting.charted_zones(state).is_empty() else -1.0
-	_set_purchase(square_by_id("buy_drone"), "buy_drone", tr("Buy drone"), drone_cost)
-	_set_purchase(square_by_id("hire_seller"), "hire_seller", tr("Hire seller"), Selling.next_seller_cost(state))
+	# Drone N fishes zone N, so it is offered once that zone is charted.
+	var drone_square := square_by_id("buy_drone")
+	var drone_available := Automation.next_drone_available(state)
+	_set_purchase(drone_square, "buy_drone", tr("Buy drone"), Automation.next_drone_cost(state) if drone_available else -1.0)
+	drone_square.subtitle = tr(Automation.drone_zone(state, state.drone_count).name) if drone_available else ""
+	var hire_square := square_by_id("hire_seller")
+	_set_purchase(hire_square, "hire_seller", tr("Hire seller"), Selling.next_seller_cost(state))
+	hire_square.subtitle = _tier_zone_names(state.seller_count + 1)
+
+
+## The names of the zones whose fish a shop tier sells, e.g. "Sandbanks · Reef crest". Only
+## locations the player has opened.
+func _tier_zone_names(tier: int) -> String:
+	var names: Array[String] = []
+	for zone in DataRegistry.zones:
+		if zone.order == tier and Travel.is_unlocked(GameState.state, DataRegistry.location(zone.location)):
+			names.append(tr(zone.name))
+	return " · ".join(names)
 
 
 func _set_purchase(target: ActionSquare, square_id: String, title: String, price: float) -> void:
@@ -757,22 +783,28 @@ func _on_fish_reached_tank(node: TankNode) -> void:
 	Haptics.tick()
 
 
-## Sells one fish on a "Sell fish" square: the backpack first, then (at home) the most valuable
-## fish from the tanks.
+## Sells one fish on a "Sell fish" square. A shop sells the fish of its zone: from the backpack
+## first, then the most valuable from the tanks. Backpack fish that no built shop buys are let go.
+## The dock away from home sells the whole backpack.
 func _sell_one(target: ActionSquare) -> void:
+	var tier := _shop_tier(target)
+	var index := _backpack_index_for(tier)
 	var from: Vector2
 	var price := 0.0
-	if live_well.count() > 0:
+	if index >= 0:
 		from = _world_to_scene(wader.stack_top_position())
-		price = GameState.sell_fish(live_well.take_last())
-		wader.take_from_stack()
-	elif is_home:
-		var sale := GameState.sell_from_tanks()
+		price = GameState.sell_fish(live_well.take_at(index))
+		wader.take_from_stack_at(index)
+	elif tier > 0 and _release_unsellable():
+		return
+	elif tier > 0:
+		var sale := GameState.sell_from_tanks(tier)
 		if sale.is_empty():
 			_finish_square_action()
 			if not _warned:
 				_warned = true
-				_announce(_world_to_scene(target.position + Vector2(0.0, -110.0)), tr("Nothing to sell"), WARNING_COLOR, 0.6)
+				_announce(_world_to_scene(target.position + Vector2(0.0, -110.0)),
+						tr("Nothing to sell here.\nThis shop buys fish from: %s") % _tier_zone_names(tier), WARNING_COLOR, 1.0)
 			return
 		price = sale[1]
 		var tank: TankState = sale[2]
@@ -793,9 +825,46 @@ func _sell_one(target: ActionSquare) -> void:
 	_update_hud()
 
 
+## The shop tier of a "Sell fish" square (1 for the first shop), or 0 for the dock.
+func _shop_tier(target: ActionSquare) -> int:
+	if target.id.begins_with("sell_") and target.id != "sell_dock":
+		return target.id.trim_prefix("sell_").to_int() + 1
+	return 0
+
+
+## The topmost backpack fish a shop tier buys (any fish for tier 0), or -1.
+func _backpack_index_for(tier: int) -> int:
+	for i in range(live_well.count() - 1, -1, -1):
+		if tier == 0 or Selling.tier_of(live_well.species_ids[i]) == tier:
+			return i
+	return -1
+
+
+## Lets the topmost backpack fish go that no built shop buys and no tank takes, so it cannot
+## block the backpack. Returns false if there is none.
+func _release_unsellable() -> bool:
+	var state := GameState.state
+	for i in range(live_well.count() - 1, -1, -1):
+		var id := live_well.species_ids[i]
+		if Selling.has_shop_for(state, id) or Aquarium.tank_for(state, DataRegistry.species[id]) != null:
+			continue
+		var from := _world_to_scene(wader.stack_top_position())
+		live_well.take_at(i)
+		var art := wader.take_from_stack_at(i)
+		var sea := _world_to_scene(Iso.to_screen(Vector2(wader.ground_position.x, SHORE_Y + 200.0)))
+		Juice.fly_fish(_popups, art, from, sea, Wader.STACK_FISH_LENGTH * ZOOM, Sfx.play.bind(&"splash", 1.2, -8.0))
+		if not _warned:
+			_warned = true
+			_announce(_world_to_scene(wader.stack_top_position() + Vector2(0.0, -110.0)),
+					tr("No shop buys %s yet.\nLet go back into the sea.") % tr(DataRegistry.species[id].common_name), WARNING_COLOR, 1.2)
+		_update_hud()
+		return true
+	return false
+
+
 ## Screen position of the coin counter, where earned coins fly to.
 func _wallet_position() -> Vector2:
-	return _money_label.get_global_rect().get_center() - _popups.get_global_rect().position
+	return _coin_icon.get_global_rect().get_center() - _popups.get_global_rect().position
 
 
 ## Pays a slice of the price; completes the purchase once fully paid.
@@ -885,6 +954,7 @@ func _sync_shops() -> void:
 	var state := GameState.state
 	while _shop_nodes.size() < state.shop_count:
 		var shop := ShopNode.new()
+		shop.tier = _shop_nodes.size() + 1
 		shop.position = Iso.to_screen(_shop_position(_shop_nodes.size()))
 		_entities.add_child(shop)
 		_shop_nodes.append(shop)
@@ -893,7 +963,7 @@ func _sync_shops() -> void:
 	_refresh_shop_displays()
 
 
-## Puts the most valuable species from the tanks on the shops' counters.
+## Puts the most valuable species each shop sells from the tanks on its counter.
 func _refresh_shop_displays() -> void:
 	if _shop_nodes.is_empty():
 		return
@@ -904,18 +974,20 @@ func _refresh_shop_displays() -> void:
 			best[fish.species_id] = maxf(best.get(fish.species_id, 0.0), price)
 	var ids := best.keys()
 	ids.sort_custom(func(a: String, b: String) -> bool: return best[a] > best[b])
-	var display: Array[FishArt] = []
-	for i in mini(ids.size(), 4):
-		display.append(_art_for(ids[i]))
-	for shop in _shop_nodes:
-		shop.display = display
+	for i in _shop_nodes.size():
+		var display: Array[FishArt] = []
+		for id: String in ids:
+			if Selling.tier_of(id) == i + 1 and display.size() < 4:
+				display.append(_art_for(id))
+		_shop_nodes[i].display = display
 
 
-## A hired seller sold a grown fish: coins pop up at one of the staffed shops.
-func _on_fish_sold_by_seller(_species_id: String, price: float) -> void:
-	if not is_home or GameState.state.seller_count == 0 or _shop_nodes.is_empty():
+## A hired seller sold a fish: coins pop up at their shop.
+func _on_fish_sold_by_seller(species_id: String, price: float) -> void:
+	var index := Selling.tier_of(species_id) - 1
+	if not is_home or index >= _shop_nodes.size():
 		return
-	var shop := _shop_nodes[rng.randi() % mini(GameState.state.seller_count, _shop_nodes.size())]
+	var shop := _shop_nodes[index]
 	shop.bounce()
 	var at := _world_to_scene(shop.counter_point())
 	Juice.popup_text(_popups, at + Vector2(0.0, -40.0), "+" + NumberFormat.compact(price), 36, COIN_COLOR, 0.2)
@@ -941,7 +1013,7 @@ func _sync_drones() -> void:
 		if zone == null or zone.location != location.id:
 			continue
 		var drone := Drone.new()
-		drone.setup(DRONE_PAD, zone, _zone_areas[_zones.find(zone)], Automation.drone_capacity(state))
+		drone.setup(DRONE_PAD, zone, _zone_areas[_zones.find(zone)], Automation.drone_capacity(i), 1.0 + DRONE_SIZE_STEP * i)
 		drone.delivered.connect(_on_drone_delivered)
 		_entities.add_child(drone)
 		_drones.append(drone)
@@ -1101,6 +1173,8 @@ func _update_hud() -> void:
 		_hint_label.text = tr("Backpack full! Store the fish in a tank or sell them at a shop.")
 	elif live_well.count() > 0:
 		_hint_label.text = tr("Walk up the beach to store or sell your catch.")
+	elif Selling.unsellable_count(state) > 0 and Selling.next_shop_cost(state) >= 0.0:
+		_hint_label.text = tr("Some fish in the tanks are from a deeper zone. Build the next shop to sell them!")
 	elif adults > 0 and state.seller_count == 0:
 		_hint_label.text = tr("Grown fish are worth 3 times as much. Sell them at a shop!")
 	else:
@@ -1119,6 +1193,11 @@ func _on_money_changed(money: float) -> void:
 
 func _show_money(value: float) -> void:
 	_shown_money = value
-	_money_label.text = tr("Coins  %s") % NumberFormat.compact(value)
+	_money_label.text = NumberFormat.compact(value)
+
+
+## The language button shows the flag of the language in use.
+func _show_language() -> void:
+	_language_button.icon = LANGUAGE_FLAGS.get(Settings.current_language(), LANGUAGE_FLAGS["en"])
 
 #endregion

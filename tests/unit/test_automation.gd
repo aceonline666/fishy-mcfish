@@ -26,8 +26,43 @@ func _charted_state() -> PlayerState:
 func test_drones_work_in_charted_zones_only() -> void:
 	var state := PlayerState.new_game()
 	assert_null(Automation.drone_zone(state, 0))
+	assert_false(Automation.next_drone_available(state))
 	state = _charted_state()
 	assert_eq(Automation.drone_zone(state, 0), DataRegistry.zones[0])
+	assert_true(Automation.next_drone_available(state))
+
+
+func test_drone_n_fishes_zone_n() -> void:
+	var state := _charted_state()
+	assert_null(Automation.drone_zone(state, 1), "the second zone is not charted yet")
+	state.drone_count = 1
+	assert_false(Automation.next_drone_available(state))
+
+	var sandbanks := DataRegistry.zones[1]
+	for i in Charting.catches_needed(sandbanks):
+		state.record_catch("atlantic_herring", sandbanks.id)
+	for id in Charting.required_species(sandbanks):
+		state.record_catch(id, sandbanks.id)
+	assert_eq(Automation.drone_zone(state, 0), DataRegistry.zones[0], "the first drone stays in the first zone")
+	assert_eq(Automation.drone_zone(state, 1), sandbanks)
+	assert_true(Automation.next_drone_available(state))
+
+
+func test_drones_fish_the_zone_where_the_player_is() -> void:
+	var state := _charted_state()
+	var lagoon := DataRegistry.zones_in("coral_reef")[0]
+	for i in Charting.catches_needed(lagoon):
+		state.record_catch("ocellaris_clownfish", lagoon.id)
+	for id in Charting.required_species(lagoon):
+		state.record_catch(id, lagoon.id)
+	assert_eq(Automation.drone_zone(state, 0), DataRegistry.zones[0])
+	state.current_location = "coral_reef"
+	assert_eq(Automation.drone_zone(state, 0), lagoon)
+
+
+func test_later_drones_carry_more() -> void:
+	assert_gt(Automation.drone_capacity(1), Automation.drone_capacity(0))
+	assert_gt(Automation.drone_capacity(2), Automation.drone_capacity(1))
 
 
 func test_drones_only_take_species_the_player_discovered() -> void:

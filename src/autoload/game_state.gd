@@ -1,7 +1,7 @@
 extends Node
 ## Holds the live PlayerState. Scenes read from it; player actions go through its command methods
 ## so the matching EventBus signals are always emitted. Every sim tick fish grow and hired sellers
-## sell grown fish; the same happens for the time the game was closed.
+## sell their shop's fish; the same happens for the time the game was closed.
 
 var state := PlayerState.new_game()
 ## Coins the sellers earned while the player was away; shown once, then reset.
@@ -9,8 +9,8 @@ var last_offline_earned := 0.0
 ## Fish the drones stored while the player was away; shown once, then reset.
 var last_offline_stored := 0
 
-## Progress of the sellers towards their next sale.
-var _seller_progress := 0.0
+## Progress of each shop's seller towards their next sale, by shop index.
+var _seller_progress: Array[float] = []
 
 
 func _ready() -> void:
@@ -71,10 +71,10 @@ func sell_fish(species_id: String) -> float:
 	return price
 
 
-## Sells the most valuable fish from the tanks (adults only for sellers). Returns
+## Sells the most valuable fish a shop tier takes from the tanks. Returns
 ## [species id, price, tank], or [] if there was nothing to sell.
-func sell_from_tanks(adults_only: bool = false) -> Array:
-	var sale := Selling.sell_best(state, adults_only)
+func sell_from_tanks(tier: int) -> Array:
+	var sale := Selling.sell_best(state, tier)
 	if not sale.is_empty():
 		EventBus.money_changed.emit(state.money)
 	return sale
@@ -158,16 +158,18 @@ func _on_sim_tick(dt: float) -> void:
 	check_achievements()
 
 
-## Hired sellers sell grown fish from the tanks at their pace.
+## Each hired seller sells their shop's fish from the tanks at their pace.
 func _run_sellers(dt: float) -> void:
-	_seller_progress += Selling.seller_rate(state) * dt
-	while _seller_progress >= 1.0:
-		_seller_progress -= 1.0
-		var sale := sell_from_tanks(true)
-		if sale.is_empty():
-			_seller_progress = 0.0
-			return
-		EventBus.fish_sold_by_seller.emit(sale[0], sale[1])
+	_seller_progress.resize(state.seller_count)
+	for i in state.seller_count:
+		_seller_progress[i] += Selling.seller_rate(state, i + 1) * dt
+		while _seller_progress[i] >= 1.0:
+			_seller_progress[i] -= 1.0
+			var sale := sell_from_tanks(i + 1)
+			if sale.is_empty():
+				_seller_progress[i] = 0.0
+				break
+			EventBus.fish_sold_by_seller.emit(sale[0], sale[1])
 
 
 ## While the player was away, drones kept filling the tanks, fish grew and sellers kept selling.

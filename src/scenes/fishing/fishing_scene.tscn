@@ -6,6 +6,10 @@
 [ext_resource type="Script" path="res://src/scenes/ui/safe_area_container.gd" id="4_safe"]
 [ext_resource type="Script" path="res://src/scenes/fishing/wader.gd" id="5_wader"]
 [ext_resource type="Script" path="res://src/scenes/world/zone_buoys.gd" id="7_buoys"]
+[ext_resource type="Texture2D" path="res://assets/ui/coins.svg" id="8_coins"]
+[ext_resource type="Texture2D" path="res://assets/ui/map.svg" id="9_map"]
+[ext_resource type="Texture2D" path="res://assets/ui/trophy.svg" id="10_trophy"]
+[ext_resource type="Texture2D" path="res://assets/ui/book.svg" id="11_book"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_water"]
 shader = ExtResource("2_water")
@@ -69,11 +73,19 @@ layout_mode = 2
 layout_mode = 2
 mouse_filter = 2
 
+[node name="CoinIcon" type="TextureRect" parent="Hud/Layout/TopBar/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 84)
+layout_mode = 2
+texture = ExtResource("8_coins")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="MoneyLabel" type="Label" parent="Hud/Layout/TopBar/Row"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 52
+theme_override_font_sizes/font_size = 56
 
 [node name="LocationLabel" type="Label" parent="Hud/Layout/TopBar/Row"]
 unique_name_in_owner = true
@@ -90,31 +102,40 @@ alignment = 2
 
 [node name="LanguageButton" type="Button" parent="Hud/Layout/Buttons"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(130, 84)
+custom_minimum_size = Vector2(120, 84)
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
-auto_translate_mode = 2
+theme_override_constants/icon_max_width = 62
+icon_alignment = 1
 
 [node name="MapButton" type="Button" parent="Hud/Layout/Buttons"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 84)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
+theme_override_constants/icon_max_width = 54
+theme_override_constants/h_separation = 10
 text = "Map"
+icon = ExtResource("9_map")
 
 [node name="GoalsButton" type="Button" parent="Hud/Layout/Buttons"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 84)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
+theme_override_constants/icon_max_width = 54
+theme_override_constants/h_separation = 10
 text = "Goals"
+icon = ExtResource("10_trophy")
 
 [node name="FishpediaButton" type="Button" parent="Hud/Layout/Buttons"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 84)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
+theme_override_constants/icon_max_width = 54
+theme_override_constants/h_separation = 10
 text = "Fishpedia"
+icon = ExtResource("11_book")
 
 [node name="Spacer" type="Control" parent="Hud/Layout"]
 layout_mode = 2

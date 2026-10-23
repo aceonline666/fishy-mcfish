@@ -17,24 +17,28 @@ aquariums, sell them and grow your collection.
 Saves are written to `%APPDATA%\Godot\app_userdata\Fishy McFish\save.json`.
 Delete that file to start a new game.
 
-**How to play:** tap the water and the wader walks there; hold and drag to steer. Fish that
+**How to play:** touch the screen and the wader walks towards your finger; drag to steer, lift
+the finger to stop. Fish that
 come within reach of the hand net are scooped up automatically and stack up in the backpack.
 Small fish go in at once; bigger ones (herring, mackerel) must stay in the net until the yellow
 ring fills. Catches in quick succession build a combo.
 
-Up on the beach, squares act while you stand on them (walking on sand is faster than wading):
+Up on the beach, pads act while you stand on them (walking on sand is faster than wading):
 - **Store fish** puts the catch into the first tank with room (big species need big tanks).
   Fish grow in the tanks and are worth three times as much once grown.
-- **Sell fish** in front of each fish shop sells the backpack first, then the most valuable fish
-  from the tanks. More shops can be built; a **hired seller** per shop sells grown fish on their
-  own, also while the game is closed.
+- **Sell fish** in front of each fish shop. Shop N sells the fish of zone N (the shallowest zone
+  a species lives in; the shop sign shows the number, the pad the zone names): the backpack
+  first, then the most valuable fish from the tanks. Backpack fish that no built shop buys and
+  no tank takes are let go. A **hired seller** per shop sells that shop's fish on their own,
+  most valuable first, also while the game is closed.
 - **Build tank / Bigger tank / Bigger backpack / Better net** take coins until paid (partial
   payments are kept). Better nets land big fish faster and are a little wider.
 - **Snorkel / Scuba gear** open the deeper zones behind the buoy lines (Sandbanks, Wreck),
   with rarer and bigger fish. Each zone is *charted* after 25 catches there and every
   common/uncommon species of it.
-- **Buy drone** (once a zone is charted): drones fish known species in charted zones and bring
-  them to the tanks, also while the game is closed.
+- **Buy drone**: drone N fishes zone N once it is charted (where you are, else at another
+  location), takes only species you have caught yourself and brings them to the tanks, also
+  while the game is closed. Later drones are bigger and carry more.
 
 The **Fishpedia** button lists every species, with facts for the ones you have caught. **Goals**
 lists achievements with coin rewards. The **Map** travels between locations: the Coral Reef
