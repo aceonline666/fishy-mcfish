@@ -56,16 +56,6 @@ func test_without_drones_nothing_happens_offline() -> void:
 	assert_eq(Automation.run_drones_offline(state, 3600.0, RandomNumberGenerator.new()), 0)
 
 
-func test_cashier_takes_payments_straight_to_the_wallet() -> void:
-	GameState.replace_state(PlayerState.new_game())
-	GameState.receive_visitor_payment(10.0)
-	assert_eq(GameState.state.cash_pile, 10.0)
-	GameState.hire_cashier()
-	GameState.receive_visitor_payment(5.0)
-	assert_eq(GameState.state.money, 5.0)
-	assert_eq(Automation.cashier_cost(GameState.state), -1.0)
-
-
 func test_drone_prices_run_out() -> void:
 	var state := PlayerState.new_game()
 	assert_eq(Automation.next_drone_cost(state), DataRegistry.drone_levels[0].cost)

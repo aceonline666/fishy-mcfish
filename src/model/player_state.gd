@@ -22,14 +22,13 @@ var unlocked_locations: Array[String] = []
 var drone_count := 0
 ## Ids of the goals reached (and paid out).
 var achievements: Array[String] = []
-## A hired cashier takes the visitors' coins straight to the wallet.
-var has_cashier := false
+## Index + 1 into DataRegistry.net_levels; better nets land big fish faster.
+var net_level := 1
+## Shops built on the beach (the first is free) and sellers hired to work in them.
+var shop_count := 1
+var seller_count := 0
 ## Built tanks, ordered by slot.
 var tanks: Array[TankState] = []
-## Coins visitors have paid that wait at the ticket booth to be collected.
-var cash_pile := 0.0
-## Income the tanks have earned that the next visitor will bring to the booth.
-var pending_income := 0.0
 ## Coins already paid into build squares, by square id.
 var build_progress: Dictionary[String, float] = {}
 
@@ -96,10 +95,10 @@ func to_dict() -> Dictionary:
 		"achievements": achievements.duplicate(),
 		"current_location": current_location,
 		"unlocked_locations": unlocked_locations.duplicate(),
-		"has_cashier": has_cashier,
+		"net_level": net_level,
+		"shop_count": shop_count,
+		"seller_count": seller_count,
 		"tanks": tank_data,
-		"cash_pile": cash_pile,
-		"pending_income": pending_income,
 		"build_progress": build_progress.duplicate(),
 	}
 
@@ -118,7 +117,14 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	state.backpack_level = maxi(int(data.get("backpack_level", 1)), 1)
 	state.gear_level = maxi(int(data.get("gear_level", 1)), 1)
 	state.drone_count = maxi(int(data.get("drone_count", 0)), 0)
-	state.has_cashier = bool(data.get("has_cashier", false))
+	state.net_level = maxi(int(data.get("net_level", 1)), 1)
+	state.shop_count = maxi(int(data.get("shop_count", 1)), 1)
+	state.seller_count = maxi(int(data.get("seller_count", 0)), 0)
+	# Saves from before the shops had visitors, a cash pile and a cashier: keep the coins and
+	# turn the cashier into the first seller.
+	state.money += float(data.get("cash_pile", 0.0)) + float(data.get("pending_income", 0.0))
+	if bool(data.get("has_cashier", false)):
+		state.seller_count = maxi(state.seller_count, 1)
 	var raw_achievements: Array = data.get("achievements", [])
 	for id: Variant in raw_achievements:
 		state.achievements.append(str(id))
@@ -140,8 +146,6 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	var legacy_tank: Array = data.get("tank_fish", [])
 	for id: Variant in legacy_tank:
 		state.tanks[0].fish.append(TankFish.new(str(id)))
-	state.cash_pile = float(data.get("cash_pile", 0.0))
-	state.pending_income = float(data.get("pending_income", 0.0))
 	var raw_progress: Dictionary = data.get("build_progress", {})
 	for key: Variant in raw_progress:
 		state.build_progress[str(key)] = float(raw_progress[key])

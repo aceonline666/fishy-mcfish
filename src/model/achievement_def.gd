@@ -6,7 +6,7 @@ extends RefCounted
 
 const TYPES: PackedStringArray = [
 	"catch_count", "best_combo", "tank_count", "species_count", "charted", "rarity_caught",
-	"drone_count", "total_earned",
+	"drone_count", "total_earned", "seller_count", "shop_count",
 ]
 
 var id: String

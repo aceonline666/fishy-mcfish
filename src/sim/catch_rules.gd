@@ -19,12 +19,13 @@ const COMBO_NAMES: Array[String] = ["", "", "Double!", "Triple!", "Quad!"]
 const MEGA_COMBO_NAME := "Mega haul!"
 
 
-## Seconds the net must stay on the fish to catch it. 0 means instant.
-static func struggle_seconds(def: SpeciesDef) -> float:
+## Seconds the net must stay on the fish to catch it. 0 means instant. A better net
+## (`net_speed` > 1) lands fish faster.
+static func struggle_seconds(def: SpeciesDef, net_speed: float = 1.0) -> float:
 	if def.length_cm < INSTANT_BELOW_CM:
 		return 0.0
 	var size_t := clampf(inverse_lerp(INSTANT_BELOW_CM, MAX_STRUGGLE_AT_CM, def.length_cm), 0.0, 1.0)
-	return lerpf(MIN_STRUGGLE_S, MAX_STRUGGLE_S, size_t) * (1.0 + RARITY_STRUGGLE_BONUS * def.rarity)
+	return lerpf(MIN_STRUGGLE_S, MAX_STRUGGLE_S, size_t) * (1.0 + RARITY_STRUGGLE_BONUS * def.rarity) / net_speed
 
 
 ## Body length in ground units. Grows with the square root of the real length, so a cod is

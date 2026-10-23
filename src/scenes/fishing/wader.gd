@@ -12,6 +12,7 @@ const ARRIVE_DISTANCE := 10.0
 const SLOWDOWN_DISTANCE := 70.0
 ## Distance from the feet to the centre of the net hoop, in ground units.
 const REACH := 95.0
+## Net radius with the hand net; better nets are a little wider.
 const SCOOP_RADIUS := 55.0
 ## Screen height of the water surface at the legs (knee-deep), and at the chest when swimming.
 const WATERLINE_Y := -26.0
@@ -63,6 +64,10 @@ var in_water := true
 var swimming := false
 ## Diving gear level: 2 adds a snorkel mask, 3 a scuba mask.
 var gear_level := 1
+## Current net radius (grows with the net level).
+var scoop_radius := SCOOP_RADIUS
+## Walking speed factor: faster on the sand than in the water.
+var speed_multiplier := 1.0
 
 var _target := Vector2.ZERO
 var _has_target := false
@@ -128,7 +133,7 @@ func simulate(delta: float, area: PlayArea) -> void:
 		var to_target := _target - ground_position
 		var distance := to_target.length()
 		if distance > ARRIVE_DISTANCE:
-			desired = to_target / distance * WALK_SPEED * minf(distance / SLOWDOWN_DISTANCE, 1.0)
+			desired = to_target / distance * WALK_SPEED * speed_multiplier * minf(distance / SLOWDOWN_DISTANCE, 1.0)
 		else:
 			_has_target = false
 	ground_velocity = ground_velocity.move_toward(desired, ACCELERATION * delta)
@@ -235,18 +240,18 @@ func _draw_net(hoop: Vector2, side: float, bob: float) -> void:
 	draw_circle(hand, 9.0, OUTLINE)
 	draw_circle(hand, 6.0, SKIN)
 
-	var rim := Iso.ellipse(hoop, SCOOP_RADIUS, 28)
+	var rim := Iso.ellipse(hoop, scoop_radius, 28)
 	draw_colored_polygon(rim, NET_FILL)
 	for k in range(-2, 3):
-		var offset := k * SCOOP_RADIUS * 0.35
-		var half_chord := sqrt(SCOOP_RADIUS * SCOOP_RADIUS - offset * offset)
+		var offset := k * scoop_radius * 0.35
+		var half_chord := sqrt(scoop_radius * scoop_radius - offset * offset)
 		draw_line(hoop + Iso.to_screen(Vector2(offset, -half_chord)), hoop + Iso.to_screen(Vector2(offset, half_chord)), NET_MESH, 1.5, true)
 		draw_line(hoop + Iso.to_screen(Vector2(-half_chord, offset)), hoop + Iso.to_screen(Vector2(half_chord, offset)), NET_MESH, 1.5, true)
 	draw_polyline(rim, OUTLINE, 9.0, true)
 	draw_polyline(rim, HOOP_FULL if full else HOOP, 5.0, true)
 
 	if struggle_progress > 0.0:
-		var arc := Iso.ellipse_arc(hoop, SCOOP_RADIUS + 16.0, -PI * 0.5, -PI * 0.5 + TAU * struggle_progress, 28)
+		var arc := Iso.ellipse_arc(hoop, scoop_radius + 16.0, -PI * 0.5, -PI * 0.5 + TAU * struggle_progress, 28)
 		draw_polyline(arc, OUTLINE, 12.0, true)
 		draw_polyline(arc, PROGRESS, 7.0, true)
 

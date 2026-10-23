@@ -1,5 +1,5 @@
 extends GutTest
-## Tank space, storing, growth and income rules.
+## Tank space, storing and growth rules.
 
 
 func _state_with_tank(level: int = 1) -> PlayerState:
@@ -47,25 +47,18 @@ func test_fish_grow_to_adult_and_stop() -> void:
 	assert_eq(state.tanks[0].fish[0].growth, 1.0)
 
 
-func test_grown_fish_earn_three_times_as_much() -> void:
+func test_grown_fish_are_worth_three_times_as_much() -> void:
+	var sprat := DataRegistry.species["european_sprat"]
+	assert_eq(Economy.sale_price(sprat, 1.0), Economy.sale_price(sprat, 0.0) * Economy.GROWN_VALUE_MULT)
+
+
+func test_tank_value_and_adults_follow_growth() -> void:
 	var state := _state_with_tank()
-	_fill(state.tanks[0], "european_sprat", 1)
-	var juvenile_rate := Aquarium.income_rate(state)
+	_fill(state.tanks[0], "european_sprat", 2)
 	state.tanks[0].fish[0].growth = 1.0
-	assert_almost_eq(Aquarium.income_rate(state), juvenile_rate * Economy.GROWN_VALUE_MULT, 0.0001)
-
-
-func test_one_long_step_earns_the_same_as_many_short_ones() -> void:
-	var one_step := _state_with_tank(2)
-	var many_steps := _state_with_tank(2)
-	for state: PlayerState in [one_step, many_steps]:
-		_fill(state.tanks[0], "european_sprat", 3)
-		_fill(state.tanks[0], "atlantic_mackerel", 2)
-	Aquarium.advance(one_step, 7200.0)
-	for i in 7200:
-		Aquarium.advance(many_steps, 1.0)
-	assert_almost_eq(one_step.pending_income, many_steps.pending_income, many_steps.pending_income * 0.0001)
-	assert_gt(one_step.pending_income, 0.0)
+	assert_eq(Aquarium.adult_count(state), 1)
+	var sprat := DataRegistry.species["european_sprat"]
+	assert_eq(Aquarium.tank_value(state), Economy.sale_price(sprat, 1.0) + Economy.sale_price(sprat, 0.0))
 
 
 func test_upgrade_prices_run_out_at_the_top_level() -> void:

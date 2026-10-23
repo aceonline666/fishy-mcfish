@@ -30,6 +30,9 @@ func use_sandbox(path: String) -> void:
 	if _autosave_timer != null:
 		_autosave_timer.stop()
 	DirAccess.make_dir_recursive_absolute(path.get_base_dir())
+	# The real save was already loaded at startup; forget what happened offline there.
+	GameState.last_offline_earned = 0.0
+	GameState.last_offline_stored = 0
 	GameState.replace_state(PlayerState.new_game())
 
 

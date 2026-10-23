@@ -1,6 +1,6 @@
 class_name Automation
 extends RefCounted
-## Drones and staff: prices, and what drones achieve while the game is closed.
+## Drones: prices, where they work, and what they achieve while the game is closed.
 
 ## Fish one drone brings in per second while the game is closed. Lower than when playing
 ## (about one fish every 12 s), so being there still pays.
@@ -16,11 +16,6 @@ static func next_drone_cost(state: PlayerState) -> float:
 static func drone_capacity(state: PlayerState) -> int:
 	var index := clampi(state.drone_count - 1, 0, DataRegistry.drone_levels.size() - 1)
 	return int(DataRegistry.drone_levels[index].capacity)
-
-
-## Price of hiring the cashier, or -1 once hired.
-static func cashier_cost(state: PlayerState) -> float:
-	return -1.0 if state.has_cashier else DataRegistry.staff_levels[0].cost
 
 
 ## True if drones may take this species: only ones the player has caught themselves.

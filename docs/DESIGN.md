@@ -84,6 +84,8 @@ Each location has three or four **depth layers**. Every layer starts **uncharted
 
 > **As built (locations):** locations come from data/locations.csv and unlock with a goal plus a one-time travel fee; the World map travels between them. The home spot holds the aquarium; other spots only have a dock ("Ship home", market). Tank slots have an environment (data/tank_slots.csv): a temperate row and a tropical row behind it, opened once a tropical location is unlocked. Drones working in another location's zone deliver home without being seen.
 
+> **As built (shops):** visitors and the ticket booth were replaced by fish shops, as in the original design: money comes from selling. Each shop has a "Sell fish" square (one fish every 0.3 s: the backpack first, then the most valuable fish from the tanks). Shops are built like tanks, in a row behind the first tanks; one hired seller per shop sells grown fish automatically, also offline. A "Better net" upgrade lands struggling fish faster.
+
 ## A7. Automation
 > **As built (M4, walking world):** depth zones are bands of water further from the shore (data/zones.csv), opened by diving gear bought on the beach. A zone is charted after 25 catches there plus every common and uncommon species of it. **Drones** (bought on the drone pad once a zone is charted) fly over charted zones, deepest first, lift only species the player has caught, and deliver to the tanks (sold if no room). Offline they fill tanks at a reduced rate. Instead of sales staff, a **cashier** at the ticket booth takes visitors' coins straight to the wallet.
 

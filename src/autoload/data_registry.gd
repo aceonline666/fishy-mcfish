@@ -14,8 +14,12 @@ var backpack_levels: Array[LevelDef] = []
 var gear_levels: Array[LevelDef] = []
 ## Fishing drones: level n is the n-th drone; capacity = fish it carries per trip.
 var drone_levels: Array[LevelDef] = []
-## Staff that can be hired; level 1 is the cashier.
+## Sellers: level n is the n-th seller; capacity = adult fish sold per minute.
 var staff_levels: Array[LevelDef] = []
+## Hand nets: capacity = how much faster big fish are landed.
+var net_levels: Array[LevelDef] = []
+## Prices of the shops on the beach, index 0 = the first (free) shop.
+var shop_slots: Array[LevelDef] = []
 ## Places to fish, home first.
 var locations: Array[LocationDef] = []
 ## Depth zones of all locations, grouped by location and ordered from the shore outwards.
@@ -42,6 +46,8 @@ func load_all(dir: String) -> void:
 	gear_levels = _load_levels(dir.path_join("gear.csv"))
 	drone_levels = _load_levels(dir.path_join("drones.csv"))
 	staff_levels = _load_levels(dir.path_join("staff.csv"))
+	net_levels = _load_levels(dir.path_join("nets.csv"))
+	shop_slots = _load_levels(dir.path_join("shop_slots.csv"))
 	_load_locations(dir.path_join("locations.csv"))
 	_load_zones(dir.path_join("zones.csv"))
 	_load_achievements(dir.path_join("achievements.csv"))

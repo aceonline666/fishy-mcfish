@@ -22,24 +22,25 @@ come within reach of the hand net are scooped up automatically and stack up in t
 Small fish go in at once; bigger ones (herring, mackerel) must stay in the net until the yellow
 ring fills. Catches in quick succession build a combo.
 
-Up on the beach, squares act while you stand on them:
+Up on the beach, squares act while you stand on them (walking on sand is faster than wading):
 - **Store fish** puts the catch into the first tank with room (big species need big tanks).
-- **Fish market** sells the catch right away.
-- **Build tank / Bigger tank / Bigger backpack** take coins until paid (partial payments are kept).
-- **Collect coins** picks up what visitors paid at the ticket booth. Visitors come as long as
-  the tanks have fish; fish grow over a few minutes and then bring in three times as much.
-  Income keeps coming while the game is closed.
+  Fish grow in the tanks and are worth three times as much once grown.
+- **Sell fish** in front of each fish shop sells the backpack first, then the most valuable fish
+  from the tanks. More shops can be built; a **hired seller** per shop sells grown fish on their
+  own, also while the game is closed.
+- **Build tank / Bigger tank / Bigger backpack / Better net** take coins until paid (partial
+  payments are kept). Better nets land big fish faster and are a little wider.
 - **Snorkel / Scuba gear** open the deeper zones behind the buoy lines (Sandbanks, Wreck),
   with rarer and bigger fish. Each zone is *charted* after 25 catches there and every
   common/uncommon species of it.
 - **Buy drone** (once a zone is charted): drones fish known species in charted zones and bring
-  them to the tanks, also while the game is closed. **Hire cashier**: visitors' coins go straight
-  to the wallet.
+  them to the tanks, also while the game is closed.
 
 The **Fishpedia** button lists every species, with facts for the ones you have caught. **Goals**
 lists achievements with coin rewards. The **Map** travels between locations: the Coral Reef
 opens with the "Sandbank surveyor" goal and a one-time fee. Away from home there is a dock that
-ships the catch to the tanks at home; tropical fish need the tropical tank row behind the first.
+ships the catch to the tanks at home or sells it; tropical fish need the tropical tank row
+behind the shops.
 
 Locations, zones, species, tanks, gear, drones, staff and goals are all data in `data/*.csv`.
 

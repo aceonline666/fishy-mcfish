@@ -47,23 +47,31 @@ static func store(state: PlayerState, species_id: String) -> TankState:
 	return tank
 
 
-## Coins per second all displayed fish bring in right now.
-static func income_rate(state: PlayerState) -> float:
-	var rate := 0.0
+## What all fish in the tanks would sell for right now.
+static func tank_value(state: PlayerState) -> float:
+	var value := 0.0
 	for tank in state.tanks:
 		for fish in tank.fish:
-			rate += Economy.appeal_per_second(DataRegistry.species[fish.species_id], fish.growth)
-	return rate
+			value += Economy.sale_price(DataRegistry.species[fish.species_id], fish.growth)
+	return value
 
 
-## Lets time pass: fish grow and earn income for the next visitors.
+static func adult_count(state: PlayerState) -> int:
+	var count := 0
+	for tank in state.tanks:
+		for fish in tank.fish:
+			if fish.growth >= 1.0:
+				count += 1
+	return count
+
+
+## Lets time pass: fish grow towards adult, which triples their value.
 static func advance(state: PlayerState, seconds: float) -> void:
 	if seconds <= 0.0:
 		return
 	for tank in state.tanks:
 		for fish in tank.fish:
 			var def := DataRegistry.species[fish.species_id]
-			state.pending_income += Economy.income_over(def, fish.growth, seconds)
 			fish.growth = minf(fish.growth + seconds / def.growth_time_s, 1.0)
 
 
@@ -94,6 +102,17 @@ static func tank_upgrade_cost(tank: TankState) -> float:
 static func gear_upgrade_cost(state: PlayerState) -> float:
 	var levels := DataRegistry.gear_levels
 	return levels[state.gear_level].cost if state.gear_level < levels.size() else -1.0
+
+
+## How much faster than the hand net big fish are landed.
+static func net_speed(state: PlayerState) -> float:
+	return DataRegistry.net_levels[state.net_level - 1].capacity
+
+
+## Price of the next net, or -1 at the top level.
+static func net_upgrade_cost(state: PlayerState) -> float:
+	var levels := DataRegistry.net_levels
+	return levels[state.net_level].cost if state.net_level < levels.size() else -1.0
 
 
 ## Price of the next backpack, or -1 at the top level.

@@ -1,6 +1,6 @@
 extends GutTest
 ## Integration tests for the pier spot: catching with the wader, and the beach aquarium loop
-## (store, market, building, visitors and coins).
+## (store, sell at the shops, building, sellers).
 
 const FishingSceneFile := preload("res://src/scenes/fishing/fishing_scene.tscn")
 
@@ -136,13 +136,35 @@ func test_fish_too_big_for_every_tank_stay_in_the_backpack() -> void:
 	assert_eq(GameState.state.tanks[0].fish.size(), 1)
 
 
-func test_market_square_sells_the_catch() -> void:
+func test_sell_square_sells_the_backpack_first() -> void:
 	await _catch(["european_sprat", "european_sprat"] as Array[String])
-	_stand_on("market")
-	await wait_seconds(1.0)
+	GameState.state.tanks[0].fish.append(TankFish.new("atlantic_herring", 1.0))
+	_stand_on("sell_0")
+	await wait_seconds(0.5)
 
 	assert_eq(_scene.live_well.count(), 0)
 	assert_eq(GameState.state.money, 10.0)
+	assert_eq(GameState.state.tanks[0].fish.size(), 1, "the tanks come after the backpack")
+
+
+func test_sell_square_then_sells_the_most_valuable_fish_from_the_tanks() -> void:
+	var tank := GameState.state.tanks[0]
+	tank.fish.append(TankFish.new("european_sprat", 0.0))
+	tank.fish.append(TankFish.new("atlantic_herring", 1.0))
+	_stand_on("sell_0")
+	await wait_seconds(0.2)
+
+	assert_eq(tank.fish.size(), 1)
+	assert_eq(tank.fish[0].species_id, "european_sprat", "the grown herring went first")
+	assert_eq(GameState.state.money, 24.0)
+
+
+func test_selling_is_slower_than_storing() -> void:
+	for i in 10:
+		GameState.state.tanks[0].fish.append(TankFish.new("european_sprat"))
+	_stand_on("sell_0")
+	await wait_seconds(1.0)
+	assert_between(GameState.state.tanks[0].fish.size(), 5, 8)
 
 
 func test_paying_a_build_square_builds_a_tank() -> void:
@@ -176,18 +198,38 @@ func test_bigger_backpack_holds_more_fish() -> void:
 	assert_eq(_scene.live_well.capacity, int(DataRegistry.backpack_levels[1].capacity))
 
 
-func test_visitors_pay_at_the_booth_and_coins_can_be_collected() -> void:
-	GameState.state.tanks[0].fish.append(TankFish.new("european_sprat"))
-	GameState.state.pending_income = 50.0
-	_scene.spawn_visitor()
-	assert_eq(GameState.state.pending_income, 0.0, "the visitor carries the income")
-	await wait_seconds(4.0)
-	assert_eq(GameState.state.cash_pile, 50.0)
+func test_building_a_second_shop() -> void:
+	GameState.add_money(Selling.next_shop_cost(GameState.state))
+	_stand_on("build_shop")
+	await wait_seconds(3.0)
+	assert_eq(GameState.state.shop_count, 2)
+	assert_not_null(_scene.square("sell_1"))
 
-	_stand_on("cash")
-	await wait_seconds(0.5)
-	assert_eq(GameState.state.money, 50.0)
-	assert_eq(GameState.state.cash_pile, 0.0)
+
+func test_hired_sellers_sell_only_grown_fish() -> void:
+	GameState.add_money(Selling.next_seller_cost(GameState.state))
+	_stand_on("hire_seller")
+	await wait_seconds(3.0)
+	assert_eq(GameState.state.seller_count, 1)
+	assert_null(_scene.square("hire_seller"), "one seller per shop")
+
+	var tank := GameState.state.tanks[0]
+	tank.fish.append(TankFish.new("european_sprat", 0.2))
+	tank.fish.append(TankFish.new("atlantic_herring", 1.0))
+	var money := GameState.state.money
+	GameState._run_sellers(30.0)
+	assert_eq(tank.fish.size(), 1)
+	assert_eq(tank.fish[0].species_id, "european_sprat")
+	assert_eq(GameState.state.money, money + 24.0)
+
+
+func test_a_better_net_lands_big_fish_faster_and_is_wider() -> void:
+	var radius := _wader.scoop_radius
+	GameState.add_money(Aquarium.net_upgrade_cost(GameState.state))
+	_stand_on("upgrade_net")
+	await wait_seconds(3.0)
+	assert_eq(GameState.state.net_level, 2)
+	assert_gt(_wader.scoop_radius, radius)
 
 
 func test_deeper_zones_are_closed_without_gear() -> void:
@@ -268,7 +310,8 @@ func test_the_reef_dock_ships_the_catch_to_a_tropical_tank_at_home() -> void:
 	await wait_process_frames(2)
 
 	assert_false(reef.is_home)
-	assert_null(reef.square("cash"), "no aquarium away from home")
+	assert_null(reef.square("sell_0"), "no shops away from home")
+	assert_not_null(reef.square("sell_dock"))
 	var reef_wader: Wader = reef.wader
 	reef.spawn_fish("ocellaris_clownfish", reef_wader.scoop_center(), 0.0)
 	await wait_seconds(0.5)

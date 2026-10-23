@@ -28,6 +28,12 @@ func test_rarer_fish_struggle_longer_and_swim_faster() -> void:
 	assert_gt(CatchRules.cruise_speed(epic), CatchRules.cruise_speed(common))
 
 
+func test_better_nets_land_big_fish_faster() -> void:
+	var cod := _species(100.0)
+	assert_almost_eq(CatchRules.struggle_seconds(cod, 2.0), CatchRules.struggle_seconds(cod) / 2.0, 0.0001)
+	assert_eq(CatchRules.struggle_seconds(_species(12.0), 2.0), 0.0)
+
+
 func test_body_size_is_capped_for_giants() -> void:
 	assert_eq(CatchRules.body_length(_species(1200.0)), CatchRules.MAX_BODY_LENGTH)
 

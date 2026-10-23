@@ -1,13 +1,16 @@
 extends Node
 ## Holds the live PlayerState. Scenes read from it; player actions go through its command methods
-## so the matching EventBus signals are always emitted. Advances the aquarium every sim tick and
-## after time away.
+## so the matching EventBus signals are always emitted. Every sim tick fish grow and hired sellers
+## sell grown fish; the same happens for the time the game was closed.
 
 var state := PlayerState.new_game()
-## Coins the visitors paid while the player was away; shown once, then reset.
+## Coins the sellers earned while the player was away; shown once, then reset.
 var last_offline_earned := 0.0
 ## Fish the drones stored while the player was away; shown once, then reset.
 var last_offline_stored := 0
+
+## Progress of the sellers towards their next sale.
+var _seller_progress := 0.0
 
 
 func _ready() -> void:
@@ -45,7 +48,7 @@ func record_best(stat: String, value: int) -> void:
 	state.record_best(stat, value)
 
 
-## What the given fish would sell for at the market.
+## What the given fish would sell for fresh from the net.
 func catch_value(species_ids: Array[String]) -> float:
 	var total := 0.0
 	for id in species_ids:
@@ -61,39 +64,20 @@ func store_fish(species_id: String) -> TankState:
 	return tank
 
 
-## Sells a caught fish at the market and returns the price.
+## Sells a fish fresh from the backpack and returns the price.
 func sell_fish(species_id: String) -> float:
 	var price := Economy.sale_price(DataRegistry.species[species_id])
 	add_money(price)
 	return price
 
 
-## Hands the income earned so far to a visitor, who brings it to the booth.
-func take_pending_income() -> float:
-	var amount := state.pending_income
-	state.pending_income = 0.0
-	return amount
-
-
-## A visitor pays: into the wallet if a cashier is hired, otherwise onto the pile at the booth.
-func receive_visitor_payment(amount: float) -> void:
-	if state.has_cashier:
-		add_money(amount)
-	else:
-		add_to_cash_pile(amount)
-
-
-func add_to_cash_pile(amount: float) -> void:
-	state.cash_pile += amount
-
-
-## Moves the coins at the booth into the wallet and returns how many there were.
-func collect_cash() -> float:
-	var amount := state.cash_pile
-	state.cash_pile = 0.0
-	if amount > 0.0:
-		add_money(amount)
-	return amount
+## Sells the most valuable fish from the tanks (adults only for sellers). Returns
+## [species id, price, tank], or [] if there was nothing to sell.
+func sell_from_tanks(adults_only: bool = false) -> Array:
+	var sale := Selling.sell_best(state, adults_only)
+	if not sale.is_empty():
+		EventBus.money_changed.emit(state.money)
+	return sale
 
 
 ## Pays up to `amount` towards a build square costing `price`. Returns true once fully paid,
@@ -147,8 +131,16 @@ func buy_drone() -> void:
 	state.drone_count = mini(state.drone_count + 1, DataRegistry.drone_levels.size())
 
 
-func hire_cashier() -> void:
-	state.has_cashier = true
+func upgrade_net() -> void:
+	state.net_level = mini(state.net_level + 1, DataRegistry.net_levels.size())
+
+
+func build_shop() -> void:
+	state.shop_count = mini(state.shop_count + 1, DataRegistry.shop_slots.size())
+
+
+func hire_seller() -> void:
+	state.seller_count = mini(state.seller_count + 1, state.shop_count)
 
 
 ## Records newly reached goals, pays their rewards and announces them.
@@ -162,14 +154,27 @@ func check_achievements() -> void:
 
 func _on_sim_tick(dt: float) -> void:
 	Aquarium.advance(state, dt)
+	_run_sellers(dt)
 	check_achievements()
 
 
-## While the player was away, drones kept filling the tanks and visitors kept coming.
+## Hired sellers sell grown fish from the tanks at their pace.
+func _run_sellers(dt: float) -> void:
+	_seller_progress += Selling.seller_rate(state) * dt
+	while _seller_progress >= 1.0:
+		_seller_progress -= 1.0
+		var sale := sell_from_tanks(true)
+		if sale.is_empty():
+			_seller_progress = 0.0
+			return
+		EventBus.fish_sold_by_seller.emit(sale[0], sale[1])
+
+
+## While the player was away, drones kept filling the tanks, fish grew and sellers kept selling.
 func _on_offline_progress(seconds: float) -> void:
 	last_offline_stored += Automation.run_drones_offline(state, seconds, RandomNumberGenerator.new())
 	Aquarium.advance(state, seconds)
-	var earned := take_pending_income()
+	var earned := Selling.run_sellers(state, seconds)
 	if earned > 0.0:
-		receive_visitor_payment(earned)
 		last_offline_earned += earned
+		EventBus.money_changed.emit(state.money)

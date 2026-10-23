@@ -8,6 +8,8 @@ chart_shallows,Mapmaker,Chart the Pier shallows,charted,1,pier_shallows,300
 combo_6,Mega haul,Catch 6 fish in a row,best_combo,6,,300
 first_rare,Lucky find,Catch a rare fish,rarity_caught,1,rare,400
 first_drone,Robot helper,Buy a drone,drone_count,1,,500
+first_seller,Sales team,Hire a seller,seller_count,1,,500
+second_shop,Shopkeeper,Build a second shop,shop_count,2,,1000
 chart_sandbanks,Sandbank surveyor,Chart the Sandbanks,charted,1,sandbanks,1000
 earn_10k,Fish tycoon,Earn 10K coins in total,total_earned,10000,,1000
 first_epic,Sea monster,Catch an epic fish,rarity_caught,1,epic,2000

@@ -28,6 +28,10 @@ static func progress(state: PlayerState, def: AchievementDef) -> float:
 			return count
 		"drone_count":
 			return state.drone_count
+		"seller_count":
+			return state.seller_count
+		"shop_count":
+			return state.shop_count
 		"total_earned":
 			return state.total_earned
 	return 0.0

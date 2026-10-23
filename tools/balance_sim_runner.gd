@@ -3,13 +3,15 @@ extends RefCounted
 ## milestones are reached, to check the pacing. Started by tools/balance_sim.gd.
 ##
 ## The player model: fish the most useful open zone until the backpack is full, walk up the
-## beach, store what fits (sell the rest), collect the visitors' coins, buy the cheapest
-## affordable upgrade, walk back. Drones and visitors work in the background.
+## beach, store what fits, sell the rest and every grown fish at the shop, buy the cheapest
+## affordable upgrade, walk back. Drones and sellers work in the background.
 
 ## Seconds of searching and walking per fish caught, plus its struggle time.
 const SECONDS_PER_CATCH := 4.0
-## A round trip between the fishing spot and the beach.
-const TRIP_OVERHEAD_S := 14.0
+## A round trip between the fishing spot, the store square and the shop.
+const TRIP_OVERHEAD_S := 16.0
+## Seconds per fish sold on a "Sell fish" square.
+const SELL_SECONDS := 0.3
 ## Fish per second a drone brings in while the game runs.
 const DRONE_FISH_PER_SECOND := 0.2
 const REPORT_EVERY_S := 600.0
@@ -23,6 +25,8 @@ var _rng := RandomNumberGenerator.new()
 var _time := 0.0
 var _next_report := REPORT_EVERY_S
 var _drone_progress := 0.0
+var _seller_progress := 0.0
+var _earned_at_report := 0.0
 var _backpack: Array[String] = []
 var _quiet := false
 
@@ -44,7 +48,7 @@ func run(hours: float, seed_value: int, quiet: bool = false) -> Dictionary[Strin
 func _fish_one() -> void:
 	var zone := _choose_zone()
 	var species_id := SpawnTable.new(zone.spawns).pick(_rng)
-	_pass_time(SECONDS_PER_CATCH + CatchRules.struggle_seconds(DataRegistry.species[species_id]))
+	_pass_time(SECONDS_PER_CATCH + CatchRules.struggle_seconds(DataRegistry.species[species_id], Aquarium.net_speed(_state)))
 	var was_charted := Charting.is_charted(_state, zone)
 	if _state.record_catch(species_id, zone.id):
 		_event("new species: %s (%s)" % [DataRegistry.species[species_id].common_name, zone.name])
@@ -80,16 +84,19 @@ func _choose_zone() -> ZoneDef:
 	return best
 
 
-## Walks up the beach: store or sell the catch, collect coins, buy upgrades.
+## Walks up the beach: store what fits, sell the rest and all grown fish, buy upgrades.
 func _trip() -> void:
 	_pass_time(TRIP_OVERHEAD_S)
+	var unsold := 0
 	for id in _backpack:
 		if Aquarium.store(_state, id) == null:
 			_state.add_money(Economy.sale_price(DataRegistry.species[id]))
+			unsold += 1
 	_backpack.clear()
-	_state.add_money(_state.cash_pile + _state.pending_income)
-	_state.cash_pile = 0.0
-	_state.pending_income = 0.0
+	var sold := 0
+	while not Selling.sell_best(_state, true).is_empty():
+		sold += 1
+	_pass_time((unsold + sold) * SELL_SECONDS)
 	while _buy_cheapest():
 		pass
 
@@ -107,7 +114,9 @@ func _buy_cheapest() -> bool:
 		_add_option(options, "gear", Aquarium.gear_upgrade_cost(_state))
 	if not Charting.charted_zones(_state).is_empty():
 		_add_option(options, "drone", Automation.next_drone_cost(_state))
-	_add_option(options, "cashier", Automation.cashier_cost(_state))
+	_add_option(options, "net", Aquarium.net_upgrade_cost(_state))
+	_add_option(options, "shop", Selling.next_shop_cost(_state))
+	_add_option(options, "seller", Selling.next_seller_cost(_state))
 	for location: LocationDef in DataRegistry.locations:
 		if Travel.can_unlock(_state, location):
 			_add_option(options, "unlock_" + location.id, location.travel_cost)
@@ -142,14 +151,18 @@ func _apply(id: String) -> void:
 		_state.gear_level += 1
 	elif id == "drone":
 		_state.drone_count += 1
-	elif id == "cashier":
-		_state.has_cashier = true
+	elif id == "net":
+		_state.net_level += 1
+	elif id == "shop":
+		_state.shop_count += 1
+	elif id == "seller":
+		_state.seller_count += 1
 	elif id.begins_with("unlock_"):
 		_state.unlocked_locations.append(id.trim_prefix("unlock_"))
 	_state.tanks.sort_custom(func(a: TankState, b: TankState) -> bool: return a.slot < b.slot)
 
 
-## Lets time pass in one-second steps: fish grow and earn, drones fish, goals pay out.
+## Lets time pass in one-second steps: fish grow, drones fish, sellers sell, goals pay out.
 func _pass_time(seconds: float) -> void:
 	var left := seconds
 	while left > 0.0:
@@ -164,6 +177,11 @@ func _pass_time(seconds: float) -> void:
 			var id := Automation.pick_drone_catch(_state, zone, _rng) if zone != null else ""
 			if not id.is_empty() and Aquarium.store(_state, id) == null:
 				_state.add_money(Economy.sale_price(DataRegistry.species[id]))
+		_seller_progress += Selling.seller_rate(_state) * step
+		while _seller_progress >= 1.0:
+			_seller_progress -= 1.0
+			if Selling.sell_best(_state, true).is_empty():
+				_seller_progress = 0.0
 		for def in Achievements.newly_reached(_state):
 			_state.achievements.append(def.id)
 			_state.add_money(def.reward)
@@ -182,13 +200,16 @@ func _event(text: String) -> void:
 	_print("%s  %s" % [_clock(), text])
 
 
+## Prints the state, with the average earnings per minute since the last report.
 func _report() -> void:
 	var fish := 0
 	for tank in _state.tanks:
 		fish += tank.fish.size()
-	_print("%s  -- coins %s, income %s/min, %d tanks, %d fish in tanks, %d species, gear %d, %d drones" % [
-		_clock(), NumberFormat.compact(_state.money), NumberFormat.compact(Aquarium.income_rate(_state) * 60.0),
-		_state.tanks.size(), fish, _state.species_caught.size(), _state.gear_level, _state.drone_count])
+	var per_minute := (_state.total_earned - _earned_at_report) / (REPORT_EVERY_S / 60.0)
+	_earned_at_report = _state.total_earned
+	_print("%s  -- coins %s, earning %s/min, %d tanks, %d fish in tanks, %d species, gear %d, net %d, %d shops, %d sellers, %d drones" % [
+		_clock(), NumberFormat.compact(_state.money), NumberFormat.compact(per_minute), _state.tanks.size(), fish,
+		_state.species_caught.size(), _state.gear_level, _state.net_level, _state.shop_count, _state.seller_count, _state.drone_count])
 
 
 func _clock() -> String:

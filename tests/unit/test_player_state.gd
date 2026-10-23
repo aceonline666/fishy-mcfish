@@ -63,8 +63,9 @@ func test_aquarium_survives_json_round_trip() -> void:
 	state.tanks[0].fish.append(TankFish.new("european_sprat", 0.25))
 	state.tanks.append(TankState.new(1, 1))
 	state.backpack_level = 3
-	state.cash_pile = 42.5
-	state.pending_income = 1.5
+	state.net_level = 2
+	state.shop_count = 2
+	state.seller_count = 1
 	state.build_progress["build_tank"] = 20.0
 
 	var restored := PlayerState.from_dict(JSON.parse_string(JSON.stringify(state.to_dict())))
@@ -75,8 +76,9 @@ func test_aquarium_survives_json_round_trip() -> void:
 	assert_eq(restored.tanks[0].fish[0].growth, 0.25)
 	assert_eq(restored.tanks[1].slot, 1)
 	assert_eq(restored.backpack_level, 3)
-	assert_eq(restored.cash_pile, 42.5)
-	assert_eq(restored.pending_income, 1.5)
+	assert_eq(restored.net_level, 2)
+	assert_eq(restored.shop_count, 2)
+	assert_eq(restored.seller_count, 1)
 	assert_eq(restored.build_progress["build_tank"], 20.0)
 
 
@@ -85,6 +87,12 @@ func test_prototype_tank_list_moves_into_the_first_tank() -> void:
 	assert_eq(state.tanks.size(), 1)
 	assert_eq(state.tanks[0].fish.size(), 2)
 	assert_eq(state.tanks[0].fish[1].species_id, "atlantic_herring")
+
+
+func test_saves_from_the_visitor_days_keep_their_coins() -> void:
+	var state := PlayerState.from_dict({"money": 10.0, "cash_pile": 30.0, "pending_income": 2.0, "has_cashier": true})
+	assert_eq(state.money, 42.0)
+	assert_eq(state.seller_count, 1, "the cashier becomes the first seller")
 
 
 func test_from_empty_dict_is_a_new_game() -> void:
