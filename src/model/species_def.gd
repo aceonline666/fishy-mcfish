@@ -6,7 +6,7 @@ enum Rarity { COMMON, UNCOMMON, RARE, EPIC, LEGENDARY }
 enum Env { TEMPERATE, TROPICAL, POLAR, ABYSSAL }
 
 const NUMBER_COLUMNS: PackedStringArray = [
-	"base_value", "length_cm", "space_l", "min_tank_l", "bioload", "growth_time_s",
+	"base_value", "length_cm", "body_aspect", "space_l", "min_tank_l", "bioload", "growth_time_s",
 ]
 
 var id: String
@@ -15,6 +15,8 @@ var scientific_name: String
 var rarity: Rarity
 var base_value: float
 var length_cm: float
+## Body width / length as seen from above (eels are thin, flatfish are wide).
+var body_aspect: float
 ## Tank volume one adult fish occupies.
 var space_l: float
 ## Smallest tank this species may live in.

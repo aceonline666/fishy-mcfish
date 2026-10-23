@@ -1,0 +1,132 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/scenes/fishing/fishing_scene.gd" id="1_scene"]
+[ext_resource type="Shader" path="res://src/shaders/water.gdshader" id="2_water"]
+[ext_resource type="Script" path="res://src/scenes/fishing/fishing_net.gd" id="3_net"]
+[ext_resource type="Script" path="res://src/scenes/ui/safe_area_container.gd" id="4_safe"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_water"]
+shader = ExtResource("2_water")
+
+[sub_resource type="Gradient" id="Gradient_trail"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.35)
+
+[sub_resource type="Curve" id="Curve_trail"]
+_data = [Vector2(0, 0.2), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="FishingScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_scene")
+
+[node name="Water" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_water")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="World" type="Node2D" parent="."]
+
+[node name="Trail" type="Line2D" parent="World"]
+width = 70.0
+width_curve = SubResource("Curve_trail")
+gradient = SubResource("Gradient_trail")
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="Fish" type="Node2D" parent="World"]
+
+[node name="Effects" type="Node2D" parent="World"]
+
+[node name="Net" type="Node2D" parent="World"]
+script = ExtResource("3_net")
+
+[node name="Hud" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_safe")
+
+[node name="Layout" type="VBoxContainer" parent="Hud"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TopBar" type="PanelContainer" parent="Hud/Layout"]
+layout_mode = 2
+
+[node name="Row" type="HBoxContainer" parent="Hud/Layout/TopBar"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MoneyLabel" type="Label" parent="Hud/Layout/TopBar/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 52
+text = "Coins  0"
+
+[node name="LocationLabel" type="Label" parent="Hud/Layout/TopBar/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 36
+text = "Location"
+horizontal_alignment = 2
+
+[node name="Spacer" type="Control" parent="Hud/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="BottomBar" type="PanelContainer" parent="Hud/Layout"]
+layout_mode = 2
+
+[node name="Column" type="VBoxContainer" parent="Hud/Layout/BottomBar"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="LiveWellLabel" type="Label" parent="Hud/Layout/BottomBar/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Live-well  0 / 12"
+
+[node name="LiveWellBar" type="ProgressBar" parent="Hud/Layout/BottomBar/Column"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+max_value = 12.0
+step = 1.0
+show_percentage = false
+
+[node name="SellButton" type="Button" parent="Hud/Layout/BottomBar/Column"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+text = "Catch some fish!"
+
+[node name="Popups" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

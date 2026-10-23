@@ -33,6 +33,30 @@ func test_survives_json_round_trip() -> void:
 	assert_typeof(restored.stats["fish_caught"], TYPE_INT)
 
 
+func test_record_catch_reports_new_species_once() -> void:
+	var state := PlayerState.new()
+	assert_true(state.record_catch("european_sprat"))
+	assert_false(state.record_catch("european_sprat"))
+	assert_true(state.record_catch("atlantic_herring"))
+	assert_eq(state.species_caught["european_sprat"], 2)
+	assert_eq(state.stats["fish_caught"], 3)
+
+
+func test_record_best_keeps_the_maximum() -> void:
+	var state := PlayerState.new()
+	state.record_best("best_combo", 3)
+	state.record_best("best_combo", 2)
+	assert_eq(state.stats["best_combo"], 3)
+
+
+func test_species_caught_survives_json_round_trip() -> void:
+	var state := PlayerState.new()
+	state.record_catch("lumpsucker")
+	var restored := PlayerState.from_dict(JSON.parse_string(JSON.stringify(state.to_dict())))
+	assert_eq(restored.species_caught.get("lumpsucker"), 1)
+	assert_typeof(restored.species_caught["lumpsucker"], TYPE_INT)
+
+
 func test_from_empty_dict_is_a_new_game() -> void:
 	var state := PlayerState.from_dict({})
 	assert_eq(state.money, 0.0)

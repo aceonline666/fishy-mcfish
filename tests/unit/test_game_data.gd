@@ -4,7 +4,7 @@ extends GutTest
 const REGISTRY_SCRIPT := preload("res://src/autoload/data_registry.gd")
 const BAD_DIR := "user://test_data"
 
-const HEADER := "id,common_name,scientific_name,rarity,base_value,length_cm,space_l,min_tank_l,bioload,food,env,growth_time_s,placeholder_color,fun_fact"
+const HEADER := "id,common_name,scientific_name,rarity,base_value,length_cm,body_aspect,space_l,min_tank_l,bioload,food,env,growth_time_s,placeholder_color,fun_fact"
 
 
 func _new_registry() -> Node:
@@ -35,10 +35,10 @@ func test_invalid_rows_are_reported_and_skipped() -> void:
 	var file := FileAccess.open(BAD_DIR.path_join("species.csv"), FileAccess.WRITE)
 	file.store_string("\n".join([
 		HEADER,
-		"good_fish,Good,Bonus bonus,common,5,10,2,20,1,flakes,temperate,60,#ffffff,Fine.",
-		"good_fish,Dupe,Bonus bonus,common,5,10,2,20,1,flakes,temperate,60,#ffffff,Duplicate id.",
-		"bad_rarity,Bad,Bonus bonus,mythic,5,10,2,20,1,flakes,temperate,60,#ffffff,Unknown rarity.",
-		"bad_number,Bad,Bonus bonus,common,lots,10,2,20,1,flakes,temperate,60,#ffffff,Not a number.",
+		"good_fish,Good,Bonus bonus,common,5,10,0.2,2,20,1,flakes,temperate,60,#ffffff,Fine.",
+		"good_fish,Dupe,Bonus bonus,common,5,10,0.2,2,20,1,flakes,temperate,60,#ffffff,Duplicate id.",
+		"bad_rarity,Bad,Bonus bonus,mythic,5,10,0.2,2,20,1,flakes,temperate,60,#ffffff,Unknown rarity.",
+		"bad_number,Bad,Bonus bonus,common,lots,10,0.2,2,20,1,flakes,temperate,60,#ffffff,Not a number.",
 		"too_short,Bad,Bonus bonus",
 	]))
 	file.close()

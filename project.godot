@@ -23,6 +23,7 @@ GameState="*res://src/autoload/game_state.gd"
 TimeService="*res://src/autoload/time_service.gd"
 SaveSystem="*res://src/autoload/save_system.gd"
 Haptics="*res://src/autoload/haptics.gd"
+Sfx="*res://src/autoload/sfx.gd"
 Platform="*res://src/autoload/platform.gd"
 
 [debug]

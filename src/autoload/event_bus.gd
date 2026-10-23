@@ -11,5 +11,6 @@ signal offline_progress(seconds: float)
 ## The whole PlayerState was replaced (new game or save loaded).
 signal state_replaced
 signal money_changed(money: float)
+signal fish_caught(species_id: String, is_new_species: bool)
 
 @warning_ignore_restore("unused_signal")

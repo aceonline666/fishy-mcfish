@@ -24,5 +24,12 @@ jobs:
       - name: Import project
         run: ./godot --headless --path . --import
 
+      # GUT skips test scripts that fail to parse without failing the run, so check the log too.
       - name: Run unit tests
-        run: ./godot --headless --path . -s addons/gut/gut_cmdln.gd
+        run: |
+          set -o pipefail
+          ./godot --headless --path . -s addons/gut/gut_cmdln.gd 2>&1 | tee gut.log
+          if grep -E "SCRIPT ERROR|Ignoring script" gut.log; then
+            echo "::error::A test script failed to load."
+            exit 1
+          fi

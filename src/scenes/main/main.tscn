@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://src/scenes/main/main.gd" id="1_main"]
+[ext_resource type="PackedScene" path="res://src/scenes/fishing/fishing_scene.tscn" id="1_fishing"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -9,56 +9,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_main")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="FishingScene" parent="." instance=ExtResource("1_fishing")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.13, 0.45, 0.66, 1)
-
-[node name="SafeArea" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Layout" type="VBoxContainer" parent="SafeArea"]
-layout_mode = 2
-theme_override_constants/separation = 48
-
-[node name="MoneyLabel" type="Label" parent="SafeArea/Layout"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 56
-text = "Coins: 0"
-
-[node name="Spacer" type="Control" parent="SafeArea/Layout"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Title" type="Label" parent="SafeArea/Layout"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 96
-text = "Fishy McFish"
-horizontal_alignment = 1
-
-[node name="InfoLabel" type="Label" parent="SafeArea/Layout"]
-unique_name_in_owner = true
-layout_mode = 2
-horizontal_alignment = 1
-
-[node name="EarnButton" type="Button" parent="SafeArea/Layout"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 160)
-layout_mode = 2
-text = "Catch a sprat (test)"
-
-[node name="Spacer2" type="Control" parent="SafeArea/Layout"]
-layout_mode = 2
-size_flags_vertical = 3
