@@ -4,3 +4,5 @@ level,name,capacity,cost
 3,Show tank,400,1500
 4,Grand tank,1000,8000
 5,Exhibit tank,2500,40000
+6,Giant tank,8000,300000
+7,Ocean dome,25000,2000000

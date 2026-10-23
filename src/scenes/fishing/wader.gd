@@ -69,6 +69,8 @@ var full := false
 var carried: Array[FishArt] = []
 ## False on the beach: no water around the legs.
 var in_water := true
+## Colour of the water around the body; darker in the deep sea.
+var water_tint := WATER_TINT
 ## True in deeper zones: the water comes up to the chest.
 var swimming := false
 ## Diving gear level: 2 adds a snorkel mask, 3 a scuba mask.
@@ -203,7 +205,7 @@ func _draw_legs() -> void:
 
 ## Tints everything below the water surface and draws a ring where the surface meets the body.
 func _draw_water_around(waterline: float, radius: float) -> void:
-	draw_rect(Rect2(-radius, waterline, radius * 2.0, -waterline + 2.0), WATER_TINT)
+	draw_rect(Rect2(-radius, waterline, radius * 2.0, -waterline + 2.0), water_tint)
 	draw_polyline(Iso.ellipse(Vector2(0.0, waterline), radius), Color(1.0, 1.0, 1.0, 0.7), 3.0, true)
 
 

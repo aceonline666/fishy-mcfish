@@ -19,6 +19,10 @@ uniform vec4 dune_color : source_color = vec4(0.82, 0.78, 0.5, 1.0);
 uniform vec4 shallow_color : source_color = vec4(0.32, 0.78, 0.8, 1.0);
 uniform vec4 deep_color : source_color = vec4(0.07, 0.33, 0.55, 1.0);
 uniform vec4 foam_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+// Beyond the open water the sea fades into the dark of the deep sea.
+uniform float abyss_start = 1500.0;
+uniform float abyss_end = 3300.0;
+uniform vec4 abyss_color : source_color = vec4(0.01, 0.03, 0.09, 1.0);
 
 vec2 to_ground(vec2 screen) {
 	float a = screen.x / 0.70710678;
@@ -53,6 +57,7 @@ void fragment() {
 		color *= 1.0 - grid * 0.12 * (1.0 - depth);
 		float caustics = caustic_lines(g / 160.0, TIME) + 0.6 * caustic_lines(g / 95.0 + 3.1, TIME * 1.3);
 		color = mix(color, vec3(0.85, 1.0, 1.0), clamp(caustics * 0.16 * (1.0 - depth * 0.6), 0.0, 1.0));
+		color = mix(color, abyss_color.rgb, smoothstep(abyss_start, abyss_end, d) * 0.92);
 		color = mix(color, foam_color.rgb, (1.0 - smoothstep(0.0, 24.0, d)) * 0.85);
 	}
 	COLOR = vec4(color, 1.0);

@@ -12,8 +12,10 @@ const RARITY_STRUGGLE_BONUS := 0.15
 ## Extra swim speed per rarity tier.
 const RARITY_SPEED_BONUS := 0.12
 const SCHOOLING_BELOW_CM := 25.0
-## Ground units. The wader is about 190 px tall, so fish are exaggerated but stay smaller.
-const MAX_BODY_LENGTH := 480.0
+## Ground units. The wader is about 190 px tall; only whales and giant squid get much longer.
+const MAX_BODY_LENGTH := 760.0
+## Giants cruise rather than dart.
+const MAX_CRUISE_SPEED := 280.0
 
 
 ## Seconds the net must stay on the fish to catch it. 0 means instant. A better net
@@ -33,7 +35,7 @@ static func body_length(def: SpeciesDef) -> float:
 
 ## Ground units per second.
 static func cruise_speed(def: SpeciesDef) -> float:
-	return (70.0 + body_length(def) * 0.5) * (1.0 + RARITY_SPEED_BONUS * def.rarity)
+	return minf((70.0 + body_length(def) * 0.5) * (1.0 + RARITY_SPEED_BONUS * def.rarity), MAX_CRUISE_SPEED)
 
 
 ## Small fish arrive in schools, bigger ones alone.

@@ -6,8 +6,9 @@ extends Node2D
 ## Ground half-size and screen height of the glass box, per tank level.
 const HALF_SIZES: Array[Vector2] = [
 	Vector2(62.0, 42.0), Vector2(78.0, 52.0), Vector2(95.0, 62.0), Vector2(112.0, 72.0), Vector2(130.0, 82.0),
+	Vector2(150.0, 94.0), Vector2(172.0, 106.0),
 ]
-const HEIGHTS: Array[float] = [70.0, 82.0, 96.0, 110.0, 124.0]
+const HEIGHTS: Array[float] = [70.0, 82.0, 96.0, 110.0, 124.0, 140.0, 158.0]
 const STAND_HEIGHT := 16.0
 ## Fish drawn at most; a full tank shows its count in the label.
 const MAX_DRAWN_FISH := 14

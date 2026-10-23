@@ -23,10 +23,11 @@ const PLAY_MARGIN_TOP := 270.0
 const PLAY_MARGIN_BOTTOM := 330.0
 
 #region Layout (ground units; the waterline is at y = 0, the beach at negative y)
-## Reaches out to the end of the deepest zone (y = 1500). The beach holds the business, laid out
-## on a grid of five columns. Pads keep clear gaps so the wader does not step onto the wrong one
-## by accident.
-const SPOT_RECT := Rect2(0.0, -1600.0, 2100.0, 3100.0)
+## The beach part of the spot; the water reaches out to the end of the location's deepest zone.
+## The beach holds the business, laid out on a grid of five columns. Pads keep clear gaps so the
+## wader does not step onto the wrong one by accident.
+const BEACH_TOP := -2200.0
+const SPOT_WIDTH := 2100.0
 const SHORE_Y := 0.0
 ## Fish stay this far out in the water.
 const WATER_MARGIN := 50.0
@@ -49,11 +50,12 @@ const WRECK_POSITION := Vector2(1000.0, 1260.0)
 ## The tank row, with a build or upgrade pad in front of each tank slot.
 const TANK_ROW_Y := -800.0
 const TANK_SQUARE_OFFSET := Vector2(0.0, 240.0)
-## The shop row behind the first tanks, each shop with its "Sell fish" pad in front, and the
-## pad to hire sellers in the next column.
-const SHOP_ROW_Y := -1370.0
+## Two shop rows behind the tanks (five shops, then the sixth), each shop with its "Sell fish" pad
+## in front, and the pad to hire sellers next to the sixth shop.
+const SHOP_ROW_Y: Array[float] = [-1370.0, -1940.0]
+const SHOPS_PER_ROW := 5
 const SHOP_SQUARE_OFFSET := Vector2(0.0, 220.0)
-const HIRE_SQUARE := Vector2(COLUMN_FIRST_X + COLUMN_SPACING * 3.0, SHOP_ROW_Y + 220.0)
+const HIRE_SQUARE := Vector2(COLUMN_FIRST_X + COLUMN_SPACING, -1940.0 + 220.0)
 #endregion
 
 const SPAWN_INTERVAL_S := 0.8
@@ -70,7 +72,7 @@ const SELL_INTERVAL_S := 0.3
 ## Walking on sand is faster than wading.
 const BEACH_SPEED := 1.5
 ## Each further drone is this much bigger than the first; it carries more and bigger fish.
-const DRONE_SIZE_STEP := 0.3
+const DRONE_SIZE_STEP := 0.2
 ## Each better net is this much wider.
 const NET_RADIUS_STEP := 0.12
 ## Seconds between payments on a build square; each pays this share of the price.
@@ -79,6 +81,10 @@ const PAY_SHARE := 0.04
 ## Seconds between banners when several goals are reached at once.
 const GOAL_BANNER_SPACING_S := 2.0
 const WAKE_INTERVAL_S := 0.22
+## The sea darkens between these depths (ground y), as in the water shader.
+const ABYSS_START := 1500.0
+const ABYSS_END := 3300.0
+const ABYSS_TINT := Color(0.01, 0.03, 0.09, 0.8)
 const COMBO_COLOR := Color(1.0, 0.85, 0.2)
 const NEW_SPECIES_COLOR := Color(0.6, 1.0, 0.7)
 const STORED_COLOR := Color(0.6, 0.9, 1.0)
@@ -96,7 +102,7 @@ var water_area: PlayArea
 ## Where the wader may go: the beach and the zones the gear allows. Updated with the gear.
 var walk_area: PlayArea
 
-var _spot_rect := SPOT_RECT
+var _spot_rect: Rect2
 var _fish: Array[SwimmingFish] = []
 var _art: Dictionary[String, FishArt] = {}
 ## The location's depth zones, and per zone the water its fish keep to and the spawns.
@@ -178,9 +184,10 @@ func _ready() -> void:
 	EventBus.achievement_reached.connect(_on_achievement_reached)
 
 	location = Travel.current(GameState.state)
+	_zones = DataRegistry.zones_in(location.id)
+	_spot_rect = Rect2(0.0, BEACH_TOP, SPOT_WIDTH, _zones[-1].depth_end - BEACH_TOP)
 	water_area = PlayArea.new(Rect2(_spot_rect.position.x, SHORE_Y + WATER_MARGIN, _spot_rect.size.x, _spot_rect.end.y - SHORE_Y - WATER_MARGIN))
 	walk_area = PlayArea.new(_spot_rect)
-	_zones = DataRegistry.zones_in(location.id)
 	for zone in _zones:
 		var top := maxf(zone.depth_start, SHORE_Y + WATER_MARGIN)
 		_zone_areas.append(PlayArea.new(Rect2(_spot_rect.position.x, top, _spot_rect.size.x, zone.depth_end - top)))
@@ -214,7 +221,8 @@ func _process(delta: float) -> void:
 	_update_shake(delta)
 	wader.simulate(delta, walk_area)
 	wader.in_water = wader.ground_position.y > SHORE_Y
-	wader.speed_multiplier = 1.0 if wader.in_water else BEACH_SPEED
+	wader.water_tint = Wader.WATER_TINT.lerp(ABYSS_TINT, smoothstep(ABYSS_START, ABYSS_END, wader.ground_position.y))
+	wader.speed_multiplier = DataRegistry.gear_levels[GameState.here().gear_level - 1].capacity if wader.in_water else BEACH_SPEED
 	_update_zone()
 	_update_camera(delta)
 	_update_wake(delta)
@@ -904,7 +912,8 @@ func _complete_purchase(target: ActionSquare) -> void:
 #region Shops
 
 func _shop_position(slot: int) -> Vector2:
-	return Vector2(COLUMN_FIRST_X + COLUMN_SPACING * slot, SHOP_ROW_Y)
+	var row := 0 if slot < SHOPS_PER_ROW else 1
+	return Vector2(COLUMN_FIRST_X + COLUMN_SPACING * (slot - row * SHOPS_PER_ROW), SHOP_ROW_Y[row])
 
 
 ## Matches the shop buildings to the shops built and shows who is staffed.

@@ -33,9 +33,11 @@ Up on the beach, pads act while you stand on them (walking on sand is faster tha
   most valuable first, also while the game is closed.
 - **Build tank / Bigger tank / Bigger backpack / Better net** take coins until paid (partial
   payments are kept). Better nets land big fish faster and are a little wider.
-- **Snorkel / Scuba gear** open the deeper zones behind the buoy lines (Sandbanks, Wreck),
-  with rarer and bigger fish. Each zone is *charted* after 25 catches there and every
-  common/uncommon species of it.
+- **Diving gear** (snorkel, scuba gear, rebreather, hard-hat suit, submersible) opens the
+  deeper zones behind the buoy lines, down to the deep sea, with rarer and bigger creatures
+  (sunfish, sharks, octopus, anglerfish, giant squid, whales, coelacanth); better gear also
+  swims faster. Each location has six zones; zone N is *charted* after 25 × N catches there and
+  every common/uncommon species of it.
 - **Buy drone**: drone N fishes zone N once it is charted (where you are, else at another
   location), takes only species you have caught yourself and brings them to the tanks, also
   while the game is closed. Later drones are bigger and carry more.
@@ -90,7 +92,8 @@ Tests can also be run from the GUT panel in the editor. CI runs them on every pu
 **Balance:** `tools/balance_sim.gd` plays the game headless with a greedy bot using the real
 rules and prints a timeline of purchases, charted zones, goals and income. `tests/unit/test_pacing.gd`
 runs the same bot and checks the pacing targets (second tank < 5 min, snorkel 5–25 min,
-Coral Reef 25–70 min, all species < 2 h). Run it after changing prices or income:
+Coral Reef 25–70 min, open sea charted in the second hour). The bot reaches the North Sea's
+deep sea after about 4 h and finishes both maps after about 7 h. Run it after changing prices or income:
 
 ```powershell
 & "C:\Program Files\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . -s res://tools/balance_sim.gd -- --hours=3 --seed=1

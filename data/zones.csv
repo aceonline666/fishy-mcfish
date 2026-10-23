@@ -5,3 +5,9 @@ wreck,north_sea,Wreck,3,950,1500,3,6,atlantic_cod:30;atlantic_mackerel:20;lumpsu
 lagoon,coral_reef,Lagoon,1,0,450,1,11,ocellaris_clownfish:40;blue_green_chromis:40;blue_tang:15;mandarinfish:3
 reef_crest,coral_reef,Reef crest,2,450,950,2,9,blue_green_chromis:25;blue_tang:30;red_lionfish:12;mandarinfish:6;ocellaris_clownfish:10
 drop_off,coral_reef,Drop-off,3,950,1500,3,6,red_lionfish:20;blue_tang:20;blacktip_reef_shark:6;humphead_wrasse:2
+open_sea,north_sea,Open sea,4,1500,2100,4,7,atlantic_mackerel:30;lions_mane_jellyfish:30;atlantic_bluefin_tuna:12;ocean_sunfish:4;basking_shark:1
+norwegian_trench,north_sea,Norwegian Trench,5,2100,2750,5,6,roundnose_grenadier:40;rabbit_fish:25;curled_octopus:8;atlantic_wolffish:5;greenland_shark:2
+deep_sea,north_sea,Deep sea,6,2750,3450,6,5,humpback_anglerfish:40;atlantic_footballfish:12;giant_squid:2;sperm_whale:1
+open_ocean,coral_reef,Open ocean,4,1500,2100,4,7,moon_jellyfish:35;yellowfin_tuna:30;green_sea_turtle:10;reef_manta_ray:4;blue_whale:1
+twilight_zone,coral_reef,Twilight zone,5,2100,2750,5,6,skinnycheek_lanternfish:45;chambered_nautilus:25;bluntnose_sixgill_shark:3
+trench,coral_reef,Trench,6,2750,3450,6,5,pacific_blackdragon:40;vampire_squid:20;west_indian_ocean_coelacanth:1

@@ -81,3 +81,13 @@ func test_the_map_offers_travel_once_unlocked() -> void:
 	map.open()
 	await wait_process_frames(1)
 	assert_eq(map.content.get_child_count(), DataRegistry.locations.size())
+
+
+func test_the_free_tank_and_shop_at_the_reef_do_not_reach_goals() -> void:
+	var state := GameState.state
+	state.unlocked_locations.append(_reef().id)
+	GameState.travel_to(_reef())
+	state.here()
+	for goal_id: String in ["second_tank", "second_shop"]:
+		var goal: AchievementDef = DataRegistry.achievements.filter(func(a: AchievementDef) -> bool: return a.id == goal_id)[0]
+		assert_false(Achievements.is_reached(state, goal), goal_id)

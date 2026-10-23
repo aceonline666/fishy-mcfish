@@ -1,4 +1,7 @@
 level,name,capacity,cost
-1,Waders,0,0
-2,Snorkel,0,500
-3,Scuba gear,0,10000
+1,Waders,1,0
+2,Snorkel,1.15,500
+3,Scuba gear,1.3,10000
+4,Rebreather,1.45,60000
+5,Hard-hat suit,1.6,400000
+6,Submersible,1.8,2500000

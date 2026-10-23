@@ -86,11 +86,20 @@ func total(field: String) -> int:
 	return sum
 
 
-func tank_count() -> int:
-	var sum := 0
+## The highest value of an integer site field (e.g. "shop_count") at any one location.
+func most(field: String) -> int:
+	var best := 0
 	for s: Site in sites.values():
-		sum += s.tanks.size()
-	return sum
+		best = maxi(best, int(s.get(field)))
+	return best
+
+
+## The most tanks built at any one location.
+func most_tanks() -> int:
+	var best := 0
+	for s: Site in sites.values():
+		best = maxi(best, s.tanks.size())
+	return best
 
 
 func to_dict() -> Dictionary:

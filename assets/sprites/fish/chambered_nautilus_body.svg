@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="200" viewBox="0 0 240 200">
+  <!-- Chambered nautilus: a cream shell with brown flame stripes and a ring of little tentacles. -->
+  <path d="M 190 80.0 C 210 80.0, 222 72.0, 232 64.0" fill="none" stroke="#141a2a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 190 80.0 C 210 80.0, 222 72.0, 232 64.0" fill="none" stroke="#e8c9a8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 190 92.0 C 210 92.0, 222 88.8, 232 85.6" fill="none" stroke="#141a2a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 190 92.0 C 210 92.0, 222 88.8, 232 85.6" fill="none" stroke="#e8c9a8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 190 104.0 C 210 104.0, 222 105.6, 232 107.2" fill="none" stroke="#141a2a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 190 104.0 C 210 104.0, 222 105.6, 232 107.2" fill="none" stroke="#e8c9a8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 190 116.0 C 210 116.0, 222 122.4, 232 128.8" fill="none" stroke="#141a2a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 190 116.0 C 210 116.0, 222 122.4, 232 128.8" fill="none" stroke="#e8c9a8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <defs>
+    <clipPath id="shell">
+      <path d="M 186 70.0 C 196 4.0, 60 -12.0, 34 70.0 C 14 140.0, 80 204.0, 160 170.0 C 186 158.0, 194 130.0, 186 70.0 Z"/>
+    </clipPath>
+  </defs>
+  <path d="M 186 70.0 C 196 4.0, 60 -12.0, 34 70.0 C 14 140.0, 80 204.0, 160 170.0 C 186 158.0, 194 130.0, 186 70.0 Z" fill="#f2e4c8"/>
+  <g clip-path="url(#shell)">
+    <path d="M 0 0 H 240 V 200 H 0 Z" fill="#f2e4c8"/>
+    <ellipse cx="110" cy="30.0" rx="40" ry="10" fill="#ffffff" opacity="0.22"/>
+  </g>
+  <path d="M 186 70.0 C 196 4.0, 60 -12.0, 34 70.0 C 14 140.0, 80 204.0, 160 170.0 C 186 158.0, 194 130.0, 186 70.0 Z" fill="none" stroke="#141a2a" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M 60 30.0 C 70 60.0, 74 90.0, 66 120.0" fill="none" stroke="#b5653a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 96 12.0 C 106 50.0, 108 90.0, 100 140.0" fill="none" stroke="#b5653a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 132 10.0 C 142 50.0, 144 100.0, 132 160.0" fill="none" stroke="#b5653a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 40 60.0 C 44 80.0, 46 100.0, 42 116.0" fill="none" stroke="#b5653a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 186 70.0 C 196 4.0, 60 -12.0, 34 70.0 C 14 140.0, 80 204.0, 160 170.0 C 186 158.0, 194 130.0, 186 70.0 Z" fill="none" stroke="#141a2a" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M 186 70.0 C 150 80.0, 130 110.0, 150 140.0 C 160 156.0, 180 150.0, 186 130.0" fill="none" stroke="#141a2a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 186 66.0 C 206 60.0, 214 80.0, 210 94.0 L 188 100.0 Z" fill="#d9b48a" stroke="#141a2a" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="196" cy="86.0" r="6" fill="#ffffff" stroke="#141a2a" stroke-width="2.5"/>
+  <circle cx="197.5" cy="86.3" r="2.4" fill="#141a2a"/>
+  <circle cx="198.5" cy="84.7" r="1.0" fill="#ffffff"/>
+</svg>

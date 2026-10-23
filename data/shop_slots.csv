@@ -2,3 +2,6 @@ level,name,capacity,cost
 1,First shop,0,0
 2,Second shop,0,1000
 3,Third shop,0,8000
+4,Fourth shop,0,60000
+5,Fifth shop,0,400000
+6,Sixth shop,0,2500000

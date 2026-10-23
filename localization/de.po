@@ -597,3 +597,235 @@ msgstr "Napoleon-Lippfisch"
 
 msgid "Humphead wrasses can live about 30 years and are among the few fish that eat crown-of-thorns starfish."
 msgstr "Napoleon-Lippfische werden etwa 30 Jahre alt und gehören zu den wenigen Fischen, die Dornenkronen-Seesterne fressen."
+
+#. Deep sea: zones, species, levels and goals
+msgid "Open sea"
+msgstr "Offene See"
+
+msgid "Norwegian Trench"
+msgstr "Norwegische Rinne"
+
+msgid "Deep sea"
+msgstr "Tiefsee"
+
+msgid "Open ocean"
+msgstr "Offener Ozean"
+
+msgid "Twilight zone"
+msgstr "Dämmerungszone"
+
+msgid "Trench"
+msgstr "Tiefseegraben"
+
+msgid "Rebreather"
+msgstr "Kreislauftauchgerät"
+
+msgid "Hard-hat suit"
+msgstr "Helmtauchanzug"
+
+msgid "Submersible"
+msgstr "Tauchboot"
+
+msgid "Deep-sea net"
+msgstr "Tiefseekescher"
+
+msgid "Titan net"
+msgstr "Titankescher"
+
+msgid "Fish crate"
+msgstr "Fischkiste"
+
+msgid "Big fish crate"
+msgstr "Große Fischkiste"
+
+msgid "Giant tank"
+msgstr "Riesenaquarium"
+
+msgid "Ocean dome"
+msgstr "Ozeankuppel"
+
+msgid "Fifth tank"
+msgstr "Fünftes Becken"
+
+msgid "Fourth shop"
+msgstr "Vierter Laden"
+
+msgid "Fifth shop"
+msgstr "Fünfter Laden"
+
+msgid "Sixth shop"
+msgstr "Sechster Laden"
+
+msgid "Fourth seller"
+msgstr "Vierter Verkäufer"
+
+msgid "Fifth seller"
+msgstr "Fünfter Verkäufer"
+
+msgid "Sixth seller"
+msgstr "Sechster Verkäufer"
+
+msgid "Fourth drone"
+msgstr "Vierte Drohne"
+
+msgid "Fifth drone"
+msgstr "Fünfte Drohne"
+
+msgid "Sixth drone"
+msgstr "Sechste Drohne"
+
+msgid "Blue water"
+msgstr "Blaues Wasser"
+
+msgid "Chart the Open sea"
+msgstr "Kartiere die Offene See"
+
+msgid "Into the abyss"
+msgstr "Hinab in die Tiefe"
+
+msgid "Chart the Deep sea"
+msgstr "Kartiere die Tiefsee"
+
+msgid "Trench pioneer"
+msgstr "Grabenpionier"
+
+msgid "Chart the Trench"
+msgstr "Kartiere den Tiefseegraben"
+
+msgid "Lion's mane jellyfish"
+msgstr "Feuerqualle"
+
+msgid "Its stinging tentacles can trail more than 30 metres behind the bell."
+msgstr "Ihre nesselnden Tentakel können mehr als 30 Meter hinter dem Schirm herziehen."
+
+msgid "Atlantic bluefin tuna"
+msgstr "Roter Thun"
+
+msgid "Bluefin tuna keep their bodies warmer than the water and can swim faster than 60 km/h."
+msgstr "Rote Thunfische halten ihren Körper wärmer als das Wasser und schwimmen schneller als 60 km/h."
+
+msgid "Ocean sunfish"
+msgstr "Mondfisch"
+
+msgid "The heaviest bony fish in the world; a big sunfish weighs as much as a small car."
+msgstr "Der schwerste Knochenfisch der Welt: Ein großer Mondfisch wiegt so viel wie ein Kleinwagen."
+
+msgid "Basking shark"
+msgstr "Riesenhai"
+
+msgid "The second-largest fish on Earth, yet it only eats tiny plankton, filtered through its huge mouth."
+msgstr "Der zweitgrößte Fisch der Erde frisst nur winziges Plankton, das er mit seinem riesigen Maul filtert."
+
+msgid "Roundnose grenadier"
+msgstr "Rundnasen-Grenadierfisch"
+
+msgid "Grenadiers have long, rat-like tails and live slowly in the cold dark; they can reach 60 years."
+msgstr "Grenadierfische haben lange, rattenartige Schwänze und leben langsam in der kalten Dunkelheit; sie werden bis zu 60 Jahre alt."
+
+msgid "Rabbit fish"
+msgstr "Seeratte"
+
+msgid "A cousin of the sharks with big green eyes and teeth like a rabbit's front teeth."
+msgstr "Ein Verwandter der Haie mit großen grünen Augen und Zähnen wie die Schneidezähne eines Hasen."
+
+msgid "Curled octopus"
+msgstr "Zirrenkrake"
+
+msgid "It has a single row of suckers on each arm and curls its arm tips when it rests."
+msgstr "Er hat nur eine Reihe Saugnäpfe pro Arm und rollt in Ruhe seine Armspitzen ein."
+
+msgid "Greenland shark"
+msgstr "Grönlandhai"
+
+msgid "The longest-living animal with a backbone: Greenland sharks can live for more than 250 years."
+msgstr "Das langlebigste Wirbeltier: Grönlandhaie können mehr als 250 Jahre alt werden."
+
+msgid "Humpback anglerfish"
+msgstr "Schwarzer Teufel"
+
+msgid "It lures prey in the dark with a glowing bulb on a rod that grows from its head."
+msgstr "Er lockt Beute in der Dunkelheit mit einer leuchtenden Kugel an einer Angel, die ihm aus dem Kopf wächst."
+
+msgid "Atlantic footballfish"
+msgstr "Atlantischer Fußballfisch"
+
+msgid "A round deep-sea anglerfish whose glowing lure has dozens of little branches."
+msgstr "Ein runder Tiefsee-Anglerfisch, dessen leuchtender Köder Dutzende kleine Äste hat."
+
+msgid "Giant squid"
+msgstr "Riesenkalmar"
+
+msgid "The real Kraken: its eyes are as big as dinner plates, the largest in the animal kingdom."
+msgstr "Der echte Krake der Sagen: Seine Augen sind so groß wie Teller, die größten im Tierreich."
+
+msgid "Sperm whale"
+msgstr "Pottwal"
+
+msgid "Sperm whales dive more than 2,000 metres deep to hunt giant squid in total darkness."
+msgstr "Pottwale tauchen über 2.000 Meter tief, um in völliger Dunkelheit Riesenkalmare zu jagen."
+
+msgid "Moon jellyfish"
+msgstr "Ohrenqualle"
+
+msgid "Moon jellyfish have no brain, heart or blood, and are about 95 percent water."
+msgstr "Ohrenquallen haben weder Gehirn noch Herz noch Blut und bestehen zu etwa 95 Prozent aus Wasser."
+
+msgid "Yellowfin tuna"
+msgstr "Gelbflossen-Thun"
+
+msgid "Its long yellow fins act like the wings of a fighter jet when it turns at high speed."
+msgstr "Seine langen gelben Flossen wirken bei schnellen Wenden wie die Flügel eines Kampfjets."
+
+msgid "Green sea turtle"
+msgstr "Suppenschildkröte"
+
+msgid "Female sea turtles swim thousands of kilometres back to the beach where they hatched to lay their eggs."
+msgstr "Weibliche Meeresschildkröten schwimmen Tausende Kilometer zurück an den Strand, an dem sie geschlüpft sind, um dort ihre Eier abzulegen."
+
+msgid "Reef manta ray"
+msgstr "Riffmanta"
+
+msgid "Manta rays have the largest brain of all fish, and each one has its own pattern of spots on the belly."
+msgstr "Mantarochen haben das größte Gehirn aller Fische, und jeder hat sein eigenes Fleckenmuster am Bauch."
+
+msgid "Blue whale"
+msgstr "Blauwal"
+
+msgid "The largest animal that has ever lived: its heart alone is as big as a small car."
+msgstr "Das größte Tier, das je gelebt hat: Allein sein Herz ist so groß wie ein Kleinwagen."
+
+msgid "Skinnycheek lanternfish"
+msgstr "Schmalwangen-Laternenfisch"
+
+msgid "Lanternfish glow with rows of light organs and rise to the surface every night to feed."
+msgstr "Laternenfische leuchten mit Reihen von Leuchtorganen und steigen jede Nacht zum Fressen an die Oberfläche."
+
+msgid "Chambered nautilus"
+msgstr "Perlboot"
+
+msgid "A living fossil: nautiluses have barely changed in 500 million years and float with gas in their shell."
+msgstr "Ein lebendes Fossil: Perlboote haben sich in 500 Millionen Jahren kaum verändert und schweben mit Gas in ihrer Schale."
+
+msgid "Bluntnose sixgill shark"
+msgstr "Stumpfnasen-Sechskiemerhai"
+
+msgid "An ancient shark with six gill slits instead of five; it hunts in the twilight zone at night."
+msgstr "Ein urtümlicher Hai mit sechs statt fünf Kiemenspalten; er jagt nachts in der Dämmerungszone."
+
+msgid "Pacific blackdragon"
+msgstr "Pazifischer Schwarzer Drachenfisch"
+
+msgid "Its larvae have eyes on long stalks, and the black adult hides its own glow in the dark."
+msgstr "Seine Larven haben Augen auf langen Stielen, und der schwarze erwachsene Fisch verbirgt sein eigenes Leuchten in der Dunkelheit."
+
+msgid "Vampire squid"
+msgstr "Vampirtintenfisch"
+
+msgid "Despite its name it eats drifting marine snow, and it turns itself inside out like a cloak when scared."
+msgstr "Trotz seines Namens frisst er treibenden Meeresschnee, und bei Gefahr stülpt er sich wie einen Umhang um."
+
+msgid "West Indian Ocean coelacanth"
+msgstr "Komoren-Quastenflosser"
+
+msgid "Thought to have died out with the dinosaurs until a fisherman caught one in 1938."
+msgstr "Galt als mit den Dinosauriern ausgestorben, bis ein Fischer 1938 einen fing."

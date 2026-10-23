@@ -28,5 +28,5 @@ func test_the_coral_reef_opens_after_about_half_an_hour_to_an_hour() -> void:
 	assert_between(_minutes("unlock_coral_reef"), 25.0, 70.0)
 
 
-func test_every_species_can_be_found_within_two_hours() -> void:
-	assert_lt(_minutes("all_species"), 120.0)
+func test_the_open_sea_is_reached_in_the_second_hour() -> void:
+	assert_between(_minutes("charted_open_sea"), 60.0, 120.0)

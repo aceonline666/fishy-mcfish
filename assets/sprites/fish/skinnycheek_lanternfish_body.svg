@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="110" viewBox="0 0 240 110">
+  <!-- Skinnycheek lanternfish: a small fish with a huge eye and rows of glowing dots. -->
+  <defs>
+    <clipPath id="lantern">
+      <path d="M 20 45.0 C 60 19.0, 160 15.0, 226 55.0 C 170 93.0, 70 89.0, 20 65.0 Z"/>
+    </clipPath>
+  </defs>
+  <path d="M 20 45.0 C 60 19.0, 160 15.0, 226 55.0 C 170 93.0, 70 89.0, 20 65.0 Z" fill="#5e6f8a"/>
+  <g clip-path="url(#lantern)">
+    <path d="M 0 110 V 61.0 C 80 67.0, 160 67.0, 240 59.0 V 110 Z" fill="#a8b6c9"/>
+    <ellipse cx="140" cy="33.0" rx="40" ry="6" fill="#ffffff" opacity="0.22"/>
+  </g>
+  <path d="M 20 45.0 C 60 19.0, 160 15.0, 226 55.0 C 170 93.0, 70 89.0, 20 65.0 Z" fill="none" stroke="#141a2a" stroke-width="5" stroke-linejoin="round"/>
+  <circle cx="50" cy="67.4" r="7.9" fill="#7ff5ff" opacity="0.3"/>
+  <circle cx="50" cy="67.4" r="3.6" fill="#7ff5ff" stroke="#141a2a" stroke-width="2"/>
+  <circle cx="48.9" cy="66.3" r="1.3" fill="#ffffff"/>
+  <circle cx="66" cy="68.68" r="7.9" fill="#7ff5ff" opacity="0.3"/>
+  <circle cx="66" cy="68.68" r="3.6" fill="#7ff5ff" stroke="#141a2a" stroke-width="2"/>
+  <circle cx="64.9" cy="67.6" r="1.3" fill="#ffffff"/>
+  <circle cx="82" cy="69.96" r="7.9" fill="#7ff5ff" opacity="0.3"/>
+  <circle cx="82" cy="69.96" r="3.6" fill="#7ff5ff" stroke="#141a2a" stroke-width="2"/>
+  <circle cx="80.9" cy="68.9" r="1.3" fill="#ffffff"/>
+  <circle cx="98" cy="71.24" r="7.9" fill="#7ff5ff" opacity="0.3"/>
+  <circle cx="98" cy="71.24" r="3.6" fill="#7ff5ff" stroke="#141a2a" stroke-width="2"/>
+  <circle cx="96.9" cy="70.2" r="1.3" fill="#ffffff"/>
+  <circle cx="114" cy="72.52" r="7.9" fill="#7ff5ff" opacity="0.3"/>
+  <circle cx="114" cy="72.52" r="3.6" fill="#7ff5ff" stroke="#141a2a" stroke-width="2"/>
+  <circle cx="112.9" cy="71.4" r="1.3" fill="#ffffff"/>
+  <circle cx="130" cy="72.2" r="7.9" fill="#7ff5ff" opacity="0.3"/>
+  <circle cx="130" cy="72.2" r="3.6" fill="#7ff5ff" stroke="#141a2a" stroke-width="2"/>
+  <circle cx="128.9" cy="71.1" r="1.3" fill="#ffffff"/>
+  <circle cx="146" cy="70.92" r="7.9" fill="#7ff5ff" opacity="0.3"/>
+  <circle cx="146" cy="70.92" r="3.6" fill="#7ff5ff" stroke="#141a2a" stroke-width="2"/>
+  <circle cx="144.9" cy="69.8" r="1.3" fill="#ffffff"/>
+  <circle cx="162" cy="69.64" r="7.9" fill="#7ff5ff" opacity="0.3"/>
+  <circle cx="162" cy="69.64" r="3.6" fill="#7ff5ff" stroke="#141a2a" stroke-width="2"/>
+  <circle cx="160.9" cy="68.6" r="1.3" fill="#ffffff"/>
+  <circle cx="178" cy="68.36" r="7.9" fill="#7ff5ff" opacity="0.3"/>
+  <circle cx="178" cy="68.36" r="3.6" fill="#7ff5ff" stroke="#141a2a" stroke-width="2"/>
+  <circle cx="176.9" cy="67.3" r="1.3" fill="#ffffff"/>
+  <path d="M 120 23.0 C 126 5.0, 140 3.0, 146 7.0 L 140 23.0 Z" fill="#4b5a73" stroke="#141a2a" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="194" cy="49.0" r="16" fill="#ffffff" stroke="#141a2a" stroke-width="4.5"/>
+  <circle cx="197.2" cy="49.8" r="9.9" fill="#3a7fb0"/>
+  <circle cx="198.0" cy="49.8" r="6.4" fill="#141a2a"/>
+  <circle cx="200.7" cy="45.5" r="2.7" fill="#ffffff"/>
+  <path d="M 224 63.0 Q 214 69.0 204 67.0" fill="none" stroke="#141a2a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

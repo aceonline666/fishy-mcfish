@@ -2,3 +2,6 @@ level,name,capacity,cost
 1,First drone,3,3000
 2,Second drone,4,12000
 3,Third drone,5,40000
+4,Fourth drone,6,200000
+5,Fifth drone,7,1200000
+6,Sixth drone,8,6000000

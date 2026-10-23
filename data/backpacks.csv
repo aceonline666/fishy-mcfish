@@ -4,3 +4,5 @@ level,name,capacity,cost
 3,Creel,22,600
 4,Big creel,30,3000
 5,Huge creel,40,12000
+6,Fish crate,55,150000
+7,Big fish crate,75,800000

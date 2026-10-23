@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120">
+  <!-- Greenland shark: a chunky, slow grey shark with small fins and tiny eyes. -->
+  <path d="M 100 22.0 C 106 6.0, 118 2.0, 124 6.0 C 122 14.0, 124 20.0, 128 22.0 Z" fill="#4d555e" stroke="#141a2a" stroke-width="4.0" stroke-linejoin="round"/>
+  <defs>
+    <clipPath id="gshark">
+      <path d="M 20 52.0 C 60 20.0, 160 14.0, 214 40.0 C 230 50.0, 232 64.0, 222 74.0 C 190 94.0, 80 98.0, 20 68.0 Z"/>
+    </clipPath>
+  </defs>
+  <path d="M 20 52.0 C 60 20.0, 160 14.0, 214 40.0 C 230 50.0, 232 64.0, 222 74.0 C 190 94.0, 80 98.0, 20 68.0 Z" fill="#5d6670"/>
+  <g clip-path="url(#gshark)">
+    <path d="M 0 120 V 72.0 C 80 80.0, 160 82.0, 240 70.0 V 120 Z" fill="#9aa3ab"/>
+    <ellipse cx="130" cy="32.0" rx="50" ry="7" fill="#ffffff" opacity="0.22"/>
+  </g>
+  <path d="M 20 52.0 C 60 20.0, 160 14.0, 214 40.0 C 230 50.0, 232 64.0, 222 74.0 C 190 94.0, 80 98.0, 20 68.0 Z" fill="none" stroke="#141a2a" stroke-width="5" stroke-linejoin="round"/>
+  <circle cx="70" cy="46.0" r="3" fill="#7b858f"/>
+  <circle cx="110" cy="38.0" r="3" fill="#7b858f"/>
+  <circle cx="150" cy="42.0" r="3" fill="#7b858f"/>
+  <circle cx="90" cy="62.0" r="3" fill="#7b858f"/>
+  <circle cx="130" cy="60.0" r="3" fill="#7b858f"/>
+  <circle cx="170" cy="54.0" r="3" fill="#7b858f"/>
+  <path d="M 170 48.0 L 167 72.0" fill="none" stroke="#141a2a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 176 48.0 L 173 72.0" fill="none" stroke="#141a2a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 182 48.0 L 179 72.0" fill="none" stroke="#141a2a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 188 48.0 L 185 72.0" fill="none" stroke="#141a2a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 160 78.0 C 150 94.0, 136 104.0, 128 102.0 C 136 90.0, 144 80.0, 150 74.0 Z" fill="#4d555e" stroke="#141a2a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M 222 72.0 Q 212 78.0 200 74.0" fill="none" stroke="#141a2a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="206" cy="50.0" r="5" fill="#ffffff" stroke="#141a2a" stroke-width="2.5"/>
+  <circle cx="207.2" cy="50.2" r="2.0" fill="#141a2a"/>
+  <circle cx="208.1" cy="48.9" r="0.9" fill="#ffffff"/>
+</svg>

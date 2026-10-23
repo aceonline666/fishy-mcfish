@@ -35,7 +35,8 @@ func test_better_nets_land_big_fish_faster() -> void:
 
 
 func test_body_size_is_capped_for_giants() -> void:
-	assert_eq(CatchRules.body_length(_species(1200.0)), CatchRules.MAX_BODY_LENGTH)
+	assert_eq(CatchRules.body_length(_species(3000.0)), CatchRules.MAX_BODY_LENGTH)
+	assert_lte(CatchRules.cruise_speed(_species(3000.0)), CatchRules.MAX_CRUISE_SPEED, "giants cruise")
 
 
 func test_only_small_fish_school() -> void:

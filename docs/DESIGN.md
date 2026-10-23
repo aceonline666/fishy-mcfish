@@ -238,6 +238,8 @@ Fishy McFish/
 
 > **As built (a business per location):** every location has its own beach business (`Site`: tanks, shops, sellers, drones, backpack, net, gear, payments in progress), started from scratch on the first visit; coins, the Fishpedia, charted zones and goals are shared. Prices scale with the location's `price_factor` (Coral Reef 2.5). Tanks hold their location's water, so the tropical tank row at home is gone; old saves move their tropical tanks to the Reef. Sellers and drones keep working at the other locations (drones at the slower unwatched rate).
 
+> **As built (deep sea):** both locations have six zones down to the deep sea (North Sea: Pier shallows, Sandbanks, Wreck, Open sea, Norwegian Trench, Deep sea; Coral Reef: Lagoon, Reef crest, Drop-off, Open ocean, Twilight zone, Trench) with 23 more species, among them jellyfish, tuna, sunfish, sharks, octopus, anglerfish, giant squid, whales, turtle, manta ray, nautilus and coelacanth. Gear, nets, backpacks, tanks (up to a 25,000 L Ocean dome), shops, sellers and drones go up to six levels; each diving gear swims faster (its `capacity`). The water darkens towards the abyss. The bot charts the North Sea's deep sea after about 4 h and finishes both maps after about 7 h.
+
 > **As built (game menu):** a cog button opens the menu: save, load (back to the last save, without offline progress) and new game with an inline confirmation; sound effects and music (a CC0 tropical loop) on their own audio buses (`Sfx`, `Music`), each with an on/off switch and a volume slider; and the language. Panels rebuild themselves when the language changes.
 
 Build M1 before investing in art. If the drag-net does not feel good with grey boxes, iterate there first.
