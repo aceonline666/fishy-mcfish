@@ -11,7 +11,8 @@ extends Control
 ## fish on their own. Away from home there is only a dock that ships the catch home or sells it.
 ## The World map travels between locations.
 
-signal travel_requested
+## The spot must be rebuilt: after travelling, loading or starting a new game.
+signal rebuild_requested
 
 ## How much the world is magnified on screen.
 const ZOOM := 1.5
@@ -165,10 +166,12 @@ var _money_tween: Tween
 @onready var _goals_button: Button = %GoalsButton
 @onready var _map_button: Button = %MapButton
 @onready var _language_button: Button = %LanguageButton
+@onready var _menu_button: Button = %MenuButton
 
 var fishpedia := Fishpedia.new()
 var goals := GoalsPanel.new()
 var world_map := WorldMap.new()
+var game_menu := GameMenu.new()
 
 
 func _ready() -> void:
@@ -186,6 +189,9 @@ func _ready() -> void:
 	world_map.travel_chosen.connect(_on_travel_chosen)
 	_map_button.pressed.connect(world_map.open)
 	_language_button.pressed.connect(Settings.cycle_language)
+	add_child(game_menu)
+	game_menu.game_replaced.connect(rebuild_requested.emit)
+	_menu_button.pressed.connect(game_menu.open)
 	EventBus.achievement_reached.connect(_on_achievement_reached)
 
 	location = Travel.current(GameState.state)
@@ -1100,7 +1106,7 @@ func _on_travel_chosen(def: LocationDef) -> void:
 	GameState.travel_to(def)
 	SaveSystem.save_game()
 	world_map.hide()
-	travel_requested.emit()
+	rebuild_requested.emit()
 
 #endregion
 
@@ -1184,7 +1190,7 @@ func _update_hud() -> void:
 	elif adults > 0 and state.seller_count == 0:
 		_hint_label.text = tr("Grown fish are worth 3 times as much. Sell them at a shop!")
 	else:
-		_hint_label.text = tr("Tap the water to wade there and catch fish.")
+		_hint_label.text = tr("Touch and hold to wade there and catch fish.")
 	_refresh_shop_displays()
 
 

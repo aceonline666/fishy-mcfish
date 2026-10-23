@@ -140,8 +140,8 @@ msgstr "Geh den Strand hinauf, um deinen Fang einzulagern oder zu verkaufen."
 msgid "Grown fish are worth 3 times as much. Sell them at a shop!"
 msgstr "Ausgewachsene Fische sind dreimal so viel wert. Verkaufe sie in einem Laden!"
 
-msgid "Tap the water to wade there and catch fish."
-msgstr "Tippe aufs Wasser, um hinzuwaten und Fische zu fangen."
+msgid "Touch and hold to wade there and catch fish."
+msgstr "Tippe und halte, um hinzuwaten und Fische zu fangen."
 
 msgid "FISH"
 msgstr "FISCH"
@@ -248,6 +248,54 @@ msgstr "Tropisches Wasser"
 
 msgid "Temperate water"
 msgstr "Gemäßigtes Wasser"
+
+msgid "Menu"
+msgstr "Menü"
+
+msgid "Game"
+msgstr "Spiel"
+
+msgid "Save game"
+msgstr "Speichern"
+
+msgid "Load game"
+msgstr "Laden"
+
+msgid "New game"
+msgstr "Neues Spiel"
+
+msgid "Game saved."
+msgstr "Spiel gespeichert."
+
+msgid "Start over? All progress will be lost."
+msgstr "Neu anfangen? Der ganze Fortschritt geht verloren."
+
+msgid "Yes, start over"
+msgstr "Ja, neu anfangen"
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgid "Sound"
+msgstr "Ton"
+
+msgid "Sound effects"
+msgstr "Soundeffekte"
+
+msgid "Music"
+msgstr "Musik"
+
+msgid "There is no music yet."
+msgstr "Musik gibt es noch nicht."
+
+msgid "Language"
+msgstr "Sprache"
+
+msgid "On"
+msgstr "An"
+
+msgid "Off"
+msgstr "Aus"
 
 #. data/locations.csv and data/zones.csv
 msgid "North Sea"

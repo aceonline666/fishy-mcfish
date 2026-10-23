@@ -48,8 +48,13 @@ behind the shops.
 
 Locations, zones, species, tanks, gear, drones, staff and goals are all data in `data/*.csv`.
 
-**Languages:** English and German. The game follows the device language; the **EN/DE** button
-in the top bar switches it (kept in `user://settings.cfg`). Texts are written in English and
+**Game menu** (cog button): save, load (back to the last save) or start a new game after a
+confirmation; sound effects and music each with an on/off switch and a volume slider (there is
+no music yet; it will play on the `Music` audio bus); language. Settings are kept in
+`user://settings.cfg`, apart from the save.
+
+**Languages:** English and German. The game follows the device language; the flag button in the
+top bar or the menu switches it. Texts are written in English and
 wrapped in `tr("...")` (or `Lang.text("...")` in static code); data texts are translated where
 they are shown. Translations live in `localization/de.po` (gettext, the English text is the
 message id). `tests/unit/test_localization.gd` fails for any shown text without a German

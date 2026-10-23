@@ -57,7 +57,13 @@ func save_game() -> void:
 		push_error("Saving failed: %s" % error_string(err))
 
 
-func load_game() -> void:
+func has_save() -> bool:
+	return FileAccess.file_exists(save_path) or FileAccess.file_exists(save_path + ".bak")
+
+
+## Loads the saved game. At startup the time since saving counts as offline progress; loading
+## from the menu (`grant_offline` false) just goes back to the saved state.
+func load_game(grant_offline: bool = true) -> void:
 	var payload := SaveFile.load_with_fallback(save_path)
 	if payload.is_empty():
 		if FileAccess.file_exists(save_path):
@@ -65,7 +71,16 @@ func load_game() -> void:
 		GameState.replace_state(PlayerState.new_game())
 		return
 	GameState.replace_state(PlayerState.from_dict(payload["state"]))
-	TimeService.report_offline_since(int(payload["saved_at_unix"]))
+	if grant_offline:
+		TimeService.report_offline_since(int(payload["saved_at_unix"]))
+
+
+## Throws the current game away and starts over (the settings stay).
+func new_game() -> void:
+	GameState.last_offline_earned = 0.0
+	GameState.last_offline_stored = 0
+	GameState.replace_state(PlayerState.new_game())
+	save_game()
 
 
 ## Keeps a save we could not read (corrupt, or from a newer app version) instead of

@@ -2,7 +2,8 @@ class_name OverlayPanel
 extends Control
 ## Base for full-screen panels (Fishpedia, Goals, map): an opaque backdrop, a header with a
 ## title and a Close button, and a scrollable `content` column. Subclasses fill `content` in
-## _build() and refresh it in _refresh(), which runs every time the panel opens.
+## _build() and refresh it in _refresh(), which runs every time the panel opens. When the language
+## changes, the panel is built again in the new language.
 
 const BACKDROP := Color(0.02, 0.07, 0.14, 0.97)
 const CARD_COLOR := Color(0.08, 0.2, 0.33)
@@ -13,12 +14,34 @@ const MUTED := Color(0.65, 0.75, 0.85)
 var content: VBoxContainer
 
 var _title: Label
+var _rebuild_pending := false
 
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	hide()
+	_build_all()
+
+
+func _notification(what: int) -> void:
+	# Children cannot change while notifications go around, so rebuild at the end of the frame.
+	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready() and not _rebuild_pending:
+		_rebuild_pending = true
+		_rebuild.call_deferred()
+
+
+func _rebuild() -> void:
+	_rebuild_pending = false
+	for child in get_children():
+		remove_child(child)
+		child.queue_free()
+	_build_all()
+	if visible:
+		_refresh()
+
+
+func _build_all() -> void:
 	var backdrop := ColorRect.new()
 	backdrop.color = BACKDROP
 	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)

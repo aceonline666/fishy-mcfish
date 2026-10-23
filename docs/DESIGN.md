@@ -236,6 +236,8 @@ Fishy McFish/
 
 > **As built (localisation):** English and German. Texts are written in English and used as gettext message ids; translations live in `localization/de.po` (no `localization.csv`). Data texts (species, zones, goals, ...) are translated where they are shown. The game follows the device language; the language button in the HUD switches it and the choice is kept in `user://settings.cfg`. A test fails for any shown text without a German translation.
 
+> **As built (game menu):** a cog button opens the menu: save, load (back to the last save, without offline progress) and new game with an inline confirmation; sound effects and music on their own audio buses (`Sfx`, `Music`), each with an on/off switch and a volume slider; and the language. Panels rebuild themselves when the language changes.
+
 Build M1 before investing in art. If the drag-net does not feel good with grey boxes, iterate there first.
 
 ## Verification

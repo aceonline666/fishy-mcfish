@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" path="res://assets/ui/map.svg" id="9_map"]
 [ext_resource type="Texture2D" path="res://assets/ui/trophy.svg" id="10_trophy"]
 [ext_resource type="Texture2D" path="res://assets/ui/book.svg" id="11_book"]
+[ext_resource type="Texture2D" path="res://assets/ui/cog.svg" id="12_cog"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_water"]
 shader = ExtResource("2_water")
@@ -99,6 +100,14 @@ layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 16
 alignment = 2
+
+[node name="MenuButton" type="Button" parent="Hud/Layout/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 84)
+layout_mode = 2
+theme_override_constants/icon_max_width = 60
+icon = ExtResource("12_cog")
+icon_alignment = 1
 
 [node name="LanguageButton" type="Button" parent="Hud/Layout/Buttons"]
 unique_name_in_owner = true

@@ -1,10 +1,9 @@
 extends Node
-## Placeholder sound effects, synthesized at startup. Real audio arrives in M6.
+## Placeholder sound effects, synthesized at startup. Real audio arrives in M6. They play on the
+## sound bus, whose volume and mute the Settings control.
 
 const MIX_RATE := 22050
 const VOICES := 10
-
-var enabled := true
 
 var _sounds: Dictionary[StringName, AudioStreamWAV] = {}
 var _players: Array[AudioStreamPlayer] = []
@@ -14,6 +13,7 @@ var _next_voice := 0
 func _ready() -> void:
 	for i in VOICES:
 		var player := AudioStreamPlayer.new()
+		player.bus = Settings.SOUND_BUS
 		add_child(player)
 		_players.append(player)
 	_sounds[&"pop"] = _pop()
@@ -23,8 +23,6 @@ func _ready() -> void:
 
 
 func play(sound: StringName, pitch: float = 1.0, volume_db: float = 0.0) -> void:
-	if not enabled:
-		return
 	var player := _players[_next_voice]
 	_next_voice = (_next_voice + 1) % VOICES
 	player.stream = _sounds[sound]
