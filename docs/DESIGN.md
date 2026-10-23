@@ -232,6 +232,8 @@ Fishy McFish/
 | M8 | **Android launch** | Device matrix testing, performance, store listing, closed test track, then production | Live on Google Play |
 | M9 | **Post-launch** | Cloud saves, iOS port, prestige, new locations | |
 
+> **As built (localisation):** English and German. Texts are written in English and used as gettext message ids; translations live in `localization/de.po` (no `localization.csv`). Data texts (species, zones, goals, ...) are translated where they are shown. The game follows the device language; the language button in the HUD switches it and the choice is kept in `user://settings.cfg`. A test fails for any shown text without a German translation.
+
 Build M1 before investing in art. If the drag-net does not feel good with grey boxes, iterate there first.
 
 ## Verification

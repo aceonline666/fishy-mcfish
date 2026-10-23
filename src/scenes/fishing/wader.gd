@@ -178,7 +178,7 @@ func _draw() -> void:
 	else:
 		_draw_net(hoop, side, bob)
 	if full:
-		_draw_label("Backpack full!", stack_top_position() - position + Vector2(0.0, -40.0 - bob))
+		_draw_label(tr("Backpack full!"), stack_top_position() - position + Vector2(0.0, -40.0 - bob))
 
 
 func _draw_legs() -> void:

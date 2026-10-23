@@ -83,7 +83,7 @@ func _draw() -> void:
 	draw_line(top + Vector2(-50.0, -14.0), top + Vector2(-50.0, 6.0), IsoDraw.OUTLINE, 6.0)
 	draw_line(top + Vector2(50.0, -14.0), top + Vector2(50.0, 6.0), IsoDraw.OUTLINE, 6.0)
 	IsoDraw.fill_outlined(self, board, SIGN, 4.0)
-	IsoDraw.label(self, top + Vector2(0.0, -36.0), "FISH", 34, Color(0.25, 0.15, 0.08))
+	IsoDraw.label(self, top + Vector2(0.0, -36.0), tr("FISH"), 34, Color(0.25, 0.15, 0.08))
 
 
 func _draw_seller(at: Vector2) -> void:

@@ -38,7 +38,7 @@ func _ready() -> void:
 	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_title.add_theme_font_size_override("font_size", 60)
 	header.add_child(_title)
-	header.add_child(make_button("Close", hide))
+	header.add_child(make_button(tr("Close"), hide))
 
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL

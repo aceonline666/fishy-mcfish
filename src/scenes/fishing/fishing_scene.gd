@@ -154,6 +154,7 @@ var _money_tween: Tween
 @onready var _fishpedia_button: Button = %FishpediaButton
 @onready var _goals_button: Button = %GoalsButton
 @onready var _map_button: Button = %MapButton
+@onready var _language_button: Button = %LanguageButton
 
 var fishpedia := Fishpedia.new()
 var goals := GoalsPanel.new()
@@ -174,6 +175,7 @@ func _ready() -> void:
 	add_child(world_map)
 	world_map.travel_chosen.connect(_on_travel_chosen)
 	_map_button.pressed.connect(world_map.open)
+	_language_button.pressed.connect(Settings.cycle_language)
 	EventBus.achievement_reached.connect(_on_achievement_reached)
 
 	location = Travel.current(GameState.state)
@@ -197,8 +199,20 @@ func _ready() -> void:
 	wader.position = Iso.to_screen(wader.ground_position)
 	_update_camera(0.0, true)
 	_show_money(GameState.state.money)
+	_update_location_label()
+	_language_button.text = Settings.current_language().to_upper()
 	_populate.call_deferred()
 	_show_offline_earnings.call_deferred()
+
+
+## The language changed: redo every text set in code. Panels translate when they open.
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready():
+		_language_button.text = Settings.current_language().to_upper()
+		_update_location_label()
+		_refresh_squares()
+		_update_hud()
+		_show_money(_shown_money)
 
 
 func _process(delta: float) -> void:
@@ -249,7 +263,7 @@ func _walk_to(target: Vector2) -> void:
 		var next_gear := GameState.state.gear_level
 		if next_gear < DataRegistry.gear_levels.size():
 			_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 330.0),
-					"Get the %s on the beach\nto swim further out!" % DataRegistry.gear_levels[next_gear].name, WARNING_COLOR, 1.2)
+					tr("Buy on the beach: %s\nto swim further out!") % tr(DataRegistry.gear_levels[next_gear].name), WARNING_COLOR, 1.2)
 			Haptics.bump()
 
 
@@ -356,10 +370,14 @@ func _update_zone() -> void:
 	if zone == _wader_zone:
 		return
 	_wader_zone = zone
-	_location_label.text = "%s · %s" % [location.name, zone.name if zone != null else "Beach"]
+	_update_location_label()
 	if zone != null:
 		_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 120.0),
-				"%s\n%s" % [zone.name, Charting.progress_text(GameState.state, zone)], STORED_COLOR, 0.8)
+				"%s\n%s" % [tr(zone.name), Charting.progress_text(GameState.state, zone)], STORED_COLOR, 0.8)
+
+
+func _update_location_label() -> void:
+	_location_label.text = "%s · %s" % [tr(location.name), tr(_wader_zone.name) if _wader_zone != null else tr("Beach")]
 
 
 func _add_tank_node(tank: TankState) -> TankNode:
@@ -373,12 +391,12 @@ func _add_tank_node(tank: TankState) -> TankNode:
 func _show_offline_earnings() -> void:
 	var lines: Array[String] = []
 	if GameState.last_offline_stored > 0:
-		lines.append("Drones stored %d fish" % GameState.last_offline_stored)
+		lines.append(tr("Stored by drones: %d fish") % GameState.last_offline_stored)
 	if GameState.last_offline_earned >= 1.0:
-		lines.append("Your sellers earned +%s coins" % NumberFormat.compact(GameState.last_offline_earned))
+		lines.append(tr("Your sellers earned +%s coins") % NumberFormat.compact(GameState.last_offline_earned))
 	if not lines.is_empty():
 		Juice.popup_text(_popups, Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 160.0),
-				"While you were away:\n" + "\n".join(lines), 52, COIN_COLOR, 2.5)
+				tr("While you were away:") + "\n" + "\n".join(lines), 52, COIN_COLOR, 2.5)
 	GameState.last_offline_earned = 0.0
 	GameState.last_offline_stored = 0
 
@@ -528,13 +546,13 @@ func _catch(fish: SwimmingFish) -> void:
 	var was_charted := Charting.is_charted(GameState.state, fish.zone)
 	if GameState.record_catch(fish.species.id, fish.zone.id):
 		_announce(_world_to_scene(wader.stack_top_position() + Vector2(0.0, -110.0)),
-				"New species!\n" + fish.species.common_name, NEW_SPECIES_COLOR, 1.4)
+				tr("New species!") + "\n" + tr(fish.species.common_name), NEW_SPECIES_COLOR, 1.4)
 		Sfx.play(&"ding", 1.5, -4.0)
 		Haptics.bump()
 		_bump(_fishpedia_button)
 	if not was_charted and Charting.is_charted(GameState.state, fish.zone):
 		_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 220.0),
-				"%s charted!\nDrones can fish here now" % fish.zone.name, COMBO_COLOR, 1.6)
+				tr("%s charted!\nDrones can fish here now") % tr(fish.zone.name), COMBO_COLOR, 1.6)
 		Sfx.play(&"ding", 1.0)
 		Sfx.play(&"ding", 1.26, -4.0)
 		_sync_drones()
@@ -550,24 +568,25 @@ func _catch(fish: SwimmingFish) -> void:
 func _build_squares() -> void:
 	if not is_home:
 		# Away from home: a dock that ships the catch to the tanks at home, or sells it.
-		_add_square("store", ActionSquare.Kind.STORE, "Ship home", SHIP_SQUARE)
-		_add_square("sell_dock", ActionSquare.Kind.SELL, "Sell fish", DOCK_SELL_SQUARE)
+		_add_square("store", ActionSquare.Kind.STORE, SHIP_SQUARE)
+		_add_square("sell_dock", ActionSquare.Kind.SELL, DOCK_SELL_SQUARE)
 		return
-	_add_square("store", ActionSquare.Kind.STORE, "Store fish", STORE_SQUARE)
-	_add_square("upgrade_backpack", ActionSquare.Kind.BUY, "Bigger backpack", BACKPACK_SQUARE)
-	_add_square("upgrade_net", ActionSquare.Kind.BUY, "", NET_SQUARE)
-	_add_square("upgrade_gear", ActionSquare.Kind.BUY, "", GEAR_SQUARE)
-	_add_square("buy_drone", ActionSquare.Kind.BUY, "Buy drone", DRONE_PAD)
-	_add_square("hire_seller", ActionSquare.Kind.BUY, "Hire seller", HIRE_SQUARE)
+	_add_square("store", ActionSquare.Kind.STORE, STORE_SQUARE)
+	_add_square("upgrade_backpack", ActionSquare.Kind.BUY, BACKPACK_SQUARE)
+	_add_square("upgrade_net", ActionSquare.Kind.BUY, NET_SQUARE)
+	_add_square("upgrade_gear", ActionSquare.Kind.BUY, GEAR_SQUARE)
+	_add_square("buy_drone", ActionSquare.Kind.BUY, DRONE_PAD)
+	_add_square("hire_seller", ActionSquare.Kind.BUY, HIRE_SQUARE)
 	for slot in DataRegistry.tank_slots.size():
-		_slot_squares.append(_add_square("", ActionSquare.Kind.BUY, "", _tank_slot_position(slot) + TANK_SQUARE_OFFSET))
+		_slot_squares.append(_add_square("", ActionSquare.Kind.BUY, _tank_slot_position(slot) + TANK_SQUARE_OFFSET))
 	for slot in DataRegistry.shop_slots.size():
-		_shop_squares.append(_add_square("", ActionSquare.Kind.SELL, "", _shop_position(slot) + SHOP_SQUARE_OFFSET))
+		_shop_squares.append(_add_square("", ActionSquare.Kind.SELL, _shop_position(slot) + SHOP_SQUARE_OFFSET))
 
 
-func _add_square(square_id: String, kind: ActionSquare.Kind, title: String, center: Vector2) -> ActionSquare:
+## Titles and prices are set by _refresh_squares().
+func _add_square(square_id: String, kind: ActionSquare.Kind, center: Vector2) -> ActionSquare:
 	var new_square := ActionSquare.new()
-	new_square.setup(square_id, kind, title, center, SQUARE_HALF)
+	new_square.setup(square_id, kind, "", center, SQUARE_HALF)
 	_squares_layer.add_child(new_square)
 	_squares.append(new_square)
 	return new_square
@@ -576,10 +595,13 @@ func _add_square(square_id: String, kind: ActionSquare.Kind, title: String, cent
 ## Updates the purchase squares at home: one upgrade square per built tank, a build square for
 ## the next free slot of each environment (tropical ones once a tropical location is open), the
 ## shops (a "Sell fish" square per built shop, "Build shop" for the next), backpack, net, gear,
-## drones and sellers. Squares with nothing left to buy are hidden.
+## drones and sellers. Squares with nothing left to buy are hidden. Away from home: the dock.
 func _refresh_squares() -> void:
 	if not is_home:
+		square_by_id("store").title = tr("Ship home")
+		square_by_id("sell_dock").title = tr("Sell fish")
 		return
+	square_by_id("store").title = tr("Store fish")
 	var state := GameState.state
 	var tropical_open := DataRegistry.locations.any(func(l: LocationDef) -> bool:
 		return l.env == "tropical" and Travel.is_unlocked(state, l))
@@ -588,12 +610,12 @@ func _refresh_squares() -> void:
 		var env := DataRegistry.tank_slots[slot].env
 		var tank := state.tank_in_slot(slot)
 		if tank != null:
-			_set_purchase(slot_square, "upgrade_tank_%d" % slot, "Bigger tank", Aquarium.tank_upgrade_cost(tank))
+			_set_purchase(slot_square, "upgrade_tank_%d" % slot, tr("Bigger tank"), Aquarium.tank_upgrade_cost(tank))
 		elif slot == Aquarium.next_slot(state, env) and (env == "temperate" or tropical_open):
 			if env == "temperate":
-				_set_purchase(slot_square, "build_tank", "Build tank", Aquarium.next_tank_cost(state, env))
+				_set_purchase(slot_square, "build_tank", tr("Build tank"), Aquarium.next_tank_cost(state, env))
 			else:
-				_set_purchase(slot_square, "build_tropical_tank", "Tropical tank", Aquarium.next_tank_cost(state, env))
+				_set_purchase(slot_square, "build_tropical_tank", tr("Tropical tank"), Aquarium.next_tank_cost(state, env))
 		else:
 			slot_square.hide()
 	for slot in _shop_squares.size():
@@ -601,24 +623,24 @@ func _refresh_squares() -> void:
 		if slot < state.shop_count:
 			shop_square.id = "sell_%d" % slot
 			shop_square.kind = ActionSquare.Kind.SELL
-			shop_square.title = "Sell fish"
+			shop_square.title = tr("Sell fish")
 			shop_square.show()
 		elif slot == state.shop_count:
 			shop_square.kind = ActionSquare.Kind.BUY
-			_set_purchase(shop_square, "build_shop", "Build shop", Selling.next_shop_cost(state))
+			_set_purchase(shop_square, "build_shop", tr("Build shop"), Selling.next_shop_cost(state))
 		else:
 			shop_square.hide()
 	var backpack := square_by_id("upgrade_backpack")
-	_set_purchase(backpack, "upgrade_backpack", "Bigger backpack", Aquarium.backpack_upgrade_cost(state))
+	_set_purchase(backpack, "upgrade_backpack", tr("Bigger backpack"), Aquarium.backpack_upgrade_cost(state))
 	var next_net := DataRegistry.net_levels[mini(state.net_level, DataRegistry.net_levels.size() - 1)]
-	_set_purchase(square_by_id("upgrade_net"), "upgrade_net", next_net.name, Aquarium.net_upgrade_cost(state))
+	_set_purchase(square_by_id("upgrade_net"), "upgrade_net", tr(next_net.name), Aquarium.net_upgrade_cost(state))
 	var gear := square_by_id("upgrade_gear")
 	var next_gear := DataRegistry.gear_levels[mini(state.gear_level, DataRegistry.gear_levels.size() - 1)]
-	_set_purchase(gear, "upgrade_gear", next_gear.name, Aquarium.gear_upgrade_cost(state))
+	_set_purchase(gear, "upgrade_gear", tr(next_gear.name), Aquarium.gear_upgrade_cost(state))
 	# Drones need a charted zone to work in.
 	var drone_cost := Automation.next_drone_cost(state) if not Charting.charted_zones(state).is_empty() else -1.0
-	_set_purchase(square_by_id("buy_drone"), "buy_drone", "Buy drone", drone_cost)
-	_set_purchase(square_by_id("hire_seller"), "hire_seller", "Hire seller", Selling.next_seller_cost(state))
+	_set_purchase(square_by_id("buy_drone"), "buy_drone", tr("Buy drone"), drone_cost)
+	_set_purchase(square_by_id("hire_seller"), "hire_seller", tr("Hire seller"), Selling.next_seller_cost(state))
 
 
 func _set_purchase(target: ActionSquare, square_id: String, title: String, price: float) -> void:
@@ -685,9 +707,9 @@ func _finish_square_action() -> void:
 	var at := _world_to_scene(_current_square.position + Vector2(0.0, -110.0))
 	match _current_square.kind:
 		ActionSquare.Kind.STORE:
-			_announce(at, ("%d stored!" if is_home else "%d shipped home!") % _action_count, STORED_COLOR)
+			_announce(at, (tr("%d stored!") if is_home else tr("%d shipped home!")) % _action_count, STORED_COLOR)
 		ActionSquare.Kind.SELL:
-			_announce(at, "%d sold\n+%s coins" % [_action_count, NumberFormat.compact(_action_total)], COIN_COLOR)
+			_announce(at, tr("%d sold\n+%s coins") % [_action_count, NumberFormat.compact(_action_total)], COIN_COLOR)
 	_action_count = 0
 	_action_total = 0.0
 
@@ -704,9 +726,9 @@ func _store_one() -> void:
 		_finish_square_action()
 		if live_well.count() > 0 and not _warned:
 			_warned = true
-			var advice := "Build or upgrade a tank." if location.env == "temperate" else "Build a tropical tank at home."
+			var advice := tr("Build or upgrade a tank.") if location.env == "temperate" else tr("Build a tropical tank at home.")
 			_announce(_world_to_scene(square_by_id("store").position + Vector2(0.0, -110.0)),
-					"No room in the tanks!\n" + advice, WARNING_COLOR, 1.2)
+					tr("No room in the tanks!") + "\n" + advice, WARNING_COLOR, 1.2)
 			Haptics.bump()
 		return
 	var species_id := live_well.take_at(index)
@@ -750,7 +772,7 @@ func _sell_one(target: ActionSquare) -> void:
 			_finish_square_action()
 			if not _warned:
 				_warned = true
-				_announce(_world_to_scene(target.position + Vector2(0.0, -110.0)), "Nothing to sell", WARNING_COLOR, 0.6)
+				_announce(_world_to_scene(target.position + Vector2(0.0, -110.0)), tr("Nothing to sell"), WARNING_COLOR, 0.6)
 			return
 		price = sale[1]
 		var tank: TankState = sale[2]
@@ -781,7 +803,7 @@ func _pay_into(target: ActionSquare) -> void:
 	if GameState.state.money < 0.01:
 		if not _warned:
 			_warned = true
-			_announce(_world_to_scene(target.position + Vector2(0.0, -110.0)), "Not enough coins", WARNING_COLOR, 0.6)
+			_announce(_world_to_scene(target.position + Vector2(0.0, -110.0)), tr("Not enough coins"), WARNING_COLOR, 0.6)
 		return
 	var before := GameState.state.money
 	var done := GameState.pay_into(target.id, maxf(target.price * PAY_SHARE, 1.0), target.price)
@@ -802,38 +824,38 @@ func _complete_purchase(target: ActionSquare) -> void:
 		var tropical := target.id == "build_tropical_tank"
 		var tank := GameState.build_next_tank("tropical" if tropical else "temperate")
 		_add_tank_node(tank).bounce()
-		message = "New tropical tank!" if tropical else "New tank!"
+		message = tr("New tropical tank!") if tropical else tr("New tank!")
 	elif target.id == "upgrade_backpack":
 		GameState.upgrade_backpack()
 		live_well.capacity = Aquarium.backpack_capacity(state)
-		message = "Bigger backpack!\n%d fish" % live_well.capacity
+		message = tr("Bigger backpack!\n%d fish") % live_well.capacity
 	elif target.id == "buy_drone":
 		GameState.buy_drone()
 		_sync_drones()
-		message = "New drone!\nIt fishes in the %s" % Automation.drone_zone(state, state.drone_count - 1).name
+		message = tr("New drone!\nIt fishes here: %s") % tr(Automation.drone_zone(state, state.drone_count - 1).name)
 	elif target.id == "build_shop":
 		GameState.build_shop()
 		_sync_shops()
 		_shop_nodes[-1].bounce()
-		message = "New shop!"
+		message = tr("New shop!")
 	elif target.id == "hire_seller":
 		GameState.hire_seller()
 		_sync_shops()
-		message = "Seller hired!\nSells grown fish for you"
+		message = tr("Seller hired!\nSells grown fish for you")
 	elif target.id == "upgrade_net":
 		GameState.upgrade_net()
 		wader.scoop_radius = Wader.SCOOP_RADIUS * (1.0 + NET_RADIUS_STEP * (state.net_level - 1))
-		message = "%s!\nBig fish are landed faster" % DataRegistry.net_levels[state.net_level - 1].name
+		message = tr("%s!\nBig fish are landed faster") % tr(DataRegistry.net_levels[state.net_level - 1].name)
 	elif target.id == "upgrade_gear":
 		GameState.upgrade_gear()
 		_apply_gear()
 		var zone := Charting.deepest_open_zone(location.id, state.gear_level)
-		message = "%s!\nYou can now reach the %s" % [DataRegistry.gear_levels[state.gear_level - 1].name, zone.name]
+		message = tr("%s!\nNow you can reach: %s") % [tr(DataRegistry.gear_levels[state.gear_level - 1].name), tr(zone.name)]
 	elif target.id.begins_with("upgrade_tank_"):
 		var tank := state.tank_in_slot(target.id.trim_prefix("upgrade_tank_").to_int())
 		GameState.upgrade_tank(tank)
 		_tank_nodes[tank.slot].bounce()
-		message = "%s!\n%s L" % [DataRegistry.tank_levels[tank.level - 1].name, NumberFormat.compact(Aquarium.capacity(tank))]
+		message = "%s!\n%s L" % [tr(DataRegistry.tank_levels[tank.level - 1].name), NumberFormat.compact(Aquarium.capacity(tank))]
 	_announce(at, message, COMBO_COLOR, 1.0)
 	Sfx.play(&"ding", 1.0)
 	Sfx.play(&"ding", 1.5, -6.0)
@@ -993,7 +1015,7 @@ func _on_travel_chosen(def: LocationDef) -> void:
 	if live_well.count() > 0:
 		world_map.hide()
 		_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 200.0),
-				"Store or sell your catch\nbefore you travel!", WARNING_COLOR, 1.2)
+				tr("Store or sell your catch\nbefore you travel!"), WARNING_COLOR, 1.2)
 		return
 	if not Travel.is_unlocked(state, def) and not GameState.unlock_location(def):
 		return
@@ -1020,9 +1042,9 @@ func _on_achievement_reached(def: AchievementDef) -> void:
 
 
 func _show_goal_banner(def: AchievementDef) -> void:
-	var text := "Goal reached: %s" % def.name
+	var text := tr("Goal reached: %s") % tr(def.name)
 	if def.reward > 0.0:
-		text += "\n+%s coins" % NumberFormat.compact(def.reward)
+		text += "\n" + tr("+%s coins") % NumberFormat.compact(def.reward)
 	_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 260.0), text, COMBO_COLOR, 1.2)
 	Sfx.play(&"ding", 1.0)
 	Sfx.play(&"ding", 1.5, -4.0)
@@ -1064,7 +1086,7 @@ func _bump(control: Control) -> void:
 
 func _update_hud() -> void:
 	var state := GameState.state
-	_backpack_label.text = "Backpack  %d / %d" % [live_well.count(), live_well.capacity]
+	_backpack_label.text = tr("Backpack  %d / %d") % [live_well.count(), live_well.capacity]
 	_backpack_bar.max_value = live_well.capacity
 	_backpack_bar.value = live_well.count()
 	var used := 0.0
@@ -1073,16 +1095,16 @@ func _update_hud() -> void:
 		used += Aquarium.used_space(tank)
 		capacity += Aquarium.capacity(tank)
 	var adults := Aquarium.adult_count(state)
-	_tank_label.text = "Tanks  %s / %s L  ·  %d grown  ·  worth %s" % [
+	_tank_label.text = tr("Tanks  %s / %s L  ·  %d grown  ·  worth %s") % [
 		NumberFormat.compact(used), NumberFormat.compact(capacity), adults, NumberFormat.compact(Aquarium.tank_value(state))]
 	if live_well.is_full():
-		_hint_label.text = "Backpack full! Store the fish in a tank or sell them at a shop."
+		_hint_label.text = tr("Backpack full! Store the fish in a tank or sell them at a shop.")
 	elif live_well.count() > 0:
-		_hint_label.text = "Walk up the beach to store or sell your catch."
+		_hint_label.text = tr("Walk up the beach to store or sell your catch.")
 	elif adults > 0 and state.seller_count == 0:
-		_hint_label.text = "Grown fish are worth 3 times as much. Sell them at a shop!"
+		_hint_label.text = tr("Grown fish are worth 3 times as much. Sell them at a shop!")
 	else:
-		_hint_label.text = "Tap the water to wade there and catch fish."
+		_hint_label.text = tr("Tap the water to wade there and catch fish.")
 	_refresh_shop_displays()
 
 
@@ -1097,6 +1119,6 @@ func _on_money_changed(money: float) -> void:
 
 func _show_money(value: float) -> void:
 	_shown_money = value
-	_money_label.text = "Coins  " + NumberFormat.compact(value)
+	_money_label.text = tr("Coins  %s") % NumberFormat.compact(value)
 
 #endregion

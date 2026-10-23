@@ -57,12 +57,12 @@ static func charted_zones(state: PlayerState) -> Array[ZoneDef]:
 	return charted
 
 
-## Short progress text, e.g. "charted" or "12/25 fish · 2/3 species".
+## Short progress text in the current language, e.g. "charted" or "12/25 fish · 2/3 species".
 static func progress_text(state: PlayerState, zone: ZoneDef) -> String:
 	if is_charted(state, zone):
-		return "charted"
+		return Lang.text("charted")
 	var required := required_species(zone)
 	var found := required.filter(func(id: String) -> bool: return state.species_caught.has(id)).size()
 	var needed := catches_needed(zone)
-	return "%d/%d fish · %d/%d species" % [
+	return Lang.text("%d/%d fish · %d/%d species") % [
 		mini(int(state.zone_catches.get(zone.id, 0)), needed), needed, found, required.size()]

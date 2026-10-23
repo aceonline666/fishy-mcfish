@@ -10,7 +10,7 @@ func _refresh() -> void:
 	for child in content.get_children():
 		child.queue_free()
 	var state := GameState.state
-	set_title("Goals  %d / %d" % [state.achievements.size(), DataRegistry.achievements.size()])
+	set_title(tr("Goals  %d / %d") % [state.achievements.size(), DataRegistry.achievements.size()])
 	# Open goals first, in data order; reached ones at the end.
 	for done: bool in [false, true]:
 		for def in DataRegistry.achievements:
@@ -27,15 +27,15 @@ func _make_row(def: AchievementDef, done: bool) -> PanelContainer:
 
 	var top := HBoxContainer.new()
 	column.add_child(top)
-	var name_label := make_label(def.name, 40, HORIZONTAL_ALIGNMENT_LEFT)
+	var name_label := make_label(tr(def.name), 40, HORIZONTAL_ALIGNMENT_LEFT)
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(name_label)
-	var reward := make_label("Done" if done else "+%s" % NumberFormat.compact(def.reward), 36, HORIZONTAL_ALIGNMENT_RIGHT)
+	var reward := make_label(tr("Done") if done else "+%s" % NumberFormat.compact(def.reward), 36, HORIZONTAL_ALIGNMENT_RIGHT)
 	reward.add_theme_color_override("font_color", DONE_COLOR if done else REWARD_COLOR)
 	reward.autowrap_mode = TextServer.AUTOWRAP_OFF
 	top.add_child(reward)
 
-	var description := make_label(def.description, 30, HORIZONTAL_ALIGNMENT_LEFT)
+	var description := make_label(tr(def.description), 30, HORIZONTAL_ALIGNMENT_LEFT)
 	description.add_theme_color_override("font_color", MUTED)
 	column.add_child(description)
 

@@ -1,0 +1,578 @@
+# German translation of Fishy McFish.
+# Message ids are the English texts from the scripts, scenes and data/*.csv.
+# tests/unit/test_localization.gd checks that every shown text has a translation here.
+msgid ""
+msgstr ""
+"Project-Id-Version: Fishy McFish\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Fishing screen
+msgid "Buy on the beach: %s\nto swim further out!"
+msgstr "Am Strand kaufen: %s\num weiter hinauszuschwimmen!"
+
+msgid "Beach"
+msgstr "Strand"
+
+msgid "Stored by drones: %d fish"
+msgstr "Von Drohnen eingelagerte Fische: %d"
+
+msgid "Your sellers earned +%s coins"
+msgstr "Deine Verkäufer haben +%s Münzen verdient"
+
+msgid "While you were away:"
+msgstr "Während du weg warst:"
+
+msgid "New species!"
+msgstr "Neue Art!"
+
+msgid "%s charted!\nDrones can fish here now"
+msgstr "%s kartiert!\nJetzt können hier Drohnen fischen"
+
+msgid "Ship home"
+msgstr "Heimschicken"
+
+msgid "Sell fish"
+msgstr "Fisch verkaufen"
+
+msgid "Store fish"
+msgstr "Fisch einlagern"
+
+msgid "Bigger tank"
+msgstr "Größeres Becken"
+
+msgid "Build tank"
+msgstr "Becken bauen"
+
+msgid "Tropical tank"
+msgstr "Tropenbecken"
+
+msgid "Build shop"
+msgstr "Laden bauen"
+
+msgid "Bigger backpack"
+msgstr "Größerer Rucksack"
+
+msgid "Buy drone"
+msgstr "Drohne kaufen"
+
+msgid "Hire seller"
+msgstr "Verkäufer einstellen"
+
+msgid "%d stored!"
+msgstr "%d eingelagert!"
+
+msgid "%d shipped home!"
+msgstr "%d heimgeschickt!"
+
+msgid "%d sold\n+%s coins"
+msgstr "%d verkauft\n+%s Münzen"
+
+msgid "Build or upgrade a tank."
+msgstr "Baue oder vergrößere ein Becken."
+
+msgid "Build a tropical tank at home."
+msgstr "Baue zu Hause ein Tropenbecken."
+
+msgid "No room in the tanks!"
+msgstr "Kein Platz in den Becken!"
+
+msgid "Nothing to sell"
+msgstr "Nichts zu verkaufen"
+
+msgid "Not enough coins"
+msgstr "Nicht genug Münzen"
+
+msgid "New tropical tank!"
+msgstr "Neues Tropenbecken!"
+
+msgid "New tank!"
+msgstr "Neues Becken!"
+
+msgid "Bigger backpack!\n%d fish"
+msgstr "Größerer Rucksack!\n%d Fische"
+
+msgid "New drone!\nIt fishes here: %s"
+msgstr "Neue Drohne!\nSie fischt hier: %s"
+
+msgid "New shop!"
+msgstr "Neuer Laden!"
+
+msgid "Seller hired!\nSells grown fish for you"
+msgstr "Verkäufer eingestellt!\nVerkauft ausgewachsene Fische für dich"
+
+msgid "%s!\nBig fish are landed faster"
+msgstr "%s!\nGroße Fische landen schneller im Netz"
+
+msgid "%s!\nNow you can reach: %s"
+msgstr "%s!\nJetzt erreichbar: %s"
+
+msgid "Store or sell your catch\nbefore you travel!"
+msgstr "Lagere oder verkaufe deinen Fang,\nbevor du reist!"
+
+msgid "Goal reached: %s"
+msgstr "Ziel erreicht: %s"
+
+msgid "+%s coins"
+msgstr "+%s Münzen"
+
+msgid "Backpack  %d / %d"
+msgstr "Rucksack  %d / %d"
+
+msgid "Tanks  %s / %s L  ·  %d grown  ·  worth %s"
+msgstr "Becken  %s / %s L  ·  %d erwachsen  ·  Wert %s"
+
+msgid "Backpack full! Store the fish in a tank or sell them at a shop."
+msgstr "Rucksack voll! Bring die Fische in ein Becken oder verkaufe sie in einem Laden."
+
+msgid "Walk up the beach to store or sell your catch."
+msgstr "Geh den Strand hinauf, um deinen Fang einzulagern oder zu verkaufen."
+
+msgid "Grown fish are worth 3 times as much. Sell them at a shop!"
+msgstr "Ausgewachsene Fische sind dreimal so viel wert. Verkaufe sie in einem Laden!"
+
+msgid "Tap the water to wade there and catch fish."
+msgstr "Tippe aufs Wasser, um hinzuwaten und Fische zu fangen."
+
+msgid "Coins  %s"
+msgstr "Münzen  %s"
+
+msgid "FISH"
+msgstr "FISCH"
+
+msgid "Backpack full!"
+msgstr "Rucksack voll!"
+
+msgid "Map"
+msgstr "Karte"
+
+msgid "Goals"
+msgstr "Ziele"
+
+msgid "Fishpedia"
+msgstr "Fischpedia"
+
+msgid "Double!"
+msgstr "Doppelt!"
+
+msgid "Triple!"
+msgstr "Dreifach!"
+
+msgid "Quad!"
+msgstr "Vierfach!"
+
+msgid "Mega haul!"
+msgstr "Mega-Fang!"
+
+msgid "charted"
+msgstr "kartiert"
+
+msgid "%d/%d fish · %d/%d species"
+msgstr "%d/%d Fische · %d/%d Arten"
+
+#. Panels
+msgid "Close"
+msgstr "Schließen"
+
+msgid "Fishpedia  %d / %d"
+msgstr "Fischpedia  %d / %d"
+
+msgid "%s · caught %d"
+msgstr "%s · gefangen: %d"
+
+msgid "Back"
+msgstr "Zurück"
+
+msgid "Not discovered yet"
+msgstr "Noch nicht entdeckt"
+
+msgid "Up to %d cm · needs a tank of %d L or more\nTakes %s L · worth %s to %s coins\n%s"
+msgstr "Bis zu %d cm · braucht ein Becken ab %d L\nBelegt %s L · wert %s bis %s Münzen\n%s"
+
+msgid "Catch one to learn more."
+msgstr "Fang einen, um mehr zu erfahren."
+
+msgid "Found in: %s"
+msgstr "Vorkommen: %s"
+
+msgid "Not found here"
+msgstr "Hier nicht zu finden"
+
+msgid "Common"
+msgstr "Häufig"
+
+msgid "Uncommon"
+msgstr "Ungewöhnlich"
+
+msgid "Rare"
+msgstr "Selten"
+
+msgid "Epic"
+msgstr "Episch"
+
+msgid "Legendary"
+msgstr "Legendär"
+
+msgid "Goals  %d / %d"
+msgstr "Ziele  %d / %d"
+
+msgid "Done"
+msgstr "Erledigt"
+
+msgid "World map"
+msgstr "Weltkarte"
+
+msgid "%s · %d/%d species found"
+msgstr "%s · %d/%d Arten gefunden"
+
+msgid "You are here"
+msgstr "Du bist hier"
+
+msgid "Travel"
+msgstr "Reisen"
+
+msgid "Travel  %s coins"
+msgstr "Reisen  %s Münzen"
+
+msgid "Locked: reach the goal \"%s\" (%s)"
+msgstr "Gesperrt: Erreiche das Ziel „%s“ (%s)"
+
+msgid "Tropical water"
+msgstr "Tropisches Wasser"
+
+msgid "Temperate water"
+msgstr "Gemäßigtes Wasser"
+
+#. data/locations.csv and data/zones.csv
+msgid "North Sea"
+msgstr "Nordsee"
+
+msgid "Your home beach with the aquarium. Cool water full of herring and cod."
+msgstr "Dein Heimatstrand mit dem Aquarium. Kühles Wasser voller Heringe und Kabeljau."
+
+msgid "Coral Reef"
+msgstr "Korallenriff"
+
+msgid "Warm clear water over colourful corals. Tropical fish need heated tanks at home."
+msgstr "Warmes, klares Wasser über bunten Korallen. Tropische Fische brauchen zu Hause beheizte Becken."
+
+msgid "Pier shallows"
+msgstr "Pier-Flachwasser"
+
+msgid "Sandbanks"
+msgstr "Sandbänke"
+
+msgid "Wreck"
+msgstr "Wrack"
+
+msgid "Lagoon"
+msgstr "Lagune"
+
+msgid "Reef crest"
+msgstr "Riffkante"
+
+msgid "Drop-off"
+msgstr "Steilwand"
+
+#. data/achievements.csv
+msgid "First catch"
+msgstr "Erster Fang"
+
+msgid "Catch your first fish"
+msgstr "Fange deinen ersten Fisch"
+
+msgid "Catch 3 fish in a row"
+msgstr "Fange 3 Fische in Folge"
+
+msgid "Growing collection"
+msgstr "Wachsende Sammlung"
+
+msgid "Build a second tank"
+msgstr "Baue ein zweites Becken"
+
+msgid "Busy net"
+msgstr "Fleißiger Kescher"
+
+msgid "Catch 50 fish"
+msgstr "Fange 50 Fische"
+
+msgid "Naturalist"
+msgstr "Naturforscher"
+
+msgid "Discover 5 species"
+msgstr "Entdecke 5 Arten"
+
+msgid "Mapmaker"
+msgstr "Kartograf"
+
+msgid "Chart the Pier shallows"
+msgstr "Kartiere das Pier-Flachwasser"
+
+msgid "Mega haul"
+msgstr "Mega-Fang"
+
+msgid "Catch 6 fish in a row"
+msgstr "Fange 6 Fische in Folge"
+
+msgid "Lucky find"
+msgstr "Glücksfund"
+
+msgid "Catch a rare fish"
+msgstr "Fange einen seltenen Fisch"
+
+msgid "Robot helper"
+msgstr "Roboterhelfer"
+
+msgid "Buy a drone"
+msgstr "Kaufe eine Drohne"
+
+msgid "Sales team"
+msgstr "Verkaufsteam"
+
+msgid "Hire a seller"
+msgstr "Stelle einen Verkäufer ein"
+
+msgid "Shopkeeper"
+msgstr "Ladenbesitzer"
+
+msgid "Build a second shop"
+msgstr "Baue einen zweiten Laden"
+
+msgid "Sandbank surveyor"
+msgstr "Sandbank-Vermesser"
+
+msgid "Chart the Sandbanks"
+msgstr "Kartiere die Sandbänke"
+
+msgid "Fish tycoon"
+msgstr "Fischmagnat"
+
+msgid "Earn 10K coins in total"
+msgstr "Verdiene insgesamt 10K Münzen"
+
+msgid "Sea monster"
+msgstr "Seeungeheuer"
+
+msgid "Catch an epic fish"
+msgstr "Fange einen epischen Fisch"
+
+msgid "Wreck diver"
+msgstr "Wracktaucher"
+
+msgid "Chart the Wreck"
+msgstr "Kartiere das Wrack"
+
+msgid "Reef explorer"
+msgstr "Riffforscher"
+
+msgid "Chart the Lagoon"
+msgstr "Kartiere die Lagune"
+
+msgid "Legend of the sea"
+msgstr "Legende der Meere"
+
+msgid "Catch a legendary fish"
+msgstr "Fange einen legendären Fisch"
+
+#. data/backpacks.csv, gear.csv, nets.csv, tanks.csv, tank_slots.csv, shop_slots.csv, staff.csv, drones.csv
+msgid "Basket"
+msgstr "Korb"
+
+msgid "Big basket"
+msgstr "Großer Korb"
+
+msgid "Creel"
+msgstr "Kiepe"
+
+msgid "Big creel"
+msgstr "Große Kiepe"
+
+msgid "Huge creel"
+msgstr "Riesige Kiepe"
+
+msgid "Waders"
+msgstr "Wathose"
+
+msgid "Snorkel"
+msgstr "Schnorchel"
+
+msgid "Scuba gear"
+msgstr "Tauchausrüstung"
+
+msgid "Hand net"
+msgstr "Handkescher"
+
+msgid "Sturdy net"
+msgstr "Robuster Kescher"
+
+msgid "Pro net"
+msgstr "Profi-Kescher"
+
+msgid "Master net"
+msgstr "Meister-Kescher"
+
+msgid "Glass tank"
+msgstr "Glasbecken"
+
+msgid "Large tank"
+msgstr "Großes Becken"
+
+msgid "Show tank"
+msgstr "Schaubecken"
+
+msgid "Grand tank"
+msgstr "Riesenbecken"
+
+msgid "Exhibit tank"
+msgstr "Ausstellungsbecken"
+
+msgid "First tank"
+msgstr "Erstes Becken"
+
+msgid "Second tank"
+msgstr "Zweites Becken"
+
+msgid "Third tank"
+msgstr "Drittes Becken"
+
+msgid "Fourth tank"
+msgstr "Viertes Becken"
+
+msgid "First tropical tank"
+msgstr "Erstes Tropenbecken"
+
+msgid "Second tropical tank"
+msgstr "Zweites Tropenbecken"
+
+msgid "Third tropical tank"
+msgstr "Drittes Tropenbecken"
+
+msgid "Fourth tropical tank"
+msgstr "Viertes Tropenbecken"
+
+msgid "First shop"
+msgstr "Erster Laden"
+
+msgid "Second shop"
+msgstr "Zweiter Laden"
+
+msgid "Third shop"
+msgstr "Dritter Laden"
+
+msgid "First seller"
+msgstr "Erster Verkäufer"
+
+msgid "Second seller"
+msgstr "Zweiter Verkäufer"
+
+msgid "Third seller"
+msgstr "Dritter Verkäufer"
+
+msgid "First drone"
+msgstr "Erste Drohne"
+
+msgid "Second drone"
+msgstr "Zweite Drohne"
+
+msgid "Third drone"
+msgstr "Dritte Drohne"
+
+#. data/species.csv
+msgid "European sprat"
+msgstr "Europäische Sprotte"
+
+msgid "Sprats swim in huge schools and are often sold canned as \"brisling\"."
+msgstr "Sprotten schwimmen in riesigen Schwärmen und kommen oft als „Brisling“ in die Dose."
+
+msgid "Atlantic herring"
+msgstr "Atlantischer Hering"
+
+msgid "Herring can make bubbly ticking sounds by releasing air from their swim bladder."
+msgstr "Heringe können blubbernde Klickgeräusche machen, indem sie Luft aus ihrer Schwimmblase entweichen lassen."
+
+msgid "Lesser sand eel"
+msgstr "Kleiner Sandaal"
+
+msgid "Sand eels dive head-first into the seabed to rest and hide from predators."
+msgstr "Sandaale bohren sich kopfüber in den Meeresboden, um zu ruhen und sich vor Räubern zu verstecken."
+
+msgid "Atlantic mackerel"
+msgstr "Atlantische Makrele"
+
+msgid "Atlantic mackerel have no swim bladder, so they must keep swimming to stay up."
+msgstr "Makrelen haben keine Schwimmblase und müssen deshalb ständig schwimmen, um nicht abzusinken."
+
+msgid "European plaice"
+msgstr "Scholle"
+
+msgid "Young plaice swim upright until one eye migrates to the other side of the head."
+msgstr "Junge Schollen schwimmen aufrecht, bis ein Auge auf die andere Kopfseite wandert."
+
+msgid "Lumpsucker"
+msgstr "Seehase"
+
+msgid "Its pelvic fins form a suction disc that lets it cling to rocks in strong currents."
+msgstr "Seine Bauchflossen bilden eine Saugscheibe, mit der er sich bei starker Strömung an Felsen festhält."
+
+msgid "Atlantic cod"
+msgstr "Kabeljau"
+
+msgid "A large female cod can release millions of eggs in a single spawning season."
+msgstr "Ein großes Kabeljauweibchen kann in einer einzigen Laichzeit Millionen Eier abgeben."
+
+msgid "Atlantic wolffish"
+msgstr "Gestreifter Seewolf"
+
+msgid "Wolffish have antifreeze proteins in their blood to survive near-freezing water."
+msgstr "Seewölfe haben Frostschutz-Proteine im Blut und überleben so in fast eiskaltem Wasser."
+
+msgid "European conger"
+msgstr "Meeraal"
+
+msgid "European congers can grow up to three metres long."
+msgstr "Meeraale können bis zu drei Meter lang werden."
+
+msgid "Ocellaris clownfish"
+msgstr "Falscher Clownfisch"
+
+msgid "Clownfish live among sea anemones; a coat of mucus protects them from the stinging tentacles."
+msgstr "Clownfische leben zwischen Seeanemonen; eine Schleimschicht schützt sie vor den nesselnden Tentakeln."
+
+msgid "Blue-green chromis"
+msgstr "Grünes Schwalbenschwänzchen"
+
+msgid "Blue-green chromis hover in clouds above branching corals and dive into them when danger comes."
+msgstr "Grüne Schwalbenschwänzchen schweben in Wolken über Geweihkorallen und flüchten bei Gefahr zwischen die Äste."
+
+msgid "Blue tang"
+msgstr "Paletten-Doktorfisch"
+
+msgid "A blue tang has a sharp spine near its tail, like a scalpel, which it uses for defence."
+msgstr "Der Paletten-Doktorfisch hat nahe am Schwanz einen scharfen Dorn wie ein Skalpell, mit dem er sich verteidigt."
+
+msgid "Mandarinfish"
+msgstr "Mandarinfisch"
+
+msgid "Mandarinfish are among the very few animals with truly blue pigment cells."
+msgstr "Mandarinfische gehören zu den ganz wenigen Tieren mit echten blauen Pigmentzellen."
+
+msgid "Red lionfish"
+msgstr "Rotfeuerfisch"
+
+msgid "The long fin spines of the red lionfish are venomous."
+msgstr "Die langen Flossenstacheln des Rotfeuerfischs sind giftig."
+
+msgid "Blacktip reef shark"
+msgstr "Schwarzspitzen-Riffhai"
+
+msgid "Blacktip reef sharks often patrol water so shallow that their dorsal fin sticks out of the surface."
+msgstr "Schwarzspitzen-Riffhaie patrouillieren oft in so flachem Wasser, dass ihre Rückenflosse herausragt."
+
+msgid "Humphead wrasse"
+msgstr "Napoleon-Lippfisch"
+
+msgid "Humphead wrasses can live about 30 years and are among the few fish that eat crown-of-thorns starfish."
+msgstr "Napoleon-Lippfische werden etwa 30 Jahre alt und gehören zu den wenigen Fischen, die Dornenkronen-Seesterne fressen."

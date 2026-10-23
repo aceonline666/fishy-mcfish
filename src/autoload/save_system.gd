@@ -23,13 +23,14 @@ func _ready() -> void:
 	_autosave_timer.start()
 
 
-## Redirects all saving to `path` and stops autosaving, then starts a fresh game.
+## Redirects all saving to `path` and stops autosaving, then starts a fresh game in English.
 ## Used by the test runner and developer tools.
 func use_sandbox(path: String) -> void:
 	save_path = path
 	if _autosave_timer != null:
 		_autosave_timer.stop()
 	DirAccess.make_dir_recursive_absolute(path.get_base_dir())
+	Settings.use_sandbox(path.get_base_dir().path_join("settings.cfg"))
 	# The real save was already loaded at startup; forget what happened offline there.
 	GameState.last_offline_earned = 0.0
 	GameState.last_offline_stored = 0

@@ -44,6 +44,13 @@ behind the shops.
 
 Locations, zones, species, tanks, gear, drones, staff and goals are all data in `data/*.csv`.
 
+**Languages:** English and German. The game follows the device language; the **EN/DE** button
+in the top bar switches it (kept in `user://settings.cfg`). Texts are written in English and
+wrapped in `tr("...")` (or `Lang.text("...")` in static code); data texts are translated where
+they are shown. Translations live in `localization/de.po` (gettext, the English text is the
+message id). `tests/unit/test_localization.gd` fails for any shown text without a German
+translation, and for translations nothing uses any more, so add new texts to `de.po` too.
+
 Tests and `tools/screenshot.gd` run in a sandboxed save (`SaveSystem.use_sandbox`), never
 the real one.
 
@@ -85,7 +92,8 @@ Coral Reef 25–70 min, all species < 2 h). Run it after changing prices or inco
 | Path | Contents |
 |---|---|
 | `data/` | Balancing data as CSV (species, later locations, tanks, ...). Each CSV needs a `.csv.import` file with `importer="keep"`, otherwise Godot imports it as a translation. |
-| `src/autoload/` | Global singletons: `EventBus`, `DataRegistry`, `GameState`, `TimeService`, `SaveSystem`, `Haptics`, `Platform` |
+| `src/autoload/` | Global singletons: `EventBus`, `DataRegistry`, `GameState`, `TimeService`, `Settings`, `SaveSystem`, `Haptics`, `Platform` |
+| `localization/` | Translations (`de.po`) |
 | `src/model/` | Pure data and logic classes with no scene dependencies (`PlayerState`, `SpeciesDef`, `SaveFile`, ...) |
 | `src/sim/` | Pure game rules and systems (`CatchRules`, `SpawnTable`, `LiveWell`, `Economy`) |
 | `src/scenes/fishing/` | The fishing screen, swimming fish and the wader |

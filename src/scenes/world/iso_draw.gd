@@ -22,6 +22,18 @@ static func footprint(base: Vector2, half: Vector2) -> PackedVector2Array:
 	])
 
 
+## The screen outline of a ground square with rounded corners, centred on `base`.
+static func rounded_footprint(base: Vector2, half: float, radius: float, corner_points: int = 8) -> PackedVector2Array:
+	var points := PackedVector2Array()
+	var inner := half - radius
+	var centers: Array[Vector2] = [Vector2(inner, inner), Vector2(-inner, inner), Vector2(-inner, -inner), Vector2(inner, -inner)]
+	for i in 4:
+		for step in corner_points + 1:
+			var angle := (i + float(step) / corner_points) * PI * 0.5
+			points.append(base + Iso.to_screen(centers[i] + Vector2(cos(angle), sin(angle)) * radius))
+	return points
+
+
 ## The two faces of a box that point away from the camera (draw these first).
 static func box_back(canvas: CanvasItem, base: Vector2, half: Vector2, height: float, color: Color) -> void:
 	var c := footprint(base, half)

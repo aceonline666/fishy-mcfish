@@ -48,4 +48,4 @@ func test_combo_names() -> void:
 	assert_eq(CatchRules.combo_name(1), "")
 	assert_eq(CatchRules.combo_name(2), "Double!")
 	assert_eq(CatchRules.combo_name(4), "Quad!")
-	assert_eq(CatchRules.combo_name(9), CatchRules.MEGA_COMBO_NAME)
+	assert_eq(CatchRules.combo_name(9), "Mega haul!")

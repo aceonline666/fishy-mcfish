@@ -10,7 +10,7 @@ const LOCKED_COLOR := Color(1.0, 0.6, 0.5)
 
 
 func _refresh() -> void:
-	set_title("World map")
+	set_title(tr("World map"))
 	for child in content.get_children():
 		child.queue_free()
 	for def in DataRegistry.locations:
@@ -26,30 +26,34 @@ func _make_card(def: LocationDef) -> PanelContainer:
 	column.add_theme_constant_override("separation", 12)
 	card.add_child(column)
 
-	column.add_child(make_label(def.name, 52, HORIZONTAL_ALIGNMENT_LEFT))
+	column.add_child(make_label(tr(def.name), 52, HORIZONTAL_ALIGNMENT_LEFT))
 	var species := _species_count(def)
 	var found := _species_found(def)
-	var facts := make_label("%s water · %d/%d species found" % [def.env.capitalize(), found, species], 30, HORIZONTAL_ALIGNMENT_LEFT)
+	var facts := make_label(tr("%s · %d/%d species found") % [_water_name(def.env), found, species], 30, HORIZONTAL_ALIGNMENT_LEFT)
 	facts.add_theme_color_override("font_color", MUTED)
 	column.add_child(facts)
-	column.add_child(make_label(def.description, 32, HORIZONTAL_ALIGNMENT_LEFT))
+	column.add_child(make_label(tr(def.description), 32, HORIZONTAL_ALIGNMENT_LEFT))
 
 	if def == Travel.current(state):
-		var here := make_label("You are here", 38, HORIZONTAL_ALIGNMENT_LEFT)
+		var here := make_label(tr("You are here"), 38, HORIZONTAL_ALIGNMENT_LEFT)
 		here.add_theme_color_override("font_color", HERE_COLOR)
 		column.add_child(here)
 	elif Travel.is_unlocked(state, def):
-		column.add_child(make_button("Travel", travel_chosen.emit.bind(def)))
+		column.add_child(make_button(tr("Travel"), travel_chosen.emit.bind(def)))
 	elif Travel.can_unlock(state, def):
-		var button := make_button("Travel  %s coins" % NumberFormat.compact(def.travel_cost), travel_chosen.emit.bind(def))
+		var button := make_button(tr("Travel  %s coins") % NumberFormat.compact(def.travel_cost), travel_chosen.emit.bind(def))
 		button.disabled = state.money < def.travel_cost
 		column.add_child(button)
 	else:
 		var goal := Travel.unlock_goal(def)
-		var locked := make_label("Locked: reach the goal \"%s\" (%s)" % [goal.name, goal.description], 32, HORIZONTAL_ALIGNMENT_LEFT)
+		var locked := make_label(tr("Locked: reach the goal \"%s\" (%s)") % [tr(goal.name), tr(goal.description)], 32, HORIZONTAL_ALIGNMENT_LEFT)
 		locked.add_theme_color_override("font_color", LOCKED_COLOR)
 		column.add_child(locked)
 	return card
+
+
+func _water_name(env: String) -> String:
+	return tr("Tropical water") if env == "tropical" else tr("Temperate water")
 
 
 func _species_count(def: LocationDef) -> int:

@@ -21,6 +21,7 @@ EventBus="*res://src/autoload/event_bus.gd"
 DataRegistry="*res://src/autoload/data_registry.gd"
 GameState="*res://src/autoload/game_state.gd"
 TimeService="*res://src/autoload/time_service.gd"
+Settings="*res://src/autoload/settings.gd"
 SaveSystem="*res://src/autoload/save_system.gd"
 Haptics="*res://src/autoload/haptics.gd"
 Sfx="*res://src/autoload/sfx.gd"
@@ -47,6 +48,10 @@ enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 [gui]
 
 theme/custom="res://src/scenes/ui/main_theme.tres"
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://localization/de.po")
 
 [input_devices]
 

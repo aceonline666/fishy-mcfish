@@ -1,6 +1,6 @@
 class_name NumberFormat
 extends RefCounted
-## Compact number formatting for the UI: 999, 1.23K, 12.3K, 456M, ...
+## Compact number formatting for the UI: 999, 1.23K, 12.3K, 456M, ... (1,23K in German)
 
 const SUFFIXES: Array[String] = ["", "K", "M", "B", "T", "Qa", "Qi"]
 
@@ -23,4 +23,6 @@ static func compact(value: float) -> String:
 		text = "%.1f" % (floorf(v * 10.0 + 1e-6) / 10.0)
 	else:
 		text = "%.2f" % (floorf(v * 100.0 + 1e-6) / 100.0)
+	if Lang.uses_decimal_comma():
+		text = text.replace(".", ",")
 	return prefix + text + SUFFIXES[tier]

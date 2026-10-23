@@ -4,7 +4,6 @@ extends OverlayPanel
 ## many were caught; undiscovered ones show a silhouette and where to look. Tapping a card
 ## opens its details with real facts.
 
-const RARITY_NAMES: Array[String] = ["Common", "Uncommon", "Rare", "Epic", "Legendary"]
 const RARITY_COLORS: Array[Color] = [
 	Color(0.8, 0.84, 0.88), Color(0.5, 0.9, 0.5), Color(0.45, 0.7, 1.0), Color(0.8, 0.55, 1.0), Color(1.0, 0.7, 0.25),
 ]
@@ -38,7 +37,7 @@ func _refresh() -> void:
 		child.queue_free()
 	var caught := GameState.state.species_caught
 	var species_list := DataRegistry.species.values()
-	set_title("Fishpedia  %d / %d" % [caught.size(), species_list.size()])
+	set_title(tr("Fishpedia  %d / %d") % [caught.size(), species_list.size()])
 	for def: SpeciesDef in species_list:
 		_grid.add_child(_make_card(def, caught.has(def.id)))
 
@@ -67,10 +66,10 @@ func _make_card(def: SpeciesDef, known: bool) -> Button:
 	picture.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	column.add_child(picture)
-	column.add_child(make_label(def.common_name if known else "???", 32))
+	column.add_child(make_label(tr(def.common_name) if known else "???", 32))
 	var subtitle := make_label("", 26)
 	if known:
-		subtitle.text = "%s · caught %d" % [RARITY_NAMES[def.rarity], GameState.state.species_caught[def.id]]
+		subtitle.text = tr("%s · caught %d") % [_rarity_name(def.rarity), GameState.state.species_caught[def.id]]
 		subtitle.add_theme_color_override("font_color", RARITY_COLORS[def.rarity])
 	else:
 		subtitle.text = _where_found(def)
@@ -108,26 +107,26 @@ func _build_detail() -> void:
 	_detail_fun_fact = make_label("", 34)
 	_detail_fun_fact.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	column.add_child(_detail_fun_fact)
-	column.add_child(make_button("Back", _detail.hide))
+	column.add_child(make_button(tr("Back"), _detail.hide))
 
 
 func _show_detail(def: SpeciesDef) -> void:
 	var known := GameState.state.species_caught.has(def.id)
 	_detail_picture.art = art_for.call(def.id)
 	_detail_picture.known = known
-	_detail_name.text = def.common_name if known else "Not discovered yet"
+	_detail_name.text = tr(def.common_name) if known else tr("Not discovered yet")
 	_detail_scientific.text = def.scientific_name if known else ""
-	_detail_rarity.text = RARITY_NAMES[def.rarity]
+	_detail_rarity.text = _rarity_name(def.rarity)
 	_detail_rarity.add_theme_color_override("font_color", RARITY_COLORS[def.rarity])
 	if known:
-		_detail_facts.text = "Up to %d cm · needs a tank of %d L or more\nTakes %s L · worth %s to %s coins\n%s" % [
+		_detail_facts.text = tr("Up to %d cm · needs a tank of %d L or more\nTakes %s L · worth %s to %s coins\n%s") % [
 			int(def.length_cm), int(def.min_tank_l), NumberFormat.compact(def.space_l),
 			NumberFormat.compact(Economy.sale_price(def, 0.0)), NumberFormat.compact(Economy.sale_price(def, 1.0)),
 			_where_found(def)]
-		_detail_fun_fact.text = def.fun_fact
+		_detail_fun_fact.text = tr(def.fun_fact)
 	else:
 		_detail_facts.text = _where_found(def)
-		_detail_fun_fact.text = "Catch one to learn more."
+		_detail_fun_fact.text = tr("Catch one to learn more.")
 	_detail.show()
 
 
@@ -136,5 +135,9 @@ func _where_found(def: SpeciesDef) -> String:
 	var zones: Array[String] = []
 	for zone in DataRegistry.zones:
 		if zone.spawns.has(def.id):
-			zones.append(zone.name)
-	return "Found in: " + ", ".join(zones) if not zones.is_empty() else "Not found here"
+			zones.append(tr(zone.name))
+	return tr("Found in: %s") % ", ".join(zones) if not zones.is_empty() else tr("Not found here")
+
+
+func _rarity_name(rarity: SpeciesDef.Rarity) -> String:
+	return [tr("Common"), tr("Uncommon"), tr("Rare"), tr("Epic"), tr("Legendary")][rarity]

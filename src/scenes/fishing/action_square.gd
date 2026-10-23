@@ -8,6 +8,9 @@ enum Kind { STORE, SELL, BUY }
 ## Square colours by Kind.
 const COLORS: Array[Color] = [Color(0.55, 0.85, 1.0), Color(1.0, 0.62, 0.3), Color(0.55, 1.0, 0.6)]
 const CALLING_COLOR := Color(1.0, 0.85, 0.2)
+const SHADOW := Color(0.0, 0.0, 0.0, 0.18)
+## Corner radius as a share of the half side length.
+const CORNER_RADIUS := 0.35
 
 var id := ""
 var kind := Kind.STORE
@@ -51,18 +54,21 @@ func _draw() -> void:
 	var color := COLORS[kind]
 	var pulse := 0.5 + 0.5 * sin(_time * 6.0)
 	var h := half_size * (1.0 + 0.05 * pulse if calling else 1.0)
-	var corners := IsoDraw.footprint(Vector2.ZERO, Vector2(h, h))
-	draw_colored_polygon(corners, Color(color, 0.45 if active else 0.25))
+	var tile := IsoDraw.rounded_footprint(Vector2.ZERO, h, h * CORNER_RADIUS)
+	draw_colored_polygon(IsoDraw.rounded_footprint(Vector2(0.0, 7.0), h, h * CORNER_RADIUS), SHADOW)
+	draw_colored_polygon(tile, Color(color, 0.5 if active else 0.3))
 	if kind == Kind.BUY and price > 0.0 and paid > 0.0:
-		var filled := IsoDraw.footprint(Vector2.ZERO, Vector2(h, h) * sqrt(clampf(paid / price, 0.0, 1.0)))
-		draw_colored_polygon(filled, Color(color, 0.7))
+		var filled_half := h * sqrt(clampf(paid / price, 0.0, 1.0))
+		draw_colored_polygon(IsoDraw.rounded_footprint(Vector2.ZERO, filled_half, filled_half * CORNER_RADIUS), Color(color, 0.75))
 
-	var bracket_color := CALLING_COLOR if calling else color.lightened(0.4)
-	for i in 4:
-		for neighbour: Vector2 in [corners[(i + 1) % 4], corners[(i + 3) % 4]]:
-			var end := corners[i].lerp(neighbour, 0.26)
-			draw_line(corners[i], end, IsoDraw.OUTLINE, 10.0, true)
-			draw_line(corners[i], end, bracket_color, 5.0, true)
+	var border := tile.duplicate()
+	border.append(tile[0])
+	draw_polyline(border, IsoDraw.OUTLINE, 12.0, true)
+	draw_polyline(border, CALLING_COLOR if calling else color.lightened(0.45), 6.0, true)
+	# A thin inner line gives the tile a raised rim.
+	var rim := IsoDraw.rounded_footprint(Vector2.ZERO, h - 16.0, (h - 16.0) * CORNER_RADIUS)
+	rim.append(rim[0])
+	draw_polyline(rim, Color(1.0, 1.0, 1.0, 0.35), 2.5, true)
 
 	if kind == Kind.BUY:
 		IsoDraw.label(self, Vector2(0.0, -14.0), title, 28)

@@ -15,9 +15,6 @@ const SCHOOLING_BELOW_CM := 25.0
 ## Ground units. The wader is about 190 px tall, so fish are exaggerated but stay smaller.
 const MAX_BODY_LENGTH := 480.0
 
-const COMBO_NAMES: Array[String] = ["", "", "Double!", "Triple!", "Quad!"]
-const MEGA_COMBO_NAME := "Mega haul!"
-
 
 ## Seconds the net must stay on the fish to catch it. 0 means instant. A better net
 ## (`net_speed` > 1) lands fish faster.
@@ -46,6 +43,13 @@ static func school_size(def: SpeciesDef, rng: RandomNumberGenerator) -> int:
 
 ## Name shown when several fish are caught in quick succession. Empty for a single fish.
 static func combo_name(count: int) -> String:
-	if count < COMBO_NAMES.size():
-		return COMBO_NAMES[count]
-	return MEGA_COMBO_NAME
+	match count:
+		0, 1:
+			return ""
+		2:
+			return Lang.text("Double!")
+		3:
+			return Lang.text("Triple!")
+		4:
+			return Lang.text("Quad!")
+	return Lang.text("Mega haul!")

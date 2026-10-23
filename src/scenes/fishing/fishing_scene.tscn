@@ -74,14 +74,12 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 52
-text = "Coins  0"
 
 [node name="LocationLabel" type="Label" parent="Hud/Layout/TopBar/Row"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 36
-text = "Location"
 horizontal_alignment = 2
 
 [node name="Buttons" type="HBoxContainer" parent="Hud/Layout"]
@@ -89,6 +87,13 @@ layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 16
 alignment = 2
+
+[node name="LanguageButton" type="Button" parent="Hud/Layout/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 84)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+auto_translate_mode = 2
 
 [node name="MapButton" type="Button" parent="Hud/Layout/Buttons"]
 unique_name_in_owner = true
@@ -128,7 +133,6 @@ theme_override_constants/separation = 16
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
-text = "Backpack  0 / 12"
 
 [node name="BackpackBar" type="ProgressBar" parent="Hud/Layout/BottomBar/Column"]
 unique_name_in_owner = true
@@ -143,14 +147,12 @@ show_percentage = false
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
-text = "Tank  0 fish"
 
 [node name="HintLabel" type="Label" parent="Hud/Layout/BottomBar/Column"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.88, 1, 1)
 theme_override_font_sizes/font_size = 32
-text = "Tap the water to wade there and catch fish."
 autowrap_mode = 3
 
 [node name="Popups" type="Control" parent="."]
