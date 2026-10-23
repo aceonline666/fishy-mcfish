@@ -35,24 +35,26 @@ static func drone_zone(state: PlayerState, index: int) -> ZoneDef:
 	return charted[index % charted.size()] if not charted.is_empty() else null
 
 
+## A species a drone in the zone could bring back right now, by the zone's spawn weights;
+## empty if it knows none of them.
+static func pick_drone_catch(state: PlayerState, zone: ZoneDef, rng: RandomNumberGenerator) -> String:
+	var weights: Dictionary[String, float] = {}
+	for id in zone.spawns:
+		if drone_can_catch(state, id):
+			weights[id] = zone.spawns[id]
+	return SpawnTable.new(weights).pick(rng) if not weights.is_empty() else ""
+
+
 ## While away, drones keep catching known species in their zones and put them into tanks with
 ## room. Fish that do not fit are let go. Returns how many fish were stored.
 static func run_drones_offline(state: PlayerState, seconds: float, rng: RandomNumberGenerator) -> int:
-	if state.drone_count == 0:
-		return 0
 	var stored := 0
 	for index in state.drone_count:
 		var zone := drone_zone(state, index)
 		if zone == null:
 			return stored
-		var weights: Dictionary[String, float] = {}
-		for id in zone.spawns:
-			if drone_can_catch(state, id):
-				weights[id] = zone.spawns[id]
-		if weights.is_empty():
-			continue
-		var table := SpawnTable.new(weights)
 		for i in int(seconds * OFFLINE_DRONE_FISH_PER_SECOND):
-			if Aquarium.store(state, table.pick(rng)) != null:
+			var species_id := pick_drone_catch(state, zone, rng)
+			if not species_id.is_empty() and Aquarium.store(state, species_id) != null:
 				stored += 1
 	return stored

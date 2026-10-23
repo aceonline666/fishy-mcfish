@@ -36,7 +36,12 @@ Up on the beach, squares act while you stand on them:
   them to the tanks, also while the game is closed. **Hire cashier**: visitors' coins go straight
   to the wallet.
 
-The **Fishpedia** button lists every species, with facts for the ones you have caught.
+The **Fishpedia** button lists every species, with facts for the ones you have caught. **Goals**
+lists achievements with coin rewards. The **Map** travels between locations: the Coral Reef
+opens with the "Sandbank surveyor" goal and a one-time fee. Away from home there is a dock that
+ships the catch to the tanks at home; tropical fish need the tropical tank row behind the first.
+
+Locations, zones, species, tanks, gear, drones, staff and goals are all data in `data/*.csv`.
 
 Tests and `tools/screenshot.gd` run in a sandboxed save (`SaveSystem.use_sandbox`), never
 the real one.

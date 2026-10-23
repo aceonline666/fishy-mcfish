@@ -8,3 +8,10 @@ lumpsucker,Lumpsucker,Cyclopterus lumpus,rare,600,40,0.65,20,100,4,frozen_krill,
 atlantic_cod,Atlantic cod,Gadus morhua,rare,800,100,0.32,120,500,20,frozen_krill,temperate,3600,#a39a6b,A large female cod can release millions of eggs in a single spawning season.
 atlantic_wolffish,Atlantic wolffish,Anarhichas lupus,epic,6000,120,0.28,150,500,25,squid_fish,temperate,7200,#6b7480,Wolffish have antifreeze proteins in their blood to survive near-freezing water.
 conger_eel,European conger,Conger conger,epic,7500,200,0.13,200,2000,30,squid_fish,temperate,7200,#4d5a5e,European congers can grow up to three metres long.
+ocellaris_clownfish,Ocellaris clownfish,Amphiprion ocellaris,common,10,11,0.5,3,20,0.5,flakes,tropical,150,#ff8a2a,"Clownfish live among sea anemones; a coat of mucus protects them from the stinging tentacles."
+blue_green_chromis,Blue-green chromis,Chromis viridis,common,8,10,0.45,2,20,0.4,flakes,tropical,150,#6fd6c8,Blue-green chromis hover in clouds above branching corals and dive into them when danger comes.
+blue_tang,Blue tang,Paracanthurus hepatus,uncommon,90,30,0.6,20,150,3,pellets,tropical,700,#2b6fe0,"A blue tang has a sharp spine near its tail, like a scalpel, which it uses for defence."
+mandarinfish,Mandarinfish,Synchiropus splendidus,rare,900,7,0.45,4,60,0.5,live_food,tropical,2000,#2f8fe8,Mandarinfish are among the very few animals with truly blue pigment cells.
+red_lionfish,Red lionfish,Pterois volitans,rare,1000,38,0.5,25,150,4,live_food,tropical,2400,#d9483b,The long fin spines of the red lionfish are venomous.
+blacktip_reef_shark,Blacktip reef shark,Carcharhinus melanopterus,epic,9000,160,0.26,300,2500,40,squid_fish,tropical,8000,#8f9aa3,Blacktip reef sharks often patrol water so shallow that their dorsal fin sticks out of the surface.
+humphead_wrasse,Humphead wrasse,Cheilinus undulatus,legendary,20000,200,0.5,400,2500,45,squid_fish,tropical,10000,#3f9a8a,Humphead wrasses can live about 30 years and are among the few fish that eat crown-of-thorns starfish.

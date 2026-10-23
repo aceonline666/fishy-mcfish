@@ -257,6 +257,27 @@ func test_a_drone_catches_known_fish_and_brings_them_to_the_tanks() -> void:
 	assert_eq(_scene._drones[0].zone, shallows)
 
 
+func test_the_reef_dock_ships_the_catch_to_a_tropical_tank_at_home() -> void:
+	var state := GameState.state
+	state.unlocked_locations.append("coral_reef")
+	state.current_location = "coral_reef"
+	var tropical := GameState.build_next_tank("tropical")
+	var reef: Control = FishingSceneFile.instantiate()
+	reef.auto_spawn = false
+	add_child_autofree(reef)
+	await wait_process_frames(2)
+
+	assert_false(reef.is_home)
+	assert_null(reef.square("cash"), "no aquarium away from home")
+	var reef_wader: Wader = reef.wader
+	reef.spawn_fish("ocellaris_clownfish", reef_wader.scoop_center(), 0.0)
+	await wait_seconds(0.5)
+	reef_wader.ground_position = reef.square("store").ground_center
+	await wait_seconds(1.0)
+	assert_eq(tropical.fish.size(), 1)
+	assert_eq(tropical.fish[0].species_id, "ocellaris_clownfish")
+
+
 func test_tapping_the_store_square_walks_the_wader_onto_it() -> void:
 	var store: ActionSquare = _scene.square("store")
 	var square_screen: Vector2 = _scene.ground_to_scene(store.ground_center)

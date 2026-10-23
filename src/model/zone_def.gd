@@ -4,7 +4,10 @@ extends RefCounted
 ## increasing distance from the shore (ground y); deeper zones need better gear and hold rarer fish.
 
 var id: String
+## Id of the location the zone belongs to.
+var location: String
 var name: String
+## Position from the shore outwards, within its location.
 var order: int
 ## Ground y where the zone starts and ends (distance from the waterline).
 var depth_start: float
@@ -23,6 +26,7 @@ static func from_row(row: Dictionary, species: Dictionary[String, SpeciesDef], e
 	var error_count := errors.size()
 	var zone := ZoneDef.new()
 	zone.id = str(row.get("id", ""))
+	zone.location = str(row.get("location", ""))
 	zone.name = str(row.get("name", ""))
 	if not zone.id.is_valid_ascii_identifier() or zone.name.is_empty():
 		errors.append("%s: zone needs a lower_snake_case id and a name" % where)

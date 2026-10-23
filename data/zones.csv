@@ -1,4 +1,7 @@
-id,name,order,depth_start,depth_end,gear,population,spawns
-pier_shallows,Pier shallows,1,0,450,1,10,european_sprat:50;lesser_sand_eel:30;atlantic_herring:30;atlantic_mackerel:6
-sandbanks,Sandbanks,2,450,950,2,8,atlantic_herring:30;european_plaice:30;atlantic_mackerel:25;lesser_sand_eel:15;lumpsucker:4
-wreck,Wreck,3,950,1500,3,6,atlantic_cod:30;atlantic_mackerel:20;lumpsucker:10;atlantic_wolffish:5;conger_eel:3
+id,location,name,order,depth_start,depth_end,gear,population,spawns
+pier_shallows,north_sea,Pier shallows,1,0,450,1,10,european_sprat:50;lesser_sand_eel:30;atlantic_herring:30;atlantic_mackerel:6
+sandbanks,north_sea,Sandbanks,2,450,950,2,8,atlantic_herring:30;european_plaice:30;atlantic_mackerel:25;lesser_sand_eel:15;lumpsucker:4
+wreck,north_sea,Wreck,3,950,1500,3,6,atlantic_cod:30;atlantic_mackerel:20;lumpsucker:10;atlantic_wolffish:5;conger_eel:3
+lagoon,coral_reef,Lagoon,1,0,450,1,11,ocellaris_clownfish:40;blue_green_chromis:40;blue_tang:15;mandarinfish:3
+reef_crest,coral_reef,Reef crest,2,450,950,2,9,blue_green_chromis:25;blue_tang:30;red_lionfish:12;mandarinfish:6;ocellaris_clownfish:10
+drop_off,coral_reef,Drop-off,3,950,1500,3,6,red_lionfish:20;blue_tang:20;blacktip_reef_shark:6;humphead_wrasse:2

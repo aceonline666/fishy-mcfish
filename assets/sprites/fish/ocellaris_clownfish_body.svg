@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="170" viewBox="0 0 240 170">
+  <!-- Ocellaris clownfish: orange with three black-edged white bands and black fin margins.
+       Tail root x=20, snout x~226, body axis y=85. -->
+  <defs>
+    <clipPath id="body">
+      <path d="M 20 74 C 50 40, 120 26, 170 32 C 204 38, 224 60, 226 86 C 226 110, 206 128, 172 134 C 120 144, 50 130, 20 98 Z"/>
+    </clipPath>
+  </defs>
+  <g stroke="#141a2a" stroke-width="4" stroke-linejoin="round" fill="#ff8a2a">
+    <path d="M 66 42 C 74 18, 104 8, 124 20 C 140 10, 166 14, 170 32 Z"/>
+    <path d="M 56 126 C 60 146, 76 156, 96 152 C 94 144, 96 136, 100 130 Z"/>
+    <path d="M 120 136 C 118 150, 124 160, 136 162 C 140 152, 142 144, 146 134 Z"/>
+  </g>
+  <path d="M 20 74 C 50 40, 120 26, 170 32 C 204 38, 224 60, 226 86 C 226 110, 206 128, 172 134 C 120 144, 50 130, 20 98 Z" fill="#ff8a2a"/>
+  <g clip-path="url(#body)" fill="#ffffff" stroke="#141a2a" stroke-width="4">
+    <path d="M 148 20 C 160 60, 162 110, 148 150 L 178 150 C 190 110, 190 60, 178 20 Z"/>
+    <path d="M 92 16 C 118 60, 120 100, 96 156 L 122 156 C 144 100, 140 60, 118 16 Z"/>
+    <path d="M 22 56 C 36 76, 36 96, 22 114 L 42 116 C 54 96, 54 76, 42 54 Z"/>
+    <ellipse cx="130" cy="50" rx="30" ry="6" fill="#ffffff" stroke="none" opacity="0.3"/>
+  </g>
+  <path d="M 20 74 C 50 40, 120 26, 170 32 C 204 38, 224 60, 226 86 C 226 110, 206 128, 172 134 C 120 144, 50 130, 20 98 Z" fill="none" stroke="#141a2a" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M 190 100 C 176 104, 166 114, 162 124 C 178 124, 190 116, 198 106 Z" fill="#ff8a2a" stroke="#141a2a" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M 224 94 Q 216 100 208 97" fill="none" stroke="#141a2a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="202" cy="72" r="13" fill="#ffffff" stroke="#141a2a" stroke-width="4"/>
+  <circle cx="206" cy="73" r="7.5" fill="#141a2a"/>
+  <circle cx="208.5" cy="69.5" r="2.6" fill="#ffffff"/>
+</svg>

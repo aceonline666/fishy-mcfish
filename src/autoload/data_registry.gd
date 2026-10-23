@@ -16,7 +16,9 @@ var gear_levels: Array[LevelDef] = []
 var drone_levels: Array[LevelDef] = []
 ## Staff that can be hired; level 1 is the cashier.
 var staff_levels: Array[LevelDef] = []
-## Depth zones, ordered from the shore outwards.
+## Places to fish, home first.
+var locations: Array[LocationDef] = []
+## Depth zones of all locations, grouped by location and ordered from the shore outwards.
 var zones: Array[ZoneDef] = []
 ## Goals, in the order shown.
 var achievements: Array[AchievementDef] = []
@@ -40,8 +42,40 @@ func load_all(dir: String) -> void:
 	gear_levels = _load_levels(dir.path_join("gear.csv"))
 	drone_levels = _load_levels(dir.path_join("drones.csv"))
 	staff_levels = _load_levels(dir.path_join("staff.csv"))
+	_load_locations(dir.path_join("locations.csv"))
 	_load_zones(dir.path_join("zones.csv"))
 	_load_achievements(dir.path_join("achievements.csv"))
+
+
+func home() -> LocationDef:
+	return locations[0]
+
+
+func location(location_id: String) -> LocationDef:
+	for def in locations:
+		if def.id == location_id:
+			return def
+	return null
+
+
+## The depth zones of one location, from the shore outwards.
+func zones_in(location_id: String) -> Array[ZoneDef]:
+	var result: Array[ZoneDef] = []
+	result.assign(zones.filter(func(z: ZoneDef) -> bool: return z.location == location_id))
+	return result
+
+
+func _load_locations(path: String) -> void:
+	locations.clear()
+	var table := CsvTable.load_file(path)
+	errors.append_array(table.errors)
+	for i in table.rows.size():
+		var def := LocationDef.from_row(table.rows[i], errors, "%s row %d" % [path, i + 2])
+		if def != null:
+			locations.append(def)
+	locations.sort_custom(func(a: LocationDef, b: LocationDef) -> bool: return a.order < b.order)
+	if locations.is_empty() and table.errors.is_empty():
+		errors.append("%s: no locations" % path)
 
 
 func _load_achievements(path: String) -> void:
@@ -59,13 +93,27 @@ func _load_zones(path: String) -> void:
 	var table := CsvTable.load_file(path)
 	errors.append_array(table.errors)
 	for i in table.rows.size():
-		var zone := ZoneDef.from_row(table.rows[i], species, errors, "%s row %d" % [path, i + 2])
-		if zone != null:
-			zones.append(zone)
-	zones.sort_custom(func(a: ZoneDef, b: ZoneDef) -> bool: return a.order < b.order)
-	for i in range(1, zones.size()):
-		if not is_equal_approx(zones[i].depth_start, zones[i - 1].depth_end):
-			errors.append("%s: zone '%s' must start where '%s' ends" % [path, zones[i].id, zones[i - 1].id])
+		var where := "%s row %d" % [path, i + 2]
+		var zone := ZoneDef.from_row(table.rows[i], species, errors, where)
+		if zone == null:
+			continue
+		if location(zone.location) == null:
+			errors.append("%s: unknown location '%s'" % [where, zone.location])
+			continue
+		zones.append(zone)
+	zones.sort_custom(func(a: ZoneDef, b: ZoneDef) -> bool:
+		var a_order := location(a.location).order
+		var b_order := location(b.location).order
+		return a.order < b.order if a_order == b_order else a_order < b_order)
+	for def in locations:
+		var own := zones_in(def.id)
+		if own.is_empty():
+			errors.append("%s: location '%s' has no zones" % [path, def.id])
+		elif not is_zero_approx(own[0].depth_start):
+			errors.append("%s: the first zone of '%s' must start at the shore (0)" % [path, def.id])
+		for i in range(1, own.size()):
+			if not is_equal_approx(own[i].depth_start, own[i - 1].depth_end):
+				errors.append("%s: zone '%s' must start where '%s' ends" % [path, own[i].id, own[i - 1].id])
 
 
 func _load_species(path: String) -> void:

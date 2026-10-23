@@ -111,10 +111,24 @@ func pay_into(square_id: String, amount: float, price: float) -> bool:
 	return false
 
 
-func build_next_tank() -> TankState:
-	var tank := TankState.new(state.tanks.size(), 1)
+## Builds a tank in the next free slot for the environment.
+func build_next_tank(env: String = "temperate") -> TankState:
+	var tank := TankState.new(Aquarium.next_slot(state, env), 1)
 	state.tanks.append(tank)
+	state.tanks.sort_custom(func(a: TankState, b: TankState) -> bool: return a.slot < b.slot)
 	return tank
+
+
+## Pays the one-time travel fee and opens a location.
+func unlock_location(def: LocationDef) -> bool:
+	if not Travel.can_unlock(state, def) or not try_spend(def.travel_cost):
+		return false
+	state.unlocked_locations.append(def.id)
+	return true
+
+
+func travel_to(def: LocationDef) -> void:
+	state.current_location = def.id
 
 
 func upgrade_tank(tank: TankState) -> void:

@@ -1,23 +1,24 @@
 class_name Charting
 extends RefCounted
 ## Exploring depth zones. A zone is charted once the player has caught enough fish there and
-## every common and uncommon species of the zone. Only charted zones can be automated later.
+## every common and uncommon species of the zone. Only charted zones can be automated.
 
 const CATCHES_TO_CHART := 25
 
 
-## The deepest zone the player's gear allows, or null if none.
-static func deepest_open_zone(gear_level: int) -> ZoneDef:
+## The deepest zone of a location the player's gear allows, or null if none.
+static func deepest_open_zone(location_id: String, gear_level: int) -> ZoneDef:
 	var deepest: ZoneDef = null
-	for zone in DataRegistry.zones:
+	for zone in DataRegistry.zones_in(location_id):
 		if zone.gear_level <= gear_level:
 			deepest = zone
 	return deepest
 
 
-## The zone covering a ground y in the water, or null on the beach or beyond the last zone.
-static func zone_at(ground_y: float) -> ZoneDef:
-	for zone in DataRegistry.zones:
+## The zone of a location covering a ground y in the water, or null on the beach or beyond
+## the last zone.
+static func zone_at(location_id: String, ground_y: float) -> ZoneDef:
+	for zone in DataRegistry.zones_in(location_id):
 		if ground_y >= zone.depth_start and ground_y < zone.depth_end:
 			return zone
 	return null
@@ -41,12 +42,13 @@ static func is_charted(state: PlayerState, zone: ZoneDef) -> bool:
 	return true
 
 
-## Charted zones, deepest first (drones prefer the most valuable water).
+## Charted zones of all locations, deepest first (drones prefer the most valuable water).
 static func charted_zones(state: PlayerState) -> Array[ZoneDef]:
 	var charted: Array[ZoneDef] = []
 	for zone in DataRegistry.zones:
 		if is_charted(state, zone):
-			charted.push_front(zone)
+			charted.append(zone)
+	charted.sort_custom(func(a: ZoneDef, b: ZoneDef) -> bool: return a.order > b.order)
 	return charted
 
 

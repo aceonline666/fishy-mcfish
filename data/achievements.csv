@@ -12,3 +12,5 @@ chart_sandbanks,Sandbank surveyor,Chart the Sandbanks,charted,1,sandbanks,1000
 earn_10k,Fish tycoon,Earn 10K coins in total,total_earned,10000,,1000
 first_epic,Sea monster,Catch an epic fish,rarity_caught,1,epic,2000
 chart_wreck,Wreck diver,Chart the Wreck,charted,1,wreck,3000
+chart_lagoon,Reef explorer,Chart the Lagoon,charted,1,lagoon,2000
+first_legendary,Legend of the sea,Catch a legendary fish,rarity_caught,1,legendary,10000

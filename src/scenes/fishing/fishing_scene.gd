@@ -1,15 +1,17 @@
 extends Control
-## The North Sea spot, in isometric view: the sea at the bottom left, the beach aquarium at the
-## top right, and a camera that follows the wader.
+## A fishing spot (the player's current location), in isometric view: the sea at the bottom
+## left, the beach at the top right, and a camera that follows the wader.
 ##
 ## The sea gets deeper further from the shore, in depth zones (data/zones.csv) marked by buoy
 ## lines; deeper zones need better diving gear and hold rarer fish. The wader scoops up fish into
-## the backpack. On the beach, squares do things while the wader stands on them: store the catch
-## in the tanks, sell it at the market, collect the coins visitors paid at the ticket booth, or
-## pay towards new and bigger tanks, a bigger backpack and diving gear. Visitors come as long as
-## the tanks have fish; grown fish bring in more.
+## the backpack. On the beach, squares do things while the wader stands on them. At home the
+## beach holds the aquarium: store the catch in the tanks, sell it at the market, collect the
+## coins visitors paid at the ticket booth, or pay towards tanks, a bigger backpack, diving gear,
+## drones and a cashier. Away from home there is only a dock that ships the catch home and a
+## market. The World map travels between locations.
 
-const LOCATION_NAME := "North Sea"
+signal travel_requested
+
 ## How much the world is magnified on screen.
 const ZOOM := 1.5
 const CAMERA_SMOOTHING := 6.0
@@ -20,10 +22,11 @@ const PLAY_MARGIN_TOP := 270.0
 const PLAY_MARGIN_BOTTOM := 330.0
 
 #region Layout (ground units; the waterline is at y = 0, the beach at negative y)
-## Reaches out to the end of the deepest zone (y = 1500).
-const SPOT_RECT := Rect2(0.0, -820.0, 1250.0, 2320.0)
+## Reaches out to the end of the deepest zone (y = 1500). Home has a deep beach for the
+## aquarium; other locations only a dock.
+const HOME_SPOT_RECT := Rect2(0.0, -1080.0, 1250.0, 2580.0)
+const AWAY_SPOT_RECT := Rect2(0.0, -300.0, 1250.0, 1800.0)
 const SHORE_Y := 0.0
-const DUNES_Y := -820.0
 ## Fish stay this far out in the water.
 const WATER_MARGIN := 50.0
 const SQUARE_HALF := 90.0
@@ -32,9 +35,13 @@ const STORE_SQUARE := Vector2(330.0, -120.0)
 const BACKPACK_SQUARE := Vector2(590.0, -120.0)
 const MARKET_SQUARE := Vector2(850.0, -120.0)
 const GEAR_SQUARE := Vector2(1110.0, -120.0)
+## Away from home, the dock's square that ships the catch to the tanks at home.
+const SHIP_SQUARE := Vector2(330.0, -120.0)
+const WRECK_LOCATION := "north_sea"
 const WRECK_POSITION := Vector2(640.0, 1260.0)
-## The tank row, with a build or upgrade square in front of each tank slot.
-const TANK_ROW_Y := -520.0
+## The tank rows (temperate in front, tropical behind), with a build or upgrade square in
+## front of each tank slot.
+const TANK_ROW_Y: Dictionary[String, float] = {"temperate": -520.0, "tropical": -900.0}
 const TANK_FIRST_X := 380.0
 const TANK_SPACING := 240.0
 const TANK_SQUARE_OFFSET := Vector2(0.0, 175.0)
@@ -68,6 +75,8 @@ const PAY_SHARE := 0.04
 const GOAL_BANNER_SPACING_S := 2.0
 const MAX_VISITORS := 6
 const VISITOR_INTERVAL_S := 2.5
+## Fish per second a drone working at another location brings home.
+const AWAY_DRONE_FISH_PER_SECOND := 0.2
 const WAKE_INTERVAL_S := 0.22
 const COMBO_COLOR := Color(1.0, 0.85, 0.2)
 const NEW_SPECIES_COLOR := Color(0.6, 1.0, 0.7)
@@ -80,13 +89,18 @@ const WARNING_COLOR := Color(1.0, 0.55, 0.45)
 
 var rng := RandomNumberGenerator.new()
 var live_well := LiveWell.new(10)
-var water_area := PlayArea.new(Rect2(SPOT_RECT.position.x, SHORE_Y + WATER_MARGIN, SPOT_RECT.size.x, SPOT_RECT.end.y - SHORE_Y - WATER_MARGIN))
+## Where the player is, and whether that is home (with the aquarium).
+var location: LocationDef
+var is_home := true
+var water_area: PlayArea
 ## Where the wader may go: the beach and the zones the gear allows. Updated with the gear.
-var walk_area := PlayArea.new(SPOT_RECT)
+var walk_area: PlayArea
 
+var _spot_rect := HOME_SPOT_RECT
 var _fish: Array[SwimmingFish] = []
 var _art: Dictionary[String, FishArt] = {}
-## Per depth zone (same order as DataRegistry.zones): the water its fish keep to, and spawns.
+## The location's depth zones, and per zone the water its fish keep to and the spawns.
+var _zones: Array[ZoneDef] = []
 var _zone_areas: Array[PlayArea] = []
 var _zone_spawns: Array[SpawnTable] = []
 var _spawn_timer := 0.0
@@ -98,6 +112,8 @@ var _tank_nodes: Dictionary[int, TankNode] = {}
 var _visitors: Array[Visitor] = []
 var _visitor_timer := 1.0
 var _drones: Array[Drone] = []
+## Per drone working at another location: progress towards its next fish.
+var _away_drone_progress := PackedFloat32Array()
 var _next_goal_banner_at := 0.0
 var _holding := false
 var _combo := 0
@@ -134,9 +150,11 @@ var _money_tween: Tween
 @onready var _hint_label: Label = %HintLabel
 @onready var _fishpedia_button: Button = %FishpediaButton
 @onready var _goals_button: Button = %GoalsButton
+@onready var _map_button: Button = %MapButton
 
 var fishpedia := Fishpedia.new()
 var goals := GoalsPanel.new()
+var world_map := WorldMap.new()
 
 
 func _ready() -> void:
@@ -150,15 +168,27 @@ func _ready() -> void:
 	_fishpedia_button.pressed.connect(fishpedia.open)
 	add_child(goals)
 	_goals_button.pressed.connect(goals.open)
+	add_child(world_map)
+	world_map.travel_chosen.connect(_on_travel_chosen)
+	_map_button.pressed.connect(world_map.open)
 	EventBus.achievement_reached.connect(_on_achievement_reached)
 
-	for zone in DataRegistry.zones:
+	location = Travel.current(GameState.state)
+	is_home = Travel.is_home(GameState.state)
+	_spot_rect = HOME_SPOT_RECT if is_home else AWAY_SPOT_RECT
+	water_area = PlayArea.new(Rect2(_spot_rect.position.x, SHORE_Y + WATER_MARGIN, _spot_rect.size.x, _spot_rect.end.y - SHORE_Y - WATER_MARGIN))
+	walk_area = PlayArea.new(_spot_rect)
+	_zones = DataRegistry.zones_in(location.id)
+	for zone in _zones:
 		var top := maxf(zone.depth_start, SHORE_Y + WATER_MARGIN)
-		_zone_areas.append(PlayArea.new(Rect2(SPOT_RECT.position.x, top, SPOT_RECT.size.x, zone.depth_end - top)))
+		_zone_areas.append(PlayArea.new(Rect2(_spot_rect.position.x, top, _spot_rect.size.x, zone.depth_end - top)))
 		_zone_spawns.append(SpawnTable.new(zone.spawns))
+	_seabed.tropical = location.env == "tropical"
 	_seabed.generate(water_area)
-	_seabed.add_wreck(WRECK_POSITION)
+	if location.id == WRECK_LOCATION:
+		_seabed.add_wreck(WRECK_POSITION)
 	_booth.position = Iso.to_screen(BOOTH_POSITION)
+	_booth.visible = is_home
 	_build_squares()
 	_rebuild_from_state()
 	wader.ground_position = STORE_SQUARE + Vector2(0.0, 260.0)
@@ -226,9 +256,9 @@ func _walk_to(target: Vector2) -> void:
 ## Adds one fish at a ground position. It lives in the zone at that depth (the nearest zone
 ## if the point is outside all of them).
 func spawn_fish(species_id: String, at: Vector2, heading: float) -> SwimmingFish:
-	var zone_index := DataRegistry.zones.size() - 1
-	for i in DataRegistry.zones.size():
-		if at.y < DataRegistry.zones[i].depth_end:
+	var zone_index := _zones.size() - 1
+	for i in _zones.size():
+		if at.y < _zones[i].depth_end:
 			zone_index = i
 			break
 	return _spawn_fish_in(zone_index, species_id, at, heading)
@@ -236,7 +266,7 @@ func spawn_fish(species_id: String, at: Vector2, heading: float) -> SwimmingFish
 
 func _spawn_fish_in(zone_index: int, species_id: String, at: Vector2, heading: float) -> SwimmingFish:
 	var fish := SwimmingFish.new()
-	fish.setup(_art_for(species_id), DataRegistry.zones[zone_index], _zone_areas[zone_index], at, heading)
+	fish.setup(_art_for(species_id), _zones[zone_index], _zone_areas[zone_index], at, heading)
 	_entities.add_child(fish)
 	_fish.append(fish)
 	return fish
@@ -280,8 +310,14 @@ func _world_to_scene(world_position: Vector2) -> Vector2:
 	return _world.get_transform() * world_position
 
 
+## Ground position of a tank slot: each environment has its own row, filled left to right.
 func _tank_slot_position(slot: int) -> Vector2:
-	return Vector2(TANK_FIRST_X + TANK_SPACING * slot, TANK_ROW_Y)
+	var env := DataRegistry.tank_slots[slot].env
+	var column := 0
+	for i in slot:
+		if DataRegistry.tank_slots[i].env == env:
+			column += 1
+	return Vector2(TANK_FIRST_X + TANK_SPACING * column, TANK_ROW_Y[env])
 
 
 ## Recreates everything that mirrors the saved state: tanks, squares, backpack size, gear.
@@ -290,8 +326,9 @@ func _rebuild_from_state() -> void:
 	for node: TankNode in _tank_nodes.values():
 		node.queue_free()
 	_tank_nodes.clear()
-	for tank in state.tanks:
-		_add_tank_node(tank)
+	if is_home:
+		for tank in state.tanks:
+			_add_tank_node(tank)
 	live_well.capacity = Aquarium.backpack_capacity(state)
 	_booth.staffed = state.has_cashier
 	_apply_gear()
@@ -303,24 +340,24 @@ func _rebuild_from_state() -> void:
 ## Opens the zones the gear allows and updates the buoys and the wader's look.
 func _apply_gear() -> void:
 	var gear := GameState.state.gear_level
-	var deepest := Charting.deepest_open_zone(gear)
-	walk_area = PlayArea.new(Rect2(SPOT_RECT.position, Vector2(SPOT_RECT.size.x, deepest.depth_end - SPOT_RECT.position.y)))
+	var deepest := Charting.deepest_open_zone(location.id, gear)
+	walk_area = PlayArea.new(Rect2(_spot_rect.position, Vector2(_spot_rect.size.x, deepest.depth_end - _spot_rect.position.y)))
 	wader.gear_level = gear
 	var lines: Array[Vector2] = []
-	for i in range(1, DataRegistry.zones.size()):
-		var zone := DataRegistry.zones[i]
+	for i in range(1, _zones.size()):
+		var zone := _zones[i]
 		lines.append(Vector2(zone.depth_start, 1.0 if zone.gear_level <= gear else 0.0))
-	_buoys.setup(lines, SPOT_RECT.size.x)
+	_buoys.setup(lines, _spot_rect.size.x)
 
 
 ## Tracks which zone the wader is in; announces zones on entry.
 func _update_zone() -> void:
-	var zone := Charting.zone_at(wader.ground_position.y) if wader.in_water else null
+	var zone := Charting.zone_at(location.id, wader.ground_position.y) if wader.in_water else null
 	wader.swimming = zone != null and zone.order > 1
 	if zone == _wader_zone:
 		return
 	_wader_zone = zone
-	_location_label.text = "%s · %s" % [LOCATION_NAME, zone.name if zone != null else "Beach"]
+	_location_label.text = "%s · %s" % [location.name, zone.name if zone != null else "Beach"]
 	if zone != null:
 		_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 120.0),
 				"%s\n%s" % [zone.name, Charting.progress_text(GameState.state, zone)], STORED_COLOR, 0.8)
@@ -358,8 +395,8 @@ func _update_camera(delta: float, snap: bool = false) -> void:
 	var view_center := Vector2(size.x * 0.5, (PLAY_MARGIN_TOP + size.y - PLAY_MARGIN_BOTTOM) * 0.5)
 	var target := view_center - focus * ZOOM
 
-	var bounds := Rect2(Iso.to_screen(SPOT_RECT.position), Vector2.ZERO)
-	for corner: Vector2 in [Vector2(SPOT_RECT.end.x, SPOT_RECT.position.y), SPOT_RECT.end, Vector2(SPOT_RECT.position.x, SPOT_RECT.end.y)]:
+	var bounds := Rect2(Iso.to_screen(_spot_rect.position), Vector2.ZERO)
+	for corner: Vector2 in [Vector2(_spot_rect.end.x, _spot_rect.position.y), _spot_rect.end, Vector2(_spot_rect.position.x, _spot_rect.end.y)]:
 		bounds = bounds.expand(Iso.to_screen(corner))
 	bounds = bounds.grow(CAMERA_OVERSCROLL)
 	target.x = _clamp_axis(target.x, size.x - bounds.end.x * ZOOM, -bounds.position.x * ZOOM)
@@ -382,7 +419,12 @@ func _apply_world_position() -> void:
 	water.set_shader_parameter("world_origin", _world.position)
 	water.set_shader_parameter("zoom", ZOOM)
 	water.set_shader_parameter("shore_y", SHORE_Y)
-	water.set_shader_parameter("dunes_y", DUNES_Y)
+	water.set_shader_parameter("dunes_y", _spot_rect.position.y)
+	water.set_shader_parameter("shallow_color", location.shallow_color)
+	water.set_shader_parameter("deep_color", location.deep_color)
+	water.set_shader_parameter("sand_color", location.sand_color)
+	water.set_shader_parameter("wet_sand_color", location.sand_color.darkened(0.15))
+	water.set_shader_parameter("dune_color", location.sand_color.darkened(0.1).lerp(Color(0.6, 0.7, 0.35), 0.35))
 
 #endregion
 
@@ -392,21 +434,21 @@ func _apply_world_position() -> void:
 func _populate() -> void:
 	if not auto_spawn:
 		return
-	for i in DataRegistry.zones.size():
-		while _zone_fish_count(i) < DataRegistry.zones[i].population:
+	for i in _zones.size():
+		while _zone_fish_count(i) < _zones[i].population:
 			_spawn_group(i, true)
 
 
 ## Tops up one zone that is short of fish, swimming in from the side.
 func _refill_zones() -> void:
-	for i in DataRegistry.zones.size():
-		if _zone_fish_count(i) < DataRegistry.zones[i].population:
+	for i in _zones.size():
+		if _zone_fish_count(i) < _zones[i].population:
 			_spawn_group(i, false)
 			return
 
 
 func _zone_fish_count(zone_index: int) -> int:
-	var zone := DataRegistry.zones[zone_index]
+	var zone := _zones[zone_index]
 	return _fish.filter(func(f: SwimmingFish) -> bool: return f.zone == zone).size()
 
 
@@ -508,6 +550,11 @@ func _catch(fish: SwimmingFish) -> void:
 #region Squares
 
 func _build_squares() -> void:
+	if not is_home:
+		# Away from home: a dock that ships the catch to the tanks at home, and a market.
+		_add_square("store", ActionSquare.Kind.STORE, "Ship home", SHIP_SQUARE)
+		_add_square("market", ActionSquare.Kind.MARKET, "Fish market", MARKET_SQUARE)
+		return
 	_add_square("store", ActionSquare.Kind.STORE, "Store fish", STORE_SQUARE)
 	_add_square("market", ActionSquare.Kind.MARKET, "Fish market", MARKET_SQUARE)
 	_add_square("cash", ActionSquare.Kind.CASH, "Collect coins", CASH_SQUARE)
@@ -527,17 +574,26 @@ func _add_square(square_id: String, kind: ActionSquare.Kind, title: String, cent
 	return new_square
 
 
-## Updates the purchase squares: one upgrade square per built tank, a build square for the next
-## free slot, the backpack upgrade. Squares with nothing left to buy are hidden.
+## Updates the purchase squares at home: one upgrade square per built tank, a build square for
+## the next free slot of each environment (tropical ones once a tropical location is open), the
+## backpack, gear, drones and cashier. Squares with nothing left to buy are hidden.
 func _refresh_squares() -> void:
+	if not is_home:
+		return
 	var state := GameState.state
+	var tropical_open := DataRegistry.locations.any(func(l: LocationDef) -> bool:
+		return l.env == "tropical" and Travel.is_unlocked(state, l))
 	for slot in _slot_squares.size():
 		var slot_square := _slot_squares[slot]
+		var env := DataRegistry.tank_slots[slot].env
 		var tank := state.tank_in_slot(slot)
 		if tank != null:
 			_set_purchase(slot_square, "upgrade_tank_%d" % slot, "Bigger tank", Aquarium.tank_upgrade_cost(tank))
-		elif slot == state.tanks.size():
-			_set_purchase(slot_square, "build_tank", "Build tank", Aquarium.next_tank_cost(state))
+		elif slot == Aquarium.next_slot(state, env) and (env == "temperate" or tropical_open):
+			if env == "temperate":
+				_set_purchase(slot_square, "build_tank", "Build tank", Aquarium.next_tank_cost(state, env))
+			else:
+				_set_purchase(slot_square, "build_tropical_tank", "Tropical tank", Aquarium.next_tank_cost(state, env))
 		else:
 			slot_square.hide()
 	var backpack := square_by_id("upgrade_backpack")
@@ -583,8 +639,9 @@ func _update_squares(delta: float) -> void:
 		s.active = s == on
 	square_by_id("store").calling = live_well.is_full()
 	var cash := square_by_id("cash")
-	cash.amount = GameState.state.cash_pile
-	cash.calling = GameState.state.cash_pile >= 1.0
+	if cash != null:
+		cash.amount = GameState.state.cash_pile
+		cash.calling = GameState.state.cash_pile >= 1.0
 
 	if on != _current_square:
 		_finish_square_action()
@@ -621,7 +678,7 @@ func _finish_square_action() -> void:
 	var at := _world_to_scene(_current_square.position + Vector2(0.0, -110.0))
 	match _current_square.kind:
 		ActionSquare.Kind.STORE:
-			_announce(at, "%d stored!" % _action_count, STORED_COLOR)
+			_announce(at, ("%d stored!" if is_home else "%d shipped home!") % _action_count, STORED_COLOR)
 		ActionSquare.Kind.MARKET:
 			_announce(at, "+%s coins" % NumberFormat.compact(_action_total), COIN_COLOR)
 	_action_count = 0
@@ -640,17 +697,20 @@ func _store_one() -> void:
 		_finish_square_action()
 		if live_well.count() > 0 and not _warned:
 			_warned = true
+			var advice := "Build or upgrade a tank." if location.env == "temperate" else "Build a tropical tank at home."
 			_announce(_world_to_scene(square_by_id("store").position + Vector2(0.0, -110.0)),
-					"No room in the tanks!\nBuild or upgrade a tank.", WARNING_COLOR, 1.2)
+					"No room in the tanks!\n" + advice, WARNING_COLOR, 1.2)
 			Haptics.bump()
 		return
 	var species_id := live_well.take_at(index)
 	var art := wader.take_from_stack_at(index)
 	var from := _world_to_scene(wader.stack_top_position())
 	var tank := GameState.store_fish(species_id)
-	var node := _tank_nodes[tank.slot]
 	_action_count += 1
-	Juice.fly_fish(_popups, art, from, _world_to_scene(node.drop_point()), Wader.STACK_FISH_LENGTH * ZOOM,
+	# At home the fish flies into its tank; away it goes into a crate on the dock.
+	var node: TankNode = _tank_nodes.get(tank.slot)
+	var to := node.drop_point() if node != null else square_by_id("store").position
+	Juice.fly_fish(_popups, art, from, _world_to_scene(to), Wader.STACK_FISH_LENGTH * ZOOM,
 			_on_fish_reached_tank.bind(node))
 	Sfx.play(&"pop", 1.0 + _action_count * 0.05, -6.0)
 	if live_well.count() == 0:
@@ -659,7 +719,8 @@ func _store_one() -> void:
 
 
 func _on_fish_reached_tank(node: TankNode) -> void:
-	if not is_instance_valid(node):
+	if node == null or not is_instance_valid(node):
+		Sfx.play(&"pop", 0.8, -8.0)
 		return
 	Juice.splash(_effects, node.drop_point(), 5)
 	node.bounce()
@@ -718,10 +779,11 @@ func _complete_purchase(target: ActionSquare) -> void:
 	var state := GameState.state
 	var at := _world_to_scene(target.position + Vector2(0.0, -130.0))
 	var message := ""
-	if target.id == "build_tank":
-		var tank := GameState.build_next_tank()
+	if target.id == "build_tank" or target.id == "build_tropical_tank":
+		var tropical := target.id == "build_tropical_tank"
+		var tank := GameState.build_next_tank("tropical" if tropical else "temperate")
 		_add_tank_node(tank).bounce()
-		message = "New tank!"
+		message = "New tropical tank!" if tropical else "New tank!"
 	elif target.id == "upgrade_backpack":
 		GameState.upgrade_backpack()
 		live_well.capacity = Aquarium.backpack_capacity(state)
@@ -729,7 +791,7 @@ func _complete_purchase(target: ActionSquare) -> void:
 	elif target.id == "buy_drone":
 		GameState.buy_drone()
 		_sync_drones()
-		message = "New drone!\nIt fishes in the %s" % _drones[-1].zone.name
+		message = "New drone!\nIt fishes in the %s" % Automation.drone_zone(state, state.drone_count - 1).name
 	elif target.id == "hire_cashier":
 		GameState.hire_cashier()
 		_booth.staffed = true
@@ -737,7 +799,7 @@ func _complete_purchase(target: ActionSquare) -> void:
 	elif target.id == "upgrade_gear":
 		GameState.upgrade_gear()
 		_apply_gear()
-		var zone := Charting.deepest_open_zone(state.gear_level)
+		var zone := Charting.deepest_open_zone(location.id, state.gear_level)
 		message = "%s!\nYou can now reach the %s" % [DataRegistry.gear_levels[state.gear_level - 1].name, zone.name]
 	elif target.id.begins_with("upgrade_tank_"):
 		var tank := state.tank_in_slot(target.id.trim_prefix("upgrade_tank_").to_int())
@@ -767,6 +829,11 @@ func _update_visitors(delta: float) -> void:
 	for visitor in walking:
 		if not visitor.simulate(delta):
 			_visitors.erase(visitor)
+	if not is_home:
+		# The aquarium keeps welcoming visitors while the player is away.
+		if GameState.state.pending_income >= 1.0:
+			GameState.receive_visitor_payment(GameState.take_pending_income())
+		return
 	if not auto_spawn:
 		return
 	_visitor_timer -= delta
@@ -807,23 +874,27 @@ func _on_visitor_arrived(visitor: Visitor, waypoint: int) -> void:
 
 #region Drones
 
-## Creates drone nodes to match the number bought, each working in a charted zone.
+## Matches the drones to the number bought. Drones working in a zone of this location fly here;
+## the others work elsewhere and send their catch home without being seen.
 func _sync_drones() -> void:
 	var state := GameState.state
+	for drone in _drones:
+		drone.queue_free()
+	_drones.clear()
+	_away_drone_progress.resize(state.drone_count)
 	for i in state.drone_count:
 		var zone := Automation.drone_zone(state, i)
-		if zone == null:
-			return
-		if i < _drones.size():
+		if zone == null or zone.location != location.id:
 			continue
 		var drone := Drone.new()
-		drone.setup(DRONE_PAD, zone, _zone_areas[DataRegistry.zones.find(zone)], Automation.drone_capacity(state))
+		drone.setup(DRONE_PAD, zone, _zone_areas[_zones.find(zone)], Automation.drone_capacity(state))
 		drone.delivered.connect(_on_drone_delivered)
 		_entities.add_child(drone)
 		_drones.append(drone)
 
 
 func _update_drones(delta: float) -> void:
+	_update_away_drones(delta)
 	for drone in _drones:
 		var lifted := drone.simulate(delta, _fish, _drone_can_take)
 		if drone.task == Drone.Task.LIFT and drone.target != null:
@@ -840,20 +911,64 @@ func _drone_can_take(species_id: String) -> bool:
 	return Automation.drone_can_catch(GameState.state, species_id)
 
 
+## Drones working at another location store a fish now and then (sold if no tank has room).
+func _update_away_drones(delta: float) -> void:
+	var state := GameState.state
+	for i in state.drone_count:
+		var zone := Automation.drone_zone(state, i)
+		if zone == null or zone.location == location.id:
+			continue
+		_away_drone_progress[i] += delta * AWAY_DRONE_FISH_PER_SECOND
+		if _away_drone_progress[i] < 1.0:
+			continue
+		_away_drone_progress[i] -= 1.0
+		var species_id := Automation.pick_drone_catch(state, zone, rng)
+		if species_id.is_empty():
+			continue
+		var tank := GameState.store_fish(species_id)
+		if tank == null:
+			GameState.sell_fish(species_id)
+		elif _tank_nodes.has(tank.slot):
+			_tank_nodes[tank.slot].bounce()
+
+
 ## A drone landed with its catch: into the tanks where there is room, the rest is sold.
 func _on_drone_delivered(drone: Drone, species_ids: Array[String]) -> void:
 	var from := _world_to_scene(drone.net_position())
 	for id in species_ids:
 		var tank := GameState.store_fish(id)
 		if tank != null:
-			var node := _tank_nodes[tank.slot]
-			Juice.fly_fish(_popups, _art_for(id), from, _world_to_scene(node.drop_point()), Drone.ICON_LENGTH * ZOOM,
+			# Away from home the catch goes into a crate on the pad.
+			var node: TankNode = _tank_nodes.get(tank.slot)
+			var to := node.drop_point() if node != null else Iso.to_screen(DRONE_PAD)
+			Juice.fly_fish(_popups, _art_for(id), from, _world_to_scene(to), Drone.ICON_LENGTH * ZOOM,
 					_on_fish_reached_tank.bind(node))
 		else:
 			GameState.sell_fish(id)
 			Juice.fly_coin(_popups, from, _money_label.get_global_rect().get_center() - _popups.get_global_rect().position, 9.0 * ZOOM)
 	Sfx.play(&"pop", 1.4, -10.0)
 	_update_hud()
+
+#endregion
+
+
+#region Travel
+
+## Travels to another location from the World map: unlocks it first if needed. The catch must
+## be stored or sold before leaving.
+func _on_travel_chosen(def: LocationDef) -> void:
+	var state := GameState.state
+	if live_well.count() > 0:
+		world_map.hide()
+		_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 200.0),
+				"Store or sell your catch\nbefore you travel!", WARNING_COLOR, 1.2)
+		return
+	if not Travel.is_unlocked(state, def) and not GameState.unlock_location(def):
+		return
+	GameState.travel_to(def)
+	SaveSystem.save_game()
+	world_map.hide()
+	travel_requested.emit()
 
 #endregion
 

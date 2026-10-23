@@ -15,6 +15,10 @@ var backpack_level := 1
 var gear_level := 1
 ## Fish caught per depth zone id, for charting.
 var zone_catches: Dictionary[String, int] = {}
+## Where the player is fishing; empty means home.
+var current_location := ""
+## Locations opened by paying their travel fee.
+var unlocked_locations: Array[String] = []
 var drone_count := 0
 ## Ids of the goals reached (and paid out).
 var achievements: Array[String] = []
@@ -90,6 +94,8 @@ func to_dict() -> Dictionary:
 		"zone_catches": zone_catches.duplicate(),
 		"drone_count": drone_count,
 		"achievements": achievements.duplicate(),
+		"current_location": current_location,
+		"unlocked_locations": unlocked_locations.duplicate(),
 		"has_cashier": has_cashier,
 		"tanks": tank_data,
 		"cash_pile": cash_pile,
@@ -116,6 +122,10 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	var raw_achievements: Array = data.get("achievements", [])
 	for id: Variant in raw_achievements:
 		state.achievements.append(str(id))
+	state.current_location = str(data.get("current_location", ""))
+	var raw_locations: Array = data.get("unlocked_locations", [])
+	for id: Variant in raw_locations:
+		state.unlocked_locations.append(str(id))
 	var raw_zones: Dictionary = data.get("zone_catches", {})
 	for key: Variant in raw_zones:
 		state.zone_catches[str(key)] = int(raw_zones[key])

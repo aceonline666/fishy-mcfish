@@ -94,6 +94,13 @@ mouse_filter = 2
 theme_override_constants/separation = 16
 alignment = 2
 
+[node name="MapButton" type="Button" parent="Hud/Layout/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 84)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Map"
+
 [node name="GoalsButton" type="Button" parent="Hud/Layout/Buttons"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 84)
