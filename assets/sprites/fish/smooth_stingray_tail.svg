@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="70" height="200" viewBox="0 0 70 200">
+  <!-- Ray tail. -->
+  <path d="M 68 100.0 C 46 102.0, 24 96.0, 2 102.0" fill="none" stroke="#141a2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 68 100.0 C 46 102.0, 24 96.0, 2 102.0" fill="none" stroke="#6a5a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 40 98.0 L 26 92.0 L 30 100.0 Z" fill="#e8e4d0" stroke="#141a2a" stroke-width="2" stroke-linejoin="round"/>
+</svg>

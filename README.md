@@ -43,8 +43,9 @@ Up on the beach, pads act while you stand on them (walking on sand is faster tha
   while the game is closed. Later drones are bigger and carry more.
 
 The **Fishpedia** button lists every species, with facts for the ones you have caught. **Goals**
-lists achievements with coin rewards. The **Map** travels between locations: the Coral Reef
-opens with the "Sandbank surveyor" goal and a one-time fee. Every location has its own beach
+lists achievements with coin rewards. The **Map** travels between five locations: North Sea,
+Coral Reef, Australia, Japan and South Africa. Each opens with a goal on the location before it
+(charting its third zone, or the Sandbanks for the Reef) and a one-time fee. Every location has its own beach
 business that starts from scratch (smallest net, first zone only, one tank and shop); building
 at the Reef costs 2.5 times as much (`price_factor` in `data/locations.csv`). Coins, the
 Fishpedia, charted zones and goals are shared, and sellers and drones keep working at the

@@ -19,3 +19,7 @@ first_legendary,Legend of the sea,Catch a legendary fish,rarity_caught,1,legenda
 chart_open_sea,Blue water,Chart the Open sea,charted,1,open_sea,8000
 chart_deep_sea,Into the abyss,Chart the Deep sea,charted,1,deep_sea,100000
 chart_trench,Trench pioneer,Chart the Trench,charted,1,trench,200000
+chart_drop_off,Reef diver,Chart the Drop-off,charted,1,drop_off,5000
+chart_rocky_reef,Down under,Chart the Rocky reef,charted,1,rocky_reef,30000
+chart_kuroshio,Current rider,Chart the Kuroshio current,charted,1,kuroshio,300000
+chart_shark_alley,Shark whisperer,Chart Shark alley,charted,1,shark_alley,3000000

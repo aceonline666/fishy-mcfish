@@ -38,3 +38,50 @@ bluntnose_sixgill_shark,Bluntnose sixgill shark,Hexanchus griseus,epic,60000,480
 pacific_blackdragon,Pacific blackdragon,Idiacanthus antrostomus,common,8000,40,0.18,20,200,0.8,fish,tropical,1500,#22202a,"Its larvae have eyes on long stalks, and the black adult hides its own glow in the dark."
 vampire_squid,Vampire squid,Vampyroteuthis infernalis,uncommon,15000,30,0.6,30,300,1,marine_snow,tropical,1800,#8a2a36,"Despite its name it eats drifting marine snow, and it turns itself inside out like a cloak when scared."
 west_indian_ocean_coelacanth,West Indian Ocean coelacanth,Latimeria chalumnae,legendary,400000,190,0.38,600,2500,4,fish,tropical,7200,#3f5a7a,Thought to have died out with the dinosaurs until a fisherman caught one in 1938.
+australian_salmon,Australian salmon,Arripis trutta,common,25,60,0.3,20,150,1,fish,temperate,180,#7d93a6,"Not a salmon at all: it is a fast, silver relative of the perches that hunts in the surf."
+southern_blue_ringed_octopus,Southern blue-ringed octopus,Hapalochlaena maculosa,uncommon,120,12,0.7,4,40,0.5,crabs,temperate,300,#d9b25a,Tiny but one of the most venomous animals: its blue rings flash as a warning.
+weedy_seadragon,Weedy seadragon,Phyllopteryx taeniolatus,rare,900,45,0.3,8,100,0.5,shrimp,temperate,600,#d95b3a,"A relative of the seahorse; like them, the father carries the eggs, under his tail."
+blue_groper,Blue groper,Achoerodus viridis,uncommon,300,100,0.42,120,1000,2,crabs,temperate,600,#3e6fb8,Friendly blue gropers follow divers around; all of them start life as females.
+smooth_stingray,Smooth stingray,Bathytoshia brevicaudata,uncommon,400,200,0.4,300,2500,3,crabs,temperate,900,#6a5a4a,One of the largest stingrays in the world; it glides over sand flats looking for crabs.
+port_jackson_shark,Port Jackson shark,Heterodontus portusjacksoni,rare,2500,130,0.32,150,1000,2,sea urchins,temperate,900,#a08a6c,Its spiral egg cases are screwed into rock crevices by the mother.
+old_wife,Old wife,Enoplosus armatus,common,150,25,0.75,6,60,0.6,shrimp,temperate,300,#e8e2d4,Named for the grinding noise it makes with its teeth when it is caught.
+loggerhead_turtle,Loggerhead turtle,Caretta caretta,rare,4000,100,0.6,400,2500,3,jellyfish,temperate,1500,#a0683a,Its huge head and strong jaws crush the shells of crabs and clams.
+leafy_seadragon,Leafy seadragon,Phycodurus eques,epic,12000,35,0.6,8,100,0.5,shrimp,temperate,1500,#c8a03a,"Covered in leaf-shaped flaps, it looks like a drifting piece of seaweed."
+blubber_jellyfish,Blubber jellyfish,Catostylus mosaicus,common,600,40,0.8,20,200,0.4,plankton,temperate,300,#b9a6e0,"It has no tentacles around its bell, but eight frilly arms that catch plankton."
+great_white_shark,Great white shark,Carcharodon carcharias,epic,120000,450,0.34,2500,8000,8,fish,temperate,3600,#7d8a96,Great whites can smell a drop of blood in a huge amount of water and leap clean out of it.
+humpback_whale,Humpback whale,Megaptera novaeangliae,legendary,500000,1500,0.3,12000,25000,20,krill,temperate,7200,#3d4652,Male humpbacks sing long songs that can be heard many kilometres away.
+orange_roughy,Orange roughy,Hoplostethus atlanticus,common,4000,40,0.5,10,100,0.8,shrimp,temperate,900,#e0663a,One of the longest-living fish: an orange roughy can be older than 150 years.
+pink_ling,Pink ling,Genypterus blacodes,uncommon,8000,150,0.2,60,400,1.5,fish,temperate,1200,#e6a0a0,An eel-like fish of the deep slope with pink and orange marbled skin.
+blobfish,Blobfish,Psychrolutes marcidus,common,15000,30,0.7,10,100,0.5,marine_snow,temperate,1500,#e8b0b0,In the deep it looks like a normal fish; only out of the water does it sag into a blob.
+common_fangtooth,Common fangtooth,Anoplogaster cornuta,uncommon,30000,16,0.6,4,40,0.5,fish,temperate,1800,#3a2e2a,"Compared to its body size, it has the largest teeth of any fish in the ocean."
+red_sea_bream,Red sea bream,Pagrus major,common,60,50,0.45,15,150,1,shrimp,temperate,180,#e8746a,"Called madai in Japan, it is a fish of good luck served at celebrations."
+japanese_horse_mackerel,Japanese horse mackerel,Trachurus japonicus,common,40,30,0.3,4,40,0.6,plankton,temperate,180,#9ab0bf,"It has a row of hard, spiky scales along its side, like a little armour."
+tiger_puffer,Tiger puffer,Takifugu rubripes,uncommon,400,40,0.55,15,150,1,crabs,temperate,300,#5c6670,"The famous fugu: its poison is deadly, so only specially trained chefs may prepare it."
+japanese_amberjack,Japanese amberjack,Seriola quinqueradiata,uncommon,800,100,0.32,120,1000,2,fish,temperate,600,#7a8fa8,In Japan it gets a new name at each stage of its life as it grows up.
+japanese_flying_squid,Japanese flying squid,Todarodes pacificus,common,200,30,0.25,6,60,0.6,fish,temperate,300,#e0a08a,"Chased by predators, these squid shoot out of the water and glide through the air."
+opah,Opah,Lampris guttatus,rare,12000,150,0.8,300,2500,3,squid,temperate,1500,#c0505a,"Also called moonfish: the first fish known to keep its whole body warm, like a mammal."
+nomuras_jellyfish,Nomura's jellyfish,Nemopilema nomurai,uncommon,5000,200,0.9,300,2500,2,plankton,temperate,900,#d9c49a,One of the largest jellyfish: its bell can be two metres wide and it weighs as much as a man.
+japanese_spider_crab,Japanese spider crab,Macrocheira kaempferi,rare,30000,370,0.6,400,2500,3,shellfish,temperate,1800,#e0703a,The largest crab in the world: its legs can span almost four metres from tip to tip.
+giant_pacific_octopus,Giant Pacific octopus,Enteroctopus dofleini,epic,80000,400,0.6,600,2500,4,crabs,temperate,2400,#c0503a,The largest octopus in the world; it can recognise people and open jars to get food.
+giant_isopod,Giant isopod,Bathynomus doederleinii,uncommon,40000,30,0.5,10,100,0.5,marine_snow,temperate,1800,#d9cbb0,A woodlouse the size of a cat that can go for years without eating.
+frilled_shark,Frilled shark,Chlamydoselachus anguineus,epic,300000,200,0.16,300,2500,3,squid,temperate,3600,#6a5a52,An eel-like living fossil with 300 needle teeth; it has barely changed in 80 million years.
+goblin_shark,Goblin shark,Mitsukurina owstoni,legendary,1500000,380,0.3,2000,8000,6,fish,temperate,5400,#e0b0b0,It shoots its jaws forward out of its mouth to snap up prey.
+mariana_snailfish,Mariana snailfish,Pseudoliparis swirei,common,60000,25,0.35,6,60,0.4,shrimp,temperate,1800,#f0e0e8,"Snailfish live deeper than any other fish, more than 8,000 metres down in the trenches."
+giant_oarfish,Giant oarfish,Regalecus glesne,legendary,2000000,800,0.08,3000,8000,5,plankton,temperate,7200,#c0c8d0,The longest bony fish; in Japan it is said to rise from the deep before earthquakes.
+hottentot_seabream,Hottentot seabream,Pachymetopon blochii,common,150,40,0.45,10,100,0.8,seaweed,temperate,180,#7a8070,A plump bronze fish of the Cape kelp forests that nibbles on seaweed and small animals.
+common_octopus,Common octopus,Octopus vulgaris,uncommon,800,90,0.7,30,300,1,crabs,temperate,600,#b8784a,A master of disguise: it changes colour and skin texture in a split second.
+knysna_seahorse,Knysna seahorse,Hippocampus capensis,rare,6000,12,0.5,2,20,0.2,shrimp,temperate,900,#b89a5a,"One of the rarest seahorses in the world, living only in a few South African estuaries."
+south_african_sardine,South African sardine,Sardinops sagax,common,100,20,0.28,2,20,0.3,plankton,temperate,180,#8aa8c0,Every winter billions of sardines swim up the coast in the great sardine run.
+galjoen,Galjoen,Dichistius capensis,uncommon,900,70,0.55,40,400,1,mussels,temperate,600,#3a3e3a,South Africa's national fish; it turns from silver to black depending on where it lives.
+copper_shark,Copper shark,Carcharhinus brachyurus,rare,15000,300,0.3,800,2500,4,fish,temperate,1800,#a07a52,Hundreds of copper sharks follow the sardine run to feast on the shoals.
+ragged_tooth_shark,Ragged-tooth shark,Carcharias taurus,rare,40000,300,0.32,800,2500,4,fish,temperate,1800,#9a8a70,"It gulps air at the surface to float motionless above the reef, like a submarine."
+giant_guitarfish,Giant guitarfish,Rhynchobatus djiddensis,epic,150000,300,0.3,1000,8000,4,crabs,temperate,2400,#9a9a7a,"Half shark, half ray: a flat front with a shark-like tail and fins."
+portuguese_man_o_war,Portuguese man o' war,Physalia physalis,uncommon,20000,30,0.8,30,300,0.6,fish,temperate,900,#7a8ae0,"Not a single animal but a floating colony, drifting with a gas-filled sail."
+shortfin_mako,Shortfin mako,Isurus oxyrinchus,rare,120000,320,0.3,1200,8000,5,fish,temperate,2400,#3a5a9a,The fastest shark: it can sprint at more than 70 km/h and leap high out of the water.
+leatherback_turtle,Leatherback turtle,Dermochelys coriacea,epic,600000,200,0.5,1500,8000,6,jellyfish,temperate,3600,#3a3e46,"The largest turtle: it has a leathery shell instead of a hard one and dives over 1,000 metres."
+southern_right_whale,Southern right whale,Eubalaena australis,legendary,4000000,1500,0.32,12000,25000,20,krill,temperate,7200,#2e333a,Every winter southern right whales come so close to the Cape coast that you can watch them from the cliffs.
+cape_hake,Cape hake,Merluccius capensis,common,30000,100,0.25,40,400,1,fish,temperate,1200,#a8b0b8,The fish in South Africa's fish and chips; it hunts near the seabed by day and rises at night.
+kingklip,Kingklip,Genypterus capensis,uncommon,80000,150,0.2,60,400,1.5,fish,temperate,1500,#d9a07a,A prized eel-like fish with mottled pink skin from the deep Cape waters.
+sloanes_viperfish,Sloane's viperfish,Chauliodus sloani,common,120000,35,0.2,6,60,0.5,fish,temperate,1800,#2a3a4a,Its fangs are so long that they do not fit inside its mouth.
+pelican_eel,Pelican eel,Eurypharynx pelecanoides,uncommon,250000,75,0.15,10,100,0.5,shrimp,temperate,2400,#1e1e28,"Its huge mouth opens like a pelican's pouch, and the tip of its tail glows pink."
+colossal_squid,Colossal squid,Mesonychoteuthis hamiltoni,legendary,8000000,1000,0.3,8000,25000,15,fish,temperate,7200,#a0303a,"The heaviest invertebrate on Earth, with swivelling hooks on its tentacles."

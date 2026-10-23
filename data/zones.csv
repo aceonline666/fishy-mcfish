@@ -11,3 +11,21 @@ deep_sea,north_sea,Deep sea,6,2750,3450,6,5,humpback_anglerfish:40;atlantic_foot
 open_ocean,coral_reef,Open ocean,4,1500,2100,4,7,moon_jellyfish:35;yellowfin_tuna:30;green_sea_turtle:10;reef_manta_ray:4;blue_whale:1
 twilight_zone,coral_reef,Twilight zone,5,2100,2750,5,6,skinnycheek_lanternfish:45;chambered_nautilus:25;bluntnose_sixgill_shark:3
 trench,coral_reef,Trench,6,2750,3450,6,5,pacific_blackdragon:40;vampire_squid:20;west_indian_ocean_coelacanth:1
+seagrass_bay,australia,Seagrass bay,1,0,450,1,10,australian_salmon:50;old_wife:30;southern_blue_ringed_octopus:10;weedy_seadragon:3
+kelp_forest_au,australia,Kelp forest,2,450,950,2,8,australian_salmon:30;blue_groper:30;smooth_stingray:15;port_jackson_shark:5
+rocky_reef,australia,Rocky reef,3,950,1500,3,6,blue_groper:30;smooth_stingray:20;loggerhead_turtle:6;leafy_seadragon:2
+southern_ocean,australia,Southern Ocean,4,1500,2100,4,7,blubber_jellyfish:40;ocean_sunfish:6;great_white_shark:4;humpback_whale:1
+continental_slope,australia,Continental slope,5,2100,2750,5,6,orange_roughy:40;pink_ling:25
+abyss_au,australia,Abyss,6,2750,3450,6,5,blobfish:40;common_fangtooth:20;giant_squid:2;sperm_whale:1
+rocky_shore,japan,Rocky shore,1,0,450,1,10,japanese_horse_mackerel:50;red_sea_bream:30;tiger_puffer:10
+seaweed_bed,japan,Seaweed bed,2,450,950,2,8,japanese_flying_squid:40;red_sea_bream:20;japanese_amberjack:20;tiger_puffer:10
+kuroshio,japan,Kuroshio current,3,950,1500,3,6,japanese_amberjack:30;nomuras_jellyfish:20;opah:5;loggerhead_turtle:4
+sagami_bay,japan,Sagami Bay,4,1500,2100,4,6,nomuras_jellyfish:30;japanese_spider_crab:10;ocean_sunfish:6;giant_pacific_octopus:3
+deep_slope_jp,japan,Deep slope,5,2100,2750,5,6,giant_isopod:40;frilled_shark:5;goblin_shark:1
+japan_trench,japan,Japan Trench,6,2750,3450,6,5,mariana_snailfish:40;giant_squid:3;giant_oarfish:1
+cape_kelp,south_africa,Kelp forest,1,0,450,1,10,hottentot_seabream:50;common_octopus:20;knysna_seahorse:3
+sardine_run,south_africa,Sardine run,2,450,950,2,10,south_african_sardine:60;galjoen:20;copper_shark:5
+shark_alley,south_africa,Shark alley,3,950,1500,3,6,galjoen:30;ragged_tooth_shark:10;copper_shark:10;giant_guitarfish:3
+agulhas_current,south_africa,Agulhas current,4,1500,2100,4,7,portuguese_man_o_war:40;shortfin_mako:10;leatherback_turtle:4;southern_right_whale:1
+cape_canyon,south_africa,Cape canyon,5,2100,2750,5,6,cape_hake:40;kingklip:25
+abyssal_plain,south_africa,Abyssal plain,6,2750,3450,6,5,sloanes_viperfish:40;pelican_eel:20;sperm_whale:2;colossal_squid:1

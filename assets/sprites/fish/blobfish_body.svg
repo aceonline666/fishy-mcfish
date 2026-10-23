@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="160" viewBox="0 0 240 160">
+  <!-- Blobfish: a soft pink blob with a droopy nose and a grumpy mouth. -->
+  <defs>
+    <clipPath id="blob">
+      <path d="M 30 40.0 C 50 0.0, 170 -2.0, 206 40.0 C 226 66.0, 228 100.0, 210 120.0 C 170 150.0, 70 152.0, 34 120.0 C 20 100.0, 20 60.0, 30 40.0 Z"/>
+    </clipPath>
+  </defs>
+  <path d="M 30 40.0 C 50 0.0, 170 -2.0, 206 40.0 C 226 66.0, 228 100.0, 210 120.0 C 170 150.0, 70 152.0, 34 120.0 C 20 100.0, 20 60.0, 30 40.0 Z" fill="#e8b0b0"/>
+  <g clip-path="url(#blob)">
+    <path d="M 0 160 V 100.0 C 80 116.0, 160 116.0, 240 96.0 V 160 Z" fill="#f2c8c8"/>
+    <ellipse cx="120" cy="30.0" rx="40" ry="10" fill="#ffffff" opacity="0.22"/>
+  </g>
+  <path d="M 30 40.0 C 50 0.0, 170 -2.0, 206 40.0 C 226 66.0, 228 100.0, 210 120.0 C 170 150.0, 70 152.0, 34 120.0 C 20 100.0, 20 60.0, 30 40.0 Z" fill="none" stroke="#141a2a" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M 190 72.0 C 214 70.0, 232 90.0, 222 110.0 C 210 120.0, 192 110.0, 186 94.0 Z" fill="#e09a9a" stroke="#141a2a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M 214 120.0 C 200 130.0, 180 130.0, 170 124.0" fill="none" stroke="#141a2a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="170" cy="60.0" r="7" fill="#ffffff" stroke="#141a2a" stroke-width="2.5"/>
+  <circle cx="171.8" cy="60.4" r="2.8" fill="#141a2a"/>
+  <circle cx="172.9" cy="58.5" r="1.2" fill="#ffffff"/>
+  <circle cx="196" cy="56.0" r="6" fill="#ffffff" stroke="#141a2a" stroke-width="2.5"/>
+  <circle cx="197.5" cy="56.3" r="2.4" fill="#141a2a"/>
+  <circle cx="198.5" cy="54.7" r="1.0" fill="#ffffff"/>
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="220" viewBox="0 0 240 220">
+  <!-- Japanese spider crab: an orange crab with a small body and enormously long legs. -->
+  <path d="M 150 90.0 C 110 66.0, 60 10.0, 24 16.0" fill="none" stroke="#141a2a" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 150 90.0 C 110 66.0, 60 10.0, 24 16.0" fill="none" stroke="#e0703a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 100 50.0 l 4 0" fill="none" stroke="#f2f0e8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 150 102.0 C 110 83.4, 60 40.0, 24 46.0" fill="none" stroke="#141a2a" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 150 102.0 C 110 83.4, 60 40.0, 24 46.0" fill="none" stroke="#e0703a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 96 71.0 l 4 0" fill="none" stroke="#f2f0e8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 150 118.0 C 110 136.6, 60 180.0, 24 174.0" fill="none" stroke="#141a2a" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 150 118.0 C 110 136.6, 60 180.0, 24 174.0" fill="none" stroke="#e0703a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 92 149.0 l 4 0" fill="none" stroke="#f2f0e8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 150 130.0 C 110 154.0, 60 210.0, 24 204.0" fill="none" stroke="#141a2a" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 150 130.0 C 110 154.0, 60 210.0, 24 204.0" fill="none" stroke="#e0703a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 88 170.0 l 4 0" fill="none" stroke="#f2f0e8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 200 90.0 C 214 60.0, 226 40.0, 236 34.0" fill="none" stroke="#141a2a" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 200 90.0 C 214 60.0, 226 40.0, 236 34.0" fill="none" stroke="#e0703a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 200 130.0 C 214 160.0, 226 180.0, 236 186.0" fill="none" stroke="#141a2a" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 200 130.0 C 214 160.0, 226 180.0, 236 186.0" fill="none" stroke="#e0703a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <defs>
+    <clipPath id="crab">
+      <path d="M 132 76.0 C 150 54.0, 210 58.0, 222 90.0 C 230 114.0, 222 140.0, 200 148.0 C 170 156.0, 140 148.0, 132 126.0 Z"/>
+    </clipPath>
+  </defs>
+  <path d="M 132 76.0 C 150 54.0, 210 58.0, 222 90.0 C 230 114.0, 222 140.0, 200 148.0 C 170 156.0, 140 148.0, 132 126.0 Z" fill="#e0703a"/>
+  <g clip-path="url(#crab)">
+    <path d="M 0 220 V 120.0 H 240 V 220 Z" fill="#f2b080"/>
+    <ellipse cx="180" cy="80.0" rx="22" ry="8" fill="#ffffff" opacity="0.22"/>
+  </g>
+  <path d="M 132 76.0 C 150 54.0, 210 58.0, 222 90.0 C 230 114.0, 222 140.0, 200 148.0 C 170 156.0, 140 148.0, 132 126.0 Z" fill="none" stroke="#141a2a" stroke-width="5" stroke-linejoin="round"/>
+  <circle cx="160" cy="80.0" r="4" fill="#c04a20"/>
+  <circle cx="190" cy="74.0" r="4" fill="#c04a20"/>
+  <circle cx="176" cy="96.0" r="4" fill="#c04a20"/>
+  <circle cx="204" cy="92.0" r="4" fill="#c04a20"/>
+  <circle cx="214" cy="76.0" r="6" fill="#ffffff" stroke="#141a2a" stroke-width="2.5"/>
+  <circle cx="215.5" cy="76.3" r="2.4" fill="#141a2a"/>
+  <circle cx="216.5" cy="74.7" r="1.0" fill="#ffffff"/>
+  <circle cx="224" cy="84.0" r="6" fill="#ffffff" stroke="#141a2a" stroke-width="2.5"/>
+  <circle cx="225.5" cy="84.3" r="2.4" fill="#141a2a"/>
+  <circle cx="226.5" cy="82.7" r="1.0" fill="#ffffff"/>
+</svg>

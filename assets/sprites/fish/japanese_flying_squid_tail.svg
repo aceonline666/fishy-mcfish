@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="70" height="110" viewBox="0 0 70 110">
+  <!-- Squid arm ends and its two long tentacles. -->
+  <path d="M 68 44.2 C 50 37.0, 30 29.8, 12 26.2" fill="none" stroke="#141a2a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 68 44.2 C 50 37.0, 30 29.8, 12 26.2" fill="none" stroke="#b86a54" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 16 19.2 C 2 20.2, 2 32.2, 16 33.2 C 22 26.2, 22 26.2, 16 19.2 Z" fill="#e0a08a" stroke="#141a2a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M 68 65.8 C 50 73.0, 30 80.2, 12 83.8" fill="none" stroke="#141a2a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 68 65.8 C 50 73.0, 30 80.2, 12 83.8" fill="none" stroke="#b86a54" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 16 76.8 C 2 77.8, 2 89.8, 16 90.8 C 22 83.8, 22 83.8, 16 76.8 Z" fill="#e0a08a" stroke="#141a2a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M 68 47.0 C 50 45.4, 36 43.8, 24 42.2" fill="none" stroke="#141a2a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 68 47.0 C 50 45.4, 36 43.8, 24 42.2" fill="none" stroke="#e0a08a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 68 55.0 C 50 55.0, 36 55.0, 24 55.0" fill="none" stroke="#141a2a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 68 55.0 C 50 55.0, 36 55.0, 24 55.0" fill="none" stroke="#e0a08a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 68 63.0 C 50 64.6, 36 66.2, 24 67.8" fill="none" stroke="#141a2a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 68 63.0 C 50 64.6, 36 66.2, 24 67.8" fill="none" stroke="#e0a08a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

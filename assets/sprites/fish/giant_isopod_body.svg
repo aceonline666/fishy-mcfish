@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="150" viewBox="0 0 240 150">
+  <!-- Giant isopod: a cat-sized deep-sea woodlouse with armoured segments and many legs. -->
+  <path d="M 50 97.0 l -6 18" fill="none" stroke="#141a2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 50 97.0 l -6 18" fill="none" stroke="#c8b898" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 72 97.0 l -6 18" fill="none" stroke="#141a2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 72 97.0 l -6 18" fill="none" stroke="#c8b898" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 94 97.0 l -6 18" fill="none" stroke="#141a2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 94 97.0 l -6 18" fill="none" stroke="#c8b898" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 116 97.0 l -6 18" fill="none" stroke="#141a2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 116 97.0 l -6 18" fill="none" stroke="#c8b898" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 138 97.0 l -6 18" fill="none" stroke="#141a2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 138 97.0 l -6 18" fill="none" stroke="#c8b898" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 160 97.0 l -6 18" fill="none" stroke="#141a2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 160 97.0 l -6 18" fill="none" stroke="#c8b898" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 182 97.0 l -6 18" fill="none" stroke="#141a2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 182 97.0 l -6 18" fill="none" stroke="#c8b898" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 204 97.0 l -6 18" fill="none" stroke="#141a2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 204 97.0 l -6 18" fill="none" stroke="#c8b898" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <defs>
+    <clipPath id="isopod">
+      <path d="M 30 55.0 C 40 9.0, 190 5.0, 222 51.0 C 234 71.0, 232 89.0, 220 97.0 C 190 109.0, 60 109.0, 30 95.0 Z"/>
+    </clipPath>
+  </defs>
+  <path d="M 30 55.0 C 40 9.0, 190 5.0, 222 51.0 C 234 71.0, 232 89.0, 220 97.0 C 190 109.0, 60 109.0, 30 95.0 Z" fill="#d9cbb0"/>
+  <g clip-path="url(#isopod)">
+    <path d="M 0 150 V 89.0 H 240 V 150 Z" fill="#efe6d2"/>
+    <ellipse cx="130" cy="31.0" rx="44" ry="8" fill="#ffffff" opacity="0.22"/>
+  </g>
+  <path d="M 30 55.0 C 40 9.0, 190 5.0, 222 51.0 C 234 71.0, 232 89.0, 220 97.0 C 190 109.0, 60 109.0, 30 95.0 Z" fill="none" stroke="#141a2a" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M 50 43 C 46 55.0, 46 75.0, 50 99.0" fill="none" stroke="#a89878" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 72 38 C 68 55.0, 68 75.0, 72 99.0" fill="none" stroke="#a89878" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 94 32 C 90 55.0, 90 75.0, 94 99.0" fill="none" stroke="#a89878" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 116 26 C 112 55.0, 112 75.0, 116 99.0" fill="none" stroke="#a89878" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 138 25 C 134 55.0, 134 75.0, 138 99.0" fill="none" stroke="#a89878" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 160 30 C 156 55.0, 156 75.0, 160 99.0" fill="none" stroke="#a89878" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 182 36 C 178 55.0, 178 75.0, 182 99.0" fill="none" stroke="#a89878" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 204 42 C 200 55.0, 200 75.0, 204 99.0" fill="none" stroke="#a89878" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 228 69.0 C 238 55.0, 240 41.0, 236 31.0" fill="none" stroke="#141a2a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="210" cy="59.0" r="6" fill="#ffffff" stroke="#141a2a" stroke-width="2.5"/>
+  <circle cx="211.2" cy="59.3" r="3.7" fill="#3a3a3a"/>
+  <circle cx="211.5" cy="59.3" r="2.4" fill="#141a2a"/>
+  <circle cx="212.5" cy="57.7" r="1.0" fill="#ffffff"/>
+</svg>

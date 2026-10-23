@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="180" viewBox="0 0 240 180">
+  <!-- Leafy seadragon: a golden seadragon covered in leaf-shaped flaps, like drifting seaweed. -->
+  <path d="M 60 84.0 C 42 54.0, 54 32.0, 68 40.0 C 62 54.0, 74 62.0, 70 84.0 Z" fill="#d9b84a" stroke="#141a2a" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M 90 80.0 C 72 50.0, 84 28.0, 98 36.0 C 92 50.0, 104 58.0, 100 80.0 Z" fill="#d9b84a" stroke="#141a2a" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M 130 78.0 C 112 48.0, 124 26.0, 138 34.0 C 132 48.0, 144 56.0, 140 78.0 Z" fill="#d9b84a" stroke="#141a2a" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M 170 80.0 C 152 50.0, 164 28.0, 178 36.0 C 172 50.0, 184 58.0, 180 80.0 Z" fill="#d9b84a" stroke="#141a2a" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M 70 96.0 C 52 126.0, 64 148.0, 78 140.0 C 72 126.0, 84 118.0, 80 96.0 Z" fill="#d9b84a" stroke="#141a2a" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M 110 100.0 C 92 130.0, 104 152.0, 118 144.0 C 112 130.0, 124 122.0, 120 100.0 Z" fill="#d9b84a" stroke="#141a2a" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M 150 100.0 C 132 130.0, 144 152.0, 158 144.0 C 152 130.0, 164 122.0, 160 100.0 Z" fill="#d9b84a" stroke="#141a2a" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M 190 96.0 C 172 126.0, 184 148.0, 198 140.0 C 192 126.0, 204 118.0, 200 96.0 Z" fill="#d9b84a" stroke="#141a2a" stroke-width="2.5" stroke-linejoin="round"/>
+  <defs>
+    <clipPath id="leafy">
+      <path d="M 20 87.0 C 60 78.0, 130 68.0, 180 74.0 C 196 76.0, 204 82.0, 208 84.0 L 236 86.0 L 236 92.0 L 208 96.0 C 190 106.0, 120 112.0, 60 100.0 C 40 98.0, 26 95.0, 20 93.0 Z"/>
+    </clipPath>
+  </defs>
+  <path d="M 20 87.0 C 60 78.0, 130 68.0, 180 74.0 C 196 76.0, 204 82.0, 208 84.0 L 236 86.0 L 236 92.0 L 208 96.0 C 190 106.0, 120 112.0, 60 100.0 C 40 98.0, 26 95.0, 20 93.0 Z" fill="#c8a03a"/>
+  <g clip-path="url(#leafy)">
+    <path d="M 0 180 V 94.0 H 240 V 180 Z" fill="#e6cc70"/>
+    <ellipse cx="130" cy="78.0" rx="40" ry="4" fill="#ffffff" opacity="0.22"/>
+  </g>
+  <path d="M 20 87.0 C 60 78.0, 130 68.0, 180 74.0 C 196 76.0, 204 82.0, 208 84.0 L 236 86.0 L 236 92.0 L 208 96.0 C 190 106.0, 120 112.0, 60 100.0 C 40 98.0, 26 95.0, 20 93.0 Z" fill="none" stroke="#141a2a" stroke-width="5" stroke-linejoin="round"/>
+  <circle cx="196" cy="82.0" r="6" fill="#ffffff" stroke="#141a2a" stroke-width="2.5"/>
+  <circle cx="197.5" cy="82.3" r="2.4" fill="#141a2a"/>
+  <circle cx="198.5" cy="80.7" r="1.0" fill="#ffffff"/>
+</svg>

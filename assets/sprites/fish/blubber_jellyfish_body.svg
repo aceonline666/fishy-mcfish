@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="190" viewBox="0 0 240 190">
+  <!-- Blubber jellyfish: a firm lilac bell with eight frilly arms and no tentacles. -->
+  <path d="M 156 80.6 C 130 71.0, 100 66.2, 90 63.8" fill="none" stroke="#141a2a" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 156 80.6 C 130 71.0, 100 66.2, 90 63.8" fill="none" stroke="#d9cbf0" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 156 90.2 C 130 87.0, 100 85.4, 90 84.6" fill="none" stroke="#141a2a" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 156 90.2 C 130 87.0, 100 85.4, 90 84.6" fill="none" stroke="#d9cbf0" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 156 99.8 C 130 103.0, 100 104.6, 90 105.4" fill="none" stroke="#141a2a" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 156 99.8 C 130 103.0, 100 104.6, 90 105.4" fill="none" stroke="#d9cbf0" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 156 109.4 C 130 119.0, 100 123.8, 90 126.2" fill="none" stroke="#141a2a" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 156 109.4 C 130 119.0, 100 123.8, 90 126.2" fill="none" stroke="#d9cbf0" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <defs>
+    <clipPath id="blubber_jellyfish">
+      <path d="M 150 29.0 C 196 19.0, 230 55.0, 230 95.0 C 230 135.0, 196 171.0, 150 161.0 C 160 125.0, 160 65.0, 150 29.0 Z"/>
+    </clipPath>
+  </defs>
+  <path d="M 150 29.0 C 196 19.0, 230 55.0, 230 95.0 C 230 135.0, 196 171.0, 150 161.0 C 160 125.0, 160 65.0, 150 29.0 Z" fill="#b9a6e0"/>
+  <g clip-path="url(#blubber_jellyfish)">
+    <path d="M 0 0 H 168 V 190 H 0 Z" fill="#8a72c0"/>
+    <ellipse cx="200" cy="55.0" rx="14" ry="20" fill="#ffffff" opacity="0.22"/>
+  </g>
+  <path d="M 150 29.0 C 196 19.0, 230 55.0, 230 95.0 C 230 135.0, 196 171.0, 150 161.0 C 160 125.0, 160 65.0, 150 29.0 Z" fill="none" stroke="#141a2a" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M 176 41.0 C 192 75.0, 192 115.0, 176 149.0" fill="none" stroke="#8a72c0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

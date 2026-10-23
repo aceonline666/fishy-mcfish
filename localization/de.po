@@ -829,3 +829,380 @@ msgstr "Komoren-Quastenflosser"
 
 msgid "Thought to have died out with the dinosaurs until a fisherman caught one in 1938."
 msgstr "Galt als mit den Dinosauriern ausgestorben, bis ein Fischer 1938 einen fing."
+
+#. Australia, Japan and South Africa: places, zones and goals
+msgid "Australia"
+msgstr "Australien"
+
+msgid "The Great Southern Reef: cool kelp forests full of seadragons, rays and great white sharks."
+msgstr "Das Große Südliche Riff: kühle Kelpwälder voller Fetzenfische, Rochen und Weißer Haie."
+
+msgid "Japan"
+msgstr "Japan"
+
+msgid "Rocky shores, the warm Kuroshio current and some of the deepest trenches on Earth."
+msgstr "Felsküsten, die warme Kuroshio-Strömung und einige der tiefsten Gräben der Erde."
+
+msgid "South Africa"
+msgstr "Südafrika"
+
+msgid "Where two oceans meet: kelp forests, the sardine run, sharks and southern right whales."
+msgstr "Wo zwei Ozeane sich treffen: Kelpwälder, der Sardinenlauf, Haie und Südkaper."
+
+msgid "Seagrass bay"
+msgstr "Seegrasbucht"
+
+msgid "Kelp forest"
+msgstr "Kelpwald"
+
+msgid "Rocky reef"
+msgstr "Felsriff"
+
+msgid "Southern Ocean"
+msgstr "Südpolarmeer"
+
+msgid "Continental slope"
+msgstr "Kontinentalhang"
+
+msgid "Abyss"
+msgstr "Abgrund"
+
+msgid "Rocky shore"
+msgstr "Felsküste"
+
+msgid "Seaweed bed"
+msgstr "Algenwiese"
+
+msgid "Kuroshio current"
+msgstr "Kuroshio-Strom"
+
+msgid "Sagami Bay"
+msgstr "Sagami-Bucht"
+
+msgid "Deep slope"
+msgstr "Tiefer Hang"
+
+msgid "Japan Trench"
+msgstr "Japangraben"
+
+msgid "Sardine run"
+msgstr "Sardinenlauf"
+
+msgid "Shark alley"
+msgstr "Hai-Allee"
+
+msgid "Agulhas current"
+msgstr "Agulhasstrom"
+
+msgid "Cape canyon"
+msgstr "Kap-Canyon"
+
+msgid "Abyssal plain"
+msgstr "Tiefseeebene"
+
+msgid "Reef diver"
+msgstr "Rifftaucher"
+
+msgid "Chart the Drop-off"
+msgstr "Kartiere die Steilwand"
+
+msgid "Down under"
+msgstr "Down Under"
+
+msgid "Chart the Rocky reef"
+msgstr "Kartiere das Felsriff"
+
+msgid "Current rider"
+msgstr "Strömungsreiter"
+
+msgid "Chart the Kuroshio current"
+msgstr "Kartiere den Kuroshio-Strom"
+
+msgid "Shark whisperer"
+msgstr "Haiflüsterer"
+
+msgid "Chart Shark alley"
+msgstr "Kartiere die Hai-Allee"
+
+#. Australia, Japan and South Africa: species
+msgid "Australian salmon"
+msgstr "Australischer Lachs"
+
+msgid "Not a salmon at all: it is a fast, silver relative of the perches that hunts in the surf."
+msgstr "Gar kein Lachs: ein schneller, silberner Verwandter der Barsche, der in der Brandung jagt."
+
+msgid "Southern blue-ringed octopus"
+msgstr "Südlicher Blaugeringelter Krake"
+
+msgid "Tiny but one of the most venomous animals: its blue rings flash as a warning."
+msgstr "Winzig, aber eines der giftigsten Tiere: Seine blauen Ringe leuchten als Warnung auf."
+
+msgid "Weedy seadragon"
+msgstr "Großer Fetzenfisch"
+
+msgid "A relative of the seahorse; like them, the father carries the eggs, under his tail."
+msgstr "Ein Verwandter des Seepferdchens; wie bei ihnen trägt der Vater die Eier, unter seinem Schwanz."
+
+msgid "Blue groper"
+msgstr "Blauer Lippfisch"
+
+msgid "Friendly blue gropers follow divers around; all of them start life as females."
+msgstr "Zutrauliche Blaue Lippfische folgen Tauchern; alle beginnen ihr Leben als Weibchen."
+
+msgid "Smooth stingray"
+msgstr "Glatter Stechrochen"
+
+msgid "One of the largest stingrays in the world; it glides over sand flats looking for crabs."
+msgstr "Einer der größten Stechrochen der Welt; er gleitet auf der Suche nach Krebsen über Sandflächen."
+
+msgid "Port Jackson shark"
+msgstr "Port-Jackson-Stierkopfhai"
+
+msgid "Its spiral egg cases are screwed into rock crevices by the mother."
+msgstr "Seine spiralförmigen Eikapseln schraubt die Mutter in Felsspalten."
+
+msgid "Old wife"
+msgstr "Altweiberfisch"
+
+msgid "Named for the grinding noise it makes with its teeth when it is caught."
+msgstr "Benannt nach dem knirschenden Geräusch, das er mit seinen Zähnen macht, wenn er gefangen wird."
+
+msgid "Loggerhead turtle"
+msgstr "Unechte Karettschildkröte"
+
+msgid "Its huge head and strong jaws crush the shells of crabs and clams."
+msgstr "Ihr riesiger Kopf und ihre starken Kiefer knacken die Schalen von Krebsen und Muscheln."
+
+msgid "Leafy seadragon"
+msgstr "Kleiner Fetzenfisch"
+
+msgid "Covered in leaf-shaped flaps, it looks like a drifting piece of seaweed."
+msgstr "Mit seinen blattförmigen Lappen sieht er aus wie ein treibendes Stück Seetang."
+
+msgid "Blubber jellyfish"
+msgstr "Blubberqualle"
+
+msgid "It has no tentacles around its bell, but eight frilly arms that catch plankton."
+msgstr "Sie hat keine Tentakel am Schirm, aber acht gekräuselte Arme, die Plankton fangen."
+
+msgid "Great white shark"
+msgstr "Weißer Hai"
+
+msgid "Great whites can smell a drop of blood in a huge amount of water and leap clean out of it."
+msgstr "Weiße Haie riechen einen Tropfen Blut in riesigen Mengen Wasser und springen ganz aus ihm heraus."
+
+msgid "Humpback whale"
+msgstr "Buckelwal"
+
+msgid "Male humpbacks sing long songs that can be heard many kilometres away."
+msgstr "Männliche Buckelwale singen lange Lieder, die viele Kilometer weit zu hören sind."
+
+msgid "Orange roughy"
+msgstr "Granatbarsch"
+
+msgid "One of the longest-living fish: an orange roughy can be older than 150 years."
+msgstr "Einer der langlebigsten Fische: Ein Granatbarsch kann älter als 150 Jahre werden."
+
+msgid "Pink ling"
+msgstr "Rosa Kingklip"
+
+msgid "An eel-like fish of the deep slope with pink and orange marbled skin."
+msgstr "Ein aalartiger Fisch des tiefen Hangs mit rosa und orange marmorierter Haut."
+
+msgid "Blobfish"
+msgstr "Blobfisch"
+
+msgid "In the deep it looks like a normal fish; only out of the water does it sag into a blob."
+msgstr "In der Tiefe sieht er wie ein normaler Fisch aus; erst außerhalb des Wassers sackt er zu einem Klumpen zusammen."
+
+msgid "Common fangtooth"
+msgstr "Fangzahnfisch"
+
+msgid "Compared to its body size, it has the largest teeth of any fish in the ocean."
+msgstr "Im Verhältnis zu seiner Größe hat er die größten Zähne aller Fische im Meer."
+
+msgid "Red sea bream"
+msgstr "Rote Meerbrasse"
+
+msgid "Called madai in Japan, it is a fish of good luck served at celebrations."
+msgstr "In Japan heißt sie Madai und ist ein Glücksfisch, der bei Festen serviert wird."
+
+msgid "Japanese horse mackerel"
+msgstr "Japanische Stöcker"
+
+msgid "It has a row of hard, spiky scales along its side, like a little armour."
+msgstr "Sie trägt eine Reihe harter, stacheliger Schuppen an der Seite, wie eine kleine Rüstung."
+
+msgid "Tiger puffer"
+msgstr "Tigerkugelfisch"
+
+msgid "The famous fugu: its poison is deadly, so only specially trained chefs may prepare it."
+msgstr "Der berühmte Fugu: Sein Gift ist tödlich, deshalb dürfen ihn nur besonders ausgebildete Köche zubereiten."
+
+msgid "Japanese amberjack"
+msgstr "Japanische Gelbschwanzmakrele"
+
+msgid "In Japan it gets a new name at each stage of its life as it grows up."
+msgstr "In Japan bekommt sie in jedem Lebensabschnitt, während sie heranwächst, einen neuen Namen."
+
+msgid "Japanese flying squid"
+msgstr "Japanischer Kalmar"
+
+msgid "Chased by predators, these squid shoot out of the water and glide through the air."
+msgstr "Werden sie gejagt, schießen diese Kalmare aus dem Wasser und gleiten durch die Luft."
+
+msgid "Opah"
+msgstr "Gotteslachs"
+
+msgid "Also called moonfish: the first fish known to keep its whole body warm, like a mammal."
+msgstr "Auch Mondfisch genannt: der erste bekannte Fisch, der wie ein Säugetier seinen ganzen Körper warm hält."
+
+msgid "Nomura's jellyfish"
+msgstr "Nomura-Qualle"
+
+msgid "One of the largest jellyfish: its bell can be two metres wide and it weighs as much as a man."
+msgstr "Eine der größten Quallen: Ihr Schirm kann zwei Meter breit sein, und sie wiegt so viel wie ein Mensch."
+
+msgid "Japanese spider crab"
+msgstr "Japanische Riesenkrabbe"
+
+msgid "The largest crab in the world: its legs can span almost four metres from tip to tip."
+msgstr "Die größte Krabbe der Welt: Ihre Beine können von Spitze zu Spitze fast vier Meter spannen."
+
+msgid "Giant Pacific octopus"
+msgstr "Pazifischer Riesenkrake"
+
+msgid "The largest octopus in the world; it can recognise people and open jars to get food."
+msgstr "Der größte Krake der Welt; er erkennt Menschen wieder und öffnet Gläser, um an Futter zu kommen."
+
+msgid "Giant isopod"
+msgstr "Riesenassel"
+
+msgid "A woodlouse the size of a cat that can go for years without eating."
+msgstr "Eine Assel so groß wie eine Katze, die jahrelang ohne Futter auskommt."
+
+msgid "Frilled shark"
+msgstr "Kragenhai"
+
+msgid "An eel-like living fossil with 300 needle teeth; it has barely changed in 80 million years."
+msgstr "Ein aalartiges lebendes Fossil mit 300 Nadelzähnen; er hat sich in 80 Millionen Jahren kaum verändert."
+
+msgid "Goblin shark"
+msgstr "Koboldhai"
+
+msgid "It shoots its jaws forward out of its mouth to snap up prey."
+msgstr "Er schießt seine Kiefer aus dem Maul nach vorn, um Beute zu schnappen."
+
+msgid "Mariana snailfish"
+msgstr "Marianen-Scheibenbauch"
+
+msgid "Snailfish live deeper than any other fish, more than 8,000 metres down in the trenches."
+msgstr "Scheibenbäuche leben tiefer als alle anderen Fische, mehr als 8.000 Meter tief in den Gräben."
+
+msgid "Giant oarfish"
+msgstr "Riemenfisch"
+
+msgid "The longest bony fish; in Japan it is said to rise from the deep before earthquakes."
+msgstr "Der längste Knochenfisch; in Japan heißt es, er steige vor Erdbeben aus der Tiefe auf."
+
+msgid "Hottentot seabream"
+msgstr "Hottentotten-Brasse"
+
+msgid "A plump bronze fish of the Cape kelp forests that nibbles on seaweed and small animals."
+msgstr "Ein rundlicher bronzefarbener Fisch der Kap-Kelpwälder, der an Algen und kleinen Tieren knabbert."
+
+msgid "Common octopus"
+msgstr "Gemeiner Krake"
+
+msgid "A master of disguise: it changes colour and skin texture in a split second."
+msgstr "Ein Meister der Tarnung: Er ändert Farbe und Hautstruktur in Sekundenbruchteilen."
+
+msgid "Knysna seahorse"
+msgstr "Knysna-Seepferdchen"
+
+msgid "One of the rarest seahorses in the world, living only in a few South African estuaries."
+msgstr "Eines der seltensten Seepferdchen der Welt, das nur in wenigen südafrikanischen Flussmündungen lebt."
+
+msgid "South African sardine"
+msgstr "Südafrikanische Sardine"
+
+msgid "Every winter billions of sardines swim up the coast in the great sardine run."
+msgstr "Jeden Winter schwimmen Milliarden Sardinen beim großen Sardinenlauf die Küste hinauf."
+
+msgid "Galjoen"
+msgstr "Galjoen"
+
+msgid "South Africa's national fish; it turns from silver to black depending on where it lives."
+msgstr "Südafrikas Nationalfisch; je nach Lebensraum färbt er sich von silbern bis schwarz."
+
+msgid "Copper shark"
+msgstr "Kupferhai"
+
+msgid "Hundreds of copper sharks follow the sardine run to feast on the shoals."
+msgstr "Hunderte Kupferhaie folgen dem Sardinenlauf, um sich an den Schwärmen satt zu fressen."
+
+msgid "Ragged-tooth shark"
+msgstr "Sandtigerhai"
+
+msgid "It gulps air at the surface to float motionless above the reef, like a submarine."
+msgstr "Er schluckt an der Oberfläche Luft, um wie ein U-Boot reglos über dem Riff zu schweben."
+
+msgid "Giant guitarfish"
+msgstr "Riesengeigenrochen"
+
+msgid "Half shark, half ray: a flat front with a shark-like tail and fins."
+msgstr "Halb Hai, halb Rochen: vorne flach, hinten mit haiartigem Schwanz und Flossen."
+
+msgid "Portuguese man o' war"
+msgstr "Portugiesische Galeere"
+
+msgid "Not a single animal but a floating colony, drifting with a gas-filled sail."
+msgstr "Kein einzelnes Tier, sondern eine treibende Kolonie mit einem gasgefüllten Segel."
+
+msgid "Shortfin mako"
+msgstr "Kurzflossen-Mako"
+
+msgid "The fastest shark: it can sprint at more than 70 km/h and leap high out of the water."
+msgstr "Der schnellste Hai: Er sprintet mit mehr als 70 km/h und springt hoch aus dem Wasser."
+
+msgid "Leatherback turtle"
+msgstr "Lederschildkröte"
+
+msgid "The largest turtle: it has a leathery shell instead of a hard one and dives over 1,000 metres."
+msgstr "Die größte Schildkröte: Sie hat einen ledrigen statt eines harten Panzers und taucht über 1.000 Meter tief."
+
+msgid "Southern right whale"
+msgstr "Südkaper"
+
+msgid "Every winter southern right whales come so close to the Cape coast that you can watch them from the cliffs."
+msgstr "Jeden Winter kommen Südkaper so nah an die Kapküste, dass man sie von den Klippen aus beobachten kann."
+
+msgid "Cape hake"
+msgstr "Kap-Seehecht"
+
+msgid "The fish in South Africa's fish and chips; it hunts near the seabed by day and rises at night."
+msgstr "Der Fisch in Südafrikas Fish and Chips; tagsüber jagt er nahe am Grund, nachts steigt er auf."
+
+msgid "Kingklip"
+msgstr "Kingklip"
+
+msgid "A prized eel-like fish with mottled pink skin from the deep Cape waters."
+msgstr "Ein begehrter aalartiger Fisch mit gefleckter rosa Haut aus den tiefen Kapgewässern."
+
+msgid "Sloane's viperfish"
+msgstr "Viperfisch"
+
+msgid "Its fangs are so long that they do not fit inside its mouth."
+msgstr "Seine Fangzähne sind so lang, dass sie nicht in sein Maul passen."
+
+msgid "Pelican eel"
+msgstr "Pelikanaal"
+
+msgid "Its huge mouth opens like a pelican's pouch, and the tip of its tail glows pink."
+msgstr "Sein riesiges Maul öffnet sich wie der Kehlsack eines Pelikans, und seine Schwanzspitze leuchtet rosa."
+
+msgid "Colossal squid"
+msgstr "Koloss-Kalmar"
+
+msgid "The heaviest invertebrate on Earth, with swivelling hooks on its tentacles."
+msgstr "Das schwerste wirbellose Tier der Erde, mit drehbaren Haken an den Tentakeln."

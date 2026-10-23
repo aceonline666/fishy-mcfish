@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="130" viewBox="0 0 240 130">
+  <!-- Goblin shark: a pink deep-sea shark with a long flat snout and jaws that shoot forward. -->
+  <path d="M 110 31.0 C 116 13.0, 126 9.0, 132 13.0 L 132 31.0 Z" fill="#d09a9a" stroke="#141a2a" stroke-width="4.0" stroke-linejoin="round"/>
+  <defs>
+    <clipPath id="goblin">
+      <path d="M 20 57.0 C 60 29.0, 150 25.0, 196 43.0 L 238 47.0 C 240 53.0, 236 57.0, 228 57.0 L 204 59.0 C 210 71.0, 206 81.0, 196 85.0 C 160 99.0, 80 99.0, 20 73.0 Z"/>
+    </clipPath>
+  </defs>
+  <path d="M 20 57.0 C 60 29.0, 150 25.0, 196 43.0 L 238 47.0 C 240 53.0, 236 57.0, 228 57.0 L 204 59.0 C 210 71.0, 206 81.0, 196 85.0 C 160 99.0, 80 99.0, 20 73.0 Z" fill="#e0b0b0"/>
+  <g clip-path="url(#goblin)">
+    <path d="M 0 130 V 75.0 H 240 V 130 Z" fill="#f0d0d0"/>
+    <ellipse cx="130" cy="41.0" rx="44" ry="6" fill="#ffffff" opacity="0.22"/>
+  </g>
+  <path d="M 20 57.0 C 60 29.0, 150 25.0, 196 43.0 L 238 47.0 C 240 53.0, 236 57.0, 228 57.0 L 204 59.0 C 210 71.0, 206 81.0, 196 85.0 C 160 99.0, 80 99.0, 20 73.0 Z" fill="none" stroke="#141a2a" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M 210 69.0 C 220 77.0, 226 87.0, 222 95.0 C 210 91.0, 200 83.0, 198 75.0 Z" fill="#c07a7a" stroke="#141a2a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M 204 75.0 l 2 8 l 2 -8 Z" fill="#f4f1e6" stroke="#141a2a" stroke-width="1.2" stroke-linejoin="round"/>
+  <path d="M 210 75.0 l 2 8 l 2 -8 Z" fill="#f4f1e6" stroke="#141a2a" stroke-width="1.2" stroke-linejoin="round"/>
+  <path d="M 216 75.0 l 2 8 l 2 -8 Z" fill="#f4f1e6" stroke="#141a2a" stroke-width="1.2" stroke-linejoin="round"/>
+  <circle cx="190" cy="53.0" r="5" fill="#ffffff" stroke="#141a2a" stroke-width="2.5"/>
+  <circle cx="191.2" cy="53.2" r="2.0" fill="#141a2a"/>
+  <circle cx="192.1" cy="51.9" r="0.9" fill="#ffffff"/>
+</svg>

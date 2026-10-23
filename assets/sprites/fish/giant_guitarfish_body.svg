@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="180" viewBox="0 0 240 180">
+  <!-- Giant guitarfish: a flat ray-like front with a shark's tail and fins, spotted on top. -->
+  <path d="M 60 78.0 C 66 54.0, 78 48.0, 86 52.0 L 84 76.0 Z" fill="#9a9a7a" stroke="#141a2a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M 30 82.0 C 34 64.0, 42 60.0, 48 64.0 L 46 82.0 Z" fill="#9a9a7a" stroke="#141a2a" stroke-width="3" stroke-linejoin="round"/>
+  <defs>
+    <clipPath id="giant_guitarfish">
+      <path d="M 20 84.0 C 50 70.0, 90 64.0, 120 30.0 C 150 16.0, 200 50.0, 230 90.0 C 200 130.0, 150 164.0, 120 150.0 C 90 116.0, 50 110.0, 20 96.0 Z"/>
+    </clipPath>
+  </defs>
+  <path d="M 20 84.0 C 50 70.0, 90 64.0, 120 30.0 C 150 16.0, 200 50.0, 230 90.0 C 200 130.0, 150 164.0, 120 150.0 C 90 116.0, 50 110.0, 20 96.0 Z" fill="#9a9a7a"/>
+  <g clip-path="url(#giant_guitarfish)">
+    <path d="M 40 87.0 H 240 V 93.0 H 40 Z" fill="#e8e6d4"/>
+    <ellipse cx="150" cy="50.0" rx="30" ry="10" fill="#ffffff" opacity="0.22"/>
+  </g>
+  <path d="M 20 84.0 C 50 70.0, 90 64.0, 120 30.0 C 150 16.0, 200 50.0, 230 90.0 C 200 130.0, 150 164.0, 120 150.0 C 90 116.0, 50 110.0, 20 96.0 Z" fill="none" stroke="#141a2a" stroke-width="5" stroke-linejoin="round"/>
+  <circle cx="130" cy="60.0" r="4" fill="#e8e4d0"/>
+  <circle cx="150" cy="70.0" r="4" fill="#e8e4d0"/>
+  <circle cx="110" cy="74.0" r="4" fill="#e8e4d0"/>
+  <circle cx="170" cy="60.0" r="4" fill="#e8e4d0"/>
+  <circle cx="140" cy="46.0" r="4" fill="#e8e4d0"/>
+  <circle cx="206" cy="82.0" r="5" fill="#ffffff" stroke="#141a2a" stroke-width="2.5"/>
+  <circle cx="207.2" cy="82.2" r="2.0" fill="#141a2a"/>
+  <circle cx="208.1" cy="80.9" r="0.9" fill="#ffffff"/>
+</svg>

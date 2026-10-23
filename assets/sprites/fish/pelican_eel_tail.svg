@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="70" height="110" viewBox="0 0 70 110">
+  <!-- Eel-like tail. -->
+  <path d="M 68 50.0 C 50 47.0, 30 43.0, 14 43.0 C 18 51.0, 18 59.0, 14 67.0 C 30 67.0, 50 63.0, 68 60.0 Z" fill="#1e1e28" stroke="#141a2a" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="14" cy="55.0" r="11.0" fill="#ff6fd8" opacity="0.3"/>
+  <circle cx="14" cy="55.0" r="5" fill="#ff6fd8" stroke="#141a2a" stroke-width="2"/>
+  <circle cx="12.5" cy="53.5" r="1.8" fill="#ffffff"/>
+</svg>
