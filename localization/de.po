@@ -285,9 +285,6 @@ msgstr "Soundeffekte"
 msgid "Music"
 msgstr "Musik"
 
-msgid "There is no music yet."
-msgstr "Musik gibt es noch nicht."
-
 msgid "Language"
 msgstr "Sprache"
 

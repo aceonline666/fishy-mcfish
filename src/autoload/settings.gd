@@ -2,6 +2,9 @@ extends Node
 ## Device settings that are not game progress: language, sound and music. Kept apart from the
 ## save file, so starting a new game keeps them.
 
+## Sound or music were switched on or off, or their volume changed.
+signal audio_changed
+
 const SETTINGS_PATH := "user://settings.cfg"
 ## Languages the game is translated into. English is the source language of all texts.
 const LANGUAGES: Array[String] = ["en", "de"]
@@ -78,6 +81,7 @@ func set_music(on: bool, volume: float) -> void:
 func _apply_audio() -> void:
 	_apply_bus(SOUND_BUS, sound_on, sound_volume)
 	_apply_bus(MUSIC_BUS, music_on, music_volume)
+	audio_changed.emit()
 
 
 func _apply_bus(bus: StringName, on: bool, volume: float) -> void:

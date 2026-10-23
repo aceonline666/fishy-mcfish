@@ -49,8 +49,7 @@ behind the shops.
 Locations, zones, species, tanks, gear, drones, staff and goals are all data in `data/*.csv`.
 
 **Game menu** (cog button): save, load (back to the last save) or start a new game after a
-confirmation; sound effects and music each with an on/off switch and a volume slider (there is
-no music yet; it will play on the `Music` audio bus); language. Settings are kept in
+confirmation; sound effects and music each with an on/off switch and a volume slider; language. Settings are kept in
 `user://settings.cfg`, apart from the save.
 
 **Languages:** English and German. The game follows the device language; the flag button in the
@@ -116,3 +115,8 @@ Rules of thumb:
 - All GDScript is statically typed. Untyped declarations are errors.
 - Game logic lives in `src/model/` and `src/sim/` so it can be tested and simulated headless.
 - Platform-specific code only goes into `Platform`.
+
+## Credits
+
+- Music: "Feel Good Island Loop" by Brandon Morris, loop edit by AntumDeluge, CC0
+  ([OpenGameArt](https://opengameart.org/content/feel-good-island-loop)).

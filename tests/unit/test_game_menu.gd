@@ -65,6 +65,7 @@ func test_music_settings_exist_and_are_remembered() -> void:
 	_menu._music_slider.value = 0.3
 	_menu._music_toggle.button_pressed = false
 	assert_true(AudioServer.is_bus_mute(AudioServer.get_bus_index(Settings.MUSIC_BUS)))
+	assert_true(Music.player.stream_paused, "the music pauses while off")
 
 	Settings.music_on = true
 	Settings.music_volume = 1.0

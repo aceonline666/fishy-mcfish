@@ -319,7 +319,8 @@ func test_a_drone_catches_known_fish_and_brings_them_to_the_tanks() -> void:
 	GameState.state.species_caught.erase("lumpsucker")
 	_scene.spawn_fish("lumpsucker", Vector2(200.0, 250.0), 0.0)
 	_wader.ground_position = Vector2(1100.0, 400.0)
-	await wait_seconds(14.0)
+	# The drone first flies to a random spot of its zone, so the delivery takes a varying time.
+	await wait_until(func() -> bool: return GameState.state.tanks[0].fish.size() >= 3, 30.0)
 
 	assert_eq(GameState.state.tanks[0].fish.size(), 3, "three sprats delivered")
 	assert_eq(_scene.fish_count(), 1, "the unknown lumpsucker is still swimming")

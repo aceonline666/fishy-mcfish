@@ -53,7 +53,7 @@ func _build() -> void:
 	content.add_child(_audio_card(tr("Sound effects"), _sound_toggle, _sound_slider, ""))
 	_music_toggle = _make_toggle(_on_music_changed)
 	_music_slider = _make_slider(_on_music_changed)
-	content.add_child(_audio_card(tr("Music"), _music_toggle, _music_slider, tr("There is no music yet.")))
+	content.add_child(_audio_card(tr("Music"), _music_toggle, _music_slider, ""))
 
 	content.add_child(_section(tr("Language")))
 	var languages := HBoxContainer.new()

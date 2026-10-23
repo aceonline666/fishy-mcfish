@@ -25,6 +25,7 @@ Settings="*res://src/autoload/settings.gd"
 SaveSystem="*res://src/autoload/save_system.gd"
 Haptics="*res://src/autoload/haptics.gd"
 Sfx="*res://src/autoload/sfx.gd"
+Music="*res://src/autoload/music.gd"
 Platform="*res://src/autoload/platform.gd"
 
 [debug]
