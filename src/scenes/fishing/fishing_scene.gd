@@ -23,41 +23,42 @@ const PLAY_MARGIN_TOP := 270.0
 const PLAY_MARGIN_BOTTOM := 330.0
 
 #region Layout (ground units; the waterline is at y = 0, the beach at negative y)
-## Reaches out to the end of the deepest zone (y = 1500). Home has a deep beach for the
-## business; other locations only a dock. Squares keep clear gaps so the wader does not step
-## onto the wrong one by accident.
-const HOME_SPOT_RECT := Rect2(0.0, -1900.0, 1500.0, 3400.0)
+## Reaches out to the end of the deepest zone (y = 1500). Home has a wide, deep beach for the
+## business, laid out on a grid of five columns; other locations only a dock. Pads keep clear
+## gaps so the wader does not step onto the wrong one by accident.
+const HOME_SPOT_RECT := Rect2(0.0, -2200.0, 2100.0, 3700.0)
 const AWAY_SPOT_RECT := Rect2(0.0, -400.0, 1500.0, 1900.0)
 const SHORE_Y := 0.0
 ## Fish stay this far out in the water.
 const WATER_MARGIN := 50.0
-## Half size of the pads on screen. Rows run diagonally on screen, so pads in a row are spaced
-## 330 ground units apart, which puts each one just below its neighbour without touching.
-const SQUARE_HALF := Vector2(120.0, 46.0)
-## Squares at the waterline. Drones start from and deliver to their pad.
-const DRONE_PAD := Vector2(165.0, -170.0)
-const STORE_SQUARE := Vector2(495.0, -170.0)
-const BACKPACK_SQUARE := Vector2(825.0, -170.0)
-const NET_SQUARE := Vector2(1155.0, -170.0)
-const GEAR_SQUARE := Vector2(1485.0, -170.0)
+## Zone populations in the data are meant for a spot this wide; wider spots get more fish.
+const POPULATION_WIDTH := 1500.0
+## Half the length (along the row) and depth of the pads.
+const SQUARE_HALF := Vector2(180.0, 110.0)
+## The grid columns at home: pads, tanks and shops line up in them.
+const COLUMN_FIRST_X := 230.0
+const COLUMN_SPACING := 410.0
+## Pads at the waterline. Drones start from and deliver to their pad.
+const FRONT_ROW_Y := -200.0
+const DRONE_PAD := Vector2(COLUMN_FIRST_X, FRONT_ROW_Y)
+const STORE_SQUARE := Vector2(COLUMN_FIRST_X + COLUMN_SPACING, FRONT_ROW_Y)
+const BACKPACK_SQUARE := Vector2(COLUMN_FIRST_X + COLUMN_SPACING * 2.0, FRONT_ROW_Y)
+const NET_SQUARE := Vector2(COLUMN_FIRST_X + COLUMN_SPACING * 3.0, FRONT_ROW_Y)
+const GEAR_SQUARE := Vector2(COLUMN_FIRST_X + COLUMN_SPACING * 4.0, FRONT_ROW_Y)
 ## Away from home: the dock ships the catch to the tanks at home, or sells it.
-const SHIP_SQUARE := Vector2(480.0, -170.0)
-const DOCK_SELL_SQUARE := Vector2(880.0, -170.0)
+const SHIP_SQUARE := Vector2(450.0, FRONT_ROW_Y)
+const DOCK_SELL_SQUARE := Vector2(1000.0, FRONT_ROW_Y)
 const WRECK_LOCATION := "north_sea"
-const WRECK_POSITION := Vector2(700.0, 1260.0)
-## The tank rows (temperate first, tropical behind the shops), with a build or upgrade square
-## in front of each tank slot.
-const TANK_ROW_Y: Dictionary[String, float] = {"temperate": -680.0, "tropical": -1720.0}
-const TANK_FIRST_X := 330.0
-const TANK_SPACING := 330.0
-const TANK_SQUARE_OFFSET := Vector2(0.0, 210.0)
-## The shop row behind the first tanks, each shop with its "Sell fish" square in front, and the
-## square to hire sellers at the end of the row.
-const SHOP_ROW_Y := -1190.0
-const SHOP_FIRST_X := 330.0
-const SHOP_SPACING := 330.0
-const SHOP_SQUARE_OFFSET := Vector2(0.0, 200.0)
-const HIRE_SQUARE := Vector2(1320.0, -990.0)
+const WRECK_POSITION := Vector2(1000.0, 1260.0)
+## The tank rows (temperate first, tropical behind the shops), with a build or upgrade pad in
+## front of each tank slot.
+const TANK_ROW_Y: Dictionary[String, float] = {"temperate": -800.0, "tropical": -1960.0}
+const TANK_SQUARE_OFFSET := Vector2(0.0, 240.0)
+## The shop row behind the first tanks, each shop with its "Sell fish" pad in front, and the
+## pad to hire sellers in the next column.
+const SHOP_ROW_Y := -1370.0
+const SHOP_SQUARE_OFFSET := Vector2(0.0, 220.0)
+const HIRE_SQUARE := Vector2(COLUMN_FIRST_X + COLUMN_SPACING * 3.0, SHOP_ROW_Y + 220.0)
 #endregion
 
 const SPAWN_INTERVAL_S := 0.8
@@ -340,7 +341,7 @@ func _tank_slot_position(slot: int) -> Vector2:
 	for i in slot:
 		if DataRegistry.tank_slots[i].env == env:
 			column += 1
-	return Vector2(TANK_FIRST_X + TANK_SPACING * column, TANK_ROW_Y[env])
+	return Vector2(COLUMN_FIRST_X + COLUMN_SPACING * column, TANK_ROW_Y[env])
 
 
 ## Recreates everything that mirrors the saved state: tanks, squares, backpack size, gear.
@@ -462,16 +463,21 @@ func _populate() -> void:
 	if not auto_spawn:
 		return
 	for i in _zones.size():
-		while _zone_fish_count(i) < _zones[i].population:
+		while _zone_fish_count(i) < _zone_population(i):
 			_spawn_group(i, true)
 
 
 ## Tops up one zone that is short of fish, swimming in from the side.
 func _refill_zones() -> void:
 	for i in _zones.size():
-		if _zone_fish_count(i) < _zones[i].population:
+		if _zone_fish_count(i) < _zone_population(i):
 			_spawn_group(i, false)
 			return
+
+
+## Fish a zone holds: its data population, scaled to the width of the spot.
+func _zone_population(zone_index: int) -> int:
+	return roundi(_zones[zone_index].population * _spot_rect.size.x / POPULATION_WIDTH)
 
 
 func _zone_fish_count(zone_index: int) -> int:
@@ -944,7 +950,7 @@ func _complete_purchase(target: ActionSquare) -> void:
 #region Shops
 
 func _shop_position(slot: int) -> Vector2:
-	return Vector2(SHOP_FIRST_X + SHOP_SPACING * slot, SHOP_ROW_Y)
+	return Vector2(COLUMN_FIRST_X + COLUMN_SPACING * slot, SHOP_ROW_Y)
 
 
 ## Matches the shop buildings to the shops built and shows who is staffed.

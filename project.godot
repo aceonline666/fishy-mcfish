@@ -49,13 +49,13 @@ enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 
 theme/custom="res://src/scenes/ui/main_theme.tres"
 
-[internationalization]
-
-locale/translations=PackedStringArray("res://localization/de.po")
-
 [input_devices]
 
 pointing/emulate_touch_from_mouse=true
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://localization/de.po")
 
 [rendering]
 
