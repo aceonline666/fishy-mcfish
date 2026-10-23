@@ -186,6 +186,38 @@ func test_visitors_pay_at_the_booth_and_coins_can_be_collected() -> void:
 	assert_eq(GameState.state.cash_pile, 0.0)
 
 
+func test_deeper_zones_are_closed_without_gear() -> void:
+	var shallows := DataRegistry.zones[0]
+	var deep_target := Vector2(_wader.ground_position.x, shallows.depth_end + 300.0)
+	_touch(_scene.ground_to_scene(deep_target), true)
+	_touch(_scene.ground_to_scene(deep_target), false)
+	await wait_seconds(3.0)
+	assert_lte(_wader.ground_position.y, shallows.depth_end)
+
+
+func test_buying_gear_opens_the_next_zone() -> void:
+	GameState.add_money(Aquarium.gear_upgrade_cost(GameState.state))
+	_stand_on("upgrade_gear")
+	await wait_seconds(3.0)
+
+	assert_eq(GameState.state.gear_level, 2)
+	assert_gt(_scene.walk_area.rect.end.y, DataRegistry.zones[0].depth_end)
+	assert_eq(_wader.gear_level, 2)
+
+
+func test_catches_count_towards_charting_their_zone() -> void:
+	await _catch(["european_sprat"] as Array[String])
+	assert_eq(GameState.state.zone_catches.get(DataRegistry.zones[0].id), 1)
+
+
+func test_fish_keep_to_their_zone() -> void:
+	var deep := DataRegistry.zones[1]
+	var fish: SwimmingFish = _scene.spawn_fish("european_plaice", Vector2(600.0, deep.depth_start + 100.0), -PI * 0.5)
+	assert_eq(fish.zone, deep)
+	await wait_seconds(3.0)
+	assert_gte(fish.ground_position.y, deep.depth_start - 120.0, "swims back into its zone")
+
+
 func test_tapping_the_store_square_walks_the_wader_onto_it() -> void:
 	var store: ActionSquare = _scene.square("store")
 	var square_screen: Vector2 = _scene.ground_to_scene(store.ground_center)

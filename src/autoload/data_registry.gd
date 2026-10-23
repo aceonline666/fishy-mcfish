@@ -10,6 +10,10 @@ var tank_levels: Array[LevelDef] = []
 var tank_slots: Array[LevelDef] = []
 ## Backpack sizes, index 0 = level 1.
 var backpack_levels: Array[LevelDef] = []
+## Diving gear, index 0 = level 1 (waders).
+var gear_levels: Array[LevelDef] = []
+## Depth zones, ordered from the shore outwards.
+var zones: Array[ZoneDef] = []
 var errors: PackedStringArray = []
 
 
@@ -27,6 +31,22 @@ func load_all(dir: String) -> void:
 	tank_levels = _load_levels(dir.path_join("tanks.csv"))
 	tank_slots = _load_levels(dir.path_join("tank_slots.csv"))
 	backpack_levels = _load_levels(dir.path_join("backpacks.csv"))
+	gear_levels = _load_levels(dir.path_join("gear.csv"))
+	_load_zones(dir.path_join("zones.csv"))
+
+
+func _load_zones(path: String) -> void:
+	zones.clear()
+	var table := CsvTable.load_file(path)
+	errors.append_array(table.errors)
+	for i in table.rows.size():
+		var zone := ZoneDef.from_row(table.rows[i], species, errors, "%s row %d" % [path, i + 2])
+		if zone != null:
+			zones.append(zone)
+	zones.sort_custom(func(a: ZoneDef, b: ZoneDef) -> bool: return a.order < b.order)
+	for i in range(1, zones.size()):
+		if not is_equal_approx(zones[i].depth_start, zones[i - 1].depth_end):
+			errors.append("%s: zone '%s' must start where '%s' ends" % [path, zones[i].id, zones[i - 1].id])
 
 
 func _load_species(path: String) -> void:

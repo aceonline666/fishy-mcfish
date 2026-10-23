@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="170" viewBox="0 0 240 170">
+  <!-- European plaice, comic flatfish: an oval body seen from above with a fin frill all round,
+       orange spots and both eyes on top. Tail root x=20, snout x~222, body axis y=85. -->
+  <path d="M 22 85 C 38 26, 120 10, 190 30 C 216 40, 230 62, 230 85 C 230 108, 216 130, 190 140 C 120 160, 38 144, 22 85 Z" fill="#c9a06a" stroke="#141a2a" stroke-width="4" stroke-linejoin="round"/>
+  <g stroke="#a67d4b" stroke-width="2" stroke-linecap="round">
+    <path d="M 60 34 L 64 44 M 90 24 L 92 36 M 120 20 L 120 32 M 150 22 L 148 34 M 180 30 L 176 40"/>
+    <path d="M 60 136 L 64 126 M 90 146 L 92 134 M 120 150 L 120 138 M 150 148 L 148 136 M 180 140 L 176 130"/>
+  </g>
+  <path d="M 30 85 C 46 42, 120 28, 186 44 C 208 52, 220 68, 220 85 C 220 102, 208 118, 186 126 C 120 142, 46 128, 30 85 Z" fill="#b58a5a" stroke="#141a2a" stroke-width="4" stroke-linejoin="round"/>
+  <ellipse cx="120" cy="62" rx="50" ry="8" fill="#ffffff" opacity="0.2"/>
+  <g fill="#f07a2a" stroke="#141a2a" stroke-width="2">
+    <circle cx="68" cy="72" r="7"/>
+    <circle cx="104" cy="58" r="8"/>
+    <circle cx="142" cy="72" r="7"/>
+    <circle cx="94" cy="102" r="7"/>
+    <circle cx="160" cy="104" r="6"/>
+    <circle cx="58" cy="100" r="5"/>
+    <circle cx="128" cy="114" r="6"/>
+  </g>
+  <path d="M 220 90 Q 212 96 204 93" fill="none" stroke="#141a2a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="190" cy="62" r="10" fill="#ffffff" stroke="#141a2a" stroke-width="3.5"/>
+  <circle cx="193" cy="62" r="5.5" fill="#141a2a"/>
+  <circle cx="194.5" cy="59.5" r="2" fill="#ffffff"/>
+  <circle cx="204" cy="76" r="9" fill="#ffffff" stroke="#141a2a" stroke-width="3.5"/>
+  <circle cx="207" cy="76" r="5" fill="#141a2a"/>
+  <circle cx="208.5" cy="73.5" r="1.8" fill="#ffffff"/>
+</svg>

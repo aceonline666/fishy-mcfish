@@ -1,0 +1,4 @@
+id,name,order,depth_start,depth_end,gear,population,spawns
+pier_shallows,Pier shallows,1,0,450,1,10,european_sprat:50;lesser_sand_eel:30;atlantic_herring:30;atlantic_mackerel:6
+sandbanks,Sandbanks,2,450,950,2,8,atlantic_herring:30;european_plaice:30;atlantic_mackerel:25;lesser_sand_eel:15;lumpsucker:4
+wreck,Wreck,3,950,1500,3,6,atlantic_cod:30;atlantic_mackerel:20;lumpsucker:10;atlantic_wolffish:5;conger_eel:3

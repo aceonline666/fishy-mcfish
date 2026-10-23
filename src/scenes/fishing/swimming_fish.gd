@@ -32,6 +32,9 @@ const HELD_WIGGLE_MULT := 3.0
 
 var species: SpeciesDef
 var art: FishArt
+## The depth zone the fish lives in, and the water it keeps to.
+var zone: ZoneDef
+var area: PlayArea
 var state := State.SWIMMING
 var ground_position := Vector2.ZERO
 ## Ground units per second.
@@ -52,8 +55,10 @@ var _flee_direction := Vector2.ZERO
 var _age := 0.0
 
 
-func setup(fish_art: FishArt, start: Vector2, start_heading: float) -> void:
+func setup(fish_art: FishArt, home_zone: ZoneDef, home_area: PlayArea, start: Vector2, start_heading: float) -> void:
 	art = fish_art
+	zone = home_zone
+	area = home_area
 	species = fish_art.species
 	var def := species
 	ground_position = start
@@ -76,9 +81,10 @@ func catch_radius() -> float:
 	return body_length * 0.2
 
 
-## Moves the fish one step. Fish flee from `threat` (the wader) within `threat_radius`.
-## `school` holds all swimming fish; only nearby fish of the same species matter.
-func simulate(delta: float, area: PlayArea, threat: Vector2, threat_radius: float, school: Array[SwimmingFish]) -> void:
+## Moves the fish one step, keeping to its home area. Fish flee from `threat` (the wader)
+## within `threat_radius`. `school` holds all swimming fish; only nearby fish of the same
+## species matter.
+func simulate(delta: float, threat: Vector2, threat_radius: float, school: Array[SwimmingFish]) -> void:
 	_age += delta
 	_wander = clampf(_wander + randf_range(-1.0, 1.0) * WANDER_JITTER * delta, -1.0, 1.0)
 	var steer := Vector2.from_angle(heading).rotated(_wander * WANDER_ANGLE)

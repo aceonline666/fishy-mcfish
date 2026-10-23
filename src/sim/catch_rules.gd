@@ -27,9 +27,10 @@ static func struggle_seconds(def: SpeciesDef) -> float:
 	return lerpf(MIN_STRUGGLE_S, MAX_STRUGGLE_S, size_t) * (1.0 + RARITY_STRUGGLE_BONUS * def.rarity)
 
 
-## Body length in ground units.
+## Body length in ground units. Grows with the square root of the real length, so a cod is
+## clearly bigger than a sprat but still fits next to the wader.
 static func body_length(def: SpeciesDef) -> float:
-	return minf(55.0 + def.length_cm * 2.4, MAX_BODY_LENGTH)
+	return minf(35.0 + 14.0 * sqrt(def.length_cm), MAX_BODY_LENGTH)
 
 
 ## Ground units per second.

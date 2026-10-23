@@ -11,6 +11,10 @@ var stats: Dictionary[String, int] = {}
 var species_caught: Dictionary[String, int] = {}
 ## Index + 1 into DataRegistry.backpack_levels.
 var backpack_level := 1
+## Index + 1 into DataRegistry.gear_levels; decides which depth zones are open.
+var gear_level := 1
+## Fish caught per depth zone id, for charting.
+var zone_catches: Dictionary[String, int] = {}
 ## Built tanks, ordered by slot.
 var tanks: Array[TankState] = []
 ## Coins visitors have paid that wait at the ticket booth to be collected.
@@ -51,9 +55,11 @@ func record_best(key: String, value: int) -> void:
 
 
 ## Returns true if this is the first catch of the species.
-func record_catch(species_id: String) -> bool:
+func record_catch(species_id: String, zone_id: String = "") -> bool:
 	var is_new := not species_caught.has(species_id)
 	species_caught[species_id] = int(species_caught.get(species_id, 0)) + 1
+	if not zone_id.is_empty():
+		zone_catches[zone_id] = int(zone_catches.get(zone_id, 0)) + 1
 	increment_stat("fish_caught")
 	return is_new
 
@@ -75,6 +81,8 @@ func to_dict() -> Dictionary:
 		"stats": stats.duplicate(),
 		"species_caught": species_caught.duplicate(),
 		"backpack_level": backpack_level,
+		"gear_level": gear_level,
+		"zone_catches": zone_catches.duplicate(),
 		"tanks": tank_data,
 		"cash_pile": cash_pile,
 		"pending_income": pending_income,
@@ -94,6 +102,10 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	for key: Variant in raw_caught:
 		state.species_caught[str(key)] = int(raw_caught[key])
 	state.backpack_level = maxi(int(data.get("backpack_level", 1)), 1)
+	state.gear_level = maxi(int(data.get("gear_level", 1)), 1)
+	var raw_zones: Dictionary = data.get("zone_catches", {})
+	for key: Variant in raw_zones:
+		state.zone_catches[str(key)] = int(raw_zones[key])
 	var raw_tanks: Array = data.get("tanks", [])
 	for entry: Variant in raw_tanks:
 		if entry is Dictionary:

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="210" viewBox="0 0 240 210">
+  <!-- Lumpsucker: a round, lumpy body with rows of bony bumps and a crest on the back.
+       Tail root x=20, snout x~226, body axis y=105. -->
+  <defs>
+    <clipPath id="body">
+      <path d="M 20 92 C 30 40, 110 12, 170 22 C 210 32, 228 70, 226 105 C 224 148, 196 182, 150 188 C 90 196, 34 168, 20 118 Z"/>
+    </clipPath>
+  </defs>
+  <path d="M 60 40 C 80 10, 130 2, 160 16 C 140 18, 100 26, 72 46 Z" fill="#5f8436" stroke="#141a2a" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M 20 92 C 30 40, 110 12, 170 22 C 210 32, 228 70, 226 105 C 224 148, 196 182, 150 188 C 90 196, 34 168, 20 118 Z" fill="#7fa64a"/>
+  <g clip-path="url(#body)">
+    <path d="M 0 210 V 132 C 80 150, 160 150, 240 128 V 210 Z" fill="#c8d98a"/>
+    <ellipse cx="120" cy="52" rx="44" ry="10" fill="#ffffff" opacity="0.25"/>
+  </g>
+  <path d="M 20 92 C 30 40, 110 12, 170 22 C 210 32, 228 70, 226 105 C 224 148, 196 182, 150 188 C 90 196, 34 168, 20 118 Z" fill="none" stroke="#141a2a" stroke-width="5" stroke-linejoin="round"/>
+  <g fill="#5f8436" stroke="#141a2a" stroke-width="2.5">
+    <circle cx="62" cy="58" r="6"/>
+    <circle cx="96" cy="42" r="6.5"/>
+    <circle cx="132" cy="36" r="6.5"/>
+    <circle cx="166" cy="42" r="6"/>
+    <circle cx="52" cy="104" r="6"/>
+    <circle cx="88" cy="96" r="6.5"/>
+    <circle cx="124" cy="94" r="6.5"/>
+    <circle cx="160" cy="100" r="6"/>
+    <circle cx="70" cy="150" r="5.5"/>
+    <circle cx="106" cy="160" r="5.5"/>
+    <circle cx="142" cy="162" r="5.5"/>
+  </g>
+  <path d="M 176 132 C 160 140, 150 154, 150 168 C 166 166, 182 154, 188 140 Z" fill="#6b8f3c" stroke="#141a2a" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M 224 114 Q 216 120 208 116" fill="none" stroke="#141a2a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="198" cy="84" r="14" fill="#ffffff" stroke="#141a2a" stroke-width="4"/>
+  <circle cx="202" cy="85" r="8" fill="#141a2a"/>
+  <circle cx="205" cy="81" r="2.8" fill="#ffffff"/>
+</svg>

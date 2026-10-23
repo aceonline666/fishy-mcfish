@@ -10,13 +10,17 @@ const SHELL_COLOR := Color(0.98, 0.88, 0.8)
 const WEED_COLORS: Array[Color] = [Color(0.25, 0.55, 0.3), Color(0.35, 0.65, 0.32), Color(0.2, 0.45, 0.35)]
 ## Underwater things take on the water colour.
 const WATER_TINT := Color(0.15, 0.45, 0.6)
-const ROCKS := 5
-const WEEDS := 6
-const SHELLS := 7
+const ROCKS := 10
+const WEEDS := 14
+const SHELLS := 12
+const WRECK_WOOD := Color(0.32, 0.25, 0.2)
+const WRECK_PLANK := Color(0.42, 0.33, 0.25)
 
 var _rocks: Array[Rock] = []
 var _weeds: Array[Weed] = []
 var _shells := PackedVector2Array()
+## Screen position of a sunken ship, if the spot has one.
+var _wreck_at := Vector2.INF
 var _time := 0.0
 
 
@@ -47,12 +51,20 @@ func generate(area: PlayArea, seed_value: int = 1) -> void:
 	queue_redraw()
 
 
+## Places a sunken ship on the seabed at a ground position.
+func add_wreck(ground: Vector2) -> void:
+	_wreck_at = Iso.to_screen(ground)
+	queue_redraw()
+
+
 func _process(delta: float) -> void:
 	_time += delta
 	queue_redraw()
 
 
 func _draw() -> void:
+	if _wreck_at != Vector2.INF:
+		_draw_wreck(_wreck_at)
 	for shell in _shells:
 		draw_colored_polygon(Iso.ellipse(shell, 7.0, 10), SHELL_COLOR.lerp(WATER_TINT, 0.3))
 	for rock in _rocks:
@@ -87,6 +99,29 @@ func _draw_weed(weed: Weed) -> void:
 		var color := weed.color.lerp(WATER_TINT, 0.25)
 		draw_polyline(points, OUTLINE, 9.0, true)
 		draw_polyline(points, color, 5.0, true)
+
+
+## A broken wooden hull lying on its side, with a snapped mast. Faded by the deep water.
+func _draw_wreck(at: Vector2) -> void:
+	var tint := 0.45
+	draw_colored_polygon(Iso.ellipse(at + Vector2(10.0, 16.0), 230.0, 24), Color(0.0, 0.05, 0.12, 0.25))
+	var hull := PackedVector2Array([
+		at + Vector2(-220.0, -10.0), at + Vector2(-150.0, -70.0), at + Vector2(120.0, -60.0),
+		at + Vector2(210.0, -10.0), at + Vector2(140.0, 40.0), at + Vector2(-170.0, 36.0),
+	])
+	draw_colored_polygon(hull, WRECK_WOOD.lerp(WATER_TINT, tint))
+	for k in 4:
+		var y := -48.0 + k * 22.0
+		draw_line(at + Vector2(-190.0 + k * 8.0, y), at + Vector2(170.0 - k * 10.0, y + 6.0), WRECK_PLANK.lerp(WATER_TINT, tint), 5.0)
+	# Broken planks show the dark inside.
+	draw_colored_polygon(PackedVector2Array([
+		at + Vector2(-40.0, -40.0), at + Vector2(10.0, -52.0), at + Vector2(30.0, -10.0), at + Vector2(-20.0, 4.0),
+	]), Color(0.05, 0.08, 0.1, 0.8))
+	var closed := hull.duplicate()
+	closed.append(hull[0])
+	draw_polyline(closed, OUTLINE, 4.0, true)
+	draw_line(at + Vector2(-60.0, -60.0), at + Vector2(-140.0, -170.0), OUTLINE, 11.0)
+	draw_line(at + Vector2(-60.0, -60.0), at + Vector2(-140.0, -170.0), WRECK_PLANK.lerp(WATER_TINT, tint), 7.0)
 
 
 class Rock extends RefCounted:

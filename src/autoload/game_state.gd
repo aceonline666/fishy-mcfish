@@ -31,9 +31,10 @@ func try_spend(amount: float) -> bool:
 	return true
 
 
-## Records a fish entering the net. Returns true the first time a species is ever caught.
-func record_catch(species_id: String) -> bool:
-	var is_new := state.record_catch(species_id)
+## Records a fish entering the net in the given depth zone. Returns true the first time a
+## species is ever caught.
+func record_catch(species_id: String, zone_id: String = "") -> bool:
+	var is_new := state.record_catch(species_id, zone_id)
 	EventBus.fish_caught.emit(species_id, is_new)
 	return is_new
 
@@ -112,6 +113,10 @@ func upgrade_tank(tank: TankState) -> void:
 
 func upgrade_backpack() -> void:
 	state.backpack_level = mini(state.backpack_level + 1, DataRegistry.backpack_levels.size())
+
+
+func upgrade_gear() -> void:
+	state.gear_level = mini(state.gear_level + 1, DataRegistry.gear_levels.size())
 
 
 func _on_sim_tick(dt: float) -> void:

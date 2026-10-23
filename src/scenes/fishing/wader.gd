@@ -13,8 +13,12 @@ const SLOWDOWN_DISTANCE := 70.0
 ## Distance from the feet to the centre of the net hoop, in ground units.
 const REACH := 95.0
 const SCOOP_RADIUS := 55.0
-## Screen height of the water surface at the legs (knee-deep).
+## Screen height of the water surface at the legs (knee-deep), and at the chest when swimming.
 const WATERLINE_Y := -26.0
+const SWIM_WATERLINE_Y := -96.0
+const MASK_GLASS := Color(0.7, 0.92, 1.0, 0.75)
+const SNORKEL_FRAME := Color(0.2, 0.55, 0.9)
+const SCUBA_FRAME := Color(1.0, 0.75, 0.1)
 
 const FRONT_TEXTURE := preload("res://assets/sprites/wader/wader_front.svg")
 const BACK_TEXTURE := preload("res://assets/sprites/wader/wader_back.svg")
@@ -55,6 +59,10 @@ var full := false
 var carried: Array[FishArt] = []
 ## False on the beach: no water around the legs.
 var in_water := true
+## True in deeper zones: the water comes up to the chest.
+var swimming := false
+## Diving gear level: 2 adds a snorkel mask, 3 a scuba mask.
+var gear_level := 1
 
 var _target := Vector2.ZERO
 var _has_target := false
@@ -151,10 +159,15 @@ func _draw() -> void:
 		_draw_net(hoop, side, bob)
 	else:
 		_draw_backpack(bob)
-	_draw_legs()
+	if not swimming:
+		_draw_legs()
 	draw_set_transform(Vector2(0.0, -bob), 0.0, Vector2(side, 1.0))
 	draw_texture_rect(BACK_TEXTURE if from_behind else FRONT_TEXTURE, UPPER_BODY_RECT, false)
 	draw_set_transform(Vector2.ZERO)
+	if gear_level >= 2:
+		_draw_mask(side, bob, from_behind)
+	if swimming:
+		_draw_water_around(SWIM_WATERLINE_Y, 46.0)
 	if from_behind:
 		_draw_backpack(bob)
 	else:
@@ -168,11 +181,33 @@ func _draw_legs() -> void:
 		var phase_offset := 0.0 if leg < 0.0 else PI
 		var lift := maxf(sin(_walk_phase + phase_offset), 0.0) * 8.0 if is_walking() else 0.0
 		draw_texture_rect(LEG_TEXTURE, Rect2(Vector2(leg * 13.0 - LEG_SIZE.x * 0.5, -67.0 - lift), LEG_SIZE), false)
-	if not in_water:
-		return
-	# Knee-deep water over the lower legs, with a ring where the surface meets them.
-	draw_rect(Rect2(-30.0, WATERLINE_Y, 60.0, -WATERLINE_Y + 2.0), WATER_TINT)
-	draw_polyline(Iso.ellipse(Vector2(0.0, WATERLINE_Y), 32.0), Color(1.0, 1.0, 1.0, 0.7), 3.0, true)
+	if in_water:
+		_draw_water_around(WATERLINE_Y, 32.0)
+
+
+## Tints everything below the water surface and draws a ring where the surface meets the body.
+func _draw_water_around(waterline: float, radius: float) -> void:
+	draw_rect(Rect2(-radius, waterline, radius * 2.0, -waterline + 2.0), WATER_TINT)
+	draw_polyline(Iso.ellipse(Vector2(0.0, waterline), radius), Color(1.0, 1.0, 1.0, 0.7), 3.0, true)
+
+
+## A diving mask over the eyes (and its strap from behind), with a snorkel tube.
+func _draw_mask(side: float, bob: float, from_behind: bool) -> void:
+	var frame := SCUBA_FRAME if gear_level >= 3 else SNORKEL_FRAME
+	var eyes := Vector2(side * 3.0, -157.0 - bob)
+	if from_behind:
+		draw_line(eyes + Vector2(-29.0, 0.0), eyes + Vector2(29.0, 0.0), OUTLINE, 9.0)
+		draw_line(eyes + Vector2(-29.0, 0.0), eyes + Vector2(29.0, 0.0), frame, 5.0)
+	else:
+		var glass := Rect2(eyes + Vector2(-20.0, -10.0), Vector2(40.0, 20.0))
+		draw_rect(glass.grow(4.0), OUTLINE)
+		draw_rect(glass.grow(2.0), frame)
+		draw_rect(glass, MASK_GLASS)
+	var tube := PackedVector2Array([
+		eyes + Vector2(-side * 24.0, 4.0), eyes + Vector2(-side * 30.0, -8.0), eyes + Vector2(-side * 30.0, -40.0),
+	])
+	draw_polyline(tube, OUTLINE, 9.0, true)
+	draw_polyline(tube, frame, 5.0, true)
 
 
 ## The basket and the stack of caught fish, which sways while walking and leans back

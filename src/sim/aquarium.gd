@@ -72,6 +72,12 @@ static func tank_upgrade_cost(tank: TankState) -> float:
 	return DataRegistry.tank_levels[tank.level].cost if tank.level < DataRegistry.tank_levels.size() else -1.0
 
 
+## Price of the next diving gear, or -1 at the top level.
+static func gear_upgrade_cost(state: PlayerState) -> float:
+	var levels := DataRegistry.gear_levels
+	return levels[state.gear_level].cost if state.gear_level < levels.size() else -1.0
+
+
 ## Price of the next backpack, or -1 at the top level.
 static func backpack_upgrade_cost(state: PlayerState) -> float:
 	var levels := DataRegistry.backpack_levels

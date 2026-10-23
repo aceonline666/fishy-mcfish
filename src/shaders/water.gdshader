@@ -12,7 +12,7 @@ uniform float shore_y = 0.0;
 // Ground y beyond which the beach turns into dunes.
 uniform float dunes_y = -760.0;
 uniform float tile_size = 140.0;
-uniform float depth_range = 1200.0;
+uniform float depth_range = 1600.0;
 uniform vec4 sand_color : source_color = vec4(0.95, 0.85, 0.6, 1.0);
 uniform vec4 wet_sand_color : source_color = vec4(0.8, 0.69, 0.47, 1.0);
 uniform vec4 dune_color : source_color = vec4(0.82, 0.78, 0.5, 1.0);
