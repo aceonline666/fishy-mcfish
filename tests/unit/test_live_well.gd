@@ -11,6 +11,14 @@ func test_accepts_fish_until_full() -> void:
 	assert_eq(well.free_space(), 0)
 
 
+func test_take_last_returns_the_newest_fish() -> void:
+	var well := LiveWell.new(5)
+	well.add("a")
+	well.add("b")
+	assert_eq(well.take_last(), "b")
+	assert_eq(well.count(), 1)
+
+
 func test_take_all_empties_the_well() -> void:
 	var well := LiveWell.new(5)
 	well.add("a")

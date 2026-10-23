@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="140" viewBox="0 0 240 140">
+  <!-- Atlantic mackerel, side-on: green-blue back with dark wavy bars, two dorsal fins, finlets.
+       Tail root x=20, snout x~228, body axis y=70. -->
+  <defs>
+    <clipPath id="body">
+      <path d="M 20 60 C 60 42, 130 32, 182 36 C 206 38, 222 52, 228 66 C 222 80, 206 92, 184 96 C 130 108, 60 98, 20 80 Z"/>
+    </clipPath>
+  </defs>
+  <g stroke="#141a2a" stroke-width="4" stroke-linejoin="round">
+    <path d="M 126 38 C 132 18, 146 10, 160 12 C 156 22, 158 30, 164 36 Z" fill="#256556"/>
+    <path d="M 84 42 C 88 30, 96 26, 106 26 C 102 32, 102 38, 106 40 Z" fill="#256556"/>
+    <path d="M 82 98 C 86 108, 94 112, 104 112 C 100 106, 100 102, 104 98 Z" fill="#9fb8b0"/>
+    <path d="M 66 46 L 62 36 L 58 48 Z M 54 50 L 50 41 L 47 52 Z M 43 54 L 39 46 L 36 56 Z" fill="#256556" stroke-width="2.5"/>
+    <path d="M 66 94 L 62 104 L 58 92 Z M 54 90 L 50 99 L 47 88 Z M 43 86 L 39 94 L 36 84 Z" fill="#9fb8b0" stroke-width="2.5"/>
+  </g>
+  <path d="M 20 60 C 60 42, 130 32, 182 36 C 206 38, 222 52, 228 66 C 222 80, 206 92, 184 96 C 130 108, 60 98, 20 80 Z" fill="#b9d0c8"/>
+  <g clip-path="url(#body)">
+    <path d="M 0 0 H 240 V 58 C 180 64, 100 68, 0 70 Z" fill="#2d7a6a"/>
+    <g fill="none" stroke="#163f37" stroke-width="5" stroke-linecap="round">
+      <path d="M 52 44 Q 60 54 52 64"/>
+      <path d="M 68 40 Q 76 51 68 62"/>
+      <path d="M 84 38 Q 92 49 84 61"/>
+      <path d="M 100 36 Q 108 47 100 60"/>
+      <path d="M 116 34 Q 124 46 116 59"/>
+      <path d="M 132 34 Q 140 45 132 58"/>
+      <path d="M 148 34 Q 156 44 148 57"/>
+      <path d="M 164 36 Q 172 45 164 56"/>
+    </g>
+    <path d="M 0 140 V 86 C 80 94, 160 92, 240 78 V 140 Z" fill="#f3f6f3"/>
+    <ellipse cx="170" cy="72" rx="26" ry="4" fill="#d6c7ff" opacity="0.35"/>
+  </g>
+  <path d="M 20 60 C 60 42, 130 32, 182 36 C 206 38, 222 52, 228 66 C 222 80, 206 92, 184 96 C 130 108, 60 98, 20 80 Z" fill="none" stroke="#141a2a" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M 182 46 C 172 60, 172 78, 182 90" fill="none" stroke="#141a2a" stroke-width="3" stroke-linecap="round" opacity="0.45"/>
+  <path d="M 176 76 C 164 78, 154 84, 150 90 C 164 90, 176 86, 184 80 Z" fill="#9fb8b0" stroke="#141a2a" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M 228 68 Q 220 73 212 71" fill="none" stroke="#141a2a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="201" cy="58" r="11" fill="#ffffff" stroke="#141a2a" stroke-width="4"/>
+  <circle cx="204.5" cy="59" r="6" fill="#141a2a"/>
+  <circle cx="206.5" cy="56" r="2.2" fill="#ffffff"/>
+</svg>

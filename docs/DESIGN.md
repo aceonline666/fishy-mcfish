@@ -36,9 +36,11 @@ Greenfield project (`d:\WORKSPACE\Games\Fishy McFish` is an empty git repo). Goa
 - **Long loop (hours or days):** chart a depth layer, automate it, meet an achievement, then travel to a new location.
 
 ## A3. Fishing mechanic (the "feel" core)
-- **View:** a top-down ocean patch (portrait, about 1.5 screens tall, with a slight scroll). Fish swim with simple steering: wander, school together and flee from the net.
-- **Net drag:** touching the water spawns a net under your finger, and dragging moves it. Small fish the net passes over are scooped up instantly. Larger fish start a **struggle meter**: you keep the net on them for 0.3 to 2 s while they wriggle and try to escape. That gives a little skill moment.
-- **Net capacity:** the net holds N fish (upgradeable). Lifting your finger "lands" the haul into the boat's **live-well** (trip capacity). Catching several fish in one drag gives a **combo** bonus (+XP and a bigger splash).
+- **View:** a 2:1 isometric fishing spot (like Diablo II), one portrait screen. Fish swim with simple steering: wander, school together and startle when the character comes close.
+- **Character:** a **wader** with a hand net at shallow spots. Gear upgrades turn the character into a snorkeler, then a scuba diver, then a submersible for deeper layers.
+- **Walk and scoop:** tap the water and the character walks there; hold and drag to steer. Fish that come within reach of the net are scooped up automatically. Larger fish start a **struggle meter**: they must stay in the net for 0.3 to 2 s while they wriggle. That gives a little skill moment.
+- **Capacity and combos:** catches stack up visibly in the wader's **backpack** (the boat's **live-well** at deeper layers), which is the trip capacity. Catches in quick succession build a **combo** with rising feedback.
+- **Storing:** walk onto the **"Store fish" square** next to the tank on the beach, and the fish fly one by one from the backpack into the tank. Fish are **stored, not sold**: selling happens from the tanks (manually or by sales staff).
 - **Rare fish** appear briefly (with a sparkle and a sound cue), move faster and dart away. Some need a **lure** (a consumable bought with money) to appear at all.
 - **Trip end:** when the live-well is full, or you tap "Return", the catch goes to the **Intake Tank** in the hall. From there you drag fish into display tanks; auto-place is available.
 - **Depth layers:** a depth slider on the side switches layers. Deeper layers get darker, with a vignette and bioluminescence, and require gear.
@@ -111,8 +113,9 @@ A bottom nav bar holds **Hall · Fishing · Map · Staff · Shop**. Fishpedia an
 
 ## A10. Art direction & AI-assisted pipeline
 - **Style:** a bold comic look with thick dark outlines (about 6 px at 1080p), flat colours with one cel-shade step, saturated water blues and a warm UI (wood or rope harbour theme).
-- **The POV issue:** real species are hard to recognise from directly above. **The fix:** in-world sprites use a **high three-quarter top-down** angle (tilted about 30°, so the side and fins stay visible) with exaggerated signature features such as the clownfish stripes and the swordfish bill. Fishpedia cards use a **side-profile** illustration.
-- **Animation without frame sheets:** one sprite per species plus a **swim shader** (a sine-based vertex or UV wobble along the body axis, with tail amplitude larger than head). Separate fin or tail parts are added only for hero species. This keeps AI asset volume small and consistent.
+- **Perspective:** **2:1 isometric**, like Diablo II. The ground (beach, seabed tiles, rocks) is drawn in the projection, and characters stand upright facing the camera.
+- **Fish are drawn side-on**, as isometric sprites usually are: chunky comic bodies with a big eye, mirrored when swimming left, slightly tilted with the swim direction and shortened when swimming toward or away from the camera. Side-on also makes real species easy to recognise. Exaggerate signature features such as the clownfish stripes and the swordfish bill. **Flatfish** (plaice, halibut) are the exception and need a top-down variant.
+- **Animation without frame sheets:** one side-on sprite per species plus a **swim shader** (tail beat, fin flap, a little body bob). Separate fin or tail parts are added only for hero species. This keeps AI asset volume small and consistent. The wader needs 4 to 8 facing directions with a short walk cycle.
 - **Pipeline:**
   1. Write a style bible: palette, outline weight, three reference fish and a prompt template.
   2. Generate several variants per species.

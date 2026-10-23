@@ -12,5 +12,6 @@ signal offline_progress(seconds: float)
 signal state_replaced
 signal money_changed(money: float)
 signal fish_caught(species_id: String, is_new_species: bool)
+signal fish_stored(species_id: String)
 
 @warning_ignore_restore("unused_signal")

@@ -57,6 +57,14 @@ func test_species_caught_survives_json_round_trip() -> void:
 	assert_typeof(restored.species_caught["lumpsucker"], TYPE_INT)
 
 
+func test_tank_fish_survive_json_round_trip() -> void:
+	var state := PlayerState.new()
+	state.tank_fish.append("european_sprat")
+	state.tank_fish.append("atlantic_mackerel")
+	var restored := PlayerState.from_dict(JSON.parse_string(JSON.stringify(state.to_dict())))
+	assert_eq(restored.tank_fish, ["european_sprat", "atlantic_mackerel"] as Array[String])
+
+
 func test_from_empty_dict_is_a_new_game() -> void:
 	var state := PlayerState.from_dict({})
 	assert_eq(state.money, 0.0)

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="150" viewBox="0 0 240 150">
+  <!-- European sprat, side-on. Tail root x=20, snout x~222, body axis y=75. -->
+  <defs>
+    <clipPath id="body">
+      <path d="M 20 64 C 60 44, 120 30, 175 36 C 200 39, 218 52, 223 70 C 226 84, 214 96, 196 104 C 160 122, 90 124, 20 88 Z"/>
+    </clipPath>
+  </defs>
+  <g stroke="#141a2a" stroke-width="4" stroke-linejoin="round">
+    <path d="M 104 44 C 112 22, 126 14, 142 16 C 138 26, 138 34, 142 40 Z" fill="#86a9ba"/>
+    <path d="M 52 100 C 50 112, 44 120, 36 124 C 48 122, 60 116, 70 108 Z" fill="#86a9ba"/>
+    <path d="M 110 116 C 106 126, 100 132, 92 134 C 104 134, 116 128, 122 118 Z" fill="#86a9ba"/>
+  </g>
+  <path d="M 20 64 C 60 44, 120 30, 175 36 C 200 39, 218 52, 223 70 C 226 84, 214 96, 196 104 C 160 122, 90 124, 20 88 Z" fill="#a8c4d2"/>
+  <g clip-path="url(#body)">
+    <path d="M 0 0 H 240 V 62 C 180 68, 100 72, 0 74 Z" fill="#4e7d92"/>
+    <path d="M 0 150 V 94 C 80 102, 160 100, 240 88 V 150 Z" fill="#eaf2f6"/>
+    <ellipse cx="140" cy="50" rx="24" ry="5" fill="#ffffff" opacity="0.35" transform="rotate(-6 140 50)"/>
+  </g>
+  <path d="M 20 64 C 60 44, 120 30, 175 36 C 200 39, 218 52, 223 70 C 226 84, 214 96, 196 104 C 160 122, 90 124, 20 88 Z" fill="none" stroke="#141a2a" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M 176 50 C 166 64, 166 86, 176 100" fill="none" stroke="#141a2a" stroke-width="3" stroke-linecap="round" opacity="0.45"/>
+  <path d="M 172 92 C 160 96, 150 104, 146 112 C 160 112, 172 104, 180 96 Z" fill="#86a9ba" stroke="#141a2a" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M 222 80 Q 214 85 207 82" fill="none" stroke="#141a2a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="192" cy="64" r="13" fill="#ffffff" stroke="#141a2a" stroke-width="4"/>
+  <circle cx="196" cy="65" r="7" fill="#141a2a"/>
+  <circle cx="198.5" cy="61.5" r="2.5" fill="#ffffff"/>
+</svg>

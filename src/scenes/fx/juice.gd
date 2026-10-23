@@ -3,8 +3,7 @@ extends RefCounted
 ## Small reusable feedback effects: ripples, droplet splashes, pop-up text and flying dots.
 
 const OUTLINE_COLOR := Color(0.07, 0.09, 0.15)
-
-static var _droplet_texture: Texture2D
+const DROPLET_TEXTURE := preload("res://src/scenes/fx/droplet_texture.tres")
 
 
 static func ripple(parent: Node, at: Vector2, radius: float, color: Color = Color(1.0, 1.0, 1.0, 0.75)) -> void:
@@ -19,7 +18,7 @@ static func ripple(parent: Node, at: Vector2, radius: float, color: Color = Colo
 static func splash(parent: Node, at: Vector2, amount: int) -> void:
 	var particles := CPUParticles2D.new()
 	particles.position = at
-	particles.texture = _droplet()
+	particles.texture = DROPLET_TEXTURE
 	particles.one_shot = true
 	particles.explosiveness = 0.9
 	particles.amount = amount
@@ -67,40 +66,28 @@ static func popup_text(parent: Control, at: Vector2, text: String, font_size: in
 	tween.tween_callback(label.queue_free)
 
 
-## A coloured dot flying from `from` to `to`; calls `on_arrive` when it lands.
-static func fly_dot(parent: Node, from: Vector2, to: Vector2, color: Color, delay: float, on_arrive: Callable) -> void:
-	var dot := Dot.new()
-	dot.color = color
-	dot.position = from
-	parent.add_child(dot)
-	var tween := dot.create_tween()
-	tween.tween_interval(delay)
-	tween.tween_property(dot, "position", to, 0.45).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	tween.parallel().tween_property(dot, "scale", Vector2.ONE * 0.6, 0.45)
+## A fish sprite flying in an arc from `from` to `to`, flipping over on the way;
+## calls `on_arrive` when it lands.
+static func fly_fish(parent: Node, art: FishArt, from: Vector2, to: Vector2, length: float, on_arrive: Callable) -> void:
+	var icon := FishIcon.new()
+	icon.art = art
+	icon.length = length
+	icon.position = from
+	parent.add_child(icon)
+	var peak := from.lerp(to, 0.5) + Vector2(0.0, -160.0)
+	var arc := func(t: float) -> void:
+		icon.position = from.lerp(peak, t).lerp(peak.lerp(to, t), t)
+	var tween := icon.create_tween()
+	tween.tween_method(arc, 0.0, 1.0, 0.45).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.parallel().tween_property(icon, "rotation", PI * signf(to.x - from.x + 0.01), 0.45)
+	tween.parallel().tween_property(icon, "scale", Vector2.ONE * 0.7, 0.45)
 	tween.tween_callback(on_arrive)
-	tween.tween_callback(dot.queue_free)
+	tween.tween_callback(icon.queue_free)
 
 
-static func _droplet() -> Texture2D:
-	if _droplet_texture == null:
-		var gradient := Gradient.new()
-		gradient.set_color(0, Color.WHITE)
-		gradient.set_color(1, Color(1.0, 1.0, 1.0, 0.0))
-		gradient.add_point(0.55, Color.WHITE)
-		var texture := GradientTexture2D.new()
-		texture.gradient = gradient
-		texture.fill = GradientTexture2D.FILL_RADIAL
-		texture.fill_from = Vector2(0.5, 0.5)
-		texture.fill_to = Vector2(1.0, 0.5)
-		texture.width = 32
-		texture.height = 32
-		_droplet_texture = texture
-	return _droplet_texture
-
-
-class Dot extends Node2D:
-	var color := Color.WHITE
+class FishIcon extends Node2D:
+	var art: FishArt
+	var length := 50.0
 
 	func _draw() -> void:
-		draw_circle(Vector2.ZERO, 20.0, Juice.OUTLINE_COLOR)
-		draw_circle(Vector2.ZERO, 15.0, color)
+		art.draw(self, Transform2D.IDENTITY, length)

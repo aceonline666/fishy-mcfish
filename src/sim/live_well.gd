@@ -1,6 +1,7 @@
 class_name LiveWell
 extends RefCounted
-## The boat's tank holding the catch of the current trip.
+## What the player carries on the current trip: the wader's backpack at shallow spots,
+## the boat's live-well at deeper layers later.
 
 var capacity: int
 var species_ids: Array[String] = []
@@ -27,6 +28,11 @@ func add(species_id: String) -> bool:
 		return false
 	species_ids.append(species_id)
 	return true
+
+
+## Removes and returns the most recently added fish.
+func take_last() -> String:
+	return species_ids.pop_back()
 
 
 ## Empties the live-well and returns everything that was in it.

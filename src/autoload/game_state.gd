@@ -34,6 +34,7 @@ func record_best(stat: String, value: int) -> void:
 	state.record_best(stat, value)
 
 
+## What the given fish would sell for.
 func catch_value(species_ids: Array[String]) -> float:
 	var total := 0.0
 	for id in species_ids:
@@ -41,9 +42,7 @@ func catch_value(species_ids: Array[String]) -> float:
 	return total
 
 
-## Sells the given fish and returns the money earned.
-func sell_catch(species_ids: Array[String]) -> float:
-	var total := catch_value(species_ids)
-	if total > 0.0:
-		add_money(total)
-	return total
+## Puts a caught fish into the tank.
+func store_fish(species_id: String) -> void:
+	state.tank_fish.append(species_id)
+	EventBus.fish_stored.emit(species_id)

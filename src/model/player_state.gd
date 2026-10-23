@@ -8,6 +8,9 @@ var total_earned := 0.0
 var stats: Dictionary[String, int] = {}
 ## How many of each species the player has ever caught. Feeds the Fishpedia later.
 var species_caught: Dictionary[String, int] = {}
+## Fish stored in the tank, by species id, oldest first. M2 turns these into individual
+## tank fish that grow and can be sold.
+var tank_fish: Array[String] = []
 
 
 func add_money(amount: float) -> void:
@@ -47,6 +50,7 @@ func to_dict() -> Dictionary:
 		"total_earned": total_earned,
 		"stats": stats.duplicate(),
 		"species_caught": species_caught.duplicate(),
+		"tank_fish": tank_fish.duplicate(),
 	}
 
 
@@ -61,4 +65,7 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	var raw_caught: Dictionary = data.get("species_caught", {})
 	for key: Variant in raw_caught:
 		state.species_caught[str(key)] = int(raw_caught[key])
+	var raw_tank: Array = data.get("tank_fish", [])
+	for id: Variant in raw_tank:
+		state.tank_fish.append(str(id))
 	return state

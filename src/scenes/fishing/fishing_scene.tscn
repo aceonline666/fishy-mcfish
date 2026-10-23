@@ -2,19 +2,13 @@
 
 [ext_resource type="Script" path="res://src/scenes/fishing/fishing_scene.gd" id="1_scene"]
 [ext_resource type="Shader" path="res://src/shaders/water.gdshader" id="2_water"]
-[ext_resource type="Script" path="res://src/scenes/fishing/fishing_net.gd" id="3_net"]
+[ext_resource type="Script" path="res://src/scenes/world/seabed_decor.gd" id="3_seabed"]
 [ext_resource type="Script" path="res://src/scenes/ui/safe_area_container.gd" id="4_safe"]
+[ext_resource type="Script" path="res://src/scenes/fishing/wader.gd" id="5_wader"]
+[ext_resource type="Script" path="res://src/scenes/fishing/store_zone.gd" id="6_store"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_water"]
 shader = ExtResource("2_water")
-
-[sub_resource type="Gradient" id="Gradient_trail"]
-offsets = PackedFloat32Array(0, 1)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.35)
-
-[sub_resource type="Curve" id="Curve_trail"]
-_data = [Vector2(0, 0.2), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
 
 [node name="FishingScene" type="Control"]
 layout_mode = 3
@@ -36,21 +30,21 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="World" type="Node2D" parent="."]
+texture_filter = 4
 
-[node name="Trail" type="Line2D" parent="World"]
-width = 70.0
-width_curve = SubResource("Curve_trail")
-gradient = SubResource("Gradient_trail")
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
+[node name="Seabed" type="Node2D" parent="World"]
+script = ExtResource("3_seabed")
 
-[node name="Fish" type="Node2D" parent="World"]
+[node name="StoreZone" type="Node2D" parent="World"]
+script = ExtResource("6_store")
+
+[node name="Entities" type="Node2D" parent="World"]
+y_sort_enabled = true
+
+[node name="Wader" type="Node2D" parent="World/Entities"]
+script = ExtResource("5_wader")
 
 [node name="Effects" type="Node2D" parent="World"]
-
-[node name="Net" type="Node2D" parent="World"]
-script = ExtResource("3_net")
 
 [node name="Hud" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -101,13 +95,13 @@ layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 16
 
-[node name="LiveWellLabel" type="Label" parent="Hud/Layout/BottomBar/Column"]
+[node name="BackpackLabel" type="Label" parent="Hud/Layout/BottomBar/Column"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
-text = "Live-well  0 / 12"
+text = "Backpack  0 / 12"
 
-[node name="LiveWellBar" type="ProgressBar" parent="Hud/Layout/BottomBar/Column"]
+[node name="BackpackBar" type="ProgressBar" parent="Hud/Layout/BottomBar/Column"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
@@ -116,13 +110,22 @@ max_value = 12.0
 step = 1.0
 show_percentage = false
 
-[node name="SellButton" type="Button" parent="Hud/Layout/BottomBar/Column"]
+[node name="TankLabel" type="Label" parent="Hud/Layout/BottomBar/Column"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 140)
 layout_mode = 2
-text = "Catch some fish!"
+theme_override_font_sizes/font_size = 40
+text = "Tank  0 fish"
+
+[node name="HintLabel" type="Label" parent="Hud/Layout/BottomBar/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.88, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "Tap the water to wade there and catch fish."
+autowrap_mode = 3
 
 [node name="Popups" type="Control" parent="."]
+texture_filter = 4
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

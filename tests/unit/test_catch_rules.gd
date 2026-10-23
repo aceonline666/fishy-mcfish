@@ -29,7 +29,7 @@ func test_rarer_fish_struggle_longer_and_swim_faster() -> void:
 
 
 func test_body_size_is_capped_for_giants() -> void:
-	assert_eq(CatchRules.body_length_px(_species(1200.0)), CatchRules.MAX_BODY_PX)
+	assert_eq(CatchRules.body_length(_species(1200.0)), CatchRules.MAX_BODY_LENGTH)
 
 
 func test_only_small_fish_school() -> void:

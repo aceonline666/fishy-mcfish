@@ -12,7 +12,8 @@ const RARITY_STRUGGLE_BONUS := 0.15
 ## Extra swim speed per rarity tier.
 const RARITY_SPEED_BONUS := 0.12
 const SCHOOLING_BELOW_CM := 25.0
-const MAX_BODY_PX := 640.0
+## Ground units. The wader is about 190 px tall, so fish are exaggerated but stay smaller.
+const MAX_BODY_LENGTH := 480.0
 
 const COMBO_NAMES: Array[String] = ["", "", "Double!", "Triple!", "Quad!"]
 const MEGA_COMBO_NAME := "Mega haul!"
@@ -26,13 +27,14 @@ static func struggle_seconds(def: SpeciesDef) -> float:
 	return lerpf(MIN_STRUGGLE_S, MAX_STRUGGLE_S, size_t) * (1.0 + RARITY_STRUGGLE_BONUS * def.rarity)
 
 
-## On-screen body length in pixels (viewport is 1080 wide).
-static func body_length_px(def: SpeciesDef) -> float:
-	return minf(60.0 + def.length_cm * 6.0, MAX_BODY_PX)
+## Body length in ground units.
+static func body_length(def: SpeciesDef) -> float:
+	return minf(55.0 + def.length_cm * 2.4, MAX_BODY_LENGTH)
 
 
+## Ground units per second.
 static func cruise_speed(def: SpeciesDef) -> float:
-	return (80.0 + body_length_px(def) * 0.4) * (1.0 + RARITY_SPEED_BONUS * def.rarity)
+	return (70.0 + body_length(def) * 0.5) * (1.0 + RARITY_SPEED_BONUS * def.rarity)
 
 
 ## Small fish arrive in schools, bigger ones alone.
@@ -40,7 +42,7 @@ static func school_size(def: SpeciesDef, rng: RandomNumberGenerator) -> int:
 	return rng.randi_range(3, 5) if def.length_cm < SCHOOLING_BELOW_CM else 1
 
 
-## Name shown when several fish are landed in one drag. Empty for a single fish.
+## Name shown when several fish are caught in quick succession. Empty for a single fish.
 static func combo_name(count: int) -> String:
 	if count < COMBO_NAMES.size():
 		return COMBO_NAMES[count]

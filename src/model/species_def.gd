@@ -15,7 +15,8 @@ var scientific_name: String
 var rarity: Rarity
 var base_value: float
 var length_cm: float
-## Body width / length as seen from above (eels are thin, flatfish are wide).
+## Side-on body depth / length, exaggerated for a chunky comic look (eels are slender,
+## lumpsuckers round).
 var body_aspect: float
 ## Tank volume one adult fish occupies.
 var space_l: float

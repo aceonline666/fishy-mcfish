@@ -1,6 +1,7 @@
 class_name Ripple
 extends Node2D
-## An expanding, fading ring on the water. Frees itself when done.
+## An expanding, fading ring on the water surface, drawn in isometric perspective.
+## Frees itself when done.
 
 var max_radius := 80.0
 var duration := 0.5
@@ -21,4 +22,5 @@ func _draw() -> void:
 	var k := _elapsed / duration
 	var eased := 1.0 - pow(1.0 - k, 3.0)
 	var ring_color := Color(color, color.a * (1.0 - k))
-	draw_arc(Vector2.ZERO, lerpf(max_radius * 0.2, max_radius, eased), 0.0, TAU, 48, ring_color, lerpf(8.0, 2.0, k), true)
+	var ring := Iso.ellipse(Vector2.ZERO, lerpf(max_radius * 0.2, max_radius, eased), 32)
+	draw_polyline(ring, ring_color, lerpf(6.0, 2.0, k), true)

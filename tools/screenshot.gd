@@ -3,13 +3,16 @@ extends SceneTree
 ## (through the real input routing), and saves screenshots as PNGs.
 ##
 ## Usage (not headless, it needs to render):
-##   godot --path . -s res://tools/screenshot.gd -- --out=C:/temp/shots [--drag]
+##   godot --path . -s res://tools/screenshot.gd -- --out=C:/temp/shots [--drag] [--tap=0.65,0.22]
+## --tap taps once at the given fraction of the window after the drag and captures twice while
+## the game reacts (e.g. walking onto the store square).
 
 const SETTLE_SECONDS := 1.5
-const DRAG_FRAMES := 90
+const DRAG_FRAMES := 150
 
 var _out_dir := "user://screenshots"
 var _drag := false
+var _tap := Vector2(-1.0, -1.0)
 
 
 func _initialize() -> void:
@@ -18,6 +21,9 @@ func _initialize() -> void:
 			_out_dir = arg.trim_prefix("--out=")
 		elif arg == "--drag":
 			_drag = true
+		elif arg.begins_with("--tap="):
+			var parts := arg.trim_prefix("--tap=").split(",")
+			_tap = Vector2(parts[0].to_float(), parts[1].to_float())
 	DirAccess.make_dir_recursive_absolute(_out_dir)
 	change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
 	_run.call_deferred()
@@ -28,6 +34,22 @@ func _run() -> void:
 	await _capture("01_idle")
 	if _drag:
 		await _scripted_drag()
+	if _tap.x >= 0.0:
+		# A real finger always moves a little; the motion also refreshes the emulated touch
+		# position, which can otherwise be stale for a lone press.
+		var at := _tap * Vector2(DisplayServer.window_get_size())
+		_mouse_button(at, true)
+		var motion := InputEventMouseMotion.new()
+		motion.position = at
+		motion.global_position = at
+		motion.button_mask = MOUSE_BUTTON_MASK_LEFT
+		Input.parse_input_event(motion)
+		await process_frame
+		_mouse_button(at, false)
+		await create_timer(1.2).timeout
+		await _capture("05_tap_arrived")
+		await create_timer(1.2).timeout
+		await _capture("06_tap_after")
 	quit()
 
 

@@ -17,10 +17,19 @@ aquariums, sell them and grow your collection.
 Saves are written to `%APPDATA%\Godot\app_userdata\Fishy McFish\save.json`.
 Delete that file to start a new game.
 
-**How to play (M1 prototype):** press and drag in the water to move the net. Small fish are
-scooped up on contact; bigger ones (herring, mackerel) must stay in the net until the yellow
-ring fills. The net holds 5 fish; lift your finger to land the haul in the live-well. Several
-fish in one drag give a combo. "Sell catch" turns the live-well into coins.
+**How to play (M1 prototype):** tap the water and the wader walks there; hold and drag to
+steer. Fish that come within reach of the hand net are scooped up automatically and stack up
+in the backpack. Small fish go in at once; bigger ones (herring, mackerel) must stay in the net
+until the yellow ring fills. Catches in quick succession build a combo. The backpack holds 12
+fish; walk onto the "Store fish" square to unload them into the tank on the beach. Selling
+from the tank comes in M2.
+
+Sprites are hand-written SVGs in `assets/sprites/` (fish: body + tail per species, see
+`src/scenes/fishing/fish_art.gd` for the conventions). Species without sprites are drawn as
+coloured placeholders.
+
+The view is 2:1 isometric (like Diablo II). Game logic runs in flat ground coordinates and only
+drawing projects to the screen, see `src/scenes/world/iso.gd`.
 
 **Screenshots:** `tools/screenshot.gd` runs the game in a window, optionally performs a scripted
 net drag through the real input path, and saves PNGs:
@@ -47,7 +56,8 @@ Tests can also be run from the GUT panel in the editor. CI runs them on every pu
 | `src/autoload/` | Global singletons: `EventBus`, `DataRegistry`, `GameState`, `TimeService`, `SaveSystem`, `Haptics`, `Platform` |
 | `src/model/` | Pure data and logic classes with no scene dependencies (`PlayerState`, `SpeciesDef`, `SaveFile`, ...) |
 | `src/sim/` | Pure game rules and systems (`CatchRules`, `SpawnTable`, `LiveWell`, `Economy`) |
-| `src/scenes/fishing/` | The fishing screen, swimming fish and the net |
+| `src/scenes/fishing/` | The fishing screen, swimming fish and the wader |
+| `src/scenes/world/` | Isometric projection, play area and seabed decoration |
 | `src/scenes/fx/` | Reusable feedback effects (`Juice`, `Ripple`) |
 | `tools/` | Developer tools (screenshots) |
 | `src/scenes/` | Scenes and their scripts |
