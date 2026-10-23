@@ -1,6 +1,6 @@
 level,name,capacity,cost
 1,Basket,10,0
-2,Big basket,15,80
-3,Creel,22,350
-4,Big creel,30,1400
-5,Huge creel,40,5500
+2,Big basket,15,100
+3,Creel,22,600
+4,Big creel,30,3000
+5,Huge creel,40,12000

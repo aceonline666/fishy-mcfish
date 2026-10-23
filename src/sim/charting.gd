@@ -3,6 +3,7 @@ extends RefCounted
 ## Exploring depth zones. A zone is charted once the player has caught enough fish there and
 ## every common and uncommon species of the zone. Only charted zones can be automated.
 
+## Catches needed per step outwards: 25 in the first zone, 50 in the second, ...
 const CATCHES_TO_CHART := 25
 
 
@@ -33,8 +34,12 @@ static func required_species(zone: ZoneDef) -> Array[String]:
 	return required
 
 
+static func catches_needed(zone: ZoneDef) -> int:
+	return CATCHES_TO_CHART * zone.order
+
+
 static func is_charted(state: PlayerState, zone: ZoneDef) -> bool:
-	if int(state.zone_catches.get(zone.id, 0)) < CATCHES_TO_CHART:
+	if int(state.zone_catches.get(zone.id, 0)) < catches_needed(zone):
 		return false
 	for id in required_species(zone):
 		if not state.species_caught.has(id):
@@ -58,5 +63,6 @@ static func progress_text(state: PlayerState, zone: ZoneDef) -> String:
 		return "charted"
 	var required := required_species(zone)
 	var found := required.filter(func(id: String) -> bool: return state.species_caught.has(id)).size()
+	var needed := catches_needed(zone)
 	return "%d/%d fish · %d/%d species" % [
-		mini(int(state.zone_catches.get(zone.id, 0)), CATCHES_TO_CHART), CATCHES_TO_CHART, found, required.size()]
+		mini(int(state.zone_catches.get(zone.id, 0)), needed), needed, found, required.size()]

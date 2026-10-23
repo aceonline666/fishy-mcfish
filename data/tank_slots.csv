@@ -1,9 +1,9 @@
 level,name,capacity,cost,env
 1,First tank,0,0,temperate
 2,Second tank,0,60,temperate
-3,Third tank,0,450,temperate
-4,Fourth tank,0,2500,temperate
-5,First tropical tank,0,1200,tropical
-6,Second tropical tank,0,4000,tropical
-7,Third tropical tank,0,12000,tropical
-8,Fourth tropical tank,0,30000,tropical
+3,Third tank,0,800,temperate
+4,Fourth tank,0,5000,temperate
+5,First tropical tank,0,2500,tropical
+6,Second tropical tank,0,8000,tropical
+7,Third tropical tank,0,25000,tropical
+8,Fourth tropical tank,0,60000,tropical

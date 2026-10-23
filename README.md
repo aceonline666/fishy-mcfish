@@ -70,6 +70,15 @@ Unit tests use [GUT](https://github.com/bitwes/Gut) 9.7.1, vendored in `addons/g
 
 Tests can also be run from the GUT panel in the editor. CI runs them on every push.
 
+**Balance:** `tools/balance_sim.gd` plays the game headless with a greedy bot using the real
+rules and prints a timeline of purchases, charted zones, goals and income. `tests/unit/test_pacing.gd`
+runs the same bot and checks the pacing targets (second tank < 5 min, snorkel 5–25 min,
+Coral Reef 25–70 min, all species < 2 h). Run it after changing prices or income:
+
+```powershell
+& "C:\Program Files\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . -s res://tools/balance_sim.gd -- --hours=3 --seed=1
+```
+
 ## Project layout
 
 | Path | Contents |

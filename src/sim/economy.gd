@@ -4,8 +4,10 @@ extends RefCounted
 ## GROWN_VALUE_MULT times that (adult); visitors pay for what is on display.
 
 const GROWN_VALUE_MULT := 3.0
-## Coins per second a displayed fish brings in, per coin of its current value.
-const APPEAL_PER_VALUE := 0.01
+## Coins per second a displayed fish brings in, per coin of its current value: a juvenile earns
+## its own value back in about half an hour, an adult three times as fast. Tuned with
+## tools/balance_sim.gd.
+const APPEAL_PER_VALUE := 0.0005
 
 
 static func growth_mult(growth: float) -> float:
