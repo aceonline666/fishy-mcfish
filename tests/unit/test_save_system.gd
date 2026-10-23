@@ -5,6 +5,7 @@ const DIR := "user://test_save_system"
 const PATH := DIR + "/save.json"
 
 var _original_state: PlayerState
+var _original_path: String
 
 
 func before_each() -> void:
@@ -12,12 +13,17 @@ func before_each() -> void:
 	for file_name in DirAccess.get_files_at(DIR):
 		DirAccess.remove_absolute(DIR.path_join(file_name))
 	_original_state = GameState.state
+	_original_path = SaveSystem.save_path
 	SaveSystem.save_path = PATH
 
 
 func after_each() -> void:
-	SaveSystem.save_path = SaveSystem.SAVE_PATH
+	SaveSystem.save_path = _original_path
 	GameState.replace_state(_original_state)
+
+
+func test_test_runs_never_use_the_real_save() -> void:
+	assert_ne(_original_path, SaveSystem.SAVE_PATH, "the pre-run hook sandboxes saving")
 
 
 func test_save_and_load_restores_money() -> void:

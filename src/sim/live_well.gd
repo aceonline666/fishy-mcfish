@@ -35,6 +35,13 @@ func take_last() -> String:
 	return species_ids.pop_back()
 
 
+## Removes and returns the fish at `index` (0 = oldest).
+func take_at(index: int) -> String:
+	var id := species_ids[index]
+	species_ids.remove_at(index)
+	return id
+
+
 ## Empties the live-well and returns everything that was in it.
 func take_all() -> Array[String]:
 	var taken: Array[String] = species_ids.duplicate()

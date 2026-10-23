@@ -5,8 +5,10 @@ extends Node
 const SAVE_PATH := "user://save.json"
 const AUTOSAVE_INTERVAL_S := 30.0
 
-## Overridden by tests so they never touch the real save.
+## Changed by use_sandbox() so tests and tools never touch the player's save.
 var save_path := SAVE_PATH
+
+var _autosave_timer: Timer
 
 
 func _ready() -> void:
@@ -14,11 +16,21 @@ func _ready() -> void:
 	get_tree().set_auto_accept_quit(false)
 	load_game()
 
-	var timer := Timer.new()
-	timer.wait_time = AUTOSAVE_INTERVAL_S
-	timer.timeout.connect(save_game)
-	add_child(timer)
-	timer.start()
+	_autosave_timer = Timer.new()
+	_autosave_timer.wait_time = AUTOSAVE_INTERVAL_S
+	_autosave_timer.timeout.connect(save_game)
+	add_child(_autosave_timer)
+	_autosave_timer.start()
+
+
+## Redirects all saving to `path` and stops autosaving, then starts a fresh game.
+## Used by the test runner and developer tools.
+func use_sandbox(path: String) -> void:
+	save_path = path
+	if _autosave_timer != null:
+		_autosave_timer.stop()
+	DirAccess.make_dir_recursive_absolute(path.get_base_dir())
+	GameState.replace_state(PlayerState.new_game())
 
 
 func _notification(what: int) -> void:
@@ -46,7 +58,7 @@ func load_game() -> void:
 	if payload.is_empty():
 		if FileAccess.file_exists(save_path):
 			_quarantine_unreadable_save()
-		GameState.replace_state(PlayerState.new())
+		GameState.replace_state(PlayerState.new_game())
 		return
 	GameState.replace_state(PlayerState.from_dict(payload["state"]))
 	TimeService.report_offline_since(int(payload["saved_at_unix"]))

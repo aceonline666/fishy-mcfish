@@ -85,6 +85,27 @@ static func fly_fish(parent: Node, art: FishArt, from: Vector2, to: Vector2, len
 	tween.tween_callback(icon.queue_free)
 
 
+## A coin flying in a small arc from `from` to `to`, then vanishing.
+static func fly_coin(parent: Node, from: Vector2, to: Vector2, radius: float = 12.0) -> void:
+	var coin := CoinIcon.new()
+	coin.radius = radius
+	coin.position = from
+	parent.add_child(coin)
+	var peak := from.lerp(to, 0.5) + Vector2(0.0, -70.0)
+	var arc := func(t: float) -> void:
+		coin.position = from.lerp(peak, t).lerp(peak.lerp(to, t), t)
+	var tween := coin.create_tween()
+	tween.tween_method(arc, 0.0, 1.0, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tween.tween_callback(coin.queue_free)
+
+
+class CoinIcon extends Node2D:
+	var radius := 12.0
+
+	func _draw() -> void:
+		IsoDraw.coin(self, Vector2.ZERO, radius)
+
+
 class FishIcon extends Node2D:
 	var art: FishArt
 	var length := 50.0

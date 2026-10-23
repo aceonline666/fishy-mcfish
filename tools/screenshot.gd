@@ -25,11 +25,14 @@ func _initialize() -> void:
 			var parts := arg.trim_prefix("--tap=").split(",")
 			_tap = Vector2(parts[0].to_float(), parts[1].to_float())
 	DirAccess.make_dir_recursive_absolute(_out_dir)
-	change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
 	_run.call_deferred()
 
 
 func _run() -> void:
+	# Start from a fresh game in a separate save, never the player's. Deferred so the
+	# autoloads are ready.
+	root.get_node("SaveSystem").use_sandbox("user://screenshots/save.json")
+	change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
 	await create_timer(SETTLE_SECONDS).timeout
 	await _capture("01_idle")
 	if _drag:

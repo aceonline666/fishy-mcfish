@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://src/scenes/world/seabed_decor.gd" id="3_seabed"]
 [ext_resource type="Script" path="res://src/scenes/ui/safe_area_container.gd" id="4_safe"]
 [ext_resource type="Script" path="res://src/scenes/fishing/wader.gd" id="5_wader"]
-[ext_resource type="Script" path="res://src/scenes/fishing/store_zone.gd" id="6_store"]
+[ext_resource type="Script" path="res://src/scenes/fishing/ticket_booth.gd" id="6_booth"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_water"]
 shader = ExtResource("2_water")
@@ -35,14 +35,16 @@ texture_filter = 4
 [node name="Seabed" type="Node2D" parent="World"]
 script = ExtResource("3_seabed")
 
-[node name="StoreZone" type="Node2D" parent="World"]
-script = ExtResource("6_store")
+[node name="Squares" type="Node2D" parent="World"]
 
 [node name="Entities" type="Node2D" parent="World"]
 y_sort_enabled = true
 
 [node name="Wader" type="Node2D" parent="World/Entities"]
 script = ExtResource("5_wader")
+
+[node name="TicketBooth" type="Node2D" parent="World/Entities"]
+script = ExtResource("6_booth")
 
 [node name="Effects" type="Node2D" parent="World"]
 

@@ -53,6 +53,8 @@ var struggle_progress := 0.0
 var full := false
 ## The fish in the backpack, bottom first.
 var carried: Array[FishArt] = []
+## False on the beach: no water around the legs.
+var in_water := true
 
 var _target := Vector2.ZERO
 var _has_target := false
@@ -98,8 +100,15 @@ func add_to_stack(art: FishArt) -> void:
 
 ## Takes the top fish off the stack.
 func take_from_stack() -> FishArt:
+	return take_from_stack_at(carried.size() - 1)
+
+
+## Takes a fish out of the stack; the ones above it drop down.
+func take_from_stack_at(index: int) -> FishArt:
 	_stack_bounce = 0.6
-	return carried.pop_back()
+	var art := carried[index]
+	carried.remove_at(index)
+	return art
 
 
 func simulate(delta: float, area: PlayArea) -> void:
@@ -159,6 +168,8 @@ func _draw_legs() -> void:
 		var phase_offset := 0.0 if leg < 0.0 else PI
 		var lift := maxf(sin(_walk_phase + phase_offset), 0.0) * 8.0 if is_walking() else 0.0
 		draw_texture_rect(LEG_TEXTURE, Rect2(Vector2(leg * 13.0 - LEG_SIZE.x * 0.5, -67.0 - lift), LEG_SIZE), false)
+	if not in_water:
+		return
 	# Knee-deep water over the lower legs, with a ring where the surface meets them.
 	draw_rect(Rect2(-30.0, WATERLINE_Y, 60.0, -WATERLINE_Y + 2.0), WATER_TINT)
 	draw_polyline(Iso.ellipse(Vector2(0.0, WATERLINE_Y), 32.0), Color(1.0, 1.0, 1.0, 0.7), 3.0, true)

@@ -17,12 +17,21 @@ aquariums, sell them and grow your collection.
 Saves are written to `%APPDATA%\Godot\app_userdata\Fishy McFish\save.json`.
 Delete that file to start a new game.
 
-**How to play (M1 prototype):** tap the water and the wader walks there; hold and drag to
-steer. Fish that come within reach of the hand net are scooped up automatically and stack up
-in the backpack. Small fish go in at once; bigger ones (herring, mackerel) must stay in the net
-until the yellow ring fills. Catches in quick succession build a combo. The backpack holds 12
-fish; walk onto the "Store fish" square to unload them into the tank on the beach. Selling
-from the tank comes in M2.
+**How to play:** tap the water and the wader walks there; hold and drag to steer. Fish that
+come within reach of the hand net are scooped up automatically and stack up in the backpack.
+Small fish go in at once; bigger ones (herring, mackerel) must stay in the net until the yellow
+ring fills. Catches in quick succession build a combo.
+
+Up on the beach, squares act while you stand on them:
+- **Store fish** puts the catch into the first tank with room (big species need big tanks).
+- **Fish market** sells the catch right away.
+- **Build tank / Bigger tank / Bigger backpack** take coins until paid (partial payments are kept).
+- **Collect coins** picks up what visitors paid at the ticket booth. Visitors come as long as
+  the tanks have fish; fish grow over a few minutes and then bring in three times as much.
+  Income keeps coming while the game is closed.
+
+Tests and `tools/screenshot.gd` run in a sandboxed save (`SaveSystem.use_sandbox`), never
+the real one.
 
 Sprites are hand-written SVGs in `assets/sprites/` (fish: body + tail per species, see
 `src/scenes/fishing/fish_art.gd` for the conventions). Species without sprites are drawn as

@@ -1,6 +1,7 @@
 class_name PlayerState
 extends RefCounted
 ## Everything about a player's progress that gets saved. Pure data: no nodes, no signals.
+## Use new_game() for a fresh start; PlayerState.new() is completely empty.
 
 var money := 0.0
 ## Lifetime earnings. Used later to pick the "most progressed" save on cloud conflicts.
@@ -8,9 +9,22 @@ var total_earned := 0.0
 var stats: Dictionary[String, int] = {}
 ## How many of each species the player has ever caught. Feeds the Fishpedia later.
 var species_caught: Dictionary[String, int] = {}
-## Fish stored in the tank, by species id, oldest first. M2 turns these into individual
-## tank fish that grow and can be sold.
-var tank_fish: Array[String] = []
+## Index + 1 into DataRegistry.backpack_levels.
+var backpack_level := 1
+## Built tanks, ordered by slot.
+var tanks: Array[TankState] = []
+## Coins visitors have paid that wait at the ticket booth to be collected.
+var cash_pile := 0.0
+## Income the tanks have earned that the next visitor will bring to the booth.
+var pending_income := 0.0
+## Coins already paid into build squares, by square id.
+var build_progress: Dictionary[String, float] = {}
+
+
+static func new_game() -> PlayerState:
+	var state := PlayerState.new()
+	state.tanks.append(TankState.new(0, 1))
+	return state
 
 
 func add_money(amount: float) -> void:
@@ -44,13 +58,27 @@ func record_catch(species_id: String) -> bool:
 	return is_new
 
 
+func tank_in_slot(slot: int) -> TankState:
+	for tank in tanks:
+		if tank.slot == slot:
+			return tank
+	return null
+
+
 func to_dict() -> Dictionary:
+	var tank_data: Array[Dictionary] = []
+	for tank in tanks:
+		tank_data.append(tank.to_dict())
 	return {
 		"money": money,
 		"total_earned": total_earned,
 		"stats": stats.duplicate(),
 		"species_caught": species_caught.duplicate(),
-		"tank_fish": tank_fish.duplicate(),
+		"backpack_level": backpack_level,
+		"tanks": tank_data,
+		"cash_pile": cash_pile,
+		"pending_income": pending_income,
+		"build_progress": build_progress.duplicate(),
 	}
 
 
@@ -65,7 +93,21 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	var raw_caught: Dictionary = data.get("species_caught", {})
 	for key: Variant in raw_caught:
 		state.species_caught[str(key)] = int(raw_caught[key])
-	var raw_tank: Array = data.get("tank_fish", [])
-	for id: Variant in raw_tank:
-		state.tank_fish.append(str(id))
+	state.backpack_level = maxi(int(data.get("backpack_level", 1)), 1)
+	var raw_tanks: Array = data.get("tanks", [])
+	for entry: Variant in raw_tanks:
+		if entry is Dictionary:
+			state.tanks.append(TankState.from_dict(entry))
+	if state.tanks.is_empty():
+		state.tanks.append(TankState.new(0, 1))
+	state.tanks.sort_custom(func(a: TankState, b: TankState) -> bool: return a.slot < b.slot)
+	# Early prototype saves kept stored fish as a flat list; move them into the first tank.
+	var legacy_tank: Array = data.get("tank_fish", [])
+	for id: Variant in legacy_tank:
+		state.tanks[0].fish.append(TankFish.new(str(id)))
+	state.cash_pile = float(data.get("cash_pile", 0.0))
+	state.pending_income = float(data.get("pending_income", 0.0))
+	var raw_progress: Dictionary = data.get("build_progress", {})
+	for key: Variant in raw_progress:
+		state.build_progress[str(key)] = float(raw_progress[key])
 	return state
