@@ -29,6 +29,14 @@ Up on the beach, squares act while you stand on them:
 - **Collect coins** picks up what visitors paid at the ticket booth. Visitors come as long as
   the tanks have fish; fish grow over a few minutes and then bring in three times as much.
   Income keeps coming while the game is closed.
+- **Snorkel / Scuba gear** open the deeper zones behind the buoy lines (Sandbanks, Wreck),
+  with rarer and bigger fish. Each zone is *charted* after 25 catches there and every
+  common/uncommon species of it.
+- **Buy drone** (once a zone is charted): drones fish known species in charted zones and bring
+  them to the tanks, also while the game is closed. **Hire cashier**: visitors' coins go straight
+  to the wallet.
+
+The **Fishpedia** button lists every species, with facts for the ones you have caught.
 
 Tests and `tools/screenshot.gd` run in a sandboxed save (`SaveSystem.use_sandbox`), never
 the real one.

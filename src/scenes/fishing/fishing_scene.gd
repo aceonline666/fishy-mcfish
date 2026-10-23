@@ -21,9 +21,9 @@ const PLAY_MARGIN_BOTTOM := 330.0
 
 #region Layout (ground units; the waterline is at y = 0, the beach at negative y)
 ## Reaches out to the end of the deepest zone (y = 1500).
-const SPOT_RECT := Rect2(0.0, -700.0, 1250.0, 2200.0)
+const SPOT_RECT := Rect2(0.0, -820.0, 1250.0, 2320.0)
 const SHORE_Y := 0.0
-const DUNES_Y := -700.0
+const DUNES_Y := -820.0
 ## Fish stay this far out in the water.
 const WATER_MARGIN := 50.0
 const SQUARE_HALF := 90.0
@@ -41,6 +41,9 @@ const TANK_SQUARE_OFFSET := Vector2(0.0, 175.0)
 ## Ticket booth and its cash pile, left of the tanks.
 const BOOTH_POSITION := Vector2(90.0, -560.0)
 const CASH_SQUARE := Vector2(110.0, -330.0)
+const CASHIER_SQUARE := Vector2(110.0, -730.0)
+## Drones start from and deliver to this pad at the waterline.
+const DRONE_PAD := Vector2(110.0, -120.0)
 const VISITOR_ENTRANCE := Vector2(-250.0, -700.0)
 const VISITOR_PAY_SPOT := Vector2(180.0, -470.0)
 const VISITOR_EXIT := Vector2(1450.0, -700.0)
@@ -92,6 +95,7 @@ var _slot_squares: Array[ActionSquare] = []
 var _tank_nodes: Dictionary[int, TankNode] = {}
 var _visitors: Array[Visitor] = []
 var _visitor_timer := 1.0
+var _drones: Array[Drone] = []
 var _holding := false
 var _combo := 0
 var _combo_timer := 0.0
@@ -168,6 +172,7 @@ func _process(delta: float) -> void:
 		fish.simulate(delta, wader.ground_position, THREAT_RADIUS, _fish)
 	_check_catches(delta)
 	_combo_timer = maxf(_combo_timer - delta, 0.0)
+	_update_drones(delta)
 	_update_squares(delta)
 	_update_visitors(delta)
 
@@ -280,7 +285,9 @@ func _rebuild_from_state() -> void:
 	for tank in state.tanks:
 		_add_tank_node(tank)
 	live_well.capacity = Aquarium.backpack_capacity(state)
+	_booth.staffed = state.has_cashier
 	_apply_gear()
+	_sync_drones()
 	_refresh_squares()
 	_update_hud()
 
@@ -320,11 +327,17 @@ func _add_tank_node(tank: TankState) -> TankNode:
 
 
 func _show_offline_earnings() -> void:
+	var lines: Array[String] = []
+	if GameState.last_offline_stored > 0:
+		lines.append("Drones stored %d fish" % GameState.last_offline_stored)
 	if GameState.last_offline_earned >= 1.0:
+		var where := "in your wallet" if GameState.state.has_cashier else "at the booth"
+		lines.append("+%s coins %s" % [NumberFormat.compact(GameState.last_offline_earned), where])
+	if not lines.is_empty():
 		Juice.popup_text(_popups, Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 160.0),
-				"While you were away:\n+%s coins at the booth" % NumberFormat.compact(GameState.last_offline_earned),
-				52, COIN_COLOR, 2.5)
-		GameState.last_offline_earned = 0.0
+				"While you were away:\n" + "\n".join(lines), 52, COIN_COLOR, 2.5)
+	GameState.last_offline_earned = 0.0
+	GameState.last_offline_stored = 0
 
 
 #region Camera
@@ -472,9 +485,12 @@ func _catch(fish: SwimmingFish) -> void:
 		Haptics.bump()
 		_bump(_fishpedia_button)
 	if not was_charted and Charting.is_charted(GameState.state, fish.zone):
-		_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 220.0), "%s charted!" % fish.zone.name, COMBO_COLOR, 1.6)
+		_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 220.0),
+				"%s charted!\nDrones can fish here now" % fish.zone.name, COMBO_COLOR, 1.6)
 		Sfx.play(&"ding", 1.0)
 		Sfx.play(&"ding", 1.26, -4.0)
+		_sync_drones()
+		_refresh_squares()
 	_update_hud()
 
 #endregion
@@ -488,6 +504,8 @@ func _build_squares() -> void:
 	_add_square("cash", ActionSquare.Kind.CASH, "Collect coins", CASH_SQUARE)
 	_add_square("upgrade_backpack", ActionSquare.Kind.BUY, "Bigger backpack", BACKPACK_SQUARE)
 	_add_square("upgrade_gear", ActionSquare.Kind.BUY, "", GEAR_SQUARE)
+	_add_square("buy_drone", ActionSquare.Kind.BUY, "Buy drone", DRONE_PAD)
+	_add_square("hire_cashier", ActionSquare.Kind.BUY, "Hire cashier", CASHIER_SQUARE)
 	for slot in DataRegistry.tank_slots.size():
 		_slot_squares.append(_add_square("", ActionSquare.Kind.BUY, "", _tank_slot_position(slot) + TANK_SQUARE_OFFSET))
 
@@ -518,6 +536,10 @@ func _refresh_squares() -> void:
 	var gear := square_by_id("upgrade_gear")
 	var next_gear := DataRegistry.gear_levels[mini(state.gear_level, DataRegistry.gear_levels.size() - 1)]
 	_set_purchase(gear, "upgrade_gear", next_gear.name, Aquarium.gear_upgrade_cost(state))
+	# Drones need a charted zone to work in.
+	var drone_cost := Automation.next_drone_cost(state) if not Charting.charted_zones(state).is_empty() else -1.0
+	_set_purchase(square_by_id("buy_drone"), "buy_drone", "Buy drone", drone_cost)
+	_set_purchase(square_by_id("hire_cashier"), "hire_cashier", "Hire cashier", Automation.cashier_cost(state))
 
 
 func _set_purchase(target: ActionSquare, square_id: String, title: String, price: float) -> void:
@@ -695,6 +717,14 @@ func _complete_purchase(target: ActionSquare) -> void:
 		GameState.upgrade_backpack()
 		live_well.capacity = Aquarium.backpack_capacity(state)
 		message = "Bigger backpack!\n%d fish" % live_well.capacity
+	elif target.id == "buy_drone":
+		GameState.buy_drone()
+		_sync_drones()
+		message = "New drone!\nIt fishes in the %s" % _drones[-1].zone.name
+	elif target.id == "hire_cashier":
+		GameState.hire_cashier()
+		_booth.staffed = true
+		message = "Cashier hired!\nCoins go straight to your wallet"
 	elif target.id == "upgrade_gear":
 		GameState.upgrade_gear()
 		_apply_gear()
@@ -755,9 +785,65 @@ func spawn_visitor() -> Visitor:
 func _on_visitor_arrived(visitor: Visitor, waypoint: int) -> void:
 	if waypoint != visitor.pay_at or visitor.amount <= 0.0:
 		return
-	GameState.add_to_cash_pile(visitor.amount)
-	Juice.fly_coin(_popups, _world_to_scene(visitor.position + Vector2(0.0, -90.0)), _world_to_scene(square_by_id("cash").position), 9.0 * ZOOM)
+	GameState.receive_visitor_payment(visitor.amount)
+	var from := _world_to_scene(visitor.position + Vector2(0.0, -90.0))
+	var to := _money_label.get_global_rect().get_center() - _popups.get_global_rect().position \
+			if GameState.state.has_cashier else _world_to_scene(square_by_id("cash").position)
+	Juice.fly_coin(_popups, from, to, 9.0 * ZOOM)
 	Sfx.play(&"coin", 1.3, -12.0)
+
+#endregion
+
+
+#region Drones
+
+## Creates drone nodes to match the number bought, each working in a charted zone.
+func _sync_drones() -> void:
+	var state := GameState.state
+	for i in state.drone_count:
+		var zone := Automation.drone_zone(state, i)
+		if zone == null:
+			return
+		if i < _drones.size():
+			continue
+		var drone := Drone.new()
+		drone.setup(DRONE_PAD, zone, _zone_areas[DataRegistry.zones.find(zone)], Automation.drone_capacity(state))
+		drone.delivered.connect(_on_drone_delivered)
+		_entities.add_child(drone)
+		_drones.append(drone)
+
+
+func _update_drones(delta: float) -> void:
+	for drone in _drones:
+		var lifted := drone.simulate(delta, _fish, _drone_can_take)
+		if drone.task == Drone.Task.LIFT and drone.target != null:
+			# The fish wriggles in the drone's net.
+			drone.target.hold_time = maxf(drone.target.hold_time, 0.1)
+		if lifted != null:
+			_fish.erase(lifted)
+			lifted.play_caught(drone.net_position())
+			Juice.splash(_effects, lifted.position, 6)
+			Sfx.play(&"pop", 1.2, -12.0)
+
+
+func _drone_can_take(species_id: String) -> bool:
+	return Automation.drone_can_catch(GameState.state, species_id)
+
+
+## A drone landed with its catch: into the tanks where there is room, the rest is sold.
+func _on_drone_delivered(drone: Drone, species_ids: Array[String]) -> void:
+	var from := _world_to_scene(drone.net_position())
+	for id in species_ids:
+		var tank := GameState.store_fish(id)
+		if tank != null:
+			var node := _tank_nodes[tank.slot]
+			Juice.fly_fish(_popups, _art_for(id), from, _world_to_scene(node.drop_point()), Drone.ICON_LENGTH * ZOOM,
+					_on_fish_reached_tank.bind(node))
+		else:
+			GameState.sell_fish(id)
+			Juice.fly_coin(_popups, from, _money_label.get_global_rect().get_center() - _popups.get_global_rect().position, 9.0 * ZOOM)
+	Sfx.play(&"pop", 1.4, -10.0)
+	_update_hud()
 
 #endregion
 

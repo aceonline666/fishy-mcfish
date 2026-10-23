@@ -15,6 +15,9 @@ var backpack_level := 1
 var gear_level := 1
 ## Fish caught per depth zone id, for charting.
 var zone_catches: Dictionary[String, int] = {}
+var drone_count := 0
+## A hired cashier takes the visitors' coins straight to the wallet.
+var has_cashier := false
 ## Built tanks, ordered by slot.
 var tanks: Array[TankState] = []
 ## Coins visitors have paid that wait at the ticket booth to be collected.
@@ -83,6 +86,8 @@ func to_dict() -> Dictionary:
 		"backpack_level": backpack_level,
 		"gear_level": gear_level,
 		"zone_catches": zone_catches.duplicate(),
+		"drone_count": drone_count,
+		"has_cashier": has_cashier,
 		"tanks": tank_data,
 		"cash_pile": cash_pile,
 		"pending_income": pending_income,
@@ -103,6 +108,8 @@ static func from_dict(data: Dictionary) -> PlayerState:
 		state.species_caught[str(key)] = int(raw_caught[key])
 	state.backpack_level = maxi(int(data.get("backpack_level", 1)), 1)
 	state.gear_level = maxi(int(data.get("gear_level", 1)), 1)
+	state.drone_count = maxi(int(data.get("drone_count", 0)), 0)
+	state.has_cashier = bool(data.get("has_cashier", false))
 	var raw_zones: Dictionary = data.get("zone_catches", {})
 	for key: Variant in raw_zones:
 		state.zone_catches[str(key)] = int(raw_zones[key])

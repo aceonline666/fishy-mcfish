@@ -218,6 +218,41 @@ func test_fish_keep_to_their_zone() -> void:
 	assert_gte(fish.ground_position.y, deep.depth_start - 120.0, "swims back into its zone")
 
 
+func _chart_shallows() -> void:
+	var shallows := DataRegistry.zones[0]
+	for i in Charting.CATCHES_TO_CHART:
+		GameState.record_catch("european_sprat", shallows.id)
+	for id in Charting.required_species(shallows):
+		GameState.record_catch(id, shallows.id)
+
+
+func test_drones_are_offered_once_a_zone_is_charted() -> void:
+	assert_null(_scene.square("buy_drone"))
+	_chart_shallows()
+	GameState.replace_state(GameState.state)
+	await wait_process_frames(1)
+	assert_not_null(_scene.square("buy_drone"))
+
+
+func test_a_drone_catches_known_fish_and_brings_them_to_the_tanks() -> void:
+	_chart_shallows()
+	GameState.state.drone_count = 1
+	GameState.replace_state(GameState.state)
+	await wait_process_frames(1)
+	var shallows := DataRegistry.zones[0]
+	for i in 3:
+		_scene.spawn_fish("european_sprat", Vector2(300.0 + i * 40.0, 200.0), 0.0)
+	# Unknown to the player: the drone must leave it alone.
+	GameState.state.species_caught.erase("lumpsucker")
+	_scene.spawn_fish("lumpsucker", Vector2(200.0, 250.0), 0.0)
+	_wader.ground_position = Vector2(1100.0, 400.0)
+	await wait_seconds(14.0)
+
+	assert_eq(GameState.state.tanks[0].fish.size(), 3, "three sprats delivered")
+	assert_eq(_scene.fish_count(), 1, "the unknown lumpsucker is still swimming")
+	assert_eq(_scene._drones[0].zone, shallows)
+
+
 func test_tapping_the_store_square_walks_the_wader_onto_it() -> void:
 	var store: ActionSquare = _scene.square("store")
 	var square_screen: Vector2 = _scene.ground_to_scene(store.ground_center)

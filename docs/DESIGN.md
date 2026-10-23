@@ -83,6 +83,8 @@ Each location has three or four **depth layers**. Every layer starts **uncharted
 - **Fishpedia:** a collection book with a side-profile illustration, scientific name, real size, habitat and a fun fact for each species. Completion percentage is a long-term goal.
 
 ## A7. Automation
+> **As built (M4, walking world):** depth zones are bands of water further from the shore (data/zones.csv), opened by diving gear bought on the beach. A zone is charted after 25 catches there plus every common and uncommon species of it. **Drones** (bought on the drone pad once a zone is charted) fly over charted zones, deepest first, lift only species the player has caught, and deliver to the tanks (sold if no room). Offline they fill tanks at a reduced rate. Instead of sales staff, a **cashier** at the ticket booth takes visitors' coins straight to the wallet.
+
 - **Sales staff** (hired in the Staff screen): each person sells X fish per minute from the tanks assigned to them. Their policy can be "only grown ⭐", "overflow only" or "everything except favourites". Levelling up raises speed and adds a price bonus. There are 1 to 2 slots per hall section.
 - **Drones:** each drone is assigned to one **charted** location and layer. It catches Y fish per hour from that layer's spawn table (weighted toward common fish) and delivers them to the Intake Tank. When intake is full, the drone idles and shows a 💤 icon. That gives soft pressure to expand. Drone tiers cap the reachable depth.
 - **Auto-feeder** (per tank) and **Supply contract** (food is bought automatically with money).

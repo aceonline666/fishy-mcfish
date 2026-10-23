@@ -41,6 +41,15 @@ static func is_charted(state: PlayerState, zone: ZoneDef) -> bool:
 	return true
 
 
+## Charted zones, deepest first (drones prefer the most valuable water).
+static func charted_zones(state: PlayerState) -> Array[ZoneDef]:
+	var charted: Array[ZoneDef] = []
+	for zone in DataRegistry.zones:
+		if is_charted(state, zone):
+			charted.push_front(zone)
+	return charted
+
+
 ## Short progress text, e.g. "charted" or "12/25 fish · 2/3 species".
 static func progress_text(state: PlayerState, zone: ZoneDef) -> String:
 	if is_charted(state, zone):

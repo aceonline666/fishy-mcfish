@@ -4,8 +4,10 @@ extends Node
 ## after time away.
 
 var state := PlayerState.new_game()
-## Coins the visitors left at the booth while the player was away; shown once, then reset.
+## Coins the visitors paid while the player was away; shown once, then reset.
 var last_offline_earned := 0.0
+## Fish the drones stored while the player was away; shown once, then reset.
+var last_offline_stored := 0
 
 
 func _ready() -> void:
@@ -73,6 +75,14 @@ func take_pending_income() -> float:
 	return amount
 
 
+## A visitor pays: into the wallet if a cashier is hired, otherwise onto the pile at the booth.
+func receive_visitor_payment(amount: float) -> void:
+	if state.has_cashier:
+		add_money(amount)
+	else:
+		add_to_cash_pile(amount)
+
+
 func add_to_cash_pile(amount: float) -> void:
 	state.cash_pile += amount
 
@@ -119,14 +129,23 @@ func upgrade_gear() -> void:
 	state.gear_level = mini(state.gear_level + 1, DataRegistry.gear_levels.size())
 
 
+func buy_drone() -> void:
+	state.drone_count = mini(state.drone_count + 1, DataRegistry.drone_levels.size())
+
+
+func hire_cashier() -> void:
+	state.has_cashier = true
+
+
 func _on_sim_tick(dt: float) -> void:
 	Aquarium.advance(state, dt)
 
 
-## While the player was away, visitors kept coming: all income goes straight to the booth.
+## While the player was away, drones kept filling the tanks and visitors kept coming.
 func _on_offline_progress(seconds: float) -> void:
+	last_offline_stored += Automation.run_drones_offline(state, seconds, RandomNumberGenerator.new())
 	Aquarium.advance(state, seconds)
 	var earned := take_pending_income()
 	if earned > 0.0:
-		add_to_cash_pile(earned)
+		receive_visitor_payment(earned)
 		last_offline_earned += earned

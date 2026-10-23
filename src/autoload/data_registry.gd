@@ -12,6 +12,10 @@ var tank_slots: Array[LevelDef] = []
 var backpack_levels: Array[LevelDef] = []
 ## Diving gear, index 0 = level 1 (waders).
 var gear_levels: Array[LevelDef] = []
+## Fishing drones: level n is the n-th drone; capacity = fish it carries per trip.
+var drone_levels: Array[LevelDef] = []
+## Staff that can be hired; level 1 is the cashier.
+var staff_levels: Array[LevelDef] = []
 ## Depth zones, ordered from the shore outwards.
 var zones: Array[ZoneDef] = []
 var errors: PackedStringArray = []
@@ -32,6 +36,8 @@ func load_all(dir: String) -> void:
 	tank_slots = _load_levels(dir.path_join("tank_slots.csv"))
 	backpack_levels = _load_levels(dir.path_join("backpacks.csv"))
 	gear_levels = _load_levels(dir.path_join("gear.csv"))
+	drone_levels = _load_levels(dir.path_join("drones.csv"))
+	staff_levels = _load_levels(dir.path_join("staff.csv"))
 	_load_zones(dir.path_join("zones.csv"))
 
 
