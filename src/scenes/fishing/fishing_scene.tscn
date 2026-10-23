@@ -109,13 +109,6 @@ theme_override_constants/icon_max_width = 60
 icon = ExtResource("12_cog")
 icon_alignment = 1
 
-[node name="LanguageButton" type="Button" parent="Hud/Layout/Buttons"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 84)
-layout_mode = 2
-theme_override_constants/icon_max_width = 62
-icon_alignment = 1
-
 [node name="MapButton" type="Button" parent="Hud/Layout/Buttons"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 84)

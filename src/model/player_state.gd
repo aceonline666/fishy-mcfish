@@ -1,42 +1,48 @@
 class_name PlayerState
 extends RefCounted
 ## Everything about a player's progress that gets saved. Pure data: no nodes, no signals.
-## Use new_game() for a fresh start; PlayerState.new() is completely empty.
+## Coins, the Fishpedia, charted zones and goals are shared; each location has its own beach
+## business (a Site). Use new_game() for a fresh start; PlayerState.new() is completely empty.
+
+## Tank slots per location in saves from before each location had its own business: four
+## temperate slots at home, then four tropical ones (now the Coral Reef's).
+const LEGACY_SLOTS_PER_LOCATION := 4
+const LEGACY_TROPICAL_LOCATION := "coral_reef"
 
 var money := 0.0
 ## Lifetime earnings. Used later to pick the "most progressed" save on cloud conflicts.
 var total_earned := 0.0
 var stats: Dictionary[String, int] = {}
-## How many of each species the player has ever caught. Feeds the Fishpedia later.
+## How many of each species the player has ever caught. Feeds the Fishpedia.
 var species_caught: Dictionary[String, int] = {}
-## Index + 1 into DataRegistry.backpack_levels.
-var backpack_level := 1
-## Index + 1 into DataRegistry.gear_levels; decides which depth zones are open.
-var gear_level := 1
 ## Fish caught per depth zone id, for charting.
 var zone_catches: Dictionary[String, int] = {}
 ## Where the player is fishing; empty means home.
 var current_location := ""
 ## Locations opened by paying their travel fee.
 var unlocked_locations: Array[String] = []
-var drone_count := 0
 ## Ids of the goals reached (and paid out).
 var achievements: Array[String] = []
-## Index + 1 into DataRegistry.net_levels; better nets land big fish faster.
-var net_level := 1
-## Shops built on the beach (the first is free) and sellers hired to work in them.
-var shop_count := 1
-var seller_count := 0
-## Built tanks, ordered by slot.
-var tanks: Array[TankState] = []
-## Coins already paid into build squares, by square id.
-var build_progress: Dictionary[String, float] = {}
+## The beach business of each location visited, by location id.
+var sites: Dictionary[String, Site] = {}
 
 
 static func new_game() -> PlayerState:
 	var state := PlayerState.new()
-	state.tanks.append(TankState.new(0, 1))
+	state.site(DataRegistry.home().id)
 	return state
+
+
+## The business at a location, started from scratch on the first visit.
+func site(location_id: String) -> Site:
+	if not sites.has(location_id):
+		sites[location_id] = Site.create(location_id)
+	return sites[location_id]
+
+
+## The business where the player is.
+func here() -> Site:
+	return site(current_location if not current_location.is_empty() else DataRegistry.home().id)
 
 
 func add_money(amount: float) -> void:
@@ -72,34 +78,35 @@ func record_catch(species_id: String, zone_id: String = "") -> bool:
 	return is_new
 
 
-func tank_in_slot(slot: int) -> TankState:
-	for tank in tanks:
-		if tank.slot == slot:
-			return tank
-	return null
+## Sum of an integer site field (e.g. "drone_count") over all locations.
+func total(field: String) -> int:
+	var sum := 0
+	for s: Site in sites.values():
+		sum += int(s.get(field))
+	return sum
+
+
+func tank_count() -> int:
+	var sum := 0
+	for s: Site in sites.values():
+		sum += s.tanks.size()
+	return sum
 
 
 func to_dict() -> Dictionary:
-	var tank_data: Array[Dictionary] = []
-	for tank in tanks:
-		tank_data.append(tank.to_dict())
+	var site_data := {}
+	for id in sites:
+		site_data[id] = sites[id].to_dict()
 	return {
 		"money": money,
 		"total_earned": total_earned,
 		"stats": stats.duplicate(),
 		"species_caught": species_caught.duplicate(),
-		"backpack_level": backpack_level,
-		"gear_level": gear_level,
 		"zone_catches": zone_catches.duplicate(),
-		"drone_count": drone_count,
 		"achievements": achievements.duplicate(),
 		"current_location": current_location,
 		"unlocked_locations": unlocked_locations.duplicate(),
-		"net_level": net_level,
-		"shop_count": shop_count,
-		"seller_count": seller_count,
-		"tanks": tank_data,
-		"build_progress": build_progress.duplicate(),
+		"sites": site_data,
 	}
 
 
@@ -114,17 +121,6 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	var raw_caught: Dictionary = data.get("species_caught", {})
 	for key: Variant in raw_caught:
 		state.species_caught[str(key)] = int(raw_caught[key])
-	state.backpack_level = maxi(int(data.get("backpack_level", 1)), 1)
-	state.gear_level = maxi(int(data.get("gear_level", 1)), 1)
-	state.drone_count = maxi(int(data.get("drone_count", 0)), 0)
-	state.net_level = maxi(int(data.get("net_level", 1)), 1)
-	state.shop_count = maxi(int(data.get("shop_count", 1)), 1)
-	state.seller_count = maxi(int(data.get("seller_count", 0)), 0)
-	# Saves from before the shops had visitors, a cash pile and a cashier: keep the coins and
-	# turn the cashier into the first seller.
-	state.money += float(data.get("cash_pile", 0.0)) + float(data.get("pending_income", 0.0))
-	if bool(data.get("has_cashier", false)):
-		state.seller_count = maxi(state.seller_count, 1)
 	var raw_achievements: Array = data.get("achievements", [])
 	for id: Variant in raw_achievements:
 		state.achievements.append(str(id))
@@ -135,18 +131,36 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	var raw_zones: Dictionary = data.get("zone_catches", {})
 	for key: Variant in raw_zones:
 		state.zone_catches[str(key)] = int(raw_zones[key])
-	var raw_tanks: Array = data.get("tanks", [])
-	for entry: Variant in raw_tanks:
-		if entry is Dictionary:
-			state.tanks.append(TankState.from_dict(entry))
-	if state.tanks.is_empty():
-		state.tanks.append(TankState.new(0, 1))
-	state.tanks.sort_custom(func(a: TankState, b: TankState) -> bool: return a.slot < b.slot)
+
+	var raw_sites: Variant = data.get("sites")
+	if raw_sites is Dictionary:
+		for id: Variant in raw_sites:
+			if raw_sites[id] is Dictionary:
+				state.sites[str(id)] = Site.from_dict(str(id), raw_sites[id])
+	else:
+		_read_legacy_business(state, data)
+	state.site(DataRegistry.home().id)
+	return state
+
+
+## Saves from before each location had its own business kept it in global fields: it all
+## becomes the home business, except the tropical tanks, which move to the Coral Reef.
+static func _read_legacy_business(state: PlayerState, data: Dictionary) -> void:
+	var home := Site.from_dict(DataRegistry.home().id, data, 0, LEGACY_SLOTS_PER_LOCATION)
+	home.build_progress.erase("build_tropical_tank")
+	state.sites[home.location_id] = home
+	# Saves from before the shops had visitors, a cash pile and a cashier: keep the coins and
+	# turn the cashier into the first seller.
+	state.money += float(data.get("cash_pile", 0.0)) + float(data.get("pending_income", 0.0))
+	if bool(data.get("has_cashier", false)):
+		home.seller_count = maxi(home.seller_count, 1)
 	# Early prototype saves kept stored fish as a flat list; move them into the first tank.
 	var legacy_tank: Array = data.get("tank_fish", [])
 	for id: Variant in legacy_tank:
-		state.tanks[0].fish.append(TankFish.new(str(id)))
-	var raw_progress: Dictionary = data.get("build_progress", {})
-	for key: Variant in raw_progress:
-		state.build_progress[str(key)] = float(raw_progress[key])
-	return state
+		home.tanks[0].fish.append(TankFish.new(str(id)))
+
+	var tropical_tanks: Array = (data.get("tanks", []) as Array).filter(func(entry: Variant) -> bool:
+		return entry is Dictionary and int(entry.get("slot", 0)) >= LEGACY_SLOTS_PER_LOCATION)
+	if not tropical_tanks.is_empty():
+		state.sites[LEGACY_TROPICAL_LOCATION] = Site.from_dict(LEGACY_TROPICAL_LOCATION,
+				{"tanks": tropical_tanks}, LEGACY_SLOTS_PER_LOCATION, LEGACY_SLOTS_PER_LOCATION)

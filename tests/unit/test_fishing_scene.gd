@@ -122,7 +122,7 @@ func test_store_square_moves_the_catch_into_a_tank() -> void:
 
 	assert_eq(_scene.live_well.count(), 0)
 	assert_eq(_wader.carried.size(), 0)
-	assert_eq(GameState.state.tanks[0].fish.size(), 2)
+	assert_eq(GameState.here().tanks[0].fish.size(), 2)
 	assert_eq(GameState.state.money, 0.0, "storing does not sell")
 
 
@@ -133,22 +133,22 @@ func test_fish_too_big_for_every_tank_stay_in_the_backpack() -> void:
 	await wait_seconds(1.0)
 
 	assert_eq(_scene.live_well.species_ids, ["atlantic_mackerel"] as Array[String])
-	assert_eq(GameState.state.tanks[0].fish.size(), 1)
+	assert_eq(GameState.here().tanks[0].fish.size(), 1)
 
 
 func test_sell_square_sells_the_backpack_first() -> void:
 	await _catch(["european_sprat", "european_sprat"] as Array[String])
-	GameState.state.tanks[0].fish.append(TankFish.new("atlantic_herring", 1.0))
+	GameState.here().tanks[0].fish.append(TankFish.new("atlantic_herring", 1.0))
 	_stand_on("sell_0")
 	await wait_seconds(0.5)
 
 	assert_eq(_scene.live_well.count(), 0)
 	assert_eq(GameState.state.money, 10.0)
-	assert_eq(GameState.state.tanks[0].fish.size(), 1, "the tanks come after the backpack")
+	assert_eq(GameState.here().tanks[0].fish.size(), 1, "the tanks come after the backpack")
 
 
 func test_sell_square_then_sells_the_most_valuable_fish_from_the_tanks() -> void:
-	var tank := GameState.state.tanks[0]
+	var tank := GameState.here().tanks[0]
 	tank.fish.append(TankFish.new("european_sprat", 0.0))
 	tank.fish.append(TankFish.new("atlantic_herring", 1.0))
 	_stand_on("sell_0")
@@ -161,19 +161,19 @@ func test_sell_square_then_sells_the_most_valuable_fish_from_the_tanks() -> void
 
 func test_selling_is_slower_than_storing() -> void:
 	for i in 10:
-		GameState.state.tanks[0].fish.append(TankFish.new("european_sprat"))
+		GameState.here().tanks[0].fish.append(TankFish.new("european_sprat"))
 	_stand_on("sell_0")
 	await wait_seconds(1.0)
-	assert_between(GameState.state.tanks[0].fish.size(), 5, 8)
+	assert_between(GameState.here().tanks[0].fish.size(), 5, 8)
 
 
 func test_paying_a_build_square_builds_a_tank() -> void:
-	var price := Aquarium.next_tank_cost(GameState.state)
+	var price := Aquarium.next_tank_cost(GameState.here())
 	GameState.add_money(price + 25.0)
 	_stand_on("build_tank")
 	await wait_seconds(3.0)
 
-	assert_eq(GameState.state.tanks.size(), 2)
+	assert_eq(GameState.here().tanks.size(), 2)
 	assert_almost_eq(GameState.state.money, 25.0, 0.01, "the next purchase waits until the wader steps off")
 	assert_not_null(_scene.square("upgrade_tank_1"), "the new tank can be upgraded")
 	assert_not_null(_scene.square("build_tank"), "the next slot can be built")
@@ -185,35 +185,35 @@ func test_partial_payment_is_kept() -> void:
 	await wait_seconds(1.5)
 
 	assert_eq(GameState.state.money, 0.0)
-	assert_eq(GameState.state.tanks.size(), 1)
-	assert_eq(GameState.state.build_progress.get("build_tank"), 30.0)
+	assert_eq(GameState.here().tanks.size(), 1)
+	assert_eq(GameState.here().build_progress.get("build_tank"), 30.0)
 
 
 func test_bigger_backpack_holds_more_fish() -> void:
-	GameState.add_money(Aquarium.backpack_upgrade_cost(GameState.state))
+	GameState.add_money(Aquarium.backpack_upgrade_cost(GameState.here()))
 	_stand_on("upgrade_backpack")
 	await wait_seconds(3.0)
 
-	assert_eq(GameState.state.backpack_level, 2)
+	assert_eq(GameState.here().backpack_level, 2)
 	assert_eq(_scene.live_well.capacity, int(DataRegistry.backpack_levels[1].capacity))
 
 
 func test_building_a_second_shop() -> void:
-	GameState.add_money(Selling.next_shop_cost(GameState.state))
+	GameState.add_money(Selling.next_shop_cost(GameState.here()))
 	_stand_on("build_shop")
 	await wait_seconds(3.0)
-	assert_eq(GameState.state.shop_count, 2)
+	assert_eq(GameState.here().shop_count, 2)
 	assert_not_null(_scene.square("sell_1"))
 
 
 func test_a_hired_seller_sells_their_shops_fish_on_their_own() -> void:
-	GameState.add_money(Selling.next_seller_cost(GameState.state))
+	GameState.add_money(Selling.next_seller_cost(GameState.here()))
 	_stand_on("hire_seller")
 	await wait_seconds(3.0)
-	assert_eq(GameState.state.seller_count, 1)
+	assert_eq(GameState.here().seller_count, 1)
 	assert_null(_scene.square("hire_seller"), "one seller per shop")
 
-	var tank := GameState.state.tanks[0]
+	var tank := GameState.here().tanks[0]
 	tank.fish.append(TankFish.new("european_sprat", 0.2))
 	tank.fish.append(TankFish.new("atlantic_herring", 1.0))
 	tank.fish.append(TankFish.new("european_plaice", 1.0))
@@ -227,10 +227,10 @@ func test_a_hired_seller_sells_their_shops_fish_on_their_own() -> void:
 
 
 func test_each_shop_sells_the_fish_of_its_zone() -> void:
-	GameState.state.shop_count = 2
+	GameState.here().shop_count = 2
 	GameState.replace_state(GameState.state)
 	await wait_process_frames(1)
-	var tank := GameState.state.tanks[0]
+	var tank := GameState.here().tanks[0]
 	tank.fish.append(TankFish.new("european_sprat", 0.0))
 	tank.fish.append(TankFish.new("european_plaice", 0.0))
 	_stand_on("sell_1")
@@ -252,10 +252,10 @@ func test_fish_no_shop_buys_are_let_go_at_a_shop() -> void:
 
 func test_a_better_net_lands_big_fish_faster_and_is_wider() -> void:
 	var radius := _wader.scoop_radius
-	GameState.add_money(Aquarium.net_upgrade_cost(GameState.state))
+	GameState.add_money(Aquarium.net_upgrade_cost(GameState.here()))
 	_stand_on("upgrade_net")
 	await wait_seconds(3.0)
-	assert_eq(GameState.state.net_level, 2)
+	assert_eq(GameState.here().net_level, 2)
 	assert_gt(_wader.scoop_radius, radius)
 
 
@@ -269,11 +269,11 @@ func test_deeper_zones_are_closed_without_gear() -> void:
 
 
 func test_buying_gear_opens_the_next_zone() -> void:
-	GameState.add_money(Aquarium.gear_upgrade_cost(GameState.state))
+	GameState.add_money(Aquarium.gear_upgrade_cost(GameState.here()))
 	_stand_on("upgrade_gear")
 	await wait_seconds(3.0)
 
-	assert_eq(GameState.state.gear_level, 2)
+	assert_eq(GameState.here().gear_level, 2)
 	assert_gt(_scene.walk_area.rect.end.y, DataRegistry.zones[0].depth_end)
 	assert_eq(_wader.gear_level, 2)
 
@@ -309,7 +309,7 @@ func test_drones_are_offered_once_a_zone_is_charted() -> void:
 
 func test_a_drone_catches_known_fish_and_brings_them_to_the_tanks() -> void:
 	_chart_shallows()
-	GameState.state.drone_count = 1
+	GameState.here().drone_count = 1
 	GameState.replace_state(GameState.state)
 	await wait_process_frames(1)
 	var shallows := DataRegistry.zones[0]
@@ -320,34 +320,36 @@ func test_a_drone_catches_known_fish_and_brings_them_to_the_tanks() -> void:
 	_scene.spawn_fish("lumpsucker", Vector2(200.0, 250.0), 0.0)
 	_wader.ground_position = Vector2(1100.0, 400.0)
 	# The drone first flies to a random spot of its zone, so the delivery takes a varying time.
-	await wait_until(func() -> bool: return GameState.state.tanks[0].fish.size() >= 3, 30.0)
+	await wait_until(func() -> bool: return GameState.here().tanks[0].fish.size() >= 3, 30.0)
 
-	assert_eq(GameState.state.tanks[0].fish.size(), 3, "three sprats delivered")
+	assert_eq(GameState.here().tanks[0].fish.size(), 3, "three sprats delivered")
 	assert_eq(_scene.fish_count(), 1, "the unknown lumpsucker is still swimming")
 	assert_eq(_scene._drones[0].zone, shallows)
 	assert_eq(_scene._drones[0].capacity, Automation.drone_capacity(0))
 
 
-func test_the_reef_dock_ships_the_catch_to_a_tropical_tank_at_home() -> void:
+func test_the_reef_has_its_own_business_from_scratch() -> void:
 	var state := GameState.state
+	state.here().shop_count = 2
+	state.here().gear_level = 3
 	state.unlocked_locations.append("coral_reef")
 	state.current_location = "coral_reef"
-	var tropical := GameState.build_next_tank("tropical")
 	var reef: Control = FishingSceneFile.instantiate()
 	reef.auto_spawn = false
 	add_child_autofree(reef)
 	await wait_process_frames(2)
 
-	assert_false(reef.is_home)
-	assert_null(reef.square("sell_0"), "no shops away from home")
-	assert_not_null(reef.square("sell_dock"))
+	assert_not_null(reef.square("sell_0"), "the reef has its own first shop")
+	assert_null(reef.square("sell_1"))
+	assert_eq(reef.walk_area.rect.end.y, DataRegistry.zones_in("coral_reef")[0].depth_end, "only the first zone is open")
 	var reef_wader: Wader = reef.wader
 	reef.spawn_fish("ocellaris_clownfish", reef_wader.scoop_center(), 0.0)
 	await wait_seconds(0.5)
 	reef_wader.ground_position = reef.square("store").ground_center
 	await wait_seconds(1.0)
-	assert_eq(tropical.fish.size(), 1)
-	assert_eq(tropical.fish[0].species_id, "ocellaris_clownfish")
+	var reef_tank := GameState.here().tanks[0]
+	assert_eq(reef_tank.fish.size(), 1)
+	assert_eq(reef_tank.fish[0].species_id, "ocellaris_clownfish")
 
 
 func test_holding_on_the_store_square_walks_the_wader_onto_it() -> void:

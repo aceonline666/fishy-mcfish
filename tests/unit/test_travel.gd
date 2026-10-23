@@ -1,5 +1,5 @@
 extends GutTest
-## Locations, travel and tropical tanks.
+## Locations, travel, and the business each location has of its own.
 
 var _original_state: PlayerState
 
@@ -39,22 +39,36 @@ func test_reaching_the_goal_and_paying_opens_the_reef() -> void:
 	assert_false(Travel.is_home(state))
 
 
-func test_tropical_fish_need_a_tropical_tank() -> void:
+func test_the_reef_starts_from_scratch() -> void:
 	var state := GameState.state
-	assert_null(Aquarium.store(state, "ocellaris_clownfish"), "the first tank is temperate")
-	var tank := GameState.build_next_tank("tropical")
-	assert_eq(Aquarium.tank_env(tank), "tropical")
-	assert_eq(Aquarium.store(state, "ocellaris_clownfish"), tank)
-	assert_eq(Aquarium.store(state, "european_sprat"), state.tanks[0], "temperate fish still go to the temperate tank")
+	var home := state.here()
+	home.gear_level = 3
+	home.net_level = 2
+	home.shop_count = 2
+	home.tanks.append(TankState.new(1, 2))
+	state.unlocked_locations.append(_reef().id)
+	GameState.travel_to(_reef())
+
+	var reef := GameState.here()
+	assert_ne(reef, home)
+	assert_eq(reef.location_id, _reef().id)
+	assert_eq(reef.gear_level, 1, "only the first zone is open")
+	assert_eq(reef.net_level, 1, "the smallest net")
+	assert_eq(reef.shop_count, 1)
+	assert_eq(reef.tanks.size(), 1)
+	assert_eq(home.gear_level, 3, "the North Sea keeps its business")
 
 
-func test_each_environment_has_its_own_slots_and_prices() -> void:
+func test_coins_are_shared_and_purchases_are_per_location() -> void:
 	var state := GameState.state
-	var temperate_slot := Aquarium.next_slot(state, "temperate")
-	var tropical_slot := Aquarium.next_slot(state, "tropical")
-	assert_eq(DataRegistry.tank_slots[temperate_slot].env, "temperate")
-	assert_eq(DataRegistry.tank_slots[tropical_slot].env, "tropical")
-	assert_eq(Aquarium.next_tank_cost(state, "tropical"), DataRegistry.tank_slots[tropical_slot].cost)
+	state.unlocked_locations.append(_reef().id)
+	GameState.travel_to(_reef())
+	GameState.add_money(1000.0)
+	GameState.upgrade_net()
+	assert_eq(state.here().net_level, 2)
+	assert_eq(state.site(DataRegistry.home().id).net_level, 1)
+	GameState.travel_to(DataRegistry.home())
+	assert_eq(state.money, 1000.0, "the wallet travels along")
 
 
 func test_the_map_offers_travel_once_unlocked() -> void:

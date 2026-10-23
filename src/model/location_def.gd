@@ -1,8 +1,8 @@
 class_name LocationDef
 extends RefCounted
-## A place to fish, from data/locations.csv. The first location is home, with the aquarium.
-## Others unlock when their goal (`unlock`, an achievement id) is reached and the travel fee
-## is paid once.
+## A place to fish, from data/locations.csv. The first location is home. Others unlock when
+## their goal (`unlock`, an achievement id) is reached and the travel fee is paid once. Each has
+## its own beach business, started from scratch.
 
 var id: String
 var name: String
@@ -12,6 +12,8 @@ var env: String
 ## Achievement id that must be reached first; empty for home.
 var unlock: String
 var travel_cost: float
+## Buildings and upgrades here cost the data prices times this.
+var price_factor := 1.0
 var shallow_color: Color
 var deep_color: Color
 var sand_color: Color
@@ -32,6 +34,11 @@ static func from_row(row: Dictionary, errors: PackedStringArray, where: String) 
 		errors.append("%s: unknown env '%s'" % [where, def.env])
 	def.order = str(row.get("order", "0")).to_int()
 	def.travel_cost = str(row.get("travel_cost", "0")).to_float()
+	var factor_text := str(row.get("price_factor", "1"))
+	if factor_text.is_valid_float() and factor_text.to_float() > 0.0:
+		def.price_factor = factor_text.to_float()
+	else:
+		errors.append("%s: price_factor must be a number > 0, got '%s'" % [where, factor_text])
 	for column: String in ["shallow_color", "deep_color", "sand_color"]:
 		var text := str(row.get(column, ""))
 		if not Color.html_is_valid(text):

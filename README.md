@@ -42,9 +42,11 @@ Up on the beach, pads act while you stand on them (walking on sand is faster tha
 
 The **Fishpedia** button lists every species, with facts for the ones you have caught. **Goals**
 lists achievements with coin rewards. The **Map** travels between locations: the Coral Reef
-opens with the "Sandbank surveyor" goal and a one-time fee. Away from home there is a dock that
-ships the catch to the tanks at home or sells it; tropical fish need the tropical tank row
-behind the shops.
+opens with the "Sandbank surveyor" goal and a one-time fee. Every location has its own beach
+business that starts from scratch (smallest net, first zone only, one tank and shop); building
+at the Reef costs 2.5 times as much (`price_factor` in `data/locations.csv`). Coins, the
+Fishpedia, charted zones and goals are shared, and sellers and drones keep working at the
+locations you are not at.
 
 Locations, zones, species, tanks, gear, drones, staff and goals are all data in `data/*.csv`.
 
@@ -52,8 +54,7 @@ Locations, zones, species, tanks, gear, drones, staff and goals are all data in 
 confirmation; sound effects and music each with an on/off switch and a volume slider; language. Settings are kept in
 `user://settings.cfg`, apart from the save.
 
-**Languages:** English and German. The game follows the device language; the flag button in the
-top bar or the menu switches it. Texts are written in English and
+**Languages:** English and German. The game follows the device language; the game menu switches it. Texts are written in English and
 wrapped in `tr("...")` (or `Lang.text("...")` in static code); data texts are translated where
 they are shown. Translations live in `localization/de.po` (gettext, the English text is the
 message id). `tests/unit/test_localization.gd` fails for any shown text without a German

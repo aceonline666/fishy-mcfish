@@ -1,3 +1,3 @@
-id,name,order,env,unlock,travel_cost,shallow_color,deep_color,sand_color,description
-north_sea,North Sea,1,temperate,,0,#52c7cc,#12548c,#f2d999,Your home beach with the aquarium. Cool water full of herring and cod.
-coral_reef,Coral Reef,2,tropical,chart_sandbanks,5000,#45e0cf,#0b5fa3,#fff0cc,Warm clear water over colourful corals. Tropical fish need heated tanks at home.
+id,name,order,env,unlock,travel_cost,price_factor,shallow_color,deep_color,sand_color,description
+north_sea,North Sea,1,temperate,,0,1,#52c7cc,#12548c,#f2d999,Your home beach with the aquarium. Cool water full of herring and cod.
+coral_reef,Coral Reef,2,tropical,chart_sandbanks,5000,2.5,#45e0cf,#0b5fa3,#fff0cc,Warm clear water over colourful corals. Start a second beach business from scratch; building here costs more.

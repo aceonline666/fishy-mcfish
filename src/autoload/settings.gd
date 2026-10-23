@@ -59,11 +59,6 @@ func set_language(code: String) -> void:
 	_save()
 
 
-## Switches to the next language; the language button cycles through them.
-func cycle_language() -> void:
-	set_language(LANGUAGES[(LANGUAGES.find(current_language()) + 1) % LANGUAGES.size()])
-
-
 func set_sound(on: bool, volume: float) -> void:
 	sound_on = on
 	sound_volume = clampf(volume, 0.0, 1.0)

@@ -32,9 +32,6 @@ msgstr "Neue Art!"
 msgid "%s charted!\nDrones can fish here now"
 msgstr "%s kartiert!\nJetzt können hier Drohnen fischen"
 
-msgid "Ship home"
-msgstr "Heimschicken"
-
 msgid "Sell fish"
 msgstr "Fisch verkaufen"
 
@@ -46,9 +43,6 @@ msgstr "Größeres Becken"
 
 msgid "Build tank"
 msgstr "Becken bauen"
-
-msgid "Tropical tank"
-msgstr "Tropenbecken"
 
 msgid "Build shop"
 msgstr "Laden bauen"
@@ -65,17 +59,11 @@ msgstr "Verkäufer einstellen"
 msgid "%d stored!"
 msgstr "%d eingelagert!"
 
-msgid "%d shipped home!"
-msgstr "%d heimgeschickt!"
-
 msgid "%d sold\n+%s coins"
 msgstr "%d verkauft\n+%s Münzen"
 
 msgid "Build or upgrade a tank."
 msgstr "Baue oder vergrößere ein Becken."
-
-msgid "Build a tropical tank at home."
-msgstr "Baue zu Hause ein Tropenbecken."
 
 msgid "No room in the tanks!"
 msgstr "Kein Platz in den Becken!"
@@ -91,9 +79,6 @@ msgstr "Einige Fische in den Becken stammen aus einer tieferen Zone. Baue den n�
 
 msgid "Not enough coins"
 msgstr "Nicht genug Münzen"
-
-msgid "New tropical tank!"
-msgstr "Neues Tropenbecken!"
 
 msgid "New tank!"
 msgstr "Neues Becken!"
@@ -304,8 +289,8 @@ msgstr "Dein Heimatstrand mit dem Aquarium. Kühles Wasser voller Heringe und Ka
 msgid "Coral Reef"
 msgstr "Korallenriff"
 
-msgid "Warm clear water over colourful corals. Tropical fish need heated tanks at home."
-msgstr "Warmes, klares Wasser über bunten Korallen. Tropische Fische brauchen zu Hause beheizte Becken."
+msgid "Warm clear water over colourful corals. Start a second beach business from scratch; building here costs more."
+msgstr "Warmes, klares Wasser über bunten Korallen. Hier baust du ein zweites Strandgeschäft von Grund auf auf; Bauen kostet hier mehr."
 
 msgid "Pier shallows"
 msgstr "Pier-Flachwasser"
@@ -488,18 +473,6 @@ msgstr "Drittes Becken"
 
 msgid "Fourth tank"
 msgstr "Viertes Becken"
-
-msgid "First tropical tank"
-msgstr "Erstes Tropenbecken"
-
-msgid "Second tropical tank"
-msgstr "Zweites Tropenbecken"
-
-msgid "Third tropical tank"
-msgstr "Drittes Tropenbecken"
-
-msgid "Fourth tropical tank"
-msgstr "Viertes Tropenbecken"
 
 msgid "First shop"
 msgstr "Erster Laden"

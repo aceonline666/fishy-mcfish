@@ -234,7 +234,9 @@ Fishy McFish/
 | M8 | **Android launch** | Device matrix testing, performance, store listing, closed test track, then production | Live on Google Play |
 | M9 | **Post-launch** | Cloud saves, iOS port, prestige, new locations | |
 
-> **As built (localisation):** English and German. Texts are written in English and used as gettext message ids; translations live in `localization/de.po` (no `localization.csv`). Data texts (species, zones, goals, ...) are translated where they are shown. The game follows the device language; the language button in the HUD switches it and the choice is kept in `user://settings.cfg`. A test fails for any shown text without a German translation.
+> **As built (localisation):** English and German. Texts are written in English and used as gettext message ids; translations live in `localization/de.po` (no `localization.csv`). Data texts (species, zones, goals, ...) are translated where they are shown. The game follows the device language; the game menu switches it and the choice is kept in `user://settings.cfg`. A test fails for any shown text without a German translation.
+
+> **As built (a business per location):** every location has its own beach business (`Site`: tanks, shops, sellers, drones, backpack, net, gear, payments in progress), started from scratch on the first visit; coins, the Fishpedia, charted zones and goals are shared. Prices scale with the location's `price_factor` (Coral Reef 2.5). Tanks hold their location's water, so the tropical tank row at home is gone; old saves move their tropical tanks to the Reef. Sellers and drones keep working at the other locations (drones at the slower unwatched rate).
 
 > **As built (game menu):** a cog button opens the menu: save, load (back to the last save, without offline progress) and new game with an inline confirmation; sound effects and music (a CC0 tropical loop) on their own audio buses (`Sfx`, `Music`), each with an on/off switch and a volume slider; and the language. Panels rebuild themselves when the language changes.
 

@@ -11,7 +11,7 @@ static func progress(state: PlayerState, def: AchievementDef) -> float:
 		"best_combo":
 			return state.stats.get("best_combo", 0)
 		"tank_count":
-			return state.tanks.size()
+			return state.tank_count()
 		"species_count":
 			return state.species_caught.size()
 		"charted":
@@ -27,11 +27,11 @@ static func progress(state: PlayerState, def: AchievementDef) -> float:
 					count += state.species_caught[id]
 			return count
 		"drone_count":
-			return state.drone_count
+			return state.total("drone_count")
 		"seller_count":
-			return state.seller_count
+			return state.total("seller_count")
 		"shop_count":
-			return state.shop_count
+			return state.total("shop_count")
 		"total_earned":
 			return state.total_earned
 	return 0.0

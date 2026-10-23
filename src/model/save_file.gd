@@ -3,7 +3,7 @@ extends RefCounted
 ## Reads and writes save files atomically and migrates saves from older versions.
 ## Payload layout: { "version": int, "saved_at_unix": int, "state": Dictionary }
 
-const VERSION := 1
+const VERSION := 2
 
 
 ## Writes to a temp file first, keeps the previous save as .bak, then swaps the files,
@@ -73,6 +73,10 @@ static func migrate(payload: Dictionary) -> Dictionary:
 ## Converts a payload from `from_version` to `from_version + 1`.
 static func _migrate_step(from_version: int, payload: Dictionary) -> Dictionary:
 	match from_version:
+		1:
+			# Version 2 gave each location its own business; PlayerState.from_dict reads the
+			# old layout too.
+			return payload
 		_:
 			push_error("No save migration from version %d" % from_version)
 			return payload

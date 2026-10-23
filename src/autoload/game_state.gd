@@ -1,19 +1,26 @@
 extends Node
 ## Holds the live PlayerState. Scenes read from it; player actions go through its command methods
-## so the matching EventBus signals are always emitted. Every sim tick fish grow and hired sellers
-## sell their shop's fish; the same happens for the time the game was closed.
+## so the matching EventBus signals are always emitted. Purchases are for the business where the
+## player is. Every sim tick, at every location, fish grow and hired sellers sell their shop's
+## fish, and drones of the locations the player is not at keep fishing; the same happens for the
+## time the game was closed.
 
-var state := PlayerState.new_game()
+## Empty until SaveSystem loads the game (the game data is not loaded yet at this point).
+var state := PlayerState.new()
 ## Coins the sellers earned while the player was away; shown once, then reset.
 var last_offline_earned := 0.0
 ## Fish the drones stored while the player was away; shown once, then reset.
 var last_offline_stored := 0
 
-## Progress of each shop's seller towards their next sale, by shop index.
-var _seller_progress: Array[float] = []
+## Progress of each seller towards their next sale, by "<location id>/<shop tier>".
+var _seller_progress: Dictionary[String, float] = {}
+## Progress of the drones at other locations towards their next fish, by "<location id>/<index>".
+var _remote_drone_progress: Dictionary[String, float] = {}
+var _rng := RandomNumberGenerator.new()
 
 
 func _ready() -> void:
+	_rng.randomize()
 	EventBus.sim_tick.connect(_on_sim_tick)
 	EventBus.offline_progress.connect(_on_offline_progress)
 
@@ -56,9 +63,14 @@ func catch_value(species_ids: Array[String]) -> float:
 	return total
 
 
-## Puts a caught fish into the first tank with room. Returns the tank, or null if none fits.
+## The business where the player is.
+func here() -> Site:
+	return state.here()
+
+
+## Puts a caught fish into the first tank with room here. Returns the tank, or null if none fits.
 func store_fish(species_id: String) -> TankState:
-	var tank := Aquarium.store(state, species_id)
+	var tank := Aquarium.store(here(), species_id)
 	if tank != null:
 		EventBus.fish_stored.emit(species_id)
 	return tank
@@ -71,10 +83,10 @@ func sell_fish(species_id: String) -> float:
 	return price
 
 
-## Sells the most valuable fish a shop tier takes from the tanks. Returns
+## Sells the most valuable fish a shop tier takes from the tanks here. Returns
 ## [species id, price, tank], or [] if there was nothing to sell.
 func sell_from_tanks(tier: int) -> Array:
-	var sale := Selling.sell_best(state, tier)
+	var sale := Selling.sell_best(state, here(), tier)
 	if not sale.is_empty():
 		EventBus.money_changed.emit(state.money)
 	return sale
@@ -83,23 +95,25 @@ func sell_from_tanks(tier: int) -> Array:
 ## Pays up to `amount` towards a build square costing `price`. Returns true once fully paid,
 ## which also clears the progress so the next purchase starts fresh.
 func pay_into(square_id: String, amount: float, price: float) -> bool:
-	var paid: float = state.build_progress.get(square_id, 0.0)
+	var progress := here().build_progress
+	var paid: float = progress.get(square_id, 0.0)
 	var payment := minf(minf(amount, price - paid), state.money)
 	if payment > 0.0:
 		try_spend(payment)
 		paid += payment
-		state.build_progress[square_id] = paid
+		progress[square_id] = paid
 	if paid >= price - 0.001:
-		state.build_progress.erase(square_id)
+		progress.erase(square_id)
 		return true
 	return false
 
 
-## Builds a tank in the next free slot for the environment.
-func build_next_tank(env: String = "temperate") -> TankState:
-	var tank := TankState.new(Aquarium.next_slot(state, env), 1)
-	state.tanks.append(tank)
-	state.tanks.sort_custom(func(a: TankState, b: TankState) -> bool: return a.slot < b.slot)
+## Builds a tank in the next free slot here.
+func build_next_tank() -> TankState:
+	var site := here()
+	var tank := TankState.new(Aquarium.next_slot(site), 1)
+	site.tanks.append(tank)
+	site.tanks.sort_custom(func(a: TankState, b: TankState) -> bool: return a.slot < b.slot)
 	return tank
 
 
@@ -120,27 +134,27 @@ func upgrade_tank(tank: TankState) -> void:
 
 
 func upgrade_backpack() -> void:
-	state.backpack_level = mini(state.backpack_level + 1, DataRegistry.backpack_levels.size())
+	here().backpack_level = mini(here().backpack_level + 1, DataRegistry.backpack_levels.size())
 
 
 func upgrade_gear() -> void:
-	state.gear_level = mini(state.gear_level + 1, DataRegistry.gear_levels.size())
+	here().gear_level = mini(here().gear_level + 1, DataRegistry.gear_levels.size())
 
 
 func buy_drone() -> void:
-	state.drone_count = mini(state.drone_count + 1, DataRegistry.drone_levels.size())
+	here().drone_count = mini(here().drone_count + 1, DataRegistry.drone_levels.size())
 
 
 func upgrade_net() -> void:
-	state.net_level = mini(state.net_level + 1, DataRegistry.net_levels.size())
+	here().net_level = mini(here().net_level + 1, DataRegistry.net_levels.size())
 
 
 func build_shop() -> void:
-	state.shop_count = mini(state.shop_count + 1, DataRegistry.shop_slots.size())
+	here().shop_count = mini(here().shop_count + 1, DataRegistry.shop_slots.size())
 
 
 func hire_seller() -> void:
-	state.seller_count = mini(state.seller_count + 1, state.shop_count)
+	here().seller_count = mini(here().seller_count + 1, here().shop_count)
 
 
 ## Records newly reached goals, pays their rewards and announces them.
@@ -155,21 +169,47 @@ func check_achievements() -> void:
 func _on_sim_tick(dt: float) -> void:
 	Aquarium.advance(state, dt)
 	_run_sellers(dt)
+	_run_remote_drones(dt)
 	check_achievements()
 
 
-## Each hired seller sells their shop's fish from the tanks at their pace.
+## Each hired seller, at every location, sells their shop's fish from the tanks at their pace.
+## Sales where the player is are announced so the scene can show them.
 func _run_sellers(dt: float) -> void:
-	_seller_progress.resize(state.seller_count)
-	for i in state.seller_count:
-		_seller_progress[i] += Selling.seller_rate(state, i + 1) * dt
-		while _seller_progress[i] >= 1.0:
-			_seller_progress[i] -= 1.0
-			var sale := sell_from_tanks(i + 1)
-			if sale.is_empty():
-				_seller_progress[i] = 0.0
-				break
-			EventBus.fish_sold_by_seller.emit(sale[0], sale[1])
+	for site: Site in state.sites.values():
+		for tier in range(1, site.seller_count + 1):
+			var key := "%s/%d" % [site.location_id, tier]
+			var progress: float = _seller_progress.get(key, 0.0) + Selling.seller_rate(site, tier) * dt
+			while progress >= 1.0:
+				progress -= 1.0
+				var sale := Selling.sell_best(state, site, tier)
+				if sale.is_empty():
+					progress = 0.0
+					break
+				EventBus.money_changed.emit(state.money)
+				if site == here():
+					EventBus.fish_sold_by_seller.emit(sale[0], sale[1])
+			_seller_progress[key] = progress
+
+
+## Drones at the locations the player is not at keep fishing at the slower unwatched rate.
+## Fish that do not fit are let go.
+func _run_remote_drones(dt: float) -> void:
+	for site: Site in state.sites.values():
+		if site == here():
+			continue
+		for index in site.drone_count:
+			var zone := Automation.drone_zone(state, site, index)
+			if zone == null:
+				continue
+			var key := "%s/%d" % [site.location_id, index]
+			var progress: float = _remote_drone_progress.get(key, 0.0) + Automation.OFFLINE_DRONE_FISH_PER_SECOND * dt
+			if progress >= 1.0:
+				progress -= 1.0
+				var species_id := Automation.pick_drone_catch(state, zone, _rng)
+				if not species_id.is_empty() and Aquarium.store(site, species_id) != null:
+					EventBus.fish_stored.emit(species_id)
+			_remote_drone_progress[key] = progress
 
 
 ## While the player was away, drones kept filling the tanks, fish grew and sellers kept selling.
