@@ -1,0 +1,50 @@
+extends GutTest
+## Checks the shipped CSV data and the validation that guards it.
+
+const REGISTRY_SCRIPT := preload("res://src/autoload/data_registry.gd")
+const BAD_DIR := "user://test_data"
+
+const HEADER := "id,common_name,scientific_name,rarity,base_value,length_cm,space_l,min_tank_l,bioload,food,env,growth_time_s,placeholder_color,fun_fact"
+
+
+func _new_registry() -> Node:
+	var registry: Node = REGISTRY_SCRIPT.new()
+	autofree(registry)
+	return registry
+
+
+func test_shipped_data_is_valid() -> void:
+	var registry := _new_registry()
+	registry.load_all("res://data")
+	assert_eq(registry.errors, PackedStringArray(), "data errors")
+	assert_gt(registry.species.size(), 0)
+
+
+func test_shipped_species_are_parsed() -> void:
+	var registry := _new_registry()
+	registry.load_all("res://data")
+	var sprat: SpeciesDef = registry.species["european_sprat"]
+	assert_eq(sprat.scientific_name, "Sprattus sprattus")
+	assert_eq(sprat.rarity, SpeciesDef.Rarity.COMMON)
+	assert_eq(sprat.env, SpeciesDef.Env.TEMPERATE)
+	assert_eq(sprat.base_value, 5.0)
+
+
+func test_invalid_rows_are_reported_and_skipped() -> void:
+	DirAccess.make_dir_recursive_absolute(BAD_DIR)
+	var file := FileAccess.open(BAD_DIR.path_join("species.csv"), FileAccess.WRITE)
+	file.store_string("\n".join([
+		HEADER,
+		"good_fish,Good,Bonus bonus,common,5,10,2,20,1,flakes,temperate,60,#ffffff,Fine.",
+		"good_fish,Dupe,Bonus bonus,common,5,10,2,20,1,flakes,temperate,60,#ffffff,Duplicate id.",
+		"bad_rarity,Bad,Bonus bonus,mythic,5,10,2,20,1,flakes,temperate,60,#ffffff,Unknown rarity.",
+		"bad_number,Bad,Bonus bonus,common,lots,10,2,20,1,flakes,temperate,60,#ffffff,Not a number.",
+		"too_short,Bad,Bonus bonus",
+	]))
+	file.close()
+
+	var registry := _new_registry()
+	registry.load_all(BAD_DIR)
+
+	assert_eq(registry.species.keys(), ["good_fish"])
+	assert_eq(registry.errors.size(), 4, "\n".join(registry.errors))

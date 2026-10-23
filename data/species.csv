@@ -1,0 +1,10 @@
+id,common_name,scientific_name,rarity,base_value,length_cm,space_l,min_tank_l,bioload,food,env,growth_time_s,placeholder_color,fun_fact
+european_sprat,European sprat,Sprattus sprattus,common,5,12,2,20,0.4,flakes,temperate,120,#9fb8c8,"Sprats swim in huge schools and are often sold canned as ""brisling""."
+atlantic_herring,Atlantic herring,Clupea harengus,common,8,30,5,20,1,flakes,temperate,180,#7a9fbf,Herring can make bubbly ticking sounds by releasing air from their swim bladder.
+lesser_sand_eel,Lesser sand eel,Ammodytes tobianus,common,6,20,3,20,0.6,flakes,temperate,150,#d8c98a,Sand eels dive head-first into the seabed to rest and hide from predators.
+atlantic_mackerel,Atlantic mackerel,Scomber scombrus,uncommon,60,40,15,100,3,pellets,temperate,600,#4f8f7a,"Atlantic mackerel have no swim bladder, so they must keep swimming to stay up."
+european_plaice,European plaice,Pleuronectes platessa,uncommon,70,50,25,100,4,pellets,temperate,600,#b58a5a,Young plaice swim upright until one eye migrates to the other side of the head.
+lumpsucker,Lumpsucker,Cyclopterus lumpus,rare,600,40,20,100,4,frozen_krill,temperate,1800,#7fa64a,Its pelvic fins form a suction disc that lets it cling to rocks in strong currents.
+atlantic_cod,Atlantic cod,Gadus morhua,rare,800,100,120,500,20,frozen_krill,temperate,3600,#a39a6b,A large female cod can release millions of eggs in a single spawning season.
+atlantic_wolffish,Atlantic wolffish,Anarhichas lupus,epic,6000,120,150,500,25,squid_fish,temperate,7200,#6b7480,Wolffish have antifreeze proteins in their blood to survive near-freezing water.
+conger_eel,European conger,Conger conger,epic,7500,200,200,2000,30,squid_fish,temperate,7200,#4d5a5e,European congers can grow up to three metres long.

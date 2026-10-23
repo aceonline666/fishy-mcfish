@@ -1,0 +1,9 @@
+# Godot 4 cache and generated folders
+.godot/
+/android/
+
+# Export output
+/build/
+
+# Save files written next to the project by tools
+*.tmp
