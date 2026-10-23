@@ -41,11 +41,18 @@ const NET_SHOULDER := Vector2(27.0, -112.0)
 const OUTLINE := Color(0.07, 0.09, 0.15)
 const SKIN := Color(1.0, 0.81, 0.62)
 const JACKET := Color(1.0, 0.8, 0.16)
-const POLE := Color(0.6, 0.42, 0.24)
-const HOOP := Color(0.93, 0.78, 0.5)
+const POLE := Color(0.24, 0.22, 0.24)
+const GRIP := Color(0.85, 0.3, 0.2)
+const HOOP := Color(0.74, 0.77, 0.82)
+const HOOP_SHINE := Color(1.0, 1.0, 1.0, 0.8)
 const HOOP_FULL := Color(1.0, 0.45, 0.3)
-const NET_FILL := Color(1.0, 1.0, 1.0, 0.18)
-const NET_MESH := Color(1.0, 1.0, 1.0, 0.4)
+const NET_FILL := Color(0.95, 0.97, 1.0, 0.16)
+const NET_STRING := Color(0.96, 0.96, 0.9, 0.7)
+const NET_STRING_WET := Color(0.75, 0.9, 1.0, 0.35)
+## The net bag hangs this many hoop radii below the hoop (on screen).
+const BAG_DEPTH := 1.05
+const NET_RIBS := 18
+const NET_RINGS := 3
 const WATER_TINT := Color(0.18, 0.55, 0.72, 0.6)
 const SHADOW := Color(0.0, 0.06, 0.14, 0.25)
 const PROGRESS := Color(1.0, 0.85, 0.2)
@@ -237,27 +244,65 @@ func _draw_backpack(bob: float) -> void:
 func _draw_net(hoop: Vector2, side: float, bob: float) -> void:
 	var shoulder := Vector2(NET_SHOULDER.x * side, NET_SHOULDER.y - bob)
 	var hand := shoulder + shoulder.direction_to(hoop) * 38.0
-	draw_line(hand, hoop, OUTLINE, 11.0, true)
-	draw_line(hand, hoop, POLE, 6.0, true)
+	var joint := hoop + Iso.to_screen(-facing * scoop_radius)
+	draw_line(hand, joint, OUTLINE, 11.0, true)
+	draw_line(hand, joint, POLE, 6.0, true)
+	draw_line(hand, hand.lerp(joint, 0.25), GRIP, 6.0, true)
 	draw_line(shoulder, hand, OUTLINE, 18.0)
 	draw_line(shoulder, hand, JACKET, 11.0)
 	draw_circle(hand, 9.0, OUTLINE)
 	draw_circle(hand, 6.0, SKIN)
 
-	var rim := Iso.ellipse(hoop, scoop_radius, 28)
-	draw_colored_polygon(rim, NET_FILL)
-	for k in range(-2, 3):
-		var offset := k * scoop_radius * 0.35
-		var half_chord := sqrt(scoop_radius * scoop_radius - offset * offset)
-		draw_line(hoop + Iso.to_screen(Vector2(offset, -half_chord)), hoop + Iso.to_screen(Vector2(offset, half_chord)), NET_MESH, 1.5, true)
-		draw_line(hoop + Iso.to_screen(Vector2(-half_chord, offset)), hoop + Iso.to_screen(Vector2(half_chord, offset)), NET_MESH, 1.5, true)
-	draw_polyline(rim, OUTLINE, 9.0, true)
-	draw_polyline(rim, HOOP_FULL if full else HOOP, 5.0, true)
+	_draw_net_bag(hoop)
+	var rim := Iso.ellipse(hoop, scoop_radius, 32)
+	draw_polyline(rim, OUTLINE, 10.0, true)
+	draw_polyline(rim, HOOP_FULL if full else HOOP, 5.5, true)
+	draw_polyline(Iso.ellipse_arc(hoop + Vector2(0.0, -1.5), scoop_radius, PI * 1.1, PI * 1.6, 10), HOOP_SHINE, 2.0, true)
+	# The yoke where the pole meets the hoop.
+	var toward := Iso.to_screen(-facing).normalized()
+	draw_line(joint, joint + toward * 14.0, OUTLINE, 12.0, true)
+	draw_line(joint, joint + toward * 14.0, HOOP, 6.0, true)
 
 	if struggle_progress > 0.0:
 		var arc := Iso.ellipse_arc(hoop, scoop_radius + 16.0, -PI * 0.5, -PI * 0.5 + TAU * struggle_progress, 28)
 		draw_polyline(arc, OUTLINE, 12.0, true)
 		draw_polyline(arc, PROGRESS, 7.0, true)
+
+
+## The mesh bag of the landing net: ribs from the hoop down to a rounded bottom and a few rings
+## around it, swaying behind when the wader moves. Under water it fades into the sea.
+func _draw_net_bag(hoop: Vector2) -> void:
+	var sway := (-Iso.to_screen(ground_velocity) * 0.05).limit_length(22.0) + Vector2(sin(_time * 2.5) * 2.0, 0.0)
+	var bottom := hoop + Vector2(0.0, scoop_radius * BAG_DEPTH) + sway
+	var string := NET_STRING_WET if in_water else NET_STRING
+	var ribs: Array[PackedVector2Array] = []
+	var all_points := PackedVector2Array()
+	for i in NET_RIBS:
+		var angle := TAU * i / NET_RIBS
+		var rib := PackedVector2Array()
+		for step in 7:
+			rib.append(_bag_point(hoop, bottom, Vector2(cos(angle), sin(angle)), 1.0 - step / 6.0))
+		ribs.append(rib)
+		all_points.append_array(rib)
+	draw_colored_polygon(Geometry2D.convex_hull(all_points), NET_FILL)
+	for rib in ribs:
+		draw_polyline(rib, string, 1.4, true)
+	for ring in NET_RINGS:
+		var depth := (ring + 1.0) / (NET_RINGS + 1.0)
+		var points := PackedVector2Array()
+		for i in 25:
+			var angle := TAU * i / 24.0
+			points.append(_bag_point(hoop, bottom, Vector2(cos(angle), sin(angle)), 1.0 - depth))
+		draw_polyline(points, string, 1.4, true)
+
+
+## A point on the net bag: `around` is a direction around the hoop, `spread` 1 at the hoop and 0
+## at the bottom. The bag narrows like a rounded cone and sags towards the bottom.
+func _bag_point(hoop: Vector2, bottom: Vector2, around: Vector2, spread: float) -> Vector2:
+	var depth := 1.0 - spread
+	var width := sqrt(maxf(spread, 0.0)) * scoop_radius
+	var center := hoop.lerp(bottom, depth)
+	return center + Vector2(around.x * width, around.y * width * 0.5)
 
 
 func _draw_label(text: String, at: Vector2) -> void:
