@@ -23,16 +23,21 @@ come within reach of the hand net are scooped up automatically and stack up in t
 Small fish go in at once; bigger ones (herring, mackerel) must stay in the net until the yellow
 ring fills. Catches in quick succession build a combo.
 
-Up on the beach, pads act while you stand on them (walking on sand is faster than wading):
-- **Store fish** puts the catch into the first tank with room (big species need big tanks).
-  Fish grow in the tanks and are worth three times as much once grown.
-- **Sell fish** in front of each fish shop. Shop N sells the fish of zone N (the shallowest zone
-  a species lives in; the shop sign shows the number, the pad the zone names): the backpack
-  first, then the most valuable fish from the tanks. Backpack fish that no built shop buys and
-  no tank takes are let go. A **hired seller** per shop sells that shop's fish on their own,
-  most valuable first, also while the game is closed.
-- **Build tank / Bigger tank / Bigger backpack / Better net** take coins until paid (partial
-  payments are kept). Better nets land big fish faster and are a little wider.
+Up on the beach, pads act while you stand on them (walking on sand is faster than wading). A
+boardwalk in the middle leads from the water to the back of the beach without crossing any pad.
+Each beach has **one tank and one shop**, which are upgraded instead of building more:
+- **Store fish** puts the catch into the tank (big species need a big tank). Fish grow in the
+  tank and are worth three times as much once grown. Two or more fish of a species **breed**:
+  each pair gets young while the tank is less than 80 % full (the rest stays free for the catch).
+- **Sell fish** in front of the shop: the backpack first, then grown fish from the tank, most
+  valuable first; a breeding pair of each species always stays. Shop level N buys the fish of
+  zones 1 to N (the shallowest zone a species lives in); **Bigger shop** adds the next zone.
+  Backpack fish the shop does not buy and the tank does not take are let go. Selling speeds up
+  with every fish.
+- **Hire seller**: one seller per shop level, each selling 10 grown fish a minute on their own,
+  also while the game is closed. With breeding pairs in the tank this is a steady income.
+- **Bigger tank / Bigger backpack / Better net** take coins until paid (partial payments are
+  kept). Better nets land big fish faster and are a little wider.
 - **Diving gear** (snorkel, scuba gear, rebreather, hard-hat suit, submersible) opens the
   deeper zones behind the buoy lines, down to the deep sea, with rarer and bigger creatures
   (sunfish, sharks, octopus, anglerfish, giant squid, whales, coelacanth); better gear also
@@ -46,7 +51,7 @@ The **Fishpedia** button lists every species, with facts for the ones you have c
 lists achievements with coin rewards. The **Map** travels between five locations: North Sea,
 Coral Reef, Australia, Japan and South Africa. Each opens with a goal on the location before it
 (charting its third zone, or the Sandbanks for the Reef) and a one-time fee. Every location has its own beach
-business that starts from scratch (smallest net, first zone only, one tank and shop); building
+business that starts from scratch (smallest net, first zone only, a small tank and a fish stall); building
 at the Reef costs 2.5 times as much (`price_factor` in `data/locations.csv`). Coins, the
 Fishpedia, charted zones and goals are shared, and sellers and drones keep working at the
 locations you are not at.
@@ -66,9 +71,11 @@ translation, and for translations nothing uses any more, so add new texts to `de
 Tests and `tools/screenshot.gd` run in a sandboxed save (`SaveSystem.use_sandbox`), never
 the real one.
 
-Sprites are hand-written SVGs in `assets/sprites/` (fish: body + tail per species, see
-`src/scenes/fishing/fish_art.gd` for the conventions). Species without sprites are drawn as
-coloured placeholders.
+Fish sprites are a body and a tail image per species (see `src/scenes/fishing/fish_art.gd` for
+the conventions): painted PNGs in `assets/sprites/fish_painted/` where they exist, cut from the
+painted sprite sheet in `art_source/` by `tools/extract_painted.py` (needs Pillow, NumPy and
+SciPy), otherwise hand-written SVGs in `assets/sprites/fish/`. Species without either are drawn as
+coloured placeholders. `art_source/` holds the source sheets and is not imported by Godot.
 
 The view is 2:1 isometric (like Diablo II). Game logic runs in flat ground coordinates and only
 drawing projects to the screen, see `src/scenes/world/iso.gd`.
@@ -92,9 +99,10 @@ Tests can also be run from the GUT panel in the editor. CI runs them on every pu
 
 **Balance:** `tools/balance_sim.gd` plays the game headless with a greedy bot using the real
 rules and prints a timeline of purchases, charted zones, goals and income. `tests/unit/test_pacing.gd`
-runs the same bot and checks the pacing targets (second tank < 5 min, snorkel 5–25 min,
+runs the same bot and checks the pacing targets (first tank upgrade < 5 min, snorkel 5–25 min,
 Coral Reef 25–70 min, open sea charted in the second hour). The bot reaches the North Sea's
-deep sea after about 4 h and finishes both maps after about 7 h. Run it after changing prices or income:
+deep sea after about 3 h and has charted all five locations after about 12 h. Run it after
+changing prices or income:
 
 ```powershell
 & "C:\Program Files\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . -s res://tools/balance_sim.gd -- --hours=3 --seed=1

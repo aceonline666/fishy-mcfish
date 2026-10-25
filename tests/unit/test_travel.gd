@@ -44,8 +44,8 @@ func test_the_reef_starts_from_scratch() -> void:
 	var home := state.here()
 	home.gear_level = 3
 	home.net_level = 2
-	home.shop_count = 2
-	home.tanks.append(TankState.new(1, 2))
+	home.shop_level = 2
+	home.tank.level = 2
 	state.unlocked_locations.append(_reef().id)
 	GameState.travel_to(_reef())
 
@@ -54,8 +54,8 @@ func test_the_reef_starts_from_scratch() -> void:
 	assert_eq(reef.location_id, _reef().id)
 	assert_eq(reef.gear_level, 1, "only the first zone is open")
 	assert_eq(reef.net_level, 1, "the smallest net")
-	assert_eq(reef.shop_count, 1)
-	assert_eq(reef.tanks.size(), 1)
+	assert_eq(reef.shop_level, 1)
+	assert_eq(reef.tank.level, 1)
 	assert_eq(home.gear_level, 3, "the North Sea keeps its business")
 
 

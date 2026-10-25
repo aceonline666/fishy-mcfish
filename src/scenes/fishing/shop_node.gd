@@ -1,7 +1,7 @@
 class_name ShopNode
 extends Node2D
-## A fish shop on the beach, drawn in code: a wooden stall with a striped awning, a sign on the
-## roof with the number of the zone it sells fish from, fish on ice at the counter, and a seller
+## The fish shop on the beach, drawn in code: a wooden stall with a striped awning, a sign on the
+## roof with its level (the number of zones whose fish it buys), fish on ice at the counter, and a seller
 ## behind it once one is hired. About as big as a large tank. The node sits at the centre of the
 ## base.
 
@@ -20,8 +20,11 @@ const SHADOW := Color(0.0, 0.06, 0.14, 0.2)
 const STRIPES := 6
 const BADGE := Color(0.2, 0.55, 0.95)
 
-## Shop N sells the fish of zone N; shown on the sign.
-var tier := 1
+## Shown on the sign.
+var level := 1:
+	set(value):
+		level = value
+		queue_redraw()
 
 ## Shows a seller in the window.
 var staffed := false:
@@ -92,7 +95,7 @@ func _draw() -> void:
 	var badge := top + Vector2(66.0, -58.0)
 	draw_circle(badge, 21.0, IsoDraw.OUTLINE)
 	draw_circle(badge, 17.0, BADGE)
-	IsoDraw.label(self, badge, str(tier), 26)
+	IsoDraw.label(self, badge, str(level), 26)
 
 
 func _draw_seller(at: Vector2) -> void:

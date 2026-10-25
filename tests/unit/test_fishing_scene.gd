@@ -115,78 +115,81 @@ func test_caught_fish_stack_up_in_the_backpack() -> void:
 
 #region Beach
 
-func test_store_square_moves_the_catch_into_a_tank() -> void:
+func test_store_square_moves_the_catch_into_the_tank() -> void:
 	await _catch(["european_sprat", "atlantic_herring"] as Array[String])
 	_stand_on("store")
 	await wait_seconds(1.0)
 
 	assert_eq(_scene.live_well.count(), 0)
 	assert_eq(_wader.carried.size(), 0)
-	assert_eq(GameState.here().tanks[0].fish.size(), 2)
+	assert_eq(GameState.here().tank.fish.size(), 2)
 	assert_eq(GameState.state.money, 0.0, "storing does not sell")
 
 
-func test_fish_too_big_for_every_tank_stay_in_the_backpack() -> void:
+func test_fish_too_big_for_the_tank_stay_in_the_backpack() -> void:
 	# The glass tank is too small for mackerel.
 	await _catch(["atlantic_mackerel", "european_sprat"] as Array[String])
 	_stand_on("store")
 	await wait_seconds(1.0)
 
 	assert_eq(_scene.live_well.species_ids, ["atlantic_mackerel"] as Array[String])
-	assert_eq(GameState.here().tanks[0].fish.size(), 1)
+	assert_eq(GameState.here().tank.fish.size(), 1)
 
 
 func test_sell_square_sells_the_backpack_first() -> void:
 	await _catch(["european_sprat", "european_sprat"] as Array[String])
-	GameState.here().tanks[0].fish.append(TankFish.new("atlantic_herring", 1.0))
-	_stand_on("sell_0")
+	GameState.here().tank.fish.append(TankFish.new("atlantic_herring", 1.0))
+	_stand_on("sell")
 	await wait_seconds(0.5)
 
 	assert_eq(_scene.live_well.count(), 0)
 	assert_eq(GameState.state.money, 10.0)
-	assert_eq(GameState.here().tanks[0].fish.size(), 1, "the tanks come after the backpack")
+	assert_eq(GameState.here().tank.fish.size(), 1, "the tank comes after the backpack")
 
 
-func test_sell_square_then_sells_the_most_valuable_fish_from_the_tanks() -> void:
-	var tank := GameState.here().tanks[0]
+func test_sell_square_then_sells_grown_fish_from_the_tank_but_keeps_a_pair() -> void:
+	var tank := GameState.here().tank
+	for i in 3:
+		tank.fish.append(TankFish.new("atlantic_herring", 1.0))
 	tank.fish.append(TankFish.new("european_sprat", 0.0))
-	tank.fish.append(TankFish.new("atlantic_herring", 1.0))
-	_stand_on("sell_0")
-	await wait_seconds(0.2)
+	tank.fish.append(TankFish.new("european_sprat", 0.0))
+	tank.fish.append(TankFish.new("european_sprat", 0.0))
+	_stand_on("sell")
+	await wait_seconds(1.0)
 
-	assert_eq(tank.fish.size(), 1)
-	assert_eq(tank.fish[0].species_id, "european_sprat", "the grown herring went first")
+	assert_eq(tank.fish.size(), 5, "one grown herring sold; a pair and the young sprats stay")
 	assert_eq(GameState.state.money, 24.0)
 
 
-func test_selling_is_slower_than_storing() -> void:
-	for i in 10:
-		GameState.here().tanks[0].fish.append(TankFish.new("european_sprat"))
-	_stand_on("sell_0")
+func test_selling_speeds_up() -> void:
+	_scene.live_well.capacity = 40
+	for i in 40:
+		_scene.live_well.add("european_sprat")
+		_wader.add_to_stack(_scene._art_for("european_sprat"))
+	_stand_on("sell")
 	await wait_seconds(1.0)
-	assert_between(GameState.here().tanks[0].fish.size(), 5, 8)
+	assert_lt(_scene.live_well.count(), 30, "more than 10 fish in the first second")
 
 
-func test_paying_a_build_square_builds_a_tank() -> void:
-	var price := Aquarium.next_tank_cost(GameState.here())
+func test_paying_a_build_square_upgrades_the_tank() -> void:
+	var price := Aquarium.tank_upgrade_cost(GameState.here())
 	GameState.add_money(price + 25.0)
-	_stand_on("build_tank")
+	_stand_on("upgrade_tank")
 	await wait_seconds(3.0)
 
-	assert_eq(GameState.here().tanks.size(), 2)
+	assert_eq(GameState.here().tank.level, 2)
 	assert_almost_eq(GameState.state.money, 25.0, 0.01, "the next purchase waits until the wader steps off")
-	assert_not_null(_scene.square("upgrade_tank_1"), "the new tank can be upgraded")
-	assert_not_null(_scene.square("build_tank"), "the next slot can be built")
+	assert_not_null(_scene.square("upgrade_tank"), "the next level is offered")
 
 
 func test_partial_payment_is_kept() -> void:
 	GameState.add_money(30.0)
-	_stand_on("build_tank")
+	_stand_on("upgrade_tank")
 	await wait_seconds(1.5)
 
 	assert_eq(GameState.state.money, 0.0)
-	assert_eq(GameState.here().tanks.size(), 1)
-	assert_eq(GameState.here().build_progress.get("build_tank"), 30.0)
+	assert_eq(GameState.here().tank.level, 1)
+	assert_eq(GameState.here().build_progress.get("upgrade_tank"), 30.0)
 
 
 func test_bigger_backpack_holds_more_fish() -> void:
@@ -198,53 +201,44 @@ func test_bigger_backpack_holds_more_fish() -> void:
 	assert_eq(_scene.live_well.capacity, int(DataRegistry.backpack_levels[1].capacity))
 
 
-func test_building_a_second_shop() -> void:
-	GameState.add_money(Selling.next_shop_cost(GameState.here()))
-	_stand_on("build_shop")
+func test_upgrading_the_shop_buys_fish_of_the_next_zone() -> void:
+	await _catch(["european_sprat"] as Array[String])
+	_scene.live_well.add("european_plaice")
+	_wader.add_to_stack(_scene._art_for("european_plaice"))
+	GameState.add_money(Selling.shop_upgrade_cost(GameState.here()))
+	_stand_on("upgrade_shop")
 	await wait_seconds(3.0)
-	assert_eq(GameState.here().shop_count, 2)
-	assert_not_null(_scene.square("sell_1"))
+	assert_eq(GameState.here().shop_level, 2)
+	_stand_on("sell")
+	await wait_seconds(1.0)
+	assert_eq(_scene.live_well.count(), 0)
+	assert_eq(GameState.state.money, 75.0, "the plaice of the Sandbanks is bought now")
 
 
-func test_a_hired_seller_sells_their_shops_fish_on_their_own() -> void:
+func test_a_hired_seller_sells_grown_fish_on_their_own() -> void:
 	GameState.add_money(Selling.next_seller_cost(GameState.here()))
 	_stand_on("hire_seller")
 	await wait_seconds(3.0)
 	assert_eq(GameState.here().seller_count, 1)
-	assert_null(_scene.square("hire_seller"), "one seller per shop")
+	assert_null(_scene.square("hire_seller"), "one seller per shop level")
 
-	var tank := GameState.here().tanks[0]
+	var tank := GameState.here().tank
+	for i in 3:
+		tank.fish.append(TankFish.new("atlantic_herring", 1.0))
 	tank.fish.append(TankFish.new("european_sprat", 0.2))
-	tank.fish.append(TankFish.new("atlantic_herring", 1.0))
-	tank.fish.append(TankFish.new("european_plaice", 1.0))
 	var money := GameState.state.money
-	GameState._run_sellers(15.0)
-	assert_eq(tank.fish.size(), 2, "one fish in 15 s")
-	assert_eq(GameState.state.money, money + 24.0, "the grown herring, the most valuable, went first")
-	GameState._run_sellers(15.0)
-	assert_eq(tank.fish.size(), 1, "young fish are sold too")
-	assert_eq(tank.fish[0].species_id, "european_plaice", "plaice is for the second shop")
+	GameState._run_sellers(6.0)
+	assert_eq(tank.fish.size(), 3, "a seller sells one fish in 6 s")
+	assert_eq(GameState.state.money, money + 24.0, "the grown herring")
+	GameState._run_sellers(60.0)
+	assert_eq(tank.fish.size(), 3, "the breeding pair and the young sprat stay")
 
 
-func test_each_shop_sells_the_fish_of_its_zone() -> void:
-	GameState.here().shop_count = 2
-	GameState.replace_state(GameState.state)
-	await wait_process_frames(1)
-	var tank := GameState.here().tanks[0]
-	tank.fish.append(TankFish.new("european_sprat", 0.0))
-	tank.fish.append(TankFish.new("european_plaice", 0.0))
-	_stand_on("sell_1")
-	await wait_seconds(1.0)
-	assert_eq(tank.fish.size(), 1)
-	assert_eq(tank.fish[0].species_id, "european_sprat", "the second shop only takes Sandbanks fish")
-	assert_eq(GameState.state.money, 70.0)
-
-
-func test_fish_no_shop_buys_are_let_go_at_a_shop() -> void:
+func test_fish_the_shop_does_not_buy_are_let_go_there() -> void:
 	await _catch(["european_sprat"] as Array[String])
 	_scene.live_well.add("european_plaice")
 	_wader.add_to_stack(_scene._art_for("european_plaice"))
-	_stand_on("sell_0")
+	_stand_on("sell")
 	await wait_seconds(1.0)
 	assert_eq(_scene.live_well.count(), 0, "the sprat is sold, the plaice let go")
 	assert_eq(GameState.state.money, 5.0)
@@ -307,7 +301,7 @@ func test_drones_are_offered_once_a_zone_is_charted() -> void:
 	assert_not_null(_scene.square("buy_drone"))
 
 
-func test_a_drone_catches_known_fish_and_brings_them_to_the_tanks() -> void:
+func test_a_drone_catches_known_fish_and_brings_them_to_the_tank() -> void:
 	_chart_shallows()
 	GameState.here().drone_count = 1
 	GameState.replace_state(GameState.state)
@@ -320,9 +314,9 @@ func test_a_drone_catches_known_fish_and_brings_them_to_the_tanks() -> void:
 	_scene.spawn_fish("lumpsucker", Vector2(200.0, 250.0), 0.0)
 	_wader.ground_position = Vector2(1100.0, 400.0)
 	# The drone first flies to a random spot of its zone, so the delivery takes a varying time.
-	await wait_until(func() -> bool: return GameState.here().tanks[0].fish.size() >= 3, 30.0)
+	await wait_until(func() -> bool: return GameState.here().tank.fish.size() >= 3, 30.0)
 
-	assert_eq(GameState.here().tanks[0].fish.size(), 3, "three sprats delivered")
+	assert_eq(GameState.here().tank.fish.size(), 3, "three sprats delivered")
 	assert_eq(_scene.fish_count(), 1, "the unknown lumpsucker is still swimming")
 	assert_eq(_scene._drones[0].zone, shallows)
 	assert_eq(_scene._drones[0].capacity, Automation.drone_capacity(0))
@@ -330,7 +324,7 @@ func test_a_drone_catches_known_fish_and_brings_them_to_the_tanks() -> void:
 
 func test_the_reef_has_its_own_business_from_scratch() -> void:
 	var state := GameState.state
-	state.here().shop_count = 2
+	state.here().shop_level = 2
 	state.here().gear_level = 3
 	state.unlocked_locations.append("coral_reef")
 	state.current_location = "coral_reef"
@@ -339,15 +333,15 @@ func test_the_reef_has_its_own_business_from_scratch() -> void:
 	add_child_autofree(reef)
 	await wait_process_frames(2)
 
-	assert_not_null(reef.square("sell_0"), "the reef has its own first shop")
-	assert_null(reef.square("sell_1"))
+	assert_not_null(reef.square("sell"), "the reef has its own shop")
+	assert_eq(GameState.here().shop_level, 1, "a fish stall to start with")
 	assert_eq(reef.walk_area.rect.end.y, DataRegistry.zones_in("coral_reef")[0].depth_end, "only the first zone is open")
 	var reef_wader: Wader = reef.wader
 	reef.spawn_fish("ocellaris_clownfish", reef_wader.scoop_center(), 0.0)
 	await wait_seconds(0.5)
 	reef_wader.ground_position = reef.square("store").ground_center
 	await wait_seconds(1.0)
-	var reef_tank := GameState.here().tanks[0]
+	var reef_tank := GameState.here().tank
 	assert_eq(reef_tank.fish.size(), 1)
 	assert_eq(reef_tank.fish[0].species_id, "ocellaris_clownfish")
 

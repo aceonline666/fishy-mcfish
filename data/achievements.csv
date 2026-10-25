@@ -1,7 +1,7 @@
 id,name,description,type,target,param,reward
 first_catch,First catch,Catch your first fish,catch_count,1,,20
 combo_3,Triple!,Catch 3 fish in a row,best_combo,3,,50
-second_tank,Growing collection,Build a second tank,tank_count,2,,80
+second_tank,Growing collection,Upgrade your tank,tank_level,2,,80
 catch_50,Busy net,Catch 50 fish,catch_count,50,,150
 species_5,Naturalist,Discover 5 species,species_count,5,,200
 chart_shallows,Mapmaker,Chart the Pier shallows,charted,1,pier_shallows,300
@@ -9,7 +9,7 @@ combo_6,Mega haul,Catch 6 fish in a row,best_combo,6,,300
 first_rare,Lucky find,Catch a rare fish,rarity_caught,1,rare,400
 first_drone,Robot helper,Buy a drone,drone_count,1,,500
 first_seller,Sales team,Hire a seller,seller_count,1,,500
-second_shop,Shopkeeper,Build a second shop,shop_count,2,,1000
+second_shop,Shopkeeper,Upgrade your shop,shop_level,2,,1000
 chart_sandbanks,Sandbank surveyor,Chart the Sandbanks,charted,1,sandbanks,1000
 earn_10k,Fish tycoon,Earn 10K coins in total,total_earned,10000,,1000
 first_epic,Sea monster,Catch an epic fish,rarity_caught,1,epic,2000

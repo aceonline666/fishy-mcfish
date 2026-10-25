@@ -1,8 +1,8 @@
 level,name,capacity,cost
 1,Glass tank,60,0
-2,Large tank,150,200
-3,Show tank,400,1500
-4,Grand tank,1000,8000
-5,Exhibit tank,2500,40000
-6,Giant tank,8000,300000
-7,Ocean dome,25000,2000000
+2,Large tank,200,250
+3,Show tank,600,3000
+4,Grand tank,2000,25000
+5,Exhibit tank,6000,200000
+6,Giant tank,20000,1500000
+7,Ocean dome,60000,10000000

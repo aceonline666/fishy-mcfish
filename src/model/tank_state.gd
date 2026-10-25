@@ -1,15 +1,15 @@
 class_name TankState
 extends RefCounted
-## A tank built in one of the beach slots.
+## The tank of a beach business; upgrades make it bigger.
 
-var slot: int
 ## Index + 1 into DataRegistry.tank_levels.
 var level := 1
 var fish: Array[TankFish] = []
+## Progress of each species towards its next young (Aquarium.breed); not saved.
+var breeding: Dictionary[String, float] = {}
 
 
-func _init(slot_index: int = 0, tank_level: int = 1) -> void:
-	slot = slot_index
+func _init(tank_level: int = 1) -> void:
 	level = tank_level
 
 
@@ -17,11 +17,11 @@ func to_dict() -> Dictionary:
 	var fish_data: Array[Dictionary] = []
 	for f in fish:
 		fish_data.append(f.to_dict())
-	return {"slot": slot, "level": level, "fish": fish_data}
+	return {"level": level, "fish": fish_data}
 
 
 static func from_dict(data: Dictionary) -> TankState:
-	var tank := TankState.new(int(data.get("slot", 0)), maxi(int(data.get("level", 1)), 1))
+	var tank := TankState.new(maxi(int(data.get("level", 1)), 1))
 	var raw_fish: Array = data.get("fish", [])
 	for entry: Variant in raw_fish:
 		if entry is Dictionary:

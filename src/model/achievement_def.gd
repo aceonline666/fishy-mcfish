@@ -5,8 +5,8 @@ extends RefCounted
 ## in coins when it is reached.
 
 const TYPES: PackedStringArray = [
-	"catch_count", "best_combo", "tank_count", "species_count", "charted", "rarity_caught",
-	"drone_count", "total_earned", "seller_count", "shop_count",
+	"catch_count", "best_combo", "tank_level", "species_count", "charted", "rarity_caught",
+	"drone_count", "total_earned", "seller_count", "shop_level",
 ]
 
 var id: String

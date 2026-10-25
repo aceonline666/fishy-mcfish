@@ -17,7 +17,7 @@ func _minutes(key: String) -> float:
 
 
 func test_the_first_upgrade_comes_quickly() -> void:
-	assert_lt(_minutes("tank"), 5.0, "second tank")
+	assert_lt(_minutes("tank"), 5.0, "first tank upgrade")
 
 
 func test_the_snorkel_is_affordable_after_a_short_while() -> void:

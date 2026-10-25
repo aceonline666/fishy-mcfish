@@ -111,9 +111,9 @@ func _shown_texts() -> Dictionary[String, bool]:
 	for def in DataRegistry.achievements:
 		texts[def.name] = true
 		texts[def.description] = true
-	for levels: Array[LevelDef] in [DataRegistry.tank_levels, DataRegistry.tank_slots, DataRegistry.backpack_levels,
+	for levels: Array[LevelDef] in [DataRegistry.tank_levels, DataRegistry.backpack_levels,
 			DataRegistry.gear_levels, DataRegistry.net_levels, DataRegistry.drone_levels, DataRegistry.staff_levels,
-			DataRegistry.shop_slots]:
+			DataRegistry.shop_levels]:
 		for def in levels:
 			texts[def.name] = true
 	texts.erase("")

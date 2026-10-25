@@ -10,9 +10,9 @@ static func progress(state: PlayerState, def: AchievementDef) -> float:
 			return state.stats.get("fish_caught", 0)
 		"best_combo":
 			return state.stats.get("best_combo", 0)
-		# Every location starts with a free tank and shop, so these count one location's.
-		"tank_count":
-			return state.most_tanks()
+		# Every location starts with a small tank and shop, so these count one location's.
+		"tank_level":
+			return state.best_tank_level()
 		"species_count":
 			return state.species_caught.size()
 		"charted":
@@ -31,8 +31,8 @@ static func progress(state: PlayerState, def: AchievementDef) -> float:
 			return state.total("drone_count")
 		"seller_count":
 			return state.total("seller_count")
-		"shop_count":
-			return state.most("shop_count")
+		"shop_level":
+			return state.most("shop_level")
 		"total_earned":
 			return state.total_earned
 	return 0.0

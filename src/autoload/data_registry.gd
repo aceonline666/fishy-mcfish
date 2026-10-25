@@ -4,22 +4,20 @@ extends Node
 const DATA_DIR := "res://data"
 
 var species: Dictionary[String, SpeciesDef] = {}
-## Tank sizes, index 0 = level 1.
+## Sizes of the beach's tank, index 0 = level 1.
 var tank_levels: Array[LevelDef] = []
-## Prices of the beach slots where tanks can be built, index 0 = first slot.
-var tank_slots: Array[LevelDef] = []
 ## Backpack sizes, index 0 = level 1.
 var backpack_levels: Array[LevelDef] = []
 ## Diving gear, index 0 = level 1 (waders).
 var gear_levels: Array[LevelDef] = []
 ## Fishing drones: level n is the n-th drone; capacity = fish it carries per trip.
 var drone_levels: Array[LevelDef] = []
-## Sellers: level n is the n-th seller; capacity = adult fish sold per minute.
+## Sellers: level n is the n-th seller; capacity = grown fish they sell per minute.
 var staff_levels: Array[LevelDef] = []
 ## Hand nets: capacity = how much faster big fish are landed.
 var net_levels: Array[LevelDef] = []
-## Prices of the shops on the beach, index 0 = the first (free) shop.
-var shop_slots: Array[LevelDef] = []
+## Levels of the beach's shop, index 0 = level 1 (free). Level n buys the fish of zones 1 to n.
+var shop_levels: Array[LevelDef] = []
 ## Places to fish, home first.
 var locations: Array[LocationDef] = []
 ## Depth zones of all locations, grouped by location and ordered from the shore outwards.
@@ -41,13 +39,12 @@ func load_all(dir: String) -> void:
 	errors.clear()
 	_load_species(dir.path_join("species.csv"))
 	tank_levels = _load_levels(dir.path_join("tanks.csv"))
-	tank_slots = _load_levels(dir.path_join("tank_slots.csv"))
 	backpack_levels = _load_levels(dir.path_join("backpacks.csv"))
 	gear_levels = _load_levels(dir.path_join("gear.csv"))
 	drone_levels = _load_levels(dir.path_join("drones.csv"))
 	staff_levels = _load_levels(dir.path_join("staff.csv"))
 	net_levels = _load_levels(dir.path_join("nets.csv"))
-	shop_slots = _load_levels(dir.path_join("shop_slots.csv"))
+	shop_levels = _load_levels(dir.path_join("shop_levels.csv"))
 	_load_locations(dir.path_join("locations.csv"))
 	_load_zones(dir.path_join("zones.csv"))
 	_assign_shop_tiers()

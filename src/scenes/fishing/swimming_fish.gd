@@ -90,7 +90,8 @@ func simulate(delta: float, threat: Vector2, threat_radius: float, school: Array
 	var steer := Vector2.from_angle(heading).rotated(_wander * WANDER_ANGLE)
 	if not area.contains(ground_position, EDGE_MARGIN):
 		steer += ground_position.direction_to(area.center()) * 2.0
-	if species.length_cm < CatchRules.SCHOOLING_BELOW_CM:
+	# Off screen (hidden by the scene) fish skip schooling and drawing.
+	if visible and species.length_cm < CatchRules.SCHOOLING_BELOW_CM:
 		steer += _schooling(school)
 
 	var speed := _cruise_speed
@@ -114,7 +115,8 @@ func simulate(delta: float, threat: Vector2, threat_radius: float, school: Array
 	position = Iso.to_screen(ground_position)
 	var wiggle := HELD_WIGGLE_MULT if is_held() else 1.0
 	_swim_phase += delta * (5.0 + velocity.length() / 30.0) * wiggle
-	queue_redraw()
+	if visible:
+		queue_redraw()
 
 
 ## Shrinks the fish into the net at the given screen position, then frees it.

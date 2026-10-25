@@ -3,7 +3,7 @@ extends RefCounted
 ## Reads and writes save files atomically and migrates saves from older versions.
 ## Payload layout: { "version": int, "saved_at_unix": int, "state": Dictionary }
 
-const VERSION := 2
+const VERSION := 3
 
 
 ## Writes to a temp file first, keeps the previous save as .bak, then swaps the files,
@@ -76,6 +76,10 @@ static func _migrate_step(from_version: int, payload: Dictionary) -> Dictionary:
 		1:
 			# Version 2 gave each location its own business; PlayerState.from_dict reads the
 			# old layout too.
+			return payload
+		2:
+			# Version 3 has one tank and one shop per beach; Site.from_dict merges the old tanks
+			# and turns the shops built into shop levels.
 			return payload
 		_:
 			push_error("No save migration from version %d" % from_version)

@@ -28,7 +28,7 @@ func test_shipped_level_tables_grow() -> void:
 		for i in range(1, levels.size()):
 			assert_gt(levels[i].capacity, levels[i - 1].capacity)
 			assert_gt(levels[i].cost, levels[i - 1].cost)
-	assert_eq(registry.tank_slots[0].cost, 0.0, "the first tank is free")
+	assert_eq(registry.shop_levels[0].cost, 0.0, "the first shop level is free")
 
 
 func test_shipped_species_are_parsed() -> void:

@@ -55,8 +55,9 @@ void fragment() {
 		color = mix(shallow_color.rgb, deep_color.rgb, pow(depth, 0.7));
 		// The seabed tiles show through where the water is shallow.
 		color *= 1.0 - grid * 0.12 * (1.0 - depth);
-		float caustics = caustic_lines(g / 160.0, TIME) + 0.6 * caustic_lines(g / 95.0 + 3.1, TIME * 1.3);
-		color = mix(color, vec3(0.85, 1.0, 1.0), clamp(caustics * 0.16 * (1.0 - depth * 0.6), 0.0, 1.0));
+		// One layer of caustics: phones fill the whole screen with this shader every frame.
+		float caustics = caustic_lines(g / 130.0, TIME);
+		color = mix(color, vec3(0.85, 1.0, 1.0), clamp(caustics * 0.22 * (1.0 - depth * 0.6), 0.0, 1.0));
 		color = mix(color, abyss_color.rgb, smoothstep(abyss_start, abyss_end, d) * 0.92);
 		color = mix(color, foam_color.rgb, (1.0 - smoothstep(0.0, 24.0, d)) * 0.85);
 	}

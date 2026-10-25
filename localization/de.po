@@ -41,12 +41,6 @@ msgstr "Fisch einlagern"
 msgid "Bigger tank"
 msgstr "Größeres Becken"
 
-msgid "Build tank"
-msgstr "Becken bauen"
-
-msgid "Build shop"
-msgstr "Laden bauen"
-
 msgid "Bigger backpack"
 msgstr "Größerer Rucksack"
 
@@ -62,35 +56,71 @@ msgstr "%d eingelagert!"
 msgid "%d sold\n+%s coins"
 msgstr "%d verkauft\n+%s Münzen"
 
-msgid "Build or upgrade a tank."
-msgstr "Baue oder vergrößere ein Becken."
-
-msgid "No room in the tanks!"
-msgstr "Kein Platz in den Becken!"
-
-msgid "Nothing to sell here.\nThis shop buys fish from: %s"
-msgstr "Hier gibt es nichts zu verkaufen.\nDieser Laden kauft Fische aus: %s"
-
-msgid "No shop buys %s yet.\nLet go back into the sea."
-msgstr "Noch kein Laden kauft: %s\nZurück ins Meer damit."
-
-msgid "Some fish in the tanks are from a deeper zone. Build the next shop to sell them!"
-msgstr "Einige Fische in den Becken stammen aus einer tieferen Zone. Baue den nächsten Laden, um sie zu verkaufen!"
-
 msgid "Not enough coins"
 msgstr "Nicht genug Münzen"
 
-msgid "New tank!"
-msgstr "Neues Becken!"
+msgid "Bigger shop"
+msgstr "Größerer Laden"
+
+msgid "Buys: %s"
+msgstr "Kauft: %s"
+
+msgid "No room in the tank!"
+msgstr "Kein Platz im Becken!"
+
+msgid "Upgrade the tank."
+msgstr "Vergrößere das Becken."
+
+msgid "No grown fish to sell.\nA pair of each kind stays to breed."
+msgstr "Keine ausgewachsenen Fische zu verkaufen.\nEin Paar jeder Art bleibt zur Zucht."
+
+msgid "The shop does not buy %s yet.\nLet go back into the sea."
+msgstr "Der Laden kauft noch keine: %s\nZurück ins Meer damit."
+
+msgid "%s!\nNow buys: %s"
+msgstr "%s!\nKauft jetzt: %s"
+
+msgid "Tank  %s / %s L  ·  %d grown  ·  worth %s"
+msgstr "Becken  %s / %s L  ·  %d erwachsen  ·  Wert %s"
+
+msgid "Backpack full! Store the fish in the tank or sell them at the shop."
+msgstr "Rucksack voll! Bring die Fische ins Becken oder verkaufe sie im Laden."
+
+msgid "Some fish in the tank are from a deeper zone. Upgrade the shop to sell them!"
+msgstr "Einige Fische im Becken stammen aus einer tieferen Zone. Vergrößere den Laden, um sie zu verkaufen!"
+
+msgid "Grown fish are worth 3 times as much. Sell them at the shop!"
+msgstr "Ausgewachsene Fische sind dreimal so viel wert. Verkaufe sie im Laden!"
+
+msgid "Upgrade your tank"
+msgstr "Vergrößere dein Becken"
+
+msgid "Upgrade your shop"
+msgstr "Vergrößere deinen Laden"
+
+msgid "Fish stall"
+msgstr "Fischstand"
+
+msgid "Fish hut"
+msgstr "Fischhütte"
+
+msgid "Fish shop"
+msgstr "Fischladen"
+
+msgid "Fish market"
+msgstr "Fischmarkt"
+
+msgid "Fish hall"
+msgstr "Fischhalle"
+
+msgid "Seafood palace"
+msgstr "Meeresfrüchte-Palast"
 
 msgid "Bigger backpack!\n%d fish"
 msgstr "Größerer Rucksack!\n%d Fische"
 
 msgid "New drone!\nIt fishes here: %s"
 msgstr "Neue Drohne!\nSie fischt hier: %s"
-
-msgid "New shop!"
-msgstr "Neuer Laden!"
 
 msgid "Seller hired!\nSells grown fish for you"
 msgstr "Verkäufer eingestellt!\nVerkauft ausgewachsene Fische für dich"
@@ -113,17 +143,8 @@ msgstr "+%s Münzen"
 msgid "Backpack  %d / %d"
 msgstr "Rucksack  %d / %d"
 
-msgid "Tanks  %s / %s L  ·  %d grown  ·  worth %s"
-msgstr "Becken  %s / %s L  ·  %d erwachsen  ·  Wert %s"
-
-msgid "Backpack full! Store the fish in a tank or sell them at a shop."
-msgstr "Rucksack voll! Bring die Fische in ein Becken oder verkaufe sie in einem Laden."
-
 msgid "Walk up the beach to store or sell your catch."
 msgstr "Geh den Strand hinauf, um deinen Fang einzulagern oder zu verkaufen."
-
-msgid "Grown fish are worth 3 times as much. Sell them at a shop!"
-msgstr "Ausgewachsene Fische sind dreimal so viel wert. Verkaufe sie in einem Laden!"
 
 msgid "Touch and hold to wade there and catch fish."
 msgstr "Tippe und halte, um hinzuwaten und Fische zu fangen."
@@ -323,9 +344,6 @@ msgstr "Fange 3 Fische in Folge"
 msgid "Growing collection"
 msgstr "Wachsende Sammlung"
 
-msgid "Build a second tank"
-msgstr "Baue ein zweites Becken"
-
 msgid "Busy net"
 msgstr "Fleißiger Kescher"
 
@@ -370,9 +388,6 @@ msgstr "Stelle einen Verkäufer ein"
 
 msgid "Shopkeeper"
 msgstr "Ladenbesitzer"
-
-msgid "Build a second shop"
-msgstr "Baue einen zweiten Laden"
 
 msgid "Sandbank surveyor"
 msgstr "Sandbank-Vermesser"
@@ -461,27 +476,6 @@ msgstr "Riesenbecken"
 
 msgid "Exhibit tank"
 msgstr "Ausstellungsbecken"
-
-msgid "First tank"
-msgstr "Erstes Becken"
-
-msgid "Second tank"
-msgstr "Zweites Becken"
-
-msgid "Third tank"
-msgstr "Drittes Becken"
-
-msgid "Fourth tank"
-msgstr "Viertes Becken"
-
-msgid "First shop"
-msgstr "Erster Laden"
-
-msgid "Second shop"
-msgstr "Zweiter Laden"
-
-msgid "Third shop"
-msgstr "Dritter Laden"
 
 msgid "First seller"
 msgstr "Erster Verkäufer"
@@ -643,18 +637,6 @@ msgstr "Riesenaquarium"
 
 msgid "Ocean dome"
 msgstr "Ozeankuppel"
-
-msgid "Fifth tank"
-msgstr "Fünftes Becken"
-
-msgid "Fourth shop"
-msgstr "Vierter Laden"
-
-msgid "Fifth shop"
-msgstr "Fünfter Laden"
-
-msgid "Sixth shop"
-msgstr "Sechster Laden"
 
 msgid "Fourth seller"
 msgstr "Vierter Verkäufer"

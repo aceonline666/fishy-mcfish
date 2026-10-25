@@ -76,7 +76,7 @@ func test_drones_only_take_species_the_player_discovered() -> void:
 
 func test_offline_drones_fill_tanks_up_to_their_space() -> void:
 	var state := _charted_state()
-	var tank := state.here().tanks[0]
+	var tank := state.here().tank
 	state.here().drone_count = 1
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 4

@@ -3,18 +3,18 @@ extends RefCounted
 ## milestones are reached, to check the pacing. Started by tools/balance_sim.gd.
 ##
 ## The player model: fish the most useful open zone of the current location until the backpack
-## is full, walk up the beach, store what fits, sell the rest and every grown fish at the shop of
-## its zone (fish no shop buys are let go), buy the cheapest affordable upgrade there (or the
-## travel fee), walk back. Once every species of a location is found and its gear is maxed, travel
+## is full, walk up the beach, store what fits, sell the rest and the grown fish (all but the
+## breeding pairs) at the shop of its zone (fish no shop buys are let go), buy the cheapest
+## affordable upgrade there (or the travel fee), walk back. Once every species of a location is found and its gear is maxed, travel
 ## on to the next open location and build its business from scratch. Drones and sellers of every
 ## location work in the background.
 
 ## Seconds of searching and walking per fish caught, plus its struggle time.
 const SECONDS_PER_CATCH := 4.0
 ## A round trip between the fishing spot, the store pad and the shop.
-const TRIP_OVERHEAD_S := 16.0
+const TRIP_OVERHEAD_S := 12.0
 ## Seconds per fish sold on a "Sell fish" pad.
-const SELL_SECONDS := 0.3
+const SELL_SECONDS := 0.08
 ## Fish per second a drone brings in where the player is (elsewhere: the offline rate).
 const DRONE_FISH_PER_SECOND := 0.2
 const REPORT_EVERY_S := 600.0
@@ -29,9 +29,11 @@ var _time := 0.0
 var _next_report := REPORT_EVERY_S
 ## By location id.
 var _drone_progress: Dictionary[String, float] = {}
-## By "<location id>/<tier>".
+## By location id.
 var _seller_progress: Dictionary[String, float] = {}
 var _earned_at_report := 0.0
+## Coins the sellers earned since the last report.
+var _seller_earned := 0.0
 var _backpack: Array[String] = []
 var _quiet := false
 
@@ -100,13 +102,8 @@ func _trip() -> void:
 			_state.add_money(Economy.sale_price(DataRegistry.species[id]))
 			sold += 1
 	_backpack.clear()
-	for tank in site.tanks:
-		for i in range(tank.fish.size() - 1, -1, -1):
-			var fish := tank.fish[i]
-			if fish.growth >= 1.0 and Selling.has_shop_for(site, fish.species_id):
-				_state.add_money(Economy.sale_price(DataRegistry.species[fish.species_id], fish.growth))
-				tank.fish.remove_at(i)
-				sold += 1
+	while not Selling.sell_best(_state, site).is_empty():
+		sold += 1
 	_pass_time(sold * SELL_SECONDS)
 	while _buy_cheapest():
 		pass
@@ -133,10 +130,8 @@ func _maybe_travel() -> void:
 func _buy_cheapest() -> bool:
 	var site := _state.here()
 	var options: Array[Dictionary] = []
-	_add_option(options, "tank", Aquarium.next_tank_cost(site))
-	for tank in site.tanks:
-		if Aquarium.used_space(tank) >= Aquarium.capacity(tank) * 0.7:
-			_add_option(options, "upgrade_tank_%d" % tank.slot, Aquarium.tank_upgrade_cost(site, tank))
+	if Aquarium.used_space(site.tank) >= Aquarium.capacity(site.tank) * 0.7:
+		_add_option(options, "tank", Aquarium.tank_upgrade_cost(site))
 	_add_option(options, "backpack", Aquarium.backpack_upgrade_cost(site))
 	var deepest := Charting.deepest_open_zone(site.location_id, site.gear_level)
 	if Charting.is_charted(_state, deepest):
@@ -144,7 +139,7 @@ func _buy_cheapest() -> bool:
 	if Automation.next_drone_available(_state, site):
 		_add_option(options, "drone", Automation.next_drone_cost(site))
 	_add_option(options, "net", Aquarium.net_upgrade_cost(site))
-	_add_option(options, "shop", Selling.next_shop_cost(site))
+	_add_option(options, "shop", Selling.shop_upgrade_cost(site))
 	_add_option(options, "seller", Selling.next_seller_cost(site))
 	for location: LocationDef in DataRegistry.locations:
 		if Travel.can_unlock(_state, location):
@@ -167,9 +162,7 @@ func _add_option(options: Array[Dictionary], id: String, cost: float) -> void:
 
 func _apply(site: Site, id: String) -> void:
 	if id == "tank":
-		site.tanks.append(TankState.new(Aquarium.next_slot(site), 1))
-	elif id.begins_with("upgrade_tank_"):
-		site.tank_in_slot(id.trim_prefix("upgrade_tank_").to_int()).level += 1
+		site.tank.level += 1
 	elif id == "backpack":
 		site.backpack_level += 1
 	elif id == "gear":
@@ -179,12 +172,11 @@ func _apply(site: Site, id: String) -> void:
 	elif id == "net":
 		site.net_level += 1
 	elif id == "shop":
-		site.shop_count += 1
+		site.shop_level += 1
 	elif id == "seller":
 		site.seller_count += 1
 	elif id.begins_with("unlock_"):
 		_state.unlocked_locations.append(id.trim_prefix("unlock_"))
-	site.tanks.sort_custom(func(a: TankState, b: TankState) -> bool: return a.slot < b.slot)
 
 
 ## Lets time pass in one-second steps: fish grow, drones fish, sellers sell, goals pay out.
@@ -225,14 +217,15 @@ func _run_drones(site: Site, step: float) -> void:
 
 
 func _run_sellers(site: Site, step: float) -> void:
-	for tier in range(1, site.seller_count + 1):
-		var key := "%s/%d" % [site.location_id, tier]
-		var progress: float = _seller_progress.get(key, 0.0) + Selling.seller_rate(site, tier) * step
-		while progress >= 1.0:
-			progress -= 1.0
-			if Selling.sell_best(_state, site, tier).is_empty():
-				progress = 0.0
-		_seller_progress[key] = progress
+	var progress: float = _seller_progress.get(site.location_id, 0.0) + Selling.seller_rate(site) * step
+	while progress >= 1.0:
+		progress -= 1.0
+		var sale := Selling.sell_best(_state, site)
+		if sale.is_empty():
+			progress = 0.0
+		else:
+			_seller_earned += sale[1]
+	_seller_progress[site.location_id] = progress
 
 
 func _print(text: String) -> void:
@@ -248,15 +241,14 @@ func _event(text: String) -> void:
 func _report() -> void:
 	var per_minute := (_state.total_earned - _earned_at_report) / (REPORT_EVERY_S / 60.0)
 	_earned_at_report = _state.total_earned
-	_print("%s  -- coins %s, earning %s/min, %d species, at %s" % [
+	_print("%s  -- coins %s, earning %s/min (sellers %s/min), %d species, at %s" % [
 		_clock(), NumberFormat.compact(_state.money), NumberFormat.compact(per_minute),
-		_state.species_caught.size(), _state.here().location_id])
+		NumberFormat.compact(_seller_earned / (REPORT_EVERY_S / 60.0)), _state.species_caught.size(),
+		_state.here().location_id])
+	_seller_earned = 0.0
 	for site: Site in _state.sites.values():
-		var fish := 0
-		for tank in site.tanks:
-			fish += tank.fish.size()
-		_print("          %s: %d tanks, %d fish, gear %d, net %d, %d shops, %d sellers, %d drones" % [
-			site.location_id, site.tanks.size(), fish, site.gear_level, site.net_level, site.shop_count,
+		_print("          %s: tank %d, %d fish, gear %d, net %d, shop %d, %d sellers, %d drones" % [
+			site.location_id, site.tank.level, site.tank.fish.size(), site.gear_level, site.net_level, site.shop_level,
 			site.seller_count, site.drone_count])
 
 

@@ -35,6 +35,8 @@ var active := false
 var calling := false
 
 var _time := 0.0
+## What the last drawing showed; the pad is only redrawn when this changes or while it pulses.
+var _drawn := []
 
 
 func setup(square_id: String, square_kind: Kind, square_title: String, center: Vector2, half: Vector2 = DEFAULT_HALF) -> void:
@@ -53,7 +55,11 @@ func contains(ground: Vector2) -> bool:
 
 func _process(delta: float) -> void:
 	_time += delta
-	if visible:
+	if not visible:
+		return
+	var shown := [kind, title, subtitle, price, paid, active, calling]
+	if calling or shown != _drawn:
+		_drawn = shown
 		queue_redraw()
 
 

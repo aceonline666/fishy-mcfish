@@ -60,29 +60,26 @@ func test_species_caught_survives_json_round_trip() -> void:
 func test_every_business_survives_json_round_trip() -> void:
 	var state := PlayerState.new_game()
 	var home := state.here()
-	home.tanks[0].level = 2
-	home.tanks[0].fish.append(TankFish.new("european_sprat", 0.25))
-	home.tanks.append(TankState.new(1, 1))
+	home.tank.level = 2
+	home.tank.fish.append(TankFish.new("european_sprat", 0.25))
 	home.backpack_level = 3
 	home.net_level = 2
-	home.shop_count = 2
+	home.shop_level = 2
 	home.seller_count = 1
-	home.build_progress["build_tank"] = 20.0
+	home.build_progress["upgrade_tank"] = 20.0
 	state.site("coral_reef").drone_count = 1
 
 	var restored := PlayerState.from_dict(JSON.parse_string(JSON.stringify(state.to_dict())))
 
 	var restored_home := restored.here()
-	assert_eq(restored_home.tanks.size(), 2)
-	assert_eq(restored_home.tanks[0].level, 2)
-	assert_eq(restored_home.tanks[0].fish[0].species_id, "european_sprat")
-	assert_eq(restored_home.tanks[0].fish[0].growth, 0.25)
-	assert_eq(restored_home.tanks[1].slot, 1)
+	assert_eq(restored_home.tank.level, 2)
+	assert_eq(restored_home.tank.fish[0].species_id, "european_sprat")
+	assert_eq(restored_home.tank.fish[0].growth, 0.25)
 	assert_eq(restored_home.backpack_level, 3)
 	assert_eq(restored_home.net_level, 2)
-	assert_eq(restored_home.shop_count, 2)
+	assert_eq(restored_home.shop_level, 2)
 	assert_eq(restored_home.seller_count, 1)
-	assert_eq(restored_home.build_progress["build_tank"], 20.0)
+	assert_eq(restored_home.build_progress["upgrade_tank"], 20.0)
 	assert_eq(restored.site("coral_reef").drone_count, 1)
 
 
@@ -99,24 +96,22 @@ func test_saves_from_before_locations_had_their_own_business() -> void:
 	var home := state.here()
 	assert_eq(home.gear_level, 3)
 	assert_eq(home.net_level, 2)
-	assert_eq(home.shop_count, 2)
+	assert_eq(home.shop_level, 2, "each shop built becomes a shop level")
 	assert_eq(home.drone_count, 1)
-	assert_eq(home.tanks.size(), 2, "the temperate tanks stay at home")
+	assert_eq(home.tank.level, 3, "the temperate tanks stay at home, merged into one")
+	assert_eq(home.tank.fish.size(), 1)
 	assert_eq(home.build_progress, {"upgrade_net": 50.0} as Dictionary[String, float])
 	var reef := state.site("coral_reef")
-	assert_eq(reef.tanks.size(), 1, "the tropical tank moves to the reef")
-	assert_eq(reef.tanks[0].slot, 0)
-	assert_eq(reef.tanks[0].level, 2)
-	assert_eq(reef.tanks[0].fish[0].species_id, "blue_tang")
+	assert_eq(reef.tank.level, 2, "the tropical tank moves to the reef")
+	assert_eq(reef.tank.fish[0].species_id, "blue_tang")
 	assert_eq(reef.gear_level, 1)
 
 
 func test_prototype_tank_list_moves_into_the_first_tank() -> void:
 	var state := PlayerState.from_dict({"tank_fish": ["european_sprat", "atlantic_herring"]})
-	var tanks := state.here().tanks
-	assert_eq(tanks.size(), 1)
-	assert_eq(tanks[0].fish.size(), 2)
-	assert_eq(tanks[0].fish[1].species_id, "atlantic_herring")
+	var tank := state.here().tank
+	assert_eq(tank.fish.size(), 2)
+	assert_eq(tank.fish[1].species_id, "atlantic_herring")
 
 
 func test_saves_from_the_visitor_days_keep_their_coins() -> void:
@@ -129,5 +124,19 @@ func test_from_empty_dict_is_a_new_game() -> void:
 	var state := PlayerState.from_dict({})
 	assert_eq(state.money, 0.0)
 	assert_true(state.stats.is_empty())
-	assert_eq(state.here().tanks.size(), 1)
+	assert_eq(state.here().tank.level, 1)
 	assert_eq(state.here().backpack_level, 1)
+
+
+func test_several_tanks_and_shops_of_older_saves_become_one_tank_and_a_shop_level() -> void:
+	var site := Site.from_dict("north_sea", {
+		"shop_count": 3, "seller_count": 2,
+		"tanks": [
+			{"slot": 0, "level": 2, "fish": [{"species": "european_sprat", "growth": 1.0}]},
+			{"slot": 1, "level": 4, "fish": [{"species": "atlantic_herring", "growth": 0.5}]},
+		],
+	})
+	assert_eq(site.tank.level, 4, "the biggest tank")
+	assert_eq(site.tank.fish.size(), 2, "with all the fish")
+	assert_eq(site.shop_level, 3)
+	assert_eq(site.seller_count, 2)

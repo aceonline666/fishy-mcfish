@@ -86,7 +86,7 @@ func total(field: String) -> int:
 	return sum
 
 
-## The highest value of an integer site field (e.g. "shop_count") at any one location.
+## The highest value of an integer site field (e.g. "shop_level") at any one location.
 func most(field: String) -> int:
 	var best := 0
 	for s: Site in sites.values():
@@ -94,11 +94,11 @@ func most(field: String) -> int:
 	return best
 
 
-## The most tanks built at any one location.
-func most_tanks() -> int:
+## The highest tank level at any one location.
+func best_tank_level() -> int:
 	var best := 0
 	for s: Site in sites.values():
-		best = maxi(best, s.tanks.size())
+		best = maxi(best, s.tank.level)
 	return best
 
 
@@ -166,7 +166,7 @@ static func _read_legacy_business(state: PlayerState, data: Dictionary) -> void:
 	# Early prototype saves kept stored fish as a flat list; move them into the first tank.
 	var legacy_tank: Array = data.get("tank_fish", [])
 	for id: Variant in legacy_tank:
-		home.tanks[0].fish.append(TankFish.new(str(id)))
+		home.tank.fish.append(TankFish.new(str(id)))
 
 	var tropical_tanks: Array = (data.get("tanks", []) as Array).filter(func(entry: Variant) -> bool:
 		return entry is Dictionary and int(entry.get("slot", 0)) >= LEGACY_SLOTS_PER_LOCATION)

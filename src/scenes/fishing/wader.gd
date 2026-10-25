@@ -5,7 +5,7 @@ extends Node2D
 ## uses `ground_position`; the node sits at the feet on screen. The body is drawn from SVG
 ## sprites (front and back view, mirrored for left and right); the net is drawn in code.
 
-const WALK_SPEED := 320.0
+const WALK_SPEED := 450.0
 const ACCELERATION := 2400.0
 ## Share of the speed kept when the finger lifts.
 const STOP_KEEP_SPEED := 0.2

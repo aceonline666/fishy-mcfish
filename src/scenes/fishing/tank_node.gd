@@ -1,6 +1,6 @@
 class_name TankNode
 extends Node2D
-## A tank on the beach, drawn in code as an isometric glass box on a stand, with its fish
+## The tank on the beach, drawn in code as an isometric glass box on a stand, with its fish
 ## swimming inside. Bigger levels are bigger boxes. The node sits at the centre of the base.
 
 ## Ground half-size and screen height of the glass box, per tank level.
@@ -27,6 +27,9 @@ var tank: TankState
 var art_for: Callable
 
 var _time := 0.0
+## Used litres, recounted only when the number of fish changes.
+var _used := 0.0
+var _counted_fish := -1
 
 
 func setup(tank_state: TankState, ground_position: Vector2, art_lookup: Callable) -> void:
@@ -72,7 +75,10 @@ func _draw() -> void:
 	var front := base + Iso.to_screen(Vector2(half.x, half.y))
 	draw_line(front + Vector2(-20.0, -12.0), front + Vector2(-20.0, -height + 12.0), Color(1.0, 1.0, 1.0, 0.45), 4.0)
 
-	var used := Aquarium.used_space(tank)
+	if tank.fish.size() != _counted_fish:
+		_counted_fish = tank.fish.size()
+		_used = Aquarium.used_space(tank)
+	var used := _used
 	var text := "%s / %s L" % [NumberFormat.compact(used), NumberFormat.compact(Aquarium.capacity(tank))]
 	var full := used >= Aquarium.capacity(tank) - 0.01
 	IsoDraw.label(self, Vector2(0.0, -STAND_HEIGHT - height - (half.x + half.y) * 0.36 - 18.0), text, 24,
