@@ -1,12 +1,15 @@
 class_name FishArt
 extends RefCounted
-## Side-on sprite of one species, drawn from two SVGs in assets/sprites/fish: <id>_body.svg and
-## <id>_tail.svg, so the tail can beat. Species without SVGs get a coloured placeholder shape.
+## Side-on sprite of one species, drawn from two images so the tail can beat: <id>_body and
+## <id>_tail. Painted PNGs (assets/sprites/fish_painted, cut from a painted sprite sheet by
+## tools/extract_painted.py) are used where they exist, otherwise the SVGs in
+## assets/sprites/fish. Species without either get a coloured placeholder shape.
 ##
-## SVG conventions (in SVG units): the body canvas is 240 wide with the tail root at x=20 and
-## the snout at x=220; the tail canvas is 70 wide with the tail root at x=62. Both are centred
+## Layout (in canvas units): the body canvas is 240 wide with the tail root at x=20 and the
+## snout at x=220; the tail canvas is 70 wide with the tail root at x=62. Both are centred
 ## vertically on the body axis and face right.
 
+const PAINTED_DIR := "res://assets/sprites/fish_painted/"
 const SPRITE_DIR := "res://assets/sprites/fish/"
 ## Share of the total length taken by the body; the rest is tail fin.
 const BODY_SHARE := 0.8
@@ -25,11 +28,13 @@ var tail: Texture2D
 static func for_species(def: SpeciesDef) -> FishArt:
 	var art := FishArt.new()
 	art.species = def
-	var body_path := SPRITE_DIR + def.id + "_body.svg"
-	var tail_path := SPRITE_DIR + def.id + "_tail.svg"
-	if ResourceLoader.exists(body_path) and ResourceLoader.exists(tail_path):
-		art.body = load(body_path)
-		art.tail = load(tail_path)
+	for source: PackedStringArray in [PackedStringArray([PAINTED_DIR, ".png"]), PackedStringArray([SPRITE_DIR, ".svg"])]:
+		var body_path := source[0] + def.id + "_body" + source[1]
+		var tail_path := source[0] + def.id + "_tail" + source[1]
+		if ResourceLoader.exists(body_path) and ResourceLoader.exists(tail_path):
+			art.body = load(body_path)
+			art.tail = load(tail_path)
+			break
 	return art
 
 
