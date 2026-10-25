@@ -4,9 +4,9 @@ extends RefCounted
 ##
 ## The player model: fish the most useful open zone of the current location until the backpack
 ## is full, walk up the beach, store what fits, sell the rest and the grown fish (all but the
-## breeding pairs) at the shop of its zone (fish no shop buys are let go), buy the cheapest
-## affordable upgrade there (or the travel fee), walk back. Once every species of a location is found and its gear is maxed, travel
-## on to the next open location and build its business from scratch. Drones and sellers of every
+## breeding pairs) at the shop, buy the cheapest affordable upgrade there (or the travel fee),
+## walk back. Once every species of a location is found and its gear is maxed, travel on to the
+## next open location and build its business from scratch. Drones and sellers of every
 ## location work in the background.
 
 ## Seconds of searching and walking per fish caught, plus its struggle time.
@@ -98,7 +98,7 @@ func _trip() -> void:
 	_pass_time(TRIP_OVERHEAD_S)
 	var sold := 0
 	for id in _backpack:
-		if Aquarium.store(site, id) == null and Selling.has_shop_for(site, id):
+		if Aquarium.store(site, id) == null:
 			_state.add_money(Economy.sale_price(DataRegistry.species[id]))
 			sold += 1
 	_backpack.clear()

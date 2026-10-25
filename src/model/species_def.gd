@@ -31,9 +31,6 @@ var growth_time_s: float
 ## Shape colour until real art exists.
 var placeholder_color: Color
 var fun_fact: String
-## Order of the shallowest depth zone the species lives in (1 = first zone). Shop N sells the
-## fish of zone N. Set by DataRegistry once the zones are loaded.
-var shop_tier := 1
 
 
 ## Builds a definition from a CSV row. Appends to `errors` and returns null if the row is invalid.

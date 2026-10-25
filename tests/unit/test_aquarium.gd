@@ -123,9 +123,12 @@ func test_sellers_sell_grown_fish_and_keep_a_breeding_pair() -> void:
 	assert_eq(site.tank.fish.size(), 7)
 
 
-func test_the_shop_level_decides_which_fish_it_buys() -> void:
+func test_a_tank_too_full_to_breed_sells_its_pairs_too() -> void:
 	var site := _site_with_tank()
-	_fill(site.tank, "european_plaice", 3, 1.0)
-	assert_eq(Selling.best_fish(site), -1, "plaice live in the second zone")
-	site.shop_level = 2
-	assert_eq(Selling.best_fish(site), 0)
+	# 24 different pairs of 1 L each would block a tank with nothing to spare; use sprats and herring.
+	_fill(site.tank, "european_sprat", 2, 1.0)
+	_fill(site.tank, "atlantic_herring", 2, 1.0)
+	assert_eq(Selling.best_fish(site), -1, "pairs stay while the tank can breed")
+	_fill(site.tank, "lesser_sand_eel", 12, 0.0)
+	assert_gte(Aquarium.used_space(site.tank), Aquarium.capacity(site.tank) * Aquarium.BREED_FILL)
+	assert_eq(site.tank.fish[Selling.best_fish(site)].species_id, "atlantic_herring", "the most valuable grown fish")

@@ -634,11 +634,10 @@ func _refresh_squares() -> void:
 	sell.subtitle = tr(DataRegistry.shop_levels[site.shop_level - 1].name)
 	_set_purchase(square_by_id("upgrade_tank"), "upgrade_tank", tr("Bigger tank"), Aquarium.tank_upgrade_cost(site),
 			_prop("tank_%d" % (site.tank.level + 1)))
-	# The next shop level buys the fish of one more zone.
+	# Each shop level makes room for one more seller.
 	var shop := square_by_id("upgrade_shop")
 	_set_purchase(shop, "upgrade_shop", tr("Bigger shop"), Selling.shop_upgrade_cost(site), _prop("shop_%d" % (site.shop_level + 1)))
-	var next_zone := _zone_name(site.shop_level + 1)
-	shop.subtitle = tr("Buys: %s") % next_zone if not next_zone.is_empty() else ""
+	shop.subtitle = tr("+1 seller")
 	var backpack := square_by_id("upgrade_backpack")
 	_set_purchase(backpack, "upgrade_backpack", tr("Bigger backpack"), Aquarium.backpack_upgrade_cost(site))
 	var next_net := DataRegistry.net_levels[mini(site.net_level, DataRegistry.net_levels.size() - 1)]
@@ -661,14 +660,6 @@ func _refresh_squares() -> void:
 func _prop(prop_name: String) -> Texture2D:
 	var path := "res://assets/sprites/props/%s.png" % prop_name
 	return load(path) if ResourceLoader.exists(path) else null
-
-
-## The name of the zone here with this order (1 = the shallowest), or "" if there is none.
-func _zone_name(order: int) -> String:
-	for zone in _zones:
-		if zone.order == order:
-			return tr(zone.name)
-	return ""
 
 
 ## `icon` is a picture of what is bought (see _prop()), or null.
@@ -783,22 +774,14 @@ func _on_fish_reached_tank() -> void:
 
 
 ## Sells one fish on the "Sell fish" pad: from the backpack first, then grown fish from the
-## tank. Backpack fish that the shop does not buy yet and that do not fit the tank are let go.
+## tank.
 func _sell_one(target: ActionSquare) -> void:
-	var site := GameState.here()
-	var index := -1
-	for i in range(live_well.count() - 1, -1, -1):
-		if Selling.has_shop_for(site, live_well.species_ids[i]):
-			index = i
-			break
 	var from: Vector2
 	var price := 0.0
-	if index >= 0:
+	if live_well.count() > 0:
 		from = _world_to_scene(wader.stack_top_position())
-		price = GameState.sell_fish(live_well.take_at(index))
-		wader.take_from_stack_at(index)
-	elif _release_unsellable():
-		return
+		price = GameState.sell_fish(live_well.take_at(live_well.count() - 1))
+		wader.take_from_stack()
 	else:
 		var sale := GameState.sell_from_tank()
 		if sale.is_empty():
@@ -817,28 +800,6 @@ func _sell_one(target: ActionSquare) -> void:
 	Sfx.play(&"coin", 1.0 + minf(_action_count, 20) * 0.04, -4.0)
 	_shop_node.bounce()
 	_update_hud()
-
-
-## Lets the topmost backpack fish go that the shop does not buy and the tank does not take, so it cannot
-## block the backpack. Returns false if there is none.
-func _release_unsellable() -> bool:
-	var site := GameState.here()
-	for i in range(live_well.count() - 1, -1, -1):
-		var id := live_well.species_ids[i]
-		if Selling.has_shop_for(site, id) or Aquarium.tank_for(site, DataRegistry.species[id]) != null:
-			continue
-		var from := _world_to_scene(wader.stack_top_position())
-		live_well.take_at(i)
-		var art := wader.take_from_stack_at(i)
-		var sea := _world_to_scene(Iso.to_screen(Vector2(wader.ground_position.x, SHORE_Y + 200.0)))
-		Juice.fly_fish(_popups, art, from, sea, Wader.STACK_FISH_LENGTH * ZOOM, Sfx.play.bind(&"splash", 1.2, -8.0))
-		if not _warned:
-			_warned = true
-			_announce(_world_to_scene(wader.stack_top_position() + Vector2(0.0, -110.0)),
-					tr("The shop does not buy %s yet.\nLet go back into the sea.") % tr(DataRegistry.species[id].common_name), WARNING_COLOR, 1.2)
-		_update_hud()
-		return true
-	return false
 
 
 ## Screen position of the coin counter, where earned coins fly to.
@@ -885,7 +846,7 @@ func _complete_purchase(target: ActionSquare) -> void:
 		GameState.upgrade_shop()
 		_sync_shops()
 		_shop_node.bounce()
-		message = tr("%s!\nNow buys: %s") % [tr(DataRegistry.shop_levels[site.shop_level - 1].name), _zone_name(site.shop_level)]
+		message = tr("%s!\nRoom for one more seller") % tr(DataRegistry.shop_levels[site.shop_level - 1].name)
 	elif target.id == "hire_seller":
 		GameState.hire_seller()
 		_sync_shops()
@@ -1103,8 +1064,6 @@ func _update_hud() -> void:
 		_hint_label.text = tr("Backpack full! Store the fish in the tank or sell them at the shop.")
 	elif live_well.count() > 0:
 		_hint_label.text = tr("Walk up the beach to store or sell your catch.")
-	elif Selling.unsellable_count(site) > 0 and Selling.shop_upgrade_cost(site) >= 0.0:
-		_hint_label.text = tr("Some fish in the tank are from a deeper zone. Upgrade the shop to sell them!")
 	elif adults > 0 and site.seller_count == 0:
 		_hint_label.text = tr("Grown fish are worth 3 times as much. Sell them at the shop!")
 	else:

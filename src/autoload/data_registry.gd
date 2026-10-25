@@ -47,7 +47,6 @@ func load_all(dir: String) -> void:
 	shop_levels = _load_levels(dir.path_join("shop_levels.csv"))
 	_load_locations(dir.path_join("locations.csv"))
 	_load_zones(dir.path_join("zones.csv"))
-	_assign_shop_tiers()
 	_load_achievements(dir.path_join("achievements.csv"))
 
 
@@ -118,17 +117,6 @@ func _load_zones(path: String) -> void:
 		for i in range(1, own.size()):
 			if not is_equal_approx(own[i].depth_start, own[i - 1].depth_end):
 				errors.append("%s: zone '%s' must start where '%s' ends" % [path, own[i].id, own[i - 1].id])
-
-
-## Each species belongs to the shallowest zone it lives in, at any location.
-func _assign_shop_tiers() -> void:
-	for def: SpeciesDef in species.values():
-		var tiers: Array[int] = []
-		for zone in zones:
-			if zone.spawns.has(def.id):
-				tiers.append(zone.order)
-		if not tiers.is_empty():
-			def.shop_tier = tiers.min()
 
 
 func _load_species(path: String) -> void:

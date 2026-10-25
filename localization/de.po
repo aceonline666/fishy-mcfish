@@ -62,8 +62,11 @@ msgstr "Nicht genug Münzen"
 msgid "Bigger shop"
 msgstr "Größerer Laden"
 
-msgid "Buys: %s"
-msgstr "Kauft: %s"
+msgid "+1 seller"
+msgstr "+1 Verkäufer"
+
+msgid "%s!\nRoom for one more seller"
+msgstr "%s!\nPlatz für einen weiteren Verkäufer"
 
 msgid "No room in the tank!"
 msgstr "Kein Platz im Becken!"
@@ -74,20 +77,11 @@ msgstr "Vergrößere das Becken."
 msgid "No grown fish to sell.\nA pair of each kind stays to breed."
 msgstr "Keine ausgewachsenen Fische zu verkaufen.\nEin Paar jeder Art bleibt zur Zucht."
 
-msgid "The shop does not buy %s yet.\nLet go back into the sea."
-msgstr "Der Laden kauft noch keine: %s\nZurück ins Meer damit."
-
-msgid "%s!\nNow buys: %s"
-msgstr "%s!\nKauft jetzt: %s"
-
 msgid "Tank  %s / %s L  ·  %d grown  ·  worth %s"
 msgstr "Becken  %s / %s L  ·  %d erwachsen  ·  Wert %s"
 
 msgid "Backpack full! Store the fish in the tank or sell them at the shop."
 msgstr "Rucksack voll! Bring die Fische ins Becken oder verkaufe sie im Laden."
-
-msgid "Some fish in the tank are from a deeper zone. Upgrade the shop to sell them!"
-msgstr "Einige Fische im Becken stammen aus einer tieferen Zone. Vergrößere den Laden, um sie zu verkaufen!"
 
 msgid "Grown fish are worth 3 times as much. Sell them at the shop!"
 msgstr "Ausgewachsene Fische sind dreimal so viel wert. Verkaufe sie im Laden!"

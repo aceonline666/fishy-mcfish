@@ -1,37 +1,27 @@
 class_name Selling
 extends RefCounted
-## Selling fish at a location's shop. Each shop level buys the fish of one more depth zone (shop
-## level N buys SpeciesDef.shop_tier 1 to N). The player sells by standing on the shop's "Sell
-## fish" pad; the sellers hired for the shop sell on their own, at every location, also while
-## the game is closed. From the tank only grown fish are sold, and a breeding pair of each
-## species stays in it.
+## Selling fish at a location's shop. The shop buys every fish; each shop level makes room for one
+## more seller. The player sells by standing on the shop's "Sell fish" pad; the sellers sell on
+## their own, at every location, also while the game is closed. From the tank only grown fish are
+## sold, and a breeding pair of each species stays in it, unless the tank is too full to breed:
+## then pairs are sold too, so it never fills up with fish that nobody sells.
 
 ## Fish of a species that stay in the tank to breed.
 const BREEDING_PAIR := 2
 
 
-## The shop level that starts buying a species: 1 for fish of the first zone.
-static func tier_of(species_id: String) -> int:
-	return DataRegistry.species[species_id].shop_tier
-
-
-## True if the site's shop buys this species.
-static func has_shop_for(site: Site, species_id: String) -> bool:
-	return tier_of(species_id) <= site.shop_level
-
-
-## Index of the most valuable grown fish in the tank that the shop buys and that is not needed
-## for breeding, or -1 if none.
+## Index of the most valuable grown fish in the tank that may be sold, or -1 if none.
 static func best_fish(site: Site) -> int:
 	var tank := site.tank
 	var counts: Dictionary[String, int] = {}
 	for fish in tank.fish:
 		counts[fish.species_id] = counts.get(fish.species_id, 0) + 1
+	var crowded := Aquarium.used_space(tank) >= Aquarium.capacity(tank) * Aquarium.BREED_FILL
 	var best := -1
 	var best_price := -1.0
 	for i in tank.fish.size():
 		var fish := tank.fish[i]
-		if fish.growth < 1.0 or counts[fish.species_id] <= BREEDING_PAIR or not has_shop_for(site, fish.species_id):
+		if fish.growth < 1.0 or (counts[fish.species_id] <= BREEDING_PAIR and not crowded):
 			continue
 		var price := Economy.sale_price(DataRegistry.species[fish.species_id], fish.growth)
 		if price > best_price:
@@ -51,15 +41,6 @@ static func sell_best(state: PlayerState, site: Site) -> Array:
 	var price := Economy.sale_price(DataRegistry.species[fish.species_id], fish.growth)
 	state.add_money(price)
 	return [fish.species_id, price]
-
-
-## Fish in the tank that the shop does not buy yet.
-static func unsellable_count(site: Site) -> int:
-	var count := 0
-	for fish in site.tank.fish:
-		if not has_shop_for(site, fish.species_id):
-			count += 1
-	return count
 
 
 ## Fish per second the site's sellers sell together; 0 if none is hired.

@@ -9,9 +9,11 @@ signal left
 
 enum State { ARRIVING, WAITING, LEAVING }
 
-const LOOKS: Array[String] = ["customer_1", "customer_2", "customer_3", "customer_4", "customer_5", "customer_6"]
+## Three-quarter views: the front views look down towards screen-right, the back views up
+## towards screen-right; they are mirrored when walking left.
+const LOOKS: Array[String] = ["customer_2", "customer_3", "customer_4", "customer_5", "customer_6"]
 ## The same person carrying a fish, by look index.
-const WITH_FISH: Dictionary[int, String] = {0: "buyer_2", 1: "buyer_1", 2: "buyer_3", 4: "buyer_4"}
+const WITH_FISH: Dictionary[int, String] = {0: "buyer_1", 1: "buyer_3"}
 const PROPS_DIR := "res://assets/sprites/props/"
 ## Ground units per second.
 const SPEED := 150.0
@@ -88,7 +90,7 @@ func _process(delta: float) -> void:
 	position = Iso.to_screen(ground_position)
 	var screen_step := Iso.to_screen(step)
 	_walking_away = screen_step.y < 0.0
-	_mirrored = screen_step.x > 0.0
+	_mirrored = screen_step.x < 0.0
 	_walk_phase += delta * 9.0
 	queue_redraw()
 

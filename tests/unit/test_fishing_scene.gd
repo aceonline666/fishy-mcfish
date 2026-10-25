@@ -201,18 +201,16 @@ func test_bigger_backpack_holds_more_fish() -> void:
 	assert_eq(_scene.live_well.capacity, int(DataRegistry.backpack_levels[1].capacity))
 
 
-func test_upgrading_the_shop_buys_fish_of_the_next_zone() -> void:
-	await _catch(["european_sprat"] as Array[String])
-	_scene.live_well.add("european_plaice")
-	_wader.add_to_stack(_scene._art_for("european_plaice"))
+func test_upgrading_the_shop_makes_room_for_another_seller() -> void:
+	GameState.here().seller_count = 1
+	GameState.replace_state(GameState.state)
+	await wait_process_frames(1)
+	assert_null(_scene.square("hire_seller"), "one seller at the fish stall")
 	GameState.add_money(Selling.shop_upgrade_cost(GameState.here()))
 	_stand_on("upgrade_shop")
 	await wait_seconds(3.0)
 	assert_eq(GameState.here().shop_level, 2)
-	_stand_on("sell")
-	await wait_seconds(1.0)
-	assert_eq(_scene.live_well.count(), 0)
-	assert_eq(GameState.state.money, 75.0, "the plaice of the Sandbanks is bought now")
+	assert_not_null(_scene.square("hire_seller"))
 
 
 func test_a_hired_seller_sells_grown_fish_on_their_own() -> void:
@@ -234,14 +232,14 @@ func test_a_hired_seller_sells_grown_fish_on_their_own() -> void:
 	assert_eq(tank.fish.size(), 3, "the breeding pair and the young sprat stay")
 
 
-func test_fish_the_shop_does_not_buy_are_let_go_there() -> void:
+func test_the_shop_buys_fish_of_every_zone() -> void:
 	await _catch(["european_sprat"] as Array[String])
 	_scene.live_well.add("european_plaice")
 	_wader.add_to_stack(_scene._art_for("european_plaice"))
 	_stand_on("sell")
 	await wait_seconds(1.0)
-	assert_eq(_scene.live_well.count(), 0, "the sprat is sold, the plaice let go")
-	assert_eq(GameState.state.money, 5.0)
+	assert_eq(_scene.live_well.count(), 0)
+	assert_eq(GameState.state.money, 75.0)
 
 
 func test_a_better_net_lands_big_fish_faster_and_is_wider() -> void:

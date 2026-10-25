@@ -30,10 +30,9 @@ Each beach has **one tank and one shop**, which are upgraded instead of building
   tank and are worth three times as much once grown. Two or more fish of a species **breed**:
   each pair gets young while the tank is less than 80 % full (the rest stays free for the catch).
 - **Sell fish** in front of the shop: the backpack first, then grown fish from the tank, most
-  valuable first; a breeding pair of each species always stays. Shop level N buys the fish of
-  zones 1 to N (the shallowest zone a species lives in); **Bigger shop** adds the next zone.
-  Backpack fish the shop does not buy and the tank does not take are let go. Selling speeds up
-  with every fish.
+  valuable first; a breeding pair of each species stays, unless the tank is too full to breed
+  (then pairs are sold too, so the tank never clogs up). The shop buys every fish; **Bigger
+  shop** makes room for one more seller. Selling speeds up with every fish.
 - **Hire seller**: one seller per shop level, each selling 10 grown fish a minute on their own,
   also while the game is closed. With breeding pairs in the tank this is a steady income.
 - **Bigger tank / Bigger backpack / Better net** take coins until paid (partial payments are
@@ -110,7 +109,7 @@ Tests can also be run from the GUT panel in the editor. CI runs them on every pu
 **Balance:** `tools/balance_sim.gd` plays the game headless with a greedy bot using the real
 rules and prints a timeline of purchases, charted zones, goals and income. `tests/unit/test_pacing.gd`
 runs the same bot and checks the pacing targets (first tank upgrade < 5 min, snorkel 5–25 min,
-Coral Reef 25–70 min, open sea charted in the second hour). The bot reaches the North Sea's
+Coral Reef 25–70 min, open sea charted after 55–120 min). The bot reaches the North Sea's
 deep sea after about 3 h and has charted all five locations after about 12 h. Run it after
 changing prices or income:
 
