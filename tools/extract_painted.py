@@ -44,7 +44,7 @@ PAINTED_SHEET = {
     "rabbit_fish": (240, 431, "left", False),
     "curled_octopus": (369, 431, "right", False),
     "greenland_shark": (519, 430, "left", True),
-    "humpback_anglerfish": (677, 432, "left", True),
+    "humpback_anglerfish": (677, 432, "right", True),
     "south_african_sardine": (532, 595, "left", True),
     "green_sea_turtle": (387, 761, "right", False),
     "sperm_whale": (1172, 746, "left", True),
