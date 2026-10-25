@@ -78,7 +78,10 @@ SciPy), otherwise hand-written SVGs in `assets/sprites/fish/`. Species without e
 coloured placeholders. The wader, the tank (one sprite per level), the shop (one per level), the
 cashiers, the customers who queue at the shop while sellers work and leave with a fish, and the
 beach decoration are painted sprites in `assets/sprites/props/`, cut from the coastal sheet by
-`tools/extract_props.py` (its background checkerboard is removed by flood fill).
+`tools/extract_props.py` (its background checkerboard is removed by flood fill). The gear sheet
+adds the wader in four views, the drones, the buyers carrying their fish, the pictures of the
+nets, diving gear, tanks, shops and drones on the upgrade pads, and the location pictures of the
+World map.
 `art_source/` holds the source sheets (generated images) and is not imported by Godot. The logo,
 the boot splash and the app icons (`assets/ui/logo.png`, `splash.png`, `icon*.png`) are rendered
 by `tools/make_logo.py` from the painted sprites and the Luckiest Guy font (Apache 2.0, in

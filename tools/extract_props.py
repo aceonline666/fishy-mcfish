@@ -1,14 +1,16 @@
-"""Cuts the beach props (tanks, shops, people, decoration) out of the coastal sprite sheet.
+"""Cuts sprites (tanks, shops, people, gear, drones, decoration) out of the painted sheets.
 
-The sheet has no transparency: its background is a light grey checkerboard. Background is
+The sheets have no transparency: their background is a light grey checkerboard. Background is
 every light, colourless pixel connected to the sheet's border; it becomes transparent, and the
 edge is pulled in by a pixel so no light fringe remains. Each sprite is found by a point on it
-(PROPS) and saved trimmed to its own PNG.
+and saved trimmed to its own PNG. Pictures with light parts at their edge (the location scenes)
+are cut as plain rectangles instead.
 
-Needs Pillow, NumPy and SciPy. Usage:
+Needs Pillow, NumPy and SciPy. Usage, per sheet (SHEETS says what each one holds):
   python tools/extract_props.py art_source/coastal_sprite_sheet.png assets/sprites/props
-  python tools/extract_props.py art_source/coastal_sprite_sheet.png out_dir --debug
-    (writes debug.png with every found sprite numbered, to pick the points)
+  python tools/extract_props.py art_source/gear_sprite_sheet.png assets/sprites/props
+  python tools/extract_props.py <sheet> out_dir --debug
+    (writes debug.png with a box around every found sprite, to pick the points)
 """
 import sys
 from pathlib import Path
@@ -17,36 +19,60 @@ import numpy as np
 from PIL import Image, ImageDraw
 from scipy import ndimage
 
-# The painted background strip on the right of the sheet is not a sprite.
-SHEET_WIDTH = 1180
 LIGHT = 226
 GREY_SPREAD = 16
 
-# name: (x, y) of a point on the sprite in the sheet
-PROPS = {
-    "wader_front": (55, 100), "wader_back": (155, 100),
-    "customer_1_front": (252, 100), "customer_1_back": (313, 100),
-    "customer_2_front": (393, 100), "customer_2_back": (462, 100),
-    "customer_3_front": (540, 100), "customer_3_back": (606, 100),
-    "customer_4_front": (757, 100), "customer_4_back": (822, 100),
-    "customer_5_front": (910, 100), "customer_5_back": (982, 100),
-    "customer_6_front": (1063, 100), "customer_6_back": (1126, 100),
-    "tank_1": (63, 330), "tank_2": (167, 318), "tank_3": (283, 310), "tank_4": (408, 305),
-    "tank_5": (542, 300), "tank_6": (683, 285), "tank_7": (1037, 260),
-    "shop_1": (64, 530), "shop_2": (190, 525), "shop_3": (332, 515), "shop_4": (527, 515),
-    "shop_5": (760, 515), "shop_6": (1025, 495),
-    "cashier_1": (58, 720), "cashier_2": (213, 720), "cashier_3": (375, 720),
-    "kid_1": (526, 700), "kid_2": (576, 700), "kid_3": (636, 700), "kid_4": (700, 700),
-    "kid_5": (762, 700), "kid_6": (822, 700), "kid_7": (882, 700), "kid_8": (942, 700),
-    "kid_9": (996, 700),
-    "customer_fish_front": (1060, 700), "customer_fish_back": (1130, 700),
-    "pier": (260, 900), "palm": (575, 870), "parasol": (690, 890), "signpost": (793, 895),
-    "bush": (905, 900), "seagull": (1026, 920), "buoy": (1100, 900),
+# Per sheet file: "width" (columns to look at), "sprites" (name: a point on the sprite) and
+# "pictures" (name: left, top, right, bottom of a rectangle).
+SHEETS = {
+    "coastal_sprite_sheet.png": {
+        # The painted background strip on the right of the sheet is not a sprite.
+        "width": 1180,
+        "sprites": {
+            "customer_1_front": (252, 100), "customer_1_back": (313, 100),
+            "customer_2_front": (393, 100), "customer_2_back": (462, 100),
+            "customer_3_front": (540, 100), "customer_3_back": (606, 100),
+            "customer_4_front": (757, 100), "customer_4_back": (822, 100),
+            "customer_5_front": (910, 100), "customer_5_back": (982, 100),
+            "customer_6_front": (1063, 100), "customer_6_back": (1126, 100),
+            "tank_1": (63, 330), "tank_2": (167, 318), "tank_3": (283, 310), "tank_4": (408, 305),
+            "tank_5": (542, 300), "tank_6": (683, 285), "tank_7": (1037, 260),
+            "shop_1": (64, 530), "shop_2": (190, 525), "shop_3": (332, 515), "shop_4": (527, 515),
+            "shop_5": (760, 515), "shop_6": (1025, 495),
+            "cashier_1": (58, 720), "cashier_2": (213, 720), "cashier_3": (375, 720),
+            "palm": (575, 870), "parasol": (690, 890), "signpost": (793, 895),
+            "bush": (905, 900), "seagull": (1026, 920), "buoy": (1100, 900),
+        },
+        "pictures": {},
+    },
+    "gear_sprite_sheet.png": {
+        "width": 1536,
+        "sprites": {
+            "wader_front": (46, 136), "wader_back": (136, 136), "wader_left": (216, 137), "wader_right": (295, 137),
+            "net_1": (371, 146), "net_2": (449, 151), "net_3": (530, 149), "net_4": (615, 147),
+            "net_5": (705, 143), "net_6": (793, 135),
+            "gear_1": (916, 129), "gear_2": (1017, 119), "gear_3": (1130, 120), "gear_4": (1241, 120),
+            "gear_5": (1351, 122), "gear_6": (1466, 119),
+            "drone_1": (57, 420), "drone_2": (169, 419), "drone_3": (292, 415), "drone_4": (414, 407),
+            "drone_5": (552, 401), "drone_6": (710, 384),
+            "buyer_1_front": (852, 416), "buyer_1_back": (931, 417),
+            "buyer_2_front": (1041, 416), "buyer_2_back": (1128, 417),
+            "buyer_3_front": (1220, 416), "buyer_3_back": (1294, 416),
+            "buyer_4_front": (1388, 416), "buyer_4_back": (1479, 417),
+        },
+        "pictures": {
+            "location_north_sea": (40, 630, 316, 945), "location_coral_reef": (366, 630, 610, 945),
+            "location_australia": (660, 630, 898, 945), "location_japan": (950, 630, 1200, 945),
+            "location_south_africa": (1254, 630, 1504, 945),
+        },
+    },
 }
 
 
 def main() -> None:
-    sheet = np.array(Image.open(sys.argv[1]).convert("RGB"))[:, :SHEET_WIDTH]
+    config = SHEETS.get(Path(sys.argv[1]).name, {"width": None, "sprites": {}, "pictures": {}})
+    full = np.array(Image.open(sys.argv[1]).convert("RGB"))
+    sheet = full[:, :config["width"]]
     out = Path(sys.argv[2])
     out.mkdir(parents=True, exist_ok=True)
     alpha = _foreground(sheet)
@@ -54,8 +80,11 @@ def main() -> None:
     if "--debug" in sys.argv:
         _debug(sheet, alpha, labels, count, out / "debug.png")
         return
+    for name, box in config["pictures"].items():
+        Image.fromarray(full[box[1]:box[3], box[0]:box[2]]).save(out / f"{name}.png")
+        print(f"{name}: {box[2] - box[0]}x{box[3] - box[1]}")
     rgba = np.dstack([sheet, alpha])
-    for name, (x, y) in PROPS.items():
+    for name, (x, y) in config["sprites"].items():
         label = _label_near(labels, x, y)
         sl = ndimage.find_objects((labels == label).astype(int))[0]
         sprite = rgba[sl].copy()

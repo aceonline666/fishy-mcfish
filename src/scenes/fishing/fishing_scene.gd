@@ -632,25 +632,35 @@ func _refresh_squares() -> void:
 	var sell := square_by_id("sell")
 	sell.title = tr("Sell fish")
 	sell.subtitle = tr(DataRegistry.shop_levels[site.shop_level - 1].name)
-	_set_purchase(square_by_id("upgrade_tank"), "upgrade_tank", tr("Bigger tank"), Aquarium.tank_upgrade_cost(site))
+	_set_purchase(square_by_id("upgrade_tank"), "upgrade_tank", tr("Bigger tank"), Aquarium.tank_upgrade_cost(site),
+			_prop("tank_%d" % (site.tank.level + 1)))
 	# The next shop level buys the fish of one more zone.
 	var shop := square_by_id("upgrade_shop")
-	_set_purchase(shop, "upgrade_shop", tr("Bigger shop"), Selling.shop_upgrade_cost(site))
+	_set_purchase(shop, "upgrade_shop", tr("Bigger shop"), Selling.shop_upgrade_cost(site), _prop("shop_%d" % (site.shop_level + 1)))
 	var next_zone := _zone_name(site.shop_level + 1)
 	shop.subtitle = tr("Buys: %s") % next_zone if not next_zone.is_empty() else ""
 	var backpack := square_by_id("upgrade_backpack")
 	_set_purchase(backpack, "upgrade_backpack", tr("Bigger backpack"), Aquarium.backpack_upgrade_cost(site))
 	var next_net := DataRegistry.net_levels[mini(site.net_level, DataRegistry.net_levels.size() - 1)]
-	_set_purchase(square_by_id("upgrade_net"), "upgrade_net", tr(next_net.name), Aquarium.net_upgrade_cost(site))
+	_set_purchase(square_by_id("upgrade_net"), "upgrade_net", tr(next_net.name), Aquarium.net_upgrade_cost(site),
+			_prop("net_%d" % (site.net_level + 1)))
 	var gear := square_by_id("upgrade_gear")
 	var next_gear := DataRegistry.gear_levels[mini(site.gear_level, DataRegistry.gear_levels.size() - 1)]
-	_set_purchase(gear, "upgrade_gear", tr(next_gear.name), Aquarium.gear_upgrade_cost(site))
+	_set_purchase(gear, "upgrade_gear", tr(next_gear.name), Aquarium.gear_upgrade_cost(site), _prop("gear_%d" % (site.gear_level + 1)))
 	# Drone N fishes zone N, so it is offered once that zone is charted.
 	var drone_square := square_by_id("buy_drone")
 	var drone_available := Automation.next_drone_available(state, site)
-	_set_purchase(drone_square, "buy_drone", tr("Buy drone"), Automation.next_drone_cost(site) if drone_available else -1.0)
+	_set_purchase(drone_square, "buy_drone", tr("Buy drone"), Automation.next_drone_cost(site) if drone_available else -1.0,
+			_prop("drone_%d" % (site.drone_count + 1)))
 	drone_square.subtitle = tr(Automation.drone_zone(state, site, site.drone_count).name) if drone_available else ""
-	_set_purchase(square_by_id("hire_seller"), "hire_seller", tr("Hire seller"), Selling.next_seller_cost(site))
+	_set_purchase(square_by_id("hire_seller"), "hire_seller", tr("Hire seller"), Selling.next_seller_cost(site),
+			_prop("cashier_%d" % (site.seller_count % ShopNode.CASHIERS.size() + 1)))
+
+
+## A painted prop from assets/sprites/props by name, or null if there is none.
+func _prop(prop_name: String) -> Texture2D:
+	var path := "res://assets/sprites/props/%s.png" % prop_name
+	return load(path) if ResourceLoader.exists(path) else null
 
 
 ## The name of the zone here with this order (1 = the shallowest), or "" if there is none.
@@ -661,9 +671,11 @@ func _zone_name(order: int) -> String:
 	return ""
 
 
-func _set_purchase(target: ActionSquare, square_id: String, title: String, price: float) -> void:
+## `icon` is a picture of what is bought (see _prop()), or null.
+func _set_purchase(target: ActionSquare, square_id: String, title: String, price: float, icon: Texture2D = null) -> void:
 	target.id = square_id
 	target.title = title
+	target.icon = icon
 	target.price = price
 	target.paid = GameState.here().build_progress.get(square_id, 0.0)
 	target.visible = price >= 0.0
@@ -961,7 +973,7 @@ func _sync_drones() -> void:
 		if zone == null:
 			continue
 		var drone := Drone.new()
-		drone.setup(DRONE_PAD, zone, _zone_areas[_zones.find(zone)], Automation.drone_capacity(i), 1.0 + DRONE_SIZE_STEP * i)
+		drone.setup(DRONE_PAD, zone, _zone_areas[_zones.find(zone)], Automation.drone_capacity(i), 1.0 + DRONE_SIZE_STEP * i, i)
 		drone.delivered.connect(_on_drone_delivered)
 		_entities.add_child(drone)
 		_drones.append(drone)

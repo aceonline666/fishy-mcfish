@@ -23,9 +23,15 @@ const MASK_GLASS := Color(0.7, 0.92, 1.0, 0.75)
 const SNORKEL_FRAME := Color(0.2, 0.55, 0.9)
 const SCUBA_FRAME := Color(1.0, 0.75, 0.1)
 
-## Painted full figure (assets/sprites/props), facing the camera or walking away.
+## Painted full figure (assets/sprites/props): straight front and back views, and three-quarter
+## views towards the camera (facing screen-left) and away from it (facing screen-right), mirrored
+## for the other two diagonals.
 const FRONT_TEXTURE := preload("res://assets/sprites/props/wader_front.png")
 const BACK_TEXTURE := preload("res://assets/sprites/props/wader_back.png")
+const TOWARDS_TEXTURE := preload("res://assets/sprites/props/wader_right.png")
+const AWAY_TEXTURE := preload("res://assets/sprites/props/wader_left.png")
+## Walking more sideways than this (share of the screen direction) shows a three-quarter view.
+const DIAGONAL_VIEW := 0.35
 ## Screen height of the figure, from the boots to the hat.
 const BODY_HEIGHT := 215.0
 const BASKET_TEXTURE := preload("res://assets/sprites/wader/wader_basket.svg")
@@ -177,7 +183,7 @@ func _draw() -> void:
 		_draw_net(hoop, side, bob)
 	else:
 		_draw_backpack(bob)
-	_draw_body(side, bob, from_behind)
+	_draw_body(screen_facing.normalized(), bob)
 	if in_water and not swimming:
 		_draw_water_around(WATERLINE_Y, 32.0)
 	if gear_level >= 2:
@@ -192,12 +198,17 @@ func _draw() -> void:
 		_draw_label(tr("Backpack full!"), stack_top_position() - position + Vector2(0.0, -40.0 - bob))
 
 
-## The figure bobs and sways a little while walking.
-func _draw_body(side: float, bob: float, from_behind: bool) -> void:
-	var texture := BACK_TEXTURE if from_behind else FRONT_TEXTURE
+## The view that matches the walking direction; the figure bobs and sways a little while walking.
+func _draw_body(screen_facing: Vector2, bob: float) -> void:
+	var away := screen_facing.y < 0.0
+	var texture := BACK_TEXTURE if away else FRONT_TEXTURE
+	var mirror := 1.0
+	if absf(screen_facing.x) > DIAGONAL_VIEW:
+		texture = AWAY_TEXTURE if away else TOWARDS_TEXTURE
+		mirror = -1.0 if (screen_facing.x < 0.0) == away else 1.0
 	var size := texture.get_size() * (BODY_HEIGHT / texture.get_height())
 	var sway := sin(_walk_phase) * 0.04 if is_walking() else 0.0
-	draw_set_transform(Vector2(0.0, -bob), sway, Vector2(side, 1.0))
+	draw_set_transform(Vector2(0.0, -bob), sway, Vector2(mirror, 1.0))
 	draw_texture_rect(texture, Rect2(Vector2(-size.x * 0.5, -size.y), size), false)
 	draw_set_transform(Vector2.ZERO)
 
@@ -211,7 +222,7 @@ func _draw_water_around(waterline: float, radius: float) -> void:
 ## A diving mask over the eyes (and its strap from behind), with a snorkel tube.
 func _draw_mask(side: float, bob: float, from_behind: bool) -> void:
 	var frame := SCUBA_FRAME if gear_level >= 3 else SNORKEL_FRAME
-	var eyes := Vector2(side * 3.0, -157.0 - bob)
+	var eyes := Vector2(side * 3.0, -168.0 - bob)
 	if from_behind:
 		draw_line(eyes + Vector2(-29.0, 0.0), eyes + Vector2(29.0, 0.0), OUTLINE, 9.0)
 		draw_line(eyes + Vector2(-29.0, 0.0), eyes + Vector2(29.0, 0.0), frame, 5.0)

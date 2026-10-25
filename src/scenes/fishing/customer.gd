@@ -2,13 +2,16 @@ class_name Customer
 extends Node2D
 ## A buyer at the fish shop: walks up the beach to a place in the queue, waits, and walks off
 ## with a fish in a water bag once a seller has served them. Drawn from painted sprites
-## (assets/sprites/props) in front or back view, depending on where they walk.
+## (assets/sprites/props) in front or back view, depending on where they walk; most looks have a
+## painted "leaving with a fish" version, the others get a bag drawn in their hand.
 
 signal left
 
 enum State { ARRIVING, WAITING, LEAVING }
 
 const LOOKS: Array[String] = ["customer_1", "customer_2", "customer_3", "customer_4", "customer_5", "customer_6"]
+## The same person carrying a fish, by look index.
+const WITH_FISH: Dictionary[int, String] = {0: "buyer_2", 1: "buyer_1", 2: "buyer_3", 4: "buyer_4"}
 const PROPS_DIR := "res://assets/sprites/props/"
 ## Ground units per second.
 const SPEED := 150.0
@@ -30,10 +33,14 @@ var _walking_away := false
 var _mirrored := false
 var _walk_phase := 0.0
 var _exit := Vector2.ZERO
+var _look := 0
+## True while the sprite shows the bag; otherwise it is drawn.
+var _painted_bag := false
 
 
 func setup(look: int, start: Vector2, queue_spot: Vector2, exit: Vector2) -> void:
-	var name_prefix := PROPS_DIR + LOOKS[look % LOOKS.size()]
+	_look = look % LOOKS.size()
+	var name_prefix := PROPS_DIR + LOOKS[_look]
 	_front = load(name_prefix + "_front.png")
 	_back = load(name_prefix + "_back.png")
 	ground_position = start
@@ -52,6 +59,10 @@ func move_to(queue_spot: Vector2) -> void:
 ## Served: takes the fish and walks off.
 func serve() -> void:
 	has_fish = true
+	if WITH_FISH.has(_look):
+		_front = load(PROPS_DIR + WITH_FISH[_look] + "_front.png")
+		_back = load(PROPS_DIR + WITH_FISH[_look] + "_back.png")
+		_painted_bag = true
 	state = State.LEAVING
 	target = _exit
 	queue_redraw()
@@ -92,7 +103,7 @@ func _draw() -> void:
 		draw_set_transform(Vector2.ZERO, 0.0, Vector2(-1.0, 1.0))
 	draw_texture_rect(texture, rect, false)
 	draw_set_transform(Vector2.ZERO)
-	if has_fish:
+	if has_fish and not _painted_bag:
 		_draw_bag(Vector2(size.x * (0.42 if not _mirrored else -0.42), -size.y * 0.42 - bob))
 
 

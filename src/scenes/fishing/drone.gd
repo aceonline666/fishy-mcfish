@@ -1,7 +1,7 @@
 class_name Drone
 extends Node2D
 ## A fishing drone. Flies out over its zone, hovers above a fish it is allowed to take, lifts it
-## into its net, and brings full loads back to the drone pad. Drawn in code: a little quadcopter
+## into its net, and brings full loads back to the drone pad. A painted quadcopter with a net,
 ## high above its shadow. Game logic uses `ground_position`; the node sits at the shadow.
 
 signal delivered(drone: Drone, species_ids: Array[String])
@@ -17,11 +17,16 @@ const LIFT_PER_STRUGGLE := 1.5
 const MIN_LIFT_S := 0.5
 const ICON_LENGTH := 34.0
 
-const OUTLINE := Color(0.07, 0.09, 0.15)
-const BODY := Color(1.0, 0.78, 0.2)
-const BODY_DARK := Color(0.85, 0.55, 0.1)
-const ROTOR := Color(0.85, 0.92, 1.0, 0.55)
-const LIGHT := Color(0.4, 1.0, 0.5)
+## Painted drones (assets/sprites/props), one look per drone in order of purchase.
+const TEXTURES: Array[Texture2D] = [
+	preload("res://assets/sprites/props/drone_1.png"), preload("res://assets/sprites/props/drone_2.png"),
+	preload("res://assets/sprites/props/drone_3.png"), preload("res://assets/sprites/props/drone_4.png"),
+	preload("res://assets/sprites/props/drone_5.png"), preload("res://assets/sprites/props/drone_6.png"),
+]
+## Screen height of the sprite before the drone's size is applied, and how far below the body
+## the net with the catch hangs.
+const SPRITE_HEIGHT := 120.0
+const NET_DROP := 45.0
 const SHADOW := Color(0.0, 0.06, 0.14, 0.2)
 
 var ground_position := Vector2.ZERO
@@ -38,11 +43,13 @@ var _waypoint := Vector2.ZERO
 var _lift_left := 0.0
 var _time := 0.0
 var _rng := RandomNumberGenerator.new()
+var _texture: Texture2D = TEXTURES[0]
 
 
-## `size` scales the drawing: later drones are bigger.
-func setup(pad: Vector2, home_zone: ZoneDef, zone_area: PlayArea, carry: int, size: float = 1.0) -> void:
+## `size` scales the drawing: later drones are bigger. `look` picks the sprite.
+func setup(pad: Vector2, home_zone: ZoneDef, zone_area: PlayArea, carry: int, size: float = 1.0, look: int = 0) -> void:
 	scale = Vector2.ONE * size
+	_texture = TEXTURES[clampi(look, 0, TEXTURES.size() - 1)]
 	_pad = pad
 	zone = home_zone
 	_area = zone_area
@@ -56,7 +63,7 @@ func setup(pad: Vector2, home_zone: ZoneDef, zone_area: PlayArea, carry: int, si
 
 ## Screen point of the net below the drone, relative to the parent.
 func net_position() -> Vector2:
-	return position + Vector2(0.0, -HEIGHT + 46.0) * scale.y
+	return position + Vector2(0.0, -HEIGHT + NET_DROP) * scale.y
 
 
 ## Moves one step. `fish` holds all swimming fish; `can_take` says if a species may be taken.
@@ -134,32 +141,12 @@ func _draw() -> void:
 	draw_colored_polygon(Iso.ellipse(Vector2.ZERO, 34.0, 16), SHADOW)
 	var bob := sin(_time * 3.0) * 4.0
 	var body := Vector2(0.0, -HEIGHT + bob)
-
-	# Net hanging below, with the catch in it.
-	var net := body + Vector2(0.0, 46.0)
-	draw_line(body + Vector2(0.0, 12.0), net, OUTLINE, 3.0, true)
+	var size := _texture.get_size() * (SPRITE_HEIGHT / _texture.get_height())
+	draw_texture_rect(_texture, Rect2(body + Vector2(-size.x * 0.5, -SPRITE_HEIGHT * 0.4), size), false)
+	# The catch in the net, and a line down to the fish being lifted.
+	var net := body + Vector2(0.0, NET_DROP)
 	if task == Task.LIFT:
 		draw_line(net, Vector2.ZERO, Color(1.0, 1.0, 1.0, 0.6), 2.0, true)
 	for i in cargo.size():
 		var view := Transform2D(Vector2(1.0 if i % 2 == 0 else -1.0, 0.0), Vector2(0.0, 1.0), net + Vector2(0.0, 6.0 - i * 9.0))
 		cargo[i].draw(self, view, ICON_LENGTH)
-	draw_colored_polygon(Iso.ellipse(net + Vector2(0.0, 10.0), 22.0, 14), Color(1.0, 1.0, 1.0, 0.25))
-	draw_polyline(Iso.ellipse(net + Vector2(0.0, 10.0), 22.0, 14), OUTLINE, 3.0, true)
-
-	# Arms and spinning rotors.
-	for corner: Vector2 in [Vector2(-40.0, -8.0), Vector2(40.0, -8.0), Vector2(-28.0, 6.0), Vector2(28.0, 6.0)]:
-		var hub := body + corner
-		draw_line(body, hub, OUTLINE, 9.0, true)
-		draw_line(body, hub, BODY_DARK, 5.0, true)
-		var blade := 22.0 * absf(cos(_time * 40.0 + corner.x))
-		draw_colored_polygon(Iso.ellipse(hub + Vector2(0.0, -8.0), maxf(blade, 6.0), 12), ROTOR)
-		draw_circle(hub + Vector2(0.0, -6.0), 4.0, OUTLINE)
-
-	var shell := PackedVector2Array([
-		body + Vector2(-24.0, -14.0), body + Vector2(24.0, -14.0), body + Vector2(28.0, 6.0),
-		body + Vector2(18.0, 14.0), body + Vector2(-18.0, 14.0), body + Vector2(-28.0, 6.0),
-	])
-	IsoDraw.fill_outlined(self, shell, BODY, 3.5)
-	draw_circle(body + Vector2(10.0, -2.0), 7.0, OUTLINE)
-	draw_circle(body + Vector2(10.0, -2.0), 5.0, Color(0.6, 0.85, 1.0))
-	draw_circle(body + Vector2(-14.0, -6.0), 3.0, LIGHT if fmod(_time, 1.0) < 0.5 else BODY_DARK)

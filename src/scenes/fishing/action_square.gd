@@ -16,6 +16,11 @@ const THICKNESS := 10.0
 ## Corner radius in ground units.
 const CORNER_RADIUS := 50.0
 const DEFAULT_HALF := Vector2(180.0, 110.0)
+const ICON_HEIGHT := 125.0
+const ICON_MAX_WIDTH := 140.0
+## Screen x of the icon's centre and of the text next to it.
+const ICON_X := -118.0
+const TEXT_X_WITH_ICON := 52.0
 
 var id := ""
 var kind := Kind.STORE
@@ -33,6 +38,8 @@ var ground_center := Vector2.ZERO
 var active := false
 ## Pulses to draw attention.
 var calling := false
+## Picture of what the pad buys, standing on its left end; null for none.
+var icon: Texture2D
 
 var _time := 0.0
 ## What the last drawing showed; the pad is only redrawn when this changes or while it pulses.
@@ -57,7 +64,7 @@ func _process(delta: float) -> void:
 	_time += delta
 	if not visible:
 		return
-	var shown := [kind, title, subtitle, price, paid, active, calling]
+	var shown := [kind, title, subtitle, price, paid, active, calling, icon]
 	if calling or shown != _drawn:
 		_drawn = shown
 		queue_redraw()
@@ -90,7 +97,10 @@ func _draw() -> void:
 	var rim := IsoDraw.rounded_footprint(lift, half - Vector2(22.0, 22.0), CORNER_RADIUS * 0.6)
 	rim.append(rim[0])
 	draw_polyline(rim, Color(1.0, 1.0, 1.0, 0.35), 2.0, true)
-	_draw_text(lift)
+	if icon != null:
+		var size := icon.get_size() * minf(ICON_HEIGHT / icon.get_height(), ICON_MAX_WIDTH / icon.get_width())
+		draw_texture_rect(icon, Rect2(lift + Vector2(ICON_X - size.x * 0.5, 34.0 - size.y), size), false)
+	_draw_text(lift + Vector2(TEXT_X_WITH_ICON if icon != null else 0.0, 0.0))
 
 
 ## Title, the optional subtitle and, on BUY pads, the price still to pay.

@@ -1,12 +1,16 @@
 class_name WorldMap
 extends OverlayPanel
-## The places to fish. Each card shows whether the player is there, can travel there, can
-## unlock it (goal reached, fee due) or still needs to reach its goal.
+## The places to fish. Each card shows a picture of the place and whether the player is there,
+## can travel there, can unlock it (goal reached, fee due) or still needs to reach its goal.
 
 signal travel_chosen(def: LocationDef)
 
 const HERE_COLOR := Color(0.55, 1.0, 0.65)
 const LOCKED_COLOR := Color(1.0, 0.6, 0.5)
+const PICTURE_DIR := "res://assets/sprites/props/location_"
+const PICTURE_WIDTH := 250.0
+## Places not open yet are shown dimmed.
+const LOCKED_TINT := Color(0.4, 0.4, 0.48)
 
 
 func _refresh() -> void:
@@ -22,9 +26,23 @@ func _make_card(def: LocationDef) -> PanelContainer:
 	var card := PanelContainer.new()
 	var style := card_style(def.deep_color.darkened(0.35))
 	card.add_theme_stylebox_override("panel", style)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 20)
+	card.add_child(row)
+	var picture_path := PICTURE_DIR + def.id + ".png"
+	if ResourceLoader.exists(picture_path):
+		var picture := TextureRect.new()
+		picture.texture = load(picture_path)
+		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		picture.custom_minimum_size = Vector2(PICTURE_WIDTH, PICTURE_WIDTH * 1.25)
+		if not Travel.is_unlocked(state, def):
+			picture.modulate = LOCKED_TINT
+		row.add_child(picture)
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 12)
-	card.add_child(column)
+	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(column)
 
 	column.add_child(make_label(tr(def.name), 52, HORIZONTAL_ALIGNMENT_LEFT))
 	var species := _species_count(def)
