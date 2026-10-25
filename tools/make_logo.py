@@ -1,7 +1,7 @@
 """Renders the game logo, the boot splash and the app icons from the title font and the painted
 sprites.
 
-Writes assets/ui/logo.png (title with a jumping clownfish), assets/ui/splash.png (portrait boot
+Writes assets/ui/logo.png (title with a nautilus), assets/ui/splash.png (portrait boot
 splash: sea, logo, the wader on the beach), assets/ui/icon.png and the Android adaptive icon
 layers assets/ui/icon_foreground.png and assets/ui/icon_background.png.
 
@@ -91,7 +91,7 @@ def logo() -> Image.Image:
     width = 1024
     words = title(width)
     out = Image.new("RGBA", (width, words.height + 140))
-    fish = painted_fish("ocellaris_clownfish", 260).rotate(-18, expand=True, resample=Image.BICUBIC)
+    fish = painted_fish("chambered_nautilus", 280).rotate(-10, expand=True, resample=Image.BICUBIC)
     bubbles(out, (40, 20, 300, 160), 6, 3)
     out.alpha_composite(words, (0, 120))
     out.alpha_composite(fish, (width - fish.width - 20, 0))
@@ -118,8 +118,8 @@ def splash() -> Image.Image:
         draw.polygon([(x, 0), (x + 70, 0), (x + 260, height * 0.75), (x + 130, height * 0.75)], fill=40)
     out.paste(Image.new("RGBA", (width, height), (255, 255, 255, 255)), (0, 0), rays.filter(ImageFilter.GaussianBlur(30)))
     bubbles(out, (60, 900, 1020, 1500), 22, 7)
-    for species, x, y, length, flip in (("atlantic_herring", 130, 1180, 220, False), ("blue_tang", 760, 1080, 200, True),
-                                        ("european_sprat", 260, 1380, 160, False), ("red_lionfish", 700, 1360, 210, True)):
+    for species, x, y, length, flip in (("yellowfin_tuna", 90, 1150, 280, False), ("opah", 730, 1040, 230, True),
+                                        ("red_sea_bream", 230, 1390, 200, False), ("moon_jellyfish", 760, 1330, 170, False)):
         fish = painted_fish(species, length)
         if flip:
             fish = fish.transpose(Image.FLIP_LEFT_RIGHT)
@@ -146,7 +146,7 @@ def icon_background(size: int) -> Image.Image:
 
 def icon_foreground(size: int, fish_share: float) -> Image.Image:
     out = Image.new("RGBA", (size, size))
-    fish = painted_fish("ocellaris_clownfish", int(size * fish_share)).rotate(12, expand=True, resample=Image.BICUBIC)
+    fish = painted_fish("chambered_nautilus", int(size * fish_share)).rotate(-8, expand=True, resample=Image.BICUBIC)
     out.alpha_composite(fish, ((size - fish.width) // 2, (size - fish.height) // 2))
     return out
 
