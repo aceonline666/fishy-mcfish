@@ -75,7 +75,11 @@ Fish sprites are a body and a tail image per species (see `src/scenes/fishing/fi
 the conventions): painted PNGs in `assets/sprites/fish_painted/` where they exist, cut from the
 painted sprite sheet in `art_source/` by `tools/extract_painted.py` (needs Pillow, NumPy and
 SciPy), otherwise hand-written SVGs in `assets/sprites/fish/`. Species without either are drawn as
-coloured placeholders. `art_source/` holds the source sheets and is not imported by Godot.
+coloured placeholders. The wader, the tank (one sprite per level), the shop (one per level), the
+cashiers, the customers who queue at the shop while sellers work and leave with a fish, and the
+beach decoration are painted sprites in `assets/sprites/props/`, cut from the coastal sheet by
+`tools/extract_props.py` (its background checkerboard is removed by flood fill).
+`art_source/` holds the source sheets (generated images) and is not imported by Godot.
 
 The view is 2:1 isometric (like Diablo II). Game logic runs in flat ground coordinates and only
 drawing projects to the screen, see `src/scenes/world/iso.gd`.

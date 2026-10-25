@@ -149,9 +149,6 @@ msgstr "Geh den Strand hinauf, um deinen Fang einzulagern oder zu verkaufen."
 msgid "Touch and hold to wade there and catch fish."
 msgstr "Tippe und halte, um hinzuwaten und Fische zu fangen."
 
-msgid "FISH"
-msgstr "FISCH"
-
 msgid "Backpack full!"
 msgstr "Rucksack voll!"
 

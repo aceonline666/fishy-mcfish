@@ -56,6 +56,27 @@ const SHOP_POSITION := Vector2(2075.0, -880.0)
 const SELL_SQUARE := Vector2(2075.0, -560.0)
 const SHOP_UPGRADE_SQUARE := Vector2(2690.0, -560.0)
 const HIRE_SQUARE := Vector2(2690.0, -900.0)
+## Buyers come down the beach and queue beside the shop while sellers work; a seller's sale
+## sends the first one off with a fish.
+const QUEUE_START := Vector2(2420.0, -660.0)
+const QUEUE_STEP := Vector2(0.0, -95.0)
+const QUEUE_LENGTH := 4
+const CUSTOMER_ENTRY := Vector2(2340.0, -1320.0)
+const CUSTOMER_EXIT := Vector2(2860.0, -1320.0)
+const CUSTOMER_INTERVAL_S := 1.5
+## Painted decoration on the beach: sprite (assets/sprites/props), ground position, screen
+## height, and where it shows ("" everywhere, else only at locations with that water).
+const DECOR: Array[Array] = [
+	["signpost", Vector2(1660.0, -70.0), 120.0, ""],
+	["seagull", Vector2(1250.0, -420.0), 60.0, ""],
+	["parasol", Vector2(2720.0, -170.0), 170.0, ""],
+	["bush", Vector2(160.0, -620.0), 150.0, "temperate"],
+	["bush", Vector2(2860.0, -620.0), 150.0, ""],
+	["palm", Vector2(160.0, -640.0), 260.0, "tropical"],
+	["palm", Vector2(450.0, -1250.0), 280.0, "tropical"],
+	["seagull", Vector2(700.0, -1230.0), 55.0, "temperate"],
+	["buoy", Vector2(2700.0, 260.0), 130.0, ""],
+]
 #endregion
 
 const SPAWN_INTERVAL_S := 0.8
@@ -118,6 +139,9 @@ var _gate_warned := false
 var _squares: Array[ActionSquare] = []
 var _tank_node: TankNode
 var _shop_node: ShopNode
+## Buyers in the queue, first in line first; served ones are not in it.
+var _queue: Array[Customer] = []
+var _customer_timer := 0.0
 var _drones: Array[Drone] = []
 var _next_goal_banner_at := 0.0
 var _holding := false
@@ -198,6 +222,7 @@ func _ready() -> void:
 		_seabed.add_wreck(WRECK_POSITION)
 	EventBus.fish_sold_by_seller.connect(_on_fish_sold_by_seller)
 	_build_squares()
+	_place_decor()
 	_rebuild_from_state()
 	wader.ground_position = Vector2(PATH_X, 130.0)
 	wader.position = Iso.to_screen(wader.ground_position)
@@ -234,6 +259,7 @@ func _process(delta: float) -> void:
 	_combo_timer = maxf(_combo_timer - delta, 0.0)
 	_update_drones(delta)
 	_update_squares(delta)
+	_update_customers(delta)
 
 	if auto_spawn:
 		_spawn_timer -= delta
@@ -573,6 +599,21 @@ func _build_squares() -> void:
 	_add_square("hire_seller", ActionSquare.Kind.BUY, HIRE_SQUARE)
 
 
+## Painted props on the sand and in the water; they take part in the depth sorting.
+func _place_decor() -> void:
+	for entry: Array in DECOR:
+		var water: String = entry[3]
+		if not water.is_empty() and water != location.env:
+			continue
+		var texture: Texture2D = load("res://assets/sprites/props/%s.png" % entry[0])
+		var sprite := Sprite2D.new()
+		sprite.texture = texture
+		sprite.offset = Vector2(0.0, -texture.get_height() * 0.5)
+		sprite.scale = Vector2.ONE * (float(entry[2]) / texture.get_height())
+		sprite.position = Iso.to_screen(entry[1])
+		_entities.add_child(sprite)
+
+
 ## Titles and prices are set by _refresh_squares().
 func _add_square(square_id: String, kind: ActionSquare.Kind, center: Vector2) -> ActionSquare:
 	var new_square := ActionSquare.new()
@@ -864,7 +905,7 @@ func _complete_purchase(target: ActionSquare) -> void:
 
 #region Shops
 
-## Shows the shop at its level, with a seller at the counter once one is hired.
+## Shows the shop at its level, with a cashier for each seller.
 func _sync_shops() -> void:
 	var site := GameState.here()
 	if _shop_node == null:
@@ -872,36 +913,35 @@ func _sync_shops() -> void:
 		_shop_node.position = Iso.to_screen(SHOP_POSITION)
 		_entities.add_child(_shop_node)
 	_shop_node.level = site.shop_level
-	_shop_node.staffed = site.seller_count > 0
-	_refresh_shop_display()
+	_shop_node.sellers = site.seller_count
 
 
-## Puts the most valuable species the shop sells from the tank on its counter.
-func _refresh_shop_display() -> void:
-	if _shop_node == null:
-		return
-	var site := GameState.here()
-	var best: Dictionary[String, float] = {}
-	for fish in site.tank.fish:
-		if Selling.has_shop_for(site, fish.species_id):
-			var price := Economy.sale_price(DataRegistry.species[fish.species_id], fish.growth)
-			best[fish.species_id] = maxf(best.get(fish.species_id, 0.0), price)
-	var ids := best.keys()
-	ids.sort_custom(func(a: String, b: String) -> bool: return best[a] > best[b])
-	var display: Array[FishArt] = []
-	for id: String in ids.slice(0, 4):
-		display.append(_art_for(id))
-	_shop_node.display = display
-
-
-## A seller sold a fish: coins pop up at the shop.
+## A seller sold a fish: coins pop up at the shop and the first buyer in line leaves with it.
 func _on_fish_sold_by_seller(_species_id: String, price: float) -> void:
 	_shop_node.bounce()
 	var at := _world_to_scene(_shop_node.counter_point())
 	Juice.popup_text(_popups, at + Vector2(0.0, -40.0), "+" + NumberFormat.compact(price), 36, COIN_COLOR, 0.2)
 	Juice.fly_coin(_popups, at, _wallet_position(), 9.0 * ZOOM)
 	Sfx.play(&"coin", 1.3, -10.0)
+	if not _queue.is_empty() and _queue[0].is_waiting():
+		_queue.pop_front().serve()
+		for i in _queue.size():
+			_queue[i].move_to(QUEUE_START + QUEUE_STEP * i)
 	_update_hud()
+
+
+## Buyers come while sellers work: the more sellers, the longer the queue.
+func _update_customers(delta: float) -> void:
+	var sellers := GameState.here().seller_count
+	_customer_timer -= delta
+	if sellers == 0 or _queue.size() >= mini(QUEUE_LENGTH, 1 + sellers) or _customer_timer > 0.0:
+		return
+	_customer_timer = CUSTOMER_INTERVAL_S
+	var customer := Customer.new()
+	var entry := CUSTOMER_ENTRY + Vector2(rng.randf_range(-120.0, 120.0), 0.0)
+	customer.setup(rng.randi(), entry, QUEUE_START + QUEUE_STEP * _queue.size(), CUSTOMER_EXIT)
+	_entities.add_child(customer)
+	_queue.append(customer)
 
 #endregion
 
@@ -1057,7 +1097,6 @@ func _update_hud() -> void:
 		_hint_label.text = tr("Grown fish are worth 3 times as much. Sell them at the shop!")
 	else:
 		_hint_label.text = tr("Touch and hold to wade there and catch fish.")
-	_refresh_shop_display()
 
 
 func _on_money_changed(money: float) -> void:

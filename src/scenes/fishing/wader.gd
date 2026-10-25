@@ -23,13 +23,13 @@ const MASK_GLASS := Color(0.7, 0.92, 1.0, 0.75)
 const SNORKEL_FRAME := Color(0.2, 0.55, 0.9)
 const SCUBA_FRAME := Color(1.0, 0.75, 0.1)
 
-const FRONT_TEXTURE := preload("res://assets/sprites/wader/wader_front.svg")
-const BACK_TEXTURE := preload("res://assets/sprites/wader/wader_back.svg")
-const LEG_TEXTURE := preload("res://assets/sprites/wader/wader_leg.svg")
+## Painted full figure (assets/sprites/props), facing the camera or walking away.
+const FRONT_TEXTURE := preload("res://assets/sprites/props/wader_front.png")
+const BACK_TEXTURE := preload("res://assets/sprites/props/wader_back.png")
+## Screen height of the figure, from the boots to the hat.
+const BODY_HEIGHT := 215.0
 const BASKET_TEXTURE := preload("res://assets/sprites/wader/wader_basket.svg")
 ## Where the sprites go relative to the feet, in screen pixels.
-const UPPER_BODY_RECT := Rect2(-60.0, -204.0, 120.0, 150.0)
-const LEG_SIZE := Vector2(30.0, 70.0)
 const BASKET_RECT := Rect2(-32.0, -140.0, 64.0, 56.0)
 ## The catch stack rises from the basket rim.
 const STACK_BASE := Vector2(0.0, -136.0)
@@ -177,11 +177,9 @@ func _draw() -> void:
 		_draw_net(hoop, side, bob)
 	else:
 		_draw_backpack(bob)
-	if not swimming:
-		_draw_legs()
-	draw_set_transform(Vector2(0.0, -bob), 0.0, Vector2(side, 1.0))
-	draw_texture_rect(BACK_TEXTURE if from_behind else FRONT_TEXTURE, UPPER_BODY_RECT, false)
-	draw_set_transform(Vector2.ZERO)
+	_draw_body(side, bob, from_behind)
+	if in_water and not swimming:
+		_draw_water_around(WATERLINE_Y, 32.0)
 	if gear_level >= 2:
 		_draw_mask(side, bob, from_behind)
 	if swimming:
@@ -194,13 +192,14 @@ func _draw() -> void:
 		_draw_label(tr("Backpack full!"), stack_top_position() - position + Vector2(0.0, -40.0 - bob))
 
 
-func _draw_legs() -> void:
-	for leg: float in [-1.0, 1.0]:
-		var phase_offset := 0.0 if leg < 0.0 else PI
-		var lift := maxf(sin(_walk_phase + phase_offset), 0.0) * 8.0 if is_walking() else 0.0
-		draw_texture_rect(LEG_TEXTURE, Rect2(Vector2(leg * 13.0 - LEG_SIZE.x * 0.5, -67.0 - lift), LEG_SIZE), false)
-	if in_water:
-		_draw_water_around(WATERLINE_Y, 32.0)
+## The figure bobs and sways a little while walking.
+func _draw_body(side: float, bob: float, from_behind: bool) -> void:
+	var texture := BACK_TEXTURE if from_behind else FRONT_TEXTURE
+	var size := texture.get_size() * (BODY_HEIGHT / texture.get_height())
+	var sway := sin(_walk_phase) * 0.04 if is_walking() else 0.0
+	draw_set_transform(Vector2(0.0, -bob), sway, Vector2(side, 1.0))
+	draw_texture_rect(texture, Rect2(Vector2(-size.x * 0.5, -size.y), size), false)
+	draw_set_transform(Vector2.ZERO)
 
 
 ## Tints everything below the water surface and draws a ring where the surface meets the body.
