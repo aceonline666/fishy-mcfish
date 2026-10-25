@@ -99,11 +99,11 @@ func _draw() -> void:
 	draw_colored_polygon(Iso.ellipse(Vector2(0.0, 2.0), 26.0, 12), SHADOW)
 	var texture := _back if _walking_away else _front
 	var size := texture.get_size() * (HEIGHT / texture.get_height())
-	var bob := absf(sin(_walk_phase)) * 5.0
-	var rect := Rect2(Vector2(-size.x * 0.5, -size.y - bob), size)
-	if _mirrored:
-		draw_set_transform(Vector2.ZERO, 0.0, Vector2(-1.0, 1.0))
-	draw_texture_rect(texture, rect, false)
+	var walking := state != State.WAITING
+	var bob := absf(sin(_walk_phase)) * 5.0 if walking else 0.0
+	var rect := Rect2(Vector2(-size.x * 0.5, -size.y), size)
+	var base := Transform2D(0.0, Vector2(-1.0 if _mirrored else 1.0, 1.0), 0.0, Vector2.ZERO)
+	WalkDraw.figure(self, base, texture, rect, _walk_phase, 1.0 if walking else 0.0, bob)
 	draw_set_transform(Vector2.ZERO)
 	if has_fish and not _painted_bag:
 		_draw_bag(Vector2(size.x * (0.42 if not _mirrored else -0.42), -size.y * 0.42 - bob))

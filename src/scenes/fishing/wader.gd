@@ -172,7 +172,7 @@ func simulate(delta: float, area: PlayArea) -> void:
 	ground_position = area.clamp_point(ground_position + ground_velocity * delta, 20.0)
 	if is_walking():
 		facing = facing.slerp(ground_velocity.normalized(), clampf(10.0 * delta, 0.0, 1.0)).normalized()
-	_walk_phase += delta * ground_velocity.length() / 26.0
+	_walk_phase += delta * ground_velocity.length() / 42.0
 	position = Iso.to_screen(ground_position)
 	queue_redraw()
 
@@ -228,9 +228,10 @@ func _draw_body(screen_facing: Vector2, bob: float, gear: int) -> void:
 		texture = AWAY_TEXTURE if away else TOWARDS_TEXTURE
 		mirror = -1.0 if (screen_facing.x < 0.0) == away else 1.0
 	var size := texture.get_size() * (BODY_HEIGHT / texture.get_height())
-	var sway := sin(_walk_phase) * 0.04 if is_walking() else 0.0
-	draw_set_transform(Vector2(0.0, -bob), sway, Vector2(mirror, 1.0))
-	draw_texture_rect(texture, Rect2(Vector2(-size.x * 0.5, -size.y), size), false)
+	var stride := clampf(ground_velocity.length() / WALK_SPEED, 0.0, 1.0)
+	var sway := sin(_walk_phase) * 0.03 * stride
+	var base := Transform2D(sway, Vector2(mirror, 1.0), 0.0, Vector2.ZERO)
+	WalkDraw.figure(self, base, texture, Rect2(Vector2(-size.x * 0.5, -size.y), size), _walk_phase, stride, bob)
 	draw_set_transform(Vector2.ZERO)
 
 
