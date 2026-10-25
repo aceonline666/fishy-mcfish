@@ -1,10 +1,12 @@
-"""Cuts species sprites out of a painted sprite sheet into body/tail PNGs in FishArt's layout.
+"""Cuts species sprites out of painted sprite sheets into body/tail PNGs in FishArt's layout.
 
 Body canvas: 240 units wide, tail root at x=20, snout at x=220, centred on the body axis.
 Tail canvas: 70 units wide at the body's pixel scale, tail root at x=62.
-SPRITES maps each species to a point on its sprite in the sheet.
+SHEETS maps each sheet file to its species: a point on the sprite, the way the head points
+("left" sprites are mirrored to face right) and whether the tail fin is cut off to beat. Sheets
+without transparency (a painted checkerboard behind the sprites) are cut out like the props.
 
-Needs Pillow, NumPy and SciPy. Usage:
+Needs Pillow, NumPy and SciPy. Usage, per sheet:
   python tools/extract_painted.py art_source/painted_sprite_sheet.png assets/sprites/fish_painted
 """
 import sys
@@ -14,8 +16,11 @@ import numpy as np
 from PIL import Image
 from scipy import ndimage
 
+sys.path.insert(0, str(Path(__file__).parent))
+from extract_props import _foreground  # noqa: E402
+
 # species id: (sprite centre x, y on the sheet, facing, split tail)
-SPRITES = {
+PAINTED_SHEET = {
     "european_sprat": (246, 115, "left", True),
     "atlantic_herring": (381, 112, "left", True),
     "lesser_sand_eel": (515, 113, "left", True),
@@ -47,6 +52,56 @@ SPRITES = {
     "giant_squid": (1250, 901, "right", False),
 }
 
+SHEETS = {
+    "painted_sprite_sheet.png": PAINTED_SHEET,
+    "species_sheet_1.png": {
+        "atlantic_wolffish": (310, 150, "left", True),
+        "atlantic_footballfish": (840, 160, "right", True),
+        "moon_jellyfish": (205, 400, "right", False),
+        "yellowfin_tuna": (690, 415, "left", True),
+        "reef_manta_ray": (1200, 420, "left", False),
+        "skinnycheek_lanternfish": (255, 670, "left", True),
+        "chambered_nautilus": (655, 680, "left", False),
+        "bluntnose_sixgill_shark": (1180, 670, "left", True),
+        "pacific_blackdragon": (390, 880, "left", False),
+        "west_indian_ocean_coelacanth": (1070, 880, "left", True),
+    },
+    "species_sheet_2.png": {
+        "australian_salmon": (205, 150, "left", True),
+        "southern_blue_ringed_octopus": (555, 160, "right", False),
+        "weedy_seadragon": (900, 160, "left", False),
+        "blue_groper": (1310, 160, "left", True),
+        "smooth_stingray": (215, 410, "left", False),
+        "port_jackson_shark": (540, 420, "left", True),
+        "old_wife": (910, 400, "left", True),
+        "loggerhead_turtle": (1320, 420, "left", False),
+        "leafy_seadragon": (180, 660, "left", False),
+        "blubber_jellyfish": (495, 650, "right", False),
+        "great_white_shark": (850, 660, "left", True),
+        "humpback_whale": (1300, 660, "left", True),
+        "orange_roughy": (200, 885, "left", True),
+        "pink_ling": (610, 885, "left", False),
+        "blobfish": (975, 880, "left", False),
+        "common_fangtooth": (1340, 880, "left", True),
+    },
+    "species_sheet_3.png": {
+        "red_sea_bream": (180, 140, "left", True),
+        "japanese_horse_mackerel": (525, 150, "left", True),
+        "tiger_puffer": (850, 130, "left", True),
+        "japanese_amberjack": (1255, 145, "left", True),
+        "japanese_flying_squid": (160, 410, "right", False),
+        "opah": (520, 390, "left", True),
+        "nomuras_jellyfish": (875, 400, "right", False),
+        "japanese_spider_crab": (1290, 400, "right", False),
+        "giant_pacific_octopus": (170, 670, "right", False),
+        "giant_isopod": (510, 660, "left", False),
+        "frilled_shark": (885, 690, "left", False),
+        "goblin_shark": (1300, 660, "left", True),
+        "mariana_snailfish": (255, 910, "left", True),
+        "giant_oarfish": (970, 895, "left", False),
+    },
+}
+
 # Sheet rows below which a sprite's region is its label, not the creature.
 BOTTOM_LIMIT = {"green_sea_turtle": 800}
 
@@ -55,12 +110,15 @@ MAX_TAIL_SHARE = 0.3
 
 
 def main() -> None:
-    sheet = np.array(Image.open(sys.argv[1]).convert("RGBA"))
+    image = Image.open(sys.argv[1])
+    sheet = np.array(image.convert("RGBA"))
+    if "A" not in image.mode:
+        sheet[..., 3] = _foreground(sheet[..., :3])
     out = Path(sys.argv[2])
     out.mkdir(parents=True, exist_ok=True)
     mask = sheet[..., 3] > 60
     labels, _ = ndimage.label(ndimage.binary_dilation(mask, iterations=3))
-    for species, (cx, cy, facing, split) in SPRITES.items():
+    for species, (cx, cy, facing, split) in SHEETS[Path(sys.argv[1]).name].items():
         label = _label_near(labels, cx, cy)
         sl = ndimage.find_objects((labels == label).astype(int))[0]
         crop = sheet[sl].copy()

@@ -18,6 +18,10 @@ const CASHIERS: Array[Texture2D] = [
 	preload("res://assets/sprites/props/cashier_3.png"),
 ]
 const CASHIER_HEIGHT := 150.0
+## Screen offset between neighbouring counters (one step along the ground x axis), and where a
+## buyer stands in front of a counter, seen from its foot.
+const COUNTER_STEP := Vector2(72.0, 36.0)
+const BUYER_OFFSET := Vector2(-55.0, 40.0)
 const SHADOW := Color(0.0, 0.06, 0.14, 0.2)
 
 var level := 1:
@@ -35,6 +39,12 @@ var sellers := 0:
 func bounce() -> void:
 	scale = Vector2(1.04, 0.96)
 	create_tween().tween_property(self, "scale", Vector2.ONE, 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+
+## Where the buyer at counter `index` stands, relative to the parent. The places continue in a
+## line along the counters, so the queue goes on past the last one.
+func counter_front(index: int) -> Vector2:
+	return position + _counter_foot(index) + BUYER_OFFSET
 
 
 ## Where coins pop up when something is sold, relative to the parent.
@@ -61,5 +71,11 @@ func _draw() -> void:
 	for i in mini(sellers, CASHIERS.size()):
 		var texture := CASHIERS[i]
 		var size := texture.get_size() * (CASHIER_HEIGHT / texture.get_height())
-		var foot := Vector2(rect.size.x * 0.12 + i * 72.0, rect.size.y * 0.05 + 30.0 + i * 36.0)
+		var foot := _counter_foot(i)
 		draw_texture_rect(texture, Rect2(foot - Vector2(size.x * 0.5, size.y), size), false)
+
+
+## The foot of counter `index`, relative to the shop.
+func _counter_foot(index: int) -> Vector2:
+	var rect := _sprite_rect()
+	return Vector2(rect.size.x * 0.12, rect.size.y * 0.05 + 30.0) + COUNTER_STEP * index

@@ -56,13 +56,11 @@ const SHOP_POSITION := Vector2(2075.0, -880.0)
 const SELL_SQUARE := Vector2(2075.0, -560.0)
 const SHOP_UPGRADE_SQUARE := Vector2(2690.0, -560.0)
 const HIRE_SQUARE := Vector2(2690.0, -900.0)
-## Buyers come down the beach and queue beside the shop while sellers work; a seller's sale
-## sends the first one off with a fish.
-const QUEUE_START := Vector2(2420.0, -660.0)
-const QUEUE_STEP := Vector2(0.0, -95.0)
+## Buyers come down the beach and queue at the cashiers' counters while sellers work; a seller's
+## sale sends the first one off with a fish, down the beach to its edge.
 const QUEUE_LENGTH := 4
 const CUSTOMER_ENTRY := Vector2(2340.0, -1320.0)
-const CUSTOMER_EXIT := Vector2(2860.0, -1320.0)
+const CUSTOMER_EXIT := Vector2(3100.0, -350.0)
 const CUSTOMER_INTERVAL_S := 1.5
 ## Painted decoration on the beach: sprite (assets/sprites/props), ground position, screen
 ## height, and where it shows ("" everywhere, else only at locations with that water).
@@ -890,6 +888,7 @@ func _sync_shops() -> void:
 		_entities.add_child(_shop_node)
 	_shop_node.level = site.shop_level
 	_shop_node.sellers = site.seller_count
+	_move_queue()
 
 
 ## A seller sold a fish: coins pop up at the shop and the first buyer in line leaves with it.
@@ -901,8 +900,7 @@ func _on_fish_sold_by_seller(_species_id: String, price: float) -> void:
 	Sfx.play(&"coin", 1.3, -10.0)
 	if not _queue.is_empty() and _queue[0].is_waiting():
 		_queue.pop_front().serve()
-		for i in _queue.size():
-			_queue[i].move_to(QUEUE_START + QUEUE_STEP * i)
+		_move_queue()
 	_update_hud()
 
 
@@ -915,9 +913,20 @@ func _update_customers(delta: float) -> void:
 	_customer_timer = CUSTOMER_INTERVAL_S
 	var customer := Customer.new()
 	var entry := CUSTOMER_ENTRY + Vector2(rng.randf_range(-120.0, 120.0), 0.0)
-	customer.setup(rng.randi(), entry, QUEUE_START + QUEUE_STEP * _queue.size(), CUSTOMER_EXIT)
+	customer.setup(rng.randi(), entry, _queue_spot(_queue.size()), CUSTOMER_EXIT)
 	_entities.add_child(customer)
 	_queue.append(customer)
+
+
+## Ground position of place `index` in the queue: in front of the counters, first one first.
+func _queue_spot(index: int) -> Vector2:
+	return Iso.to_ground(_shop_node.counter_front(index))
+
+
+## Everyone in line moves up to their place (also when the shop got bigger).
+func _move_queue() -> void:
+	for i in _queue.size():
+		_queue[i].move_to(_queue_spot(i))
 
 #endregion
 
