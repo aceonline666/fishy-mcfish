@@ -2,8 +2,10 @@ class_name Wader
 extends Node2D
 ## The player character at shallow spots. Wades towards the finger, scoops up fish that come
 ## within reach of the hand net and carries them as a stack in a backpack basket. Game logic
-## uses `ground_position`; the node sits at the feet on screen. The body is drawn from SVG
-## sprites (front and back view, mirrored for left and right); the net is drawn in code.
+## uses `ground_position`; the node sits at the feet on screen. Drawn from painted sprites
+## (assets/sprites/props): the figure in the view of its walking direction, the landing net of
+## its net level, and in deeper water the diving gear that zone calls for (snorkel mask, scuba
+## tanks, rebreather, hard-hat suit, submersible).
 
 const WALK_SPEED := 450.0
 const ACCELERATION := 2400.0
@@ -19,9 +21,6 @@ const SCOOP_RADIUS := 55.0
 ## Screen height of the water surface at the legs (knee-deep), and at the chest when swimming.
 const WATERLINE_Y := -26.0
 const SWIM_WATERLINE_Y := -96.0
-const MASK_GLASS := Color(0.7, 0.92, 1.0, 0.75)
-const SNORKEL_FRAME := Color(0.2, 0.55, 0.9)
-const SCUBA_FRAME := Color(1.0, 0.75, 0.1)
 
 ## Painted full figure (assets/sprites/props): straight front and back views, and three-quarter
 ## views towards the camera (facing screen-left) and away from it (facing screen-right), mirrored
@@ -43,22 +42,32 @@ const STACK_STEP := 12.0
 const STACK_FISH_LENGTH := 50.0
 ## Shoulder of the net arm, for side = +1 (net on the right).
 const NET_SHOULDER := Vector2(27.0, -112.0)
+## Landing nets by net level, held at the handle end with the hoop over the catch point.
+## Handle end and hoop centre as shares of the sprite.
+const NET_TEXTURES: Array[Texture2D] = [
+	preload("res://assets/sprites/props/net_1.png"), preload("res://assets/sprites/props/net_2.png"),
+	preload("res://assets/sprites/props/net_3.png"), preload("res://assets/sprites/props/net_4.png"),
+	preload("res://assets/sprites/props/net_5.png"), preload("res://assets/sprites/props/net_6.png"),
+]
+const NET_HANDLE := Vector2(0.015, 0.965)
+const NET_HOOP := Vector2(0.75, 0.28)
+## Diving gear by gear level (1 = waders, nothing extra to draw).
+const SNORKEL_TEXTURE := preload("res://assets/sprites/props/gear_2.png")
+const TANK_TEXTURES: Dictionary[int, Texture2D] = {
+	3: preload("res://assets/sprites/props/gear_3.png"), 4: preload("res://assets/sprites/props/gear_4.png"),
+}
+const SUIT_TEXTURE := preload("res://assets/sprites/props/gear_5.png")
+const SUBMARINE_TEXTURE := preload("res://assets/sprites/props/gear_6.png")
+const SNORKEL_WIDTH := 66.0
+const TANK_HEIGHT := 125.0
+const SUBMARINE_WIDTH := 230.0
+## Where the eyes are, relative to the feet.
+const EYES := Vector2(4.0, -170.0)
 
 const OUTLINE := Color(0.07, 0.09, 0.15)
-const SKIN := Color(1.0, 0.81, 0.62)
-const JACKET := Color(1.0, 0.8, 0.16)
-const POLE := Color(0.24, 0.22, 0.24)
-const GRIP := Color(0.85, 0.3, 0.2)
-const HOOP := Color(0.74, 0.77, 0.82)
-const HOOP_SHINE := Color(1.0, 1.0, 1.0, 0.8)
+## The ring on the water that shows where the net catches.
+const CATCH_RING := Color(1.0, 1.0, 1.0, 0.45)
 const HOOP_FULL := Color(1.0, 0.45, 0.3)
-const NET_FILL := Color(0.95, 0.97, 1.0, 0.16)
-const NET_STRING := Color(0.96, 0.96, 0.9, 0.7)
-const NET_STRING_WET := Color(0.75, 0.9, 1.0, 0.35)
-## The net bag hangs this many hoop radii below the hoop (on screen).
-const BAG_DEPTH := 1.05
-const NET_RIBS := 18
-const NET_RINGS := 3
 const WATER_TINT := Color(0.18, 0.55, 0.72, 0.6)
 const SHADOW := Color(0.0, 0.06, 0.14, 0.25)
 const PROGRESS := Color(1.0, 0.85, 0.2)
@@ -79,8 +88,12 @@ var in_water := true
 var water_tint := WATER_TINT
 ## True in deeper zones: the water comes up to the chest.
 var swimming := false
-## Diving gear level: 2 adds a snorkel mask, 3 a scuba mask.
+## Diving gear bought: the gear for the current zone is worn, up to this level.
 var gear_level := 1
+## Order of the depth zone the wader is in; 0 on the beach.
+var zone_order := 0
+## Index + 1 into the net levels; picks the landing net.
+var net_level := 1
 ## Current net radius (grows with the net level).
 var scoop_radius := SCOOP_RADIUS
 ## Walking speed factor: faster on the sand than in the water.
@@ -176,21 +189,25 @@ func _draw() -> void:
 	var from_behind := screen_facing.y < 0.0
 	var bob := absf(sin(_walk_phase)) * 5.0 if is_walking() else sin(_time * 2.0) * 1.5
 	var hoop := _hoop_offset()
+	# Each zone calls for its gear: snorkel in the second, scuba in the third, and so on.
+	var gear := mini(gear_level, zone_order) if swimming else 1
 
 	draw_colored_polygon(Iso.ellipse(Vector2.ZERO, 30.0), SHADOW)
-	# Facing the camera, the backpack is hidden behind the body and the net is in front.
+	# Facing the camera, the backpack and tanks are hidden behind the body and the net is in front.
 	if from_behind:
 		_draw_net(hoop, side, bob)
 	else:
+		_draw_tanks(gear, side, bob)
 		_draw_backpack(bob)
-	_draw_body(screen_facing.normalized(), bob)
+	_draw_body(screen_facing.normalized(), bob, gear)
 	if in_water and not swimming:
 		_draw_water_around(WATERLINE_Y, 32.0)
-	if gear_level >= 2:
-		_draw_mask(side, bob, from_behind)
+	if gear in [2, 3, 4] and not from_behind:
+		_draw_snorkel(side, bob)
 	if swimming:
 		_draw_water_around(SWIM_WATERLINE_Y, 46.0)
 	if from_behind:
+		_draw_tanks(gear, side, bob)
 		_draw_backpack(bob)
 	else:
 		_draw_net(hoop, side, bob)
@@ -199,7 +216,11 @@ func _draw() -> void:
 
 
 ## The view that matches the walking direction; the figure bobs and sways a little while walking.
-func _draw_body(screen_facing: Vector2, bob: float) -> void:
+## In the two deepest zones the hard-hat suit or the submersible takes its place.
+func _draw_body(screen_facing: Vector2, bob: float, gear: int) -> void:
+	if gear >= 5:
+		_draw_vehicle(SUIT_TEXTURE if gear == 5 else SUBMARINE_TEXTURE, screen_facing, bob, gear == 6)
+		return
 	var away := screen_facing.y < 0.0
 	var texture := BACK_TEXTURE if away else FRONT_TEXTURE
 	var mirror := 1.0
@@ -219,23 +240,35 @@ func _draw_water_around(waterline: float, radius: float) -> void:
 	draw_polyline(Iso.ellipse(Vector2(0.0, waterline), radius), Color(1.0, 1.0, 1.0, 0.7), 3.0, true)
 
 
-## A diving mask over the eyes (and its strap from behind), with a snorkel tube.
-func _draw_mask(side: float, bob: float, from_behind: bool) -> void:
-	var frame := SCUBA_FRAME if gear_level >= 3 else SNORKEL_FRAME
-	var eyes := Vector2(side * 3.0, -168.0 - bob)
-	if from_behind:
-		draw_line(eyes + Vector2(-29.0, 0.0), eyes + Vector2(29.0, 0.0), OUTLINE, 9.0)
-		draw_line(eyes + Vector2(-29.0, 0.0), eyes + Vector2(29.0, 0.0), frame, 5.0)
-	else:
-		var glass := Rect2(eyes + Vector2(-20.0, -10.0), Vector2(40.0, 20.0))
-		draw_rect(glass.grow(4.0), OUTLINE)
-		draw_rect(glass.grow(2.0), frame)
-		draw_rect(glass, MASK_GLASS)
-	var tube := PackedVector2Array([
-		eyes + Vector2(-side * 24.0, 4.0), eyes + Vector2(-side * 30.0, -8.0), eyes + Vector2(-side * 30.0, -40.0),
-	])
-	draw_polyline(tube, OUTLINE, 9.0, true)
-	draw_polyline(tube, frame, 5.0, true)
+## The snorkel mask over the eyes, its tube on the far side.
+func _draw_snorkel(side: float, bob: float) -> void:
+	var size := SNORKEL_TEXTURE.get_size() * (SNORKEL_WIDTH / SNORKEL_TEXTURE.get_width())
+	draw_set_transform(Vector2(EYES.x * side, EYES.y - bob), 0.0, Vector2(side, 1.0))
+	draw_texture_rect(SNORKEL_TEXTURE, Rect2(Vector2(-size.x * 0.45, -size.y * 0.35), size), false)
+	draw_set_transform(Vector2.ZERO)
+
+
+## Scuba tanks or the rebreather on the back.
+func _draw_tanks(gear: int, side: float, bob: float) -> void:
+	if not TANK_TEXTURES.has(gear):
+		return
+	var texture := TANK_TEXTURES[gear]
+	var size := texture.get_size() * (TANK_HEIGHT / texture.get_height())
+	draw_set_transform(Vector2(-side * 34.0, -105.0 - bob), 0.0, Vector2(side, 1.0))
+	draw_texture_rect(texture, Rect2(Vector2(-size.x * 0.5, -size.y * 0.6), size), false)
+	draw_set_transform(Vector2.ZERO)
+
+
+## The hard-hat suit or the submersible instead of the figure, turned to the walking side.
+func _draw_vehicle(texture: Texture2D, screen_facing: Vector2, bob: float, submarine: bool) -> void:
+	var size := texture.get_size() * (SUBMARINE_WIDTH / texture.get_width() if submarine else BODY_HEIGHT / texture.get_height())
+	# The suit faces the camera; the submersible looks to screen-left.
+	var mirror := 1.0
+	if submarine and screen_facing.x > 0.0:
+		mirror = -1.0
+	draw_set_transform(Vector2(0.0, -bob - (60.0 if submarine else 0.0)), 0.0, Vector2(mirror, 1.0))
+	draw_texture_rect(texture, Rect2(Vector2(-size.x * 0.5, -size.y), size), false)
+	draw_set_transform(Vector2.ZERO)
 
 
 ## The basket and the stack of caught fish, which sways while walking and leans back
@@ -252,69 +285,34 @@ func _draw_backpack(bob: float) -> void:
 		carried[i].draw(self, Transform2D(Vector2(mirror, 0.0), Vector2(0.0, 1.0), at), STACK_FISH_LENGTH)
 
 
-## Pole from the hand to the hoop, the hoop as a ground circle, and the struggle meter.
+## The landing net of the net level, from the hand to the hoop; on the water a ring shows where
+## the net catches, and the struggle meter fills around it.
 func _draw_net(hoop: Vector2, side: float, bob: float) -> void:
 	var shoulder := Vector2(NET_SHOULDER.x * side, NET_SHOULDER.y - bob)
-	var hand := shoulder + shoulder.direction_to(hoop) * 38.0
-	var joint := hoop + Iso.to_screen(-facing * scoop_radius)
-	draw_line(hand, joint, OUTLINE, 11.0, true)
-	draw_line(hand, joint, POLE, 6.0, true)
-	draw_line(hand, hand.lerp(joint, 0.25), GRIP, 6.0, true)
-	draw_line(shoulder, hand, OUTLINE, 18.0)
-	draw_line(shoulder, hand, JACKET, 11.0)
-	draw_circle(hand, 9.0, OUTLINE)
-	draw_circle(hand, 6.0, SKIN)
-
-	_draw_net_bag(hoop)
+	var hand := shoulder + shoulder.direction_to(hoop) * 30.0
 	var rim := Iso.ellipse(hoop, scoop_radius, 32)
-	draw_polyline(rim, OUTLINE, 10.0, true)
-	draw_polyline(rim, HOOP_FULL if full else HOOP, 5.5, true)
-	draw_polyline(Iso.ellipse_arc(hoop + Vector2(0.0, -1.5), scoop_radius, PI * 1.1, PI * 1.6, 10), HOOP_SHINE, 2.0, true)
-	# The yoke where the pole meets the hoop.
-	var toward := Iso.to_screen(-facing).normalized()
-	draw_line(joint, joint + toward * 14.0, OUTLINE, 12.0, true)
-	draw_line(joint, joint + toward * 14.0, HOOP, 6.0, true)
+	draw_polyline(rim, HOOP_FULL if full else CATCH_RING, 3.0, true)
+
+	var texture := NET_TEXTURES[clampi(net_level, 1, NET_TEXTURES.size()) - 1]
+	var size := texture.get_size()
+	var handle := NET_HANDLE * size
+	var along := NET_HOOP * size - handle
+	var mirror := 1.0
+	if hoop.x < hand.x:
+		# Held to the left: mirror the sprite so the mesh hangs down.
+		mirror = -1.0
+		along.x = -along.x
+	var reach := hoop - hand
+	var turn := reach.angle() - along.angle()
+	var stretch := reach.length() / maxf(along.length(), 1.0)
+	draw_set_transform_matrix(Transform2D(turn, Vector2(stretch, stretch), 0.0, hand) * Transform2D(0.0, Vector2(mirror, 1.0), 0.0, Vector2.ZERO))
+	draw_texture_rect(texture, Rect2(-handle, size), false)
+	draw_set_transform(Vector2.ZERO)
 
 	if struggle_progress > 0.0:
 		var arc := Iso.ellipse_arc(hoop, scoop_radius + 16.0, -PI * 0.5, -PI * 0.5 + TAU * struggle_progress, 28)
 		draw_polyline(arc, OUTLINE, 12.0, true)
 		draw_polyline(arc, PROGRESS, 7.0, true)
-
-
-## The mesh bag of the landing net: ribs from the hoop down to a rounded bottom and a few rings
-## around it, swaying behind when the wader moves. Under water it fades into the sea.
-func _draw_net_bag(hoop: Vector2) -> void:
-	var sway := (-Iso.to_screen(ground_velocity) * 0.05).limit_length(22.0) + Vector2(sin(_time * 2.5) * 2.0, 0.0)
-	var bottom := hoop + Vector2(0.0, scoop_radius * BAG_DEPTH) + sway
-	var string := NET_STRING_WET if in_water else NET_STRING
-	var ribs: Array[PackedVector2Array] = []
-	var all_points := PackedVector2Array()
-	for i in NET_RIBS:
-		var angle := TAU * i / NET_RIBS
-		var rib := PackedVector2Array()
-		for step in 7:
-			rib.append(_bag_point(hoop, bottom, Vector2(cos(angle), sin(angle)), 1.0 - step / 6.0))
-		ribs.append(rib)
-		all_points.append_array(rib)
-	draw_colored_polygon(Geometry2D.convex_hull(all_points), NET_FILL)
-	for rib in ribs:
-		draw_polyline(rib, string, 1.4, true)
-	for ring in NET_RINGS:
-		var depth := (ring + 1.0) / (NET_RINGS + 1.0)
-		var points := PackedVector2Array()
-		for i in 25:
-			var angle := TAU * i / 24.0
-			points.append(_bag_point(hoop, bottom, Vector2(cos(angle), sin(angle)), 1.0 - depth))
-		draw_polyline(points, string, 1.4, true)
-
-
-## A point on the net bag: `around` is a direction around the hoop, `spread` 1 at the hoop and 0
-## at the bottom. The bag narrows like a rounded cone and sags towards the bottom.
-func _bag_point(hoop: Vector2, bottom: Vector2, around: Vector2, spread: float) -> Vector2:
-	var depth := 1.0 - spread
-	var width := sqrt(maxf(spread, 0.0)) * scoop_radius
-	var center := hoop.lerp(bottom, depth)
-	return center + Vector2(around.x * width, around.y * width * 0.5)
 
 
 func _draw_label(text: String, at: Vector2) -> void:

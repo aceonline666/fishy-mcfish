@@ -365,6 +365,7 @@ func _rebuild_from_state() -> void:
 	_entities.add_child(_tank_node)
 	live_well.capacity = Aquarium.backpack_capacity(site)
 	wader.scoop_radius = Wader.SCOOP_RADIUS * (1.0 + NET_RADIUS_STEP * (site.net_level - 1))
+	wader.net_level = site.net_level
 	_sync_shops()
 	_apply_gear()
 	_sync_drones()
@@ -389,6 +390,7 @@ func _apply_gear() -> void:
 func _update_zone() -> void:
 	var zone := Charting.zone_at(location.id, wader.ground_position.y) if wader.in_water else null
 	wader.swimming = zone != null and zone.order > 1
+	wader.zone_order = zone.order if zone != null else 0
 	if zone == _wader_zone:
 		return
 	_wader_zone = zone
@@ -854,6 +856,7 @@ func _complete_purchase(target: ActionSquare) -> void:
 	elif target.id == "upgrade_net":
 		GameState.upgrade_net()
 		wader.scoop_radius = Wader.SCOOP_RADIUS * (1.0 + NET_RADIUS_STEP * (site.net_level - 1))
+		wader.net_level = site.net_level
 		message = tr("%s!\nBig fish are landed faster") % tr(DataRegistry.net_levels[site.net_level - 1].name)
 	elif target.id == "upgrade_gear":
 		GameState.upgrade_gear()
