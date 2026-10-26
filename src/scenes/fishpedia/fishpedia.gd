@@ -48,7 +48,7 @@ func _make_card(def: SpeciesDef, known: bool) -> Button:
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for state_name: String in ["normal", "hover", "pressed", "focus"]:
 		card.add_theme_stylebox_override(state_name, card_style(CARD_HOVER if state_name == "hover" else CARD_COLOR))
-	card.pressed.connect(_show_detail.bind(def))
+	connect_tap(card, _show_detail.bind(def))
 
 	var column := VBoxContainer.new()
 	column.set_anchors_preset(Control.PRESET_FULL_RECT)

@@ -10,11 +10,15 @@ const CARD_COLOR := Color(0.08, 0.2, 0.33)
 const CARD_HOVER := Color(0.11, 0.27, 0.42)
 const CARD_BORDER := Color(0.07, 0.09, 0.15)
 const MUTED := Color(0.65, 0.75, 0.85)
+## A press that moves further than this (pixels) before release is a drag, not a tap.
+const TAP_DISTANCE := 24.0
 
 var content: VBoxContainer
 
 var _title: Label
 var _rebuild_pending := false
+## Where the last button press started.
+var _press_at := Vector2.ZERO
 
 
 func _ready() -> void:
@@ -108,8 +112,18 @@ func make_button(text: String, action: Callable) -> Button:
 	button.text = text
 	button.add_theme_font_size_override("font_size", 40)
 	button.custom_minimum_size = Vector2(220.0, 100.0)
-	button.pressed.connect(action)
+	connect_tap(button, action)
 	return button
+
+
+## Makes `button` scroll-friendly: the touch passes on to the scroll container, so the list can
+## be dragged starting on the button, and `action` only runs for a tap, not after a drag.
+func connect_tap(button: BaseButton, action: Callable) -> void:
+	button.mouse_filter = Control.MOUSE_FILTER_PASS
+	button.button_down.connect(func() -> void: _press_at = get_global_mouse_position())
+	button.pressed.connect(func() -> void:
+		if get_global_mouse_position().distance_to(_press_at) <= TAP_DISTANCE:
+			action.call())
 
 
 func card_style(color: Color = CARD_COLOR) -> StyleBoxFlat:
