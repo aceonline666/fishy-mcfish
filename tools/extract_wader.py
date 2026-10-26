@@ -41,6 +41,7 @@ NETS = {
     "net_1": (860, 235), "net_2": (980, 235), "net_3": (1100, 235), "net_4": (1230, 235),
     "net_5": (1345, 235), "net_6": (1465, 235),
 }
+NET_PAD = 6
 # Rows (share of the height) where the middle of the hips is measured.
 HIP_ROW = {"body": 0.7, "scuba": 0.7, "hardhat": 0.7, "legs": 0.12}
 
@@ -62,6 +63,9 @@ def main() -> None:
         kind = name.split("_")[0]
         if kind in HIP_ROW:
             sprite = _center_on_hips(sprite, HIP_ROW[kind])
+        if kind == "net":
+            # A transparent border, so the stretched handle does not smear the edge pixels.
+            sprite = np.pad(sprite, ((NET_PAD, NET_PAD), (NET_PAD, NET_PAD), (0, 0)))
         Image.fromarray(sprite).save(out / f"{name}.png")
         print(f"{name}: {sprite.shape[1]}x{sprite.shape[0]}")
 

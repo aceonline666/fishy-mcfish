@@ -52,13 +52,21 @@ const STACK_STEP := 12.0
 const STACK_FISH_LENGTH := 50.0
 ## Shoulder of the net arm, for side = +1 (net on the right).
 const NET_SHOULDER := Vector2(27.0, -112.0)
-## Landing nets by net level (assets/sprites/wader/net_N), seen from above: the hoop lies on the
-## water over the catch ring with the bag below it, the painted handle points towards the wader
-## (to the right in the sprite, mirrored when the wader is on the left). Hoop centre and width as
-## shares of the sprite.
-const NET_HOOP := Vector2(0.38, 0.22)
-const NET_HOOP_WIDTH := 0.7
-const NET_LEVELS := 6
+## Landing nets by net level (assets/sprites/wader/net_N): the hoop lies on the water at the catch
+## point, and the painted handle runs from it to the hand, stretched along its own length as far
+## as needed (the hoop keeps its shape). In the sprites: the hoop centre, the handle's tip and the
+## hoop's width as shares of the sprite, and where the handle starts (share of the width, measured
+## from the hoop centre along the handle).
+const NET_HOOP := Vector2(0.40, 0.29)
+const NET_TIPS: Array[Vector2] = [
+	Vector2(0.927, 0.565), Vector2(0.915, 0.776), Vector2(0.94, 0.623), Vector2(0.94, 0.55), Vector2(0.925, 0.115),
+	Vector2(0.931, 0.551),
+]
+const NET_HOOP_WIDTH := 0.68
+const NET_HANDLE_START := 0.36
+## Screen width of the hoop with the first net; better nets are a little bigger.
+const NET_HOOP_SCREEN := 64.0
+const NET_GROWTH := 0.08
 
 const OUTLINE := Color(0.07, 0.09, 0.15)
 ## The ring on the water that shows where the net catches.
@@ -338,22 +346,40 @@ func _draw_backpack(bob: float) -> void:
 		carried[i].draw(self, Transform2D(Vector2(mirror, 0.0), Vector2(0.0, 1.0), at), STACK_FISH_LENGTH)
 
 
-## The landing net of the net level, its hoop lying on the catch ring; the ring shows where the
-## net catches, and the struggle meter fills around it.
+## The landing net of the net level, its hoop lying on the water at the catch point and its handle
+## reaching up to the hand; the ring shows where the net catches, and the struggle meter fills
+## around it.
 func _draw_net(hoop: Vector2, side: float, bob: float) -> void:
 	var shoulder := Vector2(NET_SHOULDER.x * side, NET_SHOULDER.y - bob)
 	var hand := shoulder + shoulder.direction_to(hoop) * 30.0
 	var ring := Iso.ellipse(hoop, scoop_radius, 32)
 	draw_polyline(ring, HOOP_FULL if full else CATCH_RING, 3.0, true)
 
-	var texture := _texture("net_%d" % clampi(net_level, 1, NET_LEVELS))
-	var source := texture.get_size()
-	var scale_factor := scoop_radius * 2.0 / (source.x * NET_HOOP_WIDTH)
-	var mirror := -1.0 if hand.x < hoop.x else 1.0
-	var origin := hoop - Vector2(NET_HOOP.x * source.x * mirror, NET_HOOP.y * source.y) * scale_factor
-	draw_set_transform(origin, 0.0, Vector2(mirror, 1.0))
-	draw_texture_rect(texture, Rect2(Vector2.ZERO, source * scale_factor), false)
-	draw_set_transform(Vector2.ZERO)
+	var level := clampi(net_level, 1, NET_TIPS.size())
+	var texture := _texture("net_%d" % level)
+	var size := texture.get_size()
+	var center := NET_HOOP * size
+	var along := NET_TIPS[level - 1] * size - center
+	var tip_distance := along.length()
+	var u := along / tip_distance
+	var v := u.orthogonal()
+	var handle_start := NET_HANDLE_START * size.x
+	var scale_factor := NET_HOOP_SCREEN * (1.0 + NET_GROWTH * (level - 1)) / (size.x * NET_HOOP_WIDTH)
+	var reach := hand - hoop
+	var stretch := maxf((reach.length() / scale_factor - handle_start) / (tip_distance - handle_start), 0.2)
+	var turn := reach.angle() - u.angle()
+	# Mirror the sprite across the handle if needed, so the bag hangs below the hoop on screen.
+	var flip := 1.0 if v.rotated(turn).y * v.y >= 0.0 else -1.0
+	var big := size.length()
+	var handle_half := size.y * 0.25
+	for part: Array in [[-big, handle_start, -big, big], [handle_start, tip_distance + 8.0, -handle_half, handle_half]]:
+		var points := PackedVector2Array()
+		var uvs := PackedVector2Array()
+		for corner: Vector2 in [Vector2(part[0], part[2]), Vector2(part[1], part[2]), Vector2(part[1], part[3]), Vector2(part[0], part[3])]:
+			uvs.append((center + u * corner.x + v * corner.y) / size)
+			var a := corner.x if corner.x <= handle_start else handle_start + (corner.x - handle_start) * stretch
+			points.append(hoop + (u * a + v * corner.y * flip).rotated(turn) * scale_factor)
+		draw_polygon(points, PackedColorArray([Color.WHITE]), uvs, texture)
 
 	if struggle_progress > 0.0:
 		var arc := Iso.ellipse_arc(hoop, scoop_radius + 16.0, -PI * 0.5, -PI * 0.5 + TAU * struggle_progress, 28)
