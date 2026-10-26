@@ -53,14 +53,12 @@ const STACK_FISH_LENGTH := 50.0
 ## Shoulder of the net arm, for side = +1 (net on the right).
 const NET_SHOULDER := Vector2(27.0, -112.0)
 ## Landing nets by net level (assets/sprites/wader/net_N), seen from above: the hoop lies on the
-## water over the catch ring with the bag below it. The painted handle is cut off at NET_CUT; a
-## pole runs from the hoop's rim on the hand's side to the hand. Hoop centre and width, and the
-## cut, as shares of the sprite (the handle points right; mirrored when the hand is on the left).
+## water over the catch ring with the bag below it, the painted handle points towards the wader
+## (to the right in the sprite, mirrored when the wader is on the left). Hoop centre and width as
+## shares of the sprite.
 const NET_HOOP := Vector2(0.38, 0.22)
 const NET_HOOP_WIDTH := 0.7
-const NET_CUT := 0.74
 const NET_LEVELS := 6
-const POLE := Color(0.42, 0.3, 0.2)
 
 const OUTLINE := Color(0.07, 0.09, 0.15)
 ## The ring on the water that shows where the net catches.
@@ -340,8 +338,8 @@ func _draw_backpack(bob: float) -> void:
 		carried[i].draw(self, Transform2D(Vector2(mirror, 0.0), Vector2(0.0, 1.0), at), STACK_FISH_LENGTH)
 
 
-## The landing net of the net level, its hoop lying on the catch ring, with a pole from the handle
-## to the hand; the ring shows where the net catches, and the struggle meter fills around it.
+## The landing net of the net level, its hoop lying on the catch ring; the ring shows where the
+## net catches, and the struggle meter fills around it.
 func _draw_net(hoop: Vector2, side: float, bob: float) -> void:
 	var shoulder := Vector2(NET_SHOULDER.x * side, NET_SHOULDER.y - bob)
 	var hand := shoulder + shoulder.direction_to(hoop) * 30.0
@@ -353,12 +351,8 @@ func _draw_net(hoop: Vector2, side: float, bob: float) -> void:
 	var scale_factor := scoop_radius * 2.0 / (source.x * NET_HOOP_WIDTH)
 	var mirror := -1.0 if hand.x < hoop.x else 1.0
 	var origin := hoop - Vector2(NET_HOOP.x * source.x * mirror, NET_HOOP.y * source.y) * scale_factor
-	var rim := origin + Vector2(NET_CUT * source.x * mirror, NET_HOOP.y * source.y) * scale_factor
-	draw_line(hand, rim, OUTLINE, 9.0, true)
-	draw_line(hand, rim, POLE, 5.0, true)
-	var region := Rect2(0.0, 0.0, source.x * NET_CUT, source.y)
 	draw_set_transform(origin, 0.0, Vector2(mirror, 1.0))
-	draw_texture_rect_region(texture, Rect2(Vector2.ZERO, region.size * scale_factor), region)
+	draw_texture_rect(texture, Rect2(Vector2.ZERO, source * scale_factor), false)
 	draw_set_transform(Vector2.ZERO)
 
 	if struggle_progress > 0.0:

@@ -72,7 +72,7 @@ const PIER_SHEAR := -0.26
 ## Painted decoration on the beach: sprite (assets/sprites/props), ground position, screen
 ## height, and where it shows ("" everywhere, else only at locations with that water).
 const DECOR: Array[Array] = [
-	["signpost", Vector2(1660.0, -70.0), 120.0, ""],
+	["signpost", Vector2(1665.0, -380.0), 120.0, ""],
 	["seagull", Vector2(1250.0, -420.0), 60.0, ""],
 	["parasol", Vector2(430.0, -420.0), 170.0, ""],
 	["bush", Vector2(160.0, -620.0), 150.0, "temperate"],
