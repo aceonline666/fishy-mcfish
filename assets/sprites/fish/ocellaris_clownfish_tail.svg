@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="70" height="170" viewBox="0 0 70 170">
-  <!-- Ocellaris clownfish tail: a rounded orange fan with a black margin. Tail root x=62, axis y=85. -->
-  <path d="M 68 74 C 50 64, 28 56, 12 60 C 4 76, 4 94, 12 110 C 28 114, 50 106, 68 96 Z" fill="#ff8a2a" stroke="#141a2a" stroke-width="5" stroke-linejoin="round"/>
-  <path d="M 30 64 C 22 80, 22 92, 30 106" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
-</svg>

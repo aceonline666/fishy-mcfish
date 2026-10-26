@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="70" height="130" viewBox="0 0 70 130">
-  <!-- Blacktip reef shark tail: a tall upper lobe with a black tip. Tail root x=62, axis y=65. -->
-  <path d="M 68 58 C 50 50, 30 30, 6 12 C 16 38, 26 54, 34 64 C 26 74, 18 84, 12 96 C 34 88, 52 78, 68 72 Z" fill="#8f9aa3" stroke="#141a2a" stroke-width="4" stroke-linejoin="round"/>
-  <path d="M 6 12 C 12 16, 16 20, 20 26 C 15 28, 12 26, 10 22 Z" fill="#141a2a"/>
-  <path d="M 12 96 C 16 92, 19 90, 22 88 C 20 93, 16 95, 12 96 Z" fill="#141a2a"/>
-</svg>

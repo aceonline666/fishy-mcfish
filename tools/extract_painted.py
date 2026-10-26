@@ -100,6 +100,24 @@ SHEETS = {
         "mariana_snailfish": (255, 910, "left", True),
         "giant_oarfish": (970, 895, "left", False),
     },
+    "species_sheet_4.png": {
+        "hottentot_seabream": (195, 150, "left", True),
+        "common_octopus": (595, 150, "right", False),
+        "knysna_seahorse": (900, 140, "left", False),
+        "galjoen": (1295, 155, "left", True),
+        "copper_shark": (210, 385, "left", True),
+        "ragged_tooth_shark": (595, 395, "left", True),
+        "giant_guitarfish": (990, 400, "left", True),
+        "portuguese_man_o_war": (1385, 410, "right", False),
+        "shortfin_mako": (200, 620, "left", True),
+        "leatherback_turtle": (580, 640, "left", False),
+        "southern_right_whale": (965, 640, "left", True),
+        "cape_hake": (1350, 625, "left", True),
+        "kingklip": (200, 870, "left", True),
+        "sloanes_viperfish": (565, 880, "left", False),
+        "pelican_eel": (930, 880, "left", False),
+        "colossal_squid": (1320, 850, "right", False),
+    },
 }
 
 # Sheet rows below which a sprite's region is its label, not the creature.

@@ -1,9 +1,9 @@
 class_name FishArt
 extends RefCounted
 ## Side-on sprite of one species, drawn from two images so the tail can beat: <id>_body and
-## <id>_tail. Painted PNGs (assets/sprites/fish_painted, cut from a painted sprite sheet by
-## tools/extract_painted.py) are used where they exist, otherwise the SVGs in
-## assets/sprites/fish. Species without either get a coloured placeholder shape.
+## <id>_tail: painted PNGs in assets/sprites/fish_painted, cut from the painted sheets by
+## tools/extract_painted.py. A species without a painted sprite falls back to SVGs in
+## assets/sprites/fish (only the vampire squid still needs one), else to a coloured placeholder.
 ##
 ## Layout (in canvas units): the body canvas is 240 wide with the tail root at x=20 and the
 ## snout at x=220; the tail canvas is 70 wide with the tail root at x=62. Both are centred

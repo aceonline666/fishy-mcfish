@@ -71,10 +71,10 @@ Tests and `tools/screenshot.gd` run in a sandboxed save (`SaveSystem.use_sandbox
 the real one.
 
 Fish sprites are a body and a tail image per species (see `src/scenes/fishing/fish_art.gd` for
-the conventions): painted PNGs in `assets/sprites/fish_painted/` where they exist (69 of 86 species), cut from
+the conventions): painted PNGs in `assets/sprites/fish_painted/` (85 of 86 species), cut from
 the painted sheets in `art_source/` by `tools/extract_painted.py` (needs Pillow, NumPy and
-SciPy; run it once per sheet), otherwise hand-written SVGs in `assets/sprites/fish/`. Species without either are drawn as
-coloured placeholders. The wader, the tank (one sprite per level), the shop (one per level), the
+SciPy; run it once per sheet). The vampire squid has no painted sprite yet and keeps its SVG in
+`assets/sprites/fish/`; a species without any sprite would be drawn as a coloured placeholder. The wader, the tank (one sprite per level), the shop (one per level), the
 cashiers, the customers who queue at the shop while sellers work and leave with a fish, and the
 beach decoration are painted sprites in `assets/sprites/props/`, cut from the coastal sheet by
 `tools/extract_props.py` (its background checkerboard is removed by flood fill). The gear sheet
