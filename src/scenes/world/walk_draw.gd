@@ -13,18 +13,19 @@ const BEND := 0.14
 
 ## Draws `texture` into `rect` (feet at the bottom) on `canvas`, on top of the transform `base`
 ## (which is set again afterwards). `phase` advances with the distance walked (one step per half
-## turn), `stride` is 0 standing to 1 at full speed, `bob` lifts the upper body.
-static func figure(canvas: CanvasItem, base: Transform2D, texture: Texture2D, rect: Rect2, phase: float, stride: float, bob: float) -> void:
+## turn), `stride` is 0 standing to 1 at full speed, `bob` lifts the upper body. `hip` is the share
+## of the height above the hips; 0 for a sprite of legs only.
+static func figure(canvas: CanvasItem, base: Transform2D, texture: Texture2D, rect: Rect2, phase: float, stride: float, bob: float, hip: float = HIP) -> void:
 	canvas.draw_set_transform_matrix(base)
 	if stride <= 0.01:
 		canvas.draw_texture_rect(texture, Rect2(rect.position + Vector2(0.0, -bob), rect.size), false)
 		return
 	var source := texture.get_size()
 	var scale := rect.size / source
-	var hip := source.y * HIP
+	var hip_y := source.y * hip
 	for side in 2:
 		var step := sin(phase + PI * side)
-		var region := Rect2(source.x * 0.5 * side, hip, source.x * 0.5, source.y - hip)
+		var region := Rect2(source.x * 0.5 * side, hip_y, source.x * 0.5, source.y - hip_y)
 		var top := rect.position + region.position * scale
 		var size := region.size * scale
 		# Pivot at the top middle of the leg, so it stays attached to the body.
@@ -33,6 +34,8 @@ static func figure(canvas: CanvasItem, base: Transform2D, texture: Texture2D, re
 		canvas.draw_set_transform_matrix(base * leg)
 		canvas.draw_texture_rect_region(texture, Rect2(top - pivot, size), region)
 	canvas.draw_set_transform_matrix(base)
+	if hip_y <= 0.0:
+		return
 	# The upper body reaches a little below the hips, so no gap shows above the legs.
-	var upper := Rect2(0.0, 0.0, source.x, hip + source.y * 0.03)
+	var upper := Rect2(0.0, 0.0, source.x, hip_y + source.y * 0.03)
 	canvas.draw_texture_rect_region(texture, Rect2(rect.position + Vector2(0.0, -bob), upper.size * scale), upper)

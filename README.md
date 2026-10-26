@@ -80,10 +80,12 @@ beach decoration are painted sprites in `assets/sprites/props/`, cut from the co
 `tools/extract_props.py` (its background checkerboard is removed by flood fill). The gear sheet
 adds the drones, the buyers carrying their fish, the pictures of the
 nets, diving gear, tanks, shops and drones on the upgrade pads, and the location pictures of the
-World map. The wader and his equipment come from the equipment sheet, cut by
-`tools/extract_wader.py`: the figure in four views, painted leg frames for the walk cycles, the
-snorkel mask, scuba gear, rebreather, hard-hat suit, submersible and the baskets of the backpack
-levels.
+World map. The wader and his equipment come from the second equipment sheet, cut by
+`tools/extract_wader.py`: the figure in four views standing on the painted legs of each outfit
+(waders, snorkel, scuba, rebreather, hard-hat suit), which swing in step while walking, the
+diving mask, tank packs, hard-hat diver, submersible and the landing nets; the baskets come
+from the first equipment sheet. The painted seabed under the water is made from the seafloor
+sheet by `tools/make_seafloor.py`.
 `art_source/` holds the source sheets (generated images) and is not imported by Godot. The boot
 splash and the menu icons (`assets/ui/splash.png`, `icon_coins/map/trophy/book/cog.png`) are cut
 from the menu sheet by `tools/make_menu_art.py`; the logo and the app icons (`logo.png`,

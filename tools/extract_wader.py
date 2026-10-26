@@ -1,13 +1,14 @@
-"""Cuts the wader and his equipment out of the equipment sheet into assets/sprites/wader.
+"""Cuts the wader and his equipment out of the equipment sheets into assets/sprites/wader.
 
 Every sprite is cut like the props (tools/extract_props.py: the checkerboard background is
-removed by flood fill). Figures and leg frames are then padded so that the middle of the hips
-is at the horizontal centre of the image: the game puts both at x = 0, so leg frames line up
-under any upper body.
+removed by flood fill). Figures and legs are then padded so that the middle of the hips is at
+the horizontal centre of the image: the game puts both at x = 0, so legs line up under the body.
 
-Needs Pillow, NumPy and SciPy. Usage (the second sheet adds the landing nets):
-  python tools/extract_wader.py art_source/equipment_sprite_sheet.png assets/sprites/wader
+Views: front, towards (three-quarter towards the camera), away (three-quarter from behind), back.
+
+Needs Pillow, NumPy and SciPy. Usage (the first sheet only adds the baskets):
   python tools/extract_wader.py art_source/equipment_sheet_2.png assets/sprites/wader
+  python tools/extract_wader.py art_source/equipment_sprite_sheet.png assets/sprites/wader
 """
 import sys
 from pathlib import Path
@@ -19,40 +20,43 @@ from scipy import ndimage
 sys.path.insert(0, str(Path(__file__).parent))
 from extract_props import _foreground, _label_near, _trim  # noqa: E402
 
-# name: a point on the sprite. Views: front, towards (three-quarter towards the camera), away
-# (three-quarter from behind), back.
-SPRITES = {
-    "body_front": (54, 147), "body_towards": (156, 149), "body_back": (359, 147), "body_away": (455, 147),
-    "snorkel_front": (878, 137), "snorkel_towards": (993, 137), "snorkel_back": (1360, 134),
-    "scuba_front": (70, 390), "scuba_towards": (174, 392), "scuba_away": (345, 391), "scuba_back": (440, 393),
-    "rebreather_back": (736, 375), "rebreather_side": (841, 373),
-    "hardhat_front": (1070, 385), "hardhat_towards": (1168, 387), "hardhat_away": (1364, 384), "hardhat_back": (1472, 384),
-    "sub_front": (67, 605), "sub_towards": (187, 604), "sub_away": (597, 607), "sub_back": (742, 604),
-    "basket_1": (872, 601), "basket_2": (958, 598), "basket_3": (1054, 591), "basket_4": (1164, 593),
-    "basket_5": (1293, 586), "basket_6": (1439, 572),
-    # Walk cycles: stride, passing, stride, passing.
-    "legs_towards_1": (867, 826), "legs_towards_2": (189, 827), "legs_towards_3": (758, 949), "legs_towards_4": (187, 948),
-    "legs_away_1": (460, 827), "legs_away_2": (403, 828), "legs_away_3": (459, 950), "legs_away_4": (405, 951),
-    "legs_back_1": (947, 826), "legs_back_2": (593, 827), "legs_back_3": (1018, 827), "legs_back_4": (670, 827),
-}
-# From the second equipment sheet: the landing nets seen from above, hoop on the left, handle
-# to the right.
-NETS = {
-    "net_1": (860, 235), "net_2": (980, 235), "net_3": (1100, 235), "net_4": (1230, 235),
-    "net_5": (1345, 235), "net_6": (1465, 235),
+# Leg rows: the row's middle and the columns of the four views.
+LEG_ROWS = {"wader": 566, "snorkel": 646, "scuba": 727, "rebreather": 807, "hardhat": 888}
+LEG_VIEWS = {"front": 943, "towards": 1001, "away": 1117, "back": 1223}
+
+# Per sheet, name: a point on the sprite.
+SHEETS = {
+    "equipment_sheet_2.png": {
+        "body_front": (49, 150), "body_towards": (137, 150), "body_away": (285, 150), "body_back": (368, 150),
+        "snorkel_front": (69, 490), "snorkel_towards": (150, 490),
+        "scuba_front": (58, 606), "scuba_towards": (133, 606), "scuba_away": (335, 606), "scuba_back": (501, 606),
+        "rebreather_front": (59, 720), "rebreather_towards": (135, 720), "rebreather_away": (272, 720),
+        "rebreather_back": (423, 720),
+        "hardhat_front": (58, 836), "hardhat_towards": (137, 836), "hardhat_away": (280, 836), "hardhat_back": (659, 836),
+        "sub_front": (60, 950), "sub_towards": (154, 950), "sub_away": (364, 950), "sub_back": (561, 950),
+        # The landing nets seen from above, hoop on the left, handle to the right.
+        "net_1": (860, 235), "net_2": (980, 235), "net_3": (1100, 235), "net_4": (1230, 235),
+        "net_5": (1345, 235), "net_6": (1465, 235),
+    } | {
+        f"legs_{suit}_{view}": (x, y) for suit, y in LEG_ROWS.items() for view, x in LEG_VIEWS.items()
+    },
+    "equipment_sprite_sheet.png": {
+        "basket_1": (872, 601), "basket_2": (958, 598), "basket_3": (1054, 591), "basket_4": (1164, 593),
+        "basket_5": (1293, 586), "basket_6": (1439, 572),
+    },
 }
 NET_PAD = 6
 # Rows (share of the height) where the middle of the hips is measured.
-HIP_ROW = {"body": 0.7, "scuba": 0.7, "hardhat": 0.7, "legs": 0.12}
+HIP_ROW = {"body": 0.7, "hardhat": 0.7, "legs": 0.12}
 
 
 def main() -> None:
-    sprites = NETS if Path(sys.argv[1]).name == "equipment_sheet_2.png" else SPRITES
+    sprites = SHEETS[Path(sys.argv[1]).name]
     sheet = np.array(Image.open(sys.argv[1]).convert("RGB"))
     out = Path(sys.argv[2])
     out.mkdir(parents=True, exist_ok=True)
     alpha = _foreground(sheet)
-    labels, _ = ndimage.label(ndimage.binary_dilation(alpha > 0, iterations=2))
+    labels, _ = ndimage.label(ndimage.binary_dilation(alpha > 0, iterations=1))
     rgba = np.dstack([sheet, alpha])
     for name, (x, y) in sprites.items():
         label = _label_near(labels, x, y)
