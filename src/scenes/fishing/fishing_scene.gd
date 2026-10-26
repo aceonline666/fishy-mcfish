@@ -656,7 +656,7 @@ func _refresh_squares() -> void:
 	_set_purchase(backpack, "upgrade_backpack", tr("Bigger backpack"), Aquarium.backpack_upgrade_cost(site))
 	var next_net := DataRegistry.net_levels[mini(site.net_level, DataRegistry.net_levels.size() - 1)]
 	_set_purchase(square_by_id("upgrade_net"), "upgrade_net", tr(next_net.name), Aquarium.net_upgrade_cost(site),
-			_prop("net_%d" % (site.net_level + 1)))
+			_wader_prop("net_%d" % (site.net_level + 1)))
 	var gear := square_by_id("upgrade_gear")
 	var next_gear := DataRegistry.gear_levels[mini(site.gear_level, DataRegistry.gear_levels.size() - 1)]
 	_set_purchase(gear, "upgrade_gear", tr(next_gear.name), Aquarium.gear_upgrade_cost(site), _prop("gear_%d" % (site.gear_level + 1)))
@@ -668,6 +668,12 @@ func _refresh_squares() -> void:
 	drone_square.subtitle = tr(Automation.drone_zone(state, site, site.drone_count).name) if drone_available else ""
 	_set_purchase(square_by_id("hire_seller"), "hire_seller", tr("Hire seller"), Selling.next_seller_cost(site),
 			_prop("cashier_%d" % (site.seller_count % ShopNode.CASHIERS.size() + 1)))
+
+
+## A wader sprite from assets/sprites/wader by name, or null if there is none.
+func _wader_prop(prop_name: String) -> Texture2D:
+	var path := "res://assets/sprites/wader/%s.png" % prop_name
+	return load(path) if ResourceLoader.exists(path) else null
 
 
 ## A painted prop from assets/sprites/props by name, or null if there is none.

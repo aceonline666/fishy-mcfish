@@ -5,8 +5,9 @@ removed by flood fill). Figures and leg frames are then padded so that the middl
 is at the horizontal centre of the image: the game puts both at x = 0, so leg frames line up
 under any upper body.
 
-Needs Pillow, NumPy and SciPy. Usage:
+Needs Pillow, NumPy and SciPy. Usage (the second sheet adds the landing nets):
   python tools/extract_wader.py art_source/equipment_sprite_sheet.png assets/sprites/wader
+  python tools/extract_wader.py art_source/equipment_sheet_2.png assets/sprites/wader
 """
 import sys
 from pathlib import Path
@@ -34,18 +35,25 @@ SPRITES = {
     "legs_away_1": (460, 827), "legs_away_2": (403, 828), "legs_away_3": (459, 950), "legs_away_4": (405, 951),
     "legs_back_1": (947, 826), "legs_back_2": (593, 827), "legs_back_3": (1018, 827), "legs_back_4": (670, 827),
 }
+# From the second equipment sheet: the landing nets seen from above, hoop on the left, handle
+# to the right.
+NETS = {
+    "net_1": (860, 235), "net_2": (980, 235), "net_3": (1100, 235), "net_4": (1230, 235),
+    "net_5": (1345, 235), "net_6": (1465, 235),
+}
 # Rows (share of the height) where the middle of the hips is measured.
 HIP_ROW = {"body": 0.7, "scuba": 0.7, "hardhat": 0.7, "legs": 0.12}
 
 
 def main() -> None:
+    sprites = NETS if Path(sys.argv[1]).name == "equipment_sheet_2.png" else SPRITES
     sheet = np.array(Image.open(sys.argv[1]).convert("RGB"))
     out = Path(sys.argv[2])
     out.mkdir(parents=True, exist_ok=True)
     alpha = _foreground(sheet)
     labels, _ = ndimage.label(ndimage.binary_dilation(alpha > 0, iterations=2))
     rgba = np.dstack([sheet, alpha])
-    for name, (x, y) in SPRITES.items():
+    for name, (x, y) in sprites.items():
         label = _label_near(labels, x, y)
         sl = ndimage.find_objects((labels == label).astype(int))[0]
         sprite = rgba[sl].copy()

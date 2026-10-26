@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cptnvwxwx506s"
-path="res://.godot/imported/net_6.png-e80b63278efd6c79cb3f225ab55ffcb7.ctex"
+uid="uid://cum8538rh2w0f"
+path="res://.godot/imported/net_1.png-dd5045fea55a3159218e278285eaf1f7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/props/net_6.png"
-dest_files=["res://.godot/imported/net_6.png-e80b63278efd6c79cb3f225ab55ffcb7.ctex"]
+source_file="res://assets/sprites/wader/net_1.png"
+dest_files=["res://.godot/imported/net_1.png-dd5045fea55a3159218e278285eaf1f7.ctex"]
 
 [params]
 
