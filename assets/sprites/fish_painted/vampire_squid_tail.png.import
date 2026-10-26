@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://3qry5y2eveh0"
-path="res://.godot/imported/pier.png-630d0c7c5d5c1dcdc34a2c484a847405.ctex"
+uid="uid://dfofn3onc0j6t"
+path="res://.godot/imported/vampire_squid_tail.png-eb2f4821b31ce64ed8adbffec2d9fe74.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/props/pier.png"
-dest_files=["res://.godot/imported/pier.png-630d0c7c5d5c1dcdc34a2c484a847405.ctex"]
+source_file="res://assets/sprites/fish_painted/vampire_squid_tail.png"
+dest_files=["res://.godot/imported/vampire_squid_tail.png-eb2f4821b31ce64ed8adbffec2d9fe74.ctex"]
 
 [params]
 

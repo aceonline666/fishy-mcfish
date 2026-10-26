@@ -118,6 +118,22 @@ SHEETS = {
         "pelican_eel": (930, 880, "left", False),
         "colossal_squid": (1320, 850, "right", False),
     },
+    # Replaces the vampire squid's SVG and some of the first, small painted sprites.
+    "species_sheet_5.png": {
+        "vampire_squid": (145, 190, "right", False),
+        "basking_shark": (530, 160, "left", True),
+        "blue_tang": (920, 180, "left", True),
+        "blue_whale": (1290, 190, "left", True),
+        "frilled_shark": (200, 440, "left", False),
+        "giant_squid": (620, 400, "right", False),
+        "greenland_shark": (1000, 445, "left", True),
+        "mandarinfish": (1390, 420, "left", True),
+        "ocean_sunfish": (130, 680, "left", False),
+        "ocellaris_clownfish": (570, 700, "left", True),
+        "rabbit_fish": (960, 690, "left", True),
+        "red_lionfish": (1350, 700, "left", False),
+        "sperm_whale": (650, 890, "left", True),
+    },
 }
 
 # Sheet rows below which a sprite's region is its label, not the creature.

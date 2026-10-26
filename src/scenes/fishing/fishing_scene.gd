@@ -62,13 +62,6 @@ const QUEUE_LENGTH := 4
 const CUSTOMER_ENTRY := Vector2(2340.0, -1320.0)
 const CUSTOMER_EXIT := Vector2(3100.0, -350.0)
 const CUSTOMER_INTERVAL_S := 1.5
-## The painted pier runs from the beach into the water in the free corner right of the gear pad.
-## Its centre on the ground, and a shear and scale that line its long side up with the iso grid
-## (the painting is drawn flatter); posts stay upright.
-const PIER_CENTER := Vector2(2650.0, 230.0)
-const PIER_SPRITE_CENTER := Vector2(240.0, 95.0)
-const PIER_SCALE := 1.25
-const PIER_SHEAR := -0.26
 ## Painted decoration on the beach: sprite (assets/sprites/props), ground position, screen
 ## height, and where it shows ("" everywhere, else only at locations with that water).
 const DECOR: Array[Array] = [
@@ -604,12 +597,6 @@ func _build_squares() -> void:
 	var boardwalk := Boardwalk.new()
 	boardwalk.setup(Rect2(PATH_X - PATH_HALF_WIDTH, BEACH_TOP + 250.0, PATH_HALF_WIDTH * 2.0, SHORE_Y - 30.0 - BEACH_TOP - 250.0))
 	_squares_layer.add_child(boardwalk)
-	var pier := Sprite2D.new()
-	pier.texture = preload("res://assets/sprites/props/pier.png")
-	pier.centered = false
-	pier.offset = -PIER_SPRITE_CENTER
-	pier.transform = Transform2D(Vector2(PIER_SCALE, PIER_SHEAR * PIER_SCALE), Vector2(0.0, PIER_SCALE), Iso.to_screen(PIER_CENTER))
-	_squares_layer.add_child(pier)
 	_add_square("store", ActionSquare.Kind.STORE, STORE_SQUARE)
 	_add_square("upgrade_backpack", ActionSquare.Kind.BUY, BACKPACK_SQUARE)
 	_add_square("upgrade_net", ActionSquare.Kind.BUY, NET_SQUARE)
