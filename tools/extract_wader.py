@@ -1,8 +1,10 @@
 """Cuts the wader and his equipment out of the equipment sheets into assets/sprites/wader.
 
 Every sprite is cut like the props (tools/extract_props.py: the checkerboard background is
-removed by flood fill). Figures and legs are then padded so that the middle of the hips is at
-the horizontal centre of the image: the game puts both at x = 0, so legs line up under the body.
+removed by flood fill). The legs are painted narrower than the figure's own legs, so each is
+scaled up evenly until its boots are as wide as the figure's in the same view (the extra height
+hides under the upper body). Figures and legs are then padded so that the middle of the hips is
+at the horizontal centre of the image: the game puts both at x = 0, so legs line up under the body.
 
 Views: front, towards (three-quarter towards the camera), away (three-quarter from behind), back.
 
@@ -48,6 +50,9 @@ SHEETS = {
     },
 }
 NET_PAD = 6
+# Rows (share of the height) where the boots are measured on the figures and on the legs.
+BODY_BOOTS = 0.95
+LEGS_BOOTS = 0.9
 # Rows (share of the height) where the middle of the hips is measured.
 HIP_ROW = {"body": 0.7, "hardhat": 0.7, "legs": 0.12}
 
@@ -60,6 +65,7 @@ def main() -> None:
     alpha = _foreground(sheet)
     labels, _ = ndimage.label(ndimage.binary_dilation(alpha > 0, iterations=1))
     rgba = np.dstack([sheet, alpha])
+    cut: dict[str, np.ndarray] = {}
     for name, (x, y) in sprites.items():
         label = _label_near(labels, x, y)
         sl = ndimage.find_objects((labels == label).astype(int))[0]
@@ -67,6 +73,12 @@ def main() -> None:
         sprite[..., 3][labels[sl] != label] = 0
         sprite = _trim(sprite)
         kind = name.split("_")[0]
+        if kind == "legs":
+            body = cut[f"body_{name.split('_')[-1]}"]
+            factor = _boot_width(body, BODY_BOOTS) / _boot_width(sprite, LEGS_BOOTS)
+            size = (round(sprite.shape[1] * factor), round(sprite.shape[0] * factor))
+            sprite = np.array(Image.fromarray(sprite).resize(size, Image.LANCZOS))
+        cut[name] = sprite
         if kind in HIP_ROW:
             sprite = _center_on_hips(sprite, HIP_ROW[kind])
         if kind == "net":
@@ -74,6 +86,12 @@ def main() -> None:
             sprite = np.pad(sprite, ((NET_PAD, NET_PAD), (NET_PAD, NET_PAD), (0, 0)))
         Image.fromarray(sprite).save(out / f"{name}.png")
         print(f"{name}: {sprite.shape[1]}x{sprite.shape[0]}")
+
+
+def _boot_width(sprite: np.ndarray, row_share: float) -> int:
+    """Width of the opaque outline at the given row: across both boots near the bottom."""
+    xs = np.nonzero(sprite[int(sprite.shape[0] * row_share), :, 3] > 128)[0]
+    return int(xs.max() - xs.min() + 1)
 
 
 def _center_on_hips(sprite: np.ndarray, row_share: float) -> np.ndarray:
