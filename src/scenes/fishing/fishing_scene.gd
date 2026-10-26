@@ -362,6 +362,7 @@ func _rebuild_from_state() -> void:
 	_tank_node.setup(site.tank, TANK_POSITION, _art_for)
 	_entities.add_child(_tank_node)
 	live_well.capacity = Aquarium.backpack_capacity(site)
+	wader.backpack_level = site.backpack_level
 	wader.scoop_radius = Wader.SCOOP_RADIUS * (1.0 + NET_RADIUS_STEP * (site.net_level - 1))
 	wader.net_level = site.net_level
 	_sync_shops()
@@ -837,6 +838,7 @@ func _complete_purchase(target: ActionSquare) -> void:
 	elif target.id == "upgrade_backpack":
 		GameState.upgrade_backpack()
 		live_well.capacity = Aquarium.backpack_capacity(site)
+		wader.backpack_level = site.backpack_level
 		message = tr("Bigger backpack!\n%d fish") % live_well.capacity
 	elif target.id == "buy_drone":
 		GameState.buy_drone()

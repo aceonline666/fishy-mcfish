@@ -48,7 +48,6 @@ SHEETS = {
     "gear_sprite_sheet.png": {
         "width": 1536,
         "sprites": {
-            "wader_front": (46, 136), "wader_back": (136, 136), "wader_left": (216, 137), "wader_right": (295, 137),
             "net_1": (371, 146), "net_2": (449, 151), "net_3": (530, 149), "net_4": (615, 147),
             "net_5": (705, 143), "net_6": (793, 135),
             "gear_1": (916, 129), "gear_2": (1017, 119), "gear_3": (1130, 120), "gear_4": (1241, 120),

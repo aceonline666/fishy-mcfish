@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="30" height="70" viewBox="0 0 30 70">
-  <!-- One leg in waders with a boot. The sole is at the bottom edge. -->
-  <rect x="6" y="3" width="18" height="58" rx="9" fill="#437a52" stroke="#141a2a" stroke-width="4"/>
-  <path d="M 19 6 V 50" stroke="#5d9a6c" stroke-width="3" stroke-linecap="round"/>
-  <rect x="3" y="54" width="24" height="13" rx="6" fill="#2d5639" stroke="#141a2a" stroke-width="4"/>
-</svg>

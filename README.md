@@ -78,9 +78,12 @@ SciPy; run it once per sheet). The vampire squid has no painted sprite yet and k
 cashiers, the customers who queue at the shop while sellers work and leave with a fish, and the
 beach decoration are painted sprites in `assets/sprites/props/`, cut from the coastal sheet by
 `tools/extract_props.py` (its background checkerboard is removed by flood fill). The gear sheet
-adds the wader in four views, the drones, the buyers carrying their fish, the pictures of the
+adds the drones, the buyers carrying their fish, the pictures of the
 nets, diving gear, tanks, shops and drones on the upgrade pads, and the location pictures of the
-World map.
+World map. The wader and his equipment come from the equipment sheet, cut by
+`tools/extract_wader.py`: the figure in four views, painted leg frames for the walk cycles, the
+snorkel mask, scuba gear, rebreather, hard-hat suit, submersible and the baskets of the backpack
+levels.
 `art_source/` holds the source sheets (generated images) and is not imported by Godot. The logo,
 the boot splash and the app icons (`assets/ui/logo.png`, `splash.png`, `icon*.png`) are rendered
 by `tools/make_logo.py` from the painted sprites and the Luckiest Guy font (Apache 2.0, in
