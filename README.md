@@ -84,10 +84,11 @@ World map. The wader and his equipment come from the equipment sheet, cut by
 `tools/extract_wader.py`: the figure in four views, painted leg frames for the walk cycles, the
 snorkel mask, scuba gear, rebreather, hard-hat suit, submersible and the baskets of the backpack
 levels.
-`art_source/` holds the source sheets (generated images) and is not imported by Godot. The logo,
-the boot splash and the app icons (`assets/ui/logo.png`, `splash.png`, `icon*.png`) are rendered
-by `tools/make_logo.py` from the painted sprites and the Luckiest Guy font (Apache 2.0, in
-`art_source/fonts/`).
+`art_source/` holds the source sheets (generated images) and is not imported by Godot. The boot
+splash and the menu icons (`assets/ui/splash.png`, `icon_coins/map/trophy/book/cog.png`) are cut
+from the menu sheet by `tools/make_menu_art.py`; the logo and the app icons (`logo.png`,
+`icon.png`, `icon_foreground/background.png`) are rendered by `tools/make_logo.py` from the
+painted sprites and the Luckiest Guy font (Apache 2.0, in `art_source/fonts/`).
 
 The view is 2:1 isometric (like Diablo II). Game logic runs in flat ground coordinates and only
 drawing projects to the screen, see `src/scenes/world/iso.gd`.

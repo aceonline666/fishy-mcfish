@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bk2v4fc4gppw0"
-path="res://.godot/imported/trophy.svg-37e329517481f31aacc5e47bf0831907.ctex"
+uid="uid://o1hyw21g1xx3"
+path="res://.godot/imported/icon_coins.png-9b12b65bf10ba7443394cd733d72bd83.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/trophy.svg"
-dest_files=["res://.godot/imported/trophy.svg-37e329517481f31aacc5e47bf0831907.ctex"]
+source_file="res://assets/ui/icon_coins.png"
+dest_files=["res://.godot/imported/icon_coins.png-9b12b65bf10ba7443394cd733d72bd83.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

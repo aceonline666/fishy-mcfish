@@ -1,9 +1,8 @@
-"""Renders the game logo, the boot splash and the app icons from the title font and the painted
-sprites.
+"""Renders the game logo and the app icons from the title font and the painted sprites. (The boot
+splash comes from the menu sheet, see tools/make_menu_art.py.)
 
-Writes assets/ui/logo.png (title with a nautilus), assets/ui/splash.png (portrait boot
-splash: sea, logo, the wader on the beach), assets/ui/icon.png and the Android adaptive icon
-layers assets/ui/icon_foreground.png and assets/ui/icon_background.png.
+Writes assets/ui/logo.png (title with a nautilus), assets/ui/icon.png and the Android adaptive
+icon layers assets/ui/icon_foreground.png and assets/ui/icon_background.png.
 
 Needs Pillow and NumPy. Usage (from the project folder):
   python tools/make_logo.py
@@ -107,37 +106,6 @@ def sea_gradient(width: int, height: int) -> Image.Image:
     return Image.fromarray(image).convert("RGBA")
 
 
-def splash() -> Image.Image:
-    width, height = 1080, 1920
-    out = sea_gradient(width, height)
-    # Sun rays from the top.
-    rays = Image.new("L", (width, height))
-    draw = ImageDraw.Draw(rays)
-    for i in range(7):
-        x = 120 + i * 150
-        draw.polygon([(x, 0), (x + 70, 0), (x + 260, height * 0.75), (x + 130, height * 0.75)], fill=40)
-    out.paste(Image.new("RGBA", (width, height), (255, 255, 255, 255)), (0, 0), rays.filter(ImageFilter.GaussianBlur(30)))
-    bubbles(out, (60, 900, 1020, 1500), 22, 7)
-    for species, x, y, length, flip in (("yellowfin_tuna", 90, 1150, 280, False), ("opah", 730, 1040, 230, True),
-                                        ("red_sea_bream", 230, 1390, 200, False), ("moon_jellyfish", 760, 1330, 170, False)):
-        fish = painted_fish(species, length)
-        if flip:
-            fish = fish.transpose(Image.FLIP_LEFT_RIGHT)
-        out.alpha_composite(fish, (x, y))
-    # Sand at the bottom with the wader.
-    sand = Image.new("L", (width, height))
-    draw = ImageDraw.Draw(sand)
-    draw.ellipse([-300, 1600, width + 300, 2400], fill=255)
-    out.paste(Image.new("RGBA", (width, height), (240, 214, 150, 255)), (0, 0), sand)
-    wader = Image.open("assets/sprites/wader/body_front.png")
-    wader = wader.resize((int(wader.width * 2.2), int(wader.height * 2.2)), Image.LANCZOS)
-    out.alpha_composite(wader, ((width - wader.width) // 2, 1640 - wader.height + 60))
-    mark = logo()
-    mark = mark.resize((960, int(mark.height * 960 / mark.width)), Image.LANCZOS)
-    out.alpha_composite(mark, ((width - mark.width) // 2, 260))
-    return out
-
-
 def icon_background(size: int) -> Image.Image:
     out = sea_gradient(size, size)
     bubbles(out, (int(size * 0.1), int(size * 0.55), int(size * 0.9), int(size * 0.9)), 5, 11)
@@ -161,14 +129,13 @@ def rounded(image: Image.Image, radius: int) -> Image.Image:
 
 def main() -> None:
     logo().save(OUT + "logo.png")
-    splash().save(OUT + "splash.png")
     icon = icon_background(512)
     icon.alpha_composite(icon_foreground(512, 0.82))
     rounded(icon, 110).save(OUT + "icon.png")
     # Adaptive icons: the launcher masks the layers; keep the fish in the middle two thirds.
     icon_background(432).save(OUT + "icon_background.png")
     icon_foreground(432, 0.6).save(OUT + "icon_foreground.png")
-    print("written logo, splash and icons")
+    print("written logo and icons")
 
 
 if __name__ == "__main__":

@@ -6,11 +6,11 @@
 [ext_resource type="Script" path="res://src/scenes/ui/safe_area_container.gd" id="4_safe"]
 [ext_resource type="Script" path="res://src/scenes/fishing/wader.gd" id="5_wader"]
 [ext_resource type="Script" path="res://src/scenes/world/zone_buoys.gd" id="7_buoys"]
-[ext_resource type="Texture2D" path="res://assets/ui/coins.svg" id="8_coins"]
-[ext_resource type="Texture2D" path="res://assets/ui/map.svg" id="9_map"]
-[ext_resource type="Texture2D" path="res://assets/ui/trophy.svg" id="10_trophy"]
-[ext_resource type="Texture2D" path="res://assets/ui/book.svg" id="11_book"]
-[ext_resource type="Texture2D" path="res://assets/ui/cog.svg" id="12_cog"]
+[ext_resource type="Texture2D" path="res://assets/ui/icon_coins.png" id="8_coins"]
+[ext_resource type="Texture2D" path="res://assets/ui/icon_map.png" id="9_map"]
+[ext_resource type="Texture2D" path="res://assets/ui/icon_trophy.png" id="10_trophy"]
+[ext_resource type="Texture2D" path="res://assets/ui/icon_book.png" id="11_book"]
+[ext_resource type="Texture2D" path="res://assets/ui/icon_cog.png" id="12_cog"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_water"]
 shader = ExtResource("2_water")

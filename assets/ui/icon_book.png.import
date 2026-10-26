@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2oy1nladw73m"
-path="res://.godot/imported/coins.svg-0562ee274c675eb582340693f4538a39.ctex"
+uid="uid://dmbn5a57ufdrr"
+path="res://.godot/imported/icon_book.png-c79fd001621518313da2951d19efb828.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/coins.svg"
-dest_files=["res://.godot/imported/coins.svg-0562ee274c675eb582340693f4538a39.ctex"]
+source_file="res://assets/ui/icon_book.png"
+dest_files=["res://.godot/imported/icon_book.png-c79fd001621518313da2951d19efb828.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false
