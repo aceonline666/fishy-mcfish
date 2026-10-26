@@ -25,12 +25,9 @@ const SWIM_WATERLINE_Y := -96.0
 
 const WADER_DIR := "res://assets/sprites/wader/"
 ## Walking more sideways than this (share of the screen direction) shows a three-quarter view.
-## Three-quarter views look screen-left towards the camera and screen-right away from it; they
-## are mirrored for the other two diagonals.
+## The three-quarter views (towards the camera and away from it) are painted looking screen-left;
+## they are mirrored when walking to the right.
 const DIAGONAL_VIEW := 0.35
-## Sprites that look the other way than their view: the three-quarter views towards the camera
-## are painted looking right.
-const FLIPPED: Array[String] = ["towards"]
 ## Screen height of the figure, from the boots to the top of the head, and the height of the
 ## figure on the sheet: legs and gear are drawn at the same scale.
 const BODY_HEIGHT := 215.0
@@ -230,7 +227,7 @@ func _draw() -> void:
 ## the rebreather, the pack on the torso. The submersible just floats.
 func _draw_body(view: Array, bob: float, gear: int) -> void:
 	var view_name: String = view[0]
-	var mirror: float = view[1] * (-1.0 if FLIPPED.has(view_name) else 1.0)
+	var mirror: float = view[1]
 	if gear >= 6:
 		var sub := _texture("sub_" + view_name)
 		var sub_size := sub.get_size() * (SUBMARINE_WIDTH / sub.get_width())
@@ -239,12 +236,21 @@ func _draw_body(view: Array, bob: float, gear: int) -> void:
 		draw_set_transform(Vector2.ZERO)
 		return
 	var stride := clampf(ground_velocity.length() / WALK_SPEED, 0.0, 1.0)
-	var base := Transform2D(sin(_walk_phase) * 0.02 * stride, Vector2(mirror, 1.0), 0.0, Vector2.ZERO)
+	var sway := sin(_walk_phase) * 0.02 * stride
+	if gear == 5:
+		# The hard-hat diver is one figure that walks on its own painted legs.
+		var diver := _texture("hardhat_" + view_name)
+		var size := diver.get_size() * (BODY_HEIGHT / diver.get_height())
+		var diver_base := Transform2D(sway, Vector2(mirror, 1.0), 0.0, Vector2.ZERO)
+		WalkDraw.figure(self, diver_base, diver, Rect2(Vector2(-size.x * 0.5, -size.y), size), _walk_phase, stride, bob)
+		draw_set_transform(Vector2.ZERO)
+		return
+	var base := Transform2D(sway, Vector2(mirror, 1.0), 0.0, Vector2.ZERO)
 	var sheet_scale := BODY_HEIGHT / SHEET_FIGURE_HEIGHT
 	var legs := _texture("legs_%s_%s" % [_suit(gear), view_name])
 	var legs_size := legs.get_size() * sheet_scale
 	WalkDraw.figure(self, base, legs, Rect2(Vector2(-legs_size.x * 0.5, -legs_size.y), legs_size), _walk_phase, stride, 0.0, 0.0)
-	var upper := _texture(("hardhat_" if gear == 5 else "body_") + view_name)
+	var upper := _texture("body_" + view_name)
 	_draw_upper(upper, BODY_HEIGHT / upper.get_height(), base, bob)
 	if gear == 3 or gear == 4:
 		var pack := _texture(("scuba_" if gear == 3 else "rebreather_") + view_name)
@@ -272,11 +278,11 @@ func _view(screen_facing: Vector2) -> Array:
 	var away := screen_facing.y < 0.0
 	if absf(screen_facing.x) <= DIAGONAL_VIEW:
 		return ["back" if away else "front", 1.0]
-	return ["away" if away else "towards", -1.0 if (screen_facing.x < 0.0) == away else 1.0]
+	return ["away" if away else "towards", -1.0 if screen_facing.x > 0.0 else 1.0]
 
 
 ## The legs worn for a gear level: waders, snorkelling trousers with fins, scuba legs with the
-## tanks, rebreather trousers or the hard-hat suit.
+## tanks or rebreather trousers.
 func _suit(gear: int) -> String:
 	match gear:
 		2:
@@ -285,8 +291,6 @@ func _suit(gear: int) -> String:
 			return "scuba"
 		4:
 			return "rebreather"
-		5:
-			return "hardhat"
 	return "wader"
 
 
@@ -308,8 +312,7 @@ func _draw_mask(view: Array, bob: float) -> void:
 	var texture := _texture("snorkel_" + view_name)
 	var size := texture.get_size() * (BODY_HEIGHT / SHEET_FIGURE_HEIGHT)
 	var anchor := MASK_GLASS
-	var mirror: float = view[1] * (-1.0 if FLIPPED.has(view_name) else 1.0)
-	draw_set_transform(Vector2(0.0, -BODY_HEIGHT * EYE_HEIGHT - bob), 0.0, Vector2(mirror, 1.0))
+	draw_set_transform(Vector2(0.0, -BODY_HEIGHT * EYE_HEIGHT - bob), 0.0, Vector2(view[1], 1.0))
 	draw_texture_rect(texture, Rect2(-anchor * size, size), false)
 	draw_set_transform(Vector2.ZERO)
 

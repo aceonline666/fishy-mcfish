@@ -6,7 +6,7 @@ the horizontal centre of the image: the game puts both at x = 0, so legs line up
 
 Views: front, towards (three-quarter towards the camera), away (three-quarter from behind), back.
 
-Needs Pillow, NumPy and SciPy. Usage (the first sheet only adds the baskets):
+Needs Pillow, NumPy and SciPy. Usage (the first sheet adds the baskets and the hard-hat diver):
   python tools/extract_wader.py art_source/equipment_sheet_2.png assets/sprites/wader
   python tools/extract_wader.py art_source/equipment_sprite_sheet.png assets/sprites/wader
 """
@@ -21,7 +21,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from extract_props import _foreground, _label_near, _trim  # noqa: E402
 
 # Leg rows: the row's middle and the columns of the four views.
-LEG_ROWS = {"wader": 566, "snorkel": 646, "scuba": 727, "rebreather": 807, "hardhat": 888}
+LEG_ROWS = {"wader": 566, "snorkel": 646, "scuba": 727, "rebreather": 807}
 LEG_VIEWS = {"front": 943, "towards": 1001, "away": 1117, "back": 1223}
 
 # Per sheet, name: a point on the sprite.
@@ -32,7 +32,6 @@ SHEETS = {
         "scuba_front": (58, 606), "scuba_towards": (133, 606), "scuba_away": (335, 606), "scuba_back": (501, 606),
         "rebreather_front": (59, 720), "rebreather_towards": (135, 720), "rebreather_away": (272, 720),
         "rebreather_back": (423, 720),
-        "hardhat_front": (58, 836), "hardhat_towards": (137, 836), "hardhat_away": (280, 836), "hardhat_back": (659, 836),
         "sub_front": (60, 950), "sub_towards": (154, 950), "sub_away": (364, 950), "sub_back": (561, 950),
         # The landing nets seen from above, hoop on the left, handle to the right.
         "net_1": (860, 235), "net_2": (980, 235), "net_3": (1100, 235), "net_4": (1230, 235),
@@ -40,7 +39,10 @@ SHEETS = {
     } | {
         f"legs_{suit}_{view}": (x, y) for suit, y in LEG_ROWS.items() for view, x in LEG_VIEWS.items()
     },
+    # The hard-hat diver is painted much bigger here than on the second sheet.
     "equipment_sprite_sheet.png": {
+        "hardhat_front": (1070, 385), "hardhat_towards": (1168, 387), "hardhat_away": (1364, 384),
+        "hardhat_back": (1472, 384),
         "basket_1": (872, 601), "basket_2": (958, 598), "basket_3": (1054, 591), "basket_4": (1164, 593),
         "basket_5": (1293, 586), "basket_6": (1439, 572),
     },
