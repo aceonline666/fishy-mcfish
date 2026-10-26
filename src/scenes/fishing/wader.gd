@@ -24,10 +24,11 @@ const WATERLINE_Y := -26.0
 const SWIM_WATERLINE_Y := -96.0
 
 const WADER_DIR := "res://assets/sprites/wader/"
-## Walking more sideways than this (share of the screen direction) shows a three-quarter view.
-## The three-quarter views (towards the camera and away from it) are painted looking screen-left;
-## they are mirrored when walking to the right.
+## Walking more sideways than this (share of the screen direction) shows a three-quarter view,
+## and nearly straight across the screen (less up or down than SIDE_VIEW) the profile. These views
+## are painted looking screen-left; they are mirrored when walking to the right.
 const DIAGONAL_VIEW := 0.35
+const SIDE_VIEW := 0.5
 ## Screen height of the figure, from the boots to the top of the head, and the height of the
 ## figure on the sheet: legs and gear are drawn at the same scale.
 const BODY_HEIGHT := 215.0
@@ -36,9 +37,13 @@ const SHEET_FIGURE_HEIGHT := 180.0
 ## rows below the cut fade out, so no seam shows.
 const HIP_CUT := 0.72
 const SEAM_ROWS := 6
-## Height of the eyes (share of the figure) and where the mask's glass is in its sprite.
+## Height of the eyes (share of the figure), how far towards the face they are per view (screen
+## pixels, the views look left), and where the mask's glass is in its sprite per view.
 const EYE_HEIGHT := 0.82
-const MASK_GLASS := Vector2(0.42, 0.3)
+const EYE_SHIFT: Dictionary[String, float] = {"front": 0.0, "towards": -4.0, "side": -9.0}
+const MASK_GLASS: Dictionary[String, Vector2] = {
+	"front": Vector2(0.47, 0.55), "towards": Vector2(0.48, 0.52), "side": Vector2(0.58, 0.59),
+}
 ## Height of the middle of the back, where tanks and the rebreather sit (share of the figure).
 const PACK_HEIGHT := 0.56
 const SUBMARINE_WIDTH := 210.0
@@ -239,7 +244,8 @@ func _draw_body(view: Array, bob: float, gear: int) -> void:
 	var sway := sin(_walk_phase) * 0.02 * stride
 	if gear == 5:
 		# The hard-hat diver is one figure that walks on its own painted legs.
-		var diver := _texture("hardhat_" + view_name)
+		# The hard-hat diver has no profile; it shows its three-quarter view instead.
+		var diver := _texture("hardhat_" + ("towards" if view_name == "side" else view_name))
 		var size := diver.get_size() * (BODY_HEIGHT / diver.get_height())
 		var diver_base := Transform2D(sway, Vector2(mirror, 1.0), 0.0, Vector2.ZERO)
 		WalkDraw.figure(self, diver_base, diver, Rect2(Vector2(-size.x * 0.5, -size.y), size), _walk_phase, stride, bob)
@@ -278,7 +284,8 @@ func _view(screen_facing: Vector2) -> Array:
 	var away := screen_facing.y < 0.0
 	if absf(screen_facing.x) <= DIAGONAL_VIEW:
 		return ["back" if away else "front", 1.0]
-	return ["away" if away else "towards", -1.0 if screen_facing.x > 0.0 else 1.0]
+	var name := "side" if absf(screen_facing.y) < SIDE_VIEW else ("away" if away else "towards")
+	return [name, -1.0 if screen_facing.x > 0.0 else 1.0]
 
 
 ## The legs worn for a gear level: waders, snorkelling trousers with fins, scuba legs with the
@@ -311,8 +318,9 @@ func _draw_mask(view: Array, bob: float) -> void:
 	var view_name: String = view[0]
 	var texture := _texture("snorkel_" + view_name)
 	var size := texture.get_size() * (BODY_HEIGHT / SHEET_FIGURE_HEIGHT)
-	var anchor := MASK_GLASS
-	draw_set_transform(Vector2(0.0, -BODY_HEIGHT * EYE_HEIGHT - bob), 0.0, Vector2(view[1], 1.0))
+	var anchor := MASK_GLASS[view_name]
+	var eyes := Vector2(EYE_SHIFT[view_name] * float(view[1]), -BODY_HEIGHT * EYE_HEIGHT - bob)
+	draw_set_transform(eyes, 0.0, Vector2(view[1], 1.0))
 	draw_texture_rect(texture, Rect2(-anchor * size, size), false)
 	draw_set_transform(Vector2.ZERO)
 

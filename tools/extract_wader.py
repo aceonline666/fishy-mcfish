@@ -6,7 +6,8 @@ scaled up evenly until its boots are as wide as the figure's in the same view (t
 hides under the upper body). Figures and legs are then padded so that the middle of the hips is
 at the horizontal centre of the image: the game puts both at x = 0, so legs line up under the body.
 
-Views: front, towards (three-quarter towards the camera), away (three-quarter from behind), back.
+Views: front, towards (three-quarter towards the camera), side (profile), away (three-quarter
+from behind), back.
 
 Needs Pillow, NumPy and SciPy. Usage (the first sheet adds the baskets and the hard-hat diver):
   python tools/extract_wader.py art_source/equipment_sheet_2.png assets/sprites/wader
@@ -24,17 +25,17 @@ from extract_props import _foreground, _label_near, _trim  # noqa: E402
 
 # Leg rows: the row's middle and the columns of the four views.
 LEG_ROWS = {"wader": 566, "snorkel": 646, "scuba": 727, "rebreather": 807}
-LEG_VIEWS = {"front": 943, "towards": 1001, "away": 1117, "back": 1223}
+LEG_VIEWS = {"front": 943, "towards": 1001, "side": 1061, "away": 1117, "back": 1223}
 
 # Per sheet, name: a point on the sprite.
 SHEETS = {
     "equipment_sheet_2.png": {
-        "body_front": (49, 150), "body_towards": (137, 150), "body_away": (285, 150), "body_back": (368, 150),
-        "snorkel_front": (69, 490), "snorkel_towards": (150, 490),
-        "scuba_front": (58, 606), "scuba_towards": (133, 606), "scuba_away": (335, 606), "scuba_back": (501, 606),
-        "rebreather_front": (59, 720), "rebreather_towards": (135, 720), "rebreather_away": (272, 720),
+        "body_front": (49, 150), "body_towards": (137, 150), "body_side": (212, 150), "body_away": (285, 150), "body_back": (368, 150),
+        "snorkel_front": (69, 490), "snorkel_towards": (150, 490), "snorkel_side": (230, 490),
+        "scuba_front": (58, 606), "scuba_towards": (133, 606), "scuba_side": (200, 606), "scuba_away": (335, 606), "scuba_back": (501, 606),
+        "rebreather_front": (59, 720), "rebreather_towards": (135, 720), "rebreather_side": (205, 720), "rebreather_away": (272, 720),
         "rebreather_back": (423, 720),
-        "sub_front": (60, 950), "sub_towards": (154, 950), "sub_away": (364, 950), "sub_back": (561, 950),
+        "sub_front": (60, 950), "sub_towards": (154, 950), "sub_side": (228, 950), "sub_away": (364, 950), "sub_back": (561, 950),
         # The landing nets seen from above, hoop on the left, handle to the right.
         "net_1": (860, 235), "net_2": (980, 235), "net_3": (1100, 235), "net_4": (1230, 235),
         "net_5": (1345, 235), "net_6": (1465, 235),
