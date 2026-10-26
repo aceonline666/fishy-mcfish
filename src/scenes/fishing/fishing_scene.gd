@@ -114,6 +114,8 @@ const WAKE_INTERVAL_S := 0.22
 const ABYSS_START := 1500.0
 const ABYSS_END := 3300.0
 const ABYSS_TINT := Color(0.01, 0.03, 0.09, 0.8)
+## How strongly the painted seabed shows through the shallow water.
+const FLOOR_STRENGTH := 0.8
 const COMBO_COLOR := Color(1.0, 0.85, 0.2)
 const NEW_SPECIES_COLOR := Color(0.6, 1.0, 0.7)
 const STORED_COLOR := Color(0.6, 0.9, 1.0)
@@ -142,6 +144,8 @@ var _spawn_timer := 0.0
 var _wader_zone: ZoneDef
 var _gate_warned := false
 var _squares: Array[ActionSquare] = []
+## The location's painted seabed tile (assets/sprites/seafloor), or null.
+var _floor_texture: Texture2D
 var _tank_node: TankNode
 var _shop_node: ShopNode
 ## Buyers in the queue, first in line first; served ones are not in it.
@@ -221,6 +225,8 @@ func _ready() -> void:
 		var top := maxf(zone.depth_start, SHORE_Y + WATER_MARGIN)
 		_zone_areas.append(PlayArea.new(Rect2(_spot_rect.position.x, top, _spot_rect.size.x, zone.depth_end - top)))
 		_zone_spawns.append(SpawnTable.new(zone.spawns))
+	var floor_path := "res://assets/sprites/seafloor/%s.png" % location.id
+	_floor_texture = load(floor_path) if ResourceLoader.exists(floor_path) else null
 	_seabed.tropical = location.env == "tropical"
 	_seabed.generate(water_area)
 	if location.id == WRECK_LOCATION:
@@ -463,6 +469,8 @@ func _apply_world_position() -> void:
 	water.set_shader_parameter("sand_color", location.sand_color)
 	water.set_shader_parameter("wet_sand_color", location.sand_color.darkened(0.15))
 	water.set_shader_parameter("dune_color", location.sand_color.darkened(0.1).lerp(Color(0.6, 0.7, 0.35), 0.35))
+	water.set_shader_parameter("floor_texture", _floor_texture)
+	water.set_shader_parameter("floor_strength", FLOOR_STRENGTH if _floor_texture != null else 0.0)
 
 #endregion
 

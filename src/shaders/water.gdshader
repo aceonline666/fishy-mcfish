@@ -23,6 +23,12 @@ uniform vec4 foam_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
 uniform float abyss_start = 1500.0;
 uniform float abyss_end = 3300.0;
 uniform vec4 abyss_color : source_color = vec4(0.01, 0.03, 0.09, 1.0);
+// A painted seabed tile of the location (assets/sprites/seafloor), repeated every floor_tile ground
+// units. It shows through clearly in the shallows and fades into the water colour with depth.
+uniform sampler2D floor_texture : source_color, repeat_enable, filter_linear_mipmap;
+uniform float floor_tile = 560.0;
+// 0 hides the seabed tile (the grid of the plain seabed is shown instead).
+uniform float floor_strength = 0.0;
 
 vec2 to_ground(vec2 screen) {
 	float a = screen.x / 0.70710678;
@@ -53,8 +59,10 @@ void fragment() {
 	} else {
 		float depth = clamp(d / depth_range, 0.0, 1.0);
 		color = mix(shallow_color.rgb, deep_color.rgb, pow(depth, 0.7));
-		// The seabed tiles show through where the water is shallow.
-		color *= 1.0 - grid * 0.12 * (1.0 - depth);
+		// The seabed shows through where the water is shallow.
+		vec3 seabed = texture(floor_texture, g / floor_tile).rgb;
+		color = mix(color, seabed * mix(vec3(1.0), shallow_color.rgb * 1.4, 0.25), floor_strength * pow(1.0 - depth, 1.4));
+		color *= 1.0 - grid * 0.12 * (1.0 - depth) * (1.0 - floor_strength);
 		// One layer of caustics: phones fill the whole screen with this shader every frame.
 		float caustics = caustic_lines(g / 130.0, TIME);
 		color = mix(color, vec3(0.85, 1.0, 1.0), clamp(caustics * 0.22 * (1.0 - depth * 0.6), 0.0, 1.0));
