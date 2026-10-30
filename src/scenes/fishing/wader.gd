@@ -19,9 +19,16 @@ const SLOWDOWN_DISTANCE := 70.0
 const REACH := 95.0
 ## Net radius with the hand net; better nets are a little wider.
 const SCOOP_RADIUS := 55.0
-## Screen height of the water surface at the legs (knee-deep), and at the chest when swimming.
-const WATERLINE_Y := -26.0
-const SWIM_WATERLINE_Y := -96.0
+## Screen height of the water surface on the figure: at the knees in the first zone and at the
+## stomach in the second; from the third zone on the wader is under water. What is below the
+## surface takes on the water's tint for the depth, like the fish (src/shaders/fish_water.gdshader).
+const KNEE_WATERLINE := -45.0
+const STOMACH_WATERLINE := -105.0
+const DRY := 100000.0
+const SUBMERGED := -100000.0
+## Share of the seabed's depth tint on what is under water.
+const UNDERWATER_TINT := 0.55
+const WATER_SHADER := preload("res://src/shaders/fish_water.gdshader")
 
 const WADER_DIR := "res://assets/sprites/wader/"
 ## Walking more sideways than this (share of the screen direction) shows a three-quarter view,
@@ -61,7 +68,6 @@ const OUTLINE := Color(0.07, 0.09, 0.15)
 ## The ring on the water that shows where the net catches.
 const CATCH_RING := Color(1.0, 1.0, 1.0, 0.45)
 const HOOP_FULL := Color(1.0, 0.45, 0.3)
-const WATER_TINT := Color(0.18, 0.55, 0.72, 0.6)
 const SHADOW := Color(0.0, 0.06, 0.14, 0.25)
 const PROGRESS := Color(1.0, 0.85, 0.2)
 
@@ -77,8 +83,6 @@ var full := false
 var carried: Array[FishArt] = []
 ## False on the beach: no water around the legs.
 var in_water := true
-## Colour of the water around the body; darker in the deep sea.
-var water_tint := WATER_TINT
 ## True in deeper zones: the water comes up to the chest.
 var swimming := false
 ## Diving gear bought: the gear for the current zone is worn, up to this level.
@@ -100,6 +104,35 @@ var _dip := 0.0
 var _stack_bounce := 0.0
 ## Loaded sprites by name.
 var _textures: Dictionary[String, Texture2D] = {}
+## Draws what the water does not tint, above the figure.
+var _overlay := Node2D.new()
+
+
+func _ready() -> void:
+	var shader_material := ShaderMaterial.new()
+	shader_material.shader = WATER_SHADER
+	shader_material.set_shader_parameter("strength", UNDERWATER_TINT)
+	material = shader_material
+	_overlay.draw.connect(_draw_overlay)
+	add_child(_overlay)
+
+
+## The water colours of the location, which what is under water takes on with depth.
+func set_water_colors(shallow: Color, deep: Color, clarity: float) -> void:
+	var shader_material := material as ShaderMaterial
+	shader_material.set_shader_parameter("shallow_color", shallow)
+	shader_material.set_shader_parameter("deep_color", deep)
+	shader_material.set_shader_parameter("clarity", clarity)
+
+
+## Screen height (relative to the feet) of the water surface on the figure: DRY on the beach,
+## SUBMERGED from the third zone on.
+func waterline() -> float:
+	if not in_water:
+		return DRY
+	if zone_order <= 1:
+		return KNEE_WATERLINE
+	return STOMACH_WATERLINE if zone_order == 2 else SUBMERGED
 
 
 func walk_to(ground_target: Vector2) -> void:
@@ -180,7 +213,12 @@ func simulate(delta: float, area: PlayArea) -> void:
 		facing = facing.slerp(ground_velocity.normalized(), clampf(10.0 * delta, 0.0, 1.0)).normalized()
 	_walk_phase += delta * ground_velocity.length() / 42.0
 	position = Iso.to_screen(ground_position)
+	var shader_material := material as ShaderMaterial
+	shader_material.set_shader_parameter("waterline", waterline())
+	shader_material.set_shader_parameter("depth", SeaDepth.depth(ground_position.y))
+	shader_material.set_shader_parameter("abyss", SeaDepth.abyss(ground_position.y))
 	queue_redraw()
+	_overlay.queue_redraw()
 
 
 func _hoop_offset() -> Vector2:
@@ -209,16 +247,10 @@ func _draw() -> void:
 	else:
 		_draw_stack(bob)
 	_draw_body(view, bob, gear)
-	if in_water and not swimming:
-		_draw_water_around(WATERLINE_Y, 32.0)
-	if swimming and not in_submarine():
-		_draw_water_around(SWIM_WATERLINE_Y, 46.0)
 	if from_behind:
 		_draw_stack(bob)
 	else:
 		_draw_net(hoop, side, bob)
-	if full:
-		_draw_label(tr("Backpack full!"), stack_top_position() - position + Vector2(0.0, -40.0 - bob))
 
 
 ## The outfit the gear calls for, in the view of the walking direction, its legs swinging in
@@ -253,12 +285,6 @@ func _texture(sprite: String) -> Texture2D:
 	return _textures[sprite]
 
 
-## Tints everything below the water surface and draws a ring where the surface meets the body.
-func _draw_water_around(waterline: float, radius: float) -> void:
-	draw_rect(Rect2(-radius, waterline, radius * 2.0, -waterline + 2.0), water_tint)
-	draw_polyline(Iso.ellipse(Vector2(0.0, waterline), radius), Color(1.0, 1.0, 1.0, 0.7), 3.0, true)
-
-
 ## The stack of caught fish on the back, which sways while walking and leans back against the
 ## walking direction.
 func _draw_stack(bob: float) -> void:
@@ -273,13 +299,10 @@ func _draw_stack(bob: float) -> void:
 
 
 ## The landing net of the net level, its hoop lying on the water at the catch point and its handle
-## reaching up to the hand; the ring shows where the net catches, and the struggle meter fills
-## around it.
+## reaching up to the hand.
 func _draw_net(hoop: Vector2, side: float, bob: float) -> void:
 	var shoulder := Vector2(NET_SHOULDER.x * side, NET_SHOULDER.y - bob)
 	var hand := shoulder + shoulder.direction_to(hoop) * 30.0
-	var ring := Iso.ellipse(hoop, scoop_radius, 32)
-	draw_polyline(ring, HOOP_FULL if full else CATCH_RING, 3.0, true)
 
 	var level := clampi(net_level, 1, NET_TIPS.size())
 	var texture := _texture("net_%d" % level)
@@ -307,17 +330,25 @@ func _draw_net(hoop: Vector2, side: float, bob: float) -> void:
 			points.append(hoop + (u * a + v * corner.y * flip).rotated(turn) * scale_factor)
 		draw_polygon(points, PackedColorArray([Color.WHITE]), uvs, texture)
 
+
+## Drawn on top and untinted by the water: the ring that shows where the net catches, the
+## struggle meter around it and the full-backpack warning.
+func _draw_overlay() -> void:
+	var hoop := _hoop_offset()
+	_overlay.draw_polyline(Iso.ellipse(hoop, scoop_radius, 32), HOOP_FULL if full else CATCH_RING, 3.0, true)
 	if struggle_progress > 0.0:
 		var arc := Iso.ellipse_arc(hoop, scoop_radius + 16.0, -PI * 0.5, -PI * 0.5 + TAU * struggle_progress, 28)
-		draw_polyline(arc, OUTLINE, 12.0, true)
-		draw_polyline(arc, PROGRESS, 7.0, true)
+		_overlay.draw_polyline(arc, OUTLINE, 12.0, true)
+		_overlay.draw_polyline(arc, PROGRESS, 7.0, true)
+	if full:
+		_draw_label(tr("Backpack full!"), stack_top_position() - position + Vector2(0.0, -40.0))
 
 
 func _draw_label(text: String, at: Vector2) -> void:
 	var font := ThemeDB.fallback_font
 	var width := 320.0
 	var origin := at - Vector2(width * 0.5, 0.0)
-	draw_string_outline(font, origin, text, HORIZONTAL_ALIGNMENT_CENTER, width, 34, 10, OUTLINE)
-	draw_string(font, origin, text, HORIZONTAL_ALIGNMENT_CENTER, width, 34, HOOP_FULL)
+	_overlay.draw_string_outline(font, origin, text, HORIZONTAL_ALIGNMENT_CENTER, width, 34, 10, OUTLINE)
+	_overlay.draw_string(font, origin, text, HORIZONTAL_ALIGNMENT_CENTER, width, 34, HOOP_FULL)
 
 #endregion

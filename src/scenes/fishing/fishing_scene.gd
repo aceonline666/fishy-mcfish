@@ -108,8 +108,6 @@ const PAY_SHARE := 0.04
 ## Seconds between banners when several goals are reached at once.
 const GOAL_BANNER_SPACING_S := 2.0
 const WAKE_INTERVAL_S := 0.22
-## The water around the wader darkens in the deep sea (SeaDepth).
-const ABYSS_TINT := Color(0.01, 0.03, 0.09, 0.8)
 ## How strongly the painted seabed shows through the shallow water.
 const FLOOR_STRENGTH := 0.8
 const COMBO_COLOR := Color(1.0, 0.85, 0.2)
@@ -256,7 +254,6 @@ func _process(delta: float) -> void:
 	_update_shake(delta)
 	wader.simulate(delta, walk_area)
 	wader.in_water = wader.ground_position.y > SHORE_Y
-	wader.water_tint = Wader.WATER_TINT.lerp(ABYSS_TINT, SeaDepth.abyss(wader.ground_position.y))
 	wader.speed_multiplier = DataRegistry.gear_levels[GameState.here().gear_level - 1].capacity if wader.in_water else BEACH_SPEED
 	_update_zone()
 	_update_camera(delta)
@@ -475,6 +472,7 @@ func _apply_world_position() -> void:
 	water.set_shader_parameter("floor_strength", FLOOR_STRENGTH if _floor_texture != null else 0.0)
 	water.set_shader_parameter("sand_texture", _sand_texture)
 	_seabed.set_water_colors(location.shallow_color, location.deep_color, FLOOR_STRENGTH)
+	wader.set_water_colors(location.shallow_color, location.deep_color, FLOOR_STRENGTH)
 	water.set_shader_parameter("sand_strength", 1.0 if _sand_texture != null else 0.0)
 
 #endregion
@@ -1065,15 +1063,15 @@ func _announce(at: Vector2, text: String, color: Color, hold_s: float = 0.35) ->
 	Juice.popup_text(_popups, at, text, 52, color, hold_s)
 
 
-## Little rings around the legs while wading (not for the submersible).
+## Little rings around the legs while wading (not under water).
 func _update_wake(delta: float) -> void:
-	if not wader.is_walking() or not wader.in_water or wader.in_submarine():
+	if not wader.is_walking() or wader.waterline() <= Wader.SUBMERGED or wader.waterline() >= Wader.DRY:
 		_wake_timer = 0.0
 		return
 	_wake_timer -= delta
 	if _wake_timer <= 0.0:
 		_wake_timer = WAKE_INTERVAL_S
-		Juice.ripple(_effects, wader.position + Vector2(0.0, Wader.WATERLINE_Y), 60.0)
+		Juice.ripple(_effects, wader.position + Vector2(0.0, wader.waterline()), 60.0)
 		Sfx.play(&"splash", rng.randf_range(1.3, 1.6), -20.0)
 
 
