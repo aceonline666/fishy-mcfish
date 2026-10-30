@@ -12,7 +12,7 @@ uniform float shore_y = 0.0;
 // Ground y beyond which the beach turns into dunes.
 uniform float dunes_y = -760.0;
 uniform float tile_size = 140.0;
-uniform float depth_range = 1600.0;
+uniform float depth_range = 3200.0;
 uniform vec4 sand_color : source_color = vec4(0.95, 0.85, 0.6, 1.0);
 uniform vec4 wet_sand_color : source_color = vec4(0.8, 0.69, 0.47, 1.0);
 uniform vec4 dune_color : source_color = vec4(0.82, 0.78, 0.5, 1.0);
@@ -20,8 +20,8 @@ uniform vec4 shallow_color : source_color = vec4(0.32, 0.78, 0.8, 1.0);
 uniform vec4 deep_color : source_color = vec4(0.07, 0.33, 0.55, 1.0);
 uniform vec4 foam_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
 // Beyond the open water the sea fades into the dark of the deep sea.
-uniform float abyss_start = 1500.0;
-uniform float abyss_end = 3300.0;
+uniform float abyss_start = 3000.0;
+uniform float abyss_end = 6600.0;
 uniform vec4 abyss_color : source_color = vec4(0.01, 0.03, 0.09, 1.0);
 // A painted seabed tile of the location (assets/sprites/seafloor), repeated every floor_tile ground
 // units. It shows through clearly in the shallows and fades into the water colour with depth.

@@ -9,6 +9,7 @@ enum State { SWIMMING, CAUGHT }
 const OUTLINE_COLOR := Color(0.07, 0.09, 0.15)
 const OUTLINE_WIDTH := 3.0
 const SHADOW_COLOR := Color(0.0, 0.06, 0.14, 0.22)
+const WATER_SHADER := preload("res://src/shaders/fish_water.gdshader")
 ## How far below the fish its shadow falls on the seabed, in screen pixels.
 const SHADOW_DROP := 24.0
 const SPARKLE_COLOR := Color(1.0, 0.95, 0.55, 0.9)
@@ -72,6 +73,25 @@ func setup(fish_art: FishArt, home_zone: ZoneDef, home_area: PlayArea, start: Ve
 	_wander = randf_range(-1.0, 1.0)
 
 
+## Fish are seen through the water: they take on half of the seabed's tint for their depth
+## (src/shaders/fish_water.gdshader).
+func set_water_colors(shallow: Color, deep: Color, clarity: float) -> void:
+	var shader_material := ShaderMaterial.new()
+	shader_material.shader = WATER_SHADER
+	shader_material.set_shader_parameter("shallow_color", shallow)
+	shader_material.set_shader_parameter("deep_color", deep)
+	shader_material.set_shader_parameter("clarity", clarity)
+	material = shader_material
+	_update_water_depth()
+
+
+func _update_water_depth() -> void:
+	var shader_material := material as ShaderMaterial
+	if shader_material != null:
+		shader_material.set_shader_parameter("depth", SeaDepth.depth(ground_position.y))
+		shader_material.set_shader_parameter("abyss", SeaDepth.abyss(ground_position.y))
+
+
 func is_held() -> bool:
 	return hold_time > 0.0
 
@@ -116,6 +136,7 @@ func simulate(delta: float, threat: Vector2, threat_radius: float, school: Array
 	var wiggle := HELD_WIGGLE_MULT if is_held() else 1.0
 	_swim_phase += delta * (5.0 + velocity.length() / 30.0) * wiggle
 	if visible:
+		_update_water_depth()
 		queue_redraw()
 
 

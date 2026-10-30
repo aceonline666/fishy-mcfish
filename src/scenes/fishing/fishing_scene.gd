@@ -32,6 +32,8 @@ const SPOT_WIDTH := 2920.0
 const SHORE_Y := 0.0
 ## Fish stay this far out in the water.
 const WATER_MARGIN := 50.0
+## Fish keep this far from the waterline (ground units), clear of the pier.
+const FISH_FREE_STRIP := 300.0
 ## Fish further than this outside the view (world pixels) are hidden and skip schooling.
 const CULL_MARGIN := 200.0
 ## Half the length (along the row) and depth of the pads.
@@ -48,8 +50,8 @@ const NET_SQUARE := Vector2(1870.0, FRONT_ROW_Y)
 const GEAR_SQUARE := Vector2(2280.0, FRONT_ROW_Y)
 ## Sunken ships on the seabed per location: prop sprite (assets/sprites/seabed), ground position.
 const WRECKS: Dictionary[String, Array] = {
-	"north_sea": ["wreck", Vector2(1000.0, 1260.0)],
-	"coral_reef": ["galleon", Vector2(1000.0, 1260.0)],
+	"north_sea": ["wreck", Vector2(1000.0, 2520.0)],
+	"coral_reef": ["galleon", Vector2(1000.0, 2520.0)],
 }
 ## The tank, with its upgrade pad in front.
 const TANK_POSITION := Vector2(845.0, -880.0)
@@ -106,9 +108,7 @@ const PAY_SHARE := 0.04
 ## Seconds between banners when several goals are reached at once.
 const GOAL_BANNER_SPACING_S := 2.0
 const WAKE_INTERVAL_S := 0.22
-## The sea darkens between these depths (ground y), as in the water shader.
-const ABYSS_START := 1500.0
-const ABYSS_END := 3300.0
+## The water around the wader darkens in the deep sea (SeaDepth).
 const ABYSS_TINT := Color(0.01, 0.03, 0.09, 0.8)
 ## How strongly the painted seabed shows through the shallow water.
 const FLOOR_STRENGTH := 0.8
@@ -219,7 +219,7 @@ func _ready() -> void:
 	water_area = PlayArea.new(Rect2(_spot_rect.position.x, SHORE_Y + WATER_MARGIN, _spot_rect.size.x, _spot_rect.end.y - SHORE_Y - WATER_MARGIN))
 	walk_area = PlayArea.new(_spot_rect)
 	for zone in _zones:
-		var top := maxf(zone.depth_start, SHORE_Y + WATER_MARGIN)
+		var top := maxf(zone.depth_start, SHORE_Y + FISH_FREE_STRIP)
 		_zone_areas.append(PlayArea.new(Rect2(_spot_rect.position.x, top, _spot_rect.size.x, zone.depth_end - top)))
 		_zone_spawns.append(SpawnTable.new(zone.spawns))
 	var floor_path := "res://assets/sprites/seafloor/%s.png" % location.id
@@ -256,7 +256,7 @@ func _process(delta: float) -> void:
 	_update_shake(delta)
 	wader.simulate(delta, walk_area)
 	wader.in_water = wader.ground_position.y > SHORE_Y
-	wader.water_tint = Wader.WATER_TINT.lerp(ABYSS_TINT, smoothstep(ABYSS_START, ABYSS_END, wader.ground_position.y))
+	wader.water_tint = Wader.WATER_TINT.lerp(ABYSS_TINT, SeaDepth.abyss(wader.ground_position.y))
 	wader.speed_multiplier = DataRegistry.gear_levels[GameState.here().gear_level - 1].capacity if wader.in_water else BEACH_SPEED
 	_update_zone()
 	_update_camera(delta)
@@ -326,6 +326,7 @@ func spawn_fish(species_id: String, at: Vector2, heading: float) -> SwimmingFish
 func _spawn_fish_in(zone_index: int, species_id: String, at: Vector2, heading: float) -> SwimmingFish:
 	var fish := SwimmingFish.new()
 	fish.setup(_art_for(species_id), _zones[zone_index], _zone_areas[zone_index], at, heading)
+	fish.set_water_colors(location.shallow_color, location.deep_color, FLOOR_STRENGTH)
 	_entities.add_child(fish)
 	_fish.append(fish)
 	return fish
@@ -461,6 +462,9 @@ func _apply_world_position() -> void:
 	water.set_shader_parameter("world_origin", _world.position)
 	water.set_shader_parameter("zoom", ZOOM)
 	water.set_shader_parameter("shore_y", SHORE_Y)
+	water.set_shader_parameter("depth_range", SeaDepth.DEPTH_RANGE)
+	water.set_shader_parameter("abyss_start", SeaDepth.ABYSS_START)
+	water.set_shader_parameter("abyss_end", SeaDepth.ABYSS_END)
 	water.set_shader_parameter("dunes_y", _spot_rect.position.y)
 	water.set_shader_parameter("shallow_color", location.shallow_color)
 	water.set_shader_parameter("deep_color", location.deep_color)

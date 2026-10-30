@@ -27,12 +27,8 @@ const WRECK_WIDTH := 460.0
 const PROP_SPACING := 150.0
 ## Share of the sprite height below the prop's ground point (the sand patch it stands on).
 const PROP_BASE := 0.12
-## Props fade into the water colour like the seabed (src/shaders/seabed_props.gdshader): over
-## this depth from the waterline, and into the deep sea between these depths (ground y, as in
-## the water shader).
-const DEPTH_RANGE := 1600.0
-const ABYSS_START := 1500.0
-const ABYSS_END := 3300.0
+## Props fade into the water colour with depth like the seabed (SeaDepth,
+## src/shaders/seabed_props.gdshader).
 const PROPS_SHADER := preload("res://src/shaders/seabed_props.gdshader")
 
 ## Set before generate(): "tropical" for corals, anything else for temperate props.
@@ -97,7 +93,7 @@ func _make_prop(prop_name: String, ground: Vector2, width: float, phase: float) 
 	prop.sways = SWAY.has(prop_name)
 	prop.phase = phase
 	# The shader reads the depth from the colour (the waterline is at ground y 0).
-	prop.tint = Color(clampf(ground.y / DEPTH_RANGE, 0.0, 1.0), smoothstep(ABYSS_START, ABYSS_END, ground.y), 0.0)
+	prop.tint = Color(SeaDepth.depth(ground.y), SeaDepth.abyss(ground.y), 0.0)
 	return prop
 
 
