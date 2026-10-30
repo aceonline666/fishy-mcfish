@@ -108,6 +108,29 @@ net drag through the real input path, and saves PNGs:
 & "C:\Program Files\Godot\Godot_v4.7.2-stable_win64_console.exe" --path . -s res://tools/screenshot.gd -- --out=C:/temp/shots --drag
 ```
 
+## Publishing to Google Play
+
+The **Android Play Store** export preset builds a signed `.aab` (Gradle build, arm64) into
+`build/fishy-mcfish.aab`. The **Android** preset stays the quick debug APK for the phone.
+
+One-time setup:
+
+1. Install in the Android SDK (Android Studio's SDK Manager, or `sdkmanager`): `platform-tools`,
+   `build-tools;35.0.1`, `platforms;android-35` and `cmdline-tools;latest`. Gradle downloads itself.
+2. Create the upload key and **back it up outside the repo** (losing it means a Play support case):
+   `keytool -genkey -v -keystore fishy-release.keystore -alias fishy -keyalg RSA -keysize 2048 -validity 10000`
+3. Give Godot the key through environment variables, so no password lands in `export_presets.cfg`:
+   `GODOT_ANDROID_KEYSTORE_RELEASE_PATH`, `GODOT_ANDROID_KEYSTORE_RELEASE_USER` (the alias) and
+   `GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD`.
+
+Each release: raise `version/code` in the Play Store preset (Play rejects a repeated code) and
+`config/version` in `project.godot`, then export:
+
+    & "C:\Program Files\Godot\Godot_v4.7.2-stable_win64.exe" --headless --path . --export-release "Android Play Store"
+
+The `android/` build template is generated, git-ignored, and was installed with Project > Install
+Android Build Template.
+
 ## Tests
 
 Unit tests use [GUT](https://github.com/bitwes/Gut) 9.7.1, vendored in `addons/gut`.

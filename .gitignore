@@ -10,3 +10,7 @@
 
 # Python bytecode from the art tools
 __pycache__/
+
+# Signing keys and credentials
+*.keystore
+*.jks

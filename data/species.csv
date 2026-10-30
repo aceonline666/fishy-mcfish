@@ -63,7 +63,7 @@ opah,Opah,Lampris guttatus,rare,12000,150,0.8,300,2500,3,squid,temperate,1500,#c
 nomuras_jellyfish,Nomura's jellyfish,Nemopilema nomurai,uncommon,5000,200,0.9,300,2500,2,plankton,temperate,900,#d9c49a,One of the largest jellyfish: its bell can be two metres wide and it weighs as much as a man.
 japanese_spider_crab,Japanese spider crab,Macrocheira kaempferi,rare,30000,370,0.6,400,2500,3,shellfish,temperate,1800,#e0703a,The largest crab in the world: its legs can span almost four metres from tip to tip.
 giant_pacific_octopus,Giant Pacific octopus,Enteroctopus dofleini,epic,80000,400,0.6,600,2500,4,crabs,temperate,2400,#c0503a,The largest octopus in the world; it can recognise people and open jars to get food.
-giant_isopod,Giant isopod,Bathynomus doederleinii,uncommon,40000,30,0.5,10,100,0.5,marine_snow,temperate,1800,#d9cbb0,A woodlouse the size of a cat that can go for years without eating.
+giant_isopod,Giant isopod,Bathynomus giganteus,uncommon,40000,30,0.5,10,100,0.5,marine_snow,temperate,1800,#d9cbb0,A woodlouse the size of a cat that can go for years without eating.
 frilled_shark,Frilled shark,Chlamydoselachus anguineus,epic,300000,200,0.16,300,2500,3,squid,temperate,3600,#6a5a52,An eel-like living fossil with 300 needle teeth; it has barely changed in 80 million years.
 goblin_shark,Goblin shark,Mitsukurina owstoni,legendary,1500000,380,0.3,2000,8000,6,fish,temperate,5400,#e0b0b0,It shoots its jaws forward out of its mouth to snap up prey.
 mariana_snailfish,Mariana snailfish,Pseudoliparis swirei,common,60000,25,0.35,6,60,0.4,shrimp,temperate,1800,#f0e0e8,"Snailfish live deeper than any other fish, more than 8,000 metres down in the trenches."
