@@ -2,7 +2,8 @@
 the beach sand (assets/sprites/beach).
 
 A location with its own painted tiles (art_source/seafloor_<id>.png, art_source/beach_<id>.png,
-already seamless and seen from above) gets those, scaled to TILE_SIZE. For the other seabeds:
+already seamless and seen from above) gets those, scaled to TILE_SIZE; a few borrow another
+location's beach (BEACH_BORROWS). For the other seabeds:
 
 Each location's strip on the sheet looks forward along the seabed. The near part of its floor is
 laid flat (inverse perspective: ground depth goes with 1 / (y - horizon)), then cross-faded with
@@ -22,6 +23,8 @@ SHEET = "art_source/seafloor_sheet.png"
 OUT = "assets/sprites/seafloor/"
 BEACH_OUT = "assets/sprites/beach/"
 TILE_SIZE = 1024
+# Locations that borrow another location's beach until they have their own.
+BEACH_BORROWS = {"coral_reef": "north_sea"}
 # location id: left and right edge of its strip, the horizon row, and the farthest row used.
 STRIPS = {
     "north_sea": (8, 296, 300.0, 600.0),
@@ -40,6 +43,8 @@ def main() -> None:
     for location in STRIPS:
         for kind, out in (("seafloor", OUT), ("beach", BEACH_OUT)):
             source = Path(f"art_source/{kind}_{location}.png")
+            if kind == "beach" and not source.exists() and location in BEACH_BORROWS:
+                source = Path(f"art_source/beach_{BEACH_BORROWS[location]}.png")
             if source.exists():
                 tile = Image.open(source).convert("RGB").resize((TILE_SIZE, TILE_SIZE), Image.LANCZOS)
                 Path(out).mkdir(parents=True, exist_ok=True)

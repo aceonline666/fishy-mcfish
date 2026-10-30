@@ -46,8 +46,11 @@ const BACKPACK_SQUARE := Vector2(640.0, FRONT_ROW_Y)
 const STORE_SQUARE := Vector2(1050.0, FRONT_ROW_Y)
 const NET_SQUARE := Vector2(1870.0, FRONT_ROW_Y)
 const GEAR_SQUARE := Vector2(2280.0, FRONT_ROW_Y)
-const WRECK_LOCATION := "north_sea"
-const WRECK_POSITION := Vector2(1000.0, 1260.0)
+## Sunken ships on the seabed per location: prop sprite (assets/sprites/seabed), ground position.
+const WRECKS: Dictionary[String, Array] = {
+	"north_sea": ["wreck", Vector2(1000.0, 1260.0)],
+	"coral_reef": ["galleon", Vector2(1000.0, 1260.0)],
+}
 ## The tank, with its upgrade pad in front.
 const TANK_POSITION := Vector2(845.0, -880.0)
 const TANK_SQUARE := Vector2(845.0, -560.0)
@@ -223,10 +226,10 @@ func _ready() -> void:
 	_floor_texture = load(floor_path) if ResourceLoader.exists(floor_path) else null
 	var sand_path := "res://assets/sprites/beach/%s.png" % location.id
 	_sand_texture = load(sand_path) if ResourceLoader.exists(sand_path) else null
-	_seabed.tropical = location.env == "tropical"
+	_seabed.water = location.env
 	_seabed.generate(water_area)
-	if location.id == WRECK_LOCATION:
-		_seabed.add_wreck(WRECK_POSITION)
+	if WRECKS.has(location.id):
+		_seabed.add_wreck(WRECKS[location.id][0], WRECKS[location.id][1])
 	EventBus.fish_sold_by_seller.connect(_on_fish_sold_by_seller)
 	_build_squares()
 	_place_decor()
@@ -467,6 +470,7 @@ func _apply_world_position() -> void:
 	water.set_shader_parameter("floor_texture", _floor_texture)
 	water.set_shader_parameter("floor_strength", FLOOR_STRENGTH if _floor_texture != null else 0.0)
 	water.set_shader_parameter("sand_texture", _sand_texture)
+	_seabed.set_water_colors(location.shallow_color, location.deep_color, FLOOR_STRENGTH)
 	water.set_shader_parameter("sand_strength", 1.0 if _sand_texture != null else 0.0)
 
 #endregion
