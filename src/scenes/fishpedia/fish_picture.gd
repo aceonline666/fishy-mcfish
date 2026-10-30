@@ -23,4 +23,4 @@ func _draw() -> void:
 	var relative := clampf(CatchRules.body_length(art.species) / 240.0, 0.55, 1.0)
 	var length := minf(size.x * fill * relative, size.y * 2.2)
 	var view := Transform2D(Vector2(1.0, 0.0), Vector2(0.0, 1.0), size * 0.5)
-	art.draw(self, view, length, 1.0, Color.WHITE if known else SILHOUETTE)
+	art.draw(self, view, length, 0.0, 0.0, Color.WHITE if known else SILHOUETTE)

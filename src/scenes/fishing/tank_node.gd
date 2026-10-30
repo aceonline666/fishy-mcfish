@@ -103,4 +103,4 @@ func _draw_fish(rect: Rect2) -> void:
 		var at := Vector2(x, top + depth_range * fmod(i * 0.29 + 0.1, 1.0))
 		var length := clampf(CatchRules.body_length(art.species) * 0.5, 26.0, max_length) * (0.65 + 0.35 * fish.growth)
 		var view := Transform2D(Vector2(direction, 0.0), Vector2(0.0, 1.0), at)
-		art.draw(self, view, length, 0.8 + 0.2 * sin(_time * 8.0 + i), GLASS_TINT)
+		art.draw(self, view, length, _time * 8.0 + i, 0.8, GLASS_TINT)

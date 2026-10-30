@@ -162,7 +162,7 @@ func _draw() -> void:
 	var to_screen := _view_transform()
 	draw_colored_polygon(Iso.ellipse(Vector2(0.0, SHADOW_DROP), body_length * 0.36, 16), SHADOW_COLOR)
 	if art.has_sprite():
-		art.draw(self, to_screen, body_length, 0.75 + 0.25 * sin(_swim_phase))
+		art.draw(self, to_screen, body_length, _swim_phase, 1.0)
 	else:
 		_draw_shapes(to_screen)
 	if species.rarity >= SpeciesDef.Rarity.UNCOMMON:
