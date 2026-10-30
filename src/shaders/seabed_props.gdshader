@@ -10,11 +10,18 @@ uniform vec4 abyss_color : source_color = vec4(0.01, 0.03, 0.09, 1.0);
 // As the seabed's floor_strength: how clearly things show through shallow water.
 uniform float clarity = 0.8;
 
+// The vertex colour, before the fragment's COLOR is multiplied by the texture.
+varying vec4 depth_data;
+
+void vertex() {
+	depth_data = COLOR;
+}
+
 void fragment() {
 	vec4 tex = texture(TEXTURE, UV);
-	float depth = COLOR.r;
+	float depth = depth_data.r;
 	vec3 water = mix(shallow_color.rgb, deep_color.rgb, pow(depth, 0.7));
 	vec3 color = mix(water, tex.rgb * mix(vec3(1.0), shallow_color.rgb * 1.4, 0.25), clarity * pow(1.0 - depth, 1.4));
-	color = mix(color, abyss_color.rgb, COLOR.g * 0.92);
+	color = mix(color, abyss_color.rgb, depth_data.g * 0.92);
 	COLOR = vec4(color, tex.a);
 }

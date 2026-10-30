@@ -21,7 +21,8 @@ void vertex() {
 }
 
 void fragment() {
-	vec4 base = texture(TEXTURE, UV) * COLOR;
+	// COLOR already holds the texture times the vertex colour.
+	vec4 base = COLOR;
 	vec3 water = mix(shallow_color.rgb, deep_color.rgb, pow(depth, 0.7));
 	vec3 seen = mix(water, base.rgb * mix(vec3(1.0), shallow_color.rgb * 1.4, 0.25), clarity * pow(1.0 - depth, 1.4));
 	seen = mix(seen, abyss_color.rgb, abyss * 0.92);

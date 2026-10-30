@@ -19,11 +19,12 @@ const SLOWDOWN_DISTANCE := 70.0
 const REACH := 95.0
 ## Net radius with the hand net; better nets are a little wider.
 const SCOOP_RADIUS := 55.0
-## Screen height of the water surface on the figure: at the knees in the first zone and at the
-## stomach in the second; from the third zone on the wader is under water. What is below the
-## surface takes on the water's tint for the depth, like the fish (src/shaders/fish_water.gdshader).
-const KNEE_WATERLINE := -45.0
-const STOMACH_WATERLINE := -105.0
+## The water rises on the figure with the distance from the shore (the waterline is at ground
+## y 0): up to the knees in the middle of the first zone, the hips early in the second, and
+## over the head where the third zone begins. What is below the surface takes on the water's
+## tint for the depth, like the fish (src/shaders/fish_water.gdshader).
+const SUBMERGE_DEPTH := 1900.0
+const FIGURE_HEIGHT := 216.0
 const DRY := 100000.0
 const SUBMERGED := -100000.0
 ## Share of the seabed's depth tint on what is under water.
@@ -126,13 +127,12 @@ func set_water_colors(shallow: Color, deep: Color, clarity: float) -> void:
 
 
 ## Screen height (relative to the feet) of the water surface on the figure: DRY on the beach,
-## SUBMERGED from the third zone on.
+## SUBMERGED once the water is deeper than the figure.
 func waterline() -> float:
 	if not in_water:
 		return DRY
-	if zone_order <= 1:
-		return KNEE_WATERLINE
-	return STOMACH_WATERLINE if zone_order == 2 else SUBMERGED
+	var share := ground_position.y / SUBMERGE_DEPTH
+	return SUBMERGED if share >= 1.0 else -FIGURE_HEIGHT * maxf(share, 0.0)
 
 
 func walk_to(ground_target: Vector2) -> void:
