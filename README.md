@@ -86,7 +86,9 @@ submersible) in five views, whose legs swing in step while walking. The landing 
 equipment sheet) and the baskets on the backpack pad (first equipment sheet) are cut by
 `tools/extract_wader.py`. The ground tiles come from `tools/make_seafloor.py`: a location's own
 seamless tiles `art_source/seafloor_<id>.png` (seabed under the water) and
-`art_source/beach_<id>.png` (beach sand), otherwise a seabed made from the seafloor sheet.
+`art_source/beach_<id>.png` (beach sand), otherwise a seabed made from the seafloor sheet. The props on temperate seabeds (rocks, kelp,
+mussels, starfish, anemones, sunken boats, barrels and the North Sea wreck) are cut from
+`art_source/seabed_props.png` by `tools/extract_seabed.py`.
 `art_source/` holds the source sheets (generated images) and is not imported by Godot. The boot
 splash (`assets/ui/splash.png`: `art_source/splash.png` with the title in its sky) and the menu
 icons (`icon_coins/map/trophy/book/cog.png`, cut from the menu sheet) are made by

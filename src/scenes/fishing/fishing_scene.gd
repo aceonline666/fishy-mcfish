@@ -1057,9 +1057,9 @@ func _announce(at: Vector2, text: String, color: Color, hold_s: float = 0.35) ->
 	Juice.popup_text(_popups, at, text, 52, color, hold_s)
 
 
-## Little rings around the legs while wading.
+## Little rings around the legs while wading (not for the submersible).
 func _update_wake(delta: float) -> void:
-	if not wader.is_walking() or not wader.in_water:
+	if not wader.is_walking() or not wader.in_water or wader.in_submarine():
 		_wake_timer = 0.0
 		return
 	_wake_timer -= delta

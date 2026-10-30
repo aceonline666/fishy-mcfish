@@ -113,6 +113,17 @@ func stop() -> void:
 	ground_velocity *= STOP_KEEP_SPEED
 
 
+## True when the wader travels in the submersible: no steps, no ripples.
+func in_submarine() -> bool:
+	return _gear() >= OUTFITS.size()
+
+
+## The gear worn: each zone calls for its gear (snorkel in the second, scuba in the third, and so
+## on), up to the gear bought.
+func _gear() -> int:
+	return mini(gear_level, zone_order) if swimming else 1
+
+
 func is_walking() -> bool:
 	return ground_velocity.length() > 20.0
 
@@ -181,10 +192,12 @@ func _hoop_offset() -> Vector2:
 func _draw() -> void:
 	var screen_facing := Iso.to_screen(facing)
 	var side := -1.0 if screen_facing.x < 0.0 else 1.0
-	var bob := absf(sin(_walk_phase)) * 5.0 if is_walking() else sin(_time * 2.0) * 1.5
+	# The submersible floats gently instead of stepping.
+	var bob := sin(_time * 2.0) * (4.0 if in_submarine() else 1.5)
+	if is_walking() and not in_submarine():
+		bob = absf(sin(_walk_phase)) * 5.0
 	var hoop := _hoop_offset()
-	# Each zone calls for its gear: snorkel in the second, scuba in the third, and so on.
-	var gear := mini(gear_level, zone_order) if swimming else 1
+	var gear := _gear()
 	var view := _view(screen_facing.normalized())
 	var view_name: String = view[0]
 	var from_behind := view_name == "back" or view_name == "away"
@@ -198,7 +211,7 @@ func _draw() -> void:
 	_draw_body(view, bob, gear)
 	if in_water and not swimming:
 		_draw_water_around(WATERLINE_Y, 32.0)
-	if swimming:
+	if swimming and not in_submarine():
 		_draw_water_around(SWIM_WATERLINE_Y, 46.0)
 	if from_behind:
 		_draw_stack(bob)
