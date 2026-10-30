@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdxikf54dmt8m"
-path="res://.godot/imported/legs_wader_away.png-0dbae73d7181f54968793f9f1bd58420.ctex"
+uid="uid://dhbl1yp0c21of"
+path="res://.godot/imported/hardhat_side.png-42397f6318ecc5306a07e91a20d30c66.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/wader/legs_wader_away.png"
-dest_files=["res://.godot/imported/legs_wader_away.png-0dbae73d7181f54968793f9f1bd58420.ctex"]
+source_file="res://assets/sprites/wader/hardhat_side.png"
+dest_files=["res://.godot/imported/hardhat_side.png-42397f6318ecc5306a07e91a20d30c66.ctex"]
 
 [params]
 

@@ -7,3 +7,6 @@
 
 # Save files written next to the project by tools
 *.tmp
+
+# Python bytecode from the art tools
+__pycache__/

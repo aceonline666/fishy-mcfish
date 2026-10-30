@@ -80,15 +80,16 @@ beach decoration are painted sprites in `assets/sprites/props/`, cut from the co
 `tools/extract_props.py` (its background checkerboard is removed by flood fill). The gear sheet
 adds the drones, the buyers carrying their fish, the pictures of the
 nets, diving gear, tanks, shops and drones on the upgrade pads, and the location pictures of the
-World map. The wader and his equipment come from the second equipment sheet, cut by
-`tools/extract_wader.py`: the figure in four views standing on the painted legs of each outfit
-(waders, snorkel, scuba, rebreather, hard-hat suit), which swing in step while walking, the
-diving mask, tank packs, hard-hat diver, submersible and the landing nets; the baskets come
-from the first equipment sheet. The painted seabed under the water is made from the seafloor
+World map. The wader comes from the two diver sheets, cut by `tools/extract_diver.py`: one
+sprite per gear level (waders with basket, snorkel, scuba, rebreather, hard-hat suit,
+submersible) in five views, whose legs swing in step while walking. The landing nets (second
+equipment sheet) and the baskets on the backpack pad (first equipment sheet) are cut by
+`tools/extract_wader.py`. The painted seabed under the water is made from the seafloor
 sheet by `tools/make_seafloor.py`.
 `art_source/` holds the source sheets (generated images) and is not imported by Godot. The boot
-splash and the menu icons (`assets/ui/splash.png`, `icon_coins/map/trophy/book/cog.png`) are cut
-from the menu sheet by `tools/make_menu_art.py`; the logo and the app icons (`logo.png`,
+splash (`assets/ui/splash.png`: `art_source/splash.png` with the title in its sky) and the menu
+icons (`icon_coins/map/trophy/book/cog.png`, cut from the menu sheet) are made by
+`tools/make_menu_art.py`; the logo and the app icons (`logo.png`,
 `icon.png`, `icon_foreground/background.png`) are rendered by `tools/make_logo.py` from the
 painted sprites and the Luckiest Guy font (Apache 2.0, in `art_source/fonts/`).
 

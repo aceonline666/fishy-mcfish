@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://p7nc4xo76b6i"
-path="res://.godot/imported/legs_rebreather_towards.png-fc72d3664d37bda5c042d00c9526bcbd.ctex"
+uid="uid://dp8og2vf4xfsc"
+path="res://.godot/imported/snorkel_back.png-454eb4f47f0a0c30761c4da3b58a06c9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/wader/legs_rebreather_towards.png"
-dest_files=["res://.godot/imported/legs_rebreather_towards.png-fc72d3664d37bda5c042d00c9526bcbd.ctex"]
+source_file="res://assets/sprites/wader/snorkel_back.png"
+dest_files=["res://.godot/imported/snorkel_back.png-454eb4f47f0a0c30761c4da3b58a06c9.ctex"]
 
 [params]
 

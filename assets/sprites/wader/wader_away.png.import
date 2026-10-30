@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bkdo5wysk88bq"
-path="res://.godot/imported/body_back.png-db5246b9cce83b362bae6896680f807d.ctex"
+uid="uid://c644i360228gk"
+path="res://.godot/imported/wader_away.png-ecc363760b27a42660e49e588fac2eb9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/wader/body_back.png"
-dest_files=["res://.godot/imported/body_back.png-db5246b9cce83b362bae6896680f807d.ctex"]
+source_file="res://assets/sprites/wader/wader_away.png"
+dest_files=["res://.godot/imported/wader_away.png-ecc363760b27a42660e49e588fac2eb9.ctex"]
 
 [params]
 

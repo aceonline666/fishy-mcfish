@@ -368,7 +368,6 @@ func _rebuild_from_state() -> void:
 	_tank_node.setup(site.tank, TANK_POSITION, _art_for)
 	_entities.add_child(_tank_node)
 	live_well.capacity = Aquarium.backpack_capacity(site)
-	wader.backpack_level = site.backpack_level
 	wader.scoop_radius = Wader.SCOOP_RADIUS * (1.0 + NET_RADIUS_STEP * (site.net_level - 1))
 	wader.net_level = site.net_level
 	_sync_shops()
@@ -648,7 +647,8 @@ func _refresh_squares() -> void:
 	_set_purchase(shop, "upgrade_shop", tr("Bigger shop"), Selling.shop_upgrade_cost(site), _prop("shop_%d" % (site.shop_level + 1)))
 	shop.subtitle = tr("+1 seller")
 	var backpack := square_by_id("upgrade_backpack")
-	_set_purchase(backpack, "upgrade_backpack", tr("Bigger backpack"), Aquarium.backpack_upgrade_cost(site))
+	_set_purchase(backpack, "upgrade_backpack", tr("Bigger backpack"), Aquarium.backpack_upgrade_cost(site),
+			_wader_prop("basket_%d" % (site.backpack_level + 1)))
 	var next_net := DataRegistry.net_levels[mini(site.net_level, DataRegistry.net_levels.size() - 1)]
 	_set_purchase(square_by_id("upgrade_net"), "upgrade_net", tr(next_net.name), Aquarium.net_upgrade_cost(site),
 			_wader_prop("net_%d" % (site.net_level + 1)))
@@ -852,7 +852,6 @@ func _complete_purchase(target: ActionSquare) -> void:
 	elif target.id == "upgrade_backpack":
 		GameState.upgrade_backpack()
 		live_well.capacity = Aquarium.backpack_capacity(site)
-		wader.backpack_level = site.backpack_level
 		message = tr("Bigger backpack!\n%d fish") % live_well.capacity
 	elif target.id == "buy_drone":
 		GameState.buy_drone()

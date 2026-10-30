@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bd1gfxp310keu"
-path="res://.godot/imported/body_towards.png-f82863ab8ffd642f4c72baafd7b19b8b.ctex"
+uid="uid://claj3k5j6bxlw"
+path="res://.godot/imported/snorkel_away.png-ce0cc2fbee94507ba12c8009256e0809.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/wader/body_towards.png"
-dest_files=["res://.godot/imported/body_towards.png-f82863ab8ffd642f4c72baafd7b19b8b.ctex"]
+source_file="res://assets/sprites/wader/snorkel_away.png"
+dest_files=["res://.godot/imported/snorkel_away.png-ce0cc2fbee94507ba12c8009256e0809.ctex"]
 
 [params]
 

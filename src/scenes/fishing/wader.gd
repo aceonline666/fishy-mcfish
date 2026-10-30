@@ -3,10 +3,10 @@ extends Node2D
 ## The player character at shallow spots. Wades towards the finger, scoops up fish that come
 ## within reach of the hand net and carries them as a stack in a backpack basket. Game logic
 ## uses `ground_position`; the node sits at the feet on screen. Drawn from painted sprites in
-## assets/sprites/wader (tools/extract_wader.py): the figure in the view of its walking direction,
-## standing on the painted legs of its outfit, which swing in step while walking; the basket of
-## its backpack level, the landing net of its net level, and in deeper water the gear that zone
-## calls for: snorkel mask, scuba gear, rebreather, hard-hat suit, submersible.
+## assets/sprites/wader: the figure in the outfit the zone calls for (waders with the basket,
+## snorkel, scuba gear, rebreather, hard-hat suit, submersible; tools/extract_diver.py) in the
+## view of its walking direction, its legs swinging in step while walking, with the catch stacked
+## on its back and the landing net of its net level (tools/extract_wader.py).
 
 const WALK_SPEED := 450.0
 const ACCELERATION := 2400.0
@@ -29,27 +29,12 @@ const WADER_DIR := "res://assets/sprites/wader/"
 ## are painted looking screen-left; they are mirrored when walking to the right.
 const DIAGONAL_VIEW := 0.35
 const SIDE_VIEW := 0.5
-## Screen height of the figure, from the boots to the top of the head, and the height of the
-## figure on the sheet: legs and gear are drawn at the same scale.
-const BODY_HEIGHT := 215.0
-const SHEET_FIGURE_HEIGHT := 180.0
-## Share of the figure's height above which the upper body is drawn over the outfit's legs. A few
-## rows below the cut fade out, so no seam shows.
-const HIP_CUT := 0.72
-const SEAM_ROWS := 6
-## Height of the eyes (share of the figure), how far towards the face they are per view (screen
-## pixels, the views look left), and where the mask's glass is in its sprite per view.
-const EYE_HEIGHT := 0.82
-const EYE_SHIFT: Dictionary[String, float] = {"front": 0.0, "towards": -4.0, "side": -9.0}
-const MASK_GLASS: Dictionary[String, Vector2] = {
-	"front": Vector2(0.47, 0.55), "towards": Vector2(0.48, 0.52), "side": Vector2(0.58, 0.59),
-}
-## Height of the middle of the back, where tanks and the rebreather sit (share of the figure).
-const PACK_HEIGHT := 0.56
-const SUBMARINE_WIDTH := 210.0
-## Baskets by size; the backpack level picks one. Their tops sit at BASKET_TOP.
-const BASKET_WIDTHS: Array[float] = [54.0, 60.0, 66.0, 74.0, 84.0, 96.0]
-const BASKET_TOP := -140.0
+## Share of the figures' height (from the top) at the hips, where the legs swing from.
+const FIGURE_HIP := 0.622
+## Outfits by gear level.
+const OUTFITS: Array[String] = ["wader", "snorkel", "scuba", "rebreather", "hardhat", "sub"]
+## The submersible floats this high above the ground.
+const SUB_FLOAT := 40.0
 ## The catch stack rises from the basket rim.
 const STACK_BASE := Vector2(0.0, -136.0)
 const STACK_STEP := 12.0
@@ -102,8 +87,6 @@ var gear_level := 1
 var zone_order := 0
 ## Index + 1 into the net levels; picks the landing net.
 var net_level := 1
-## Index + 1 into the backpack levels; picks the basket.
-var backpack_level := 1
 ## Current net radius (grows with the net level).
 var scoop_radius := SCOOP_RADIUS
 ## Walking speed factor: faster on the sand than in the water.
@@ -207,76 +190,39 @@ func _draw() -> void:
 	var from_behind := view_name == "back" or view_name == "away"
 
 	draw_colored_polygon(Iso.ellipse(Vector2.ZERO, 30.0), SHADOW)
-	# Facing the camera, the basket is hidden behind the body and the net is in front.
+	# Facing the camera, the catch on the back is hidden behind the body and the net is in front.
 	if from_behind:
 		_draw_net(hoop, side, bob)
 	else:
-		_draw_backpack(bob)
+		_draw_stack(bob)
 	_draw_body(view, bob, gear)
 	if in_water and not swimming:
 		_draw_water_around(WATERLINE_Y, 32.0)
-	if gear >= 2 and gear <= 4 and not from_behind:
-		_draw_mask(view, bob)
 	if swimming:
 		_draw_water_around(SWIM_WATERLINE_Y, 46.0)
 	if from_behind:
-		_draw_backpack(bob)
+		_draw_stack(bob)
 	else:
 		_draw_net(hoop, side, bob)
 	if full:
 		_draw_label(tr("Backpack full!"), stack_top_position() - position + Vector2(0.0, -40.0 - bob))
 
 
-## The outfit the gear calls for, in the view of the walking direction: the painted legs of the
-## outfit, swinging in step while walking, with the upper body over them and, for scuba gear and
-## the rebreather, the pack on the torso. The submersible just floats.
+## The outfit the gear calls for, in the view of the walking direction, its legs swinging in
+## step while walking. The submersible just floats.
 func _draw_body(view: Array, bob: float, gear: int) -> void:
-	var view_name: String = view[0]
-	var mirror: float = view[1]
-	if gear >= 6:
-		var sub := _texture("sub_" + view_name)
-		var sub_size := sub.get_size() * (SUBMARINE_WIDTH / sub.get_width())
-		draw_set_transform(Vector2(0.0, -bob - 40.0), 0.0, Vector2(mirror, 1.0))
-		draw_texture_rect(sub, Rect2(Vector2(-sub_size.x * 0.5, -sub_size.y), sub_size), false)
+	var outfit := OUTFITS[clampi(gear, 1, OUTFITS.size()) - 1]
+	var texture := _texture("%s_%s" % [outfit, view[0]])
+	var size := texture.get_size()
+	if outfit == "sub":
+		draw_set_transform(Vector2(0.0, -bob - SUB_FLOAT), 0.0, Vector2(view[1], 1.0))
+		draw_texture_rect(texture, Rect2(Vector2(-size.x * 0.5, -size.y), size), false)
 		draw_set_transform(Vector2.ZERO)
 		return
 	var stride := clampf(ground_velocity.length() / WALK_SPEED, 0.0, 1.0)
-	var sway := sin(_walk_phase) * 0.02 * stride
-	if gear == 5:
-		# The hard-hat diver is one figure that walks on its own painted legs.
-		# The hard-hat diver has no profile; it shows its three-quarter view instead.
-		var diver := _texture("hardhat_" + ("towards" if view_name == "side" else view_name))
-		var size := diver.get_size() * (BODY_HEIGHT / diver.get_height())
-		var diver_base := Transform2D(sway, Vector2(mirror, 1.0), 0.0, Vector2.ZERO)
-		WalkDraw.figure(self, diver_base, diver, Rect2(Vector2(-size.x * 0.5, -size.y), size), _walk_phase, stride, bob)
-		draw_set_transform(Vector2.ZERO)
-		return
-	var base := Transform2D(sway, Vector2(mirror, 1.0), 0.0, Vector2.ZERO)
-	var sheet_scale := BODY_HEIGHT / SHEET_FIGURE_HEIGHT
-	var legs := _texture("legs_%s_%s" % [_suit(gear), view_name])
-	var legs_size := legs.get_size() * sheet_scale
-	WalkDraw.figure(self, base, legs, Rect2(Vector2(-legs_size.x * 0.5, -legs_size.y), legs_size), _walk_phase, stride, 0.0, 0.0)
-	var upper := _texture("body_" + view_name)
-	_draw_upper(upper, BODY_HEIGHT / upper.get_height(), base, bob)
-	if gear == 3 or gear == 4:
-		var pack := _texture(("scuba_" if gear == 3 else "rebreather_") + view_name)
-		var pack_size := pack.get_size() * sheet_scale
-		draw_set_transform_matrix(base)
-		draw_texture_rect(pack, Rect2(Vector2(-pack_size.x * 0.5, -BODY_HEIGHT * PACK_HEIGHT - bob - pack_size.y * 0.5), pack_size), false)
+	var base := Transform2D(sin(_walk_phase) * 0.02 * stride, Vector2(view[1], 1.0), 0.0, Vector2.ZERO)
+	WalkDraw.figure(self, base, texture, Rect2(Vector2(-size.x * 0.5, -size.y), size), _walk_phase, stride, bob, FIGURE_HIP)
 	draw_set_transform(Vector2.ZERO)
-
-
-## The upper body down to the hips, fading out just below the cut.
-func _draw_upper(texture: Texture2D, scale_factor: float, base: Transform2D, bob: float) -> void:
-	draw_set_transform_matrix(base)
-	var source := texture.get_size()
-	var cut := source.y * HIP_CUT
-	var top := Vector2(-source.x * 0.5 * scale_factor, -source.y * scale_factor - bob)
-	draw_texture_rect_region(texture, Rect2(top, Vector2(source.x, cut) * scale_factor), Rect2(0.0, 0.0, source.x, cut))
-	for i in SEAM_ROWS:
-		var row := Rect2(0.0, cut + i, source.x, 1.0)
-		var fade := 1.0 - (i + 1.0) / (SEAM_ROWS + 1.0)
-		draw_texture_rect_region(texture, Rect2(top + row.position * scale_factor, row.size * scale_factor), row, Color(1.0, 1.0, 1.0, fade))
 
 
 ## The view for a screen direction, as [view name, mirror].
@@ -286,19 +232,6 @@ func _view(screen_facing: Vector2) -> Array:
 		return ["back" if away else "front", 1.0]
 	var name := "side" if absf(screen_facing.y) < SIDE_VIEW else ("away" if away else "towards")
 	return [name, -1.0 if screen_facing.x > 0.0 else 1.0]
-
-
-## The legs worn for a gear level: waders, snorkelling trousers with fins, scuba legs with the
-## tanks or rebreather trousers.
-func _suit(gear: int) -> String:
-	match gear:
-		2:
-			return "snorkel"
-		3:
-			return "scuba"
-		4:
-			return "rebreather"
-	return "wader"
 
 
 func _texture(sprite: String) -> Texture2D:
@@ -313,25 +246,9 @@ func _draw_water_around(waterline: float, radius: float) -> void:
 	draw_polyline(Iso.ellipse(Vector2(0.0, waterline), radius), Color(1.0, 1.0, 1.0, 0.7), 3.0, true)
 
 
-## The diving mask over the eyes (seen from the front).
-func _draw_mask(view: Array, bob: float) -> void:
-	var view_name: String = view[0]
-	var texture := _texture("snorkel_" + view_name)
-	var size := texture.get_size() * (BODY_HEIGHT / SHEET_FIGURE_HEIGHT)
-	var anchor := MASK_GLASS[view_name]
-	var eyes := Vector2(EYE_SHIFT[view_name] * float(view[1]), -BODY_HEIGHT * EYE_HEIGHT - bob)
-	draw_set_transform(eyes, 0.0, Vector2(view[1], 1.0))
-	draw_texture_rect(texture, Rect2(-anchor * size, size), false)
-	draw_set_transform(Vector2.ZERO)
-
-
-## The basket of the backpack level and the stack of caught fish, which sways while walking and leans back
-## against the walking direction.
-func _draw_backpack(bob: float) -> void:
-	var index := clampi(backpack_level, 1, BASKET_WIDTHS.size())
-	var basket := _texture("basket_%d" % index)
-	var size := basket.get_size() * (BASKET_WIDTHS[index - 1] / basket.get_width())
-	draw_texture_rect(basket, Rect2(Vector2(-size.x * 0.5, BASKET_TOP - bob), size), false)
+## The stack of caught fish on the back, which sways while walking and leans back against the
+## walking direction.
+func _draw_stack(bob: float) -> void:
 	var lean := -Iso.to_screen(ground_velocity).x * 0.004
 	var squash := 1.0 - 0.08 * sin(_stack_bounce * PI)
 	for i in carried.size():

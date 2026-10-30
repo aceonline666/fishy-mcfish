@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dktso3bpmt2hv"
-path="res://.godot/imported/legs_rebreather_front.png-d6b21c57347f2eb73e3610ea21900c91.ctex"
+uid="uid://c8w52e710o2jc"
+path="res://.godot/imported/wader_side.png-2b68dd438116b9caf8d2945133835556.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/wader/legs_rebreather_front.png"
-dest_files=["res://.godot/imported/legs_rebreather_front.png-d6b21c57347f2eb73e3610ea21900c91.ctex"]
+source_file="res://assets/sprites/wader/wader_side.png"
+dest_files=["res://.godot/imported/wader_side.png-2b68dd438116b9caf8d2945133835556.ctex"]
 
 [params]
 
