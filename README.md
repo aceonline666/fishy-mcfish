@@ -84,8 +84,9 @@ World map. The wader comes from the two diver sheets, cut by `tools/extract_dive
 sprite per gear level (waders with basket, snorkel, scuba, rebreather, hard-hat suit,
 submersible) in five views, whose legs swing in step while walking. The landing nets (second
 equipment sheet) and the baskets on the backpack pad (first equipment sheet) are cut by
-`tools/extract_wader.py`. The painted seabed under the water is made from the seafloor
-sheet by `tools/make_seafloor.py`.
+`tools/extract_wader.py`. The ground tiles come from `tools/make_seafloor.py`: a location's own
+seamless tiles `art_source/seafloor_<id>.png` (seabed under the water) and
+`art_source/beach_<id>.png` (beach sand), otherwise a seabed made from the seafloor sheet.
 `art_source/` holds the source sheets (generated images) and is not imported by Godot. The boot
 splash (`assets/ui/splash.png`: `art_source/splash.png` with the title in its sky) and the menu
 icons (`icon_coins/map/trophy/book/cog.png`, cut from the menu sheet) are made by

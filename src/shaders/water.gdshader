@@ -26,9 +26,14 @@ uniform vec4 abyss_color : source_color = vec4(0.01, 0.03, 0.09, 1.0);
 // A painted seabed tile of the location (assets/sprites/seafloor), repeated every floor_tile ground
 // units. It shows through clearly in the shallows and fades into the water colour with depth.
 uniform sampler2D floor_texture : source_color, repeat_enable, filter_linear_mipmap;
-uniform float floor_tile = 560.0;
+uniform float floor_tile = 900.0;
 // 0 hides the seabed tile (the grid of the plain seabed is shown instead).
 uniform float floor_strength = 0.0;
+// A painted sand tile of the location (assets/sprites/beach), repeated every sand_tile ground
+// units; 0 strength keeps the plain sand colours and the tile grid.
+uniform sampler2D sand_texture : source_color, repeat_enable, filter_linear_mipmap;
+uniform float sand_tile = 900.0;
+uniform float sand_strength = 0.0;
 
 vec2 to_ground(vec2 screen) {
 	float a = screen.x / 0.70710678;
@@ -53,9 +58,11 @@ void fragment() {
 
 	vec3 color;
 	if (d < 0.0) {
-		color = mix(sand_color.rgb, wet_sand_color.rgb, smoothstep(-70.0, 0.0, d));
-		color = mix(color, dune_color.rgb, smoothstep(dunes_y + 40.0, dunes_y - 40.0, g.y));
-		color *= 1.0 - grid * 0.06;
+		vec3 sand = mix(sand_color.rgb, texture(sand_texture, g / sand_tile).rgb, sand_strength);
+		// Wet sand at the waterline is darker.
+		color = sand * mix(vec3(1.0), wet_sand_color.rgb / sand_color.rgb, smoothstep(-70.0, 0.0, d));
+		color = mix(color, dune_color.rgb, smoothstep(dunes_y + 40.0, dunes_y - 40.0, g.y) * (1.0 - sand_strength * 0.5));
+		color *= 1.0 - grid * 0.06 * (1.0 - sand_strength);
 	} else {
 		float depth = clamp(d / depth_range, 0.0, 1.0);
 		color = mix(shallow_color.rgb, deep_color.rgb, pow(depth, 0.7));

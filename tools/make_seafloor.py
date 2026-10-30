@@ -1,4 +1,8 @@
-"""Makes a seamless seabed tile per location from art_source/seafloor_sheet.png.
+"""Makes the seamless ground tiles of each location: the seabed (assets/sprites/seafloor) and
+the beach sand (assets/sprites/beach).
+
+A location with its own painted tiles (art_source/seafloor_<id>.png, art_source/beach_<id>.png,
+already seamless and seen from above) gets those, scaled to TILE_SIZE. For the other seabeds:
 
 Each location's strip on the sheet looks forward along the seabed. The near part of its floor is
 laid flat (inverse perspective: ground depth goes with 1 / (y - horizon)), then cross-faded with
@@ -9,11 +13,15 @@ water (src/shaders/water.gdshader).
 Needs Pillow and NumPy. Usage (from the project folder):
   python tools/make_seafloor.py
 """
+from pathlib import Path
+
 import numpy as np
 from PIL import Image
 
 SHEET = "art_source/seafloor_sheet.png"
 OUT = "assets/sprites/seafloor/"
+BEACH_OUT = "assets/sprites/beach/"
+TILE_SIZE = 1024
 # location id: left and right edge of its strip, the horizon row, and the farthest row used.
 STRIPS = {
     "north_sea": (8, 296, 300.0, 600.0),
@@ -29,8 +37,18 @@ PATCH = (384, 384)
 
 
 def main() -> None:
+    for location in STRIPS:
+        for kind, out in (("seafloor", OUT), ("beach", BEACH_OUT)):
+            source = Path(f"art_source/{kind}_{location}.png")
+            if source.exists():
+                tile = Image.open(source).convert("RGB").resize((TILE_SIZE, TILE_SIZE), Image.LANCZOS)
+                Path(out).mkdir(parents=True, exist_ok=True)
+                tile.save(out + f"{location}.png")
+                print(location, kind, "from", source.name)
     sheet = np.array(Image.open(SHEET).convert("RGB")).astype(np.float32)
     for location, (x0, x1, horizon, far) in STRIPS.items():
+        if Path(f"art_source/seafloor_{location}.png").exists():
+            continue
         patch = _flatten(sheet[:, x0:x1], horizon, far)
         # The picture darkens with distance; even out the brightness row by row.
         rows = patch.mean(axis=(1, 2), keepdims=True)

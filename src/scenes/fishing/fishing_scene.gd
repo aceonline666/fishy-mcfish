@@ -137,8 +137,9 @@ var _spawn_timer := 0.0
 var _wader_zone: ZoneDef
 var _gate_warned := false
 var _squares: Array[ActionSquare] = []
-## The location's painted seabed tile (assets/sprites/seafloor), or null.
+## The location's painted seabed and sand tiles (assets/sprites/seafloor, beach), or null.
 var _floor_texture: Texture2D
+var _sand_texture: Texture2D
 var _tank_node: TankNode
 var _shop_node: ShopNode
 ## Buyers in the queue, first in line first; served ones are not in it.
@@ -220,6 +221,8 @@ func _ready() -> void:
 		_zone_spawns.append(SpawnTable.new(zone.spawns))
 	var floor_path := "res://assets/sprites/seafloor/%s.png" % location.id
 	_floor_texture = load(floor_path) if ResourceLoader.exists(floor_path) else null
+	var sand_path := "res://assets/sprites/beach/%s.png" % location.id
+	_sand_texture = load(sand_path) if ResourceLoader.exists(sand_path) else null
 	_seabed.tropical = location.env == "tropical"
 	_seabed.generate(water_area)
 	if location.id == WRECK_LOCATION:
@@ -463,6 +466,8 @@ func _apply_world_position() -> void:
 	water.set_shader_parameter("dune_color", location.sand_color.darkened(0.1).lerp(Color(0.6, 0.7, 0.35), 0.35))
 	water.set_shader_parameter("floor_texture", _floor_texture)
 	water.set_shader_parameter("floor_strength", FLOOR_STRENGTH if _floor_texture != null else 0.0)
+	water.set_shader_parameter("sand_texture", _sand_texture)
+	water.set_shader_parameter("sand_strength", 1.0 if _sand_texture != null else 0.0)
 
 #endregion
 
