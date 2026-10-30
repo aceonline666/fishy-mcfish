@@ -43,6 +43,7 @@ func _rebuild() -> void:
 	_build_all()
 	if visible:
 		_refresh()
+		_pass_drags(content)
 
 
 func _build_all() -> void:
@@ -80,11 +81,21 @@ func _build_all() -> void:
 
 func open() -> void:
 	_refresh()
+	_pass_drags(content)
 	show()
 
 
 func set_title(text: String) -> void:
 	_title.text = text
+
+
+## Cards, pictures and bars would keep a touch to themselves, so a drag starting on them would
+## not scroll the list; they pass it on instead (buttons do so through connect_tap()).
+func _pass_drags(node: Node) -> void:
+	for child in node.get_children():
+		if child is Control and not child is BaseButton and child.mouse_filter == Control.MOUSE_FILTER_STOP:
+			child.mouse_filter = Control.MOUSE_FILTER_PASS
+		_pass_drags(child)
 
 
 ## Override: create the panel's controls once.
