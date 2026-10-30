@@ -134,12 +134,26 @@ SHEETS = {
         "red_lionfish": (1350, 700, "left", False),
         "sperm_whale": (650, 890, "left", True),
     },
+    # Side views with spread tail fins, which beat better; they replace sprites with a bent or
+    # hidden tail.
+    "Cartoon-Meereswesen auf Transparenz.png": {
+        "blue_whale": (230, 149, "left", True),
+        "west_indian_ocean_coelacanth": (608, 149, "left", True),
+        "conger_eel": (961, 151, "left", True),
+        "humphead_wrasse": (1343, 154, "left", True),
+        "humpback_anglerfish": (187, 380, "left", True),
+        "red_lionfish": (546, 392, "left", True),
+        "pacific_blackdragon": (933, 379, "left", True),
+        "blobfish": (579, 628, "left", True),
+    },
 }
 
 # Sheet rows below which a sprite's region is its label, not the creature.
 BOTTOM_LIMIT = {"green_sea_turtle": 800}
 
 ALPHA_FLOOR = 40
+# Sheets whose sprites glow: alpha up to this is the glow around them, not the sprite.
+GLOW_FLOOR = {"Cartoon-Meereswesen auf Transparenz.png": 120}
 MAX_TAIL_SHARE = 0.3
 
 
@@ -150,7 +164,8 @@ def main() -> None:
         sheet[..., 3] = _foreground(sheet[..., :3])
     out = Path(sys.argv[2])
     out.mkdir(parents=True, exist_ok=True)
-    mask = sheet[..., 3] > 60
+    floor = GLOW_FLOOR.get(Path(sys.argv[1]).name, ALPHA_FLOOR)
+    mask = sheet[..., 3] > max(60, floor + 8)
     labels, _ = ndimage.label(ndimage.binary_dilation(mask, iterations=3))
     for species, (cx, cy, facing, split) in SHEETS[Path(sys.argv[1]).name].items():
         label = _label_near(labels, cx, cy)
@@ -162,7 +177,7 @@ def main() -> None:
             keep[BOTTOM_LIMIT[species] - sl[0].start:] = False
         alpha = crop[..., 3].astype(float)
         alpha[~keep] = 0
-        alpha = np.clip((alpha - ALPHA_FLOOR) / (255 - ALPHA_FLOOR), 0, 1) * 255
+        alpha = np.clip((alpha - floor) / (255 - floor), 0, 1) * 255
         crop[..., 3] = alpha.astype(np.uint8)
         crop = _trim(crop)
         if facing == "left":

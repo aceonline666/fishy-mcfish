@@ -29,11 +29,10 @@ enum Motion { TAIL, WAVE, PULSE, JET }
 const MOTIONS: Dictionary[String, Motion] = {
 	"conger_eel": Motion.WAVE, "frilled_shark": Motion.WAVE, "giant_oarfish": Motion.WAVE,
 	"pelican_eel": Motion.WAVE, "pink_ling": Motion.WAVE, "roundnose_grenadier": Motion.WAVE,
-	"sloanes_viperfish": Motion.WAVE, "pacific_blackdragon": Motion.WAVE,
-	"west_indian_ocean_coelacanth": Motion.WAVE,
+	"sloanes_viperfish": Motion.WAVE,
 	"blue_whale": Motion.WAVE, "humpback_whale": Motion.WAVE, "southern_right_whale": Motion.WAVE,
 	"sperm_whale": Motion.WAVE,
-	"blobfish": Motion.WAVE, "ocean_sunfish": Motion.WAVE, "red_lionfish": Motion.WAVE,
+	"ocean_sunfish": Motion.WAVE,
 	"reef_manta_ray": Motion.WAVE, "smooth_stingray": Motion.WAVE,
 	"green_sea_turtle": Motion.WAVE, "leatherback_turtle": Motion.WAVE, "loggerhead_turtle": Motion.WAVE,
 	"knysna_seahorse": Motion.WAVE, "leafy_seadragon": Motion.WAVE, "weedy_seadragon": Motion.WAVE,
@@ -47,7 +46,7 @@ const MOTIONS: Dictionary[String, Motion] = {
 const WAVES: Dictionary[String, Vector2] = {
 	"conger_eel": Vector2(0.07, 1.2), "frilled_shark": Vector2(0.06, 1.0), "giant_oarfish": Vector2(0.05, 1.6),
 	"pelican_eel": Vector2(0.07, 1.4), "pink_ling": Vector2(0.06, 1.2), "roundnose_grenadier": Vector2(0.06, 1.0),
-	"sloanes_viperfish": Vector2(0.06, 1.2), "west_indian_ocean_coelacanth": Vector2(0.04, 0.7),
+	"sloanes_viperfish": Vector2(0.06, 1.2),
 	"blue_whale": Vector2(0.05, 0.6), "humpback_whale": Vector2(0.05, 0.6), "southern_right_whale": Vector2(0.05, 0.6),
 	"sperm_whale": Vector2(0.05, 0.6), "reef_manta_ray": Vector2(0.05, 0.6), "smooth_stingray": Vector2(0.05, 0.9),
 }
