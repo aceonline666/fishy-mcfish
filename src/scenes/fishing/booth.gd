@@ -9,11 +9,11 @@ extends Node2D
 const BOOTH_TEXTURE: Texture2D = preload("res://assets/sprites/props/booth.svg")
 const SELLER_TEXTURE: Texture2D = preload("res://assets/sprites/props/seller_back.svg")
 ## Screen width of the booth and height of the seller.
-const BOOTH_WIDTH := 150.0
+const BOOTH_WIDTH := 225.0
 const SELLER_HEIGHT := 175.0
 ## Where the buyer and the seller stand, seen from the booth (ground units).
-const BUYER_OFFSET := Vector2(0.0, -95.0)
-const SELLER_OFFSET := Vector2(0.0, 80.0)
+const BUYER_OFFSET := Vector2(0.0, -140.0)
+const SELLER_OFFSET := Vector2(0.0, 115.0)
 ## The player's booth is tinted in the colour of the "Sell fish" pad.
 const PLAYER_TINT := Color(1.0, 0.75, 0.5)
 const SHADOW := Color(0.0, 0.06, 0.14, 0.2)

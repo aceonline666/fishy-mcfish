@@ -51,14 +51,14 @@ const PATH_X := 1460.0
 const PATH_HALF_WIDTH := 150.0
 ## The boardwalk's shore end, where its railing is: the wader walks no further up the beach.
 const PIER_TOP := -930.0
-## Right of the boardwalk, the upgrades in three columns: the shop, the tank and the diving gear
-## on the left, the backpack in the middle, drones and nets on the right. Drones start from and
-## deliver to their pad.
-const SHOP_UPGRADE_SQUARE := Vector2(1890.0, -760.0)
-const TANK_SQUARE := Vector2(1890.0, -470.0)
-const GEAR_SQUARE := Vector2(1890.0, -180.0)
-const BACKPACK_SQUARE := Vector2(2290.0, -470.0)
+## Right of the boardwalk, the upgrades in two rows of three, clear of the pads in front of the
+## booths: the shop, the tank and drones at the back, diving gear, the backpack and nets in
+## front. Drones start from and deliver to their pad.
+const SHOP_UPGRADE_SQUARE := Vector2(1890.0, -470.0)
+const TANK_SQUARE := Vector2(2290.0, -470.0)
 const DRONE_PAD := Vector2(2690.0, -470.0)
+const GEAR_SQUARE := Vector2(1890.0, -180.0)
+const BACKPACK_SQUARE := Vector2(2290.0, -180.0)
 const NET_SQUARE := Vector2(2690.0, -180.0)
 ## Left of the boardwalk, in pairs: the tank with its store pad in front, the player's booth
 ## with the "Sell fish" pad in front, the sellers' booths with the "Hire seller" pad in front;
@@ -83,7 +83,7 @@ const WRECKS: Dictionary[String, Array] = {
 ## booth (the player's only while the player stands on the "Sell fish" pad), and each sale sends
 ## them off up the beach with a fish.
 const FIRST_BOOTH := Vector2(200.0, -1010.0)
-const BOOTH_SPACING := 180.0
+const BOOTH_SPACING := 250.0
 const CUSTOMER_ENTRY := Vector2(FIRST_BOOTH.x, -1900.0)
 ## Served buyers walk this far up the beach, out of view.
 const CUSTOMER_EXIT_Y := -2050.0
@@ -91,8 +91,8 @@ const CUSTOMER_EXIT_Y := -2050.0
 const QUEUE_SPACING := 90.0
 ## The "Sell fish" and "Hire seller" pads are squares the size of a booth's place in the row,
 ## right in front of their booth: the player's, and the next free one for the seller to hire.
-const BOOTH_PAD_HALF := Vector2(80.0, 80.0)
-const BOOTH_PAD_OFFSET := Vector2(0.0, 190.0)
+const BOOTH_PAD_HALF := Vector2(120.0, 120.0)
+const BOOTH_PAD_OFFSET := Vector2(0.0, 260.0)
 ## Painted cashiers (assets/sprites/props/cashier_N), shown on the "Hire seller" pad.
 const CASHIER_LOOKS := 3
 ## Buyers keep coming at this pace from the start, whether anyone sells or not.
@@ -100,12 +100,12 @@ const CUSTOMER_INTERVAL_S := 2.0
 ## Painted decoration on the beach: sprite (assets/sprites/props), ground position, screen
 ## height, and where it shows ("" everywhere, else only at locations with that water).
 const DECOR: Array[Array] = [
-	["signpost", Vector2(1200.0, -660.0), 120.0, ""],
-	["seagull", Vector2(2290.0, -760.0), 60.0, ""],
-	["bush", Vector2(2650.0, -700.0), 150.0, "temperate"],
-	["bush", Vector2(2880.0, -760.0), 150.0, ""],
-	["palm", Vector2(2650.0, -720.0), 260.0, "tropical"],
-	["palm", Vector2(2860.0, -800.0), 280.0, "tropical"],
+	["signpost", Vector2(1250.0, -450.0), 120.0, ""],
+	["seagull", Vector2(2450.0, -1250.0), 60.0, ""],
+	["bush", Vector2(2600.0, -1350.0), 150.0, "temperate"],
+	["bush", Vector2(2880.0, -1300.0), 150.0, ""],
+	["palm", Vector2(2600.0, -1370.0), 260.0, "tropical"],
+	["palm", Vector2(2860.0, -1320.0), 280.0, "tropical"],
 	["seagull", Vector2(700.0, -1230.0), 55.0, "temperate"],
 ]
 #endregion
