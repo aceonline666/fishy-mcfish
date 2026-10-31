@@ -1,13 +1,16 @@
 class_name LevelDef
 extends RefCounted
 ## One level of something upgradeable (tank size, tank slot, backpack), loaded from a CSV with
-## the columns level, name, capacity and cost. `cost` is the price to reach this level, before
-## the location's price factor.
+## the columns level, name, capacity and cost, and optionally speed. `cost` is the price to
+## reach this level, before the location's price factor.
 
 var level: int
 var name: String
 var capacity: float
 var cost: float
+## How fast this level works compared to the first (tanks: how fast fish grow in it); 1 if the
+## CSV has no speed column.
+var speed := 1.0
 
 
 ## Builds a level from a CSV row. Appends to `errors` and returns null if the row is invalid.
@@ -28,4 +31,9 @@ static func from_row(row: Dictionary, errors: PackedStringArray, where: String) 
 			errors.append("%s: '%s' must be a number >= 0, got '%s'" % [where, column, text])
 			continue
 		def.set(column, text.to_float())
+	var speed_text := str(row.get("speed", "1"))
+	if speed_text.is_valid_float() and speed_text.to_float() > 0.0:
+		def.speed = speed_text.to_float()
+	else:
+		errors.append("%s: 'speed' must be a number > 0, got '%s'" % [where, speed_text])
 	return def if errors.size() == error_count else null

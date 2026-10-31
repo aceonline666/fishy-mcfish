@@ -1,5 +1,5 @@
 extends GutTest
-## Tank space, storing, growth, breeding and price rules.
+## Tank space, storing, growth and price rules.
 
 
 func _site_with_tank(level: int = 1, location: String = "north_sea") -> Site:
@@ -42,37 +42,70 @@ func test_fish_grow_to_adult_and_stop_at_every_location() -> void:
 	var state := PlayerState.new_game()
 	_fill(state.here().tank, "european_sprat", 1)
 	_fill(state.site("coral_reef").tank, "ocellaris_clownfish", 1)
-	Aquarium.advance(state, 60.0)
+	# Sprats grow up in 30 s.
+	Aquarium.advance(state, 15.0)
 	assert_almost_eq(state.here().tank.fish[0].growth, 0.5, 0.001)
 	assert_gt(state.site("coral_reef").tank.fish[0].growth, 0.0)
 	Aquarium.advance(state, 1000.0)
 	assert_eq(state.here().tank.fish[0].growth, 1.0)
 
 
-func test_a_pair_gets_young() -> void:
+func test_bigger_tanks_grow_fish_faster() -> void:
+	var state := PlayerState.new_game()
+	var tank := state.here().tank
+	_fill(tank, "european_sprat", 1)
+	tank.level = 2
+	assert_gt(Aquarium.growth_speed(tank), 1.0)
+	Aquarium.advance(state, 15.0)
+	assert_almost_eq(tank.fish[0].growth, 0.5 * Aquarium.growth_speed(tank), 0.001)
+	for level in range(2, DataRegistry.tank_levels.size() + 1):
+		assert_gt(DataRegistry.tank_levels[level - 1].speed, DataRegistry.tank_levels[level - 2].speed)
+
+
+func test_the_next_fish_to_grow_and_its_time() -> void:
 	var site := _site_with_tank()
+	assert_null(Aquarium.next_to_grow(site.tank))
+	_fill(site.tank, "atlantic_herring", 1, 0.9)
+	_fill(site.tank, "european_sprat", 1, 0.5)
+	_fill(site.tank, "european_sprat", 1, 1.0)
+	var next := Aquarium.next_to_grow(site.tank)
+	assert_eq(next.species_id, "atlantic_herring", "4.5 s left beats the sprat's 15 s")
+	assert_almost_eq(Aquarium.seconds_to_grow(site.tank, next), 4.5, 0.001)
+
+
+func test_some_caught_fish_are_already_grown() -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 7
+	var grown := 0
+	var young := 0
+	for i in 1000:
+		var growth := Aquarium.catch_growth(rng)
+		assert_between(growth, 0.0, 1.0)
+		if growth >= 1.0:
+			grown += 1
+		elif growth < 0.5:
+			young += 1
+	assert_between(grown, 70, 130, "about one in ten")
+	assert_gt(young, 400, "most are young")
+
+
+func test_fish_do_not_breed() -> void:
+	var state := PlayerState.new_game()
+	_fill(state.here().tank, "european_sprat", 4)
+	Aquarium.advance(state, 100000.0)
+	assert_eq(state.here().tank.fish.size(), 4, "the tank only holds what was stored")
+
+
+func test_the_tank_is_full_when_not_even_the_smallest_fish_fits() -> void:
+	var site := _site_with_tank()
+	assert_eq(Aquarium.smallest_space("temperate"), 2.0, "the sprat")
+	assert_false(Aquarium.is_full(site))
+	_fill(site.tank, "atlantic_herring", 11)
+	assert_eq(Aquarium.used_space(site.tank), 55.0)
+	assert_false(Aquarium.is_full(site), "a sprat still fits")
 	_fill(site.tank, "european_sprat", 2)
-	# One young per pair every BREED_TIME_MULT growth times (sprat: 120 s).
-	var breed_time := 120.0 * Aquarium.BREED_TIME_MULT
-	assert_eq(Aquarium.breed(site.tank, breed_time * 0.9), 0)
-	assert_eq(Aquarium.breed(site.tank, breed_time * 0.1), 1)
-	assert_eq(site.tank.fish.size(), 3)
-	assert_eq(site.tank.fish[2].growth, 0.0, "young start small")
-
-
-func test_a_single_fish_does_not_breed() -> void:
-	var site := _site_with_tank()
-	_fill(site.tank, "european_sprat", 1)
-	_fill(site.tank, "atlantic_herring", 1)
-	assert_eq(Aquarium.breed(site.tank, 10000.0), 0)
-
-
-func test_breeding_leaves_room_for_the_catch() -> void:
-	var site := _site_with_tank()
-	_fill(site.tank, "european_sprat", 2)
-	Aquarium.breed(site.tank, 100000.0)
-	assert_eq(Aquarium.used_space(site.tank), 60.0 * Aquarium.BREED_FILL, "breeding stops at 80 %")
-	assert_not_null(Aquarium.store(site, "european_sprat"), "the rest is for the catch")
+	assert_true(Aquarium.is_full(site))
+	assert_eq(Aquarium.fill_share(site.tank), 59.0 / 60.0)
 
 
 func test_grown_fish_are_worth_three_times_as_much() -> void:
@@ -87,6 +120,18 @@ func test_tank_value_and_adults_follow_growth() -> void:
 	assert_eq(Aquarium.adult_count(site), 1)
 	var sprat := DataRegistry.species["european_sprat"]
 	assert_eq(Aquarium.tank_value(site), Economy.sale_price(sprat, 1.0) + Economy.sale_price(sprat, 0.0))
+
+
+func test_bigger_shops_have_booths_for_more_sellers() -> void:
+	var site := _site_with_tank()
+	assert_eq(Selling.seller_slots(site), 1)
+	site.seller_count = 1
+	assert_eq(Selling.next_seller_cost(site), -1.0, "the fish stall is full")
+	site.shop_level = DataRegistry.shop_levels.size()
+	assert_eq(Selling.seller_slots(site), 15, "the seafood palace")
+	assert_eq(Selling.next_seller_cost(site), DataRegistry.staff_levels[1].cost)
+	site.seller_count = 15
+	assert_eq(Selling.next_seller_cost(site), -1.0)
 
 
 func test_upgrade_prices_run_out_at_the_top_level() -> void:
@@ -111,24 +156,17 @@ func test_building_at_the_reef_costs_more() -> void:
 	assert_eq(Automation.next_drone_cost(reef), Automation.next_drone_cost(home) * factor)
 
 
-func test_sellers_sell_grown_fish_and_keep_a_breeding_pair() -> void:
+func test_sellers_sell_every_grown_fish_most_valuable_first() -> void:
 	var state := PlayerState.new_game()
 	var site := state.here()
 	_fill(site.tank, "european_sprat", 3, 1.0)
 	_fill(site.tank, "atlantic_herring", 2, 1.0)
 	_fill(site.tank, "lesser_sand_eel", 3, 0.5)
+	assert_eq(site.tank.fish[Selling.best_fish(site)].species_id, "atlantic_herring")
 	site.seller_count = 1
 	var earned := Selling.run_sellers(state, 600.0)
-	assert_eq(earned, Economy.sale_price(DataRegistry.species["european_sprat"], 1.0), "only the third grown sprat")
-	assert_eq(site.tank.fish.size(), 7)
-
-
-func test_a_tank_too_full_to_breed_sells_its_pairs_too() -> void:
-	var site := _site_with_tank()
-	# 24 different pairs of 1 L each would block a tank with nothing to spare; use sprats and herring.
-	_fill(site.tank, "european_sprat", 2, 1.0)
-	_fill(site.tank, "atlantic_herring", 2, 1.0)
-	assert_eq(Selling.best_fish(site), -1, "pairs stay while the tank can breed")
-	_fill(site.tank, "lesser_sand_eel", 12, 0.0)
-	assert_gte(Aquarium.used_space(site.tank), Aquarium.capacity(site.tank) * Aquarium.BREED_FILL)
-	assert_eq(site.tank.fish[Selling.best_fish(site)].species_id, "atlantic_herring", "the most valuable grown fish")
+	var sprat := DataRegistry.species["european_sprat"]
+	var herring := DataRegistry.species["atlantic_herring"]
+	assert_eq(earned, 3.0 * Economy.sale_price(sprat, 1.0) + 2.0 * Economy.sale_price(herring, 1.0))
+	assert_eq(site.tank.fish.size(), 3, "only the young eels stay")
+	assert_eq(Selling.best_fish(site), -1)

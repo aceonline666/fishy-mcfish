@@ -1,12 +1,12 @@
 extends Node
 ## Holds the live PlayerState. Scenes read from it; player actions go through its command methods
 ## so the matching EventBus signals are always emitted. Purchases are for the business where the
-## player is. Every sim tick, at every location, fish grow and breed, hired sellers sell grown
+## player is. Every sim tick, at every location, fish grow, hired sellers sell grown
 ## fish, and drones of the locations the player is not at keep fishing; the same happens for the
 ## time the game was closed.
 
 ## Time away is played in steps of at least this many seconds, at most OFFLINE_MAX_STEPS of them,
-## so tanks breed, fish grow and sellers sell over the whole time.
+## so drones fish, fish grow and sellers sell over the whole time.
 const OFFLINE_MIN_STEP_S := 60.0
 const OFFLINE_MAX_STEPS := 24
 
@@ -75,7 +75,7 @@ func here() -> Site:
 
 ## Puts a caught fish into the tank here. Returns the tank, or null if it does not fit.
 func store_fish(species_id: String) -> TankState:
-	var tank := Aquarium.store(here(), species_id)
+	var tank := Aquarium.store(here(), species_id, Aquarium.catch_growth(_rng))
 	if tank != null:
 		EventBus.fish_stored.emit(species_id)
 	return tank
@@ -150,7 +150,7 @@ func upgrade_shop() -> void:
 
 
 func hire_seller() -> void:
-	here().seller_count = mini(here().seller_count + 1, here().shop_level)
+	here().seller_count = mini(here().seller_count + 1, Selling.seller_slots(here()))
 
 
 ## Records newly reached goals, pays their rewards and announces them.
@@ -188,7 +188,7 @@ func _run_sellers(dt: float) -> void:
 
 
 ## Drones at the locations the player is not at keep fishing at the slower unwatched rate.
-## Fish that do not fit are let go.
+## A drone rests while the tank has no room for what it could catch.
 func _run_remote_drones(dt: float) -> void:
 	for site: Site in state.sites.values():
 		if site == here():
@@ -198,11 +198,14 @@ func _run_remote_drones(dt: float) -> void:
 			if zone == null:
 				continue
 			var key := "%s/%d" % [site.location_id, index]
+			if Automation.drone_tank_full(state, site, zone, 0.0):
+				_remote_drone_progress[key] = 0.0
+				continue
 			var progress: float = _remote_drone_progress.get(key, 0.0) + Automation.OFFLINE_DRONE_FISH_PER_SECOND * dt
 			if progress >= 1.0:
 				progress -= 1.0
 				var species_id := Automation.pick_drone_catch(state, zone, _rng)
-				if not species_id.is_empty() and Aquarium.store(site, species_id) != null:
+				if not species_id.is_empty() and Aquarium.store(site, species_id, Aquarium.catch_growth(_rng)) != null:
 					EventBus.fish_stored.emit(species_id)
 			_remote_drone_progress[key] = progress
 

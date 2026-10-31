@@ -1,7 +1,16 @@
 level,name,capacity,cost
-1,First seller,10,800
-2,Second seller,10,5000
-3,Third seller,10,20000
-4,Fourth seller,10,80000
-5,Fifth seller,10,500000
-6,Sixth seller,10,3000000
+1,Seller 1,30,800
+2,Seller 2,30,5000
+3,Seller 3,30,9000
+4,Seller 4,30,15000
+5,Seller 5,30,25000
+6,Seller 6,30,40000
+7,Seller 7,30,65000
+8,Seller 8,30,100000
+9,Seller 9,30,160000
+10,Seller 10,30,250000
+11,Seller 11,30,400000
+12,Seller 12,30,650000
+13,Seller 13,30,1000000
+14,Seller 14,30,1600000
+15,Seller 15,30,2500000

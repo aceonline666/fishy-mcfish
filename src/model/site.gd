@@ -11,8 +11,11 @@ var backpack_level := 1
 var gear_level := 1
 ## Index + 1 into DataRegistry.net_levels; better nets land big fish faster.
 var net_level := 1
-## Index + 1 into DataRegistry.shop_levels: the shop buys the fish of zones 1 to shop_level.
+## Index + 1 into DataRegistry.shop_levels: bigger shops have booths for more sellers.
 var shop_level := 1
+## The fish in the backpack, oldest first. It stays at this location's beach when the player
+## travels, and is kept in the save.
+var backpack: Array[String] = []
 ## Sellers working in the shop, at most one per shop level.
 var seller_count := 0
 var drone_count := 0
@@ -48,6 +51,7 @@ func to_dict() -> Dictionary:
 		"seller_count": seller_count,
 		"drone_count": drone_count,
 		"tank": tank.to_dict(),
+		"backpack": backpack.duplicate(),
 		"build_progress": build_progress.duplicate(),
 	}
 
@@ -64,10 +68,14 @@ static func from_dict(location: String, data: Dictionary, slot_offset: int = 0, 
 	site.gear_level = maxi(int(data.get("gear_level", 1)), 1)
 	site.net_level = maxi(int(data.get("net_level", 1)), 1)
 	site.shop_level = maxi(int(data.get("shop_level", data.get("shop_count", 1))), 1)
-	site.seller_count = clampi(int(data.get("seller_count", 0)), 0, site.shop_level)
+	site.seller_count = clampi(int(data.get("seller_count", 0)), 0, Selling.seller_slots(site))
 	site.drone_count = maxi(int(data.get("drone_count", 0)), 0)
 	if data.get("tank") is Dictionary:
 		site.tank = TankState.from_dict(data["tank"])
+	var raw_backpack: Array = data.get("backpack", [])
+	for entry: Variant in raw_backpack:
+		if entry is String and DataRegistry.species.has(entry):
+			site.backpack.append(entry)
 	var raw_tanks: Array = data.get("tanks", [])
 	for entry: Variant in raw_tanks:
 		if not entry is Dictionary:

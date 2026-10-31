@@ -5,9 +5,10 @@ extends Control
 ## The sea gets deeper further from the shore, in depth zones (data/zones.csv) marked by buoy
 ## lines; deeper zones need better diving gear and hold rarer fish. The wader scoops up fish into
 ## the backpack. On the beach, pads do things while the wader stands on them. Every location has
-## its own beach business (GameState.here()): pads at the waterline (store the catch, backpack,
-## net, diving gear, drones), behind them the tank and the fish shop with their pads
-## (backpack first, then grown fish from the tank). Hired sellers sell on their own.
+## its own beach business (GameState.here()): left of the pier the tank and the fish shop, joined
+## by the sales pipe, with the shop's pads; right of it the upgrades (net, diving gear, drones,
+## backpack, tank).
+## Hired sellers sell on their own.
 ## The World map travels between locations.
 
 ## The spot must be rebuilt: after travelling, loading or starting a new game.
@@ -25,9 +26,13 @@ const PLAY_MARGIN_BOTTOM := 330.0
 #region Layout (ground units; the waterline is at y = 0, the beach at negative y)
 ## The beach part of the spot; the water reaches out to the end of the location's deepest zone.
 ## A boardwalk leads from the water up the beach and is kept free of pads, so the wader can walk
-## up and down without buying anything by accident. Left of it are the waterline pads, the store
-## pad and the tank; right of it the shop with its pads. Pads keep clear gaps.
-const BEACH_TOP := -1350.0
+## up and down without buying anything by accident. Left of it is the business (art_source/
+## "layout map.png"): the tank with its store pad in front at the waterline, the sales pipe from
+## the tank into the fish market, the "Sell fish" pad in front of the player's booth at the back left and the "Hire
+## seller" pad in front of the sellers'. Right of it are the upgrades. The sales booths stand in
+## a row along the whole back of the beach, beyond which it cannot be walked on, with the
+## buyers' queue coming down from the north to the player's booth. Pads keep clear gaps.
+const BEACH_TOP := -1650.0
 const SPOT_WIDTH := 2920.0
 const SHORE_Y := 0.0
 ## Fish stay this far out in the water.
@@ -45,42 +50,62 @@ const SQUARE_HALF := Vector2(180.0, 110.0)
 const PATH_X := 1460.0
 const PATH_HALF_WIDTH := 150.0
 ## The boardwalk's shore end, where its railing is: the wader walks no further up the beach.
-const PIER_TOP := BEACH_TOP + 250.0
-## Pads at the waterline. Drones start from and deliver to their pad.
-const FRONT_ROW_Y := -200.0
-const DRONE_PAD := Vector2(230.0, FRONT_ROW_Y)
-const BACKPACK_SQUARE := Vector2(640.0, FRONT_ROW_Y)
-const STORE_SQUARE := Vector2(1050.0, FRONT_ROW_Y)
-const NET_SQUARE := Vector2(1870.0, FRONT_ROW_Y)
-const GEAR_SQUARE := Vector2(2280.0, FRONT_ROW_Y)
+const PIER_TOP := -930.0
+## Right of the boardwalk, the upgrades in three columns: the shop, the tank and the diving gear
+## on the left, the backpack in the middle, drones and nets on the right. Drones start from and
+## deliver to their pad.
+const SHOP_UPGRADE_SQUARE := Vector2(1890.0, -760.0)
+const TANK_SQUARE := Vector2(1890.0, -470.0)
+const GEAR_SQUARE := Vector2(1890.0, -180.0)
+const BACKPACK_SQUARE := Vector2(2290.0, -470.0)
+const DRONE_PAD := Vector2(2690.0, -470.0)
+const NET_SQUARE := Vector2(2690.0, -180.0)
+## Left of the boardwalk, in pairs: the tank with its store pad in front, the player's booth
+## with the "Sell fish" pad in front, the sellers' booths with the "Hire seller" pad in front;
+## and the fish market at the west edge. Tall sprites hide what lies north of them on screen, so
+## the buildings stand near the waterline and the pads at the back.
+const TANK_POSITION := Vector2(800.0, -400.0)
+const STORE_SQUARE := Vector2(800.0, -140.0)
+const SHOP_POSITION := Vector2(130.0, -330.0)
+## The sales pipe runs straight out of the tank into the fish market, holding the grown fish in
+## the order they will be sold.
+const PIPE_FROM := Vector2(690.0, -395.0)
+const PIPE_TO := Vector2(240.0, -345.0)
 ## Sunken ships on the seabed per location: prop sprite (assets/sprites/seabed), ground position.
 const WRECKS: Dictionary[String, Array] = {
 	"north_sea": ["wreck", Vector2(1000.0, 2520.0)],
 	"coral_reef": ["galleon", Vector2(1000.0, 2520.0)],
 }
-## The tank, with its upgrade pad in front.
-const TANK_POSITION := Vector2(845.0, -880.0)
-const TANK_SQUARE := Vector2(845.0, -560.0)
-## The shop with its "Quick sale" pad in front, and the pads to upgrade it and hire sellers.
-const SHOP_POSITION := Vector2(2075.0, -880.0)
-const SELL_SQUARE := Vector2(2075.0, -560.0)
-const SHOP_UPGRADE_SQUARE := Vector2(2690.0, -560.0)
-const HIRE_SQUARE := Vector2(2690.0, -900.0)
-## Buyers come down the beach and queue at the cashiers' counters while sellers work; a seller's
-## sale sends the first one off with a fish, down the beach to its edge.
-const QUEUE_LENGTH := 4
-const CUSTOMER_ENTRY := Vector2(2340.0, -1320.0)
-const CUSTOMER_EXIT := Vector2(3100.0, -350.0)
-const CUSTOMER_INTERVAL_S := 1.5
+## The sales booths stand in a row on the edge of the walkable beach, facing north, as big as
+## the people: the player's at the west end, then one per seller towards the east, behind the
+## pier and the upgrades. Buyers come down from the north in one queue ending behind the
+## player's booth; the first in line goes to the next free
+## booth (the player's only while the player stands on the "Sell fish" pad), and each sale sends
+## them off up the beach with a fish.
+const FIRST_BOOTH := Vector2(200.0, -1010.0)
+const BOOTH_SPACING := 180.0
+const CUSTOMER_ENTRY := Vector2(FIRST_BOOTH.x, -1900.0)
+## Served buyers walk this far up the beach, out of view.
+const CUSTOMER_EXIT_Y := -2050.0
+## Ground distance between buyers in line.
+const QUEUE_SPACING := 90.0
+## The "Sell fish" and "Hire seller" pads are squares the size of a booth's place in the row,
+## right in front of their booth: the player's, and the next free one for the seller to hire.
+const BOOTH_PAD_HALF := Vector2(80.0, 80.0)
+const BOOTH_PAD_OFFSET := Vector2(0.0, 190.0)
+## Painted cashiers (assets/sprites/props/cashier_N), shown on the "Hire seller" pad.
+const CASHIER_LOOKS := 3
+## Buyers keep coming at this pace from the start, whether anyone sells or not.
+const CUSTOMER_INTERVAL_S := 2.0
 ## Painted decoration on the beach: sprite (assets/sprites/props), ground position, screen
 ## height, and where it shows ("" everywhere, else only at locations with that water).
 const DECOR: Array[Array] = [
-	["signpost", Vector2(1665.0, -380.0), 120.0, ""],
-	["seagull", Vector2(1250.0, -420.0), 60.0, ""],
-	["bush", Vector2(160.0, -620.0), 150.0, "temperate"],
-	["bush", Vector2(2860.0, -620.0), 150.0, ""],
-	["palm", Vector2(160.0, -640.0), 260.0, "tropical"],
-	["palm", Vector2(450.0, -1250.0), 280.0, "tropical"],
+	["signpost", Vector2(1200.0, -660.0), 120.0, ""],
+	["seagull", Vector2(2290.0, -760.0), 60.0, ""],
+	["bush", Vector2(2650.0, -700.0), 150.0, "temperate"],
+	["bush", Vector2(2880.0, -760.0), 150.0, ""],
+	["palm", Vector2(2650.0, -720.0), 260.0, "tropical"],
+	["palm", Vector2(2860.0, -800.0), 280.0, "tropical"],
 	["seagull", Vector2(700.0, -1230.0), 55.0, "temperate"],
 ]
 #endregion
@@ -93,12 +118,14 @@ const THREAT_RADIUS := 130.0
 const HOLD_DECAY := 2.0
 ## Catches less than this far apart continue the combo.
 const COMBO_WINDOW_S := 1.3
-## Seconds between fish stored on the store square, and sold on a "Sell fish" square. Selling
-## speeds up with every fish, down to SELL_INTERVAL_MIN_S.
+## Seconds between fish stored on the store square.
 const UNLOAD_INTERVAL_S := 0.09
-const SELL_INTERVAL_S := 0.15
-const SELL_SPEEDUP := 0.85
-const SELL_INTERVAL_MIN_S := 0.04
+## Seconds the player needs to sell one fish at their booth while standing on the "Sell fish" pad.
+## A hired seller is as quick (data/staff.csv: 30 fish a minute) at a booth of their own, and also
+## works while the game is closed; with big tanks it takes several of them to keep up.
+const SELL_INTERVAL_S := 2.0
+## How often the pad looks again while no buyer is waiting at the counter.
+const BUYER_WAIT_S := 0.1
 ## Walking on sand is faster than wading.
 const BEACH_SPEED := 1.5
 ## Each further drone is this much bigger than the first; it carries more and bigger fish.
@@ -145,10 +172,15 @@ var _squares: Array[ActionSquare] = []
 var _floor_texture: Texture2D
 var _sand_texture: Texture2D
 var _tank_node: TankNode
+var _pipe: SalesPipe
 var _shop_node: ShopNode
 ## Buyers in the queue, first in line first; served ones are not in it.
 var _queue: Array[Customer] = []
+## The buyer at each booth, or null: booth 0 is the player's, booth 1 + n the n-th seller's.
+var _booths: Array[Customer] = []
+var _booth_nodes: Array[Booth] = []
 var _customer_timer := 0.0
+var _sell_square: ActionSquare
 var _drones: Array[Drone] = []
 var _next_goal_banner_at := 0.0
 var _holding := false
@@ -270,6 +302,7 @@ func _process(delta: float) -> void:
 	_update_drones(delta)
 	_update_squares(delta)
 	_update_customers(delta)
+	refresh_sell_pad()
 
 	if auto_spawn:
 		_spawn_timer -= delta
@@ -336,6 +369,13 @@ func fish_count() -> int:
 	return _fish.size()
 
 
+## The "Sell fish" pad is greyed out until a fish in the tank is grown: grow first, then sell.
+func refresh_sell_pad() -> void:
+	var grown := Aquarium.adult_count(GameState.here())
+	_sell_square.disabled = grown == 0
+	_sell_square.subtitle = tr("No grown fish") if grown == 0 else tr("%d grown") % grown
+
+
 func square(square_id: String) -> ActionSquare:
 	for s in _squares:
 		if s.id == square_id and s.visible:
@@ -373,8 +413,19 @@ func _rebuild_from_state() -> void:
 		_tank_node.queue_free()
 	_tank_node = TankNode.new()
 	_tank_node.setup(site.tank, TANK_POSITION, _art_for)
+	_tank_node.smallest_fish_l = Aquarium.smallest_space(site.location().env)
 	_entities.add_child(_tank_node)
+	if _pipe != null:
+		_pipe.queue_free()
+	_pipe = SalesPipe.new()
+	_pipe.setup(site.tank, PIPE_FROM, PIPE_TO, _art_for)
+	_entities.add_child(_pipe)
 	live_well.capacity = Aquarium.backpack_capacity(site)
+	# The backpack is this location's: the catch waits here while the player is elsewhere.
+	live_well.species_ids = site.backpack
+	wader.carried.clear()
+	for id in site.backpack:
+		wader.carried.append(_art_for(id))
 	wader.scoop_radius = Wader.SCOOP_RADIUS * (1.0 + NET_RADIUS_STEP * (site.net_level - 1))
 	wader.net_level = site.net_level
 	_sync_shops()
@@ -548,6 +599,13 @@ func _check_catches(delta: float) -> void:
 				or fish.ground_position.distance_to(scoop) > wader.scoop_radius + fish.catch_radius():
 			fish.hold_time = maxf(fish.hold_time - delta * HOLD_DECAY, 0.0)
 			continue
+		# The net lets fish through that the tank cannot hold yet; they still count as caught.
+		if not Aquarium.can_ever_hold(GameState.here(), fish.species):
+			fish.hold_time = 0.0
+			if not fish.has_meta(&"counted"):
+				fish.set_meta(&"counted", true)
+				_count_too_big(fish)
+			continue
 		if live_well.is_full():
 			fish.hold_time = 0.0
 			continue
@@ -586,7 +644,20 @@ func _catch(fish: SwimmingFish) -> void:
 		Haptics.bump()
 		if _combo >= 4:
 			_shake = 3.0 * mini(_combo, 8)
+	_record_catch(fish)
 
+
+## A fish the tank cannot hold yet slips through the net: it counts for the Fishpedia, charting
+## and goals, but stays in the water, and a bubble says which tank it needs.
+func _count_too_big(fish: SwimmingFish) -> void:
+	Juice.ripple(_effects, fish.position, fish.body_length * 0.5)
+	_announce(_world_to_scene(fish.position + Vector2(0.0, -80.0)),
+			tr("Needs a %s L tank") % NumberFormat.compact(Aquarium.tank_needed(fish.species)), WARNING_COLOR, 1.0)
+	_record_catch(fish)
+
+
+## Counts a catch: new species, charted zones and goals are announced.
+func _record_catch(fish: SwimmingFish) -> void:
 	var was_charted := Charting.is_charted(GameState.state, fish.zone)
 	if GameState.record_catch(fish.species.id, fish.zone.id):
 		_announce(_world_to_scene(wader.stack_top_position() + Vector2(0.0, -110.0)),
@@ -619,9 +690,9 @@ func _build_squares() -> void:
 	_add_square("upgrade_gear", ActionSquare.Kind.BUY, GEAR_SQUARE)
 	_add_square("buy_drone", ActionSquare.Kind.BUY, DRONE_PAD)
 	_add_square("upgrade_tank", ActionSquare.Kind.BUY, TANK_SQUARE)
-	_add_square("sell", ActionSquare.Kind.SELL, SELL_SQUARE)
+	_sell_square = _add_square("sell", ActionSquare.Kind.SELL, _booth_pad_center(0), BOOTH_PAD_HALF)
 	_add_square("upgrade_shop", ActionSquare.Kind.BUY, SHOP_UPGRADE_SQUARE)
-	_add_square("hire_seller", ActionSquare.Kind.BUY, HIRE_SQUARE)
+	_add_square("hire_seller", ActionSquare.Kind.BUY, _booth_pad_center(1), BOOTH_PAD_HALF)
 
 
 ## Painted props on the sand and in the water; they take part in the depth sorting.
@@ -640,9 +711,9 @@ func _place_decor() -> void:
 
 
 ## Titles and prices are set by _refresh_squares().
-func _add_square(square_id: String, kind: ActionSquare.Kind, center: Vector2) -> ActionSquare:
+func _add_square(square_id: String, kind: ActionSquare.Kind, center: Vector2, half: Vector2 = SQUARE_HALF) -> ActionSquare:
 	var new_square := ActionSquare.new()
-	new_square.setup(square_id, kind, "", center, SQUARE_HALF)
+	new_square.setup(square_id, kind, "", center, half)
 	_squares_layer.add_child(new_square)
 	_squares.append(new_square)
 	return new_square
@@ -653,16 +724,20 @@ func _add_square(square_id: String, kind: ActionSquare.Kind, center: Vector2) ->
 func _refresh_squares() -> void:
 	var state := GameState.state
 	var site := GameState.here()
-	square_by_id("store").title = tr("Store fish")
+	square_by_id("store").title = tr("Put in tank")
 	var sell := square_by_id("sell")
-	sell.title = tr("Quick sale")
-	sell.subtitle = tr("Young fish sell cheap")
-	_set_purchase(square_by_id("upgrade_tank"), "upgrade_tank", tr("Bigger tank"), Aquarium.tank_upgrade_cost(site),
+	sell.title = tr("Sell fish")
+	var tank_square := square_by_id("upgrade_tank")
+	_set_purchase(tank_square, "upgrade_tank", tr("Bigger tank"), Aquarium.tank_upgrade_cost(site),
 			_prop("tank_%d" % (site.tank.level + 1)))
+	if site.tank.level < DataRegistry.tank_levels.size():
+		tank_square.subtitle = tr("Fish grow %s× as fast") % String.num(DataRegistry.tank_levels[site.tank.level].speed, 2)
 	# Each shop level makes room for one more seller.
 	var shop := square_by_id("upgrade_shop")
 	_set_purchase(shop, "upgrade_shop", tr("Bigger shop"), Selling.shop_upgrade_cost(site), _prop("shop_%d" % (site.shop_level + 1)))
-	shop.subtitle = tr("+1 seller")
+	if site.shop_level < DataRegistry.shop_levels.size():
+		var more := int(DataRegistry.shop_levels[site.shop_level].capacity) - Selling.seller_slots(site)
+		shop.subtitle = tr("+1 seller") if more == 1 else tr("+%d sellers") % more
 	var backpack := square_by_id("upgrade_backpack")
 	_set_purchase(backpack, "upgrade_backpack", tr("Bigger backpack"), Aquarium.backpack_upgrade_cost(site),
 			_wader_prop("basket_%d" % (site.backpack_level + 1)))
@@ -678,8 +753,11 @@ func _refresh_squares() -> void:
 	_set_purchase(drone_square, "buy_drone", tr("Buy drone"), Automation.next_drone_cost(site) if drone_available else -1.0,
 			_prop("drone_%d" % (site.drone_count + 1)))
 	drone_square.subtitle = tr(Automation.drone_zone(state, site, site.drone_count).name) if drone_available else ""
-	_set_purchase(square_by_id("hire_seller"), "hire_seller", tr("Hire seller"), Selling.next_seller_cost(site),
-			_prop("cashier_%d" % (site.seller_count % ShopNode.CASHIERS.size() + 1)))
+	var hire := square_by_id("hire_seller")
+	hire.ground_center = _booth_pad_center(1 + site.seller_count)
+	hire.position = Iso.to_screen(hire.ground_center)
+	_set_purchase(hire, "hire_seller", tr("Hire seller"), Selling.next_seller_cost(site),
+			_prop("cashier_%d" % (site.seller_count % CASHIER_LOOKS + 1)))
 
 
 ## A wader sprite from assets/sprites/wader by name, or null if there is none.
@@ -746,8 +824,7 @@ func _update_squares(delta: float) -> void:
 			_action_timer = UNLOAD_INTERVAL_S
 			_store_one()
 		ActionSquare.Kind.SELL:
-			_action_timer = maxf(SELL_INTERVAL_S * pow(SELL_SPEEDUP, _action_count), SELL_INTERVAL_MIN_S)
-			_sell_one(on)
+			_action_timer = SELL_INTERVAL_S if _sell_one(on) else BUYER_WAIT_S
 		ActionSquare.Kind.BUY:
 			_action_timer = PAY_INTERVAL_S
 			_pay_into(on)
@@ -805,33 +882,30 @@ func _on_fish_reached_tank() -> void:
 	Haptics.tick()
 
 
-## Sells one fish on the "Sell fish" pad: from the backpack first, then grown fish from the
-## tank.
-func _sell_one(target: ActionSquare) -> void:
-	var from: Vector2
-	var price := 0.0
-	if live_well.count() > 0:
-		from = _world_to_scene(wader.stack_top_position())
-		price = GameState.sell_fish(live_well.take_at(live_well.count() - 1))
-		wader.take_from_stack()
-	else:
-		var sale := GameState.sell_from_tank()
-		if sale.is_empty():
-			_finish_square_action()
-			if not _warned:
-				_warned = true
-				_announce(_world_to_scene(target.position + Vector2(0.0, -110.0)),
-						tr("No grown fish to sell.\nA pair of each kind stays to breed."), WARNING_COLOR, 1.0)
-			return
-		price = sale[1]
-		from = _world_to_scene(_tank_node.drop_point())
-		_tank_node.bounce()
+## Sells one grown fish from the tank on the "Sell fish" pad to the buyer waiting first in line,
+## who walks off with it. Fish in the backpack are too young to sell: they must grow in the tank
+## first. Returns true if a fish was sold.
+func _sell_one(target: ActionSquare) -> bool:
+	if Aquarium.adult_count(GameState.here()) == 0:
+		_finish_square_action()
+		if not _warned and _action_count == 0:
+			_warned = true
+			_announce(_world_to_scene(target.position + Vector2(0.0, -110.0)),
+					tr("Only grown fish can be sold.\nGrow your catch in the tank first."), WARNING_COLOR, 1.2)
+		return false
+	var buyer: Customer = _booths[0] if not _booths.is_empty() else null
+	if buyer == null or not buyer.is_waiting():
+		return false
+	var sale := GameState.sell_from_tank()
 	_action_count += 1
-	_action_total += price
-	Juice.fly_coin(_popups, from, _wallet_position(), 12.0 * ZOOM)
+	_action_total += sale[1]
+	Juice.fly_coin(_popups, _world_to_scene(_tank_node.drop_point()), _wallet_position(), 12.0 * ZOOM)
 	Sfx.play(&"coin", 1.0 + minf(_action_count, 20) * 0.04, -4.0)
+	_tank_node.bounce()
 	_shop_node.bounce()
+	_serve_at(0)
 	_update_hud()
+	return true
 
 
 ## Screen position of the coin counter, where earned coins fly to.
@@ -878,7 +952,10 @@ func _complete_purchase(target: ActionSquare) -> void:
 		GameState.upgrade_shop()
 		_sync_shops()
 		_shop_node.bounce()
-		message = tr("%s!\nRoom for one more seller") % tr(DataRegistry.shop_levels[site.shop_level - 1].name)
+		var shop_name := tr(DataRegistry.shop_levels[site.shop_level - 1].name)
+		var more := Selling.seller_slots(site) - int(DataRegistry.shop_levels[site.shop_level - 2].capacity)
+		message = tr("%s!\nRoom for one more seller") % shop_name if more == 1 \
+				else tr("%s!\nRoom for %d more sellers") % [shop_name, more]
 	elif target.id == "hire_seller":
 		GameState.hire_seller()
 		_sync_shops()
@@ -919,40 +996,91 @@ func _sync_shops() -> void:
 		_shop_node.position = Iso.to_screen(SHOP_POSITION)
 		_entities.add_child(_shop_node)
 	_shop_node.level = site.shop_level
-	_shop_node.sellers = site.seller_count
+	# One booth for the player and one per seller.
+	while _booths.size() < 1 + site.seller_count:
+		var booth := Booth.new()
+		booth.setup(FIRST_BOOTH + Vector2(BOOTH_SPACING * _booths.size(), 0.0), _booths.size())
+		_entities.add_child(booth)
+		_booth_nodes.append(booth)
+		_booths.append(null)
 	_move_queue()
 
 
-## A seller sold a fish: coins pop up at the shop and the first buyer in line leaves with it.
+## A seller sold a fish: coins pop up at the shop and the buyer at a seller's booth leaves with it.
 func _on_fish_sold_by_seller(_species_id: String, price: float) -> void:
-	_shop_node.bounce()
-	var at := _world_to_scene(_shop_node.counter_point())
+	var at_booth := 1
+	for booth in range(1, _booths.size()):
+		if _booths[booth] != null and _booths[booth].is_waiting():
+			at_booth = booth
+			break
+	var at := _world_to_scene(_booth_nodes[mini(at_booth, _booth_nodes.size() - 1)].position + Vector2(0.0, -60.0))
 	Juice.popup_text(_popups, at + Vector2(0.0, -40.0), "+" + NumberFormat.compact(price), 36, COIN_COLOR, 0.2)
 	Juice.fly_coin(_popups, at, _wallet_position(), 9.0 * ZOOM)
 	Sfx.play(&"coin", 1.3, -10.0)
-	if not _queue.is_empty() and _queue[0].is_waiting():
-		_queue.pop_front().serve()
-		_move_queue()
+	if at_booth < _booths.size() and _booths[at_booth] != null and _booths[at_booth].is_waiting():
+		_serve_at(at_booth)
 	_update_hud()
 
 
-## Buyers come while sellers work: the more sellers, the longer the queue.
+## The buyer at `booth` takes the fish just sold and walks off up the beach; the booth is free
+## again.
+func _serve_at(booth: int) -> void:
+	_booths[booth].serve(Vector2(_booths[booth].ground_position.x, CUSTOMER_EXIT_Y))
+	_booths[booth] = null
+	_booth_nodes[booth].bounce()
+
+
+## Buyers line up at the shop from the start at a steady pace, sellers or not, until the line
+## reaches past the edge of the screen. The first in line goes to the next free booth.
 func _update_customers(delta: float) -> void:
-	var sellers := GameState.here().seller_count
 	_customer_timer -= delta
-	if sellers == 0 or _queue.size() >= mini(QUEUE_LENGTH, 1 + sellers) or _customer_timer > 0.0:
-		return
-	_customer_timer = CUSTOMER_INTERVAL_S
+	if _customer_timer <= 0.0 and _queue.size() < _queue_capacity():
+		_customer_timer = CUSTOMER_INTERVAL_S
+		add_buyer()
+	for booth in _booths.size():
+		if _queue.is_empty() or not _queue[0].is_waiting():
+			return
+		# The player's booth only takes buyers while the player is there to sell.
+		if _booths[booth] != null or (booth == 0 and _current_square != _sell_square):
+			continue
+		var buyer: Customer = _queue.pop_front()
+		buyer.move_to(_booth_spot(booth))
+		_booths[booth] = buyer
+		_move_queue()
+
+
+## A new buyer walks up to the end of the line. Returns them.
+func add_buyer() -> Customer:
 	var customer := Customer.new()
-	var entry := CUSTOMER_ENTRY + Vector2(rng.randf_range(-120.0, 120.0), 0.0)
-	customer.setup(rng.randi(), entry, _queue_spot(_queue.size()), CUSTOMER_EXIT)
+	var entry := CUSTOMER_ENTRY + Vector2(0.0, -rng.randf_range(0.0, 200.0))
+	customer.setup(rng.randi(), entry, _queue_spot(_queue.size()), Vector2(entry.x, CUSTOMER_EXIT_Y))
 	_entities.add_child(customer)
 	_queue.append(customer)
+	return customer
 
 
-## Ground position of place `index` in the queue: in front of the counters, first one first.
+## How many buyers fit in line: it goes on up the beach until it is out of view behind its top.
+func _queue_capacity() -> int:
+	var count := 1
+	while _queue_spot(count).y > BEACH_TOP - CAMERA_OVERSCROLL - QUEUE_SPACING * 2.0:
+		count += 1
+	return count
+
+
+## Ground position of place `index` in the queue: coming down from the north, the first one
+## behind the player's booth.
 func _queue_spot(index: int) -> Vector2:
-	return Iso.to_ground(_shop_node.counter_front(index))
+	return Vector2(FIRST_BOOTH.x, FIRST_BOOTH.y + Booth.BUYER_OFFSET.y - QUEUE_SPACING * (index + 1))
+
+
+## Centre of the pad in front of booth `index` (which need not be built yet).
+func _booth_pad_center(index: int) -> Vector2:
+	return FIRST_BOOTH + Vector2(BOOTH_SPACING * index, 0.0) + BOOTH_PAD_OFFSET
+
+
+## Ground position where the buyer stands at `booth`: behind its desk, facing the player.
+func _booth_spot(booth: int) -> Vector2:
+	return _booth_nodes[booth].buyer_spot()
 
 
 ## Everyone in line moves up to their place (also when the shop got bigger).
@@ -1035,15 +1163,10 @@ func _on_drone_delivered(drone: Drone, species_ids: Array[String]) -> void:
 
 #region Travel
 
-## Travels to another location from the World map: unlocks it first if needed. The catch must
-## be stored or sold before leaving.
+## Travels to another location from the World map: unlocks it first if needed. The backpack
+## stays at this location's beach until the player comes back.
 func _on_travel_chosen(def: LocationDef) -> void:
 	var state := GameState.state
-	if live_well.count() > 0:
-		world_map.hide()
-		_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 200.0),
-				tr("Store or sell your catch\nbefore you travel!"), WARNING_COLOR, 1.2)
-		return
 	if not Travel.is_unlocked(state, def) and not GameState.unlock_location(def):
 		return
 	GameState.travel_to(def)
@@ -1121,9 +1244,9 @@ func _update_hud() -> void:
 		NumberFormat.compact(Aquarium.used_space(site.tank)), NumberFormat.compact(Aquarium.capacity(site.tank)), adults,
 		NumberFormat.compact(Aquarium.tank_value(site))]
 	if live_well.is_full():
-		_hint_label.text = tr("Backpack full! Store the fish in the tank so they grow, or quick-sell them.")
+		_hint_label.text = tr("Backpack full! Grow the fish in the tank, then sell them.")
 	elif live_well.count() > 0:
-		_hint_label.text = tr("Store your catch in the tank: grown fish sell for 3 times as much.")
+		_hint_label.text = tr("Grow your catch in the tank. Only grown fish can be sold.")
 	elif adults > 0 and site.seller_count == 0:
 		_hint_label.text = tr("Grown fish are worth 3 times as much. Sell them at the shop!")
 	else:

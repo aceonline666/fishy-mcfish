@@ -32,14 +32,11 @@ msgstr "Neue Art!"
 msgid "%s charted!\nDrones can fish here now"
 msgstr "%s kartiert!\nJetzt können hier Drohnen fischen"
 
-msgid "Quick sale"
-msgstr "Schnellverkauf"
+msgid "Sell fish"
+msgstr "Fisch verkaufen"
 
-msgid "Young fish sell cheap"
-msgstr "Junge Fische bringen wenig"
-
-msgid "Store fish"
-msgstr "Fisch einlagern"
+msgid "Put in tank"
+msgstr "Ins Becken"
 
 msgid "Bigger tank"
 msgstr "Größeres Becken"
@@ -77,14 +74,11 @@ msgstr "Kein Platz im Becken!"
 msgid "Upgrade the tank."
 msgstr "Vergrößere das Becken."
 
-msgid "No grown fish to sell.\nA pair of each kind stays to breed."
-msgstr "Keine ausgewachsenen Fische zu verkaufen.\nEin Paar jeder Art bleibt zur Zucht."
-
 msgid "Tank  %s / %s L  ·  %d grown  ·  worth %s"
 msgstr "Becken  %s / %s L  ·  %d ausgewachsen  ·  Wert %s"
 
-msgid "Backpack full! Store the fish in the tank so they grow, or quick-sell them."
-msgstr "Korb voll! Lagere die Fische im Becken ein, damit sie wachsen, oder verkaufe sie schnell."
+msgid "Backpack full! Grow the fish in the tank, then sell them."
+msgstr "Korb voll! Lass die Fische im Becken wachsen und verkaufe sie dann."
 
 msgid "Grown fish are worth 3 times as much. Sell them at the shop!"
 msgstr "Ausgewachsene Fische sind dreimal so viel wert. Verkaufe sie im Laden!"
@@ -128,9 +122,6 @@ msgstr "%s!\nGroße Fische landen schneller im Netz"
 msgid "%s!\nNow you can reach: %s"
 msgstr "%s!\nJetzt erreichbar: %s"
 
-msgid "Store or sell your catch\nbefore you travel!"
-msgstr "Lagere oder verkaufe deinen Fang,\nbevor du reist!"
-
 msgid "Goal reached: %s"
 msgstr "Ziel erreicht: %s"
 
@@ -140,8 +131,8 @@ msgstr "+%s Münzen"
 msgid "Backpack  %d / %d"
 msgstr "Korb  %d / %d"
 
-msgid "Store your catch in the tank: grown fish sell for 3 times as much."
-msgstr "Lagere deinen Fang im Becken ein: ausgewachsene Fische bringen das Dreifache."
+msgid "Grow your catch in the tank. Only grown fish can be sold."
+msgstr "Lass deinen Fang im Becken wachsen. Nur ausgewachsene Fische lassen sich verkaufen."
 
 msgid "Touch and hold to wade there and catch fish."
 msgstr "Tippe und halte, um hinzuwaten und Fische zu fangen."
@@ -311,7 +302,7 @@ msgid "Coral Reef"
 msgstr "Korallenriff"
 
 msgid "Warm clear water over colourful corals. Start a second beach business from scratch; building here costs more."
-msgstr "Warmes, klares Wasser über bunten Korallen. Hier baust du ein zweites Strandgeschäft ganz neu auf; Bauen kostet hier mehr."
+msgstr "Warmes, klares Wasser über bunten Korallen des Indo-Pazifik. Hier baust du ein zweites Strandgeschäft ganz neu auf; Bauen kostet hier mehr."
 
 msgid "Pier shallows"
 msgstr "Pier-Flachwasser"
@@ -477,15 +468,6 @@ msgstr "Riesenbecken"
 msgid "Exhibit tank"
 msgstr "Ausstellungsbecken"
 
-msgid "First seller"
-msgstr "Erster Verkäufer"
-
-msgid "Second seller"
-msgstr "Zweiter Verkäufer"
-
-msgid "Third seller"
-msgstr "Dritter Verkäufer"
-
 msgid "First drone"
 msgstr "Erste Drohne"
 
@@ -637,15 +619,6 @@ msgstr "Riesenaquarium"
 
 msgid "Ocean dome"
 msgstr "Ozeankuppel"
-
-msgid "Fourth seller"
-msgstr "Vierter Verkäufer"
-
-msgid "Fifth seller"
-msgstr "Fünfter Verkäufer"
-
-msgid "Sixth seller"
-msgstr "Sechster Verkäufer"
 
 msgid "Fourth drone"
 msgstr "Vierte Drohne"
@@ -1191,3 +1164,72 @@ msgstr "Das schwerste wirbellose Tier der Erde, mit drehbaren Haken an den Tenta
 
 msgid "Full: drones resting"
 msgstr "Voll: Drohnen ruhen"
+
+msgid "Fish grow %s× as fast"
+msgstr "Fische wachsen %s× so schnell"
+
+msgid "Grown in %s"
+msgstr "Ausgewachsen in %s"
+
+msgid "%d grown"
+msgstr "%d ausgewachsen"
+
+msgid "No grown fish"
+msgstr "Kein Fisch ausgewachsen"
+
+msgid "Only grown fish can be sold.\nGrow your catch in the tank first."
+msgstr "Nur ausgewachsene Fische lassen sich verkaufen.\nLass deinen Fang erst im Becken wachsen."
+
+msgid "+%d sellers"
+msgstr "+%d Verkäufer"
+
+msgid "Seller 1"
+msgstr "Verkäufer 1"
+
+msgid "Seller 2"
+msgstr "Verkäufer 2"
+
+msgid "Seller 3"
+msgstr "Verkäufer 3"
+
+msgid "Seller 4"
+msgstr "Verkäufer 4"
+
+msgid "Seller 5"
+msgstr "Verkäufer 5"
+
+msgid "Seller 6"
+msgstr "Verkäufer 6"
+
+msgid "Seller 7"
+msgstr "Verkäufer 7"
+
+msgid "Seller 8"
+msgstr "Verkäufer 8"
+
+msgid "Seller 9"
+msgstr "Verkäufer 9"
+
+msgid "Seller 10"
+msgstr "Verkäufer 10"
+
+msgid "Seller 11"
+msgstr "Verkäufer 11"
+
+msgid "Seller 12"
+msgstr "Verkäufer 12"
+
+msgid "Seller 13"
+msgstr "Verkäufer 13"
+
+msgid "Seller 14"
+msgstr "Verkäufer 14"
+
+msgid "Seller 15"
+msgstr "Verkäufer 15"
+
+msgid "%s!\nRoom for %d more sellers"
+msgstr "%s!\nPlatz für %d weitere Verkäufer"
+
+msgid "Needs a %s L tank"
+msgstr "Braucht ein %s-L-Becken"

@@ -1,17 +1,13 @@
 class_name Aquarium
 extends RefCounted
-## Rules for a location's aquarium (its one tank): space, storing fish, growth, breeding and
+## Rules for a location's aquarium (its one tank): space, storing fish, growth and
 ## upgrade prices. Operates on a Site using the read-only data in DataRegistry. Prices are scaled by the
 ## location's price factor.
 ##
-## Fish breed: two or more fish of a species in a tank get young, one per pair every
-## BREED_TIME_MULT growth times, while the tank is less than BREED_FILL full. The rest of the
-## space stays free for the catch. So a tank keeps producing fish for the sellers.
 
-const BREED_FILL := 0.8
-const BREED_TIME_MULT := 2.0
-## A crowded tank stops breeding, however small its fish are.
-const MAX_BREEDING_FISH := 300
+
+## Share of caught fish that are already grown.
+const GROWN_CATCH_CHANCE := 0.1
 
 
 static func capacity(tank: TankState) -> float:
@@ -35,6 +31,21 @@ static func fits(tank: TankState, def: SpeciesDef) -> bool:
 	return tank_capacity >= def.min_tank_l and used_space(tank) + def.space_l <= tank_capacity
 
 
+## True if the site's tank could hold the species once there is room: the right water, and big
+## enough for it.
+static func can_ever_hold(site: Site, def: SpeciesDef) -> bool:
+	var tank_capacity := capacity(site.tank)
+	return species_env(def) == site.location().env and tank_capacity >= def.min_tank_l and tank_capacity >= def.space_l
+
+
+## The size of the smallest tank level that can hold the species, in litres.
+static func tank_needed(def: SpeciesDef) -> float:
+	for level in DataRegistry.tank_levels:
+		if level.capacity >= def.min_tank_l and level.capacity >= def.space_l:
+			return level.capacity
+	return DataRegistry.tank_levels[-1].capacity
+
+
 ## The site's tank if the species fits in, else null. The tank holds the water of its location,
 ## so only its own kind of fish (temperate or tropical) live there.
 static func tank_for(site: Site, def: SpeciesDef) -> TankState:
@@ -43,12 +54,19 @@ static func tank_for(site: Site, def: SpeciesDef) -> TankState:
 	return site.tank
 
 
-## Puts a juvenile fish into the tank if it fits. Returns the tank, or null.
-static func store(site: Site, species_id: String) -> TankState:
+## Puts a fish into the tank if it fits, as far grown as given (0 young, 1 grown). Returns the
+## tank, or null.
+static func store(site: Site, species_id: String, growth: float = 0.0) -> TankState:
 	var tank := tank_for(site, DataRegistry.species[species_id])
 	if tank != null:
-		tank.fish.append(TankFish.new(species_id))
+		tank.fish.append(TankFish.new(species_id, growth))
 	return tank
+
+
+## How far grown a freshly caught fish is: one in ten is already grown, the others anywhere
+## between young and nearly grown, so they grow up one after the other.
+static func catch_growth(rng: RandomNumberGenerator) -> float:
+	return 1.0 if rng.randf() < GROWN_CATCH_CHANCE else rng.randf_range(0.0, 0.95)
 
 
 ## What all fish in the tank would sell for right now.
@@ -67,40 +85,59 @@ static func adult_count(site: Site) -> int:
 	return count
 
 
-## Lets time pass at every location: fish grow towards adult, which triples their value, and
-## breed.
+## Lets time pass at every location: fish grow towards adult, which triples their value.
+## Bigger tanks grow them faster.
 static func advance(state: PlayerState, seconds: float) -> void:
 	if seconds <= 0.0:
 		return
 	for site: Site in state.sites.values():
+		var speed := growth_speed(site.tank)
 		for fish in site.tank.fish:
 			var def := DataRegistry.species[fish.species_id]
-			fish.growth = minf(fish.growth + seconds / def.growth_time_s, 1.0)
-		breed(site.tank, seconds)
+			fish.growth = minf(fish.growth + seconds * speed / def.growth_time_s, 1.0)
 
 
-## Young are born to every pair in the tank while there is breeding room. Returns how many.
-static func breed(tank: TankState, seconds: float) -> int:
-	var counts: Dictionary[String, int] = {}
+## How many times faster than in the first tank fish grow in this one.
+static func growth_speed(tank: TankState) -> float:
+	return DataRegistry.tank_levels[tank.level - 1].speed
+
+
+## The young fish that will be grown first, or null if all are grown (or the tank is empty).
+static func next_to_grow(tank: TankState) -> TankFish:
+	var next: TankFish = null
+	var shortest := INF
 	for fish in tank.fish:
-		counts[fish.species_id] = counts.get(fish.species_id, 0) + 1
-	var room := capacity(tank) * BREED_FILL - used_space(tank)
-	var born := 0
-	for id: String in counts:
-		var pairs := counts[id] / 2
-		if pairs == 0:
-			tank.breeding.erase(id)
-			continue
-		var def := DataRegistry.species[id]
-		var progress: float = tank.breeding.get(id, 0.0) + pairs * seconds / (def.growth_time_s * BREED_TIME_MULT)
-		while progress >= 1.0 and def.space_l <= room and tank.fish.size() < MAX_BREEDING_FISH:
-			progress -= 1.0
-			tank.fish.append(TankFish.new(id))
-			room -= def.space_l
-			born += 1
-		# A full tank does not save up young for later.
-		tank.breeding[id] = minf(progress, 1.0)
-	return born
+		var left := seconds_to_grow(tank, fish)
+		if fish.growth < 1.0 and left < shortest:
+			next = fish
+			shortest = left
+	return next
+
+
+## Seconds until a fish in this tank is grown.
+static func seconds_to_grow(tank: TankState, fish: TankFish) -> float:
+	var def := DataRegistry.species[fish.species_id]
+	return (1.0 - fish.growth) * def.growth_time_s / growth_speed(tank)
+
+
+## The share of the tank's space that is taken, 0 to 1.
+static func fill_share(tank: TankState) -> float:
+	return minf(used_space(tank) / capacity(tank), 1.0)
+
+
+## The least space any species of this kind of water needs. Below that much free space the
+## tank counts as full: nothing can be added any more.
+static func smallest_space(env: String) -> float:
+	var smallest := INF
+	for def: SpeciesDef in DataRegistry.species.values():
+		if species_env(def) == env:
+			smallest = minf(smallest, def.space_l)
+	return smallest
+
+
+## True if not even the smallest fish fits into the tank any more.
+static func is_full(site: Site) -> bool:
+	return capacity(site.tank) - used_space(site.tank) < smallest_space(site.location().env)
 
 
 static func backpack_capacity(site: Site) -> int:

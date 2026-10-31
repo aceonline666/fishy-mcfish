@@ -78,7 +78,7 @@ static func run_drones(state: PlayerState, sites: Array[Site], seconds: float, r
 				if drone_tank_full(state, site, zone, 0.0):
 					break
 				var species_id := pick_drone_catch(state, zone, rng)
-				if not species_id.is_empty() and Aquarium.store(site, species_id) != null:
+				if not species_id.is_empty() and Aquarium.store(site, species_id, Aquarium.catch_growth(rng)) != null:
 					stored += 1
 	return stored
 

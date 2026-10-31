@@ -10,6 +10,7 @@ enum Kind { STORE, SELL, BUY }
 const COLORS: Array[Color] = [Color(0.55, 0.85, 1.0), Color(1.0, 0.62, 0.3), Color(0.55, 1.0, 0.6)]
 const CALLING_COLOR := Color(1.0, 0.85, 0.2)
 const SUBTITLE_COLOR := Color(0.92, 0.96, 1.0)
+const DISABLED_COLOR := Color(0.62, 0.64, 0.68)
 const SHADOW := Color(0.0, 0.0, 0.0, 0.22)
 ## Screen height of the slab's edge.
 const THICKNESS := 16.0
@@ -38,6 +39,8 @@ var ground_center := Vector2.ZERO
 var active := false
 ## Pulses to draw attention.
 var calling := false
+## Greyed out: there is nothing to do here yet (the subtitle says why).
+var disabled := false
 ## Picture of what the pad buys, standing on its left end; null for none.
 var icon: Texture2D
 
@@ -64,14 +67,14 @@ func _process(delta: float) -> void:
 	_time += delta
 	if not visible:
 		return
-	var shown := [kind, title, subtitle, price, paid, active, calling, icon]
+	var shown := [kind, title, subtitle, price, paid, active, calling, icon, disabled]
 	if calling or shown != _drawn:
 		_drawn = shown
 		queue_redraw()
 
 
 func _draw() -> void:
-	var color := COLORS[kind]
+	var color := COLORS[kind] if not disabled else COLORS[kind].lerp(DISABLED_COLOR, 0.8)
 	var pulse := 0.5 + 0.5 * sin(_time * 6.0)
 	var half := half_extents * (1.0 + 0.04 * pulse if calling else 1.0)
 	var lift := Vector2(0.0, -THICKNESS * (0.35 if active else 1.0))

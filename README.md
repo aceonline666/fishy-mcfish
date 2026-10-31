@@ -25,16 +25,21 @@ ring fills. Catches in quick succession build a combo.
 
 Up on the beach, pads act while you stand on them (walking on sand is faster than wading). A
 boardwalk in the middle leads from the water to the back of the beach without crossing any pad.
-Each beach has **one tank and one shop**, which are upgraded instead of building more:
-- **Store fish** puts the catch into the tank (big species need a big tank). Fish grow in the
-  tank and are worth three times as much once grown. Two or more fish of a species **breed**:
-  each pair gets young while the tank is less than 80 % full (the rest stays free for the catch).
-- **Sell fish** in front of the shop: the backpack first, then grown fish from the tank, most
-  valuable first; a breeding pair of each species stays, unless the tank is too full to breed
-  (then pairs are sold too, so the tank never clogs up). The shop buys every fish; **Bigger
-  shop** makes room for one more seller. Selling speeds up with every fish.
-- **Hire seller**: one seller per shop level, each selling 10 grown fish a minute on their own,
-  also while the game is closed. With breeding pairs in the tank this is a steady income.
+Left of it is the business, right of it the upgrades (net, diving gear, drones, backpack, tank).
+Each beach has **one tank and one shop**, which are upgraded instead of building more. A pipe
+between them holds the grown fish in the order they will be sold, each with its price:
+- **Put in tank**, in front of the tank, puts the catch into it (big species need a big tank). Caught fish are
+  partly grown already, one in ten fully. Fish grow in the tank, faster in bigger tanks; only grown fish can be sold, for three times their young value.
+  A bar above the tank counts down to the next grown fish. The tank shows how full it is: its
+  water rises with the fish in it and runs over at 100 %.
+- **Sell fish** in front of the shop is greyed out ("No grown fish") until a fish is grown, then
+  sells the grown fish from the tank, most valuable first, to the buyers lining up there from the start. The shop buys
+  every fish; **Bigger shop** adds booths for more sellers (1, 2, 4, 7, 11 and finally 15 in
+  the seafood palace). While you stand on the pad you
+  sell one fish every 2 s at your own booth; one line of buyers feeds the next free booth.
+- **Hire seller**: one seller per free booth, each as fast as you,
+  also while the game is closed. With bigger tanks you need more of them to keep up; the drones
+  refill the tank, so this is a steady income.
 - **Bigger tank / Bigger backpack / Better net** take coins until paid (partial payments are
   kept). Better nets land big fish faster and are a little wider.
 - **Diving gear** (snorkel, scuba gear, rebreather, hard-hat suit, submersible) opens the
@@ -193,6 +198,7 @@ Rules of thumb:
 - Improve game logic for tanks and sales - this is not self-explaining
 - Improve layout of the "walk-on" buttons to avoid accidental buys
 - Sprite errors for the wader
+  - Swimming Mask even in first zone doesn't make sense
   - Snorkel still there for scuba gear and breather
   - Submarine back sometimes has details and sometimes not - flickering when moving - could be fixed by just mirroring the one without details
 - Clarify what the basket logic is when in the hardhat suit / submarine. Basket + Scuba gear?
@@ -208,3 +214,5 @@ Rules of thumb:
 - English texts still say "backpack" while the item is a basket
 - Basket, net and snorkel buying should be next to each other since they all "equip" the wader
 - Achievements should be harder to reach and should be celebrated more. Possible connection to Google Gamecenter Achievements?
+- Walking sound is annoying. Replace with a better sound
+- Improve coin look when the coins are flying. They are too small and not comic-style enough. Maybe they could spin?

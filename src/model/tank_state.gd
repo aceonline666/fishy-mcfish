@@ -5,8 +5,6 @@ extends RefCounted
 ## Index + 1 into DataRegistry.tank_levels.
 var level := 1
 var fish: Array[TankFish] = []
-## Progress of each species towards its next young (Aquarium.breed); not saved.
-var breeding: Dictionary[String, float] = {}
 
 
 func _init(tank_level: int = 1) -> void:

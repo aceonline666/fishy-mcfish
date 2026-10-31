@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 128" width="32" height="128">
+  <!-- PLACEHOLDER: a sheet of water running over the rim and down the glass. -->
+  <path d="M2 4 Q16 -2 30 4 V112 Q30 124 24 124 Q18 128 14 122 Q8 128 4 120 Q2 116 2 108 Z" fill="#8fd6ff" fill-opacity="0.85"/>
+  <path d="M9 8 V100 M18 6 V110 M25 10 V90" stroke="#ffffff" stroke-opacity="0.7" stroke-width="2" stroke-linecap="round"/>
+</svg>

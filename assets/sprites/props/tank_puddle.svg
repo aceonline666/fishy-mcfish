@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 128" width="256" height="128">
+  <!-- PLACEHOLDER: the water that ran over, spreading on the ground in the 2:1 isometric projection. -->
+  <ellipse cx="128" cy="64" rx="124" ry="62" fill="#8fd6ff" fill-opacity="0.65"/>
+  <ellipse cx="128" cy="64" rx="96" ry="48" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="3"/>
+  <ellipse cx="92" cy="48" rx="26" ry="8" fill="#ffffff" fill-opacity="0.45"/>
+</svg>

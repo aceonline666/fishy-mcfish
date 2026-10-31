@@ -1,27 +1,19 @@
 class_name Selling
 extends RefCounted
-## Selling fish at a location's shop. The shop buys every fish; each shop level makes room for one
-## more seller. The player sells by standing on the shop's "Quick sale" pad; the sellers sell on
+## Selling fish at a location's shop. The shop buys every fish; each shop level has booths for
+## more sellers (data/shop_levels.csv: capacity), up to 15 in the seafood palace. The player sells by standing on the shop's "Sell fish" pad; the sellers sell on
 ## their own, at every location, also while the game is closed. From the tank only grown fish are
-## sold, and a breeding pair of each species stays in it, unless the tank is too full to breed:
-## then pairs are sold too, so it never fills up with fish that nobody sells.
-
-## Fish of a species that stay in the tank to breed.
-const BREEDING_PAIR := 2
+## sold; the drones fill the space up again.
 
 
-## Index of the most valuable grown fish in the tank that may be sold, or -1 if none.
+## Index of the most valuable grown fish in the tank, or -1 if none.
 static func best_fish(site: Site) -> int:
 	var tank := site.tank
-	var counts: Dictionary[String, int] = {}
-	for fish in tank.fish:
-		counts[fish.species_id] = counts.get(fish.species_id, 0) + 1
-	var crowded := Aquarium.used_space(tank) >= Aquarium.capacity(tank) * Aquarium.BREED_FILL
 	var best := -1
 	var best_price := -1.0
 	for i in tank.fish.size():
 		var fish := tank.fish[i]
-		if fish.growth < 1.0 or (counts[fish.species_id] <= BREEDING_PAIR and not crowded):
+		if fish.growth < 1.0:
 			continue
 		var price := Economy.sale_price(DataRegistry.species[fish.species_id], fish.growth)
 		if price > best_price:
@@ -30,7 +22,7 @@ static func best_fish(site: Site) -> int:
 	return best
 
 
-## Sells the most valuable sellable fish from the tank. Returns [species id, price], or [] if
+## Sells the most valuable grown fish from the tank. Returns [species id, price], or [] if
 ## there was nothing to sell. Adds the coins to the state.
 static func sell_best(state: PlayerState, site: Site) -> Array:
 	var index := best_fish(site)
@@ -63,6 +55,11 @@ static func run_sellers(state: PlayerState, seconds: float) -> float:
 	return earned
 
 
+## How many sellers the shop has booths for at its level.
+static func seller_slots(site: Site) -> int:
+	return int(DataRegistry.shop_levels[clampi(site.shop_level, 1, DataRegistry.shop_levels.size()) - 1].capacity)
+
+
 ## Price of the next shop level, or -1 at the top level.
 static func shop_upgrade_cost(site: Site) -> float:
 	var levels := DataRegistry.shop_levels
@@ -71,6 +68,6 @@ static func shop_upgrade_cost(site: Site) -> float:
 
 ## Price of the next seller, or -1 if the shop has as many as its level allows (or all are hired).
 static func next_seller_cost(site: Site) -> float:
-	if site.seller_count >= site.shop_level or site.seller_count >= DataRegistry.staff_levels.size():
+	if site.seller_count >= seller_slots(site) or site.seller_count >= DataRegistry.staff_levels.size():
 		return -1.0
 	return DataRegistry.staff_levels[site.seller_count].cost * site.price_factor()

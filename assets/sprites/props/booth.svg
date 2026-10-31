@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 110" width="120" height="110">
+  <!-- PLACEHOLDER: a sales booth seen from the south-east (2:1 isometric), its counter facing
+       north (away from the camera). The foot of the booth is at the bottom centre. -->
+  <g stroke="#11161f" stroke-width="3" stroke-linejoin="round">
+    <path d="M14 58 L60 35 L106 58 L60 81 Z" fill="#d9a36a"/>
+    <path d="M14 58 L60 81 L60 104 L14 81 Z" fill="#a8743f"/>
+    <path d="M60 81 L106 58 L106 81 L60 104 Z" fill="#8a5c2e"/>
+    <path d="M22 54 L22 14 M98 54 L98 14" fill="none"/>
+    <path d="M14 18 L60 -2 L106 18 L60 40 Z" fill="#2f7fd0"/>
+    <path d="M14 18 L60 40 L60 48 L14 26 Z" fill="#f2f6fa"/>
+    <path d="M60 40 L106 18 L106 26 L60 48 Z" fill="#2f7fd0"/>
+  </g>
+</svg>

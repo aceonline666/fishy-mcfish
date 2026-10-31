@@ -3,8 +3,8 @@ extends RefCounted
 ## milestones are reached, to check the pacing. Started by tools/balance_sim.gd.
 ##
 ## The player model: fish the most useful open zone of the current location until the backpack
-## is full, walk up the beach, store what fits, sell the rest and the grown fish (all but the
-## breeding pairs) at the shop, buy the cheapest affordable upgrade there (or the travel fee),
+## is full, walk up the beach, store what fits, let the rest go, sell the grown fish at the
+## shop, buy the cheapest affordable upgrade there (or the travel fee),
 ## walk back. Once every species of a location is found and its gear is maxed, travel on to the
 ## next open location and build its business from scratch. Drones and sellers of every
 ## location work in the background.
@@ -14,7 +14,7 @@ const SECONDS_PER_CATCH := 4.0
 ## A round trip between the fishing spot, the store pad and the shop.
 const TRIP_OVERHEAD_S := 12.0
 ## Seconds per fish sold on a "Sell fish" pad.
-const SELL_SECONDS := 0.08
+const SELL_SECONDS := 2.0
 ## Fish per second a drone brings in where the player is (elsewhere: the offline rate).
 const DRONE_FISH_PER_SECOND := 0.2
 const REPORT_EVERY_S := 600.0
@@ -91,16 +91,14 @@ func _has_unknown_species(zone: ZoneDef) -> bool:
 	return zone.spawns.keys().any(func(id: String) -> bool: return not _state.species_caught.has(id))
 
 
-## Walks up the beach: store what fits, sell the rest and all grown fish, buy upgrades, and
+## Walks up the beach: store what fits, let the rest go, sell all grown fish, buy upgrades, and
 ## travel on once this location is done.
 func _trip() -> void:
 	var site := _state.here()
 	_pass_time(TRIP_OVERHEAD_S)
 	var sold := 0
 	for id in _backpack:
-		if Aquarium.store(site, id) == null:
-			_state.add_money(Economy.sale_price(DataRegistry.species[id]))
-			sold += 1
+		Aquarium.store(site, id, Aquarium.catch_growth(_rng))
 	_backpack.clear()
 	while not Selling.sell_best(_state, site).is_empty():
 		sold += 1
@@ -199,8 +197,8 @@ func _pass_time(seconds: float) -> void:
 			_report()
 
 
-## Drones where the player is deliver their catch (sold if no tank has room); elsewhere they
-## fish at the slower unwatched rate and let go what does not fit.
+## Drones fill the tank (at the slower unwatched rate where the player is not) and rest while it
+## has no room for their catch.
 func _run_drones(site: Site, step: float) -> void:
 	if site.drone_count == 0:
 		return
@@ -210,9 +208,11 @@ func _run_drones(site: Site, step: float) -> void:
 	while progress >= 1.0:
 		progress -= 1.0
 		var zone := Automation.drone_zone(_state, site, _rng.randi() % site.drone_count)
-		var id := Automation.pick_drone_catch(_state, zone, _rng) if zone != null else ""
-		if not id.is_empty() and Aquarium.store(site, id) == null and watched:
-			_state.add_money(Economy.sale_price(DataRegistry.species[id]))
+		if zone == null or Automation.drone_tank_full(_state, site, zone, 0.0):
+			continue
+		var id := Automation.pick_drone_catch(_state, zone, _rng)
+		if not id.is_empty():
+			Aquarium.store(site, id, Aquarium.catch_growth(_rng))
 	_drone_progress[site.location_id] = progress
 
 

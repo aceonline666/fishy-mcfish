@@ -54,7 +54,7 @@ func test_german_is_used_when_chosen() -> void:
 	Settings.settings_path = "user://test_run/settings.cfg"
 	Settings.set_language("de")
 	assert_eq(Settings.current_language(), "de")
-	assert_eq(tr("Quick sale"), "Schnellverkauf")
+	assert_eq(tr("Sell fish"), "Fisch verkaufen")
 	assert_eq(Lang.text(DataRegistry.species["atlantic_cod"].common_name), "Kabeljau")
 	assert_eq(NumberFormat.compact(1234.0), "1,23K")
 	Settings.set_language("en")
@@ -83,7 +83,7 @@ func test_the_fishing_screen_switches_language_live() -> void:
 	Settings.set_language("de")
 	await wait_process_frames(1)
 	assert_eq(hint.text, "Tippe und halte, um hinzuwaten und Fische zu fangen.")
-	assert_eq(scene.square("store").title, "Fisch einlagern")
+	assert_eq(scene.square("store").title, "Ins Becken")
 
 
 #region Finding the shown texts

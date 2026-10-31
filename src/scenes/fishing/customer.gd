@@ -1,7 +1,7 @@
 class_name Customer
 extends Node2D
-## A buyer at the fish shop: walks up the beach to a place in the queue, waits, and walks off
-## with a fish in a water bag once a seller has served them. Drawn from painted sprites
+## A buyer at the fish shop: walks to a place in the queue, waits, and walks off with a fish in
+## a water bag once served at a booth. Drawn from painted sprites
 ## (assets/sprites/props) in front or back view, depending on where they walk; most looks have a
 ## painted "leaving with a fish" version, the others get a bag drawn in their hand.
 
@@ -58,8 +58,10 @@ func move_to(queue_spot: Vector2) -> void:
 		state = State.ARRIVING
 
 
-## Served: takes the fish and walks off.
-func serve() -> void:
+## Served: takes the fish and walks off, to `exit` if given.
+func serve(exit: Vector2 = Vector2.INF) -> void:
+	if exit != Vector2.INF:
+		_exit = exit
 	has_fish = true
 	if WITH_FISH.has(_look):
 		_front = load(PROPS_DIR + WITH_FISH[_look] + "_front.png")

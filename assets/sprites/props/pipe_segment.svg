@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 28" width="64" height="28">
+  <!-- PLACEHOLDER: one piece of the sales pipe from the tank to the shop, drawn repeatedly along
+       its length. The pipe runs from left to right through the middle. -->
+  <rect x="0" y="4" width="64" height="20" fill="#7fb8d8"/>
+  <rect x="0" y="4" width="64" height="5" fill="#d8f0ff"/>
+  <rect x="0" y="19" width="64" height="5" fill="#4f86a8"/>
+  <path d="M0 4 H64 M0 24 H64" stroke="#11161f" stroke-width="3"/>
+  <rect x="58" y="1" width="6" height="26" rx="2" fill="#5a6c7a" stroke="#11161f" stroke-width="2"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 72" width="80" height="72">
+  <!-- PLACEHOLDER: a round fish glass on the sales pipe; the fish is drawn into it. The bottom of
+       the glass is at the bottom centre. -->
+  <ellipse cx="40" cy="68" rx="22" ry="4" fill="#0b1a2a" fill-opacity="0.25"/>
+  <path d="M18 14 Q2 40 18 62 Q40 72 62 62 Q78 40 62 14 Z" fill="#9fdcff" fill-opacity="0.45" stroke="#11161f" stroke-width="3"/>
+  <path d="M10 34 Q40 42 70 34 Q74 50 62 62 Q40 72 18 62 Q6 50 10 34 Z" fill="#3f9ad8" fill-opacity="0.45"/>
+  <ellipse cx="40" cy="14" rx="22" ry="5" fill="#d8f0ff" fill-opacity="0.7" stroke="#11161f" stroke-width="3"/>
+  <path d="M16 26 Q12 40 18 52" fill="none" stroke="#ffffff" stroke-opacity="0.8" stroke-width="4" stroke-linecap="round"/>
+</svg>

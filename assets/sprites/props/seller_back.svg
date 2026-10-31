@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 150" width="60" height="150">
+  <!-- PLACEHOLDER: a seller seen from behind, in a blue shop uniform and cap. The feet are at the
+       bottom centre. -->
+  <g stroke="#11161f" stroke-width="3" stroke-linejoin="round">
+    <path d="M20 100 L18 146 L28 146 L30 104 L32 146 L42 146 L40 100 Z" fill="#2d3e5c"/>
+    <path d="M12 52 Q30 44 48 52 L50 104 L10 104 Z" fill="#2f7fd0"/>
+    <path d="M10 56 L4 96 L12 98 L16 62 M50 56 L56 96 L48 98 L44 62" fill="#2f7fd0"/>
+    <circle cx="30" cy="30" r="16" fill="#8a5a3a"/>
+    <path d="M13 26 Q30 8 47 26 L47 30 L13 30 Z" fill="#2f7fd0"/>
+  </g>
+</svg>
