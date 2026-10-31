@@ -195,7 +195,6 @@ Rules of thumb:
 - Animate all species properly, replace un-animateable sprites for species
 - Replace wrong species sprites and fact-check species info panels
 - Beach and seafloor textures for all locations
-- Improve game logic for tanks and sales - this is not self-explaining
 - Improve layout of the "walk-on" buttons to avoid accidental buys
 - Sprite errors for the wader
   - Swimming Mask even in first zone doesn't make sense
