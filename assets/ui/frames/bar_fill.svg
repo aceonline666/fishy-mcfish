@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="40" viewBox="0 0 64 40">
+  <!-- The filled part of a progress bar: bubbly cyan with a shine on top. -->
+  <defs>
+    <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9ff0ff"/>
+      <stop offset="1" stop-color="#2fb6e8"/>
+    </linearGradient>
+  </defs>
+  <rect x="2.5" y="2.5" width="59" height="35" rx="17.5" fill="url(#fill)" stroke="#12172a" stroke-width="5"/>
+  <rect x="12" y="9" width="40" height="6" rx="3" fill="#ffffff" fill-opacity="0.7"/>
+</svg>

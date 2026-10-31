@@ -260,6 +260,14 @@ func test_deeper_zones_are_closed_without_gear() -> void:
 	assert_lte(_wader.ground_position.y, shallows.depth_end)
 
 
+func test_wader_walks_no_further_up_the_beach_than_the_pier_end() -> void:
+	var top_target := Vector2(_wader.ground_position.x, _scene.BEACH_TOP)
+	_touch(_scene.ground_to_scene(top_target), true)
+	await wait_seconds(4.0)
+	_touch(_scene.ground_to_scene(top_target), false)
+	assert_gte(_wader.ground_position.y, _scene.PIER_TOP)
+
+
 func test_buying_gear_opens_the_next_zone() -> void:
 	GameState.add_money(Aquarium.gear_upgrade_cost(GameState.here()))
 	_stand_on("upgrade_gear")
@@ -280,7 +288,16 @@ func test_fish_keep_to_their_zone() -> void:
 	var fish: SwimmingFish = _scene.spawn_fish("european_plaice", Vector2(600.0, deep.depth_start + 100.0), -PI * 0.5)
 	assert_eq(fish.zone, deep)
 	await wait_seconds(3.0)
-	assert_gte(fish.ground_position.y, deep.depth_start - 120.0, "swims back into its zone")
+	assert_gte(fish.ground_position.y, deep.depth_start, "stays behind its buoy line")
+
+
+func test_fish_behind_a_closed_buoy_line_are_not_caught() -> void:
+	var deep := DataRegistry.zones[1]
+	assert_gt(deep.gear_level, GameState.here().gear_level)
+	# A fish of the closed zone, right in the net (as if the net reached across the line).
+	_scene._spawn_fish_in(1, "european_plaice", _wader.scoop_center(), 0.0)
+	await wait_process_frames(3)
+	assert_eq(_scene.live_well.count(), 0)
 
 
 func _chart_shallows() -> void:

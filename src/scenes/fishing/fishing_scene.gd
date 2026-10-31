@@ -34,6 +34,9 @@ const SHORE_Y := 0.0
 const WATER_MARGIN := 50.0
 ## Fish keep this far from the waterline (ground units), clear of the pier.
 const FISH_FREE_STRIP := 300.0
+## Fish of a deeper zone keep this far below its buoy line, so they do not drift into the zone
+## in front of it.
+const ZONE_GAP := 150.0
 ## Fish further than this outside the view (world pixels) are hidden and skip schooling.
 const CULL_MARGIN := 200.0
 ## Half the length (along the row) and depth of the pads.
@@ -41,6 +44,8 @@ const SQUARE_HALF := Vector2(180.0, 110.0)
 ## The boardwalk, in the middle of the beach.
 const PATH_X := 1460.0
 const PATH_HALF_WIDTH := 150.0
+## The boardwalk's shore end, where its railing is: the wader walks no further up the beach.
+const PIER_TOP := BEACH_TOP + 250.0
 ## Pads at the waterline. Drones start from and deliver to their pad.
 const FRONT_ROW_Y := -200.0
 const DRONE_PAD := Vector2(230.0, FRONT_ROW_Y)
@@ -56,7 +61,7 @@ const WRECKS: Dictionary[String, Array] = {
 ## The tank, with its upgrade pad in front.
 const TANK_POSITION := Vector2(845.0, -880.0)
 const TANK_SQUARE := Vector2(845.0, -560.0)
-## The shop with its "Sell fish" pad in front, and the pads to upgrade it and hire sellers.
+## The shop with its "Quick sale" pad in front, and the pads to upgrade it and hire sellers.
 const SHOP_POSITION := Vector2(2075.0, -880.0)
 const SELL_SQUARE := Vector2(2075.0, -560.0)
 const SHOP_UPGRADE_SQUARE := Vector2(2690.0, -560.0)
@@ -72,13 +77,11 @@ const CUSTOMER_INTERVAL_S := 1.5
 const DECOR: Array[Array] = [
 	["signpost", Vector2(1665.0, -380.0), 120.0, ""],
 	["seagull", Vector2(1250.0, -420.0), 60.0, ""],
-	["parasol", Vector2(430.0, -420.0), 170.0, ""],
 	["bush", Vector2(160.0, -620.0), 150.0, "temperate"],
 	["bush", Vector2(2860.0, -620.0), 150.0, ""],
 	["palm", Vector2(160.0, -640.0), 260.0, "tropical"],
 	["palm", Vector2(450.0, -1250.0), 280.0, "tropical"],
 	["seagull", Vector2(700.0, -1230.0), 55.0, "temperate"],
-	["buoy", Vector2(2250.0, 330.0), 130.0, ""],
 ]
 #endregion
 
@@ -215,9 +218,9 @@ func _ready() -> void:
 	_zones = DataRegistry.zones_in(location.id)
 	_spot_rect = Rect2(0.0, BEACH_TOP, SPOT_WIDTH, _zones[-1].depth_end - BEACH_TOP)
 	water_area = PlayArea.new(Rect2(_spot_rect.position.x, SHORE_Y + WATER_MARGIN, _spot_rect.size.x, _spot_rect.end.y - SHORE_Y - WATER_MARGIN))
-	walk_area = PlayArea.new(_spot_rect)
+	walk_area = PlayArea.new(Rect2(_spot_rect.position.x, PIER_TOP, _spot_rect.size.x, _spot_rect.end.y - PIER_TOP))
 	for zone in _zones:
-		var top := maxf(zone.depth_start, SHORE_Y + FISH_FREE_STRIP)
+		var top := maxf(zone.depth_start + (ZONE_GAP if zone.order > 1 else 0.0), SHORE_Y + FISH_FREE_STRIP)
 		_zone_areas.append(PlayArea.new(Rect2(_spot_rect.position.x, top, _spot_rect.size.x, zone.depth_end - top)))
 		_zone_spawns.append(SpawnTable.new(zone.spawns))
 	var floor_path := "res://assets/sprites/seafloor/%s.png" % location.id
@@ -385,7 +388,7 @@ func _rebuild_from_state() -> void:
 func _apply_gear() -> void:
 	var gear := GameState.here().gear_level
 	var deepest := Charting.deepest_open_zone(location.id, gear)
-	walk_area = PlayArea.new(Rect2(_spot_rect.position, Vector2(_spot_rect.size.x, deepest.depth_end - _spot_rect.position.y)))
+	walk_area = PlayArea.new(Rect2(_spot_rect.position.x, PIER_TOP, _spot_rect.size.x, deepest.depth_end - PIER_TOP))
 	wader.gear_level = gear
 	var lines: Array[Vector2] = []
 	for i in range(1, _zones.size()):
@@ -538,8 +541,11 @@ func _check_catches(delta: float) -> void:
 	var progress := 0.0
 	# Iterate over a copy: catching removes fish from _fish.
 	var candidates: Array[SwimmingFish] = _fish.duplicate()
+	var gear := GameState.here().gear_level
 	for fish in candidates:
-		if fish.ground_position.distance_to(scoop) > wader.scoop_radius + fish.catch_radius():
+		# The net reaches past the buoy line, but fish behind a closed line stay out of reach.
+		if fish.zone.gear_level > gear \
+				or fish.ground_position.distance_to(scoop) > wader.scoop_radius + fish.catch_radius():
 			fish.hold_time = maxf(fish.hold_time - delta * HOLD_DECAY, 0.0)
 			continue
 		if live_well.is_full():
@@ -605,7 +611,7 @@ func _catch(fish: SwimmingFish) -> void:
 
 func _build_squares() -> void:
 	var boardwalk := Boardwalk.new()
-	boardwalk.setup(Rect2(PATH_X - PATH_HALF_WIDTH, BEACH_TOP + 250.0, PATH_HALF_WIDTH * 2.0, SHORE_Y - 30.0 - BEACH_TOP - 250.0))
+	boardwalk.setup(Rect2(PATH_X - PATH_HALF_WIDTH, PIER_TOP, PATH_HALF_WIDTH * 2.0, SHORE_Y - 30.0 - PIER_TOP))
 	_squares_layer.add_child(boardwalk)
 	_add_square("store", ActionSquare.Kind.STORE, STORE_SQUARE)
 	_add_square("upgrade_backpack", ActionSquare.Kind.BUY, BACKPACK_SQUARE)
@@ -649,8 +655,8 @@ func _refresh_squares() -> void:
 	var site := GameState.here()
 	square_by_id("store").title = tr("Store fish")
 	var sell := square_by_id("sell")
-	sell.title = tr("Sell fish")
-	sell.subtitle = tr(DataRegistry.shop_levels[site.shop_level - 1].name)
+	sell.title = tr("Quick sale")
+	sell.subtitle = tr("Young fish sell cheap")
 	_set_purchase(square_by_id("upgrade_tank"), "upgrade_tank", tr("Bigger tank"), Aquarium.tank_upgrade_cost(site),
 			_prop("tank_%d" % (site.tank.level + 1)))
 	# Each shop level makes room for one more seller.
@@ -980,7 +986,7 @@ func _sync_drones() -> void:
 
 func _update_drones(delta: float) -> void:
 	for drone in _drones:
-		var lifted := drone.simulate(delta, _fish, _drone_can_take)
+		var lifted := drone.simulate(delta, _fish, _drone_can_take, _drone_tank_full)
 		if drone.task == Drone.Task.LIFT and drone.target != null:
 			# The fish wriggles in the drone's net.
 			drone.target.hold_time = maxf(drone.target.hold_time, 0.1)
@@ -989,10 +995,26 @@ func _update_drones(delta: float) -> void:
 			lifted.play_caught(drone.net_position())
 			Juice.splash(_effects, lifted.position, 6)
 			Sfx.play(&"pop", 1.2, -12.0)
+	if is_instance_valid(_tank_node):
+		_tank_node.drones_resting = _drones.any(func(drone: Drone) -> bool: return drone.task == Drone.Task.REST)
 
 
+## Drones only take known species that still fit into the tank next to what all drones carry.
 func _drone_can_take(species_id: String) -> bool:
-	return Automation.drone_can_catch(GameState.state, species_id)
+	return Automation.drone_can_catch(GameState.state, species_id) 			and Automation.drone_fits(GameState.here(), DataRegistry.species[species_id], _drone_cargo_litres())
+
+
+func _drone_tank_full(zone: ZoneDef) -> bool:
+	return Automation.drone_tank_full(GameState.state, GameState.here(), zone, _drone_cargo_litres())
+
+
+## Tank space the fish in the drones' nets will take.
+func _drone_cargo_litres() -> float:
+	var litres := 0.0
+	for drone in _drones:
+		for art in drone.cargo:
+			litres += art.species.space_l
+	return litres
 
 
 ## A drone landed with its catch: into the tank while there is room, the rest is sold.
@@ -1099,9 +1121,9 @@ func _update_hud() -> void:
 		NumberFormat.compact(Aquarium.used_space(site.tank)), NumberFormat.compact(Aquarium.capacity(site.tank)), adults,
 		NumberFormat.compact(Aquarium.tank_value(site))]
 	if live_well.is_full():
-		_hint_label.text = tr("Backpack full! Store the fish in the tank or sell them at the shop.")
+		_hint_label.text = tr("Backpack full! Store the fish in the tank so they grow, or quick-sell them.")
 	elif live_well.count() > 0:
-		_hint_label.text = tr("Walk up the beach to store or sell your catch.")
+		_hint_label.text = tr("Store your catch in the tank: grown fish sell for 3 times as much.")
 	elif adults > 0 and site.seller_count == 0:
 		_hint_label.text = tr("Grown fish are worth 3 times as much. Sell them at the shop!")
 	else:

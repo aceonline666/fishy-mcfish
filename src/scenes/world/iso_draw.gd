@@ -53,11 +53,37 @@ static func box_front(canvas: CanvasItem, base: Vector2, half: Vector2, height: 
 	fill_outlined(canvas, PackedVector2Array([c[0] + up, c[1] + up, c[2] + up, c[3] + up]), top_color)
 
 
-## Outlined text centred on `at`.
-static func label(canvas: CanvasItem, at: Vector2, text: String, size: int, color: Color = Color.WHITE) -> void:
-	var font := ThemeDB.fallback_font
+## The comic display font of the theme (Luckiest Guy), as on buttons and titles.
+static func title_font() -> Font:
+	var theme := ThemeDB.get_project_theme()
+	return theme.get_font(&"font", &"Button") if theme != null else ThemeDB.fallback_font
+
+
+## The body font of the theme (Fredoka).
+static func body_font() -> Font:
+	var theme := ThemeDB.get_project_theme()
+	return theme.default_font if theme != null and theme.default_font != null else ThemeDB.fallback_font
+
+
+## `points` filled with a vertical gradient from `top_color` at the highest point to
+## `bottom_color` at the lowest.
+static func fill_vertical_gradient(canvas: CanvasItem, points: PackedVector2Array, top_color: Color, bottom_color: Color) -> void:
+	var top := INF
+	var bottom := -INF
+	for point in points:
+		top = minf(top, point.y)
+		bottom = maxf(bottom, point.y)
+	var colors := PackedColorArray()
+	for point in points:
+		colors.append(top_color.lerp(bottom_color, inverse_lerp(top, bottom, point.y)))
+	canvas.draw_polygon(points, colors)
+
+
+## Outlined text centred on `at`, in the body font or, with `title`, in the comic display font.
+static func label(canvas: CanvasItem, at: Vector2, text: String, size: int, color: Color = Color.WHITE, title: bool = false) -> void:
+	var font := title_font() if title else body_font()
 	var width := 600.0
-	var origin := at + Vector2(-width * 0.5, size * 0.35)
+	var origin := at + Vector2(-width * 0.5, (font.get_ascent(size) - font.get_descent(size)) * 0.5)
 	canvas.draw_string_outline(font, origin, text, HORIZONTAL_ALIGNMENT_CENTER, width, size, maxi(size / 4, 6), OUTLINE)
 	canvas.draw_string(font, origin, text, HORIZONTAL_ALIGNMENT_CENTER, width, size, color)
 

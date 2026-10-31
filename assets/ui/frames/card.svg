@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <!-- Cards in the panels. Drawn in grey so the code can tint them (modulate) to any color:
+       mid grey is the card color, white the light rim, dark grey the shade at the bottom. -->
+  <rect x="0" y="0" width="96" height="96" rx="30" fill="#12172a"/>
+  <rect x="5" y="5" width="86" height="86" rx="25" fill="#9c9c9c"/>
+  <rect x="5" y="5" width="86" height="78" rx="25" fill="#cccccc"/>
+  <rect x="11" y="11" width="74" height="72" rx="20" fill="none" stroke="#ffffff" stroke-opacity="0.5" stroke-width="3"/>
+  <path d="M 17 33 A 18 18 0 0 1 31 17" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+</svg>

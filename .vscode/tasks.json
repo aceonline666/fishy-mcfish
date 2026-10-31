@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build Android release (signed AAB)",
+      "type": "shell",
+      "command": "C:/Program Files/Git/bin/bash.exe",
+      "args": ["tools/build_android_release.sh"],
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Android release (bump version code)",
+      "type": "shell",
+      "command": "C:/Program Files/Git/bin/bash.exe",
+      "args": ["tools/build_android_release.sh", "--bump"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -1,13 +1,20 @@
 extends Node
-## Placeholder sound effects, synthesized at startup. Real audio arrives in M6. They play on the
-## sound bus, whose volume and mute the Settings control.
+## Placeholder sound effects, synthesized at startup and kept soft. They play on the sound bus,
+## whose volume and mute the Settings control.
 
 const MIX_RATE := 22050
 const VOICES := 10
+## Added to every sound, so effects sit below the music instead of on top of it.
+const HEADROOM_DB := -6.0
+## The same sound started again within this time (but not in the same frame, which is a chord)
+## is skipped, so fast selling does not turn into a buzz.
+const REPEAT_GAP_S := 0.055
 
 var _sounds: Dictionary[StringName, AudioStreamWAV] = {}
 var _players: Array[AudioStreamPlayer] = []
 var _next_voice := 0
+## Sound name -> Time.get_ticks_msec() and process frame when it last started.
+var _last_played: Dictionary[StringName, Vector2i] = {}
 
 
 func _ready() -> void:
@@ -23,11 +30,16 @@ func _ready() -> void:
 
 
 func play(sound: StringName, pitch: float = 1.0, volume_db: float = 0.0) -> void:
+	var now := Vector2i(Time.get_ticks_msec(), Engine.get_process_frames())
+	var last: Vector2i = _last_played.get(sound, Vector2i(-100000, -1))
+	if last.y != now.y and now.x - last.x < int(REPEAT_GAP_S * 1000.0):
+		return
+	_last_played[sound] = now
 	var player := _players[_next_voice]
 	_next_voice = (_next_voice + 1) % VOICES
 	player.stream = _sounds[sound]
 	player.pitch_scale = pitch
-	player.volume_db = volume_db
+	player.volume_db = volume_db + HEADROOM_DB
 	player.play()
 
 
@@ -57,26 +69,26 @@ static func _splash() -> AudioStreamWAV:
 	return _to_wav(samples)
 
 
-## Bell: fundamental plus fifth and octave, slow decay.
+## Soft bell: fundamental plus a quiet octave, a short fade-in against clicks and a slow decay.
 static func _ding() -> AudioStreamWAV:
 	var duration := 0.6
 	var samples := PackedFloat32Array()
 	for i in int(duration * MIX_RATE):
 		var t := float(i) / MIX_RATE
-		var tone := sin(TAU * 1320.0 * t) + 0.5 * sin(TAU * 1980.0 * t) + 0.25 * sin(TAU * 2640.0 * t)
-		samples.append(tone * exp(-t * 6.0) * 0.45)
+		var tone := sin(TAU * 880.0 * t) + 0.2 * sin(TAU * 1760.0 * t)
+		samples.append(tone * exp(-t * 7.0) * minf(t * 150.0, 1.0) * 0.4)
 	return _to_wav(samples)
 
 
-## Two quick rising blips.
+## Two quick rising blips with a gentle octave instead of a buzzy overtone.
 static func _coin() -> AudioStreamWAV:
-	var duration := 0.18
+	var duration := 0.16
 	var samples := PackedFloat32Array()
 	var phase := 0.0
 	for i in int(duration * MIX_RATE):
 		var t := float(i) / MIX_RATE
-		phase += TAU * (1568.0 if t < 0.06 else 2093.0) / MIX_RATE
-		samples.append((sin(phase) + 0.3 * sin(phase * 3.0)) * exp(-t * 14.0) * 0.4)
+		phase += TAU * (1175.0 if t < 0.06 else 1568.0) / MIX_RATE
+		samples.append((sin(phase) + 0.15 * sin(phase * 2.0)) * exp(-t * 16.0) * minf(t * 300.0, 1.0) * 0.35)
 	return _to_wav(samples)
 
 

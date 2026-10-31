@@ -18,7 +18,8 @@ const FLAGS: Dictionary[String, Texture2D] = {
 ## Each language by its own name, so it can be found whatever language is shown.
 const LANGUAGE_NAMES: Dictionary[String, String] = {"en": "English", "de": "Deutsch"}
 
-var _load_button: Button
+## Per slot number: the "title" and "info" labels and the "load" button of its card.
+var _slots: Dictionary[int, Dictionary] = {}
 var _new_button: Button
 var _confirm: PanelContainer
 var _status: Label
@@ -31,15 +32,8 @@ var _language_buttons: Dictionary[String, Button] = {}
 
 func _build() -> void:
 	content.add_child(_section(tr("Game")))
-	var buttons := HBoxContainer.new()
-	buttons.add_theme_constant_override("separation", 20)
-	content.add_child(buttons)
-	var save_button := make_button(tr("Save game"), _on_save)
-	save_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	buttons.add_child(save_button)
-	_load_button = make_button(tr("Load game"), _on_load)
-	_load_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	buttons.add_child(_load_button)
+	for number in range(1, SaveSystem.SLOT_COUNT + 1):
+		content.add_child(_build_slot(number))
 	_new_button = make_button(tr("New game"), _on_new_game_asked)
 	content.add_child(_new_button)
 	_build_confirmation()
@@ -72,7 +66,7 @@ func _build() -> void:
 
 func _refresh() -> void:
 	set_title(tr("Menu"))
-	_load_button.disabled = not SaveSystem.has_save()
+	_refresh_slots()
 	_confirm.hide()
 	_new_button.show()
 	_status.text = ""
@@ -86,15 +80,61 @@ func _refresh() -> void:
 
 #region Game
 
-func _on_save() -> void:
-	SaveSystem.save_game()
-	_load_button.disabled = false
+## A card for one save slot: what it holds, and buttons to save into it and load it.
+func _build_slot(number: int) -> PanelContainer:
+	var card := PanelContainer.new()
+	card.add_theme_stylebox_override("panel", card_style())
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 12)
+	card.add_child(column)
+	var title := make_label("", 40, HORIZONTAL_ALIGNMENT_LEFT)
+	column.add_child(title)
+	var info := make_label("", 30, HORIZONTAL_ALIGNMENT_LEFT)
+	info.add_theme_color_override("font_color", MUTED)
+	column.add_child(info)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 20)
+	column.add_child(row)
+	var save_button := make_button(tr("Save"), _on_save.bind(number))
+	save_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(save_button)
+	var load_button := make_button(tr("Load"), _on_load.bind(number))
+	load_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(load_button)
+	_slots[number] = {"title": title, "info": info, "load": load_button}
+	return card
+
+
+func _refresh_slots() -> void:
+	for number: int in _slots:
+		var slot: Dictionary = _slots[number]
+		var data := SaveSystem.slot_info(number)
+		(slot["title"] as Label).text = tr("Slot %d") % number
+		(slot["info"] as Label).text = _describe(data)
+		(slot["load"] as Button).disabled = data.is_empty()
+
+
+func _describe(data: Dictionary) -> String:
+	if data.is_empty():
+		return tr("Empty")
+	var local := int(data["saved_at_unix"]) + int(Time.get_time_zone_from_system()["bias"]) * 60
+	var when := Time.get_datetime_dict_from_unix_time(local)
+	return "%02d.%02d.%d %02d:%02d · %d" % [
+		when["day"], when["month"], when["year"], when["hour"], when["minute"],
+		int(data["money"])]
+
+
+## Saves the game into slot `number`. Only this ever writes a slot; autosave keeps its own file.
+func _on_save(number: int) -> void:
+	SaveSystem.save_to_slot(number)
+	_refresh_slots()
 	_status.text = tr("Game saved.")
 
 
-## Goes back to the last save. The catch in the backpack is not saved and gets lost.
-func _on_load() -> void:
-	SaveSystem.load_game(false)
+## Goes back to the save in slot `number`. The catch in the backpack is not saved and gets lost.
+func _on_load(number: int) -> void:
+	if not SaveSystem.load_slot(number):
+		return
 	hide()
 	game_replaced.emit()
 
@@ -217,6 +257,7 @@ func _make_slider(on_change: Callable) -> HSlider:
 
 
 func _section(text: String) -> Label:
-	var label := make_label(text, 44, HORIZONTAL_ALIGNMENT_LEFT)
+	var label := make_label(text, 48, HORIZONTAL_ALIGNMENT_LEFT)
+	label.theme_type_variation = &"TitleLabel"
 	label.add_theme_color_override("font_color", SECTION_COLOR)
 	return label

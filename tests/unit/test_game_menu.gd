@@ -6,6 +6,7 @@ var _original_state: PlayerState
 
 
 func before_each() -> void:
+	_clear_slots()
 	_original_state = GameState.state
 	GameState.replace_state(PlayerState.new_game())
 	_menu = GameMenu.new()
@@ -18,17 +19,57 @@ func after_each() -> void:
 	GameState.replace_state(_original_state)
 
 
+## Slots and autosave of the sandboxed test save, so each test starts with empty slots.
+func _clear_slots() -> void:
+	var paths: Array[String] = [SaveSystem.autosave_path()]
+	for number in range(1, SaveSystem.SLOT_COUNT + 1):
+		paths.append(SaveSystem.slot_path(number))
+	for path in paths:
+		for suffix: String in ["", ".bak"]:
+			if FileAccess.file_exists(path + suffix):
+				DirAccess.remove_absolute(path + suffix)
+
+
 func test_loading_goes_back_to_the_saved_game() -> void:
 	GameState.add_money(500.0)
-	_menu._on_save()
-	assert_false(_menu._load_button.disabled)
+	_menu._on_save(1)
+	assert_false(_menu._slots[1]["load"].disabled)
 	GameState.add_money(1000.0)
 	watch_signals(_menu)
 
-	_menu._on_load()
+	_menu._on_load(1)
 	assert_eq(GameState.state.money, 500.0)
 	assert_signal_emitted(_menu, "game_replaced")
 	assert_false(_menu.visible)
+
+
+func test_loading_one_slot_keeps_the_others() -> void:
+	GameState.add_money(100.0)
+	_menu._on_save(2)
+	GameState.add_money(900.0)
+	_menu._on_save(3)
+
+	_menu._on_load(2)
+	assert_eq(GameState.state.money, PlayerState.new_game().money + 100.0)
+	assert_true(SaveSystem.has_save(3), "the old state of slot 3 is still there")
+	_menu._on_load(3)
+	assert_eq(GameState.state.money, PlayerState.new_game().money + 1000.0)
+
+
+func test_autosave_never_overwrites_a_slot() -> void:
+	GameState.add_money(500.0)
+	_menu._on_save(1)
+
+	GameState.add_money(1000.0)
+	SaveSystem.save_game()
+	SaveSystem.new_game()
+
+	assert_eq(SaveSystem.slot_info(1)["money"], PlayerState.new_game().money + 500.0)
+
+
+func test_empty_slots_cannot_be_loaded() -> void:
+	_menu.open()
+	assert_true(_menu._slots[SaveSystem.SLOT_COUNT]["load"].disabled)
 
 
 func test_a_new_game_needs_a_confirmation() -> void:

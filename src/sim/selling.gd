@@ -1,7 +1,7 @@
 class_name Selling
 extends RefCounted
 ## Selling fish at a location's shop. The shop buys every fish; each shop level makes room for one
-## more seller. The player sells by standing on the shop's "Sell fish" pad; the sellers sell on
+## more seller. The player sells by standing on the shop's "Quick sale" pad; the sellers sell on
 ## their own, at every location, also while the game is closed. From the tank only grown fish are
 ## sold, and a breeding pair of each species stays in it, unless the tank is too full to breed:
 ## then pairs are sold too, so it never fills up with fish that nobody sells.

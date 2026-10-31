@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="40" viewBox="0 0 64 40">
+  <!-- The empty part of a progress bar: a dark groove with an ink outline. -->
+  <rect x="2.5" y="2.5" width="59" height="35" rx="17.5" fill="#06182b" stroke="#12172a" stroke-width="5"/>
+  <rect x="7" y="7" width="50" height="8" rx="4" fill="#000000" fill-opacity="0.35"/>
+</svg>

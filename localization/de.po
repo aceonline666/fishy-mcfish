@@ -32,8 +32,11 @@ msgstr "Neue Art!"
 msgid "%s charted!\nDrones can fish here now"
 msgstr "%s kartiert!\nJetzt können hier Drohnen fischen"
 
-msgid "Sell fish"
-msgstr "Fisch verkaufen"
+msgid "Quick sale"
+msgstr "Schnellverkauf"
+
+msgid "Young fish sell cheap"
+msgstr "Junge Fische bringen wenig"
 
 msgid "Store fish"
 msgstr "Fisch einlagern"
@@ -42,7 +45,7 @@ msgid "Bigger tank"
 msgstr "Größeres Becken"
 
 msgid "Bigger backpack"
-msgstr "Größerer Rucksack"
+msgstr "Größerer Korb"
 
 msgid "Buy drone"
 msgstr "Drohne kaufen"
@@ -78,10 +81,10 @@ msgid "No grown fish to sell.\nA pair of each kind stays to breed."
 msgstr "Keine ausgewachsenen Fische zu verkaufen.\nEin Paar jeder Art bleibt zur Zucht."
 
 msgid "Tank  %s / %s L  ·  %d grown  ·  worth %s"
-msgstr "Becken  %s / %s L  ·  %d erwachsen  ·  Wert %s"
+msgstr "Becken  %s / %s L  ·  %d ausgewachsen  ·  Wert %s"
 
-msgid "Backpack full! Store the fish in the tank or sell them at the shop."
-msgstr "Rucksack voll! Bring die Fische ins Becken oder verkaufe sie im Laden."
+msgid "Backpack full! Store the fish in the tank so they grow, or quick-sell them."
+msgstr "Korb voll! Lagere die Fische im Becken ein, damit sie wachsen, oder verkaufe sie schnell."
 
 msgid "Grown fish are worth 3 times as much. Sell them at the shop!"
 msgstr "Ausgewachsene Fische sind dreimal so viel wert. Verkaufe sie im Laden!"
@@ -111,7 +114,7 @@ msgid "Seafood palace"
 msgstr "Meeresfrüchte-Palast"
 
 msgid "Bigger backpack!\n%d fish"
-msgstr "Größerer Rucksack!\n%d Fische"
+msgstr "Größerer Korb!\n%d Fische"
 
 msgid "New drone!\nIt fishes here: %s"
 msgstr "Neue Drohne!\nSie fischt hier: %s"
@@ -135,16 +138,16 @@ msgid "+%s coins"
 msgstr "+%s Münzen"
 
 msgid "Backpack  %d / %d"
-msgstr "Rucksack  %d / %d"
+msgstr "Korb  %d / %d"
 
-msgid "Walk up the beach to store or sell your catch."
-msgstr "Geh den Strand hinauf, um deinen Fang einzulagern oder zu verkaufen."
+msgid "Store your catch in the tank: grown fish sell for 3 times as much."
+msgstr "Lagere deinen Fang im Becken ein: ausgewachsene Fische bringen das Dreifache."
 
 msgid "Touch and hold to wade there and catch fish."
 msgstr "Tippe und halte, um hinzuwaten und Fische zu fangen."
 
 msgid "Backpack full!"
-msgstr "Rucksack voll!"
+msgstr "Korb voll!"
 
 msgid "Map"
 msgstr "Karte"
@@ -252,11 +255,17 @@ msgstr "Menü"
 msgid "Game"
 msgstr "Spiel"
 
-msgid "Save game"
+msgid "Save"
 msgstr "Speichern"
 
-msgid "Load game"
+msgid "Load"
 msgstr "Laden"
+
+msgid "Slot %d"
+msgstr "Speicherplatz %d"
+
+msgid "Empty"
+msgstr "Leer"
 
 msgid "New game"
 msgstr "Neues Spiel"
@@ -302,7 +311,7 @@ msgid "Coral Reef"
 msgstr "Korallenriff"
 
 msgid "Warm clear water over colourful corals. Start a second beach business from scratch; building here costs more."
-msgstr "Warmes, klares Wasser über bunten Korallen. Hier baust du ein zweites Strandgeschäft von Grund auf auf; Bauen kostet hier mehr."
+msgstr "Warmes, klares Wasser über bunten Korallen. Hier baust du ein zweites Strandgeschäft ganz neu auf; Bauen kostet hier mehr."
 
 msgid "Pier shallows"
 msgstr "Pier-Flachwasser"
@@ -390,7 +399,7 @@ msgid "Fish tycoon"
 msgstr "Fischmagnat"
 
 msgid "Earn 10K coins in total"
-msgstr "Verdiene insgesamt 10K Münzen"
+msgstr "Verdiene insgesamt 10.000 Münzen"
 
 msgid "Sea monster"
 msgstr "Seeungeheuer"
@@ -1001,10 +1010,10 @@ msgid "Called madai in Japan, it is a fish of good luck served at celebrations."
 msgstr "In Japan heißt sie Madai und ist ein Glücksfisch, der bei Festen serviert wird."
 
 msgid "Japanese horse mackerel"
-msgstr "Japanische Stöcker"
+msgstr "Japanischer Stöcker"
 
 msgid "It has a row of hard, spiky scales along its side, like a little armour."
-msgstr "Sie trägt eine Reihe harter, stacheliger Schuppen an der Seite, wie eine kleine Rüstung."
+msgstr "Er trägt eine Reihe harter, stacheliger Schuppen an der Seite, wie eine kleine Rüstung."
 
 msgid "Tiger puffer"
 msgstr "Tigerkugelfisch"
@@ -1028,7 +1037,7 @@ msgid "Opah"
 msgstr "Gotteslachs"
 
 msgid "Also called moonfish: the first fish known to keep its whole body warm, like a mammal."
-msgstr "Auch Mondfisch genannt: der erste bekannte Fisch, der wie ein Säugetier seinen ganzen Körper warm hält."
+msgstr "Auch Glanzfisch genannt: der erste bekannte Fisch, der wie ein Säugetier seinen ganzen Körper warm hält."
 
 msgid "Nomura's jellyfish"
 msgstr "Nomura-Qualle"
@@ -1179,3 +1188,6 @@ msgstr "Koloss-Kalmar"
 
 msgid "The heaviest invertebrate on Earth, with swivelling hooks on its tentacles."
 msgstr "Das schwerste wirbellose Tier der Erde, mit drehbaren Haken an den Tentakeln."
+
+msgid "Full: drones resting"
+msgstr "Voll: Drohnen ruhen"

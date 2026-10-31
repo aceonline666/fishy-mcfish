@@ -5,10 +5,13 @@ extends Control
 ## _build() and refresh it in _refresh(), which runs every time the panel opens. When the language
 ## changes, the panel is built again in the new language.
 
-const BACKDROP := Color(0.02, 0.07, 0.14, 0.97)
+## Deep water: sunlit at the top, dark below.
+const BACKDROP := preload("res://assets/ui/frames/backdrop.svg")
 const CARD_COLOR := Color(0.08, 0.2, 0.33)
 const CARD_HOVER := Color(0.11, 0.27, 0.42)
-const CARD_BORDER := Color(0.07, 0.09, 0.15)
+const CARD_TEXTURE := preload("res://assets/ui/frames/card.svg")
+## The grey of the card picture's face (#cccccc): tinting by color / CARD_GREY shows the color.
+const CARD_GREY := 0.8
 const MUTED := Color(0.65, 0.75, 0.85)
 ## A press that moves further than this (pixels) before release is a drag, not a tap.
 const TAP_DISTANCE := 24.0
@@ -47,8 +50,10 @@ func _rebuild() -> void:
 
 
 func _build_all() -> void:
-	var backdrop := ColorRect.new()
-	backdrop.color = BACKDROP
+	var backdrop := TextureRect.new()
+	backdrop.texture = BACKDROP
+	backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	backdrop.stretch_mode = TextureRect.STRETCH_SCALE
 	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(backdrop)
 
@@ -64,7 +69,8 @@ func _build_all() -> void:
 	column.add_child(header)
 	_title = Label.new()
 	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_title.add_theme_font_size_override("font_size", 60)
+	_title.theme_type_variation = &"TitleLabel"
+	_title.add_theme_font_size_override("font_size", 64)
 	header.add_child(_title)
 	header.add_child(make_button(tr("Close"), hide))
 
@@ -137,11 +143,13 @@ func connect_tap(button: BaseButton, action: Callable) -> void:
 			action.call())
 
 
-func card_style(color: Color = CARD_COLOR) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = color
-	style.border_color = CARD_BORDER
-	style.set_border_width_all(5)
-	style.set_corner_radius_all(28)
-	style.set_content_margin_all(20.0)
+## A comic card in `color`: the grey card picture tinted, so its rim and shade come along.
+func card_style(color: Color = CARD_COLOR) -> StyleBoxTexture:
+	var style := StyleBoxTexture.new()
+	style.texture = CARD_TEXTURE
+	style.set_texture_margin_all(32.0)
+	style.texture_margin_bottom = 40.0
+	style.modulate_color = Color(color.r / CARD_GREY, color.g / CARD_GREY, color.b / CARD_GREY, color.a)
+	style.set_content_margin_all(22.0)
+	style.content_margin_bottom = 28.0
 	return style

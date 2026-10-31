@@ -345,7 +345,7 @@ func _draw_overlay() -> void:
 
 
 func _draw_label(text: String, at: Vector2) -> void:
-	var font := ThemeDB.fallback_font
+	var font := IsoDraw.title_font()
 	var width := 320.0
 	var origin := at - Vector2(width * 0.5, 0.0)
 	_overlay.draw_string_outline(font, origin, text, HORIZONTAL_ALIGNMENT_CENTER, width, 34, 10, OUTLINE)

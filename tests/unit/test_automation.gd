@@ -89,6 +89,23 @@ func test_offline_drones_fill_tanks_up_to_their_space() -> void:
 		assert_true(state.species_caught.has(fish.species_id), "only known species")
 
 
+func test_drones_rest_while_the_tank_is_full() -> void:
+	var state := _charted_state()
+	var site := state.here()
+	var zone := DataRegistry.zones[0]
+	assert_false(Automation.drone_tank_full(state, site, zone, 0.0), "an empty tank has room")
+	assert_true(Automation.drone_tank_full(state, site, zone, Aquarium.capacity(site.tank)), "litres in the nets count")
+	while Aquarium.store(site, "european_sprat") != null:
+		pass
+	site.drone_count = 1
+	var fish_before := site.tank.fish.size()
+	assert_true(Automation.drone_tank_full(state, site, zone, 0.0))
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 4
+	assert_eq(Automation.run_drones_offline(state, 8.0 * 3600.0, rng), 0, "nothing is stored in a full tank")
+	assert_eq(site.tank.fish.size(), fish_before)
+
+
 func test_without_drones_nothing_happens_offline() -> void:
 	var state := _charted_state()
 	assert_eq(Automation.run_drones_offline(state, 3600.0, RandomNumberGenerator.new()), 0)

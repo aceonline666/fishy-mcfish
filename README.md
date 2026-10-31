@@ -98,6 +98,12 @@ icons (`icon_coins/map/trophy/book/cog.png`, cut from the menu sheet) are made b
 `icon.png`, `icon_foreground/background.png`) are rendered by `tools/make_logo.py` from the
 painted sprites and the Luckiest Guy font (Apache 2.0, in `art_source/fonts/`).
 
+The UI theme (`src/scenes/ui/main_theme.tres`) uses Luckiest Guy for buttons and titles
+(`TitleLabel` type variation) and Fredoka (OFL, semi-bold) for body text, both in
+`assets/fonts/`. Buttons, panels, cards, bars and the panel backdrop are hand-written SVGs in
+`assets/ui/frames/`, used as nine-patch `StyleBoxTexture`s; cards are drawn in grey and tinted
+by `OverlayPanel.card_style()`.
+
 The view is 2:1 isometric (like Diablo II). Game logic runs in flat ground coordinates and only
 drawing projects to the screen, see `src/scenes/world/iso.gd`.
 
@@ -108,28 +114,28 @@ net drag through the real input path, and saves PNGs:
 & "C:\Program Files\Godot\Godot_v4.7.2-stable_win64_console.exe" --path . -s res://tools/screenshot.gd -- --out=C:/temp/shots --drag
 ```
 
-## Publishing to Google Play
+## Building the Google Play release
 
 The **Android Play Store** export preset builds a signed `.aab` (Gradle build, arm64) into
 `build/fishy-mcfish.aab`. The **Android** preset stays the quick debug APK for the phone.
+`tools/build_android_release.sh` only builds and verifies the bundle; uploading it in Play
+Console is done by hand.
 
-One-time setup:
+Run it with **Ctrl+Shift+B** in VS Code (`.vscode/tasks.json`), or:
 
-1. Install in the Android SDK (Android Studio's SDK Manager, or `sdkmanager`): `platform-tools`,
-   `build-tools;35.0.1`, `platforms;android-35` and `cmdline-tools;latest`. Gradle downloads itself.
-2. Create the upload key and **back it up outside the repo** (losing it means a Play support case):
-   `keytool -genkey -v -keystore fishy-release.keystore -alias fishy -keyalg RSA -keysize 2048 -validity 10000`
-3. Give Godot the key through environment variables, so no password lands in `export_presets.cfg`:
-   `GODOT_ANDROID_KEYSTORE_RELEASE_PATH`, `GODOT_ANDROID_KEYSTORE_RELEASE_USER` (the alias) and
-   `GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD`.
+    & "C:/Program Files/Git/bin/bash.exe" tools/build_android_release.sh [--bump]
 
-Each release: raise `version/code` in the Play Store preset (Play rejects a repeated code) and
-`config/version` in `project.godot`, then export:
+`--bump` raises `version/code` in the Play Store preset by one (Play rejects a repeated code);
+also raise `config/version` in `project.godot` when the player-visible version changes.
 
-    & "C:\Program Files\Godot\Godot_v4.7.2-stable_win64.exe" --headless --path . --export-release "Android Play Store"
+The upload keystore and its password are in 1Password (personal account, vault Gaming, item
+"Fishy McFish Key"; the keystore is attached and also stored base64 in the `keystore_b64` field).
+The script reads the item once, writes the keystore to a temp folder and deletes it on exit, so
+no secret lands in `export_presets.cfg` or the repo. Keep one offline backup of the keystore.
 
-The `android/` build template is generated, git-ignored, and was installed with Project > Install
-Android Build Template.
+One-time setup: install `platform-tools`, `build-tools;35.0.1`, `platforms;android-35` and
+`cmdline-tools;latest` in the Android SDK. The `android/` build template is generated and
+git-ignored (Project > Install Android Build Template).
 
 ## Tests
 
@@ -177,3 +183,28 @@ Rules of thumb:
 
 - Music: "Feel Good Island Loop" by Brandon Morris, loop edit by AntumDeluge, CC0
   ([OpenGameArt](https://opengameart.org/content/feel-good-island-loop)).
+
+
+## TODOs
+- Improve walking animation
+- Animate all species properly, replace un-animateable sprites for species
+- Replace wrong species sprites and fact-check species info panels
+- Beach and seafloor textures for all locations
+- Improve game logic for tanks and sales - this is not self-explaining
+- Improve layout of the "walk-on" buttons to avoid accidental buys
+- Sprite errors for the wader
+  - Snorkel still there for scuba gear and breather
+  - Submarine back sometimes has details and sometimes not - flickering when moving - could be fixed by just mirroring the one without details
+- Clarify what the basket logic is when in the hardhat suit / submarine. Basket + Scuba gear?
+- Clarify if the wader should swim on deeper levels?
+- Replace too small buyers, sellers, shop and tanks with better sprites
+- Fix the buyers queue and where the selling spots are
+- Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors. Sound?
+- Placed objects sometimes hide the wader. Depending on the object the wader should completely walk over it (like stones) or he should be blocked by the object (like the tank and shop)
+- It looks like the wader falls of the pier. Maybe make the pier sprite without poles? Or some "fall down" animation? Could be funny.
+- Some zones have names like "seagrass bay" but you don't see seagrass. We should add these objects depending on the names. Will require more sprites.
+- Comic style sprites for the zone-barriers
+- Barriers to the left and right could be more natural. Make them rocks or some other obstacles instead of invisible walls
+- English texts still say "backpack" while the item is a basket
+- Basket, net and snorkel buying should be next to each other since they all "equip" the wader
+- Achievements should be harder to reach and should be celebrated more. Possible connection to Google Gamecenter Achievements?

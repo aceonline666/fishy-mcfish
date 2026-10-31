@@ -49,8 +49,24 @@ static func pick_drone_catch(state: PlayerState, zone: ZoneDef, rng: RandomNumbe
 	return SpawnTable.new(weights).pick(rng) if not weights.is_empty() else ""
 
 
+## True if a drone could still put a fish of this species into the site's tank, with
+## `reserved_l` litres already taken by fish drones carry.
+static func drone_fits(site: Site, def: SpeciesDef, reserved_l: float) -> bool:
+	var tank_capacity := Aquarium.capacity(site.tank)
+	return Aquarium.species_env(def) == site.location().env and tank_capacity >= def.min_tank_l 			and Aquarium.used_space(site.tank) + reserved_l + def.space_l <= tank_capacity
+
+
+## True if the tank has room for none of the species the drones of this zone may catch. They
+## then stop fishing and rest on the ground until there is room again.
+static func drone_tank_full(state: PlayerState, site: Site, zone: ZoneDef, reserved_l: float) -> bool:
+	for id in zone.spawns:
+		if drone_can_catch(state, id) and drone_fits(site, DataRegistry.species[id], reserved_l):
+			return false
+	return true
+
+
 ## Drones of the given sites keep catching known species in their zones and put them into
-## their tanks. Fish that do not fit are let go. Returns how many fish were stored.
+## their tanks. A drone stops fishing while the tank is full. Returns how many fish were stored.
 static func run_drones(state: PlayerState, sites: Array[Site], seconds: float, rng: RandomNumberGenerator) -> int:
 	var stored := 0
 	for site in sites:
@@ -59,6 +75,8 @@ static func run_drones(state: PlayerState, sites: Array[Site], seconds: float, r
 			if zone == null:
 				continue
 			for i in int(seconds * OFFLINE_DRONE_FISH_PER_SECOND):
+				if drone_tank_full(state, site, zone, 0.0):
+					break
 				var species_id := pick_drone_catch(state, zone, rng)
 				if not species_id.is_empty() and Aquarium.store(site, species_id) != null:
 					stored += 1

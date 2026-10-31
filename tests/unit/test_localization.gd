@@ -54,7 +54,7 @@ func test_german_is_used_when_chosen() -> void:
 	Settings.settings_path = "user://test_run/settings.cfg"
 	Settings.set_language("de")
 	assert_eq(Settings.current_language(), "de")
-	assert_eq(tr("Sell fish"), "Fisch verkaufen")
+	assert_eq(tr("Quick sale"), "Schnellverkauf")
 	assert_eq(Lang.text(DataRegistry.species["atlantic_cod"].common_name), "Kabeljau")
 	assert_eq(NumberFormat.compact(1234.0), "1,23K")
 	Settings.set_language("en")
