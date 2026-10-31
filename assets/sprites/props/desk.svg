@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 200" width="260" height="200">
+  <!-- PLACEHOLDER: the order desk of the market upgrade, 280 x 70 ground units, running
+       east-west and facing south (2:1 isometric). The middle of its footprint is at (130, 135). -->
+  <g stroke="#11161f" stroke-width="3" stroke-linejoin="round">
+    <path d="M253.7 172.1 L204.2 196.9 L204.2 126.9 L253.7 102.1 Z" fill="#8a5c2e"/>
+    <path d="M204.2 196.9 L6.3 147.4 L6.3 77.4 L204.2 126.9 Z" fill="#a8743f"/>
+    <path d="M55.8 3.1 L253.7 102.1 L204.2 126.9 L6.3 77.4 Z" fill="#d9a36a"/>
+    <path d="M30 120 L180 157" fill="none" stroke="#2f7fd0" stroke-width="10"/>
+  </g>
+  <g stroke="#11161f" stroke-width="2">
+    <path d="M110 40 L150 60 L150 30 L110 10 Z" fill="#f2f6fa"/>
+    <path d="M118 30 L142 42 M118 22 L142 34" fill="none"/>
+  </g>
+</svg>

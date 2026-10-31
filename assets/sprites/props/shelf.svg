@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 240" width="260" height="240">
+  <!-- PLACEHOLDER: a shelf of goods behind an upgrade pad, 60 x 300 ground units, running
+       north-south (2:1 isometric). The middle of its footprint is at (130, 175). Mirrored, it
+       runs east-west. -->
+  <g stroke="#11161f" stroke-width="3" stroke-linejoin="round">
+    <path d="M257.3 132.6 L45.2 238.6 L45.2 128.6 L257.3 22.6 Z" fill="#a8743f"/>
+    <path d="M45.2 238.6 L2.7 217.4 L2.7 107.4 L45.2 128.6 Z" fill="#7a5129"/>
+    <path d="M214.8 1.4 L257.3 22.6 L45.2 128.6 L2.7 107.4 Z" fill="#d9a36a"/>
+    <path d="M257.3 59.3 L45.2 165.3 M257.3 96 L45.2 202" fill="none"/>
+  </g>
+  <g stroke="#11161f" stroke-width="2">
+    <path d="M232 55 L208 67 L208 47 L232 35 Z" fill="#e85a4f"/>
+    <path d="M190 76 L166 88 L166 68 L190 56 Z" fill="#4fb3e8"/>
+    <path d="M140 101 L112 115 L112 95 L140 81 Z" fill="#f2c94c"/>
+    <path d="M95 124 L70 136 L70 116 L95 104 Z" fill="#6fcf7a"/>
+    <path d="M225 95 L198 108 L198 88 L225 75 Z" fill="#f2c94c"/>
+    <path d="M160 127 L132 141 L132 121 L160 107 Z" fill="#e85a4f"/>
+    <path d="M100 157 L72 171 L72 151 L100 137 Z" fill="#4fb3e8"/>
+    <path d="M215 137 L188 150 L188 130 L215 117 Z" fill="#6fcf7a"/>
+    <path d="M140 179 L110 194 L110 174 L140 159 Z" fill="#f2c94c"/>
+  </g>
+</svg>

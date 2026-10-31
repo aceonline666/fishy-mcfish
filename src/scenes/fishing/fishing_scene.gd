@@ -54,15 +54,31 @@ const PATH_X := 3760.0
 const PATH_HALF_WIDTH := 150.0
 ## The boardwalk's shore end, where its railing is: the wader walks no further up the beach.
 const PIER_TOP := -930.0
-## Right of the boardwalk, the upgrades in two rows of three, clear of the pads in front of the
-## booths: the shop, the tank and drones at the back, diving gear, the backpack and nets in
-## front. Drones start from and deliver to their pad.
-const SHOP_UPGRADE_SQUARE := Vector2(4190.0, -470.0)
-const TANK_SQUARE := Vector2(4590.0, -470.0)
-const DRONE_PAD := Vector2(4990.0, -470.0)
-const GEAR_SQUARE := Vector2(4190.0, -180.0)
-const BACKPACK_SQUARE := Vector2(4590.0, -180.0)
-const NET_SQUARE := Vector2(4990.0, -180.0)
+## Right of the boardwalk, the upgrades, each bought from a shelf of goods behind its pad:
+## bigger tanks and diving gear along the boardwalk, drones and nets along the east edge (their
+## pads turned to run along the shelves), the backpack in the middle by the water, and the
+## market upgrade ordered at a desk in the middle at the back. Things east or south of a pad
+## stand in front of it on screen, so those shelves keep a gap. Drones start from and deliver
+## to their pad.
+const UPGRADE_PAD_HALF := Vector2(110.0, 180.0)
+const TANK_SQUARE := Vector2(4120.0, -650.0)
+const GEAR_SQUARE := Vector2(4120.0, -250.0)
+const DRONE_PAD := Vector2(4900.0, -650.0)
+const NET_SQUARE := Vector2(4900.0, -250.0)
+const BACKPACK_SQUARE := Vector2(4560.0, -250.0)
+const SHOP_UPGRADE_SQUARE := Vector2(4565.0, -780.0)
+const SHOP_UPGRADE_HALF := Vector2(150.0, 110.0)
+## The shelves and the desk behind the upgrade pads: sprite (assets/sprites/props, PLACEHOLDER
+## SVGs drawn at ground scale), ground position of the middle of its footprint, where that
+## middle is in the sprite, and whether it is mirrored (a shelf then runs east-west).
+const FIXTURES: Array[Array] = [
+	["shelf", Vector2(3965.0, -650.0), Vector2(130.0, 175.0), false],
+	["shelf", Vector2(3965.0, -250.0), Vector2(130.0, 175.0), false],
+	["shelf", Vector2(5180.0, -650.0), Vector2(130.0, 175.0), false],
+	["shelf", Vector2(5180.0, -250.0), Vector2(130.0, 175.0), false],
+	["shelf", Vector2(4405.0, -250.0), Vector2(130.0, 175.0), false],
+	["desk", Vector2(4565.0, -990.0), Vector2(130.0, 135.0), false],
+]
 ## Left of the boardwalk, close to it: the tank at the waterline with its store pad right
 ## beside it, turned to run along the tank. The fish market stands behind the player's booth,
 ## beyond the walkable beach, where it hides no pad; tall sprites hide what lies north of them.
@@ -689,13 +705,13 @@ func _build_squares() -> void:
 	boardwalk.setup(Rect2(PATH_X - PATH_HALF_WIDTH, PIER_TOP, PATH_HALF_WIDTH * 2.0, SHORE_Y - 30.0 - PIER_TOP))
 	_squares_layer.add_child(boardwalk)
 	_add_square("store", ActionSquare.Kind.STORE, STORE_SQUARE, STORE_HALF)
-	_add_square("upgrade_backpack", ActionSquare.Kind.BUY, BACKPACK_SQUARE)
-	_add_square("upgrade_net", ActionSquare.Kind.BUY, NET_SQUARE)
-	_add_square("upgrade_gear", ActionSquare.Kind.BUY, GEAR_SQUARE)
-	_add_square("buy_drone", ActionSquare.Kind.BUY, DRONE_PAD)
-	_add_square("upgrade_tank", ActionSquare.Kind.BUY, TANK_SQUARE)
+	_add_square("upgrade_backpack", ActionSquare.Kind.BUY, BACKPACK_SQUARE, UPGRADE_PAD_HALF)
+	_add_square("upgrade_net", ActionSquare.Kind.BUY, NET_SQUARE, UPGRADE_PAD_HALF)
+	_add_square("upgrade_gear", ActionSquare.Kind.BUY, GEAR_SQUARE, UPGRADE_PAD_HALF)
+	_add_square("buy_drone", ActionSquare.Kind.BUY, DRONE_PAD, UPGRADE_PAD_HALF)
+	_add_square("upgrade_tank", ActionSquare.Kind.BUY, TANK_SQUARE, UPGRADE_PAD_HALF)
 	_sell_square = _add_square("sell", ActionSquare.Kind.SELL, _booth_pad_center(0), BOOTH_PAD_HALF)
-	_add_square("upgrade_shop", ActionSquare.Kind.BUY, SHOP_UPGRADE_SQUARE)
+	_add_square("upgrade_shop", ActionSquare.Kind.BUY, SHOP_UPGRADE_SQUARE, SHOP_UPGRADE_HALF)
 	_add_square("hire_seller", ActionSquare.Kind.BUY, _booth_pad_center(1), BOOTH_PAD_HALF)
 
 
@@ -712,6 +728,16 @@ func _place_decor() -> void:
 		sprite.scale = Vector2.ONE * (float(entry[2]) / texture.get_height())
 		sprite.position = Iso.to_screen(entry[1])
 		_entities.add_child(sprite)
+	for entry: Array in FIXTURES:
+		var fixture := Sprite2D.new()
+		fixture.texture = load("res://assets/sprites/props/%s.svg" % entry[0])
+		fixture.centered = false
+		fixture.offset = -entry[2]
+		fixture.flip_h = entry[3]
+		if entry[3]:
+			fixture.offset.x = -(fixture.texture.get_width() - entry[2].x)
+		fixture.position = Iso.to_screen(entry[1])
+		_entities.add_child(fixture)
 
 
 ## Titles and prices are set by _refresh_squares().
