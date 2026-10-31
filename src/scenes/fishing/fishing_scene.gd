@@ -34,7 +34,9 @@ const PLAY_MARGIN_BOTTOM := 330.0
 ## from the north, the sellers' towards the west with the "Hire seller" pad in front of the
 ## next free one. Right of it are the upgrades. Pads keep clear gaps.
 const BEACH_TOP := -1650.0
-const SPOT_WIDTH := 2920.0
+const SPOT_WIDTH := 5220.0
+## The zones' fish populations (data/zones.csv) are for a spot this wide; wider spots get more.
+const POPULATION_WIDTH := 2920.0
 const SHORE_Y := 0.0
 ## Fish stay this far out in the water.
 const WATER_MARGIN := 50.0
@@ -48,41 +50,44 @@ const CULL_MARGIN := 200.0
 ## Half the length (along the row) and depth of the pads.
 const SQUARE_HALF := Vector2(180.0, 110.0)
 ## The boardwalk, in the middle of the beach.
-const PATH_X := 1460.0
+const PATH_X := 3760.0
 const PATH_HALF_WIDTH := 150.0
 ## The boardwalk's shore end, where its railing is: the wader walks no further up the beach.
 const PIER_TOP := -930.0
 ## Right of the boardwalk, the upgrades in two rows of three, clear of the pads in front of the
 ## booths: the shop, the tank and drones at the back, diving gear, the backpack and nets in
 ## front. Drones start from and deliver to their pad.
-const SHOP_UPGRADE_SQUARE := Vector2(1890.0, -470.0)
-const TANK_SQUARE := Vector2(2290.0, -470.0)
-const DRONE_PAD := Vector2(2690.0, -470.0)
-const GEAR_SQUARE := Vector2(1890.0, -180.0)
-const BACKPACK_SQUARE := Vector2(2290.0, -180.0)
-const NET_SQUARE := Vector2(2690.0, -180.0)
-## Left of the boardwalk: the tank at the waterline with its store pad right beside it, turned
-## to run along the tank, and the fish market behind the tank.
-const TANK_POSITION := Vector2(350.0, -230.0)
-const STORE_SQUARE := Vector2(580.0, -230.0)
+const SHOP_UPGRADE_SQUARE := Vector2(4190.0, -470.0)
+const TANK_SQUARE := Vector2(4590.0, -470.0)
+const DRONE_PAD := Vector2(4990.0, -470.0)
+const GEAR_SQUARE := Vector2(4190.0, -180.0)
+const BACKPACK_SQUARE := Vector2(4590.0, -180.0)
+const NET_SQUARE := Vector2(4990.0, -180.0)
+## Left of the boardwalk, close to it: the tank at the waterline with its store pad right
+## beside it, turned to run along the tank. The fish market stands behind the player's booth,
+## beyond the walkable beach, where it hides no pad; tall sprites hide what lies north of them.
+const TANK_POSITION := Vector2(3060.0, -250.0)
+const STORE_SQUARE := Vector2(3290.0, -250.0)
 const STORE_HALF := Vector2(110.0, 160.0)
-const SHOP_POSITION := Vector2(355.0, -600.0)
-## The sales pipe runs from the tank up the west edge past the market towards the booths,
-## holding the grown fish in the order they will be sold.
-const PIPE_FROM := Vector2(60.0, -380.0)
-const PIPE_TO := Vector2(60.0, -890.0)
+const SHOP_POSITION := Vector2(2950.0, -1420.0)
+## The sales pipe runs from the tank up the beach into the market, between the "Sell fish" pad
+## and the first seller's booth, holding the grown fish in the order they will be sold.
+const PIPE_FROM := Vector2(3060.0, -400.0)
+const PIPE_TO := Vector2(2980.0, -1250.0)
 ## Sunken ships on the seabed per location: prop sprite (assets/sprites/seabed), ground position.
 const WRECKS: Dictionary[String, Array] = {
-	"north_sea": ["wreck", Vector2(1000.0, 2520.0)],
-	"coral_reef": ["galleon", Vector2(1000.0, 2520.0)],
+	"north_sea": ["wreck", Vector2(3300.0, 2520.0)],
+	"coral_reef": ["galleon", Vector2(3300.0, 2520.0)],
 }
 ## The sales booths stand in a row on the edge of the walkable beach, facing north, as big as
-## the people: the player's at the east end, then one per seller towards the west. Buyers come
+## the people: the player's at the east end, then one per seller towards the west, the first
+## a bit further off so the "Sell fish" and "Hire seller" pads keep apart. Buyers come
 ## down from the north in one queue ending behind the player's booth; the first in line goes to the next free
 ## booth (the player's only while the player stands on the "Sell fish" pad), and each sale sends
 ## them off up the beach with a fish.
-const FIRST_BOOTH := Vector2(1000.0, -1010.0)
-const BOOTH_SPACING := 250.0
+const FIRST_BOOTH := Vector2(3300.0, -1010.0)
+const BOOTH_SPACING := 180.0
+const FIRST_SELLER_GAP := 450.0
 const CUSTOMER_ENTRY := Vector2(FIRST_BOOTH.x, -1900.0)
 ## Served buyers walk this far up the beach, out of view.
 const CUSTOMER_EXIT_Y := -2050.0
@@ -99,12 +104,12 @@ const CUSTOMER_INTERVAL_S := 2.0
 ## Painted decoration on the beach: sprite (assets/sprites/props), ground position, screen
 ## height, and where it shows ("" everywhere, else only at locations with that water).
 const DECOR: Array[Array] = [
-	["signpost", Vector2(1250.0, -450.0), 120.0, ""],
-	["seagull", Vector2(2450.0, -1250.0), 60.0, ""],
-	["bush", Vector2(2600.0, -1350.0), 150.0, "temperate"],
-	["bush", Vector2(2880.0, -1300.0), 150.0, ""],
-	["palm", Vector2(2600.0, -1370.0), 260.0, "tropical"],
-	["palm", Vector2(2860.0, -1320.0), 280.0, "tropical"],
+	["signpost", Vector2(3550.0, -450.0), 120.0, ""],
+	["seagull", Vector2(4750.0, -1250.0), 60.0, ""],
+	["bush", Vector2(4900.0, -1350.0), 150.0, "temperate"],
+	["bush", Vector2(5180.0, -1300.0), 150.0, ""],
+	["palm", Vector2(4900.0, -1370.0), 260.0, "tropical"],
+	["palm", Vector2(5160.0, -1320.0), 280.0, "tropical"],
 	["seagull", Vector2(700.0, -1230.0), 55.0, "temperate"],
 ]
 #endregion
@@ -551,7 +556,7 @@ func _refill_zones() -> void:
 
 ## Fish a zone holds (data/zones.csv).
 func _zone_population(zone_index: int) -> int:
-	return _zones[zone_index].population
+	return roundi(_zones[zone_index].population * SPOT_WIDTH / POPULATION_WIDTH)
 
 
 func _zone_fish_count(zone_index: int) -> int:
@@ -998,7 +1003,7 @@ func _sync_shops() -> void:
 	# One booth for the player and one per seller.
 	while _booths.size() < 1 + site.seller_count:
 		var booth := Booth.new()
-		booth.setup(FIRST_BOOTH - Vector2(BOOTH_SPACING * _booths.size(), 0.0), _booths.size())
+		booth.setup(Vector2(_booth_x(_booths.size()), FIRST_BOOTH.y), _booths.size())
 		_entities.add_child(booth)
 		_booth_nodes.append(booth)
 		_booths.append(null)
@@ -1074,7 +1079,12 @@ func _queue_spot(index: int) -> Vector2:
 
 ## Centre of the pad in front of booth `index` (which need not be built yet).
 func _booth_pad_center(index: int) -> Vector2:
-	return FIRST_BOOTH - Vector2(BOOTH_SPACING * index, 0.0) + BOOTH_PAD_OFFSET
+	return Vector2(_booth_x(index), FIRST_BOOTH.y) + BOOTH_PAD_OFFSET
+
+
+## Ground x of booth `index`: the player's at FIRST_BOOTH, the sellers' further west.
+func _booth_x(index: int) -> float:
+	return FIRST_BOOTH.x if index == 0 else FIRST_BOOTH.x - FIRST_SELLER_GAP - BOOTH_SPACING * (index - 1)
 
 
 ## Ground position where the buyer stands at `booth`: behind its desk, facing the player.

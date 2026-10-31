@@ -408,13 +408,13 @@ func test_a_drone_catches_known_fish_and_brings_them_to_the_tank() -> void:
 	await wait_process_frames(1)
 	var shallows := DataRegistry.zones[0]
 	for i in 3:
-		_scene.spawn_fish("european_sprat", Vector2(300.0 + i * 40.0, 200.0), 0.0)
+		_scene.spawn_fish("european_sprat", Vector2(_scene.DRONE_PAD.x - 300.0 + i * 40.0, 200.0), 0.0)
 	# Unknown to the player: the drone must leave it alone.
 	GameState.state.species_caught.erase("lumpsucker")
-	_scene.spawn_fish("lumpsucker", Vector2(200.0, 250.0), 0.0)
+	_scene.spawn_fish("lumpsucker", Vector2(_scene.DRONE_PAD.x - 400.0, 250.0), 0.0)
 	_wader.ground_position = Vector2(1100.0, 400.0)
 	# The drone first flies to a random spot of its zone, so the delivery takes a varying time.
-	await wait_until(func() -> bool: return GameState.here().tank.fish.size() >= 3, 30.0)
+	await wait_until(func() -> bool: return GameState.here().tank.fish.size() >= 3, 60.0)
 
 	assert_eq(GameState.here().tank.fish.size(), 3, "three sprats delivered")
 	assert_eq(_scene.fish_count(), 1, "the unknown lumpsucker is still swimming")
@@ -450,7 +450,7 @@ func test_holding_on_the_store_square_walks_the_wader_onto_it() -> void:
 	var store: ActionSquare = _scene.square("store")
 	var square_screen: Vector2 = _scene.ground_to_scene(store.ground_center)
 	_touch(square_screen, true)
-	await wait_seconds(3.0)
+	await wait_until(func() -> bool: return store.contains(_wader.ground_position), 20.0)
 	_touch(square_screen, false)
 	assert_true(store.contains(_wader.ground_position), "wader at %s" % _wader.ground_position)
 
