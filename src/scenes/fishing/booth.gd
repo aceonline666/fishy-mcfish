@@ -2,25 +2,36 @@ class_name Booth
 extends Node2D
 ## A sales booth on the edge of the walkable beach, facing north: the buyer stands behind it
 ## facing the player, the seller in front of it, seen from behind. Booth 0 is the player's (no
-## seller: the player sells from the "Sell fish" pad), the others are the hired sellers'.
-## PLACEHOLDER sprites (assets/sprites/props/booth.svg, seller_back.svg) until the final art
-## exists. The node sits at the foot of the booth.
+## seller: the player sells from the "Sell fish" pad), the others are the hired sellers'. Every
+## booth looks like the shop's level: painted booths assets/sprites/props/booth_N.png (cut from
+## art_source/"Isometrische Fischmarkt-Upgrade-Stände.png"), seen from the seller's side. The
+## seller is a PLACEHOLDER (seller_back.svg) until the final art exists. The node sits at the
+## foot of the booth.
 
-const BOOTH_TEXTURE: Texture2D = preload("res://assets/sprites/props/booth.svg")
+const BOOTH_TEXTURES: Array[Texture2D] = [
+	preload("res://assets/sprites/props/booth_1.png"), preload("res://assets/sprites/props/booth_2.png"),
+	preload("res://assets/sprites/props/booth_3.png"), preload("res://assets/sprites/props/booth_4.png"),
+	preload("res://assets/sprites/props/booth_5.png"), preload("res://assets/sprites/props/booth_6.png"),
+]
 const SELLER_TEXTURE: Texture2D = preload("res://assets/sprites/props/seller_back.svg")
-## Screen width of the booth and height of the seller.
-const BOOTH_WIDTH := 225.0
+## The booths are drawn at this share of their painted size (all levels alike, so the counters
+## stay at the same height), and the seller this tall.
+const BOOTH_SCALE := 0.6
 const SELLER_HEIGHT := 175.0
 ## Where the buyer and the seller stand, seen from the booth (ground units).
 const BUYER_OFFSET := Vector2(0.0, -140.0)
 const SELLER_OFFSET := Vector2(0.0, 115.0)
-## The player's booth is tinted in the colour of the "Sell fish" pad.
-const PLAYER_TINT := Color(1.0, 0.75, 0.5)
 const SHADOW := Color(0.0, 0.06, 0.14, 0.2)
+const SHADOW_RADIUS := 130.0
 
 var ground_position := Vector2.ZERO
 ## True for the player's booth: no seller.
 var is_player := false
+## The shop's level (data/shop_levels.csv), which the booth looks like.
+var level := 1:
+	set(value):
+		level = clampi(value, 1, BOOTH_TEXTURES.size())
+		queue_redraw()
 
 
 ## `index` 0 is the player's booth, n the n-th seller's.
@@ -43,10 +54,10 @@ func bounce() -> void:
 
 
 func _draw() -> void:
-	draw_colored_polygon(Iso.ellipse(Vector2(4.0, 4.0), BOOTH_WIDTH * 0.55, 16), SHADOW)
-	var size := BOOTH_TEXTURE.get_size() * (BOOTH_WIDTH / BOOTH_TEXTURE.get_width())
-	draw_texture_rect(BOOTH_TEXTURE, Rect2(Vector2(-size.x * 0.5, -size.y), size), false,
-			PLAYER_TINT if is_player else Color.WHITE)
+	draw_colored_polygon(Iso.ellipse(Vector2(4.0, 4.0), SHADOW_RADIUS, 16), SHADOW)
+	var texture := BOOTH_TEXTURES[level - 1]
+	var size := texture.get_size() * BOOTH_SCALE
+	draw_texture_rect(texture, Rect2(Vector2(-size.x * 0.5, -size.y), size), false)
 	if not is_player:
 		var seller := SELLER_TEXTURE.get_size() * (SELLER_HEIGHT / SELLER_TEXTURE.get_height())
 		var foot := Iso.to_screen(SELLER_OFFSET)

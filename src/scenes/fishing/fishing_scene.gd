@@ -950,6 +950,8 @@ func _sync_shops() -> void:
 		_entities.add_child(booth)
 		_booth_nodes.append(booth)
 		_booths.append(null)
+	for booth in _booth_nodes:
+		booth.level = site.shop_level
 	_move_queue()
 
 

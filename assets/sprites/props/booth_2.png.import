@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxaiytr32akrv"
-path="res://.godot/imported/booth.svg-811f891fbdf30966cf95e99f4394a89c.ctex"
+uid="uid://d73gea2rxs0g"
+path="res://.godot/imported/booth_2.png-0ffb06825de33fee777a5c9ea0b27ef7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/props/booth.svg"
-dest_files=["res://.godot/imported/booth.svg-811f891fbdf30966cf95e99f4394a89c.ctex"]
+source_file="res://assets/sprites/props/booth_2.png"
+dest_files=["res://.godot/imported/booth_2.png-0ffb06825de33fee777a5c9ea0b27ef7.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false
