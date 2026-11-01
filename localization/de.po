@@ -1237,12 +1237,6 @@ msgstr "Braucht ein %s-L-Becken"
 msgid "Fishing gear"
 msgstr "Angelbedarf"
 
-msgid "Upgrades"
-msgstr "Verbesserungen"
-
-msgid "Go inside"
-msgstr "Hineingehen"
-
 msgid "Back to the beach"
 msgstr "Zurück zum Strand"
 

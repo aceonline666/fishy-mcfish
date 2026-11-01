@@ -56,15 +56,17 @@ const PATH_X := 3760.0
 const PATH_HALF_WIDTH := 150.0
 ## The boardwalk's shore end, where its railing is: the wader walks no further up the beach.
 const PIER_TOP := -930.0
-## Right of the boardwalk, the gear shop stands at the back, beyond the walkable beach, with its
-## door pad in front: the upgrades are bought inside (UpgradeStore). The drones start from and
-## deliver to their dock by the water.
-const GEAR_SHOP_POSITION := Vector2(4450.0, -1180.0)
-const DOOR_SQUARE := Vector2(4450.0, -790.0)
-const DOOR_HALF := Vector2(150.0, 110.0)
-## Seconds the wader stands on the door pad before going in.
-const DOOR_DELAY_S := 0.3
-const DRONE_PAD := Vector2(4950.0, -450.0)
+## Right of the boardwalk, the gear shop fills the beach up to its east edge, leaving a strip by
+## the water: the upgrades are bought inside (UpgradeStore). It cannot be walked on; walking into
+## its door, at the west end of its front towards the boardwalk, goes inside. The drones start
+## from and deliver to their dock on the strip.
+const GEAR_SHOP_POSITION := Vector2(4680.0, -740.0)
+const GEAR_SHOP_HALF := Vector2(540.0, 390.0)
+const GEAR_SHOP_DOOR_X := 4290.0
+const GEAR_SHOP_DOOR_HALF_WIDTH := 95.0
+## How close the wader comes to the shop's walls.
+const GEAR_SHOP_MARGIN := 40.0
+const DRONE_PAD := Vector2(4950.0, -140.0)
 const DRONE_DOCK_TEXTURE: Texture2D = preload("res://assets/sprites/props/drone_dock.svg")
 ## Where the dock's middle is in its sprite (PLACEHOLDER, drawn at ground scale).
 const DRONE_DOCK_ANCHOR := Vector2(200.0, 110.0)
@@ -110,11 +112,6 @@ const CUSTOMER_INTERVAL_S := 2.0
 ## height, and where it shows ("" everywhere, else only at locations with that water).
 const DECOR: Array[Array] = [
 	["signpost", Vector2(3550.0, -450.0), 120.0, ""],
-	["seagull", Vector2(4750.0, -1250.0), 60.0, ""],
-	["bush", Vector2(4900.0, -1350.0), 150.0, "temperate"],
-	["bush", Vector2(5180.0, -1300.0), 150.0, ""],
-	["palm", Vector2(4900.0, -1370.0), 260.0, "tropical"],
-	["palm", Vector2(5160.0, -1320.0), 280.0, "tropical"],
 	["seagull", Vector2(700.0, -1230.0), 55.0, "temperate"],
 ]
 #endregion
@@ -203,6 +200,8 @@ var _warned := false
 ## After a purchase the square turns into the next offer; it only takes coins again once the
 ## wader has stepped off and back on.
 var _purchase_done := false
+## True from walking into the gear shop's door until back on the beach.
+var _in_store := false
 var _wake_timer := 0.0
 var _shake := 0.0
 var _camera := Vector2.ZERO
@@ -297,6 +296,7 @@ func _notification(what: int) -> void:
 func _process(delta: float) -> void:
 	_update_shake(delta)
 	wader.simulate(delta, walk_area)
+	_update_gear_shop()
 	wader.in_water = wader.ground_position.y > SHORE_Y
 	wader.speed_multiplier = DataRegistry.gear_levels[GameState.here().gear_level - 1].capacity if wader.in_water else BEACH_SPEED
 	_update_zone()
@@ -696,7 +696,6 @@ func _build_squares() -> void:
 	_add_square("store", ActionSquare.Kind.STORE, STORE_SQUARE, STORE_HALF)
 	_sell_square = _add_square("sell", ActionSquare.Kind.SELL, _booth_pad_center(0), BOOTH_PAD_HALF)
 	_add_square("hire_seller", ActionSquare.Kind.BUY, _booth_pad_center(1), BOOTH_PAD_HALF)
-	_add_square("gear_shop", ActionSquare.Kind.DOOR, DOOR_SQUARE, DOOR_HALF)
 	var dock := Sprite2D.new()
 	dock.texture = DRONE_DOCK_TEXTURE
 	dock.centered = false
@@ -739,9 +738,6 @@ func _refresh_squares() -> void:
 	square_by_id("store").title = tr("Put in tank")
 	var sell := square_by_id("sell")
 	sell.title = tr("Sell fish")
-	var door := square_by_id("gear_shop")
-	door.title = tr("Upgrades")
-	door.subtitle = tr("Go inside")
 	var hire := square_by_id("hire_seller")
 	hire.ground_center = _booth_pad_center(1 + site.seller_count)
 	hire.position = Iso.to_screen(hire.ground_center)
@@ -797,18 +793,12 @@ func _update_squares(delta: float) -> void:
 		_action_total = 0.0
 		_warned = false
 		_purchase_done = false
-		if on != null and on.kind == ActionSquare.Kind.DOOR:
-			_action_timer = DOOR_DELAY_S
 	if on == null or _purchase_done:
 		return
 	_action_timer -= delta
 	if _action_timer > 0.0:
 		return
 	match on.kind:
-		ActionSquare.Kind.DOOR:
-			_purchase_done = true
-			wader.stop()
-			store_requested.emit()
 		ActionSquare.Kind.STORE:
 			_action_timer = UNLOAD_INTERVAL_S
 			_store_one()
@@ -1125,11 +1115,41 @@ func _on_drone_delivered(drone: Drone, species_ids: Array[String]) -> void:
 
 #region Gear shop
 
+## The gear shop cannot be walked on: the wader is pushed back out to the nearest wall. Walking
+## into its door goes inside.
+func _update_gear_shop() -> void:
+	var shop := Rect2(GEAR_SHOP_POSITION - GEAR_SHOP_HALF, GEAR_SHOP_HALF * 2.0).grow(GEAR_SHOP_MARGIN)
+	var at := wader.ground_position
+	if _in_store or not shop.has_point(at):
+		return
+	if absf(at.x - GEAR_SHOP_DOOR_X) <= GEAR_SHOP_DOOR_HALF_WIDTH and at.y > shop.end.y - GEAR_SHOP_MARGIN:
+		_in_store = true
+		wader.stop()
+		store_requested.emit()
+		return
+	var to_west := at.x - shop.position.x
+	var to_east := shop.end.x - at.x
+	var to_north := at.y - shop.position.y
+	var to_south := shop.end.y - at.y
+	var nearest := minf(minf(to_west, to_east), minf(to_north, to_south))
+	if nearest == to_west:
+		at.x = shop.position.x
+	elif nearest == to_east:
+		at.x = shop.end.x
+	elif nearest == to_north:
+		at.y = shop.position.y
+	else:
+		at.y = shop.end.y
+	wader.ground_position = at
+	wader.position = Iso.to_screen(at)
+
+
 ## Back from the upgrade store: shows what was bought and puts the wader in front of the door.
 func return_from_store() -> void:
+	_in_store = false
 	_rebuild_from_state()
 	wader.stop()
-	wader.ground_position = DOOR_SQUARE + Vector2(0.0, DOOR_HALF.y + 90.0)
+	wader.ground_position = Vector2(GEAR_SHOP_DOOR_X, GEAR_SHOP_POSITION.y + GEAR_SHOP_HALF.y + GEAR_SHOP_MARGIN + 120.0)
 	wader.position = Iso.to_screen(wader.ground_position)
 	_update_camera(0.0, true)
 

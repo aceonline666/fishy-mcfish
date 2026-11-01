@@ -93,8 +93,13 @@ func test_the_upgrades_show_on_the_beach_when_back() -> void:
 	add_child_autofree(beach)
 	await wait_process_frames(2)
 	watch_signals(beach)
-	beach.wader.ground_position = beach.square("gear_shop").ground_center
-	await wait_seconds(beach.DOOR_DELAY_S + 0.3)
+	var front: float = beach.GEAR_SHOP_POSITION.y + beach.GEAR_SHOP_HALF.y
+	beach.wader.ground_position = Vector2(beach.GEAR_SHOP_DOOR_X + 400.0, front + 10.0)
+	await wait_process_frames(2)
+	assert_signal_not_emitted(beach, "store_requested", "only the door leads inside")
+	assert_gt(beach.wader.ground_position.y, front, "the wall keeps the wader out")
+	beach.wader.ground_position = Vector2(beach.GEAR_SHOP_DOOR_X, front + 10.0)
+	await wait_process_frames(2)
 	assert_signal_emitted(beach, "store_requested")
 
 	GameState.here().backpack_level = 2

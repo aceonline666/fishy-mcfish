@@ -3,8 +3,9 @@ extends Control
 ## The gear shop of the current location (GameState.here()), entered through its door on the
 ## beach: a room in isometric view where the wader buys the upgrades by standing on their pads,
 ## as on the beach. Laid out as in art_source/layout map.png: bigger tanks and diving gear on the
-## west side in front of their shelves, drones and nets on the east side, the market upgrade at
-## a desk at the back, the backpack in the middle, and the door back to the beach at the front.
+## west side in front of their shelves, the backpack, drones and nets on the east side, the
+## market upgrade at a desk at the back in the middle, and the door back to the beach at the
+## front. The pads keep wide gaps, so nothing is bought by accident on the way.
 ## Every location has one; the upgrades are bought for that location. The beach keeps running
 ## behind it (Main), and its drones keep fishing (GameState.in_store).
 
@@ -20,30 +21,28 @@ const PLAY_MARGIN_BOTTOM := 190.0
 const WALK_SPEED := 1.5
 
 #region Layout (ground units; the front wall with the door is at y = 0)
-const ROOM := Rect2(0.0, -1150.0, 1500.0, 1150.0)
+const ROOM := Rect2(0.0, -1600.0, 2400.0, 1600.0)
 ## How far the wader keeps from the back walls and the shelves along them.
 const WALL_MARGIN := Vector2(240.0, 200.0)
 const UPGRADE_PAD_HALF := Vector2(110.0, 180.0)
-const TANK_SQUARE := Vector2(380.0, -790.0)
-const GEAR_SQUARE := Vector2(380.0, -360.0)
-const DRONE_PAD := Vector2(1250.0, -790.0)
-const NET_SQUARE := Vector2(1250.0, -360.0)
-const SHOP_UPGRADE_SQUARE := Vector2(800.0, -760.0)
+const TANK_SQUARE := Vector2(450.0, -1050.0)
+const GEAR_SQUARE := Vector2(450.0, -450.0)
+const BACKPACK_SQUARE := Vector2(2050.0, -1220.0)
+const DRONE_PAD := Vector2(2050.0, -800.0)
+const NET_SQUARE := Vector2(2050.0, -380.0)
+const SHOP_UPGRADE_SQUARE := Vector2(1200.0, -1180.0)
 const SHOP_UPGRADE_HALF := Vector2(150.0, 110.0)
-const BACKPACK_SQUARE := Vector2(800.0, -430.0)
-const BACKPACK_HALF := Vector2(180.0, 110.0)
-const EXIT_SQUARE := Vector2(800.0, -110.0)
-const EXIT_HALF := Vector2(150.0, 80.0)
+const EXIT_SQUARE := Vector2(1200.0, -110.0)
+const EXIT_HALF := Vector2(220.0, 90.0)
 ## The wader comes in here, just inside the door.
-const ENTRY := Vector2(800.0, -240.0)
+const ENTRY := Vector2(1200.0, -320.0)
 ## The shelves and the desk behind the pads: sprite (assets/sprites/props, PLACEHOLDER SVGs drawn
 ## at ground scale), ground position of the middle of its footprint, and where that middle is in
 ## the sprite. Nothing stands east of a pad: it would hide it on screen.
 const FIXTURES: Array[Array] = [
-	["shelf", Vector2(225.0, -790.0), Vector2(130.0, 175.0)],
-	["shelf", Vector2(225.0, -360.0), Vector2(130.0, 175.0)],
-	["shelf", Vector2(565.0, -430.0), Vector2(130.0, 175.0)],
-	["desk", Vector2(800.0, -1080.0), Vector2(130.0, 135.0)],
+	["shelf", Vector2(295.0, -1050.0), Vector2(130.0, 175.0)],
+	["shelf", Vector2(295.0, -450.0), Vector2(130.0, 175.0)],
+	["desk", Vector2(1200.0, -1520.0), Vector2(130.0, 135.0)],
 ]
 #endregion
 
@@ -120,7 +119,7 @@ func _ready() -> void:
 	_add_square("buy_drone", ActionSquare.Kind.BUY, DRONE_PAD, UPGRADE_PAD_HALF)
 	_add_square("upgrade_net", ActionSquare.Kind.BUY, NET_SQUARE, UPGRADE_PAD_HALF)
 	_add_square("upgrade_shop", ActionSquare.Kind.BUY, SHOP_UPGRADE_SQUARE, SHOP_UPGRADE_HALF)
-	_add_square("upgrade_backpack", ActionSquare.Kind.BUY, BACKPACK_SQUARE, BACKPACK_HALF)
+	_add_square("upgrade_backpack", ActionSquare.Kind.BUY, BACKPACK_SQUARE, UPGRADE_PAD_HALF)
 	_add_square("exit", ActionSquare.Kind.DOOR, EXIT_SQUARE, EXIT_HALF)
 	_place_fixtures()
 	var site := GameState.here()
