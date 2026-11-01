@@ -6,13 +6,15 @@ extends Control
 ## lines; deeper zones need better diving gear and hold rarer fish. The wader scoops up fish into
 ## the backpack. On the beach, pads do things while the wader stands on them. Every location has
 ## its own beach business (GameState.here()): left of the pier the tank and the fish shop, joined
-## by the sales pipe, with the shop's pads; right of it the upgrades (net, diving gear, drones,
-## backpack, tank).
+## by the sales pipe, with the shop's pads; right of it the gear shop, whose door leads into the
+## upgrade store (UpgradeStore), and the drones' dock.
 ## Hired sellers sell on their own.
 ## The World map travels between locations.
 
 ## The spot must be rebuilt: after travelling, loading or starting a new game.
 signal rebuild_requested
+## The wader walked through the gear shop's door: show the upgrade store.
+signal store_requested
 
 ## How much the world is magnified on screen.
 const ZOOM := 1.5
@@ -32,7 +34,7 @@ const PLAY_MARGIN_BOTTOM := 330.0
 ## market, and at the back the sales booths, beyond which the beach cannot be walked on: the
 ## player's at the east end with the "Sell fish" pad in front and the buyers' queue coming down
 ## from the north, the sellers' towards the west with the "Hire seller" pad in front of the
-## next free one. Right of it are the upgrades. Pads keep clear gaps.
+## next free one. Right of it is the gear shop. Pads keep clear gaps.
 const BEACH_TOP := -1650.0
 const SPOT_WIDTH := 5220.0
 ## The zones' fish populations (data/zones.csv) are for a spot this wide; wider spots get more.
@@ -54,29 +56,18 @@ const PATH_X := 3760.0
 const PATH_HALF_WIDTH := 150.0
 ## The boardwalk's shore end, where its railing is: the wader walks no further up the beach.
 const PIER_TOP := -930.0
-## Right of the boardwalk, the upgrade store (art_source/layout map.png): bigger tanks and
-## diving gear on its west side along the boardwalk, each bought from a shelf of goods behind its
-## pad; drones and nets on its east side at the edge of the beach (no shelves there yet: things
-## east of a pad stand in front of it on screen); the backpack in the middle by the water; and
-## the market upgrade ordered at a desk in the middle at the back. Drones start from and deliver
-## to their pad.
-const UPGRADE_PAD_HALF := Vector2(110.0, 180.0)
-const TANK_SQUARE := Vector2(4120.0, -650.0)
-const GEAR_SQUARE := Vector2(4120.0, -250.0)
-const DRONE_PAD := Vector2(5050.0, -650.0)
-const NET_SQUARE := Vector2(5050.0, -250.0)
-const BACKPACK_SQUARE := Vector2(4560.0, -250.0)
-const SHOP_UPGRADE_SQUARE := Vector2(4565.0, -760.0)
-const SHOP_UPGRADE_HALF := Vector2(150.0, 110.0)
-## The shelves and the desk behind the upgrade pads: sprite (assets/sprites/props, PLACEHOLDER
-## SVGs drawn at ground scale), ground position of the middle of its footprint, where that
-## middle is in the sprite, and whether it is mirrored (a shelf then runs east-west).
-const FIXTURES: Array[Array] = [
-	["shelf", Vector2(3965.0, -650.0), Vector2(130.0, 175.0), false],
-	["shelf", Vector2(3965.0, -250.0), Vector2(130.0, 175.0), false],
-	["shelf", Vector2(4405.0, -250.0), Vector2(130.0, 175.0), false],
-	["desk", Vector2(4565.0, -1110.0), Vector2(130.0, 135.0), false],
-]
+## Right of the boardwalk, the gear shop stands at the back, beyond the walkable beach, with its
+## door pad in front: the upgrades are bought inside (UpgradeStore). The drones start from and
+## deliver to their dock by the water.
+const GEAR_SHOP_POSITION := Vector2(4450.0, -1180.0)
+const DOOR_SQUARE := Vector2(4450.0, -790.0)
+const DOOR_HALF := Vector2(150.0, 110.0)
+## Seconds the wader stands on the door pad before going in.
+const DOOR_DELAY_S := 0.3
+const DRONE_PAD := Vector2(4950.0, -450.0)
+const DRONE_DOCK_TEXTURE: Texture2D = preload("res://assets/sprites/props/drone_dock.svg")
+## Where the dock's middle is in its sprite (PLACEHOLDER, drawn at ground scale).
+const DRONE_DOCK_ANCHOR := Vector2(200.0, 110.0)
 ## Left of the boardwalk, close to it: the tank at the waterline with its store pad right
 ## beside it, turned to run along the tank. The fish market stands behind the player's booth,
 ## beyond the walkable beach, where it hides no pad; tall sprites hide what lies north of them.
@@ -357,7 +348,7 @@ func _walk_to(target: Vector2) -> void:
 		var next_gear := GameState.here().gear_level
 		if next_gear < DataRegistry.gear_levels.size():
 			_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 330.0),
-					tr("Buy on the beach: %s\nto swim further out!") % tr(DataRegistry.gear_levels[next_gear].name), WARNING_COLOR, 1.2)
+					tr("Buy at the gear shop: %s\nto swim further out!") % tr(DataRegistry.gear_levels[next_gear].name), WARNING_COLOR, 1.2)
 			Haptics.bump()
 
 
@@ -703,14 +694,15 @@ func _build_squares() -> void:
 	boardwalk.setup(Rect2(PATH_X - PATH_HALF_WIDTH, PIER_TOP, PATH_HALF_WIDTH * 2.0, SHORE_Y - 30.0 - PIER_TOP))
 	_squares_layer.add_child(boardwalk)
 	_add_square("store", ActionSquare.Kind.STORE, STORE_SQUARE, STORE_HALF)
-	_add_square("upgrade_backpack", ActionSquare.Kind.BUY, BACKPACK_SQUARE, UPGRADE_PAD_HALF)
-	_add_square("upgrade_net", ActionSquare.Kind.BUY, NET_SQUARE, UPGRADE_PAD_HALF)
-	_add_square("upgrade_gear", ActionSquare.Kind.BUY, GEAR_SQUARE, UPGRADE_PAD_HALF)
-	_add_square("buy_drone", ActionSquare.Kind.BUY, DRONE_PAD, UPGRADE_PAD_HALF)
-	_add_square("upgrade_tank", ActionSquare.Kind.BUY, TANK_SQUARE, UPGRADE_PAD_HALF)
 	_sell_square = _add_square("sell", ActionSquare.Kind.SELL, _booth_pad_center(0), BOOTH_PAD_HALF)
-	_add_square("upgrade_shop", ActionSquare.Kind.BUY, SHOP_UPGRADE_SQUARE, SHOP_UPGRADE_HALF)
 	_add_square("hire_seller", ActionSquare.Kind.BUY, _booth_pad_center(1), BOOTH_PAD_HALF)
+	_add_square("gear_shop", ActionSquare.Kind.DOOR, DOOR_SQUARE, DOOR_HALF)
+	var dock := Sprite2D.new()
+	dock.texture = DRONE_DOCK_TEXTURE
+	dock.centered = false
+	dock.offset = -DRONE_DOCK_ANCHOR
+	dock.position = Iso.to_screen(DRONE_PAD)
+	_squares_layer.add_child(dock)
 
 
 ## Painted props on the sand and in the water; they take part in the depth sorting.
@@ -726,16 +718,9 @@ func _place_decor() -> void:
 		sprite.scale = Vector2.ONE * (float(entry[2]) / texture.get_height())
 		sprite.position = Iso.to_screen(entry[1])
 		_entities.add_child(sprite)
-	for entry: Array in FIXTURES:
-		var fixture := Sprite2D.new()
-		fixture.texture = load("res://assets/sprites/props/%s.svg" % entry[0])
-		fixture.centered = false
-		fixture.offset = -entry[2]
-		fixture.flip_h = entry[3]
-		if entry[3]:
-			fixture.offset.x = -(fixture.texture.get_width() - entry[2].x)
-		fixture.position = Iso.to_screen(entry[1])
-		_entities.add_child(fixture)
+	var gear_shop := GearShopNode.new()
+	gear_shop.position = Iso.to_screen(GEAR_SHOP_POSITION)
+	_entities.add_child(gear_shop)
 
 
 ## Titles and prices are set by _refresh_squares().
@@ -750,48 +735,18 @@ func _add_square(square_id: String, kind: ActionSquare.Kind, center: Vector2, ha
 ## Updates the pads: titles and prices of what can be bought next. Pads with nothing left to
 ## buy are hidden.
 func _refresh_squares() -> void:
-	var state := GameState.state
 	var site := GameState.here()
 	square_by_id("store").title = tr("Put in tank")
 	var sell := square_by_id("sell")
 	sell.title = tr("Sell fish")
-	var tank_square := square_by_id("upgrade_tank")
-	_set_purchase(tank_square, "upgrade_tank", tr("Bigger tank"), Aquarium.tank_upgrade_cost(site),
-			_prop("tank_%d" % (site.tank.level + 1)))
-	if site.tank.level < DataRegistry.tank_levels.size():
-		tank_square.subtitle = tr("Fish grow %s× as fast") % String.num(DataRegistry.tank_levels[site.tank.level].speed, 2)
-	# Each shop level makes room for one more seller.
-	var shop := square_by_id("upgrade_shop")
-	_set_purchase(shop, "upgrade_shop", tr("Bigger shop"), Selling.shop_upgrade_cost(site), _prop("shop_%d" % (site.shop_level + 1)))
-	if site.shop_level < DataRegistry.shop_levels.size():
-		var more := int(DataRegistry.shop_levels[site.shop_level].capacity) - Selling.seller_slots(site)
-		shop.subtitle = tr("+1 seller") if more == 1 else tr("+%d sellers") % more
-	var backpack := square_by_id("upgrade_backpack")
-	_set_purchase(backpack, "upgrade_backpack", tr("Bigger backpack"), Aquarium.backpack_upgrade_cost(site),
-			_wader_prop("basket_%d" % (site.backpack_level + 1)))
-	var next_net := DataRegistry.net_levels[mini(site.net_level, DataRegistry.net_levels.size() - 1)]
-	_set_purchase(square_by_id("upgrade_net"), "upgrade_net", tr(next_net.name), Aquarium.net_upgrade_cost(site),
-			_wader_prop("net_%d" % (site.net_level + 1)))
-	var gear := square_by_id("upgrade_gear")
-	var next_gear := DataRegistry.gear_levels[mini(site.gear_level, DataRegistry.gear_levels.size() - 1)]
-	_set_purchase(gear, "upgrade_gear", tr(next_gear.name), Aquarium.gear_upgrade_cost(site), _prop("gear_%d" % (site.gear_level + 1)))
-	# Drone N fishes zone N, so it is offered once that zone is charted.
-	var drone_square := square_by_id("buy_drone")
-	var drone_available := Automation.next_drone_available(state, site)
-	_set_purchase(drone_square, "buy_drone", tr("Buy drone"), Automation.next_drone_cost(site) if drone_available else -1.0,
-			_prop("drone_%d" % (site.drone_count + 1)))
-	drone_square.subtitle = tr(Automation.drone_zone(state, site, site.drone_count).name) if drone_available else ""
+	var door := square_by_id("gear_shop")
+	door.title = tr("Upgrades")
+	door.subtitle = tr("Go inside")
 	var hire := square_by_id("hire_seller")
 	hire.ground_center = _booth_pad_center(1 + site.seller_count)
 	hire.position = Iso.to_screen(hire.ground_center)
 	_set_purchase(hire, "hire_seller", tr("Hire seller"), Selling.next_seller_cost(site),
 			_prop("cashier_%d" % (site.seller_count % CASHIER_LOOKS + 1)))
-
-
-## A wader sprite from assets/sprites/wader by name, or null if there is none.
-func _wader_prop(prop_name: String) -> Texture2D:
-	var path := "res://assets/sprites/wader/%s.png" % prop_name
-	return load(path) if ResourceLoader.exists(path) else null
 
 
 ## A painted prop from assets/sprites/props by name, or null if there is none.
@@ -842,12 +797,18 @@ func _update_squares(delta: float) -> void:
 		_action_total = 0.0
 		_warned = false
 		_purchase_done = false
+		if on != null and on.kind == ActionSquare.Kind.DOOR:
+			_action_timer = DOOR_DELAY_S
 	if on == null or _purchase_done:
 		return
 	_action_timer -= delta
 	if _action_timer > 0.0:
 		return
 	match on.kind:
+		ActionSquare.Kind.DOOR:
+			_purchase_done = true
+			wader.stop()
+			store_requested.emit()
 		ActionSquare.Kind.STORE:
 			_action_timer = UNLOAD_INTERVAL_S
 			_store_one()
@@ -960,44 +921,12 @@ func _pay_into(target: ActionSquare) -> void:
 
 
 func _complete_purchase(target: ActionSquare) -> void:
-	var state := GameState.state
-	var site := GameState.here()
 	var at := _world_to_scene(target.position + Vector2(0.0, -130.0))
 	var message := ""
-	if target.id == "upgrade_tank":
-		GameState.upgrade_tank()
-		_tank_node.bounce()
-		message = "%s!\n%s L" % [tr(DataRegistry.tank_levels[site.tank.level - 1].name), NumberFormat.compact(Aquarium.capacity(site.tank))]
-	elif target.id == "upgrade_backpack":
-		GameState.upgrade_backpack()
-		live_well.capacity = Aquarium.backpack_capacity(site)
-		message = tr("Bigger backpack!\n%d fish") % live_well.capacity
-	elif target.id == "buy_drone":
-		GameState.buy_drone()
-		_sync_drones()
-		message = tr("New drone!\nIt fishes here: %s") % tr(Automation.drone_zone(state, site, site.drone_count - 1).name)
-	elif target.id == "upgrade_shop":
-		GameState.upgrade_shop()
-		_sync_shops()
-		_shop_node.bounce()
-		var shop_name := tr(DataRegistry.shop_levels[site.shop_level - 1].name)
-		var more := Selling.seller_slots(site) - int(DataRegistry.shop_levels[site.shop_level - 2].capacity)
-		message = tr("%s!\nRoom for one more seller") % shop_name if more == 1 \
-				else tr("%s!\nRoom for %d more sellers") % [shop_name, more]
-	elif target.id == "hire_seller":
+	if target.id == "hire_seller":
 		GameState.hire_seller()
 		_sync_shops()
 		message = tr("Seller hired!\nSells grown fish for you")
-	elif target.id == "upgrade_net":
-		GameState.upgrade_net()
-		wader.scoop_radius = Wader.SCOOP_RADIUS * (1.0 + NET_RADIUS_STEP * (site.net_level - 1))
-		wader.net_level = site.net_level
-		message = tr("%s!\nBig fish are landed faster") % tr(DataRegistry.net_levels[site.net_level - 1].name)
-	elif target.id == "upgrade_gear":
-		GameState.upgrade_gear()
-		_apply_gear()
-		var zone := Charting.deepest_open_zone(location.id, site.gear_level)
-		message = tr("%s!\nNow you can reach: %s") % [tr(DataRegistry.gear_levels[site.gear_level - 1].name), tr(zone.name)]
 	_announce(at, message, COMBO_COLOR, 1.0)
 	Sfx.play(&"ding", 1.0)
 	Sfx.play(&"ding", 1.5, -6.0)
@@ -1194,6 +1123,19 @@ func _on_drone_delivered(drone: Drone, species_ids: Array[String]) -> void:
 #endregion
 
 
+#region Gear shop
+
+## Back from the upgrade store: shows what was bought and puts the wader in front of the door.
+func return_from_store() -> void:
+	_rebuild_from_state()
+	wader.stop()
+	wader.ground_position = DOOR_SQUARE + Vector2(0.0, DOOR_HALF.y + 90.0)
+	wader.position = Iso.to_screen(wader.ground_position)
+	_update_camera(0.0, true)
+
+#endregion
+
+
 #region Travel
 
 ## Travels to another location from the World map: unlocks it first if needed. The backpack
@@ -1215,6 +1157,9 @@ func _on_travel_chosen(def: LocationDef) -> void:
 ## A goal was reached: banner, reward coins and a bump of the Goals button. Goals reached
 ## together are announced one after the other.
 func _on_achievement_reached(def: AchievementDef) -> void:
+	# In the upgrade store, the store shows the banner.
+	if not is_visible_in_tree():
+		return
 	var now := Time.get_ticks_msec() / 1000.0
 	var delay := maxf(_next_goal_banner_at - now, 0.0)
 	_next_goal_banner_at = now + delay + GOAL_BANNER_SPACING_S

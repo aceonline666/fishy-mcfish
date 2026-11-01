@@ -2,8 +2,8 @@ extends Node
 ## Holds the live PlayerState. Scenes read from it; player actions go through its command methods
 ## so the matching EventBus signals are always emitted. Purchases are for the business where the
 ## player is. Every sim tick, at every location, fish grow, hired sellers sell grown
-## fish, and drones of the locations the player is not at keep fishing; the same happens for the
-## time the game was closed.
+## fish, and drones of the locations the player is not at (or of this one, while the player is
+## in the upgrade store) keep fishing; the same happens for the time the game was closed.
 
 ## Time away is played in steps of at least this many seconds, at most OFFLINE_MAX_STEPS of them,
 ## so drones fish, fish grow and sellers sell over the whole time.
@@ -16,6 +16,9 @@ var state := PlayerState.new()
 var last_offline_earned := 0.0
 ## Fish the drones stored while the player was away; shown once, then reset.
 var last_offline_stored := 0
+## True while the player is in the upgrade store: the beach's drones are not watched then, so
+## they fish like those at other locations.
+var in_store := false
 
 ## Progress of each location's sellers towards their next sale, by location id.
 var _seller_progress: Dictionary[String, float] = {}
@@ -187,11 +190,12 @@ func _run_sellers(dt: float) -> void:
 		_seller_progress[key] = progress
 
 
-## Drones at the locations the player is not at keep fishing at the slower unwatched rate.
-## A drone rests while the tank has no room for what it could catch.
+## Drones at the locations the player is not at (or here, while the player is in the upgrade
+## store) keep fishing at the slower unwatched rate. A drone rests while the tank has no room for
+## what it could catch.
 func _run_remote_drones(dt: float) -> void:
 	for site: Site in state.sites.values():
-		if site == here():
+		if site == here() and not in_store:
 			continue
 		for index in site.drone_count:
 			var zone := Automation.drone_zone(state, site, index)

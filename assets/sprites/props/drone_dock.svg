@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="220" viewBox="0 0 400 220">
+<!-- PLACEHOLDER: the drones' landing pad on the beach, flat on the ground. Ground centre at (200,110). -->
+<polygon points="200.0,18.1 383.8,110.0 200.0,201.9 16.2,110.0" fill="#5c6670" stroke="#121826" stroke-width="6" stroke-linejoin="round"/>
+<polygon points="200.0,42.8 334.3,110.0 200.0,177.2 65.7,110.0" fill="none" stroke="#ffd34d" stroke-width="8" stroke-linejoin="round"/>
+<g stroke="#ffffff" stroke-width="12" stroke-linecap="round">
+<line x1="203.5" y1="76.4" x2="132.8" y2="111.8"/>
+<line x1="267.2" y1="108.2" x2="196.5" y2="143.6"/>
+<line x1="168.2" y1="94.1" x2="231.8" y2="125.9"/>
+</g>
+</svg>

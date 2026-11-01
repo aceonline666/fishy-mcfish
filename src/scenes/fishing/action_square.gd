@@ -1,13 +1,13 @@
 class_name ActionSquare
 extends Node2D
 ## A pad on the ground that does something while the wader stands on it: store the catch, sell
-## fish at a shop, or pay towards a purchase. A raised slab on the isometric grid with rounded
+## fish at a shop, pay towards a purchase, or go through a door. A raised slab on the isometric grid with rounded
 ## corners, longer along its row than deep. Drawn in code.
 
-enum Kind { STORE, SELL, BUY }
+enum Kind { STORE, SELL, BUY, DOOR }
 
 ## Pad colours by Kind.
-const COLORS: Array[Color] = [Color(0.55, 0.85, 1.0), Color(1.0, 0.62, 0.3), Color(0.55, 1.0, 0.6)]
+const COLORS: Array[Color] = [Color(0.55, 0.85, 1.0), Color(1.0, 0.62, 0.3), Color(0.55, 1.0, 0.6), Color(1.0, 0.85, 0.35)]
 const CALLING_COLOR := Color(1.0, 0.85, 0.2)
 const SUBTITLE_COLOR := Color(0.92, 0.96, 1.0)
 const DISABLED_COLOR := Color(0.62, 0.64, 0.68)

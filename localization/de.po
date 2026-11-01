@@ -11,8 +11,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Fishing screen
-msgid "Buy on the beach: %s\nto swim further out!"
-msgstr "Am Strand kaufen: %s\num weiter hinauszuschwimmen!"
+msgid "Buy at the gear shop: %s\nto swim further out!"
+msgstr "Im Angelladen kaufen: %s\num weiter hinauszuschwimmen!"
 
 msgid "Beach"
 msgstr "Strand"
@@ -1233,3 +1233,18 @@ msgstr "%s!\nPlatz für %d weitere Verkäufer"
 
 msgid "Needs a %s L tank"
 msgstr "Braucht ein %s-L-Becken"
+
+msgid "Fishing gear"
+msgstr "Angelbedarf"
+
+msgid "Upgrades"
+msgstr "Verbesserungen"
+
+msgid "Go inside"
+msgstr "Hineingehen"
+
+msgid "Back to the beach"
+msgstr "Zurück zum Strand"
+
+msgid "Stand on a pad to buy. Upgrades are for this beach only."
+msgstr "Stell dich auf ein Feld, um zu kaufen. Verbesserungen gelten nur für diesen Strand."

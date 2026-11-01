@@ -247,45 +247,13 @@ func test_the_sell_pad_is_greyed_out_until_a_fish_is_grown() -> void:
 	assert_eq(pad.subtitle, "1 grown")
 
 
-func test_paying_a_build_square_upgrades_the_tank() -> void:
-	var price := Aquarium.tank_upgrade_cost(GameState.here())
-	GameState.add_money(price + 25.0)
-	_stand_on("upgrade_tank")
-	await wait_seconds(3.0)
-
-	assert_eq(GameState.here().tank.level, 2)
-	assert_almost_eq(GameState.state.money, 25.0, 0.01, "the next purchase waits until the wader steps off")
-	assert_not_null(_scene.square("upgrade_tank"), "the next level is offered")
-
-
-func test_partial_payment_is_kept() -> void:
-	GameState.add_money(30.0)
-	_stand_on("upgrade_tank")
-	await wait_seconds(1.5)
-
-	assert_eq(GameState.state.money, 0.0)
-	assert_eq(GameState.here().tank.level, 1)
-	assert_eq(GameState.here().build_progress.get("upgrade_tank"), 30.0)
-
-
-func test_bigger_backpack_holds_more_fish() -> void:
-	GameState.add_money(Aquarium.backpack_upgrade_cost(GameState.here()))
-	_stand_on("upgrade_backpack")
-	await wait_seconds(3.0)
-
-	assert_eq(GameState.here().backpack_level, 2)
-	assert_eq(_scene.live_well.capacity, int(DataRegistry.backpack_levels[1].capacity))
-
-
 func test_upgrading_the_shop_makes_room_for_another_seller() -> void:
 	GameState.here().seller_count = 1
 	GameState.replace_state(GameState.state)
 	await wait_process_frames(1)
 	assert_null(_scene.square("hire_seller"), "one seller at the fish stall")
-	GameState.add_money(Selling.shop_upgrade_cost(GameState.here()))
-	_stand_on("upgrade_shop")
-	await wait_seconds(3.0)
-	assert_eq(GameState.here().shop_level, 2)
+	GameState.upgrade_shop()
+	_scene.return_from_store()
 	assert_not_null(_scene.square("hire_seller"))
 
 
@@ -319,13 +287,11 @@ func test_the_shop_buys_fish_of_every_zone() -> void:
 	assert_eq(GameState.state.money, 75.0 * Economy.GROWN_VALUE_MULT)
 
 
-func test_a_better_net_lands_big_fish_faster_and_is_wider() -> void:
-	var radius := _wader.scoop_radius
-	GameState.add_money(Aquarium.net_upgrade_cost(GameState.here()))
-	_stand_on("upgrade_net")
-	await wait_seconds(3.0)
-	assert_eq(GameState.here().net_level, 2)
-	assert_gt(_wader.scoop_radius, radius)
+func test_better_gear_from_the_store_opens_the_next_zone() -> void:
+	GameState.upgrade_gear()
+	_scene.return_from_store()
+	assert_gt(_scene.walk_area.rect.end.y, DataRegistry.zones[0].depth_end)
+	assert_eq(_wader.gear_level, 2)
 
 
 func test_deeper_zones_are_closed_without_gear() -> void:
@@ -343,16 +309,6 @@ func test_wader_walks_no_further_up_the_beach_than_the_pier_end() -> void:
 	await wait_seconds(4.0)
 	_touch(_scene.ground_to_scene(top_target), false)
 	assert_gte(_wader.ground_position.y, _scene.PIER_TOP)
-
-
-func test_buying_gear_opens_the_next_zone() -> void:
-	GameState.add_money(Aquarium.gear_upgrade_cost(GameState.here()))
-	_stand_on("upgrade_gear")
-	await wait_seconds(3.0)
-
-	assert_eq(GameState.here().gear_level, 2)
-	assert_gt(_scene.walk_area.rect.end.y, DataRegistry.zones[0].depth_end)
-	assert_eq(_wader.gear_level, 2)
 
 
 func test_catches_count_towards_charting_their_zone() -> void:
@@ -391,14 +347,6 @@ func _chart_shallows() -> void:
 		GameState.record_catch("european_sprat", shallows.id)
 	for id in Charting.required_species(shallows):
 		GameState.record_catch(id, shallows.id)
-
-
-func test_drones_are_offered_once_a_zone_is_charted() -> void:
-	assert_null(_scene.square("buy_drone"))
-	_chart_shallows()
-	GameState.replace_state(GameState.state)
-	await wait_process_frames(1)
-	assert_not_null(_scene.square("buy_drone"))
 
 
 func test_a_drone_catches_known_fish_and_brings_them_to_the_tank() -> void:
