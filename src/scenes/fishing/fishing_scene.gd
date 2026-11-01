@@ -54,19 +54,19 @@ const PATH_X := 3760.0
 const PATH_HALF_WIDTH := 150.0
 ## The boardwalk's shore end, where its railing is: the wader walks no further up the beach.
 const PIER_TOP := -930.0
-## Right of the boardwalk, the upgrades, each bought from a shelf of goods behind its pad:
-## bigger tanks and diving gear along the boardwalk, drones and nets along the east edge (their
-## pads turned to run along the shelves), the backpack in the middle by the water, and the
-## market upgrade ordered at a desk in the middle at the back. Things east or south of a pad
-## stand in front of it on screen, so those shelves keep a gap. Drones start from and deliver
+## Right of the boardwalk, the upgrade store (art_source/layout map.png): bigger tanks and
+## diving gear on its west side along the boardwalk, each bought from a shelf of goods behind its
+## pad; drones and nets on its east side at the edge of the beach (no shelves there yet: things
+## east of a pad stand in front of it on screen); the backpack in the middle by the water; and
+## the market upgrade ordered at a desk in the middle at the back. Drones start from and deliver
 ## to their pad.
 const UPGRADE_PAD_HALF := Vector2(110.0, 180.0)
 const TANK_SQUARE := Vector2(4120.0, -650.0)
 const GEAR_SQUARE := Vector2(4120.0, -250.0)
-const DRONE_PAD := Vector2(4900.0, -650.0)
-const NET_SQUARE := Vector2(4900.0, -250.0)
+const DRONE_PAD := Vector2(5050.0, -650.0)
+const NET_SQUARE := Vector2(5050.0, -250.0)
 const BACKPACK_SQUARE := Vector2(4560.0, -250.0)
-const SHOP_UPGRADE_SQUARE := Vector2(4565.0, -780.0)
+const SHOP_UPGRADE_SQUARE := Vector2(4565.0, -760.0)
 const SHOP_UPGRADE_HALF := Vector2(150.0, 110.0)
 ## The shelves and the desk behind the upgrade pads: sprite (assets/sprites/props, PLACEHOLDER
 ## SVGs drawn at ground scale), ground position of the middle of its footprint, where that
@@ -74,10 +74,8 @@ const SHOP_UPGRADE_HALF := Vector2(150.0, 110.0)
 const FIXTURES: Array[Array] = [
 	["shelf", Vector2(3965.0, -650.0), Vector2(130.0, 175.0), false],
 	["shelf", Vector2(3965.0, -250.0), Vector2(130.0, 175.0), false],
-	["shelf", Vector2(5180.0, -650.0), Vector2(130.0, 175.0), false],
-	["shelf", Vector2(5180.0, -250.0), Vector2(130.0, 175.0), false],
 	["shelf", Vector2(4405.0, -250.0), Vector2(130.0, 175.0), false],
-	["desk", Vector2(4565.0, -990.0), Vector2(130.0, 135.0), false],
+	["desk", Vector2(4565.0, -1110.0), Vector2(130.0, 135.0), false],
 ]
 ## Left of the boardwalk, close to it: the tank at the waterline with its store pad right
 ## beside it, turned to run along the tank. The fish market stands behind the player's booth,
