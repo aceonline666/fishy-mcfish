@@ -1213,21 +1213,6 @@ msgstr "Verkäufer 9"
 msgid "Seller 10"
 msgstr "Verkäufer 10"
 
-msgid "Seller 11"
-msgstr "Verkäufer 11"
-
-msgid "Seller 12"
-msgstr "Verkäufer 12"
-
-msgid "Seller 13"
-msgstr "Verkäufer 13"
-
-msgid "Seller 14"
-msgstr "Verkäufer 14"
-
-msgid "Seller 15"
-msgstr "Verkäufer 15"
-
 msgid "%s!\nRoom for %d more sellers"
 msgstr "%s!\nPlatz für %d weitere Verkäufer"
 

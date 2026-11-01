@@ -1,7 +1,7 @@
 class_name Selling
 extends RefCounted
 ## Selling fish at a location's shop. The shop buys every fish; each shop level has booths for
-## more sellers (data/shop_levels.csv: capacity), up to 15 in the seafood palace. The player sells by standing on the shop's "Sell fish" pad; the sellers sell on
+## more sellers (data/shop_levels.csv: capacity), up to 10 in the seafood palace. The player sells by standing on the shop's "Sell fish" pad; the sellers sell on
 ## their own, at every location, also while the game is closed. From the tank only grown fish are
 ## sold; the drones fill the space up again.
 

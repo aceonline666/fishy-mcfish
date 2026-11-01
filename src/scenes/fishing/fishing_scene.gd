@@ -36,7 +36,7 @@ const PLAY_MARGIN_BOTTOM := 330.0
 ## from the north, the sellers' towards the west with the "Hire seller" pad in front of the
 ## next free one. Right of it is the gear shop. Pads keep clear gaps.
 const BEACH_TOP := -1650.0
-const SPOT_WIDTH := 5220.0
+const SPOT_WIDTH := 4320.0
 ## The zones' fish populations (data/zones.csv) are for a spot this wide; wider spots get more.
 const POPULATION_WIDTH := 2920.0
 const SHORE_Y := 0.0
@@ -52,7 +52,7 @@ const CULL_MARGIN := 200.0
 ## Half the length (along the row) and depth of the pads.
 const SQUARE_HALF := Vector2(180.0, 110.0)
 ## The boardwalk, in the middle of the beach.
-const PATH_X := 3760.0
+const PATH_X := 2860.0
 const PATH_HALF_WIDTH := 150.0
 ## The boardwalk's shore end, where its railing is: the wader walks no further up the beach.
 const PIER_TOP := -930.0
@@ -60,31 +60,31 @@ const PIER_TOP := -930.0
 ## the water: the upgrades are bought inside (UpgradeStore). It cannot be walked on; walking into
 ## its door, at the west end of its front towards the boardwalk, goes inside. The drones start
 ## from and deliver to their dock on the strip.
-const GEAR_SHOP_POSITION := Vector2(4680.0, -740.0)
+const GEAR_SHOP_POSITION := Vector2(3780.0, -740.0)
 const GEAR_SHOP_HALF := Vector2(540.0, 390.0)
-const GEAR_SHOP_DOOR_X := 4290.0
+const GEAR_SHOP_DOOR_X := 3390.0
 const GEAR_SHOP_DOOR_HALF_WIDTH := 95.0
 ## How close the wader comes to the shop's walls.
 const GEAR_SHOP_MARGIN := 40.0
-const DRONE_PAD := Vector2(4950.0, -140.0)
+const DRONE_PAD := Vector2(4050.0, -140.0)
 const DRONE_DOCK_TEXTURE: Texture2D = preload("res://assets/sprites/props/drone_dock.svg")
 ## Where the dock's middle is in its sprite (PLACEHOLDER, drawn at ground scale).
 const DRONE_DOCK_ANCHOR := Vector2(200.0, 110.0)
 ## Left of the boardwalk, close to it: the tank at the waterline with its store pad right
 ## beside it, turned to run along the tank. The fish market stands behind the player's booth,
 ## beyond the walkable beach, where it hides no pad; tall sprites hide what lies north of them.
-const TANK_POSITION := Vector2(3060.0, -250.0)
-const STORE_SQUARE := Vector2(3290.0, -250.0)
+const TANK_POSITION := Vector2(2160.0, -250.0)
+const STORE_SQUARE := Vector2(2390.0, -250.0)
 const STORE_HALF := Vector2(110.0, 160.0)
-const SHOP_POSITION := Vector2(2950.0, -1420.0)
+const SHOP_POSITION := Vector2(2050.0, -1420.0)
 ## The sales pipe runs from the tank up the beach into the market, between the "Sell fish" pad
 ## and the first seller's booth, holding the grown fish in the order they will be sold.
-const PIPE_FROM := Vector2(3060.0, -400.0)
-const PIPE_TO := Vector2(2980.0, -1250.0)
+const PIPE_FROM := Vector2(2160.0, -400.0)
+const PIPE_TO := Vector2(2080.0, -1250.0)
 ## Sunken ships on the seabed per location: prop sprite (assets/sprites/seabed), ground position.
 const WRECKS: Dictionary[String, Array] = {
-	"north_sea": ["wreck", Vector2(3300.0, 2520.0)],
-	"coral_reef": ["galleon", Vector2(3300.0, 2520.0)],
+	"north_sea": ["wreck", Vector2(2400.0, 2520.0)],
+	"coral_reef": ["galleon", Vector2(2400.0, 2520.0)],
 }
 ## The sales booths stand in a row on the edge of the walkable beach, facing north, as big as
 ## the people: the player's at the east end, then one per seller towards the west, the first
@@ -92,7 +92,7 @@ const WRECKS: Dictionary[String, Array] = {
 ## down from the north in one queue ending behind the player's booth; the first in line goes to the next free
 ## booth (the player's only while the player stands on the "Sell fish" pad), and each sale sends
 ## them off up the beach with a fish.
-const FIRST_BOOTH := Vector2(3300.0, -1010.0)
+const FIRST_BOOTH := Vector2(2400.0, -1010.0)
 const BOOTH_SPACING := 180.0
 const FIRST_SELLER_GAP := 450.0
 const CUSTOMER_ENTRY := Vector2(FIRST_BOOTH.x, -1900.0)
@@ -111,8 +111,8 @@ const CUSTOMER_INTERVAL_S := 2.0
 ## Painted decoration on the beach: sprite (assets/sprites/props), ground position, screen
 ## height, and where it shows ("" everywhere, else only at locations with that water).
 const DECOR: Array[Array] = [
-	["signpost", Vector2(3550.0, -450.0), 120.0, ""],
-	["seagull", Vector2(700.0, -1230.0), 55.0, "temperate"],
+	["signpost", Vector2(2650.0, -450.0), 120.0, ""],
+	["seagull", Vector2(250.0, -1230.0), 55.0, "temperate"],
 ]
 #endregion
 

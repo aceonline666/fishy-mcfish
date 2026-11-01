@@ -2,6 +2,6 @@ level,name,capacity,cost
 1,Fish stall,1,0
 2,Fish hut,2,1000
 3,Fish shop,4,12000
-4,Fish market,7,100000
-5,Fish hall,11,800000
-6,Seafood palace,15,6000000
+4,Fish market,6,100000
+5,Fish hall,8,800000
+6,Seafood palace,10,6000000

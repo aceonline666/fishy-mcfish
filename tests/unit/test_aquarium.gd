@@ -128,7 +128,7 @@ func test_bigger_shops_have_booths_for_more_sellers() -> void:
 	site.seller_count = 1
 	assert_eq(Selling.next_seller_cost(site), -1.0, "the fish stall is full")
 	site.shop_level = DataRegistry.shop_levels.size()
-	assert_eq(Selling.seller_slots(site), 15, "the seafood palace")
+	assert_eq(Selling.seller_slots(site), 10, "the seafood palace")
 	assert_eq(Selling.next_seller_cost(site), DataRegistry.staff_levels[1].cost)
 	site.seller_count = 15
 	assert_eq(Selling.next_seller_cost(site), -1.0)
