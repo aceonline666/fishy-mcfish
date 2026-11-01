@@ -4,7 +4,7 @@ extends Node2D
 ## facing the player, the seller in front of it, seen from behind. Booth 0 is the player's (no
 ## seller: the player sells from the "Sell fish" pad), the others are the hired sellers'. Every
 ## booth looks like the shop's level: painted booths assets/sprites/props/booth_N.png (cut from
-## art_source/"Isometrische Fischmarkt-Upgrade-Stände.png"), seen from the seller's side. The
+## art_source/"Isometrische Fischmarkt-Stände im Set.png"), seen from the seller's side. The
 ## seller is a PLACEHOLDER (seller_back.svg) until the final art exists. The node sits at the
 ## foot of the booth.
 
