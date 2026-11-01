@@ -1,6 +1,6 @@
 id,name,order,env,unlock,travel_cost,price_factor,shallow_color,deep_color,sand_color,description
 north_sea,North Sea,1,temperate,,0,1,#52c7cc,#12548c,#f2d999,Your home beach with the aquarium. Cool water full of herring and cod.
-coral_reef,Coral Reef,2,tropical,chart_sandbanks,5000,2.5,#45e0cf,#0b5fa3,#fff0cc,Warm clear water over colourful corals of the Indo-pacific. Start a second beach business from scratch; building here costs more.
+coral_reef,Coral Reef,2,tropical,chart_sandbanks,5000,2.5,#45e0cf,#0b5fa3,#fff0cc,Warm clear water over colourful corals of the Indo-Pacific. Start a second beach business from scratch; building here costs more.
 australia,Australia,3,temperate,chart_drop_off,60000,6,#4fd0c4,#0f4f86,#f0d8a8,"The Great Southern Reef: cool kelp forests full of seadragons, rays and great white sharks."
 japan,Japan,4,temperate,chart_rocky_reef,600000,15,#56c0d6,#0b3f7a,#e6d6b8,"Rocky shores, the warm Kuroshio current and some of the deepest trenches on Earth."
 south_africa,South Africa,5,temperate,chart_kuroshio,6000000,40,#4ec2b8,#0a466e,#f2e2bc,"Where two oceans meet: kelp forests, the sardine run, sharks and southern right whales."

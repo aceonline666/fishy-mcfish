@@ -3,9 +3,10 @@ extends RefCounted
 ## milestones are reached, to check the pacing. Started by tools/balance_sim.gd.
 ##
 ## The player model: fish the most useful open zone of the current location until the backpack
-## is full, walk up the beach, store what fits, let the rest go, sell the grown fish at the
-## shop, buy the cheapest affordable upgrade there (or the travel fee),
-## walk back. Once every species of a location is found and its gear is maxed, travel on to the
+## is full, walk up the beach, store what fits (the rest stays in the backpack, which waits for
+## room in the tank once it is full), sell the grown fish at the shop, buy the cheapest
+## affordable upgrade there (or the travel fee; a bigger tank once the tank is 70 % full or the
+## backpack is blocked), walk back. Once every species of a location is found and its gear is maxed, travel on to the
 ## next open location and build its business from scratch. Drones and sellers of every
 ## location work in the background.
 
@@ -44,14 +45,16 @@ func run(hours: float, seed_value: int, quiet: bool = false) -> Dictionary[Strin
 	_quiet = quiet
 	_print("time   event")
 	while _time < hours * 3600.0:
-		_fish_one()
-		if _backpack.size() >= Aquarium.backpack_capacity(_state.here()):
+		if _backpack.size() < Aquarium.backpack_capacity(_state.here()):
+			_fish_one()
+		else:
 			_trip()
 	_report()
 	return milestones
 
 
-## Catches one fish in the chosen zone, letting time pass.
+## Catches one fish in the chosen zone, letting time pass. The net lets through fish no tank
+## here can hold yet; they still count as caught.
 func _fish_one() -> void:
 	var zone := _choose_zone()
 	var species_id := SpawnTable.new(zone.spawns).pick(_rng)
@@ -64,7 +67,8 @@ func _fish_one() -> void:
 	if not was_charted and Charting.is_charted(_state, zone):
 		_event("charted %s" % zone.name)
 		milestones.get_or_add("charted_" + zone.id, _time)
-	_backpack.append(species_id)
+	if Aquarium.can_ever_hold(_state.here(), DataRegistry.species[species_id]):
+		_backpack.append(species_id)
 
 
 ## Explore first: the shallowest open zone here that is uncharted or still hides an unknown
@@ -91,15 +95,14 @@ func _has_unknown_species(zone: ZoneDef) -> bool:
 	return zone.spawns.keys().any(func(id: String) -> bool: return not _state.species_caught.has(id))
 
 
-## Walks up the beach: store what fits, let the rest go, sell all grown fish, buy upgrades, and
-## travel on once this location is done.
+## Walks up the beach: store what fits (the rest stays in the backpack), sell all grown fish,
+## buy upgrades, and travel on once this location is done.
 func _trip() -> void:
 	var site := _state.here()
 	_pass_time(TRIP_OVERHEAD_S)
 	var sold := 0
-	for id in _backpack:
-		Aquarium.store(site, id, Aquarium.catch_growth(_rng))
-	_backpack.clear()
+	_backpack = _backpack.filter(func(id: String) -> bool:
+		return Aquarium.store(site, id, Aquarium.catch_growth(_rng)) == null)
 	while not Selling.sell_next(_state, site).is_empty():
 		sold += 1
 	_pass_time(sold * SELL_SECONDS)
@@ -128,7 +131,7 @@ func _maybe_travel() -> void:
 func _buy_cheapest() -> bool:
 	var site := _state.here()
 	var options: Array[Dictionary] = []
-	if Aquarium.used_space(site.tank) >= Aquarium.capacity(site.tank) * 0.7:
+	if not _backpack.is_empty() or Aquarium.used_space(site.tank) >= Aquarium.capacity(site.tank) * 0.7:
 		_add_option(options, "tank", Aquarium.tank_upgrade_cost(site))
 	_add_option(options, "backpack", Aquarium.backpack_upgrade_cost(site))
 	var deepest := Charting.deepest_open_zone(site.location_id, site.gear_level)

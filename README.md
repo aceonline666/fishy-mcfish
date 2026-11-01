@@ -218,5 +218,4 @@ Rules of thumb:
 - Improve swimming path and sizes of the fish in the tank. For example a sperm whale is the same size as a makrel
 - Improve sounds
   - Walking sound should reflect the underground. Wooden on pier, sandy on beach, muddy in water
-  - Throwing something into the tank sounds too hard
 - Replace booth sprites with perspectively correct ones

@@ -301,7 +301,7 @@ msgstr "Dein Heimatstrand mit dem Aquarium. Kühles Wasser voller Heringe und Ka
 msgid "Coral Reef"
 msgstr "Korallenriff"
 
-msgid "Warm clear water over colourful corals. Start a second beach business from scratch; building here costs more."
+msgid "Warm clear water over colourful corals of the Indo-Pacific. Start a second beach business from scratch; building here costs more."
 msgstr "Warmes, klares Wasser über bunten Korallen des Indo-Pazifik. Hier baust du ein zweites Strandgeschäft ganz neu auf; Bauen kostet hier mehr."
 
 msgid "Pier shallows"
