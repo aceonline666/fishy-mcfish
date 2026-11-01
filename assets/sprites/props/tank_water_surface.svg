@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 16" width="128" height="16">
-  <!-- PLACEHOLDER: the wavy top of the water, drawn at the water level. -->
-  <path d="M0 9 Q16 1 32 9 T64 9 T96 9 T128 9 V16 H0 Z" fill="#c4ecff" fill-opacity="0.9"/>
-  <path d="M0 9 Q16 1 32 9 T64 9 T96 9 T128 9" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
-</svg>

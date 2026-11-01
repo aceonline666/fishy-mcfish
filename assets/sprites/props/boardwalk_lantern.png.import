@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://58jyghfgjkc2"
-path="res://.godot/imported/tank_air.svg-67ba547ee1b57e9c42fd9346e41dfdd4.ctex"
+uid="uid://bt4wd2yphjs6g"
+path="res://.godot/imported/boardwalk_lantern.png-0fd99aeea98dca124f6e8d5fb3fda093.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/props/tank_air.svg"
-dest_files=["res://.godot/imported/tank_air.svg-67ba547ee1b57e9c42fd9346e41dfdd4.ctex"]
+source_file="res://assets/sprites/props/boardwalk_lantern.png"
+dest_files=["res://.godot/imported/boardwalk_lantern.png-0fd99aeea98dca124f6e8d5fb3fda093.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

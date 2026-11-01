@@ -1,8 +1,8 @@
-level,name,capacity,cost,speed
-1,Glass tank,60,0,1
-2,Large tank,200,250,1.25
-3,Show tank,600,3000,1.5
-4,Grand tank,2000,25000,1.75
-5,Exhibit tank,6000,200000,2
-6,Giant tank,20000,1500000,2.5
-7,Ocean dome,60000,10000000,3
+level,name,capacity,cost,speed,width,depth
+1,Glass tank,60,0,1,1,1
+2,Large tank,200,250,1.25,2,1
+3,Show tank,600,3000,1.5,2,2
+4,Grand tank,2000,25000,1.75,2,3
+5,Exhibit tank,6000,200000,2,3,3
+6,Giant tank,20000,1500000,2.5,3,4
+7,Ocean dome,60000,10000000,3,3,5

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024">
+<!-- Tank level 7, footprint 3 x 5 cells at 160 px per cell edge; bottom corner (608, 980),
+base 40 px, glass 215 px (tools/make_tank_guides.py). -->
+<rect width="1536" height="1024" fill="#ffffff"/>
+<polygon points="128,740 608,980 1408,580 928,340" fill="#d9d9d9" fill-opacity="1.0" stroke="#555" stroke-width="3"/>
+<polyline points="1088,420 288,820" fill="none" stroke="#888" stroke-width="2"/>
+<polyline points="1248,500 448,900" fill="none" stroke="#888" stroke-width="2"/>
+<polyline points="768,420 1248,660" fill="none" stroke="#888" stroke-width="2"/>
+<polyline points="608,500 1088,740" fill="none" stroke="#888" stroke-width="2"/>
+<polyline points="448,580 928,820" fill="none" stroke="#888" stroke-width="2"/>
+<polyline points="288,660 768,900" fill="none" stroke="#888" stroke-width="2"/>
+<polyline points="928,300 928,85" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="10,8"/>
+<polyline points="128,485 928,85 1408,325" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="10,8"/>
+<polyline points="128,700 928,300 1408,540" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="10,8"/>
+<polygon points="128,740 608,980 608,940 128,700" fill="#a0522d" fill-opacity="0.35" stroke="#6b3519" stroke-width="4"/>
+<polygon points="608,980 1408,580 1408,540 608,940" fill="#a0522d" fill-opacity="0.25" stroke="#6b3519" stroke-width="4"/>
+<polygon points="128,700 608,940 608,725 128,485" fill="#3cb371" fill-opacity="0.35" stroke="#1e7a45" stroke-width="4"/>
+<polygon points="608,940 1408,540 1408,325 608,725" fill="#4a90d9" fill-opacity="0.3" stroke="#1f5fa8" stroke-width="4"/>
+<polyline points="128,700 128,485" fill="none" stroke="#222" stroke-width="5"/>
+<polyline points="608,940 608,725" fill="none" stroke="#222" stroke-width="5"/>
+<polyline points="1408,540 1408,325" fill="none" stroke="#222" stroke-width="5"/>
+</svg>

@@ -25,6 +25,8 @@ func _ready() -> void:
 		_players.append(player)
 	_sounds[&"pop"] = _pop()
 	_sounds[&"splash"] = _splash()
+	_sounds[&"slosh"] = _slosh()
+	_sounds[&"plop"] = _plop()
 	_sounds[&"ding"] = _ding()
 	_sounds[&"coin"] = _coin()
 
@@ -66,6 +68,48 @@ static func _splash() -> AudioStreamWAV:
 		var t := float(i) / MIX_RATE
 		filtered += (rng.randf_range(-1.0, 1.0) - filtered) * lerpf(0.5, 0.05, t / duration)
 		samples.append(filtered * exp(-t * 9.0) * minf(t * 200.0, 1.0) * 1.4)
+	return _to_wav(samples)
+
+
+## Wading step: deep, twice low-passed noise that swells in and out (no hiss, no click), under
+## a quiet low "plop" of a leg pulling out of the water.
+static func _slosh() -> AudioStreamWAV:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 11
+	var duration := 0.26
+	var samples := PackedFloat32Array()
+	var first := 0.0
+	var second := 0.0
+	var phase := 0.0
+	for i in int(duration * MIX_RATE):
+		var t := float(i) / MIX_RATE
+		var cutoff := lerpf(0.09, 0.03, t / duration)
+		first += (rng.randf_range(-1.0, 1.0) - first) * cutoff
+		second += (first - second) * cutoff
+		var swell := sin(PI * minf(t / 0.05, 1.0) * 0.5) * exp(-maxf(t - 0.05, 0.0) * 14.0)
+		phase += TAU * lerpf(210.0, 120.0, t / duration) / MIX_RATE
+		samples.append((second * 3.5 + sin(phase) * 0.12) * swell)
+	return _to_wav(samples)
+
+
+## Something small dropping into water: a round low "bloop" that bends down, eased in so it has
+## no hard edge, with a short muffled swish behind it.
+static func _plop() -> AudioStreamWAV:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 5
+	var duration := 0.3
+	var samples := PackedFloat32Array()
+	var phase := 0.0
+	var first := 0.0
+	var second := 0.0
+	for i in int(duration * MIX_RATE):
+		var t := float(i) / MIX_RATE
+		phase += TAU * (180.0 + 320.0 * exp(-t * 30.0)) / MIX_RATE
+		var bloop := sin(phase) * sin(PI * minf(t / 0.012, 1.0) * 0.5) * exp(-t * 18.0)
+		first += (rng.randf_range(-1.0, 1.0) - first) * 0.06
+		second += (first - second) * 0.06
+		var swish := second * sin(PI * minf(t / 0.04, 1.0) * 0.5) * exp(-t * 12.0)
+		samples.append(bloop * 0.45 + swish * 2.0)
 	return _to_wav(samples)
 
 

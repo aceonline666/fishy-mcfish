@@ -117,6 +117,9 @@ func _load_zones(path: String) -> void:
 		for i in range(1, own.size()):
 			if not is_equal_approx(own[i].depth_start, own[i - 1].depth_end):
 				errors.append("%s: zone '%s' must start where '%s' ends" % [path, own[i].id, own[i - 1].id])
+		for zone in own:
+			if not is_zero_approx(fposmod(zone.depth_end, Grid.UNIT)):
+				errors.append("%s: zone '%s' must end on the layout grid (a multiple of %d)" % [path, zone.id, Grid.UNIT])
 
 
 func _load_species(path: String) -> void:

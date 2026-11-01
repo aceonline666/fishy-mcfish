@@ -303,12 +303,54 @@ func test_deeper_zones_are_closed_without_gear() -> void:
 	assert_lte(_wader.ground_position.y, shallows.depth_end)
 
 
-func test_wader_walks_no_further_up_the_beach_than_the_pier_end() -> void:
-	var top_target := Vector2(_wader.ground_position.x, _scene.BEACH_TOP)
-	_touch(_scene.ground_to_scene(top_target), true)
-	await wait_seconds(4.0)
-	_touch(_scene.ground_to_scene(top_target), false)
-	assert_gte(_wader.ground_position.y, _scene.PIER_TOP)
+func test_wader_walks_no_further_up_the_beach_than_the_next_hire_pad() -> void:
+	var pad: ActionSquare = _scene.square("hire_seller")
+	_wader.ground_position = Vector2(pad.ground_center.x, Scene.BEACH_TOP)
+	await wait_process_frames(2)
+	assert_almost_eq(_wader.ground_position.y, Grid.rect(Vector2i(0, -8)).position.y, 25.0, "the first hire pad's row")
+	GameState.here().seller_count = 1
+	_scene._sync_shops()
+	_wader.ground_position = Vector2(pad.ground_center.x, Scene.BEACH_TOP)
+	await wait_process_frames(2)
+	assert_almost_eq(_wader.ground_position.y, Grid.rect(Vector2i(0, -9)).position.y, 25.0, "one row further with a seller")
+
+
+func test_the_booth_line_keeps_the_wader_from_the_buyers() -> void:
+	_wader.ground_position = Grid.center(Vector2i(Scene.BOOTH_COLUMN + 1, -7))
+	await wait_process_frames(2)
+	assert_false(Grid.rect(Scene.BOOTH_LINE_CELL, Scene.BOOTH_LINE_SIZE).has_point(_wader.ground_position))
+
+
+func test_level_with_the_booths_only_the_pier_can_be_walked_on() -> void:
+	_wader.ground_position = Grid.center(Vector2i(Scene.PIER_COLUMN - 1, -7))
+	await wait_process_frames(2)
+	assert_false(Grid.rect(Scene.BACK_BEACH_CELL, Scene.BACK_BEACH_SIZE).has_point(_wader.ground_position))
+
+
+func test_the_wader_cannot_step_off_the_pier_sideways() -> void:
+	_wader.ground_position = Grid.center(Vector2i(Scene.PIER_COLUMN, -3))
+	_wader.stop()
+	await wait_process_frames(2)
+	_wader.ground_position.x = Scene.PIER_WALL.position.x - 10.0
+	await wait_process_frames(2)
+	assert_almost_eq(_wader.ground_position.x, Scene.PIER_WALL.position.x - Scene.BOOTH_MARGIN, 1.0, "held back on the pier")
+	_wader.ground_position = Grid.center(Vector2i(Scene.PIER_COLUMN, -1))
+	await wait_process_frames(2)
+	_wader.ground_position.x = Scene.PIER_WALL.position.x - 10.0
+	await wait_process_frames(2)
+	assert_almost_eq(_wader.ground_position.x, Scene.PIER_WALL.position.x - Scene.BOOTH_MARGIN, 1.0, "held back by the water too")
+	_wader.ground_position = Vector2(Scene.PIER_WALL.get_center().x, Scene.PIER_WALL.end.y + Scene.BOOTH_MARGIN + 60.0)
+	await wait_process_frames(2)
+	assert_gt(_wader.ground_position.x, Scene.PIER_WALL.position.x, "free in the water")
+
+
+func test_the_pier_reaches_the_next_hire_pad() -> void:
+	var pad: ActionSquare = _scene.square("hire_seller")
+	assert_almost_eq(_scene._boardwalk.area.position.y, Grid.rect(Vector2i(0, -8)).position.y, 1.0, "the first hire pad's row")
+	assert_true(_scene._boardwalk.area.has_point(pad.ground_center))
+	GameState.here().seller_count = 1
+	_scene._sync_shops()
+	assert_almost_eq(_scene._boardwalk.area.position.y, Grid.rect(Vector2i(0, -9)).position.y, 1.0, "one row further with a seller")
 
 
 func test_catches_count_towards_charting_their_zone() -> void:
@@ -338,7 +380,7 @@ func test_beach_decoration_keeps_off_the_pads() -> void:
 	for entry: Array in _scene.DECOR:
 		for pad: ActionSquare in _scene._squares:
 			var covered := Rect2(pad.ground_center - pad.half_extents, pad.half_extents * 2.0).grow(80.0)
-			assert_false(covered.has_point(entry[1]), "%s covers the pad %s" % [entry[0], pad.id])
+			assert_false(covered.has_point(Grid.center(entry[1])), "%s covers the pad %s" % [entry[0], pad.id])
 
 
 func _chart_shallows() -> void:
@@ -360,7 +402,8 @@ func test_a_drone_catches_known_fish_and_brings_them_to_the_tank() -> void:
 	# Unknown to the player: the drone must leave it alone.
 	GameState.state.species_caught.erase("lumpsucker")
 	_scene.spawn_fish("lumpsucker", Vector2(_scene.DRONE_PAD.x - 400.0, 250.0), 0.0)
-	_wader.ground_position = Vector2(1100.0, 400.0)
+	# On the beach, out of the fish's way.
+	_wader.ground_position = Vector2(100.0, -300.0)
 	# The drone first flies to a random spot of its zone, so the delivery takes a varying time.
 	await wait_until(func() -> bool: return GameState.here().tank.fish.size() >= 3, 60.0)
 
@@ -416,3 +459,23 @@ func test_the_wader_stops_when_the_finger_lifts() -> void:
 	assert_lt(_wader.ground_position.distance_to(stopped_at), 8.0, "stands still after a short step")
 
 #endregion
+
+
+func test_the_wader_goes_behind_a_booth_and_stays_above_the_pads_elsewhere() -> void:
+	_wader.ground_position = Grid.rect(Scene.PLAYER_BOOTH_CELL).position + Vector2(-60.0, -20.0)
+	_wader.stop()
+	await wait_process_frames(2)
+	assert_true(_wader.covered, "on the pier, just behind the player's booth")
+	assert_lt(_wader.z_index, Layers.PADS)
+	_wader.ground_position = Grid.center(Scene.STORE_CELL)
+	await wait_process_frames(2)
+	assert_false(_wader.covered, "on the store pad, in front of the tank")
+	assert_gt(_wader.z_index, Layers.PAD_TEXT)
+
+
+func test_the_tank_cannot_be_walked_on() -> void:
+	var tank: Rect2 = _scene._tank_area()
+	_wader.ground_position = tank.get_center()
+	_wader.stop()
+	await wait_process_frames(2)
+	assert_false(tank.has_point(_wader.ground_position))

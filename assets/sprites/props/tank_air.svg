@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <!-- PLACEHOLDER: empty glass above the water level. Hides the water painted into the current tank
-       sprites; the final tank art has empty glass and no longer needs it. -->
-  <rect width="64" height="64" fill="#e3f4ff" fill-opacity="0.82"/>
-  <path d="M6 0 V64" stroke="#ffffff" stroke-opacity="0.5" stroke-width="4"/>
-</svg>

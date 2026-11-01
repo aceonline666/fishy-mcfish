@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024">
+<!-- Gear shop, footprint 3 x 2 cells at 200 px per cell edge (200 across, 100 down).
+Left (268,680), bottom (868,980), right (1268,780), back (668,480); walls 240 px, ridge 400 px
+above the ground along the middle of the depth; door on the south (front-left) face, centred on
+the westmost cell; blank sign board on the ridge, facing the viewer flat. -->
+<rect width="1536" height="1024" fill="#ffffff"/>
+<polygon points="268,680 868,980 1268,780 668,480" fill="#d9d9d9" stroke="#555" stroke-width="3"/>
+<g stroke="#888" stroke-width="2">
+<line x1="468" y1="780" x2="868" y2="580"/>
+<line x1="668" y1="880" x2="1068" y2="680"/>
+<line x1="468" y1="580" x2="1068" y2="880"/>
+</g>
+<g fill="none" stroke="#999" stroke-width="2" stroke-dasharray="10,8">
+<polyline points="268,440 668,240 1268,540"/>
+<line x1="668" y1="480" x2="668" y2="240"/>
+<polygon points="268,440 468,180 668,240"/>
+</g>
+<polygon points="268,680 868,980 868,740 268,440" fill="#3cb371" fill-opacity="0.35" stroke="#1e7a45" stroke-width="4"/>
+<polygon points="868,980 1268,780 1268,540 868,740" fill="#4a90d9" fill-opacity="0.3" stroke="#1f5fa8" stroke-width="4"/>
+<polygon points="868,740 1268,540 1068,480" fill="#4a90d9" fill-opacity="0.15" stroke="#1f5fa8" stroke-width="4"/>
+<polygon points="268,440 868,740 1068,480 468,180" fill="#c2563a" fill-opacity="0.25" stroke="#8e3b26" stroke-width="4"/>
+<polygon points="318,705 418,755 418,575 318,525" fill="#ff9f1c" fill-opacity="0.6" stroke="#b86a00" stroke-width="4"/>
+<rect x="508" y="185" width="520" height="130" rx="18" fill="#ffd34d" fill-opacity="0.7" stroke="#a07c00" stroke-width="4"/>
+<g stroke="#222" stroke-width="5">
+<line x1="268" y1="680" x2="268" y2="440"/>
+<line x1="868" y1="980" x2="868" y2="740"/>
+<line x1="1268" y1="780" x2="1268" y2="540"/>
+</g>
+<line x1="468" y1="180" x2="1068" y2="480" stroke="#222" stroke-width="5"/>
+</svg>

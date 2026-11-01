@@ -23,7 +23,7 @@ const SCOOP_RADIUS := 55.0
 ## y 0): up to the knees in the middle of the first zone, the hips early in the second, and
 ## over the head where the third zone begins. What is below the surface takes on the water's
 ## tint for the depth, like the fish (src/shaders/fish_water.gdshader).
-const SUBMERGE_DEPTH := 1900.0
+const SUBMERGE_DEPTH := 8 * Grid.UNIT
 const FIGURE_HEIGHT := 216.0
 const DRY := 100000.0
 const SUBMERGED := -100000.0
@@ -71,6 +71,10 @@ const CATCH_RING := Color(1.0, 1.0, 1.0, 0.45)
 const HOOP_FULL := Color(1.0, 0.45, 0.3)
 const SHADOW := Color(0.0, 0.06, 0.14, 0.25)
 const PROGRESS := Color(1.0, 0.85, 0.2)
+## Opacity of the copy shown while something stands in front of the wader.
+const SEE_THROUGH := 0.4
+## Screen half width of the figure, for telling whether something covers it.
+const FIGURE_HALF_WIDTH := 50.0
 
 var ground_position := Vector2.ZERO
 var ground_velocity := Vector2.ZERO
@@ -96,6 +100,10 @@ var net_level := 1
 var scoop_radius := SCOOP_RADIUS
 ## Walking speed factor: faster on the sand than in the water.
 var speed_multiplier := 1.0
+## What the wader can walk behind (Layers.Cover, in the parent's coordinates). Set by the scene.
+var covers: Array[Layers.Cover] = []
+## True while one of `covers` stands in front of the figure.
+var covered := false
 
 var _target := Vector2.ZERO
 var _has_target := false
@@ -105,6 +113,10 @@ var _dip := 0.0
 var _stack_bounce := 0.0
 ## Loaded sprites by name.
 var _textures: Dictionary[String, Texture2D] = {}
+## The see-through copy of the figure, shown above everything while it is covered. A group, so
+## the parts of the figure do not show through each other.
+var _see_through := CanvasGroup.new()
+var _see_through_figure := Node2D.new()
 ## Draws what the water does not tint, above the figure.
 var _overlay := Node2D.new()
 
@@ -114,6 +126,14 @@ func _ready() -> void:
 	shader_material.shader = WATER_SHADER
 	shader_material.set_shader_parameter("strength", UNDERWATER_TINT)
 	material = shader_material
+	Layers.put(self, Layers.WADER)
+	Layers.put(_see_through, Layers.WADER)
+	_see_through.self_modulate = Color(1.0, 1.0, 1.0, SEE_THROUGH)
+	_see_through.visible = false
+	_see_through_figure.draw.connect(_draw_figure.bind(_see_through_figure))
+	_see_through.add_child(_see_through_figure)
+	add_child(_see_through)
+	Layers.put(_overlay, Layers.WADER)
 	_overlay.draw.connect(_draw_overlay)
 	add_child(_overlay)
 
@@ -159,6 +179,11 @@ func _gear() -> int:
 
 func is_walking() -> bool:
 	return ground_velocity.length() > 20.0
+
+
+## Footfalls so far: one for every half swing of the legs.
+func steps_taken() -> int:
+	return floori(_walk_phase / PI)
 
 
 ## Ground centre of the net hoop, where fish are scooped up.
@@ -217,8 +242,24 @@ func simulate(delta: float, area: PlayArea) -> void:
 	shader_material.set_shader_parameter("waterline", waterline())
 	shader_material.set_shader_parameter("depth", SeaDepth.depth(ground_position.y))
 	shader_material.set_shader_parameter("abyss", SeaDepth.abyss(ground_position.y))
+	_update_cover()
 	queue_redraw()
 	_overlay.queue_redraw()
+	if covered:
+		_see_through_figure.queue_redraw()
+
+
+## Drawn among the objects, behind the one in front, while one of `covers` hides part of the
+## figure; on its own layer above the pads otherwise.
+func _update_cover() -> void:
+	var figure := Rect2(position + Vector2(-FIGURE_HALF_WIDTH, -FIGURE_HEIGHT), Vector2(FIGURE_HALF_WIDTH * 2.0, FIGURE_HEIGHT))
+	covered = false
+	for cover in covers:
+		if cover.sort_y > position.y and cover.bounds.intersects(figure):
+			covered = true
+			break
+	z_index = Layers.OBJECTS if covered else Layers.WADER
+	_see_through.visible = covered
 
 
 func _hoop_offset() -> Vector2:
@@ -228,6 +269,12 @@ func _hoop_offset() -> Vector2:
 #region Drawing
 
 func _draw() -> void:
+	draw_colored_polygon(Iso.ellipse(Vector2.ZERO, 30.0), SHADOW)
+	_draw_figure(self)
+
+
+## The figure with its net and catch, on `canvas`.
+func _draw_figure(canvas: CanvasItem) -> void:
 	var screen_facing := Iso.to_screen(facing)
 	var side := -1.0 if screen_facing.x < 0.0 else 1.0
 	# The submersible floats gently instead of stepping.
@@ -240,34 +287,33 @@ func _draw() -> void:
 	var view_name: String = view[0]
 	var from_behind := view_name == "back" or view_name == "away"
 
-	draw_colored_polygon(Iso.ellipse(Vector2.ZERO, 30.0), SHADOW)
 	# Facing the camera, the catch on the back is hidden behind the body and the net is in front.
 	if from_behind:
-		_draw_net(hoop, side, bob)
+		_draw_net(canvas, hoop, side, bob)
 	else:
-		_draw_stack(bob)
-	_draw_body(view, bob, gear)
+		_draw_stack(canvas, bob)
+	_draw_body(canvas, view, bob, gear)
 	if from_behind:
-		_draw_stack(bob)
+		_draw_stack(canvas, bob)
 	else:
-		_draw_net(hoop, side, bob)
+		_draw_net(canvas, hoop, side, bob)
 
 
 ## The outfit the gear calls for, in the view of the walking direction, its legs swinging in
 ## step while walking. The submersible just floats.
-func _draw_body(view: Array, bob: float, gear: int) -> void:
+func _draw_body(canvas: CanvasItem, view: Array, bob: float, gear: int) -> void:
 	var outfit := OUTFITS[clampi(gear, 1, OUTFITS.size()) - 1]
 	var texture := _texture("%s_%s" % [outfit, view[0]])
 	var size := texture.get_size()
 	if outfit == "sub":
-		draw_set_transform(Vector2(0.0, -bob - SUB_FLOAT), 0.0, Vector2(view[1], 1.0))
-		draw_texture_rect(texture, Rect2(Vector2(-size.x * 0.5, -size.y), size), false)
-		draw_set_transform(Vector2.ZERO)
+		canvas.draw_set_transform(Vector2(0.0, -bob - SUB_FLOAT), 0.0, Vector2(view[1], 1.0))
+		canvas.draw_texture_rect(texture, Rect2(Vector2(-size.x * 0.5, -size.y), size), false)
+		canvas.draw_set_transform(Vector2.ZERO)
 		return
 	var stride := clampf(ground_velocity.length() / WALK_SPEED, 0.0, 1.0)
 	var base := Transform2D(sin(_walk_phase) * 0.02 * stride, Vector2(view[1], 1.0), 0.0, Vector2.ZERO)
-	WalkDraw.figure(self, base, texture, Rect2(Vector2(-size.x * 0.5, -size.y), size), _walk_phase, stride, bob, FIGURE_HIP)
-	draw_set_transform(Vector2.ZERO)
+	WalkDraw.figure(canvas, base, texture, Rect2(Vector2(-size.x * 0.5, -size.y), size), _walk_phase, stride, bob, FIGURE_HIP)
+	canvas.draw_set_transform(Vector2.ZERO)
 
 
 ## The view for a screen direction, as [view name, mirror].
@@ -287,7 +333,7 @@ func _texture(sprite: String) -> Texture2D:
 
 ## The stack of caught fish on the back, which sways while walking and leans back against the
 ## walking direction.
-func _draw_stack(bob: float) -> void:
+func _draw_stack(canvas: CanvasItem, bob: float) -> void:
 	var lean := -Iso.to_screen(ground_velocity).x * 0.004
 	var squash := 1.0 - 0.08 * sin(_stack_bounce * PI)
 	for i in carried.size():
@@ -295,12 +341,12 @@ func _draw_stack(bob: float) -> void:
 		var offset_x := (3.0 if i % 2 == 0 else -3.0) + sway + lean * i
 		var at := STACK_BASE + Vector2(offset_x, -bob - STACK_STEP * i * squash)
 		var mirror := 1.0 if i % 2 == 0 else -1.0
-		carried[i].draw(self, Transform2D(Vector2(mirror, 0.0), Vector2(0.0, 1.0), at), STACK_FISH_LENGTH)
+		carried[i].draw(canvas, Transform2D(Vector2(mirror, 0.0), Vector2(0.0, 1.0), at), STACK_FISH_LENGTH)
 
 
 ## The landing net of the net level, its hoop lying on the water at the catch point and its handle
 ## reaching up to the hand.
-func _draw_net(hoop: Vector2, side: float, bob: float) -> void:
+func _draw_net(canvas: CanvasItem, hoop: Vector2, side: float, bob: float) -> void:
 	var shoulder := Vector2(NET_SHOULDER.x * side, NET_SHOULDER.y - bob)
 	var hand := shoulder + shoulder.direction_to(hoop) * 30.0
 
@@ -328,7 +374,7 @@ func _draw_net(hoop: Vector2, side: float, bob: float) -> void:
 			uvs.append((center + u * corner.x + v * corner.y) / size)
 			var a := corner.x if corner.x <= handle_start else handle_start + (corner.x - handle_start) * stretch
 			points.append(hoop + (u * a + v * corner.y * flip).rotated(turn) * scale_factor)
-		draw_polygon(points, PackedColorArray([Color.WHITE]), uvs, texture)
+		canvas.draw_polygon(points, PackedColorArray([Color.WHITE]), uvs, texture)
 
 
 ## Drawn on top and untinted by the water: the ring that shows where the net catches, the

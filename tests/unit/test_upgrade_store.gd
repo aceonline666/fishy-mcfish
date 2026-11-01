@@ -93,7 +93,7 @@ func test_the_upgrades_show_on_the_beach_when_back() -> void:
 	add_child_autofree(beach)
 	await wait_process_frames(2)
 	watch_signals(beach)
-	var front: float = beach.GEAR_SHOP_POSITION.y + beach.GEAR_SHOP_HALF.y
+	var front: float = Grid.rect(beach.GEAR_SHOP_CELL, beach.GEAR_SHOP_SIZE).end.y
 	beach.wader.ground_position = Vector2(beach.GEAR_SHOP_DOOR_X + 400.0, front + 10.0)
 	await wait_process_frames(2)
 	assert_signal_not_emitted(beach, "store_requested", "only the door leads inside")

@@ -19,32 +19,40 @@ const PLAY_MARGIN_TOP := 170.0
 const PLAY_MARGIN_BOTTOM := 190.0
 const WALK_SPEED := 1.5
 
-#region Layout (ground units; the front wall with the door is at y = 0)
-const ROOM := Rect2(0.0, -1600.0, 2400.0, 1600.0)
-## How far the wader keeps from the back walls and the shelves along them.
-const WALL_MARGIN := Vector2(240.0, 200.0)
-## Pads along the side walls are turned to run along them.
-const SIDE_PAD_HALF := Vector2(110.0, 180.0)
-const BACK_PAD_HALF := Vector2(180.0, 110.0)
-const GEAR_SQUARE := Vector2(450.0, -850.0)
-const NET_SQUARE := Vector2(450.0, -380.0)
-const BACKPACK_SQUARE := Vector2(2050.0, -850.0)
-const DRONE_PAD := Vector2(2050.0, -380.0)
-const TANK_SQUARE := Vector2(800.0, -1220.0)
-const SHOP_UPGRADE_SQUARE := Vector2(1600.0, -1220.0)
-const EXIT_SQUARE := Vector2(1200.0, -110.0)
-const EXIT_HALF := Vector2(220.0, 90.0)
+#region Layout (on the layout grid, Grid; the front wall with the door is at row 0)
+## Everything in the room covers whole cells of the layout grid (Grid), given by the cell at its
+## north-west corner. The wader keeps one cell off the back walls (north and west), where the
+## shelves and the desk stand; each pad is right in front of its fixture, the door pad in the
+## middle of the front.
+##
+##   row   col 0   1         2       3   4      5   6       7          8
+##    -7           .         shelf   .   .      .   desk    .          .
+##    -6           .         tank    .   .      .   market  .          .
+##    -4   shelf   gear      .       .   .      .   .       backpack   .
+##    -2   shelf   net       .       .   entry  .   .       drone      .
+##    -1           .         .       .   door   .   .       .          .
+const ROOM_CELL := Vector2i(0, -7)
+const ROOM_SIZE := Vector2i(9, 7)
+const GEAR_CELL := Vector2i(1, -4)
+const NET_CELL := Vector2i(1, -2)
+const BACKPACK_CELL := Vector2i(7, -4)
+const DRONE_CELL := Vector2i(7, -2)
+const TANK_CELL := Vector2i(2, -6)
+const SHOP_UPGRADE_CELL := Vector2i(6, -6)
+const EXIT_CELL := Vector2i(4, -1)
 ## The wader comes in here, just inside the door.
-const ENTRY := Vector2(1200.0, -320.0)
+const ENTRY := (Vector2(EXIT_CELL) + Vector2(0.5, -0.5)) * Grid.UNIT
+## Show the layout grid over the room, to lay things out.
+const SHOW_GRID := false
 ## The shelves and the desk behind the pads: sprite (assets/sprites/props, PLACEHOLDER SVGs drawn
-## at ground scale), ground position of the middle of its footprint, and where that middle is in
-## the sprite, and whether it is mirrored (a shelf then runs east-west). Nothing stands east of a
-## pad: it would hide it on screen; things behind a pad keep clear of its label.
+## at ground scale), the cell whose middle the middle of its footprint stands on, where that
+## middle is in the sprite, and whether it is mirrored (a shelf then runs east-west). Nothing
+## stands east of a pad: it would hide it on screen; things behind a pad keep clear of its label.
 const FIXTURES: Array[Array] = [
-	["shelf", Vector2(295.0, -850.0), Vector2(130.0, 175.0), false],
-	["shelf", Vector2(295.0, -380.0), Vector2(130.0, 175.0), false],
-	["shelf", Vector2(800.0, -1540.0), Vector2(130.0, 175.0), true],
-	["desk", Vector2(1600.0, -1540.0), Vector2(130.0, 135.0), false],
+	["shelf", Vector2i(0, -4), Vector2(130.0, 175.0), false],
+	["shelf", Vector2i(0, -2), Vector2(130.0, 175.0), false],
+	["shelf", Vector2i(2, -7), Vector2(130.0, 175.0), true],
+	["desk", Vector2i(6, -7), Vector2(130.0, 135.0), false],
 ]
 #endregion
 
@@ -95,15 +103,20 @@ func _ready() -> void:
 	background.color = BACKGROUND
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	Layers.put(background, Layers.BACKGROUND)
 	add_child(background)
 	_world.scale = Vector2.ONE * ZOOM
 	_world.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	add_child(_world)
-	_floor.setup(ROOM)
+	_floor.setup(Grid.rect(ROOM_CELL, ROOM_SIZE))
+	Layers.put(_world, Layers.FLOOR)
 	_world.add_child(_floor)
+	Layers.put(_squares_layer, Layers.PADS)
 	_world.add_child(_squares_layer)
 	_entities.y_sort_enabled = true
+	Layers.put(_entities, Layers.OBJECTS)
 	_world.add_child(_entities)
+	Layers.put(_effects, Layers.EFFECTS)
 	_world.add_child(_effects)
 	_entities.add_child(wader)
 	_build_hud()
@@ -115,14 +128,18 @@ func _ready() -> void:
 	EventBus.achievement_reached.connect(_on_achievement_reached)
 	resized.connect(_update_camera.bind(0.0, true))
 
-	walk_area = PlayArea.new(Rect2(ROOM.position + WALL_MARGIN, ROOM.size - WALL_MARGIN))
-	_add_square("upgrade_gear", ActionSquare.Kind.BUY, GEAR_SQUARE, SIDE_PAD_HALF)
-	_add_square("upgrade_net", ActionSquare.Kind.BUY, NET_SQUARE, SIDE_PAD_HALF)
-	_add_square("upgrade_backpack", ActionSquare.Kind.BUY, BACKPACK_SQUARE, SIDE_PAD_HALF)
-	_add_square("buy_drone", ActionSquare.Kind.BUY, DRONE_PAD, SIDE_PAD_HALF)
-	_add_square("upgrade_tank", ActionSquare.Kind.BUY, TANK_SQUARE, BACK_PAD_HALF)
-	_add_square("upgrade_shop", ActionSquare.Kind.BUY, SHOP_UPGRADE_SQUARE, BACK_PAD_HALF)
-	_add_square("exit", ActionSquare.Kind.DOOR, EXIT_SQUARE, EXIT_HALF)
+	walk_area = PlayArea.new(Grid.rect(ROOM_CELL + Vector2i.ONE, ROOM_SIZE - Vector2i.ONE))
+	if SHOW_GRID:
+		var grid := GridOverlay.new()
+		grid.setup(Rect2i(ROOM_CELL, ROOM_SIZE))
+		_squares_layer.add_child(grid)
+	_add_square("upgrade_gear", ActionSquare.Kind.BUY, GEAR_CELL)
+	_add_square("upgrade_net", ActionSquare.Kind.BUY, NET_CELL)
+	_add_square("upgrade_backpack", ActionSquare.Kind.BUY, BACKPACK_CELL)
+	_add_square("buy_drone", ActionSquare.Kind.BUY, DRONE_CELL)
+	_add_square("upgrade_tank", ActionSquare.Kind.BUY, TANK_CELL)
+	_add_square("upgrade_shop", ActionSquare.Kind.BUY, SHOP_UPGRADE_CELL)
+	_add_square("exit", ActionSquare.Kind.DOOR, EXIT_CELL)
 	_place_fixtures()
 	var site := GameState.here()
 	wader.in_water = false
@@ -238,7 +255,8 @@ func _update_texts() -> void:
 	_hint_label.text = tr("Stand on a pad to buy. Upgrades are for this beach only.")
 
 
-## The shelves and the desk; they take part in the depth sorting.
+## The shelves and the desk; they take part in the depth sorting, and the wader can walk behind
+## them.
 func _place_fixtures() -> void:
 	for entry: Array in FIXTURES:
 		var fixture := Sprite2D.new()
@@ -248,8 +266,9 @@ func _place_fixtures() -> void:
 		fixture.flip_h = entry[3]
 		if entry[3]:
 			fixture.offset.x = -(fixture.texture.get_width() - entry[2].x)
-		fixture.position = Iso.to_screen(entry[1])
+		fixture.position = Iso.to_screen(Grid.center(entry[1]))
 		_entities.add_child(fixture)
+		wader.covers.append(Layers.sprite_cover(fixture))
 
 
 #region Camera
@@ -277,9 +296,9 @@ func _clamp_axis(value: float, low: float, high: float) -> float:
 
 #region Pads
 
-func _add_square(square_id: String, kind: ActionSquare.Kind, center: Vector2, half: Vector2) -> ActionSquare:
+func _add_square(square_id: String, kind: ActionSquare.Kind, cell: Vector2i) -> ActionSquare:
 	var new_square := ActionSquare.new()
-	new_square.setup(square_id, kind, "", center, half)
+	new_square.setup(square_id, kind, "", Grid.center(cell))
 	_squares_layer.add_child(new_square)
 	_squares.append(new_square)
 	return new_square

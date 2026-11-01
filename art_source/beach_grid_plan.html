@@ -1,0 +1,154 @@
+<title>North Sea Beach Grid</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a single top-down survey sheet, legend above, the map scrolling sideways on phones. */
+:root {
+  --paper: #f3f1ea;
+  --sand: #e9d9a6;
+  --sea: #cfe3ea;
+  --sea-deep: #a9c6d6;
+  --ink: #16191d;
+  --muted: #5d6670;
+  --gridline: rgba(22, 25, 29, 0.14);
+  --start: #1f9d48;
+  --full: #d23a2f;
+  --label-on: #ffffff;
+  --display: "Fredoka", "Trebuchet MS", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #15181c; --sand: #4a4230; --sea: #1d3340; --sea-deep: #162733;
+    --ink: #eef0f2; --muted: #9aa4ae; --gridline: rgba(238, 240, 242, 0.12);
+    --start: #3cc46a; --full: #f0584c; --label-on: #0d0f12; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #15181c; --sand: #4a4230; --sea: #1d3340; --sea-deep: #162733;
+  --ink: #eef0f2; --muted: #9aa4ae; --gridline: rgba(238, 240, 242, 0.12);
+  --start: #3cc46a; --full: #f0584c; --label-on: #0d0f12; color-scheme: dark;
+}
+body {
+  background: var(--paper); color: var(--ink);
+  font: 15px/1.5 var(--mono);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 48px;
+}
+main { max-width: 760px; margin: 0 auto; display: grid; gap: 20px; }
+h1 { font: 600 30px/1.15 var(--display); margin: 0; text-wrap: balance; }
+p { margin: 0; max-width: 65ch; color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 10px 22px; font-size: 13px; }
+.legend span { display: inline-flex; align-items: center; gap: 8px; }
+.sw { width: 16px; height: 16px; border-radius: 3px; display: inline-block; }
+.sw.start { background: var(--start); }
+.sw.full { background: var(--full); }
+.sw.fixed { background: var(--ink); }
+.sw.both { background: repeating-linear-gradient(135deg, var(--start) 0 4px, var(--full) 4px 8px); }
+.map { overflow-x: auto; }
+svg { display: block; }
+svg text { font-family: var(--mono); }
+.notes { display: grid; gap: 6px; font-size: 13px; color: var(--muted); }
+.notes b { color: var(--ink); font-weight: 500; }
+</style>
+
+<main>
+  <h1>North Sea beach on the layout grid</h1>
+  <p>Top-down, to scale. One cell is 240 ground units, the width of the pier's deck. Columns count east from the beach's west end; rows count north from the waterline, so the beach has negative rows and the sea positive ones.</p>
+  <div class="legend">
+    <span><i class="sw start"></i>New game</span>
+    <span><i class="sw full"></i>Fully upgraded</span>
+    <span><i class="sw both"></i>Both (same cells, bigger look)</span>
+    <span><i class="sw fixed"></i>Never changes</span>
+  </div>
+  <div class="map" id="map"></div>
+  <div class="notes">
+    <div>Built as shown. Cells are written column,row (x,y), as the in-game grid overlay labels them. The beach is 9 columns wide.</div>
+    <div><b>Pier</b> runs in column 3 from the water up to the next "Hire seller" pad: 3,−8…−1 in a new game, one row longer per hired seller, up to 3,−17 with all ten. "Put in tank" stands on it at 3,−2, east of the tank; rows −6…−3 are free of pads. It is the painted pier cut into the steps, a section that repeats once per row, and the lantern end (<code>tools/cut_boardwalk.py</code>).</div>
+    <div><b>Booths</b> stand in a line up the beach a column east of the pier, one cell each: the player's at 4,−7, seller n at 4,−7−n (up to 4,−17). Counters face east. The pads are on the west side, on the pier: "Sell fish" at 3,−7, "Hire seller" in front of the next free booth (3,−8 at the start). The booth line is solid.</div>
+    <div><b>Buyers</b> come in from the east and queue east of the booths, running up the beach from the player's booth. Columns 4–8, rows −18…−5 (the booth line and the buyers' side, down to the gear shop) cannot be walked on.</div>
+    <div><b>Walkable beach</b> reaches up to the row of the next "Hire seller" pad: row −8 in a new game, one row more per hired seller, row −17 with all ten. West of the pier, columns 0–2, rows −18…−2 (tank and belt) are blocked too: there only the row along the water is open. From row −5 up, only the pier can be walked on. An invisible wall along the pier's east side (all of column 4, rows −4…−1) keeps the wader from jumping down: it leaves the pier only into the water.</div>
+    <div><b>Tank</b> starts as 1 × 1 at 2,−2, a row off the waterline, and grows west, then up the beach: 1×1, 2×1, 2×2, 2×3, 3×3, 3×4, 3×5 (cols 0–2, rows −6…−2 at the last level). It is solid. "Put in tank" is at 3,−2, on the pier.</div>
+    <div><b>Conveyor belt</b> runs in column 2 from the tank's back to the last booth's row: a bigger tank makes it shorter, every hired seller one cell longer. The next fish to be sold is at its north end.</div>
+    <div><b>Gear shop</b> covers 3 × 2 cells, columns 6–8, rows −4…−3, south of the booth line so it does not hide the first booths. The drones' dock stands in front of it at 8,−2.</div>
+    <div><b>Sea zones</b> sit on the grid: each is 4 rows (960 units) deep, so zone 1 covers rows 0–3, zone 2 rows 4–7, down to zone 6 at rows 20–23.</div>
+  </div>
+</main>
+
+<script>
+const C = 40;                 // pixels per cell
+const COLS = 9, TOP = -18;   // the beach: rows -18..-1
+const SEA_END = 24;           // deepest zone end, in cells
+const LEFT = 34, HEAD = 24;   // room for row and column numbers
+const ZONES = [
+  ["Pier shallows", 0, 960, 1], ["Sandbanks", 960, 1920, 2], ["Wreck", 1920, 2880, 3],
+  ["Open sea", 2880, 3840, 4], ["Norwegian Trench", 3840, 4800, 5], ["Deep sea", 4800, 5760, 6],
+];
+// [label, col, row, width, depth, state]  state: start | full | both | fixed
+const ITEMS = [
+  ["pier", 3, -6, 1, 6, "fixed"],
+  ["pier", 3, -17, 1, 9, "full"],
+  ["gear shop", 6, -4, 3, 2, "fixed"],
+  ["dock", 8, -2, 1, 1, "fixed"],
+  ["put", 3, -2, 1, 1, "fixed"],
+  ["sell", 3, -7, 1, 1, "fixed"],
+  ["tank L7", 0, -6, 3, 5, "full"],
+  ["L1", 2, -2, 1, 1, "both"],
+  ["belt", 2, -7, 1, 5, "start"],
+  ["belt", 2, -17, 1, 11, "full"],
+  ["you", 4, -7, 1, 1, "both"],
+  ["hire", 3, -8, 1, 1, "start"],
+];
+for (let i = 1; i <= 10; i++) ITEMS.push([String(i), 4, -7 - i, 1, 1, "full"]);
+const W = LEFT + COLS * C + 8, H = HEAD + (SEA_END - TOP) * C + 8;
+const x = c => LEFT + c * C, y = r => HEAD + (r - TOP) * C;
+const css = n => `var(--${n})`;
+let s = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Grid map of the beach and sea">`;
+s += `<defs><pattern id="both" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+  <rect width="4" height="8" fill="${css("start")}"/><rect x="4" width="4" height="8" fill="${css("full")}"/></pattern></defs>`;
+// ground: sand (beach), sea bands by zone
+s += `<rect x="${x(0)}" y="${y(TOP)}" width="${COLS * C}" height="${-TOP * C}" fill="${css("sand")}"/>`;
+ZONES.forEach(([name, a, b, gear], i) => {
+  const top = y(a / 240), h = (b - a) / 240 * C;
+  s += `<rect x="${x(0)}" y="${top}" width="${COLS * C}" height="${h}" fill="${css(i % 2 ? "sea-deep" : "sea")}"/>`;
+  s += `<line x1="${x(0)}" x2="${x(COLS)}" y1="${top}" y2="${top}" stroke="${css("ink")}" stroke-width="${i ? 2 : 3}"${i ? ' stroke-dasharray="6 4"' : ""}/>`;
+  s += `<text x="${x(0) + 8}" y="${top + 18}" font-size="12" font-weight="500" fill="${css("ink")}">${name}</text>`;
+  s += `<text x="${x(COLS) - 8}" y="${top + 18}" font-size="11" text-anchor="end" fill="${css("ink")}">${a}–${b} · gear ${gear}</text>`;
+});
+// walkable beach and the buyers' lane
+s += `<line x1="${x(6.4)}" x2="${x(6.4)}" y1="${y(TOP + 1)}" y2="${y(-6.5)}" stroke="${css("ink")}" stroke-width="2" stroke-dasharray="1 5" stroke-linecap="round"/>`;
+s += `<text x="${x(COLS) - 4}" text-anchor="end" y="${y(TOP + 1) + 30}" font-size="9" fill="${css("muted")}">buyers' queue ←east</text>`;
+// grid
+for (let c = 0; c <= COLS; c++) s += `<line x1="${x(c)}" x2="${x(c)}" y1="${y(TOP)}" y2="${y(SEA_END)}" stroke="${css("gridline")}"/>`;
+for (let r = TOP; r <= SEA_END; r++) s += `<line x1="${x(0)}" x2="${x(COLS)}" y1="${y(r)}" y2="${y(r)}" stroke="${css("gridline")}"/>`;
+for (let c = 0; c < COLS; c++) s += `<text x="${x(c + 0.5)}" y="${HEAD - 8}" font-size="10" text-anchor="middle" fill="${css("muted")}">${c}</text>`;
+for (let r = TOP; r < SEA_END; r++) s += `<text x="${LEFT - 6}" y="${y(r + 0.5) + 3}" font-size="10" text-anchor="end" fill="${css("muted")}">${r}</text>`;
+// things on the grid
+const fill = st => st === "both" ? "url(#both)" : css(st === "fixed" ? "ink" : st);
+for (const [label, c, r, w, d, st] of ITEMS) {
+  s += `<rect x="${x(c) + 1.5}" y="${y(r) + 1.5}" width="${w * C - 3}" height="${d * C - 3}" rx="3" fill="${fill(st)}"/>`;
+  const fs = label.length > 3 && w * C < 60 ? 7 : 10;
+  s += `<text x="${x(c + w / 2)}" y="${y(r + d / 2) + 3}" font-size="${fs}" font-weight="500" text-anchor="middle" fill="${css("label-on")}"${st === "both" ? ` stroke="${css("ink")}" stroke-width="2.5" paint-order="stroke"` : ""}>${label}</text>`;
+}
+// not walkable: the back beach west of the pier, the booth line and the buyers' side; the
+// walkable beach's (and the pier's) north edge
+for (const [c, w, d] of [[0, 3, 17], [4, 5, 14]]) {
+  s += `<rect x="${x(c)}" y="${y(-18)}" width="${w * C}" height="${d * C}" fill="none" stroke="${css("ink")}" stroke-width="2" stroke-dasharray="5 3"/>`;
+  s += `<text x="${x(c + w / 2)}" y="${y(-18) + 14}" font-size="10" text-anchor="middle" fill="${css("muted")}">not walkable</text>`;
+}
+// invisible wall along the pier's east edge
+s += `<rect x="${x(4)}" y="${y(-4)}" width="${C}" height="${4 * C}" fill="none" stroke="${css("ink")}" stroke-width="2" stroke-dasharray="5 3"/>`;
+s += `<text x="${x(4.5)}" y="${y(-2) + 3}" font-size="8" text-anchor="middle" fill="${css("ink")}">wall</text>`;
+for (const [r, st, label] of [[-8, "start", "walk limit, new game"], [-17, "full", "walk limit, 10 sellers"]]) {
+  s += `<line x1="${x(2)}" x2="${x(4)}" y1="${y(r)}" y2="${y(r)}" stroke="${css(st)}" stroke-width="2.5" stroke-dasharray="6 3"/>`;
+  s += `<text x="${x(3) - 4}" y="${y(r) - 4}" font-size="8" text-anchor="end" fill="${css(st)}">${label} ↓</text>`;
+}
+// belt direction, signpost, wreck
+for (let r = -17; r < -2; r++) s += `<path d="M${x(2.5) - 5} ${y(r + 0.7)} l5 -6 l5 6" fill="none" stroke="${css("paper")}" stroke-width="2"/>`;
+s += `<circle cx="${x(5.5)}" cy="${y(-0.5)}" r="4" fill="${css("ink")}"/><text x="${x(5.5)}" y="${y(-0.5) - 7}" font-size="9" text-anchor="middle" fill="${css("ink")}">sign</text>`;
+s += `<rect x="${x(4.5) - 18}" y="${y(10.5) - 7}" width="36" height="14" rx="7" fill="${css("ink")}"/><text x="${x(4.5)}" y="${y(10.5) + 3}" font-size="9" text-anchor="middle" fill="${css("paper")}">wreck</text>`;
+s += `<text x="${x(COLS) - 4}" y="${y(0) - 5}" font-size="10" text-anchor="end" fill="${css("ink")}">waterline</text>`;
+s += `</svg>`;
+document.getElementById("map").innerHTML = s;
+</script>

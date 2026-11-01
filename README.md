@@ -26,8 +26,11 @@ ring fills. Catches in quick succession build a combo.
 Up on the beach, pads act while you stand on them (walking on sand is faster than wading). A
 boardwalk in the middle leads from the water to the back of the beach without crossing any pad.
 Left of it is the business, right of it the upgrades (net, diving gear, drones, backpack, tank).
-Each beach has **one tank and one shop**, which are upgraded instead of building more. A pipe
-between them holds the grown fish in the order they will be sold, each with its price:
+Each beach has **one tank and one shop**, which are upgraded instead of building more. The sales
+booths continue the pier in a line up the beach, buyers queueing on their east side. The tank is
+solid and grows from 1 × 1 west, then up the beach to 3 × 5 cells; a conveyor belt from its back
+up to the last booth carries the grown fish in the order they will be sold, each with its price.
+The shop is not a building: its level gives every booth its look:
 - **Put in tank**, in front of the tank, puts the catch into it (big species need a big tank). Caught fish are
   partly grown already, one in ten fully. Fish grow in the tank, faster in bigger tanks; only grown fish can be sold, for three times their young value.
   A bar above the tank counts down to the next grown fish. The tank shows how full it is: its
@@ -173,7 +176,7 @@ changing prices or income:
 | `src/model/` | Pure data and logic classes with no scene dependencies (`PlayerState`, `SpeciesDef`, `SaveFile`, ...) |
 | `src/sim/` | Pure game rules and systems (`CatchRules`, `SpawnTable`, `LiveWell`, `Economy`) |
 | `src/scenes/fishing/` | The fishing screen, swimming fish and the wader |
-| `src/scenes/world/` | Isometric projection, play area and seabed decoration |
+| `src/scenes/world/` | Isometric projection, layout grid (`Grid`), drawing layers (`Layers`), play area and seabed decoration |
 | `src/scenes/fx/` | Reusable feedback effects (`Juice`, `Ripple`) |
 | `tools/` | Developer tools (screenshots) |
 | `src/scenes/` | Scenes and their scripts |
@@ -195,23 +198,25 @@ Rules of thumb:
 - Animate all species properly, replace un-animateable sprites for species
 - Replace wrong species sprites and fact-check species info panels
 - Beach and seafloor textures for all locations
-- Improve layout of the "walk-on" buttons to avoid accidental buys
 - Sprite errors for the wader
   - Swimming Mask even in first zone doesn't make sense
   - Snorkel still there for scuba gear and breather
   - Submarine back sometimes has details and sometimes not - flickering when moving - could be fixed by just mirroring the one without details
 - Clarify what the basket logic is when in the hardhat suit / submarine. Basket + Scuba gear?
 - Clarify if the wader should swim on deeper levels?
-- Replace too small buyers, sellers, shop and tanks with better sprites
+- Replace too small buyers and cashiers with better sprites
 - Fix the buyers queue and where the selling spots are
 - Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors. Sound?
 - Placed objects sometimes hide the wader. Depending on the object the wader should completely walk over it (like stones) or he should be blocked by the object (like the tank and shop)
-- It looks like the wader falls of the pier. Maybe make the pier sprite without poles? Or some "fall down" animation? Could be funny.
 - Some zones have names like "seagrass bay" but you don't see seagrass. We should add these objects depending on the names. Will require more sprites.
-- Comic style sprites for the zone-barriers
+- Comic style sprites for the swimming zone-barriers (red/green bubbles floating on the ocean)
 - Barriers to the left and right could be more natural. Make them rocks or some other obstacles instead of invisible walls
 - English texts still say "backpack" while the item is a basket
-- Basket, net and snorkel buying should be next to each other since they all "equip" the wader
 - Achievements should be harder to reach and should be celebrated more. Possible connection to Google Gamecenter Achievements?
 - Walking sound is annoying. Replace with a better sound
 - Improve coin look when the coins are flying. They are too small and not comic-style enough. Maybe they could spin?
+- Improve swimming path and sizes of the fish in the tank. For example a sperm whale is the same size as a makrel
+- Improve sounds
+  - Walking sound should reflect the underground. Wooden on pier, sandy on beach, muddy in water
+  - Throwing something into the tank sounds too hard
+- Replace booth sprites with perspectively correct ones

@@ -5,9 +5,9 @@ extends Control
 ## The sea gets deeper further from the shore, in depth zones (data/zones.csv) marked by buoy
 ## lines; deeper zones need better diving gear and hold rarer fish. The wader scoops up fish into
 ## the backpack. On the beach, pads do things while the wader stands on them. Every location has
-## its own beach business (GameState.here()): left of the pier the tank and the fish shop, joined
-## by the sales pipe, with the shop's pads; right of it the gear shop, whose door leads into the
-## upgrade store (UpgradeStore), and the drones' dock.
+## its own beach business (GameState.here()): left of the pier the tank and the sales belt, with
+## the booths in a line up the beach continuing the pier; right of it the gear shop, whose door
+## leads into the upgrade store (UpgradeStore), and the drones' dock.
 ## Hired sellers sell on their own.
 ## The World map travels between locations.
 
@@ -25,18 +25,45 @@ const CAMERA_OVERSCROLL := 120.0
 const PLAY_MARGIN_TOP := 270.0
 const PLAY_MARGIN_BOTTOM := 330.0
 
-#region Layout (ground units; the waterline is at y = 0, the beach at negative y)
-## The beach part of the spot; the water reaches out to the end of the location's deepest zone.
-## A boardwalk leads from the water up the beach and is kept free of pads, so the wader can walk
-## up and down without buying anything by accident. Left of it is the business (art_source/
-## "layout map.png"): the tank at the waterline with its store pad beside it towards the pier,
-## the fish market behind the tank, the sales pipe from the tank up the west edge past the
-## market, and at the back the sales booths, beyond which the beach cannot be walked on: the
-## player's at the east end with the "Sell fish" pad in front and the buyers' queue coming down
-## from the north, the sellers' towards the west with the "Hire seller" pad in front of the
-## next free one. Right of it is the gear shop. Pads keep clear gaps.
-const BEACH_TOP := -1650.0
-const SPOT_WIDTH := 4320.0
+#region Layout (on the layout grid, Grid: cells counted from the spot's west end at the waterline)
+## Everything on the beach covers whole cells of the layout grid (Grid): pads, booths, the tank and
+## the buildings. Their place is the cell at their north-west corner; columns count east from the
+## spot's west end, rows north from the waterline (row -1 runs along the water, the beach has
+## negative rows). The wader walks on the beach up to the row of the next "Hire seller" pad (of the
+## last booth once every seller is hired), but not west of the pier (where the tank and the belt
+## are) except along the water, nor on the booth line and the buyers' side east of the booths, nor
+## through the gear shop. A boardwalk (the pier) leads from the water up the beach to the next
+## "Hire seller" pad; the tank's "Put in tank" pad stands on it, east of the tank, then it is free
+## of pads up to the booths. The sales booths stand in a line up the beach a column east of the
+## pier, one cell each: the player's first, then one per seller. Their counters face east, where
+## the buyers come down the beach in one queue; the pads are on their west side, on the pier, where
+## the seller stands: "Sell fish" at the player's booth, "Hire seller" at the next free one. West
+## of the pier is the tank, a row off the waterline, growing west, then up the beach with its
+## level (up to 3 x 5 cells), and the sales belt from the tank's back up the beach to the last
+## booth: a bigger tank leaves less belt, every seller adds a cell. East of the pier, two cells
+## off so its walls do not hide the pier, is the gear shop, with the drones' dock in front of it.
+##
+##   row   cols 0..1    2               3                  4               5..8
+##   -17                belt            pier, "Hire..."    seller 10       buyer, queue
+##    ..                belt            pier               ..              buyer, queue
+##    -8                belt            pier, "Hire..."    seller 1        buyer, queue
+##    -7                belt            pier, "Sell fish"  player booth    buyer, queue
+##    -6   (tank 7)     belt            pier
+##    -5   (tank 6..7)  belt            pier
+##    -4   (tank 5..7)  belt            pier                               . gear shop (6..8)
+##    -3   (tank 3..7)  belt            pier                               . gear shop (6..8)
+##    -2   tank         tank (1 at 2)   pier, "Put in tank"                .  dock at 8
+##    -1                                pier                               signpost at 5
+##
+## Not walkable: cols 0..2 rows -18..-2, cols 4..8 rows -18..-5 and col 4 rows -4..-1 (a wall
+## along the pier).
+##
+## The sea's zones (data/zones.csv) lie on the grid too, each 4 rows deep: zone 1 rows 0..3,
+## zone 2 rows 4..7, and so on.
+const COLUMNS := 9
+const BEACH_ROWS := 18
+const BEACH_TOP := -BEACH_ROWS * Grid.UNIT
+const SPOT_WIDTH := COLUMNS * Grid.UNIT
 ## The zones' fish populations (data/zones.csv) are for a spot this wide; wider spots get more.
 const POPULATION_WIDTH := 2920.0
 const SHORE_Y := 0.0
@@ -49,70 +76,79 @@ const FISH_FREE_STRIP := 300.0
 const ZONE_GAP := 150.0
 ## Fish further than this outside the view (world pixels) are hidden and skip schooling.
 const CULL_MARGIN := 200.0
-## Half the length (along the row) and depth of the pads.
-const SQUARE_HALF := Vector2(180.0, 110.0)
-## The boardwalk, in the middle of the beach.
-const PATH_X := 2860.0
-const PATH_HALF_WIDTH := 150.0
-## The boardwalk's shore end, where its railing is: the wader walks no further up the beach.
-const PIER_TOP := -930.0
-## Right of the boardwalk, the gear shop fills the beach up to its east edge, leaving a strip by
-## the water: the upgrades are bought inside (UpgradeStore). It cannot be walked on; walking into
-## its door, at the west end of its front towards the boardwalk, goes inside. The drones start
-## from and deliver to their dock on the strip.
-const GEAR_SHOP_POSITION := Vector2(3780.0, -740.0)
-const GEAR_SHOP_HALF := Vector2(540.0, 390.0)
-const GEAR_SHOP_DOOR_X := 3390.0
+## The boardwalk, one cell wide, from the water up the beach: PIER_ROWS up to the booths, then
+## past them up to the next "Hire seller" pad (_pier_area()).
+const PIER_ROWS := 6
+const PIER_COLUMN := 3
+const PATH_X := (PIER_COLUMN + 0.5) * Grid.UNIT
+## Show the layout grid over the beach, to lay things out.
+const SHOW_GRID := false
+## The gear shop stands east of the pier, two rows off the water and south of the booth line: the
+## upgrades are bought inside (UpgradeStore). It cannot be walked on; walking into its door, at the
+## west end of its front towards the pier, goes inside. The drones start from and deliver to their dock on
+## the row in front of it.
+const GEAR_SHOP_CELL := Vector2i(6, -4)
+const GEAR_SHOP_SIZE := Vector2i(3, 2)
+const GEAR_SHOP_DOOR_X := (GEAR_SHOP_CELL.x + 0.5) * Grid.UNIT
 const GEAR_SHOP_DOOR_HALF_WIDTH := 95.0
 ## How close the wader comes to the shop's walls.
 const GEAR_SHOP_MARGIN := 40.0
-const DRONE_PAD := Vector2(4050.0, -140.0)
+const DRONE_DOCK_CELL := Vector2i(8, -2)
+const DRONE_PAD := (Vector2(DRONE_DOCK_CELL) + Vector2(0.5, 0.5)) * Grid.UNIT
 const DRONE_DOCK_TEXTURE: Texture2D = preload("res://assets/sprites/props/drone_dock.svg")
 ## Where the dock's middle is in its sprite (PLACEHOLDER, drawn at ground scale).
 const DRONE_DOCK_ANCHOR := Vector2(200.0, 110.0)
-## Left of the boardwalk, close to it: the tank at the waterline with its store pad right
-## beside it, turned to run along the tank. The fish market stands behind the player's booth,
-## beyond the walkable beach, where it hides no pad; tall sprites hide what lies north of them.
-const TANK_POSITION := Vector2(2160.0, -250.0)
-const STORE_SQUARE := Vector2(2390.0, -250.0)
-const STORE_HALF := Vector2(110.0, 160.0)
-const SHOP_POSITION := Vector2(2050.0, -1420.0)
-## The sales pipe runs from the tank up the beach into the market, between the "Sell fish" pad
-## and the first seller's booth, holding the grown fish in the order they will be sold.
-const PIPE_FROM := Vector2(2160.0, -400.0)
-const PIPE_TO := Vector2(2080.0, -1250.0)
+## The tank's south-east cell: the tank covers its level's footprint (data/tanks.csv) from here
+## to the west and up the beach. It cannot be walked on. Its store pad stands east of it.
+const TANK_CELL := Vector2i(2, -2)
+const STORE_CELL := Vector2i(3, -2)
+## How close the wader comes to the tank's sides.
+const TANK_MARGIN := 40.0
+## The sales belt runs up the beach from the tank's back to the last booth's row, holding the grown
+## fish in the order they will be sold.
+const BELT_COLUMN := TANK_CELL.x
 ## Sunken ships on the seabed per location: prop sprite (assets/sprites/seabed), ground position.
 const WRECKS: Dictionary[String, Array] = {
-	"north_sea": ["wreck", Vector2(2400.0, 2520.0)],
-	"coral_reef": ["galleon", Vector2(2400.0, 2520.0)],
+	"north_sea": ["wreck", Vector2(1080.0, 2400.0)],
+	"coral_reef": ["galleon", Vector2(1080.0, 2400.0)],
 }
-## The sales booths stand in a row on the edge of the walkable beach, facing north, as big as
-## the people: the player's at the east end, then one per seller towards the west, the first
-## a bit further off so the "Sell fish" and "Hire seller" pads keep apart. Buyers come
-## down from the north in one queue ending behind the player's booth; the first in line goes to the next free
+## The sales booths stand in a line up the beach, a column east of the pier, one cell each: the
+## player's in PLAYER_BOOTH_CELL, then one per seller further north. Their pads, a column west of
+## them, stand on the pier. Buyers come in from the east and line up in one queue east of the
+## booths, running up the beach from the player's booth; the first in line goes to the next free
 ## booth (the player's only while the player stands on the "Sell fish" pad), and each sale sends
-## them off up the beach with a fish.
-const FIRST_BOOTH := Vector2(2400.0, -1010.0)
-const BOOTH_SPACING := 180.0
-const FIRST_SELLER_GAP := 450.0
-const CUSTOMER_ENTRY := Vector2(FIRST_BOOTH.x, -1900.0)
-## Served buyers walk this far up the beach, out of view.
-const CUSTOMER_EXIT_Y := -2050.0
+## them off east with a fish.
+const BOOTH_COLUMN := PIER_COLUMN + 1
+const PLAYER_BOOTH_CELL := Vector2i(BOOTH_COLUMN, -PIER_ROWS - 1)
+## The queue's line, this far east of the booths' counters (ground units).
+const QUEUE_OFFSET := 340.0
+## The booth line and everything east of it up the beach (the buyers' side), down to the gear
+## shop, cannot be walked on; the wader comes this close to it.
+const BOOTH_LINE_CELL := Vector2i(BOOTH_COLUMN, -BEACH_ROWS)
+const BOOTH_LINE_SIZE := Vector2i(COLUMNS - BOOTH_COLUMN, BEACH_ROWS + GEAR_SHOP_CELL.y)
+const BOOTH_MARGIN := 40.0
+## West of the pier, the beach cannot be walked on either (the tank and the belt are there), down
+## to the tank's row: only the row along the water stays open. The wader comes BOOTH_MARGIN close.
+const BACK_BEACH_CELL := Vector2i(0, -BEACH_ROWS)
+const BACK_BEACH_SIZE := Vector2i(PIER_COLUMN, BEACH_ROWS + TANK_CELL.y + 1)
+## An invisible wall along the pier's east side, the whole column next to it from the buyers' side
+## down to the water: the wader cannot jump down from the pier and leaves it only into the water.
+const PIER_WALL := Rect2((PIER_COLUMN + 1) * Grid.UNIT, GEAR_SHOP_CELL.y * Grid.UNIT, Grid.UNIT, -GEAR_SHOP_CELL.y * Grid.UNIT)
+## Buyers come in from here (ground x), beyond the beach's east end, and served buyers go back
+## there, out of view.
+const CUSTOMER_OFFSTAGE_X := SPOT_WIDTH + 150.0
 ## Ground distance between buyers in line.
 const QUEUE_SPACING := 90.0
-## The "Sell fish" and "Hire seller" pads are squares the size of a booth's place in the row,
-## right in front of their booth: the player's, and the next free one for the seller to hire.
-const BOOTH_PAD_HALF := Vector2(120.0, 120.0)
-const BOOTH_PAD_OFFSET := Vector2(0.0, 260.0)
 ## Painted cashiers (assets/sprites/props/cashier_N), shown on the "Hire seller" pad.
 const CASHIER_LOOKS := 3
 ## Buyers keep coming at this pace from the start, whether anyone sells or not.
 const CUSTOMER_INTERVAL_S := 2.0
-## Painted decoration on the beach: sprite (assets/sprites/props), ground position, screen
-## height, and where it shows ("" everywhere, else only at locations with that water).
+## Painted decoration on the beach: sprite (assets/sprites/props), the cell it stands in the
+## middle of, screen height, and where it shows ("" everywhere, else only at locations with that
+## water).
 const DECOR: Array[Array] = [
-	["signpost", Vector2(2650.0, -450.0), 120.0, ""],
-	["seagull", Vector2(250.0, -1230.0), 55.0, "temperate"],
+	["signpost", Vector2i(5, -1), 120.0, ""],
+	["seagull", Vector2i(0, -8), 55.0, "temperate"],
 ]
 #endregion
 
@@ -178,8 +214,8 @@ var _squares: Array[ActionSquare] = []
 var _floor_texture: Texture2D
 var _sand_texture: Texture2D
 var _tank_node: TankNode
-var _pipe: SalesPipe
-var _shop_node: ShopNode
+var _belt: SalesBelt
+var _boardwalk: Boardwalk
 ## Buyers in the queue, first in line first; served ones are not in it.
 var _queue: Array[Customer] = []
 ## The buyer at each booth, or null: booth 0 is the player's, booth 1 + n the n-th seller's.
@@ -188,6 +224,8 @@ var _booth_nodes: Array[Booth] = []
 var _customer_timer := 0.0
 var _sell_square: ActionSquare
 var _drones: Array[Drone] = []
+## The props and the gear shop, which the wader can walk behind; the tank is added each frame.
+var _decor_covers: Array[Layers.Cover] = []
 var _next_goal_banner_at := 0.0
 var _holding := false
 var _combo := 0
@@ -203,6 +241,8 @@ var _purchase_done := false
 ## True from walking into the gear shop's door until back on the beach.
 var _in_store := false
 var _wake_timer := 0.0
+## Wader.steps_taken() last frame; a change is a footfall.
+var _wake_step := 0
 var _shake := 0.0
 var _camera := Vector2.ZERO
 var _shown_money := 0.0
@@ -238,6 +278,11 @@ var game_menu := GameMenu.new()
 func _ready() -> void:
 	rng.randomize()
 	_world.scale = Vector2.ONE * ZOOM
+	Layers.put(_water, Layers.BACKGROUND)
+	Layers.put(_world, Layers.FLOOR)
+	Layers.put(_squares_layer, Layers.PADS)
+	Layers.put(_entities, Layers.OBJECTS)
+	Layers.put(_effects, Layers.EFFECTS)
 	EventBus.money_changed.connect(_on_money_changed)
 	EventBus.state_replaced.connect(_rebuild_from_state)
 	resized.connect(_update_camera.bind(0.0, true))
@@ -258,7 +303,7 @@ func _ready() -> void:
 	_zones = DataRegistry.zones_in(location.id)
 	_spot_rect = Rect2(0.0, BEACH_TOP, SPOT_WIDTH, _zones[-1].depth_end - BEACH_TOP)
 	water_area = PlayArea.new(Rect2(_spot_rect.position.x, SHORE_Y + WATER_MARGIN, _spot_rect.size.x, _spot_rect.end.y - SHORE_Y - WATER_MARGIN))
-	walk_area = PlayArea.new(Rect2(_spot_rect.position.x, PIER_TOP, _spot_rect.size.x, _spot_rect.end.y - PIER_TOP))
+	walk_area = PlayArea.new(Rect2(_spot_rect.position.x, _walk_top(), _spot_rect.size.x, _spot_rect.end.y - _walk_top()))
 	for zone in _zones:
 		var top := maxf(zone.depth_start + (ZONE_GAP if zone.order > 1 else 0.0), SHORE_Y + FISH_FREE_STRIP)
 		_zone_areas.append(PlayArea.new(Rect2(_spot_rect.position.x, top, _spot_rect.size.x, zone.depth_end - top)))
@@ -295,8 +340,13 @@ func _notification(what: int) -> void:
 
 func _process(delta: float) -> void:
 	_update_shake(delta)
+	_update_covers()
 	wader.simulate(delta, walk_area)
 	_update_gear_shop()
+	_push_out(_tank_area().grow(TANK_MARGIN))
+	_push_out(Grid.rect(BOOTH_LINE_CELL, BOOTH_LINE_SIZE).grow(BOOTH_MARGIN))
+	_push_out(Grid.rect(BACK_BEACH_CELL, BACK_BEACH_SIZE).grow(BOOTH_MARGIN))
+	_push_out(PIER_WALL.grow(BOOTH_MARGIN))
 	wader.in_water = wader.ground_position.y > SHORE_Y
 	wader.speed_multiplier = DataRegistry.gear_levels[GameState.here().gear_level - 1].capacity if wader.in_water else BEACH_SPEED
 	_update_zone()
@@ -421,14 +471,9 @@ func _rebuild_from_state() -> void:
 	if _tank_node != null:
 		_tank_node.queue_free()
 	_tank_node = TankNode.new()
-	_tank_node.setup(site.tank, TANK_POSITION, _art_for)
+	_tank_node.setup(site.tank, _tank_area(), _art_for)
 	_tank_node.smallest_fish_l = Aquarium.smallest_space(site.location().env)
 	_entities.add_child(_tank_node)
-	if _pipe != null:
-		_pipe.queue_free()
-	_pipe = SalesPipe.new()
-	_pipe.setup(site.tank, PIPE_FROM, PIPE_TO, _art_for)
-	_entities.add_child(_pipe)
 	live_well.capacity = Aquarium.backpack_capacity(site)
 	# The backpack is this location's: the catch waits here while the player is elsewhere.
 	live_well.species_ids = site.backpack
@@ -444,11 +489,48 @@ func _rebuild_from_state() -> void:
 	_update_hud()
 
 
+## What the wader can walk behind: the props, the gear shop, the tank at its current size and the
+## booths.
+func _update_covers() -> void:
+	wader.covers = _decor_covers.duplicate()
+	if _tank_node != null:
+		wader.covers.append(Layers.cover(_tank_node, _tank_node.sprite_bounds()))
+	for booth in _booth_nodes:
+		wader.covers.append(Layers.cover(booth, booth.sprite_bounds()))
+
+
+## Ground y of the walkable beach's north edge: the row of the next "Hire seller" pad, or of the
+## last booth once every seller is hired.
+func _walk_top() -> float:
+	var last := int(DataRegistry.shop_levels[-1].capacity)
+	return Grid.rect(_booth_cell(mini(GameState.here().seller_count + 1, last))).position.y
+
+
+## The ground the pier covers: from the water up to the walkable beach's north edge.
+func _pier_area() -> Rect2:
+	return Rect2(Grid.rect(Vector2i(PIER_COLUMN, 0)).position.x, _walk_top(), Grid.UNIT, -_walk_top())
+
+
+## The ground the belt covers: from the tank's back up the beach to the last booth's row, at least
+## one cell.
+func _belt_area() -> Rect2:
+	var start := _tank_area().position.y / Grid.UNIT - 1.0
+	var end := minf(float(_booth_cell(GameState.here().seller_count).y), start)
+	return Grid.rect(Vector2i(BELT_COLUMN, int(end)), Vector2i(1, int(start - end) + 1))
+
+
+## The ground the tank covers at its level: its footprint, from TANK_CELL to the west and north.
+func _tank_area() -> Rect2:
+	var level := clampi(GameState.here().tank.level, 1, DataRegistry.tank_levels.size())
+	var footprint := DataRegistry.tank_levels[level - 1].footprint
+	return Grid.rect(TANK_CELL - footprint + Vector2i.ONE, footprint)
+
+
 ## Opens the zones the gear allows and updates the buoys and the wader's look.
 func _apply_gear() -> void:
 	var gear := GameState.here().gear_level
 	var deepest := Charting.deepest_open_zone(location.id, gear)
-	walk_area = PlayArea.new(Rect2(_spot_rect.position.x, PIER_TOP, _spot_rect.size.x, deepest.depth_end - PIER_TOP))
+	walk_area = PlayArea.new(Rect2(_spot_rect.position.x, _walk_top(), _spot_rect.size.x, deepest.depth_end - _walk_top()))
 	wader.gear_level = gear
 	var lines: Array[Vector2] = []
 	for i in range(1, _zones.size()):
@@ -690,21 +772,28 @@ func _record_catch(fish: SwimmingFish) -> void:
 #region Squares
 
 func _build_squares() -> void:
-	var boardwalk := Boardwalk.new()
-	boardwalk.setup(Rect2(PATH_X - PATH_HALF_WIDTH, PIER_TOP, PATH_HALF_WIDTH * 2.0, SHORE_Y - 30.0 - PIER_TOP))
-	_squares_layer.add_child(boardwalk)
-	_add_square("store", ActionSquare.Kind.STORE, STORE_SQUARE, STORE_HALF)
-	_sell_square = _add_square("sell", ActionSquare.Kind.SELL, _booth_pad_center(0), BOOTH_PAD_HALF)
-	_add_square("hire_seller", ActionSquare.Kind.BUY, _booth_pad_center(1), BOOTH_PAD_HALF)
+	_boardwalk = Boardwalk.new()
+	_boardwalk.setup(_pier_area())
+	Layers.put(_boardwalk, Layers.FLOOR)
+	_squares_layer.add_child(_boardwalk)
+	if SHOW_GRID:
+		var grid := GridOverlay.new()
+		grid.setup(Rect2i(0, -BEACH_ROWS, COLUMNS, BEACH_ROWS + 1))
+		_squares_layer.add_child(grid)
+	_add_square("store", ActionSquare.Kind.STORE, Grid.center(STORE_CELL))
+	_sell_square = _add_square("sell", ActionSquare.Kind.SELL, _booth_pad_center(0))
+	_add_square("hire_seller", ActionSquare.Kind.BUY, _booth_pad_center(1))
 	var dock := Sprite2D.new()
 	dock.texture = DRONE_DOCK_TEXTURE
 	dock.centered = false
 	dock.offset = -DRONE_DOCK_ANCHOR
 	dock.position = Iso.to_screen(DRONE_PAD)
+	Layers.put(dock, Layers.FLOOR)
 	_squares_layer.add_child(dock)
 
 
-## Painted props on the sand and in the water; they take part in the depth sorting.
+## Painted props on the sand and in the water; they take part in the depth sorting, and the wader
+## can walk behind them.
 func _place_decor() -> void:
 	for entry: Array in DECOR:
 		var water: String = entry[3]
@@ -715,17 +804,19 @@ func _place_decor() -> void:
 		sprite.texture = texture
 		sprite.offset = Vector2(0.0, -texture.get_height() * 0.5)
 		sprite.scale = Vector2.ONE * (float(entry[2]) / texture.get_height())
-		sprite.position = Iso.to_screen(entry[1])
+		sprite.position = Iso.to_screen(Grid.center(entry[1]))
 		_entities.add_child(sprite)
+		_decor_covers.append(Layers.sprite_cover(sprite))
 	var gear_shop := GearShopNode.new()
-	gear_shop.position = Iso.to_screen(GEAR_SHOP_POSITION)
+	gear_shop.setup(Grid.rect(GEAR_SHOP_CELL, GEAR_SHOP_SIZE))
 	_entities.add_child(gear_shop)
+	_decor_covers.append(Layers.cover(gear_shop, gear_shop.sprite_bounds()))
 
 
 ## Titles and prices are set by _refresh_squares().
-func _add_square(square_id: String, kind: ActionSquare.Kind, center: Vector2, half: Vector2 = SQUARE_HALF) -> ActionSquare:
+func _add_square(square_id: String, kind: ActionSquare.Kind, center: Vector2) -> ActionSquare:
 	var new_square := ActionSquare.new()
-	new_square.setup(square_id, kind, "", center, half)
+	new_square.setup(square_id, kind, "", center)
 	_squares_layer.add_child(new_square)
 	_squares.append(new_square)
 	return new_square
@@ -846,7 +937,7 @@ func _store_one() -> void:
 	_action_count += 1
 	Juice.fly_fish(_popups, art, from, _world_to_scene(_tank_node.drop_point()), Wader.STACK_FISH_LENGTH * ZOOM,
 			_on_fish_reached_tank)
-	Sfx.play(&"pop", 1.0 + _action_count * 0.05, -6.0)
+	Sfx.play(&"pop", 1.0 + minf(_action_count, 10) * 0.03, -12.0)
 	if live_well.count() == 0:
 		_finish_square_action()
 	_update_hud()
@@ -857,7 +948,7 @@ func _on_fish_reached_tank() -> void:
 		return
 	Juice.splash(_effects, _tank_node.drop_point(), 5)
 	_tank_node.bounce()
-	Sfx.play(&"splash", 1.4, -10.0)
+	Sfx.play(&"plop", rng.randf_range(0.9, 1.1), -8.0)
 	Haptics.tick()
 
 
@@ -881,7 +972,7 @@ func _sell_one(target: ActionSquare) -> bool:
 	Juice.fly_coin(_popups, _world_to_scene(_tank_node.drop_point()), _wallet_position(), 12.0 * ZOOM)
 	Sfx.play(&"coin", 1.0 + minf(_action_count, 20) * 0.04, -4.0)
 	_tank_node.bounce()
-	_shop_node.bounce()
+	_booth_nodes[0].bounce()
 	_serve_at(0)
 	_update_hud()
 	return true
@@ -935,18 +1026,24 @@ func _complete_purchase(target: ActionSquare) -> void:
 
 #region Shops
 
-## Shows the shop at its level, with a cashier for each seller.
+## Shows the booths at the shop's level, a booth for each seller, and the belt up to the last one.
 func _sync_shops() -> void:
 	var site := GameState.here()
-	if _shop_node == null:
-		_shop_node = ShopNode.new()
-		_shop_node.position = Iso.to_screen(SHOP_POSITION)
-		_entities.add_child(_shop_node)
-	_shop_node.level = site.shop_level
+	if _belt != null:
+		_belt.queue_free()
+	_belt = SalesBelt.new()
+	_belt.setup(site.tank, _belt_area(), _art_for)
+	Layers.put(_belt, Layers.FLOOR)
+	_entities.add_child(_belt)
+	if _boardwalk != null:
+		_boardwalk.setup(_pier_area())
+	if walk_area != null:
+		walk_area = PlayArea.new(Rect2(walk_area.rect.position.x, _walk_top(), walk_area.rect.size.x, walk_area.rect.end.y - _walk_top()))
 	# One booth for the player and one per seller.
 	while _booths.size() < 1 + site.seller_count:
 		var booth := Booth.new()
-		booth.setup(Vector2(_booth_x(_booths.size()), FIRST_BOOTH.y), _booths.size())
+		var cell := _booth_cell(_booths.size())
+		booth.setup(Vector2(Grid.rect(cell).end.x, Grid.center(cell).y), _booths.size())
 		_entities.add_child(booth)
 		_booth_nodes.append(booth)
 		_booths.append(null)
@@ -971,10 +1068,10 @@ func _on_fish_sold_by_seller(_species_id: String, price: float) -> void:
 	_update_hud()
 
 
-## The buyer at `booth` takes the fish just sold and walks off up the beach; the booth is free
+## The buyer at `booth` takes the fish just sold and walks off east; the booth is free
 ## again.
 func _serve_at(booth: int) -> void:
-	_booths[booth].serve(Vector2(_booths[booth].ground_position.x, CUSTOMER_EXIT_Y))
+	_booths[booth].serve(Vector2(CUSTOMER_OFFSTAGE_X, _booths[booth].ground_position.y))
 	_booths[booth] = null
 	_booth_nodes[booth].bounce()
 
@@ -1001,8 +1098,9 @@ func _update_customers(delta: float) -> void:
 ## A new buyer walks up to the end of the line. Returns them.
 func add_buyer() -> Customer:
 	var customer := Customer.new()
-	var entry := CUSTOMER_ENTRY + Vector2(0.0, -rng.randf_range(0.0, 200.0))
-	customer.setup(rng.randi(), entry, _queue_spot(_queue.size()), Vector2(entry.x, CUSTOMER_EXIT_Y))
+	var spot := _queue_spot(_queue.size())
+	var entry := Vector2(CUSTOMER_OFFSTAGE_X + rng.randf_range(0.0, 200.0), spot.y)
+	customer.setup(rng.randi(), entry, spot, entry)
 	_entities.add_child(customer)
 	_queue.append(customer)
 	return customer
@@ -1016,20 +1114,25 @@ func _queue_capacity() -> int:
 	return count
 
 
-## Ground position of place `index` in the queue: coming down from the north, the first one
-## behind the player's booth.
+## Ground position of place `index` in the queue: coming down from the north east of the booths,
+## the first one level with the player's booth.
 func _queue_spot(index: int) -> Vector2:
-	return Vector2(FIRST_BOOTH.x, FIRST_BOOTH.y + Booth.BUYER_OFFSET.y - QUEUE_SPACING * (index + 1))
+	return Vector2(_queue_x(), Grid.center(PLAYER_BOOTH_CELL).y - QUEUE_SPACING * index)
 
 
-## Centre of the pad in front of booth `index` (which need not be built yet).
+## Ground x of the queue's line.
+func _queue_x() -> float:
+	return Grid.rect(PLAYER_BOOTH_CELL).end.x + QUEUE_OFFSET
+
+
+## Centre of the pad on the seller's side of booth `index` (which need not be built yet).
 func _booth_pad_center(index: int) -> Vector2:
-	return Vector2(_booth_x(index), FIRST_BOOTH.y) + BOOTH_PAD_OFFSET
+	return Grid.center(_booth_cell(index) + Vector2i(-1, 0))
 
 
-## Ground x of booth `index`: the player's at FIRST_BOOTH, the sellers' further west.
-func _booth_x(index: int) -> float:
-	return FIRST_BOOTH.x if index == 0 else FIRST_BOOTH.x - FIRST_SELLER_GAP - BOOTH_SPACING * (index - 1)
+## Cell of booth `index`: the player's at PLAYER_BOOTH_CELL, the sellers' up the beach from it.
+func _booth_cell(index: int) -> Vector2i:
+	return PLAYER_BOOTH_CELL - Vector2i(0, index)
 
 
 ## Ground position where the buyer stands at `booth`: behind its desk, facing the player.
@@ -1062,6 +1165,7 @@ func _sync_drones() -> void:
 		var drone := Drone.new()
 		drone.setup(DRONE_PAD, zone, _zone_areas[_zones.find(zone)], Automation.drone_capacity(i), 1.0 + DRONE_SIZE_STEP * i, i)
 		drone.delivered.connect(_on_drone_delivered)
+		Layers.put(drone, Layers.FLYING)
 		_entities.add_child(drone)
 		_drones.append(drone)
 
@@ -1120,7 +1224,7 @@ func _on_drone_delivered(drone: Drone, species_ids: Array[String]) -> void:
 ## The gear shop cannot be walked on: the wader is pushed back out to the nearest wall. Walking
 ## into its door goes inside.
 func _update_gear_shop() -> void:
-	var shop := Rect2(GEAR_SHOP_POSITION - GEAR_SHOP_HALF, GEAR_SHOP_HALF * 2.0).grow(GEAR_SHOP_MARGIN)
+	var shop := Grid.rect(GEAR_SHOP_CELL, GEAR_SHOP_SIZE).grow(GEAR_SHOP_MARGIN)
 	var at := wader.ground_position
 	if _in_store or not shop.has_point(at):
 		return
@@ -1129,19 +1233,27 @@ func _update_gear_shop() -> void:
 		wader.stop()
 		store_requested.emit()
 		return
-	var to_west := at.x - shop.position.x
-	var to_east := shop.end.x - at.x
-	var to_north := at.y - shop.position.y
-	var to_south := shop.end.y - at.y
+	_push_out(shop)
+
+
+## Pushes the wader out of `area` (ground) to its nearest side.
+func _push_out(area: Rect2) -> void:
+	var at := wader.ground_position
+	if not area.has_point(at):
+		return
+	var to_west := at.x - area.position.x
+	var to_east := area.end.x - at.x
+	var to_north := at.y - area.position.y
+	var to_south := area.end.y - at.y
 	var nearest := minf(minf(to_west, to_east), minf(to_north, to_south))
 	if nearest == to_west:
-		at.x = shop.position.x
+		at.x = area.position.x
 	elif nearest == to_east:
-		at.x = shop.end.x
+		at.x = area.end.x
 	elif nearest == to_north:
-		at.y = shop.position.y
+		at.y = area.position.y
 	else:
-		at.y = shop.end.y
+		at.y = area.end.y
 	wader.ground_position = at
 	wader.position = Iso.to_screen(at)
 
@@ -1151,7 +1263,7 @@ func return_from_store() -> void:
 	_in_store = false
 	_rebuild_from_state()
 	wader.stop()
-	wader.ground_position = Vector2(GEAR_SHOP_DOOR_X, GEAR_SHOP_POSITION.y + GEAR_SHOP_HALF.y + GEAR_SHOP_MARGIN + 120.0)
+	wader.ground_position = Vector2(GEAR_SHOP_DOOR_X, Grid.rect(GEAR_SHOP_CELL, GEAR_SHOP_SIZE).end.y + GEAR_SHOP_MARGIN + 120.0)
 	wader.position = Iso.to_screen(wader.ground_position)
 	_update_camera(0.0, true)
 
@@ -1208,16 +1320,21 @@ func _announce(at: Vector2, text: String, color: Color, hold_s: float = 0.35) ->
 	Juice.popup_text(_popups, at, text, 52, color, hold_s)
 
 
-## Little rings around the legs while wading (not under water).
+## Little rings around the legs while wading (not under water), and a soft slosh on every step.
 func _update_wake(delta: float) -> void:
+	var steps := wader.steps_taken()
+	var stepped := steps != _wake_step
+	_wake_step = steps
 	if not wader.is_walking() or wader.waterline() <= Wader.SUBMERGED or wader.waterline() >= Wader.DRY:
 		_wake_timer = 0.0
 		return
+	if stepped:
+		# Left and right foot sound a little different.
+		Sfx.play(&"slosh", (0.92 if steps % 2 == 0 else 1.04) * rng.randf_range(0.94, 1.06), -14.0)
 	_wake_timer -= delta
 	if _wake_timer <= 0.0:
 		_wake_timer = WAKE_INTERVAL_S
 		Juice.ripple(_effects, wader.position + Vector2(0.0, wader.waterline()), 60.0)
-		Sfx.play(&"splash", rng.randf_range(1.3, 1.6), -20.0)
 
 
 func _update_shake(delta: float) -> void:

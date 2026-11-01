@@ -4,7 +4,12 @@ extends Node2D
 ## (assets/sprites/props), with some of its fish swimming inside. Its water rises with the space
 ## the fish take; once the tank is full it runs over the rim into a puddle and fish jump out.
 ## A bar above it fills while the next young fish grows up.
-## The node sits at the centre of the base.
+## The tank covers cells of the layout grid (Grid), as many as its level's footprint in
+## data/tanks.csv; its sprite fits them, standing in their south-east corner. The node sits at
+## the centre of the footprint.
+## The tanks are painted empty, with half-transparent glass (art_source/tank_sprite_prompt.md,
+## imported by tools/import_tank_art.py): the water is drawn as a box inside the glass, the fish
+## in it, and the front corner posts again on top.
 
 const TEXTURES: Array[Texture2D] = [
 	preload("res://assets/sprites/props/tank_1.png"), preload("res://assets/sprites/props/tank_2.png"),
@@ -12,23 +17,42 @@ const TEXTURES: Array[Texture2D] = [
 	preload("res://assets/sprites/props/tank_5.png"), preload("res://assets/sprites/props/tank_6.png"),
 	preload("res://assets/sprites/props/tank_7.png"),
 ]
-## The water layers. PLACEHOLDER SVGs until the final tank art: the air layer only hides the
-## water painted into the tank sprites above the water level.
-const WATER_TEXTURE: Texture2D = preload("res://assets/sprites/props/tank_water.svg")
-const SURFACE_TEXTURE: Texture2D = preload("res://assets/sprites/props/tank_water_surface.svg")
-const AIR_TEXTURE: Texture2D = preload("res://assets/sprites/props/tank_air.svg")
+## The water running over the rim and the puddle it makes: PLACEHOLDER SVGs.
 const OVERFLOW_TEXTURE: Texture2D = preload("res://assets/sprites/props/tank_overflow.svg")
 const PUDDLE_TEXTURE: Texture2D = preload("res://assets/sprites/props/tank_puddle.svg")
-## Screen width of the tank per level.
-const WIDTHS: Array[float] = [220.0, 250.0, 290.0, 320.0, 360.0, 410.0, 600.0]
-## How far below the node the bottom of the sprite reaches, as a share of its height.
-const BASE_DROP := 0.12
-## The water inside the glass, as shares of the sprite: x and width, top and bottom of the
-## band the fish swim in.
-const WATER_X := 0.2
-const WATER_WIDTH := 0.55
-const WATER_TOP := 0.32
-const WATER_BOTTOM := 0.62
+## The corners of each sprite's own footprint (pixels): west, south and east on screen. The
+## sprites are painted as they stand, with their long side running north-south from level 4 on.
+const BASES: Array[Array] = [
+	[Vector2(4.0, 460.0), Vector2(232.0, 570.0), Vector2(440.0, 465.0)],
+	[Vector2(2.0, 416.0), Vector2(395.0, 612.0), Vector2(540.0, 540.0)],
+	[Vector2(4.0, 503.0), Vector2(232.0, 617.0), Vector2(450.0, 508.0)],
+	[Vector2(3.0, 386.0), Vector2(210.0, 493.0), Vector2(540.0, 326.0)],
+	[Vector2(2.0, 332.0), Vector2(308.0, 490.0), Vector2(612.0, 334.0)],
+	[Vector2(4.0, 370.0), Vector2(259.0, 506.0), Vector2(606.0, 333.0)],
+	[Vector2(4.0, 458.0), Vector2(197.0, 551.0), Vector2(684.0, 314.0)],
+]
+## The glass of each sprite, in sprite pixels: the west, south and east corners of the glass floor
+## (at the corner posts), the glass height, half the width of a corner post and how far its top cap
+## reaches above the glass.
+const GLASS: Array[Dictionary] = [
+	{"left": Vector2(30.0, 344.0), "front": Vector2(231.0, 445.0), "right": Vector2(415.0, 353.0),
+			"height": 245.0, "post": 16.0, "cap": 24.0},
+	{"left": Vector2(25.0, 252.0), "front": Vector2(400.0, 440.0), "right": Vector2(515.0, 382.0),
+			"height": 205.0, "post": 14.0, "cap": 21.0},
+	{"left": Vector2(30.0, 356.0), "front": Vector2(234.0, 458.0), "right": Vector2(422.0, 364.0),
+			"height": 245.0, "post": 20.0, "cap": 30.0},
+	{"left": Vector2(20.0, 317.0), "front": Vector2(201.0, 408.0), "right": Vector2(522.0, 247.0),
+			"height": 152.0, "post": 12.0, "cap": 6.0},
+	{"left": Vector2(20.0, 288.0), "front": Vector2(310.0, 433.0), "right": Vector2(595.0, 290.0),
+			"height": 140.0, "post": 15.0, "cap": 6.0},
+	{"left": Vector2(14.0, 321.0), "front": Vector2(245.0, 437.0), "right": Vector2(594.0, 262.0),
+			"height": 143.0, "post": 10.0, "cap": 6.0},
+	{"left": Vector2(22.0, 395.0), "front": Vector2(200.0, 481.0), "right": Vector2(662.0, 288.0),
+			"height": 132.0, "post": 14.0, "cap": 8.0},
+]
+## The water drawn in the glass: its sides and its surface.
+const WATER_SIDE_COLOR := Color(0.25, 0.62, 0.92, 0.42)
+const WATER_SURFACE_COLOR := Color(0.6, 0.86, 1.0, 0.55)
 ## Fish drawn at most; the label shows the space used.
 const MAX_DRAWN_FISH := 14
 ## Fish seen through the glass.
@@ -38,9 +62,8 @@ const LABEL_COLOR := Color(1.0, 1.0, 1.0)
 const FULL_COLOR := Color(1.0, 0.6, 0.4)
 ## How fast the drawn water level follows the fill, in share of the tank per second.
 const LEVEL_SPEED := 0.6
-## How far the water of a full tank bulges above the rim, and how high the wavy surface is.
+## How far the water of a full tank bulges above the rim.
 const BULGE := 6.0
-const SURFACE_HEIGHT := 16.0
 const OVERFLOW_WIDTH := 30.0
 const WATER_COLOR := Color(0.55, 0.82, 1.0)
 ## Fish jumping out of an overfilled tank, and how long one jump cycle takes (jump, then splash,
@@ -55,6 +78,8 @@ const GROW_BAR_FILL := Color(0.45, 0.9, 0.4)
 const GROWN_COLOR := Color(1.0, 0.85, 0.3)
 
 var tank: TankState
+## The cells the tank covers.
+var footprint := Vector2i.ONE
 ## Returns the FishArt for a species id.
 var art_for: Callable
 
@@ -71,16 +96,18 @@ var _counted_fish := -1
 var _level := -1.0
 
 
-func setup(tank_state: TankState, ground_position: Vector2, art_lookup: Callable) -> void:
+## `area` is the ground the tank covers: whole cells of the layout grid.
+func setup(tank_state: TankState, area: Rect2, art_lookup: Callable) -> void:
 	tank = tank_state
 	art_for = art_lookup
-	position = Iso.to_screen(ground_position)
+	footprint = Vector2i((area.size / Grid.UNIT).round())
+	position = Iso.to_screen(area.get_center())
 
 
 ## Where stored fish land: the water surface, relative to the node's parent.
 func drop_point() -> Vector2:
-	var rect := _sprite_rect()
-	return position + Vector2(0.0, rect.position.y + rect.size.y * WATER_TOP)
+	var box := _glass_box(_sprite_rect())
+	return position + (box[0] + box[2]) * 0.5 - Vector2(0.0, box[4])
 
 
 ## Quick wobble when something happens to the tank.
@@ -113,77 +140,121 @@ func _texture() -> Texture2D:
 	return TEXTURES[clampi(tank.level, 1, TEXTURES.size()) - 1]
 
 
+func _glass() -> Dictionary:
+	return GLASS[clampi(tank.level, 1, GLASS.size()) - 1]
+
+
 ## Where the sprite is drawn, relative to the node.
+func sprite_bounds() -> Rect2:
+	return _sprite_rect()
+
+
 func _sprite_rect() -> Rect2:
-	var texture := _texture()
-	var width := WIDTHS[clampi(tank.level, 1, WIDTHS.size()) - 1]
-	var size := texture.get_size() * (width / texture.get_width())
-	return Rect2(Vector2(-size.x * 0.5, -size.y * (1.0 - BASE_DROP)), size)
+	var base: Array = BASES[clampi(tank.level, 1, BASES.size()) - 1]
+	var scale_factor := Grid.fit_scale(base[0], base[1], base[2], footprint)
+	var south_east := Iso.to_screen(Vector2(footprint) * Grid.UNIT * 0.5)
+	return Rect2(south_east - base[1] * scale_factor, _texture().get_size() * scale_factor)
+
+
+## The glass floor's corners (west, south, east, north on screen) relative to the node, and the
+## glass height, for a sprite drawn in `rect`.
+func _glass_box(rect: Rect2) -> Array:
+	var glass := _glass()
+	var s := rect.size.x / _texture().get_width()
+	var left: Vector2 = rect.position + glass.left * s
+	var front: Vector2 = rect.position + glass.front * s
+	var right: Vector2 = rect.position + glass.right * s
+	return [left, front, right, left + right - front, glass.height * s]
 
 
 func _draw() -> void:
 	var rect := _sprite_rect()
 	var full := is_full()
 	var water := _water_rect(rect)
-	draw_colored_polygon(Iso.ellipse(Vector2(10.0, 6.0), rect.size.x * 0.42, 20), SHADOW)
+	var middle := rect.get_center().x
+	draw_colored_polygon(Iso.ellipse(Vector2(middle + 10.0, 6.0), rect.size.x * 0.42, 20), SHADOW)
 	if full:
 		_draw_puddle(rect)
 	draw_texture_rect(_texture(), rect, false)
-	_draw_water(rect, water, full)
+	_draw_water(_glass_box(rect), water.size.y, full)
 	_draw_fish(water)
+	_draw_front_posts(rect)
 	if full:
 		_draw_overflow(water)
 		_draw_jumpers(rect, water)
 
 	var text := "%s / %s L" % [NumberFormat.compact(_used), NumberFormat.compact(Aquarium.capacity(tank))]
-	IsoDraw.label(self, Vector2(0.0, rect.position.y - 22.0), text, 26, FULL_COLOR if full else LABEL_COLOR)
-	var top := _draw_growth(rect.position.y - 52.0)
+	IsoDraw.label(self, Vector2(middle, rect.position.y - 22.0), text, 26, FULL_COLOR if full else LABEL_COLOR)
+	var top := _draw_growth(Vector2(middle, rect.position.y - 52.0))
 	if drones_resting:
-		IsoDraw.label(self, Vector2(0.0, top), tr("Full: drones resting"), 26, FULL_COLOR)
+		IsoDraw.label(self, Vector2(middle, top), tr("Full: drones resting"), 26, FULL_COLOR)
 
 
 ## Above the tank: how many fish are grown, and a bar filling up while the next young fish grows,
-## with the time it still needs. Returns the height above it that is still free.
-func _draw_growth(y: float) -> float:
+## with the time it still needs, from `at` up. Returns the height above it that is still free.
+func _draw_growth(at: Vector2) -> float:
+	var y := at.y
 	var grown := 0
 	for fish in tank.fish:
 		if fish.growth >= 1.0:
 			grown += 1
 	if grown > 0:
-		IsoDraw.label(self, Vector2(0.0, y), "★ " + tr("%d grown") % grown, 26, GROWN_COLOR)
+		IsoDraw.label(self, Vector2(at.x, y), "★ " + tr("%d grown") % grown, 26, GROWN_COLOR)
 		y -= 36.0
 	var next := Aquarium.next_to_grow(tank)
 	if next == null:
 		return y
-	var bar := Rect2(Vector2(-GROW_BAR_SIZE.x * 0.5, y - GROW_BAR_SIZE.y * 0.5), GROW_BAR_SIZE)
+	var bar := Rect2(Vector2(at.x - GROW_BAR_SIZE.x * 0.5, y - GROW_BAR_SIZE.y * 0.5), GROW_BAR_SIZE)
 	draw_rect(bar.grow(3.0), GROW_BAR_BACK)
 	draw_rect(Rect2(bar.position, Vector2(bar.size.x * next.growth, bar.size.y)), GROW_BAR_FILL)
 	var seconds := ceili(Aquarium.seconds_to_grow(tank, next))
-	IsoDraw.label(self, Vector2(0.0, y - 28.0), tr("Grown in %s") % ("%d:%02d" % [seconds / 60, seconds % 60]), 24, LABEL_COLOR)
+	IsoDraw.label(self, Vector2(at.x, y - 28.0), tr("Grown in %s") % ("%d:%02d" % [seconds / 60, seconds % 60]), 24, LABEL_COLOR)
 	return y - 64.0
 
 
-## The water inside the glass, from the bottom up to the drawn level; a full tank bulges over
-## the rim.
+## The water inside the glass, up to the drawn level; a full tank bulges over the rim. The
+## rectangle spans the floor between the west and east posts, from the floor's middle up to the
+## water level.
 func _water_rect(rect: Rect2) -> Rect2:
-	var top := rect.position.y + rect.size.y * WATER_TOP
-	var bottom := rect.position.y + rect.size.y * WATER_BOTTOM
 	var level := clampf(_level, 0.0, 1.0)
-	var surface := lerpf(bottom, top, level) - BULGE * clampf((level - 0.98) / 0.02, 0.0, 1.0)
-	return Rect2(rect.position.x + rect.size.x * WATER_X, surface, rect.size.x * WATER_WIDTH, bottom - surface)
+	var bulge := BULGE * clampf((level - 0.98) / 0.02, 0.0, 1.0)
+	var box := _glass_box(rect)
+	var post: float = _glass().post * rect.size.x / _texture().get_width()
+	var middle: Vector2 = (box[0] + box[2]) * 0.5
+	var depth: float = box[4] * level + bulge
+	return Rect2(box[0].x + post, middle.y - depth, box[2].x - box[0].x - 2.0 * post, depth)
 
 
-## Empty glass above the water, the water body and its wavy surface.
-func _draw_water(rect: Rect2, water: Rect2, full: bool) -> void:
-	var top := rect.position.y + rect.size.y * WATER_TOP
-	if water.position.y > top:
-		draw_texture_rect(AIR_TEXTURE, Rect2(water.position.x, top, water.size.x, water.position.y - top), false)
-	if water.size.y <= 0.5:
+## The water in the glass box (_glass_box), `depth` high: its two front sides and its surface,
+## which sways a little (more in a full tank), never more than a quarter of the depth so the sides
+## keep their shape.
+func _draw_water(box: Array, depth: float, full: bool) -> void:
+	if depth <= 2.0:
 		return
-	draw_texture_rect(WATER_TEXTURE, water, false)
-	var wobble := sin(_time * (5.0 if full else 2.0)) * (3.0 if full else 1.5)
-	draw_texture_rect(SURFACE_TEXTURE,
-			Rect2(water.position.x, water.position.y - SURFACE_HEIGHT * 0.5 + wobble, water.size.x, SURFACE_HEIGHT), false)
+	var wobble := sin(_time * (5.0 if full else 2.0)) * minf(3.0 if full else 1.5, depth * 0.25)
+	var up := Vector2(0.0, -depth)
+	var tilt := Vector2(0.0, wobble)
+	var left: Vector2 = box[0]
+	var front: Vector2 = box[1]
+	var right: Vector2 = box[2]
+	var back: Vector2 = box[3]
+	draw_colored_polygon(PackedVector2Array([left, front, front + up + tilt, left + up - tilt]), WATER_SIDE_COLOR)
+	draw_colored_polygon(PackedVector2Array([front, right, right + up - tilt, front + up + tilt]), WATER_SIDE_COLOR)
+	draw_colored_polygon(PackedVector2Array([left + up - tilt, front + up + tilt, right + up - tilt, back + up + tilt]),
+			WATER_SURFACE_COLOR)
+	draw_polyline(PackedVector2Array([left + up - tilt, front + up + tilt, right + up - tilt]), Color(1.0, 1.0, 1.0, 0.8), 3.0, true)
+
+
+## The west, south and east corner posts, drawn again from the sprite over the water and the fish,
+## since they stand in front of them.
+func _draw_front_posts(rect: Rect2) -> void:
+	var texture := _texture()
+	var glass := _glass()
+	var s := rect.size.x / texture.get_width()
+	var post: float = glass.post
+	for corner: Vector2 in [glass.left, glass.front, glass.right]:
+		var source := Rect2(corner.x - post, corner.y - glass.height - glass.cap, post * 2.0, glass.height + glass.cap + post * 1.5)
+		draw_texture_rect_region(texture, Rect2(rect.position + source.position * s, source.size * s), source)
 
 
 ## The fish swim back and forth at different depths of the water. Grown fish are drawn bigger.
@@ -207,7 +278,7 @@ func _draw_fish(water: Rect2) -> void:
 ## Water the tank spilled, spreading on the ground around it.
 func _draw_puddle(rect: Rect2) -> void:
 	var size := Vector2(rect.size.x, rect.size.x * 0.5) * (1.05 + 0.04 * sin(_time * 1.7))
-	draw_texture_rect(PUDDLE_TEXTURE, Rect2(Vector2(8.0, 10.0) - size * 0.5, size), false)
+	draw_texture_rect(PUDDLE_TEXTURE, Rect2(Vector2(rect.get_center().x + 8.0, 10.0) - size * 0.5, size), false)
 
 
 ## Water running over both sides of the rim, down the glass, with drops falling off.

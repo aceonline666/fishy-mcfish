@@ -1,8 +1,10 @@
 class_name ActionSquare
 extends Node2D
 ## A pad on the ground that does something while the wader stands on it: store the catch, sell
-## fish at a shop, pay towards a purchase, or go through a door. A raised slab on the isometric grid with rounded
-## corners, longer along its row than deep. Drawn in code.
+## fish at a shop, pay towards a purchase, or go through a door. A raised slab with rounded corners
+## covering one cell of the layout grid (Grid). Drawn in code: the slab on the pads' layer and its
+## picture and texts on their own layer above it (Layers), both above every sprite, so the tank
+## or a booth never hides them, and both under the wader.
 
 enum Kind { STORE, SELL, BUY, DOOR }
 
@@ -16,7 +18,7 @@ const SHADOW := Color(0.0, 0.0, 0.0, 0.22)
 const THICKNESS := 16.0
 ## Corner radius in ground units.
 const CORNER_RADIUS := 50.0
-const DEFAULT_HALF := Vector2(180.0, 110.0)
+const DEFAULT_HALF := Vector2.ONE * Grid.UNIT * 0.5
 const ICON_HEIGHT := 125.0
 const ICON_MAX_WIDTH := 140.0
 ## Screen x of the icon's centre and of the text next to it.
@@ -47,6 +49,17 @@ var icon: Texture2D
 var _time := 0.0
 ## What the last drawing showed; the pad is only redrawn when this changes or while it pulses.
 var _drawn := []
+## Draws the picture and texts above the slabs.
+var _face := Node2D.new()
+## Where the slab's top is, for the face.
+var _lift := Vector2.ZERO
+
+
+func _init() -> void:
+	Layers.put(self, Layers.PADS)
+	Layers.put(_face, Layers.PAD_TEXT)
+	_face.draw.connect(_draw_face)
+	add_child(_face)
 
 
 func setup(square_id: String, square_kind: Kind, square_title: String, center: Vector2, half: Vector2 = DEFAULT_HALF) -> void:
@@ -71,6 +84,7 @@ func _process(delta: float) -> void:
 	if calling or shown != _drawn:
 		_drawn = shown
 		queue_redraw()
+		_face.queue_redraw()
 
 
 func _draw() -> void:
@@ -78,6 +92,7 @@ func _draw() -> void:
 	var pulse := 0.5 + 0.5 * sin(_time * 6.0)
 	var half := half_extents * (1.0 + 0.04 * pulse if calling else 1.0)
 	var lift := Vector2(0.0, -THICKNESS * (0.35 if active else 1.0))
+	_lift = lift
 	var top := IsoDraw.rounded_footprint(lift, half, CORNER_RADIUS)
 
 	draw_colored_polygon(IsoDraw.rounded_footprint(Vector2(6.0, 12.0), half, CORNER_RADIUS), SHADOW)
@@ -107,10 +122,14 @@ func _draw() -> void:
 	rim.append(rim[0])
 	draw_polyline(rim, Color(1.0, 1.0, 1.0, 0.4), 3.0, true)
 	_draw_gloss(lift, half)
+
+
+## The picture of what the pad buys and the texts, on the face node above the slabs.
+func _draw_face() -> void:
 	if icon != null:
 		var size := icon.get_size() * minf(ICON_HEIGHT / icon.get_height(), ICON_MAX_WIDTH / icon.get_width())
-		draw_texture_rect(icon, Rect2(lift + Vector2(ICON_X - size.x * 0.5, 34.0 - size.y), size), false)
-	_draw_text(lift + Vector2(TEXT_X_WITH_ICON if icon != null else 0.0, 0.0))
+		_face.draw_texture_rect(icon, Rect2(_lift + Vector2(ICON_X - size.x * 0.5, 34.0 - size.y), size), false)
+	_draw_text(_lift + Vector2(TEXT_X_WITH_ICON if icon != null else 0.0, 0.0))
 
 
 ## A white shine along the back left edge, as on the buttons.
@@ -137,11 +156,11 @@ func _draw_gloss(lift: Vector2, half: Vector2) -> void:
 func _draw_text(at: Vector2) -> void:
 	var lines := 1 + (1 if not subtitle.is_empty() else 0) + (1 if kind == Kind.BUY else 0)
 	var y := at.y - (lines - 1) * 17.0
-	IsoDraw.label(self, Vector2(at.x, y), title, 34 if kind == Kind.BUY else 40, Color.WHITE, true)
+	IsoDraw.label(_face, Vector2(at.x, y), title, 34 if kind == Kind.BUY else 40, Color.WHITE, true)
 	if not subtitle.is_empty():
 		y += 32.0
-		IsoDraw.label(self, Vector2(at.x, y), subtitle, 24, SUBTITLE_COLOR)
+		IsoDraw.label(_face, Vector2(at.x, y), subtitle, 24, SUBTITLE_COLOR)
 	if kind == Kind.BUY:
 		y += 34.0
-		IsoDraw.coin(self, Vector2(at.x - 46.0, y), 12.0)
-		IsoDraw.label(self, Vector2(at.x + 10.0, y), NumberFormat.compact(maxf(price - paid, 0.0)), 36, CALLING_COLOR, true)
+		IsoDraw.coin(_face, Vector2(at.x - 46.0, y), 12.0)
+		IsoDraw.label(_face, Vector2(at.x + 10.0, y), NumberFormat.compact(maxf(price - paid, 0.0)), 36, CALLING_COLOR, true)
