@@ -100,7 +100,7 @@ func _trip() -> void:
 	for id in _backpack:
 		Aquarium.store(site, id, Aquarium.catch_growth(_rng))
 	_backpack.clear()
-	while not Selling.sell_best(_state, site).is_empty():
+	while not Selling.sell_next(_state, site).is_empty():
 		sold += 1
 	_pass_time(sold * SELL_SECONDS)
 	while _buy_cheapest():
@@ -220,7 +220,7 @@ func _run_sellers(site: Site, step: float) -> void:
 	var progress: float = _seller_progress.get(site.location_id, 0.0) + Selling.seller_rate(site) * step
 	while progress >= 1.0:
 		progress -= 1.0
-		var sale := Selling.sell_best(_state, site)
+		var sale := Selling.sell_next(_state, site)
 		if sale.is_empty():
 			progress = 0.0
 		else:

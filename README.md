@@ -33,7 +33,7 @@ between them holds the grown fish in the order they will be sold, each with its 
   A bar above the tank counts down to the next grown fish. The tank shows how full it is: its
   water rises with the fish in it and runs over at 100 %.
 - **Sell fish** in front of the shop is greyed out ("No grown fish") until a fish is grown, then
-  sells the grown fish from the tank, most valuable first, to the buyers lining up there from the start. The shop buys
+  sells the grown fish from the tank, first grown first, to the buyers lining up there from the start. The shop buys
   every fish; **Bigger shop** adds booths for more sellers (1, 2, 4, 7, 11 and finally 15 in
   the seafood palace). While you stand on the pad you
   sell one fish every 2 s at your own booth; one line of buyers feeds the next free booth.

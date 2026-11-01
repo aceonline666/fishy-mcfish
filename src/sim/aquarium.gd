@@ -91,10 +91,23 @@ static func advance(state: PlayerState, seconds: float) -> void:
 	if seconds <= 0.0:
 		return
 	for site: Site in state.sites.values():
-		var speed := growth_speed(site.tank)
-		for fish in site.tank.fish:
+		var tank := site.tank
+		# Fish that grow up now go to the end of the tank's list, in the order they grew up, so
+		# the grown fish are sold first come, first served.
+		var growing_up: Array[TankFish] = []
+		for fish in tank.fish:
+			if fish.growth < 1.0 and seconds_to_grow(tank, fish) <= seconds:
+				growing_up.append(fish)
+		growing_up.sort_custom(func(a: TankFish, b: TankFish) -> bool:
+			return seconds_to_grow(tank, a) < seconds_to_grow(tank, b))
+		var speed := growth_speed(tank)
+		for fish in tank.fish:
 			var def := DataRegistry.species[fish.species_id]
 			fish.growth = minf(fish.growth + seconds * speed / def.growth_time_s, 1.0)
+		for fish in growing_up:
+			fish.growth = 1.0
+			tank.fish.erase(fish)
+			tank.fish.append(fish)
 
 
 ## How many times faster than in the first tank fish grow in this one.

@@ -88,10 +88,10 @@ func sell_fish(species_id: String) -> float:
 	return price
 
 
-## Sells the most valuable sellable fish from the tank here. Returns [species id, price], or []
+## Sells the grown fish from the tank here that grew up first. Returns [species id, price], or []
 ## if there was nothing to sell.
 func sell_from_tank() -> Array:
-	var sale := Selling.sell_best(state, here())
+	var sale := Selling.sell_next(state, here())
 	if not sale.is_empty():
 		EventBus.money_changed.emit(state.money)
 	return sale
@@ -177,7 +177,7 @@ func _run_sellers(dt: float) -> void:
 		var progress: float = _seller_progress.get(key, 0.0) + Selling.seller_rate(site) * dt
 		while progress >= 1.0:
 			progress -= 1.0
-			var sale := Selling.sell_best(state, site)
+			var sale := Selling.sell_next(state, site)
 			if sale.is_empty():
 				progress = 0.0
 				break

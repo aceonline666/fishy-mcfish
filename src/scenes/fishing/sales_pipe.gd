@@ -47,13 +47,12 @@ func slots() -> int:
 	return maxi(int(_from.distance_to(_to) / SLOT), 1)
 
 
-## The grown fish in the order they will be sold (Selling.best_fish: the most valuable first).
+## The grown fish in the order they will be sold (Selling.next_to_sell: the first grown first).
 func queue() -> Array[TankFish]:
 	var grown: Array[TankFish] = []
 	for fish in tank.fish:
 		if fish.growth >= 1.0:
 			grown.append(fish)
-	grown.sort_custom(func(a: TankFish, b: TankFish) -> bool: return _price(a) > _price(b))
 	return grown
 
 

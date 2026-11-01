@@ -6,26 +6,19 @@ extends RefCounted
 ## sold; the drones fill the space up again.
 
 
-## Index of the most valuable grown fish in the tank, or -1 if none.
-static func best_fish(site: Site) -> int:
-	var tank := site.tank
-	var best := -1
-	var best_price := -1.0
-	for i in tank.fish.size():
-		var fish := tank.fish[i]
-		if fish.growth < 1.0:
-			continue
-		var price := Economy.sale_price(DataRegistry.species[fish.species_id], fish.growth)
-		if price > best_price:
-			best = i
-			best_price = price
-	return best
+## Index of the grown fish in the tank that is sold next, or -1 if none: the one that grew up
+## first (Aquarium.advance keeps the grown fish in the order they grew up).
+static func next_to_sell(site: Site) -> int:
+	for i in site.tank.fish.size():
+		if site.tank.fish[i].growth >= 1.0:
+			return i
+	return -1
 
 
-## Sells the most valuable grown fish from the tank. Returns [species id, price], or [] if
-## there was nothing to sell. Adds the coins to the state.
-static func sell_best(state: PlayerState, site: Site) -> Array:
-	var index := best_fish(site)
+## Sells the grown fish that grew up first. Returns [species id, price], or [] if there was
+## nothing to sell. Adds the coins to the state.
+static func sell_next(state: PlayerState, site: Site) -> Array:
+	var index := next_to_sell(site)
 	if index < 0:
 		return []
 	var fish: TankFish = site.tank.fish[index]
@@ -48,7 +41,7 @@ static func run_sellers(state: PlayerState, seconds: float) -> float:
 	var earned := 0.0
 	for site: Site in state.sites.values():
 		for i in int(seller_rate(site) * seconds):
-			var sale := sell_best(state, site)
+			var sale := sell_next(state, site)
 			if sale.is_empty():
 				break
 			earned += sale[1]

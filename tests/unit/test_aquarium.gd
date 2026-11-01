@@ -156,17 +156,34 @@ func test_building_at_the_reef_costs_more() -> void:
 	assert_eq(Automation.next_drone_cost(reef), Automation.next_drone_cost(home) * factor)
 
 
-func test_sellers_sell_every_grown_fish_most_valuable_first() -> void:
+func test_sellers_sell_every_grown_fish_first_grown_first() -> void:
 	var state := PlayerState.new_game()
 	var site := state.here()
 	_fill(site.tank, "european_sprat", 3, 1.0)
 	_fill(site.tank, "atlantic_herring", 2, 1.0)
 	_fill(site.tank, "lesser_sand_eel", 3, 0.5)
-	assert_eq(site.tank.fish[Selling.best_fish(site)].species_id, "atlantic_herring")
+	assert_eq(site.tank.fish[Selling.next_to_sell(site)].species_id, "european_sprat", "not the more valuable herring")
 	site.seller_count = 1
 	var earned := Selling.run_sellers(state, 600.0)
 	var sprat := DataRegistry.species["european_sprat"]
 	var herring := DataRegistry.species["atlantic_herring"]
 	assert_eq(earned, 3.0 * Economy.sale_price(sprat, 1.0) + 2.0 * Economy.sale_price(herring, 1.0))
 	assert_eq(site.tank.fish.size(), 3, "only the young eels stay")
-	assert_eq(Selling.best_fish(site), -1)
+	assert_eq(Selling.next_to_sell(site), -1)
+
+
+func test_a_fish_that_grows_up_queues_behind_the_grown_fish() -> void:
+	var state := PlayerState.new_game()
+	var site := state.here()
+	_fill(site.tank, "atlantic_herring", 1, 0.9)
+	_fill(site.tank, "european_sprat", 1, 1.0)
+	_fill(site.tank, "lesser_sand_eel", 1, 0.95)
+	Aquarium.advance(state, 3600.0)
+	var order: Array[String] = []
+	for fish in site.tank.fish:
+		order.append(fish.species_id)
+	# The sprat was grown already; the eel and the herring follow in the order they grew up.
+	assert_eq(order[0], "european_sprat")
+	var eel_first := Aquarium.seconds_to_grow(site.tank, TankFish.new("lesser_sand_eel", 0.95)) 			< Aquarium.seconds_to_grow(site.tank, TankFish.new("atlantic_herring", 0.9))
+	assert_eq(order.slice(1), (["lesser_sand_eel", "atlantic_herring"] if eel_first else ["atlantic_herring", "lesser_sand_eel"]) as Array[String])
+	assert_eq(site.tank.fish[Selling.next_to_sell(site)].species_id, "european_sprat")
