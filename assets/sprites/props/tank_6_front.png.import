@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfbd5pyon2pg4"
-path="res://.godot/imported/buoy.png-3cc418da37f0ecd0366e8722aa3013ea.ctex"
+uid="uid://cnfkir3br005m"
+path="res://.godot/imported/tank_6_front.png-1aaee580702c05130e7ffc58293e15d9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/props/buoy.png"
-dest_files=["res://.godot/imported/buoy.png-3cc418da37f0ecd0366e8722aa3013ea.ctex"]
+source_file="res://assets/sprites/props/tank_6_front.png"
+dest_files=["res://.godot/imported/tank_6_front.png-1aaee580702c05130e7ffc58293e15d9.ctex"]
 
 [params]
 

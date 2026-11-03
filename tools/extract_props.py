@@ -7,8 +7,8 @@ and saved trimmed to its own PNG. Pictures with light parts at their edge (the l
 are cut as plain rectangles instead.
 
 Needs Pillow, NumPy and SciPy. Usage, per sheet (SHEETS says what each one holds):
-  python tools/extract_props.py art_source/coastal_sprite_sheet.png assets/sprites/props
-  python tools/extract_props.py art_source/gear_sprite_sheet.png assets/sprites/props
+  python tools/extract_props.py art_source/props/coastal_sprite_sheet.png assets/sprites/props
+  python tools/extract_props.py art_source/props/gear_sprite_sheet.png assets/sprites/props
   python tools/extract_props.py <sheet> out_dir --debug
     (writes debug.png with a box around every found sprite, to pick the points)
 """
@@ -41,7 +41,7 @@ SHEETS = {
             "shop_5": (760, 515), "shop_6": (1025, 495),
             "cashier_1": (58, 720), "cashier_2": (213, 720), "cashier_3": (375, 720),
             "palm": (575, 870), "parasol": (690, 890), "signpost": (793, 895),
-            "bush": (905, 900), "seagull": (1026, 920), "buoy": (1100, 900),
+            "bush": (905, 900), "seagull": (1026, 920),
         },
         "pictures": {},
     },

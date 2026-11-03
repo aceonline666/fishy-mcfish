@@ -1,5 +1,6 @@
 """Cuts the seabed props out of the props sheets into assets/sprites/seabed: the temperate
-props (art_source/seabed_props.png) and the coral reef props (art_source/seabed_props_coral_reef.png).
+props (art_source/ground/seabed_props.png) and the coral reef props
+(art_source/ground/seabed_props_coral_reef.png).
 
 The sheets have an alpha channel with a soft glow around each prop; the glow is cut off just
 outside the dark outline. A prop may consist of several pieces (the starfish), which are cut
@@ -30,7 +31,7 @@ CORAL_REEF = {
     "coral_rock": [(191, 840)], "seagrass": [(539, 837)], "giant_clam": [(859, 869)],
     "blue_starfish": [(1159, 792), (1102, 884), (1248, 877)], "sea_urchin": [(1423, 829)],
 }
-SHEETS = {"art_source/seabed_props.png": TEMPERATE, "art_source/seabed_props_coral_reef.png": CORAL_REEF}
+SHEETS = {"art_source/ground/seabed_props.png": TEMPERATE, "art_source/ground/seabed_props_coral_reef.png": CORAL_REEF}
 # Alpha range of the soft edge: below is glow, above is the prop.
 EDGE = (120.0, 230.0)
 

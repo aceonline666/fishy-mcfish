@@ -41,7 +41,7 @@ msgstr "Ins Becken"
 msgid "Bigger tank"
 msgstr "Größeres Becken"
 
-msgid "Bigger backpack"
+msgid "Bigger basket"
 msgstr "Größerer Korb"
 
 msgid "Buy drone"
@@ -77,7 +77,7 @@ msgstr "Vergrößere das Becken."
 msgid "Tank  %s / %s L  ·  %d grown  ·  worth %s"
 msgstr "Becken  %s / %s L  ·  %d ausgewachsen  ·  Wert %s"
 
-msgid "Backpack full! Grow the fish in the tank, then sell them."
+msgid "Basket full! Grow the fish in the tank, then sell them."
 msgstr "Korb voll! Lass die Fische im Becken wachsen und verkaufe sie dann."
 
 msgid "Grown fish are worth 3 times as much. Sell them at the shop!"
@@ -107,7 +107,7 @@ msgstr "Fischhalle"
 msgid "Seafood palace"
 msgstr "Meeresfrüchte-Palast"
 
-msgid "Bigger backpack!\n%d fish"
+msgid "Bigger basket!\n%d fish"
 msgstr "Größerer Korb!\n%d Fische"
 
 msgid "New drone!\nIt fishes here: %s"
@@ -122,13 +122,13 @@ msgstr "%s!\nGroße Fische landen schneller im Netz"
 msgid "%s!\nNow you can reach: %s"
 msgstr "%s!\nJetzt erreichbar: %s"
 
-msgid "Goal reached: %s"
-msgstr "Ziel erreicht: %s"
+msgid "Goal reached!"
+msgstr "Ziel erreicht!"
 
 msgid "+%s coins"
 msgstr "+%s Münzen"
 
-msgid "Backpack  %d / %d"
+msgid "Basket  %d / %d"
 msgstr "Korb  %d / %d"
 
 msgid "Grow your catch in the tank. Only grown fish can be sold."
@@ -137,7 +137,7 @@ msgstr "Lass deinen Fang im Becken wachsen. Nur ausgewachsene Fische lassen sich
 msgid "Touch and hold to wade there and catch fish."
 msgstr "Tippe und halte, um hinzuwaten und Fische zu fangen."
 
-msgid "Backpack full!"
+msgid "Basket full!"
 msgstr "Korb voll!"
 
 msgid "Map"
@@ -338,14 +338,14 @@ msgstr "Wachsende Sammlung"
 msgid "Busy net"
 msgstr "Fleißiger Kescher"
 
-msgid "Catch 50 fish"
-msgstr "Fange 50 Fische"
+msgid "Catch 300 fish"
+msgstr "Fange 300 Fische"
 
 msgid "Naturalist"
 msgstr "Naturforscher"
 
-msgid "Discover 5 species"
-msgstr "Entdecke 5 Arten"
+msgid "Discover 15 species"
+msgstr "Entdecke 15 Arten"
 
 msgid "Mapmaker"
 msgstr "Kartograf"
@@ -356,8 +356,8 @@ msgstr "Kartiere das Pier-Flachwasser"
 msgid "Mega haul"
 msgstr "Mega-Fang"
 
-msgid "Catch 6 fish in a row"
-msgstr "Fange 6 Fische in Folge"
+msgid "Catch 10 fish in a row"
+msgstr "Fange 10 Fische in Folge"
 
 msgid "Lucky find"
 msgstr "Glücksfund"
@@ -389,8 +389,8 @@ msgstr "Kartiere die Sandbänke"
 msgid "Fish tycoon"
 msgstr "Fischmagnat"
 
-msgid "Earn 10K coins in total"
-msgstr "Verdiene insgesamt 10.000 Münzen"
+msgid "Earn 100K coins in total"
+msgstr "Verdiene insgesamt 100.000 Münzen"
 
 msgid "Sea monster"
 msgstr "Seeungeheuer"
@@ -415,6 +415,36 @@ msgstr "Legende der Meere"
 
 msgid "Catch a legendary fish"
 msgstr "Fange einen legendären Fisch"
+
+msgid "Master angler"
+msgstr "Meisterangler"
+
+msgid "Catch 2,000 fish"
+msgstr "Fange 2.000 Fische"
+
+msgid "Marine biologist"
+msgstr "Meeresbiologe"
+
+msgid "Discover 40 species"
+msgstr "Entdecke 40 Arten"
+
+msgid "Drone fleet"
+msgstr "Drohnenflotte"
+
+msgid "Own 10 drones"
+msgstr "Besitze 10 Drohnen"
+
+msgid "World traveller"
+msgstr "Weltenbummler"
+
+msgid "Unlock all 5 locations"
+msgstr "Schalte alle 5 Orte frei"
+
+msgid "Ocean mogul"
+msgstr "Ozean-Mogul"
+
+msgid "Earn 10M coins in total"
+msgstr "Verdiene insgesamt 10 Mio. Münzen"
 
 #. data/backpacks.csv, gear.csv, nets.csv, tanks.csv, tank_slots.csv, shop_slots.csv, staff.csv, drones.csv
 msgid "Basket"

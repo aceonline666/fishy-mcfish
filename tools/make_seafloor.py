@@ -1,8 +1,8 @@
 """Makes the seamless ground tiles of each location: the seabed (assets/sprites/seafloor) and
 the beach sand (assets/sprites/beach).
 
-A location with its own painted tiles (art_source/seafloor_<id>.png, art_source/beach_<id>.png,
-already seamless and seen from above) gets those, scaled to TILE_SIZE; a few borrow another
+A location with its own painted tiles (art_source/ground/seafloor_<id>.png and
+art_source/ground/beach_<id>.png, already seamless and seen from above) gets those, scaled to TILE_SIZE; a few borrow another
 location's beach (BEACH_BORROWS). For the other seabeds:
 
 Each location's strip on the sheet looks forward along the seabed. The near part of its floor is
@@ -19,7 +19,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-SHEET = "art_source/seafloor_sheet.png"
+SHEET = "art_source/ground/seafloor_sheet.png"
 OUT = "assets/sprites/seafloor/"
 BEACH_OUT = "assets/sprites/beach/"
 TILE_SIZE = 1024
@@ -42,9 +42,9 @@ PATCH = (384, 384)
 def main() -> None:
     for location in STRIPS:
         for kind, out in (("seafloor", OUT), ("beach", BEACH_OUT)):
-            source = Path(f"art_source/{kind}_{location}.png")
+            source = Path(f"art_source/ground/{kind}_{location}.png")
             if kind == "beach" and not source.exists() and location in BEACH_BORROWS:
-                source = Path(f"art_source/beach_{BEACH_BORROWS[location]}.png")
+                source = Path(f"art_source/ground/beach_{BEACH_BORROWS[location]}.png")
             if source.exists():
                 tile = Image.open(source).convert("RGB").resize((TILE_SIZE, TILE_SIZE), Image.LANCZOS)
                 Path(out).mkdir(parents=True, exist_ok=True)
@@ -52,7 +52,7 @@ def main() -> None:
                 print(location, kind, "from", source.name)
     sheet = np.array(Image.open(SHEET).convert("RGB")).astype(np.float32)
     for location, (x0, x1, horizon, far) in STRIPS.items():
-        if Path(f"art_source/seafloor_{location}.png").exists():
+        if Path(f"art_source/ground/seafloor_{location}.png").exists():
             continue
         patch = _flatten(sheet[:, x0:x1], horizon, far)
         # The picture darkens with distance; even out the brightness row by row.

@@ -7,7 +7,7 @@ SHEETS maps each sheet file to its species: a point on the sprite, the way the h
 without transparency (a painted checkerboard behind the sprites) are cut out like the props.
 
 Needs Pillow, NumPy and SciPy. Usage, per sheet:
-  python tools/extract_painted.py art_source/painted_sprite_sheet.png assets/sprites/fish_painted
+  python tools/extract_painted.py art_source/fish/painted_sprite_sheet.png assets/sprites/fish_painted
 """
 import sys
 from pathlib import Path
@@ -136,7 +136,7 @@ SHEETS = {
     },
     # Side views with spread tail fins, which beat better; they replace sprites with a bent or
     # hidden tail.
-    "Cartoon-Meereswesen auf Transparenz.png": {
+    "sea_creatures_sheet.png": {
         "blue_whale": (230, 149, "left", True),
         "west_indian_ocean_coelacanth": (608, 149, "left", True),
         "conger_eel": (961, 151, "left", True),
@@ -153,7 +153,7 @@ BOTTOM_LIMIT = {"green_sea_turtle": 800}
 
 ALPHA_FLOOR = 40
 # Sheets whose sprites glow: alpha up to this is the glow around them, not the sprite.
-GLOW_FLOOR = {"Cartoon-Meereswesen auf Transparenz.png": 120}
+GLOW_FLOOR = {"sea_creatures_sheet.png": 120}
 MAX_TAIL_SHARE = 0.3
 
 

@@ -53,7 +53,7 @@ const PLAY_MARGIN_BOTTOM := 330.0
 ##    -4   (tank 5..7)  belt            pier                               . gear shop (6..8)
 ##    -3   (tank 3..7)  belt            pier                               . gear shop (6..8)
 ##    -2   tank         tank (1 at 2)   pier, "Put in tank"                .  dock at 8
-##    -1                                pier                               signpost at 5
+##    -1                                pier
 ##
 ## Not walkable: cols 0..2 rows -18..-2, cols 4..8 rows -18..-5 and col 4 rows -4..-1 (a wall
 ## along the pier).
@@ -147,7 +147,6 @@ const CUSTOMER_INTERVAL_S := 2.0
 ## middle of, screen height, and where it shows ("" everywhere, else only at locations with that
 ## water).
 const DECOR: Array[Array] = [
-	["signpost", Vector2i(5, -1), 120.0, ""],
 	["seagull", Vector2i(0, -8), 55.0, "temperate"],
 ]
 #endregion
@@ -177,8 +176,6 @@ const NET_RADIUS_STEP := 0.12
 ## Seconds between payments on a build square; each pays this share of the price.
 const PAY_INTERVAL_S := 0.05
 const PAY_SHARE := 0.04
-## Seconds between banners when several goals are reached at once.
-const GOAL_BANNER_SPACING_S := 2.0
 const WAKE_INTERVAL_S := 0.22
 ## How strongly the painted seabed shows through the shallow water.
 const FLOOR_STRENGTH := 0.8
@@ -226,7 +223,6 @@ var _sell_square: ActionSquare
 var _drones: Array[Drone] = []
 ## The props and the gear shop, which the wader can walk behind; the tank is added each frame.
 var _decor_covers: Array[Layers.Cover] = []
-var _next_goal_banner_at := 0.0
 var _holding := false
 var _combo := 0
 var _combo_timer := 0.0
@@ -273,6 +269,7 @@ var fishpedia := Fishpedia.new()
 var goals := GoalsPanel.new()
 var world_map := WorldMap.new()
 var game_menu := GameMenu.new()
+var goal_banner := GoalBanner.new()
 
 
 func _ready() -> void:
@@ -287,6 +284,11 @@ func _ready() -> void:
 	EventBus.state_replaced.connect(_rebuild_from_state)
 	resized.connect(_update_camera.bind(0.0, true))
 	fishpedia.art_for = _art_for
+	goal_banner.top_offset = PLAY_MARGIN_TOP + 260.0
+	goal_banner.wallet = _coin_icon
+	goal_banner.coin_radius = 12.0 * ZOOM
+	# Above the HUD, below the full-screen panels.
+	_popups.add_sibling(goal_banner)
 	add_child(fishpedia)
 	_fishpedia_button.pressed.connect(fishpedia.open)
 	add_child(goals)
@@ -1288,31 +1290,12 @@ func _on_travel_chosen(def: LocationDef) -> void:
 
 #region Effects
 
-## A goal was reached: banner, reward coins and a bump of the Goals button. Goals reached
-## together are announced one after the other.
+## A goal was reached: the banner celebrates it and the Goals button bumps.
 func _on_achievement_reached(def: AchievementDef) -> void:
-	# In the upgrade store, the store shows the banner.
+	# In the upgrade store, the store celebrates.
 	if not is_visible_in_tree():
 		return
-	var now := Time.get_ticks_msec() / 1000.0
-	var delay := maxf(_next_goal_banner_at - now, 0.0)
-	_next_goal_banner_at = now + delay + GOAL_BANNER_SPACING_S
-	if delay > 0.0:
-		get_tree().create_timer(delay).timeout.connect(_show_goal_banner.bind(def))
-	else:
-		_show_goal_banner(def)
-
-
-func _show_goal_banner(def: AchievementDef) -> void:
-	var text := tr("Goal reached: %s") % tr(def.name)
-	if def.reward > 0.0:
-		text += "\n" + tr("+%s coins") % NumberFormat.compact(def.reward)
-	_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 260.0), text, COMBO_COLOR, 1.2)
-	Sfx.play(&"ding", 1.0)
-	Sfx.play(&"ding", 1.5, -4.0)
-	for i in 5:
-		get_tree().create_timer(0.3 + i * 0.06).timeout.connect(Sfx.play.bind(&"coin", 1.0 + i * 0.06, -4.0))
-	Haptics.bump()
+	goal_banner.celebrate(def)
 	_bump(_goals_button)
 
 
@@ -1353,7 +1336,7 @@ func _bump(control: Control) -> void:
 
 func _update_hud() -> void:
 	var site := GameState.here()
-	_backpack_label.text = tr("Backpack  %d / %d") % [live_well.count(), live_well.capacity]
+	_backpack_label.text = tr("Basket  %d / %d") % [live_well.count(), live_well.capacity]
 	_backpack_bar.max_value = live_well.capacity
 	_backpack_bar.value = live_well.count()
 	var adults := Aquarium.adult_count(site)
@@ -1361,7 +1344,7 @@ func _update_hud() -> void:
 		NumberFormat.compact(Aquarium.used_space(site.tank)), NumberFormat.compact(Aquarium.capacity(site.tank)), adults,
 		NumberFormat.compact(Aquarium.tank_value(site))]
 	if live_well.is_full():
-		_hint_label.text = tr("Backpack full! Grow the fish in the tank, then sell them.")
+		_hint_label.text = tr("Basket full! Grow the fish in the tank, then sell them.")
 	elif live_well.count() > 0:
 		_hint_label.text = tr("Grow your catch in the tank. Only grown fish can be sold.")
 	elif adults > 0 and site.seller_count == 0:

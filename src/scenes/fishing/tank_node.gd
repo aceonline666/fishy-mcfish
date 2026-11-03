@@ -7,15 +7,23 @@ extends Node2D
 ## The tank covers cells of the layout grid (Grid), as many as its level's footprint in
 ## data/tanks.csv; its sprite fits them, standing in their south-east corner. The node sits at
 ## the centre of the footprint.
-## The tanks are painted empty, with half-transparent glass (art_source/tank_sprite_prompt.md,
+## The tanks are painted empty, with half-transparent glass (art_source/tanks/tank_sprite_prompt.md,
 ## imported by tools/import_tank_art.py): the water is drawn as a box inside the glass, the fish
-## in it, and the front corner posts again on top.
+## in it, and the frame in front of the water again on top (FRONTS).
 
 const TEXTURES: Array[Texture2D] = [
 	preload("res://assets/sprites/props/tank_1.png"), preload("res://assets/sprites/props/tank_2.png"),
 	preload("res://assets/sprites/props/tank_3.png"), preload("res://assets/sprites/props/tank_4.png"),
 	preload("res://assets/sprites/props/tank_5.png"), preload("res://assets/sprites/props/tank_6.png"),
 	preload("res://assets/sprites/props/tank_7.png"),
+]
+## The parts of each tank's frame standing in front of the water, cut from the sprite by
+## tools/cut_tank_fronts.py: drawn again over the water and the fish.
+const FRONTS: Array[Texture2D] = [
+	preload("res://assets/sprites/props/tank_1_front.png"), preload("res://assets/sprites/props/tank_2_front.png"),
+	preload("res://assets/sprites/props/tank_3_front.png"), preload("res://assets/sprites/props/tank_4_front.png"),
+	preload("res://assets/sprites/props/tank_5_front.png"), preload("res://assets/sprites/props/tank_6_front.png"),
+	preload("res://assets/sprites/props/tank_7_front.png"),
 ]
 ## The water running over the rim and the puddle it makes: PLACEHOLDER SVGs.
 const OVERFLOW_TEXTURE: Texture2D = preload("res://assets/sprites/props/tank_overflow.svg")
@@ -32,29 +40,33 @@ const BASES: Array[Array] = [
 	[Vector2(4.0, 458.0), Vector2(197.0, 551.0), Vector2(684.0, 314.0)],
 ]
 ## The glass of each sprite, in sprite pixels: the west, south and east corners of the glass floor
-## (at the corner posts), the glass height, half the width of a corner post and how far its top cap
-## reaches above the glass.
+## (at the corner posts), the glass height and half the width of a corner post. tools/cut_tank_fronts.py
+## cuts the fronts with the same corners: keep the two in step.
 const GLASS: Array[Dictionary] = [
 	{"left": Vector2(30.0, 344.0), "front": Vector2(231.0, 445.0), "right": Vector2(415.0, 353.0),
-			"height": 245.0, "post": 16.0, "cap": 24.0},
+			"height": 245.0, "post": 16.0},
 	{"left": Vector2(25.0, 252.0), "front": Vector2(400.0, 440.0), "right": Vector2(515.0, 382.0),
-			"height": 205.0, "post": 14.0, "cap": 21.0},
+			"height": 205.0, "post": 14.0},
 	{"left": Vector2(30.0, 356.0), "front": Vector2(234.0, 458.0), "right": Vector2(422.0, 364.0),
-			"height": 245.0, "post": 20.0, "cap": 30.0},
-	{"left": Vector2(20.0, 317.0), "front": Vector2(201.0, 408.0), "right": Vector2(522.0, 247.0),
-			"height": 152.0, "post": 12.0, "cap": 6.0},
+			"height": 245.0, "post": 20.0},
+	{"left": Vector2(20.0, 313.0), "front": Vector2(201.0, 415.0), "right": Vector2(522.0, 253.0),
+			"height": 148.0, "post": 12.0},
 	{"left": Vector2(20.0, 288.0), "front": Vector2(310.0, 433.0), "right": Vector2(595.0, 290.0),
-			"height": 140.0, "post": 15.0, "cap": 6.0},
+			"height": 140.0, "post": 15.0},
 	{"left": Vector2(14.0, 321.0), "front": Vector2(245.0, 437.0), "right": Vector2(594.0, 262.0),
-			"height": 143.0, "post": 10.0, "cap": 6.0},
-	{"left": Vector2(22.0, 395.0), "front": Vector2(200.0, 481.0), "right": Vector2(662.0, 288.0),
-			"height": 132.0, "post": 14.0, "cap": 8.0},
+			"height": 143.0, "post": 10.0},
+	{"left": Vector2(22.0, 402.0), "front": Vector2(200.0, 495.0), "right": Vector2(662.0, 263.0),
+			"height": 124.0, "post": 16.0},
 ]
 ## The water drawn in the glass: its sides and its surface.
 const WATER_SIDE_COLOR := Color(0.25, 0.62, 0.92, 0.42)
 const WATER_SURFACE_COLOR := Color(0.6, 0.86, 1.0, 0.55)
 ## Fish drawn at most; the label shows the space used.
 const MAX_DRAWN_FISH := 14
+## Fish in the tank are drawn at this share of their size in the ocean (CatchRules.body_length).
+const TANK_FISH_SCALE := 0.8
+## Room kept free between a fish and the water surface or the floor (pixels).
+const FISH_CLEARANCE := 4.0
 ## Fish seen through the glass.
 const GLASS_TINT := Color(0.85, 0.95, 1.0, 0.92)
 const SHADOW := Color(0.0, 0.06, 0.14, 0.2)
@@ -118,7 +130,7 @@ func bounce() -> void:
 
 func _process(delta: float) -> void:
 	_time += delta
-	var target := 1.0 if is_full() else Aquarium.fill_share(tank)
+	var target := 1.0 if is_full() else maxf(Aquarium.fill_share(tank), _covering_level())
 	_level = target if _level < 0.0 else move_toward(_level, target, LEVEL_SPEED * delta)
 	queue_redraw()
 
@@ -176,9 +188,10 @@ func _draw() -> void:
 	if full:
 		_draw_puddle(rect)
 	draw_texture_rect(_texture(), rect, false)
-	_draw_water(_glass_box(rect), water.size.y, full)
-	_draw_fish(water)
-	_draw_front_posts(rect)
+	var box := _glass_box(rect)
+	_draw_water(box, water.size.y, full)
+	_draw_fish(box, minf(water.size.y, box[4]))
+	_draw_front(rect)
 	if full:
 		_draw_overflow(water)
 		_draw_jumpers(rect, water)
@@ -245,34 +258,100 @@ func _draw_water(box: Array, depth: float, full: bool) -> void:
 	draw_polyline(PackedVector2Array([left + up - tilt, front + up + tilt, right + up - tilt]), Color(1.0, 1.0, 1.0, 0.8), 3.0, true)
 
 
-## The west, south and east corner posts, drawn again from the sprite over the water and the fish,
-## since they stand in front of them.
-func _draw_front_posts(rect: Rect2) -> void:
-	var texture := _texture()
-	var glass := _glass()
-	var s := rect.size.x / texture.get_width()
-	var post: float = glass.post
-	for corner: Vector2 in [glass.left, glass.front, glass.right]:
-		var source := Rect2(corner.x - post, corner.y - glass.height - glass.cap, post * 2.0, glass.height + glass.cap + post * 1.5)
-		draw_texture_rect_region(texture, Rect2(rect.position + source.position * s, source.size * s), source)
+## The frame in front of the water (posts and rails, FRONTS), drawn again over the water and the
+## fish.
+func _draw_front(rect: Rect2) -> void:
+	draw_texture_rect(FRONTS[clampi(tank.level, 1, FRONTS.size()) - 1], rect, false)
 
 
-## The fish swim back and forth at different depths of the water. Grown fish are drawn bigger.
-func _draw_fish(water: Rect2) -> void:
-	if water.size.y <= 0.5:
+## The fish swim back and forth inside the water box (_glass_box, `depth` high), each in its own
+## lane: a line across the floor running west to east on screen, at its own height. Lanes further
+## back are drawn first. The fish keep their whole body inside the glass and below the surface.
+## Each fish keeps its lane, height and pace however the other fish come and go: they are picked
+## from the fish itself, not from its place in the tank.
+func _draw_fish(box: Array, depth: float) -> void:
+	if depth <= 0.5:
 		return
-	var max_length := clampf(water.size.x * 0.4, 36.0, 110.0)
+	var front: Vector2 = box[1]
+	var to_left: Vector2 = box[0] - front
+	var to_right: Vector2 = box[2] - front
+	var lanes := _lanes(box)
+	var margin := lanes.x
+	var width := lanes.y
+	var swimmers: Array[Dictionary] = []
 	for i in mini(tank.fish.size(), MAX_DRAWN_FISH):
 		var fish := tank.fish[i]
 		var art: FishArt = art_for.call(fish.species_id)
-		var speed := 0.4 + fmod(i * 0.37, 0.5)
-		var phase := _time * speed + i * 1.7
-		var x := water.position.x + (0.5 + 0.5 * sin(phase)) * water.size.x
-		var direction := 1.0 if cos(phase) > 0.0 else -1.0
-		var at := Vector2(x, water.position.y + water.size.y * (0.15 + 0.75 * fmod(i * 0.29 + 0.1, 1.0)))
-		var length := clampf(CatchRules.body_length(art.species) * 0.5, 26.0, max_length) * (0.65 + 0.35 * fish.growth)
-		var view := Transform2D(Vector2(direction, 0.0), Vector2(0.0, 1.0), at)
-		art.draw(self, view, length, _time * 8.0 + i, 0.8, GLASS_TINT)
+		var length := fish_length(art.species, fish.growth)
+		var seed := _seed(fish)
+		# Lane: a + b = across, where a runs towards the west corner and b towards the east one.
+		# Lanes away from the middle are shorter; a fish only takes one it fits in.
+		var spread := clampf(1.0 - 2.0 * margin - (length + 2.0 * FISH_CLEARANCE) / width, 0.0, 0.55)
+		var across := 1.0 + (fmod(seed, 1.0) * 2.0 - 1.0) * spread
+		var a_west := minf(1.0 - margin, across - margin)
+		var a_east := maxf(margin, across - 1.0 + margin)
+		swimmers.append({"fish": fish, "art": art, "length": length, "seed": seed, "across": across,
+				"west": front + to_left * a_west + to_right * (across - a_west),
+				"east": front + to_left * a_east + to_right * (across - a_east)})
+	swimmers.sort_custom(func(x: Dictionary, y: Dictionary) -> bool: return x.across > y.across)
+	for swimmer in swimmers:
+		var art: FishArt = swimmer.art
+		var length: float = swimmer.length
+		var seed: float = swimmer.seed
+		var half_height := length * art.species.body_aspect * 0.5
+		var west: Vector2 = swimmer.west
+		var east: Vector2 = swimmer.east
+		var span := west.distance_to(east)
+		var heading := (east - west).normalized() if span > 0.0 else Vector2.RIGHT
+		var room := maxf(span - length, 0.0)
+		var speed := (25.0 + length * 0.2) * (0.7 + fmod(seed * 3.7, 0.6))
+		var phase := _time * speed / maxf(room * 0.5, 20.0) + seed * 7.0
+		var along := (span - room) * 0.5 + room * (0.5 - 0.5 * cos(phase))
+		var direction := 1.0 if sin(phase) > 0.0 else -1.0
+		var low := half_height + FISH_CLEARANCE
+		var high := maxf(depth - half_height - FISH_CLEARANCE, low)
+		var height := lerpf(low, high, fmod(seed * 5.3, 1.0)) + sin(_time * 0.8 + seed * 9.0) * 4.0
+		var at := west + heading * along - Vector2(0.0, clampf(height, low, high))
+		var view := Transform2D(heading.angle(), at) * Transform2D(Vector2(direction, 0.0), Vector2(0.0, 1.0), Vector2.ZERO)
+		art.draw(self, view, length, _time * 8.0 + seed * 9.0, 0.8, GLASS_TINT)
+
+
+## A fish's drawn length in the tank: a share of its size in the ocean, smaller while young.
+static func fish_length(species: SpeciesDef, growth: float) -> float:
+	return CatchRules.body_length(species) * TANK_FISH_SCALE * (0.65 + 0.35 * growth)
+
+
+## A number from 0 to 1 that stays the same for a fish as long as it lives in the tank.
+func _seed(fish: TankFish) -> float:
+	return float(hash(fish.get_instance_id()) % 10007) / 10007.0
+
+
+## The floor share kept free at the glass, so the fish do not swim into the posts (x), and the
+## distance between the west and east corners (y), for the glass box `box`.
+func _lanes(box: Array) -> Vector2:
+	var post: float = _glass().post * _sprite_rect().size.x / _texture().get_width()
+	var shortest := minf((box[0] - box[1]).length(), (box[2] - box[1]).length())
+	return Vector2(clampf(post * 1.5 / shortest, 0.0, 0.3), box[0].distance_to(box[2]))
+
+
+## The longest (x) and the tallest (y) fish, in pixels, that have room in the tank: along the
+## middle lane, and under the rim.
+func swim_room() -> Vector2:
+	var box := _glass_box(_sprite_rect())
+	var lanes := _lanes(box)
+	return Vector2((1.0 - 2.0 * lanes.x) * lanes.y - 2.0 * FISH_CLEARANCE, box[4] - 2.0 * FISH_CLEARANCE)
+
+
+## The water level (share of the glass height) that covers the tallest fish drawn, so no fish
+## sticks out of shallow water.
+func _covering_level() -> float:
+	var tallest := 0.0
+	for i in mini(tank.fish.size(), MAX_DRAWN_FISH):
+		var species: SpeciesDef = DataRegistry.species.get(tank.fish[i].species_id)
+		if species != null:
+			tallest = maxf(tallest, fish_length(species, tank.fish[i].growth) * species.body_aspect)
+	var glass_height: float = _glass_box(_sprite_rect())[4]
+	return clampf((tallest + 2.0 * FISH_CLEARANCE) / glass_height, 0.0, 1.0) if tallest > 0.0 else 0.0
 
 
 ## Water the tank spilled, spreading on the ground around it.
@@ -305,7 +384,6 @@ func _draw_jumpers(rect: Rect2, water: Rect2) -> void:
 	var swim_width := water.size.x
 	var height := rect.size.y * 0.55
 	var reach := swim_width * 0.6
-	var max_length := clampf(rect.size.x * 0.3, 48.0, 150.0)
 	for j in mini(JUMPERS, tank.fish.size()):
 		var clock := _time + j * 0.9
 		var cycle := int(clock / JUMP_PERIOD)
@@ -319,7 +397,7 @@ func _draw_jumpers(rect: Rect2, water: Rect2) -> void:
 			var velocity := Vector2(direction * reach, -4.0 * height * (1.0 - 2.0 * u))
 			var fish := tank.fish[(cycle * 5 + j * 3) % tank.fish.size()]
 			var art: FishArt = art_for.call(fish.species_id)
-			var length := clampf(CatchRules.body_length(art.species) * 1.0, 56.0, max_length) * (0.65 + 0.35 * fish.growth)
+			var length := fish_length(art.species, fish.growth)
 			var tilt := velocity.angle() if direction > 0.0 else velocity.angle() - PI
 			var view := Transform2D(tilt, at) * Transform2D(Vector2(direction, 0.0), Vector2(0.0, 1.0), Vector2.ZERO)
 			art.draw(self, view, length, _time * 14.0 + j, 1.0)

@@ -9,8 +9,8 @@ patch cut from `seafloor_sheet.png` by `tools/make_seafloor.py`.
 
 ## How the tiles are used (from the code, for reference)
 
-- `tools/make_seafloor.py` takes `art_source/beach_australia.png` and
-  `art_source/seafloor_australia.png` when they exist, scales each to 1024 × 1024 and writes
+- `tools/make_seafloor.py` takes `art_source/ground/beach_australia.png` and
+  `art_source/ground/seafloor_australia.png` when they exist, scales each to 1024 × 1024 and writes
   `assets/sprites/beach/australia.png` and `assets/sprites/seafloor/australia.png`. It does
   **not** make them seamless, so each image must already tile on all four edges.
 - `water.gdshader` repeats both tiles every 900 ground units in ground coordinates and projects
@@ -22,7 +22,7 @@ patch cut from `seafloor_sheet.png` by `tools/make_seafloor.py`.
   (`#4fd0c4` to `#0f4f86`) with depth, and fish swim over it. It can be richer than the beach,
   but it should not be so busy that the fish get lost on it.
 
-Save as `art_source/beach_australia.png` and `art_source/seafloor_australia.png` (square,
+Save as `art_source/ground/beach_australia.png` and `art_source/ground/seafloor_australia.png` (square,
 ideally 1254 × 1254 like the others) and run `python tools/make_seafloor.py`.
 
 ---

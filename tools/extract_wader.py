@@ -5,8 +5,8 @@ sprite is cut like the props (tools/extract_props.py: the checkerboard backgroun
 flood fill).
 
 Needs Pillow, NumPy and SciPy. Usage:
-  python tools/extract_wader.py art_source/equipment_sheet_2.png assets/sprites/wader
-  python tools/extract_wader.py art_source/equipment_sprite_sheet.png assets/sprites/wader
+  python tools/extract_wader.py art_source/characters/equipment_sheet_2.png assets/sprites/wader
+  python tools/extract_wader.py art_source/characters/equipment_sprite_sheet.png assets/sprites/wader
 """
 import sys
 from pathlib import Path

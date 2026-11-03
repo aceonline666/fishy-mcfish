@@ -35,6 +35,8 @@ static func progress(state: PlayerState, def: AchievementDef) -> float:
 			return state.most("shop_level")
 		"total_earned":
 			return state.total_earned
+		"locations_unlocked":
+			return DataRegistry.locations.filter(func(def: LocationDef) -> bool: return Travel.is_unlocked(state, def)).size()
 	return 0.0
 
 

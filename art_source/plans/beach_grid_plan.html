@@ -144,9 +144,8 @@ for (const [r, st, label] of [[-8, "start", "walk limit, new game"], [-17, "full
   s += `<line x1="${x(2)}" x2="${x(4)}" y1="${y(r)}" y2="${y(r)}" stroke="${css(st)}" stroke-width="2.5" stroke-dasharray="6 3"/>`;
   s += `<text x="${x(3) - 4}" y="${y(r) - 4}" font-size="8" text-anchor="end" fill="${css(st)}">${label} ↓</text>`;
 }
-// belt direction, signpost, wreck
+// belt direction, wreck
 for (let r = -17; r < -2; r++) s += `<path d="M${x(2.5) - 5} ${y(r + 0.7)} l5 -6 l5 6" fill="none" stroke="${css("paper")}" stroke-width="2"/>`;
-s += `<circle cx="${x(5.5)}" cy="${y(-0.5)}" r="4" fill="${css("ink")}"/><text x="${x(5.5)}" y="${y(-0.5) - 7}" font-size="9" text-anchor="middle" fill="${css("ink")}">sign</text>`;
 s += `<rect x="${x(4.5) - 18}" y="${y(10.5) - 7}" width="36" height="14" rx="7" fill="${css("ink")}"/><text x="${x(4.5)}" y="${y(10.5) + 3}" font-size="9" text-anchor="middle" fill="${css("paper")}">wreck</text>`;
 s += `<text x="${x(COLS) - 4}" y="${y(0) - 5}" font-size="10" text-anchor="end" fill="${css("ink")}">waterline</text>`;
 s += `</svg>`;

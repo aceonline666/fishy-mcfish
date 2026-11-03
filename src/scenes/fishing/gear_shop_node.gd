@@ -3,8 +3,8 @@ extends Node2D
 ## The gear shop on the beach, where the upgrades are bought (UpgradeStore): a big building with
 ## its door at the west end of its front, towards the boardwalk, and a sign on the roof.
 ## Painted sprite assets/sprites/props/gear_shop.png (cut and straightened from
-## art_source/"Bunt bemaltes Fischereigeschäft am Meer.png" by tools/extract_gear_shop.py); the
-## sign's text is drawn in code so it is translated. The building covers cells of the layout grid
+## art_source/buildings/gear_shop.png by tools/extract_gear_shop.py); the sign's text is drawn in
+## code so it is translated. The building covers cells of the layout grid
 ## (Grid) and is drawn as big as fits them. It is painted less deep than long, so it stands on the
 ## footprint's front (south and east) edges and the rest of the depth is hidden behind it. The node
 ## sits at the middle of its footprint.

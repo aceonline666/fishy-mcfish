@@ -78,6 +78,7 @@ var _squares_layer := Node2D.new()
 var _entities := Node2D.new()
 var _effects := Node2D.new()
 var _popups := Control.new()
+var _goal_banner := GoalBanner.new()
 var _squares: Array[ActionSquare] = []
 var _money_label := Label.new()
 var _coin_icon := TextureRect.new()
@@ -124,6 +125,10 @@ func _ready() -> void:
 	_popups.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_popups.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	add_child(_popups)
+	_goal_banner.top_offset = PLAY_MARGIN_TOP + 260.0
+	_goal_banner.wallet = _coin_icon
+	_goal_banner.coin_radius = 12.0 * ZOOM
+	add_child(_goal_banner)
 	EventBus.money_changed.connect(_on_money_changed)
 	EventBus.achievement_reached.connect(_on_achievement_reached)
 	resized.connect(_update_camera.bind(0.0, true))
@@ -326,7 +331,7 @@ func _refresh_squares() -> void:
 	if site.shop_level < DataRegistry.shop_levels.size():
 		var more := int(DataRegistry.shop_levels[site.shop_level].capacity) - Selling.seller_slots(site)
 		shop.subtitle = tr("+1 seller") if more == 1 else tr("+%d sellers") % more
-	_set_purchase(_square_by_id("upgrade_backpack"), tr("Bigger backpack"), Aquarium.backpack_upgrade_cost(site),
+	_set_purchase(_square_by_id("upgrade_backpack"), tr("Bigger basket"), Aquarium.backpack_upgrade_cost(site),
 			_wader_prop("basket_%d" % (site.backpack_level + 1)))
 	var next_net := DataRegistry.net_levels[mini(site.net_level, DataRegistry.net_levels.size() - 1)]
 	_set_purchase(_square_by_id("upgrade_net"), tr(next_net.name), Aquarium.net_upgrade_cost(site),
@@ -422,7 +427,7 @@ func _complete_purchase(target: ActionSquare) -> void:
 			message = "%s!\n%s L" % [tr(DataRegistry.tank_levels[site.tank.level - 1].name), NumberFormat.compact(Aquarium.capacity(site.tank))]
 		"upgrade_backpack":
 			GameState.upgrade_backpack()
-			message = tr("Bigger backpack!\n%d fish") % Aquarium.backpack_capacity(site)
+			message = tr("Bigger basket!\n%d fish") % Aquarium.backpack_capacity(site)
 		"buy_drone":
 			GameState.buy_drone()
 			message = tr("New drone!\nIt fishes here: %s") % tr(Automation.drone_zone(state, site, site.drone_count - 1).name)
@@ -459,12 +464,7 @@ func _complete_purchase(target: ActionSquare) -> void:
 #region Effects
 
 func _on_achievement_reached(def: AchievementDef) -> void:
-	var text := tr("Goal reached: %s") % tr(def.name)
-	if def.reward > 0.0:
-		text += "\n" + tr("+%s coins") % NumberFormat.compact(def.reward)
-	_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 260.0), text, COMBO_COLOR, 1.2)
-	Sfx.play(&"ding", 1.0)
-	Sfx.play(&"ding", 1.5, -4.0)
+	_goal_banner.celebrate(def)
 
 
 func _announce(at: Vector2, text: String, color: Color, hold_s: float = 0.35) -> void:

@@ -1,7 +1,7 @@
 """Cuts the gear shop out of its painting and straightens it to the game's 2:1 isometry.
 
-The painting (art_source/"Bunt bemaltes Fischereigeschäft am Meer.png") has a dark backdrop with
-a soft glow instead of transparency. Background is every smooth pixel (no sharp step to its
+The painting (art_source/buildings/gear_shop.png) has a dark backdrop with a soft glow instead
+of transparency. Background is every smooth pixel (no sharp step to its
 neighbours) connected to the border, plus the pocket of backdrop under the sign; the building's
 black outline is a sharp edge, so the fill stops there. Where the backdrop is nearly black the
 fill runs into the outline, so the dark pixels next to the building are given back.
@@ -12,7 +12,7 @@ instead of 0.5. A vertical stretch with a slight shear (y' = 1.235 y + 0.0185 x)
 GearShopNode stands it on the footprint's front edges.
 
 Needs Pillow, NumPy and SciPy. Usage:
-  python tools/extract_gear_shop.py "art_source/Bunt bemaltes Fischereigeschäft am Meer.png" assets/sprites/props/gear_shop.png
+  python tools/extract_gear_shop.py art_source/buildings/gear_shop.png assets/sprites/props/gear_shop.png
 """
 import sys
 

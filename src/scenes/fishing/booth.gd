@@ -3,9 +3,8 @@ extends Node2D
 ## A sales booth in the line up the beach, facing east: the buyer stands in front of its counter,
 ## the seller behind it on the west side. Booth 0 is the player's (no seller: the player sells
 ## from the "Sell fish" pad), the others are the hired sellers'. Every booth looks like the shop's
-## level: painted booths assets/sprites/props/booth_N.png (cut from
-## art_source/"Isometrische Fischmarkt-Stände im Set.png"), painted with the counter along the
-## south edge and drawn mirrored, so it runs along the east edge. The seller is a PLACEHOLDER
+## level: painted booths assets/sprites/props/booth_N.png (cut from art_source/buildings/booths.png),
+## painted with the counter along the south edge and drawn mirrored, so it runs along the east edge. The seller is a PLACEHOLDER
 ## (seller_back.svg) until the final art exists. A booth stands in one cell of the layout grid
 ## (Grid), its counter along the cell's east edge and as long as it; the seller stands behind it in
 ## the same cell. The node sits at the middle of that edge.

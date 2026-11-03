@@ -1,4 +1,4 @@
-"""Imports a generated tank painting (art_source, see art_source/tank_sprite_prompt.md) as a sprite.
+"""Imports a generated tank painting (art_source/tanks/tank_sprite_prompt.md) as a sprite.
 
 The painting already has its transparency (background alpha 0, half-transparent glass); it is only
 trimmed to what is visible, straightened and scaled down by SCALE, resampled premultiplied so no
@@ -11,13 +11,13 @@ how much the painting's front-left and front-right base edges rise or fall per p
 
 Needs Pillow and NumPy. Usage:
   python tools/import_tank_art.py <painting> <sprite> [left_slope right_slope]
-  python tools/import_tank_art.py "art_source/Leeres Aquarium auf Holzkiste Level 1.png" assets/sprites/props/tank_1.png 0.43 -0.47
-  python tools/import_tank_art.py "art_source/Isometrisches Aquarium mit türkisfarbenem Unterschrank Level 2.png" assets/sprites/props/tank_2.png 0.33 -0.485
-  python tools/import_tank_art.py "art_source/Isometrisches Aquarium mit Holzsockel Level 3.png" assets/sprites/props/tank_3.png 0.39 -0.425
-  python tools/import_tank_art.py "art_source/Isometrisches Aquarium mit Sand und Pflanzen Level 4.png" assets/sprites/props/tank_4.png 0.415 -0.38
-  python tools/import_tank_art.py "art_source/Isometrisches Aquarium mit Korallenlandschaft Level 5.png" assets/sprites/props/tank_5.png 0.44 -0.45
-  python tools/import_tank_art.py "art_source/Isometrisches Aquarium mit Meeresdekor Level 6.png" assets/sprites/props/tank_6.png 0.38 -0.395
-  python tools/import_tank_art.py "art_source/Ornates Aquarium mit Korallenriff-Dekor Level 7.png" assets/sprites/props/tank_7.png 0.47 -0.37
+  python tools/import_tank_art.py art_source/tanks/tank_1.png assets/sprites/props/tank_1.png 0.43 -0.47
+  python tools/import_tank_art.py art_source/tanks/tank_2.png assets/sprites/props/tank_2.png 0.33 -0.485
+  python tools/import_tank_art.py art_source/tanks/tank_3.png assets/sprites/props/tank_3.png 0.39 -0.425
+  python tools/import_tank_art.py art_source/tanks/tank_4.png assets/sprites/props/tank_4.png 0.415 -0.38
+  python tools/import_tank_art.py art_source/tanks/tank_5.png assets/sprites/props/tank_5.png 0.44 -0.45
+  python tools/import_tank_art.py art_source/tanks/tank_6.png assets/sprites/props/tank_6.png 0.38 -0.395
+  python tools/import_tank_art.py art_source/tanks/tank_7.png assets/sprites/props/tank_7.png 0.47 -0.37
 """
 import sys
 

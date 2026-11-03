@@ -1,8 +1,8 @@
 class_name Boardwalk
 extends Node2D
 ## The wooden boardwalk on the beach: a painted pier on posts (assets/sprites/props/boardwalk.png,
-## flipped from art_source/pier.png so its steps face the water and the lantern the shops). It
-## marks the free path from the water up to the shops. It is drawn at any length, one cell per
+## flipped from art_source/buildings/pier.png so its steps face the water and the lantern the
+## shops). It marks the free path from the water up to the shops. It is drawn at any length, one cell per
 ## section: the painting is cut (tools/cut_boardwalk.py) into the steps, a section that repeats
 ## and the lantern end.
 

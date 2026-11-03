@@ -1,6 +1,6 @@
-"""Makes the boot splash and cuts the menu icons out of art_source/menu_sheet.png.
+"""Makes the boot splash and cuts the menu icons out of art_source/ui/menu_sheet.png.
 
-The splash is the portrait beach picture art_source/splash.png, scaled to the screen, with the
+The splash is the portrait beach picture art_source/ui/splash.png, scaled to the screen, with the
 title (lettering as in the logo, tools/make_logo.py) in its sky.
 The icons (coins, map, trophy, book, cog) are cut out of the menu sheet like the props (the
 light background is removed by flood fill, see tools/extract_props.py).
@@ -19,8 +19,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 from extract_props import _foreground, _label_near, _trim  # noqa: E402
 from make_logo import title  # noqa: E402
 
-SHEET = "art_source/menu_sheet.png"
-SPLASH = "art_source/splash.png"
+SHEET = "art_source/ui/menu_sheet.png"
+SPLASH = "art_source/ui/splash.png"
 OUT = "assets/ui/"
 # Bottom of the title picture on the menu sheet, above the icons.
 PICTURE_BOTTOM = 712

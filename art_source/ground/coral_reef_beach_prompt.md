@@ -10,7 +10,7 @@ One image. Paste the prompt below and attach **two images**:
 
 ## How the tile is used (from the code, for reference)
 
-- `tools/make_seafloor.py` takes `art_source/beach_coral_reef.png`, scales it to 1024 × 1024 and
+- `tools/make_seafloor.py` takes `art_source/ground/beach_coral_reef.png`, scales it to 1024 × 1024 and
   writes `assets/sprites/beach/coral_reef.png`. It does **not** make it seamless, so the image
   must already tile on all four edges.
 - `water.gdshader` repeats the tile every 900 ground units (`sand_tile`) in ground coordinates
@@ -22,7 +22,7 @@ One image. Paste the prompt below and attach **two images**:
   low in contrast: no large objects, no strong dark spots, no saturated colours that compete with
   the pad texts. The Reef's plain sand colour is `#fff0cc` (data/locations.csv).
 
-Save the result as `art_source/beach_coral_reef.png` (square, ideally 1254 × 1254 like the
+Save the result as `art_source/ground/beach_coral_reef.png` (square, ideally 1254 × 1254 like the
 North Sea one) and run `python tools/make_seafloor.py`.
 
 ---

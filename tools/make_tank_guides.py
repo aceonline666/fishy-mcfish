@@ -1,4 +1,5 @@
-"""Draws the perspective guides for generating the tank sprites (art_source/tank_sprite_prompt.md).
+"""Draws the perspective guides for generating the tank sprites
+(art_source/tanks/tank_sprite_prompt.md).
 
 One guide per level, in the style of the booth and gear shop guides: the footprint with its cells
 (grey), the base (brown), the glass box's front-left face (green) and front-right face (blue), the
@@ -7,8 +8,8 @@ the prompt's table: footprint W x D cells at e px per cell edge (e across, e/2 d
 corner, the base and glass heights.
 
 Needs Pillow. Usage:
-  python tools/make_tank_guides.py art_source [level ...]
-writes art_source/tank_<level>_perspective_guide.svg and .png (all levels without a level given).
+  python tools/make_tank_guides.py art_source/tanks [level ...]
+writes art_source/tanks/tank_<level>_perspective_guide.svg and .png (all levels without a level given).
 """
 import sys
 from pathlib import Path

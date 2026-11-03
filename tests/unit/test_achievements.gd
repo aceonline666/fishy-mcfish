@@ -47,6 +47,9 @@ func test_progress_measures_the_right_things() -> void:
 	assert_eq(Achievements.progress(state, _def("first_rare")), 1.0)
 	assert_eq(Achievements.progress(state, _def("first_epic")), 0.0)
 	assert_eq(Achievements.progress(state, _def("chart_shallows")), 0.0)
+	assert_eq(Achievements.progress(state, _def("all_locations")), 1.0, "the home beach is always open")
+	state.unlocked_locations.append("coral_reef")
+	assert_eq(Achievements.progress(state, _def("all_locations")), 2.0)
 
 
 func test_panel_lists_every_goal() -> void:
@@ -55,3 +58,19 @@ func test_panel_lists_every_goal() -> void:
 	panel.open()
 	await wait_process_frames(1)
 	assert_eq(panel.content.get_child_count(), DataRegistry.achievements.size())
+
+
+func test_banner_celebrates_goals_one_after_the_other() -> void:
+	var banner := GoalBanner.new()
+	banner.size = Vector2(1080.0, 1920.0)
+	add_child_autofree(banner)
+	banner.celebrate(_def("first_catch"))
+	banner.celebrate(_def("combo_3"))
+	var cards := banner.get_children().filter(func(child: Node) -> bool: return child is PanelContainer)
+	assert_eq(cards.size(), 1, "the second goal waits for the first")
+	assert_true(banner.is_showing())
+	await wait_seconds(GoalBanner.POP_IN_S + GoalBanner.HOLD_S + GoalBanner.LEAVE_S + 0.2)
+	cards = banner.get_children().filter(func(child: Node) -> bool: return child is PanelContainer and not child.is_queued_for_deletion())
+	assert_eq(cards.size(), 1, "then the second one shows")
+	await wait_seconds(GoalBanner.POP_IN_S + GoalBanner.HOLD_S + GoalBanner.LEAVE_S + 0.2)
+	assert_false(banner.is_showing())

@@ -29,6 +29,7 @@ func _ready() -> void:
 	_sounds[&"plop"] = _plop()
 	_sounds[&"ding"] = _ding()
 	_sounds[&"coin"] = _coin()
+	_sounds[&"fanfare"] = _fanfare()
 
 
 func play(sound: StringName, pitch: float = 1.0, volume_db: float = 0.0) -> void:
@@ -133,6 +134,26 @@ static func _coin() -> AudioStreamWAV:
 		var t := float(i) / MIX_RATE
 		phase += TAU * (1175.0 if t < 0.06 else 1568.0) / MIX_RATE
 		samples.append((sin(phase) + 0.15 * sin(phase * 2.0)) * exp(-t * 16.0) * minf(t * 300.0, 1.0) * 0.35)
+	return _to_wav(samples)
+
+
+## A rising major arpeggio whose top note rings on, for reached goals.
+static func _fanfare() -> AudioStreamWAV:
+	const NOTES: Array[float] = [523.25, 659.25, 783.99, 1046.5]
+	const STEP_S := 0.09
+	var duration := STEP_S * (NOTES.size() - 1) + 0.9
+	var samples := PackedFloat32Array()
+	for i in int(duration * MIX_RATE):
+		var t := float(i) / MIX_RATE
+		var value := 0.0
+		for n in NOTES.size():
+			var local := t - n * STEP_S
+			if local < 0.0:
+				continue
+			var decay := 4.0 if n == NOTES.size() - 1 else 14.0
+			var tone := sin(TAU * NOTES[n] * local) + 0.25 * sin(TAU * NOTES[n] * 2.0 * local)
+			value += tone * exp(-local * decay) * minf(local * 200.0, 1.0)
+		samples.append(value * 0.28)
 	return _to_wav(samples)
 
 

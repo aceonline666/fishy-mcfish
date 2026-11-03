@@ -21,8 +21,8 @@ import numpy as np
 from PIL import Image
 from scipy import ndimage
 
-SHEET_1 = "art_source/Cartoon-Taucher-Sprite-Sheet mit Mini-U-Boot.png"
-SHEET_2 = "art_source/Tauchers und Mini-U-Boote im Sprite-Sheet.png"
+SHEET_1 = "art_source/characters/diver_sheet_1.png"
+SHEET_2 = "art_source/characters/diver_sheet_2.png"
 OUT = Path("assets/sprites/wader")
 BODY_HEIGHT = 215
 SUB_WIDTH = 210
