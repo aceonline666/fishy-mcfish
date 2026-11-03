@@ -80,7 +80,7 @@ the real one.
 
 Fish sprites are a body and a tail image per species (see `src/scenes/fishing/fish_art.gd` for
 the conventions): painted PNGs in `assets/sprites/fish_painted/` for all 86 species, cut from
-the painted sheets in `art_source/` by `tools/extract_painted.py` (needs Pillow, NumPy and
+the painted sheets in `art_source/fish/` by `tools/extract_painted.py` (needs Pillow, NumPy and
 SciPy; run it once per sheet; a later sheet replaces sprites of an earlier one). A species
 without sprites would be drawn as a coloured placeholder. The wader, the tank (one sprite per level), the shop (one per level), the
 cashiers, the customers who queue at the shop while sellers work and leave with a fish, and the
@@ -88,19 +88,25 @@ beach decoration are painted sprites in `assets/sprites/props/`, cut from the co
 `tools/extract_props.py` (its background checkerboard is removed by flood fill). The gear sheet
 adds the drones, the buyers carrying their fish, the pictures of the
 nets, diving gear, tanks, shops and drones on the upgrade pads, and the location pictures of the
-World map. The wader comes from the two diver sheets, cut by `tools/extract_diver.py`: one
-sprite per gear level (waders with basket, snorkel, scuba, rebreather, hard-hat suit,
-submersible) in five views, whose legs swing in step while walking. The landing nets (second
+World map. The wader comes from one sheet per depth zone, `art_source/characters/wader_zone_<n>.png`
+(waders with basket, snorkel, scuba, rebreather, hard-hat suit, submersible; generated from
+`wader_sprite_prompt.md` next to them), cut by `tools/extract_wader_sheet.py` into five views
+of a standing frame and four painted walk frames. The landing nets (second
 equipment sheet) and the baskets on the backpack pad (first equipment sheet) are cut by
 `tools/extract_wader.py`. The ground tiles come from `tools/make_seafloor.py`: a location's own
-seamless tiles `art_source/seafloor_<id>.png` (seabed under the water) and
-`art_source/beach_<id>.png` (beach sand), otherwise a seabed made from the seafloor sheet. The props on the seabed are cut by
-`tools/extract_seabed.py` from `art_source/seabed_props.png` (temperate water: rocks, kelp,
+seamless tiles `art_source/ground/seafloor_<id>.png` (seabed under the water) and
+`art_source/ground/beach_<id>.png` (beach sand), otherwise a seabed made from the seafloor sheet;
+the prompts they were generated from lie next to them. The props on the seabed are cut by
+`tools/extract_seabed.py` from `art_source/ground/seabed_props.png` (temperate water: rocks, kelp,
 mussels, starfish, sunken boats and the North Sea wreck) and `seabed_props_coral_reef.png`
 (tropical water: corals, sponges, seagrass, a giant clam and the reef's galleon); they fade
 into the water colour with depth like the seabed.
-`art_source/` holds the source sheets (generated images) and is not imported by Godot. The boot
-splash (`assets/ui/splash.png`: `art_source/splash.png` with the title in its sky) and the menu
+`art_source/` holds the source sheets (generated images) and is not imported by Godot, sorted by
+subject: `fish/`, `characters/` (wader and divers), `props/` (coastal and gear sheets),
+`buildings/` (booths, gear shop, pier), `tanks/`, `ground/` (beach, seafloor and seabed props),
+`ui/`, `plans/` (layout sketches) and `fonts/`. The prompts and perspective guides for generating
+an image lie next to it. The boot
+splash (`assets/ui/splash.png`: `art_source/ui/splash.png` with the title in its sky) and the menu
 icons (`icon_coins/map/trophy/book/cog.png`, cut from the menu sheet) are made by
 `tools/make_menu_art.py`; the logo and the app icons (`logo.png`,
 `icon.png`, `icon_foreground/background.png`) are rendered by `tools/make_logo.py` from the
@@ -194,28 +200,19 @@ Rules of thumb:
 
 
 ## TODOs
-- Improve walking animation
 - Animate all species properly, replace un-animateable sprites for species
 - Replace wrong species sprites and fact-check species info panels
-- Beach and seafloor textures for all locations
-- Sprite errors for the wader
-  - Swimming Mask even in first zone doesn't make sense
-  - Snorkel still there for scuba gear and breather
-  - Submarine back sometimes has details and sometimes not - flickering when moving - could be fixed by just mirroring the one without details
-- Clarify what the basket logic is when in the hardhat suit / submarine. Basket + Scuba gear?
-- Clarify if the wader should swim on deeper levels?
+- Swimming wader in zones 3 and 4 (swim sheets, see `art_source/characters/wader_sprite_prompt.md`)
+- Towed catch bag instead of the basket from zone 3 on (the catch stack has no place on the tank)
 - Replace too small buyers and cashiers with better sprites
 - Fix the buyers queue and where the selling spots are
 - Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors. Sound?
-- Placed objects sometimes hide the wader. Depending on the object the wader should completely walk over it (like stones) or he should be blocked by the object (like the tank and shop)
 - Some zones have names like "seagrass bay" but you don't see seagrass. We should add these objects depending on the names. Will require more sprites.
-- Comic style sprites for the swimming zone-barriers (red/green bubbles floating on the ocean)
 - Barriers to the left and right could be more natural. Make them rocks or some other obstacles instead of invisible walls
-- English texts still say "backpack" while the item is a basket
-- Achievements should be harder to reach and should be celebrated more. Possible connection to Google Gamecenter Achievements?
+- Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console)
 - Walking sound is annoying. Replace with a better sound
 - Improve coin look when the coins are flying. They are too small and not comic-style enough. Maybe they could spin?
-- Improve swimming path and sizes of the fish in the tank. For example a sperm whale is the same size as a makrel
 - Improve sounds
   - Walking sound should reflect the underground. Wooden on pier, sandy on beach, muddy in water
 - Replace booth sprites with perspectively correct ones
+- Redesign gear shop interior. It's too large and there are no sprites yet

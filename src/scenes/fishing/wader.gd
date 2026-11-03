@@ -4,9 +4,9 @@ extends Node2D
 ## within reach of the hand net and carries them as a stack in a backpack basket. Game logic
 ## uses `ground_position`; the node sits at the feet on screen. Drawn from painted sprites in
 ## assets/sprites/wader: the figure in the outfit the zone calls for (waders with the basket,
-## snorkel, scuba gear, rebreather, hard-hat suit, submersible; tools/extract_diver.py) in the
-## view of its walking direction, its legs swinging in step while walking, with the catch stacked
-## on its back and the landing net of its net level (tools/extract_wader.py).
+## snorkel, scuba gear, rebreather, hard-hat suit, submersible; tools/extract_wader_sheet.py) in
+## the view of its walking direction, painted in step while walking, with the catch stacked on its
+## back and the landing net of its net level (tools/extract_wader.py).
 
 const WALK_SPEED := 450.0
 const ACCELERATION := 2400.0
@@ -37,10 +37,11 @@ const WADER_DIR := "res://assets/sprites/wader/"
 ## are painted looking screen-left; they are mirrored when walking to the right.
 const DIAGONAL_VIEW := 0.35
 const SIDE_VIEW := 0.5
-## Share of the figures' height (from the top) at the hips, where the legs swing from.
-const FIGURE_HIP := 0.622
 ## Outfits by gear level.
 const OUTFITS: Array[String] = ["wader", "snorkel", "scuba", "rebreather", "hardhat", "sub"]
+## Each view of an outfit is a strip of the standing frame and WALK_FRAMES walk frames, one per
+## quarter of the walk cycle (tools/extract_wader_sheet.py).
+const WALK_FRAMES := 4
 ## The submersible floats this high above the ground.
 const SUB_FLOAT := 40.0
 ## The catch stack rises from the basket rim.
@@ -299,20 +300,17 @@ func _draw_figure(canvas: CanvasItem) -> void:
 		_draw_net(canvas, hoop, side, bob)
 
 
-## The outfit the gear calls for, in the view of the walking direction, its legs swinging in
-## step while walking. The submersible just floats.
+## The outfit the gear calls for, in the view of the walking direction: the standing frame, or the
+## walk frame for the point in the step while walking. The submersible floats and turns its
+## propeller instead.
 func _draw_body(canvas: CanvasItem, view: Array, bob: float, gear: int) -> void:
 	var outfit := OUTFITS[clampi(gear, 1, OUTFITS.size()) - 1]
 	var texture := _texture("%s_%s" % [outfit, view[0]])
-	var size := texture.get_size()
-	if outfit == "sub":
-		canvas.draw_set_transform(Vector2(0.0, -bob - SUB_FLOAT), 0.0, Vector2(view[1], 1.0))
-		canvas.draw_texture_rect(texture, Rect2(Vector2(-size.x * 0.5, -size.y), size), false)
-		canvas.draw_set_transform(Vector2.ZERO)
-		return
-	var stride := clampf(ground_velocity.length() / WALK_SPEED, 0.0, 1.0)
-	var base := Transform2D(sin(_walk_phase) * 0.02 * stride, Vector2(view[1], 1.0), 0.0, Vector2.ZERO)
-	WalkDraw.figure(canvas, base, texture, Rect2(Vector2(-size.x * 0.5, -size.y), size), _walk_phase, stride, bob, FIGURE_HIP)
+	var frame_size := Vector2(texture.get_width() / (WALK_FRAMES + 1.0), texture.get_height())
+	var frame := 1 + posmod(floori(_walk_phase / (PI * 0.5)), WALK_FRAMES) if is_walking() else 0
+	var lift := -bob - SUB_FLOAT if outfit == "sub" else 0.0
+	canvas.draw_set_transform(Vector2(0.0, lift), 0.0, Vector2(view[1], 1.0))
+	canvas.draw_texture_rect_region(texture, Rect2(Vector2(-frame_size.x * 0.5, -frame_size.y), frame_size), Rect2(Vector2(frame * frame_size.x, 0.0), frame_size))
 	canvas.draw_set_transform(Vector2.ZERO)
 
 
@@ -387,7 +385,7 @@ func _draw_overlay() -> void:
 		_overlay.draw_polyline(arc, OUTLINE, 12.0, true)
 		_overlay.draw_polyline(arc, PROGRESS, 7.0, true)
 	if full:
-		_draw_label(tr("Backpack full!"), stack_top_position() - position + Vector2(0.0, -40.0))
+		_draw_label(tr("Basket full!"), stack_top_position() - position + Vector2(0.0, -40.0))
 
 
 func _draw_label(text: String, at: Vector2) -> void:
