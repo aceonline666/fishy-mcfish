@@ -9,22 +9,15 @@ extends Node2D
 ## the centre of the footprint.
 ## The tanks are painted empty, with half-transparent glass (art_source/tanks/tank_sprite_prompt.md,
 ## imported by tools/import_tank_art.py): the water is drawn as a box inside the glass, the fish
-## in it, and the frame in front of the water again on top (FRONTS).
+## in it, and the frame in front of the water again on top (FRONT_PATH).
 
-const TEXTURES: Array[Texture2D] = [
-	preload("res://assets/sprites/props/tank_1.png"), preload("res://assets/sprites/props/tank_2.png"),
-	preload("res://assets/sprites/props/tank_3.png"), preload("res://assets/sprites/props/tank_4.png"),
-	preload("res://assets/sprites/props/tank_5.png"), preload("res://assets/sprites/props/tank_6.png"),
-	preload("res://assets/sprites/props/tank_7.png"),
-]
-## The parts of each tank's frame standing in front of the water, cut from the sprite by
-## tools/cut_tank_fronts.py: drawn again over the water and the fish.
-const FRONTS: Array[Texture2D] = [
-	preload("res://assets/sprites/props/tank_1_front.png"), preload("res://assets/sprites/props/tank_2_front.png"),
-	preload("res://assets/sprites/props/tank_3_front.png"), preload("res://assets/sprites/props/tank_4_front.png"),
-	preload("res://assets/sprites/props/tank_5_front.png"), preload("res://assets/sprites/props/tank_6_front.png"),
-	preload("res://assets/sprites/props/tank_7_front.png"),
-]
+## The painted tank of each level (tank_<level>.png) and the parts of its frame standing in front
+## of the water (tank_<level>_front.png, cut from the sprite by tools/cut_tank_fronts.py), drawn
+## again over the water and the fish. Loaded when a tank of that level is shown, not preloaded:
+## only one tank is on screen, and all fourteen would hold some 16 MB of video memory.
+const SPRITE_PATH := "res://assets/sprites/props/tank_%d.png"
+const FRONT_PATH := "res://assets/sprites/props/tank_%d_front.png"
+const LEVELS := 7
 ## The water running over the rim and the puddle it makes: PLACEHOLDER SVGs.
 const OVERFLOW_TEXTURE: Texture2D = preload("res://assets/sprites/props/tank_overflow.svg")
 const PUDDLE_TEXTURE: Texture2D = preload("res://assets/sprites/props/tank_puddle.svg")
@@ -106,6 +99,10 @@ var _used := 0.0
 var _counted_fish := -1
 ## The water level drawn, 0 (empty) to 1 (at the rim); it follows the fill smoothly.
 var _level := -1.0
+## The sprite and front of the level they were loaded for (_load_art).
+var _art_level := 0
+var _sprite: Texture2D
+var _front: Texture2D
 
 
 ## `area` is the ground the tank covers: whole cells of the layout grid.
@@ -149,7 +146,22 @@ func _recount() -> void:
 
 
 func _texture() -> Texture2D:
-	return TEXTURES[clampi(tank.level, 1, TEXTURES.size()) - 1]
+	_load_art()
+	return _sprite
+
+
+## The frame in front of the water (FRONT_PATH) for the tank's current level.
+func _front_texture() -> Texture2D:
+	_load_art()
+	return _front
+
+
+func _load_art() -> void:
+	var level := clampi(tank.level, 1, LEVELS)
+	if level != _art_level:
+		_art_level = level
+		_sprite = load(SPRITE_PATH % level)
+		_front = load(FRONT_PATH % level)
 
 
 func _glass() -> Dictionary:
@@ -258,10 +270,10 @@ func _draw_water(box: Array, depth: float, full: bool) -> void:
 	draw_polyline(PackedVector2Array([left + up - tilt, front + up + tilt, right + up - tilt]), Color(1.0, 1.0, 1.0, 0.8), 3.0, true)
 
 
-## The frame in front of the water (posts and rails, FRONTS), drawn again over the water and the
+## The frame in front of the water (posts and rails, FRONT_PATH), drawn again over the water and the
 ## fish.
 func _draw_front(rect: Rect2) -> void:
-	draw_texture_rect(FRONTS[clampi(tank.level, 1, FRONTS.size()) - 1], rect, false)
+	draw_texture_rect(_front_texture(), rect, false)
 
 
 ## The fish swim back and forth inside the water box (_glass_box, `depth` high), each in its own

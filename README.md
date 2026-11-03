@@ -128,6 +128,17 @@ net drag through the real input path, and saves PNGs:
 & "C:\Program Files\Godot\Godot_v4.7.2-stable_win64_console.exe" --path . -s res://tools/screenshot.gd -- --out=C:/temp/shots --drag
 ```
 
+**Profiling:** `tools/profile.gd` runs the game in a window on a copy of your autosave (or
+`--save=<path>`; the save itself is never written), prints the frame time, draw calls and memory,
+then hides and pauses each kind of node in turn and lists what each one costs per frame:
+
+```powershell
+& "C:\Program Files\Godot\Godot_v4.7.2-stable_win64_console.exe" --path . -s res://tools/profile.gd
+```
+
+Something drawn in `_draw()` and redrawn every frame (`queue_redraw()` in `_process`) is rebuilt
+from scratch each time: draw static shapes once in their own node and only move the node.
+
 ## Building the Google Play release
 
 The **Android Play Store** export preset builds a signed `.aab` (Gradle build, arm64) into
@@ -200,12 +211,15 @@ Rules of thumb:
 
 
 ## TODOs
+- Redesign gear shop interior. It's too large and there are no sprites yet
+- "While you were away" message should show the progress and should have to be clicked away to have time to read.
 - Animate all species properly, replace un-animateable sprites for species
 - Replace wrong species sprites and fact-check species info panels
 - Swimming wader in zones 3 and 4 (swim sheets, see `art_source/characters/wader_sprite_prompt.md`)
 - Towed catch bag instead of the basket from zone 3 on (the catch stack has no place on the tank)
 - Replace too small buyers and cashiers with better sprites
 - Fix the buyers queue and where the selling spots are
+- Better selling booth sprites
 - Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors. Sound?
 - Some zones have names like "seagrass bay" but you don't see seagrass. We should add these objects depending on the names. Will require more sprites.
 - Barriers to the left and right could be more natural. Make them rocks or some other obstacles instead of invisible walls
@@ -215,4 +229,9 @@ Rules of thumb:
 - Improve sounds
   - Walking sound should reflect the underground. Wooden on pier, sandy on beach, muddy in water
 - Replace booth sprites with perspectively correct ones
-- Redesign gear shop interior. It's too large and there are no sprites yet
+- Later: Add new locations. Ideas:
+  - Antarctic sea (pengiuins? black smokers in the deep zones?)
+  - Jurasic sea (with ichtyosaurs, plesiosaurs, leopleurodon etc?)
+- Add some secrets, like:
+  - get extra money when you find the treasure chest
+  - some deep sea horror like cthulu that is barely visible

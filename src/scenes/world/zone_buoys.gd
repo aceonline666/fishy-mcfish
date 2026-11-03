@@ -3,6 +3,8 @@ extends Node2D
 ## Lines of floating buoys marking where the deeper zones begin. Drawn in code, in the comic
 ## look of the painted sprites: dark outline, a shaded crescent, a glossy highlight and a ring
 ## of foam where the ball meets the water.
+## Each buoy is its own node, drawn once and only moved as it bobs (redrawing every ball every
+## frame cost most of the frame); only the ropes and the foam rings are drawn anew each frame.
 
 const SPACING := 130.0
 const RADIUS := 16.0
@@ -22,35 +24,64 @@ const WATER_SHADOW := Color(0.02, 0.12, 0.2, 0.25)
 var _lines: Array[Vector2] = []
 var _width := 0.0
 var _time := 0.0
+## Per line: where each buoy meets the calm water, and the buoy nodes standing there.
+var _rests: Array[PackedVector2Array] = []
+var _buoys: Array[Array] = []
 
 
 ## `lines`: x = ground y of the line, y = 1 if the zone beyond is open, else 0.
 func setup(lines: Array[Vector2], width: float) -> void:
 	_lines = lines
 	_width = width
+	for child in get_children():
+		child.queue_free()
+	_rests.clear()
+	_buoys.clear()
+	for line in _lines:
+		var open := line.y > 0.5
+		var rests := PackedVector2Array()
+		var x := 0.0
+		while x <= _width:
+			rests.append(Iso.to_screen(Vector2(x, line.x)))
+			x += SPACING
+		var buoys: Array[Buoy] = []
+		for i in rests.size():
+			var red := i % 2 == 0
+			var buoy := Buoy.new()
+			buoy.color = GREEN if open else (RED if red else WHITE)
+			buoy.shade = GREEN_SHADE if open else (RED_SHADE if red else WHITE_SHADE)
+			buoy.position = rests[i]
+			add_child(buoy)
+			buoys.append(buoy)
+		_rests.append(rests)
+		_buoys.append(buoys)
 	queue_redraw()
 
 
 func _process(delta: float) -> void:
 	_time += delta
+	for line in _buoys.size():
+		var rests := _rests[line]
+		var buoys := _buoys[line]
+		for i in buoys.size():
+			(buoys[i] as Node2D).position = rests[i] + _bob(i)
 	queue_redraw()
 
 
+## The ropes and the foam rings on screen; the balls are the Buoy children, drawn over them.
 func _draw() -> void:
-	for line in _lines:
-		var open := line.y > 0.5
-		var points := PackedVector2Array()
-		var x := 0.0
-		while x <= _width:
-			points.append(Iso.to_screen(Vector2(x, line.x)))
-			x += SPACING
-		for i in points.size() - 1:
-			_draw_rope(points[i] + _bob(i), points[i + 1] + _bob(i + 1))
-		for i in points.size():
-			var red := i % 2 == 0
-			var color := GREEN if open else (RED if red else WHITE)
-			var shade := GREEN_SHADE if open else (RED_SHADE if red else WHITE_SHADE)
-			_draw_buoy(points[i] + _bob(i), i, color, shade)
+	var view := get_global_transform_with_canvas().affine_inverse() * get_viewport_rect()
+	view = view.grow(SPACING)
+	for rests in _rests:
+		for i in rests.size() - 1:
+			if view.has_point(rests[i]) or view.has_point(rests[i + 1]):
+				_draw_rope(rests[i] + _bob(i), rests[i + 1] + _bob(i + 1))
+		for i in rests.size():
+			if not view.has_point(rests[i]):
+				continue
+			var ripple := fmod(_time * 0.6 + i * 0.37, 1.0)
+			_draw_ellipse_ring(self, rests[i] + _bob(i), Vector2(RADIUS * (1.3 + ripple), RADIUS * (0.45 + ripple * 0.35)),
+					Color(FOAM, FOAM.a * (1.0 - ripple)), 2.5)
 
 
 ## Each buoy bobs on its own beat.
@@ -67,45 +98,7 @@ func _draw_rope(from: Vector2, to: Vector2) -> void:
 	draw_polyline(points, ROPE, 2.5, true)
 
 
-## `at` is where the ball meets the water.
-func _draw_buoy(at: Vector2, index: int, color: Color, shade: Color) -> void:
-	var ripple := fmod(_time * 0.6 + index * 0.37, 1.0)
-	_draw_ellipse_ring(at, Vector2(RADIUS * (1.3 + ripple), RADIUS * (0.45 + ripple * 0.35)),
-			Color(FOAM, FOAM.a * (1.0 - ripple)), 2.5)
-	_draw_ellipse(at + Vector2(3.0, 3.0), Vector2(RADIUS * 1.4, RADIUS * 0.5), WATER_SHADOW)
-	# The ball floats with only its bottom under water.
-	var center := at + Vector2(0.0, -RADIUS * 0.75)
-	draw_circle(center, RADIUS + 3.0, IsoDraw.OUTLINE)
-	draw_circle(center, RADIUS, shade)
-	draw_circle(center - Vector2.ONE * RADIUS * 0.18, RADIUS * 0.78, color)
-	_draw_band(center, WHITE_SHADE if color == WHITE else WHITE)
-	_draw_ellipse(center + Vector2(-0.36, -0.55) * RADIUS, Vector2(0.3, 0.16) * RADIUS, Color(1.0, 1.0, 1.0, 0.85), -0.6)
-	draw_circle(center + Vector2(0.14, -0.72) * RADIUS, RADIUS * 0.1, Color(1.0, 1.0, 1.0, 0.85))
-	# Little splashes of foam at both sides of the waterline.
-	for side: float in [-1.0, 1.0]:
-		var splash := PackedVector2Array()
-		for step in 5:
-			var angle := PI * (0.15 + 0.3 * step / 4.0)
-			splash.append(at + Vector2(side * (RADIUS * 0.6 + cos(angle) * RADIUS * 0.7), sin(angle) * RADIUS * 0.35 - 1.0))
-		draw_polyline(splash, WHITE, 3.0, true)
-
-
-## A stripe around the ball's middle, bent like a ring seen from slightly above.
-func _draw_band(center: Vector2, color: Color) -> void:
-	var points := PackedVector2Array()
-	for edge: Vector2 in [Vector2(0.05, 1.0), Vector2(0.32, -1.0)]:
-		for step in 9:
-			var along := edge.y * (-1.0 + 2.0 * step / 8.0)
-			var y := (edge.x + 0.27 * (1.0 - along * along)) * RADIUS
-			var half := sqrt(maxf(RADIUS * RADIUS - y * y, 0.0))
-			points.append(center + Vector2(along * half, y))
-	draw_colored_polygon(points, color)
-	var closed := points.duplicate()
-	closed.append(points[0])
-	draw_polyline(closed, IsoDraw.OUTLINE, 2.0, true)
-
-
-func _ellipse_points(center: Vector2, radii: Vector2, rotation: float = 0.0, count: int = 20) -> PackedVector2Array:
+static func _ellipse_points(center: Vector2, radii: Vector2, rotation: float = 0.0, count: int = 20) -> PackedVector2Array:
 	var points := PackedVector2Array()
 	for step in count:
 		var angle := TAU * step / count
@@ -113,11 +106,52 @@ func _ellipse_points(center: Vector2, radii: Vector2, rotation: float = 0.0, cou
 	return points
 
 
-func _draw_ellipse(center: Vector2, radii: Vector2, color: Color, rotation: float = 0.0) -> void:
-	draw_colored_polygon(_ellipse_points(center, radii, rotation), color)
+static func _draw_ellipse(canvas: CanvasItem, center: Vector2, radii: Vector2, color: Color, rotation: float = 0.0) -> void:
+	canvas.draw_colored_polygon(_ellipse_points(center, radii, rotation), color)
 
 
-func _draw_ellipse_ring(center: Vector2, radii: Vector2, color: Color, width: float) -> void:
+static func _draw_ellipse_ring(canvas: CanvasItem, center: Vector2, radii: Vector2, color: Color, width: float) -> void:
 	var points := _ellipse_points(center, radii)
 	points.append(points[0])
-	draw_polyline(points, color, width, true)
+	canvas.draw_polyline(points, color, width, true)
+
+
+## One ball, drawn once around its origin: where the ball meets the water.
+class Buoy:
+	extends Node2D
+
+	var color: Color
+	var shade: Color
+
+	func _draw() -> void:
+		ZoneBuoys._draw_ellipse(self, Vector2(3.0, 3.0), Vector2(RADIUS * 1.4, RADIUS * 0.5), WATER_SHADOW)
+		# The ball floats with only its bottom under water.
+		var center := Vector2(0.0, -RADIUS * 0.75)
+		draw_circle(center, RADIUS + 3.0, IsoDraw.OUTLINE)
+		draw_circle(center, RADIUS, shade)
+		draw_circle(center - Vector2.ONE * RADIUS * 0.18, RADIUS * 0.78, color)
+		_draw_band(center, WHITE_SHADE if color == WHITE else WHITE)
+		ZoneBuoys._draw_ellipse(self, center + Vector2(-0.36, -0.55) * RADIUS, Vector2(0.3, 0.16) * RADIUS,
+				Color(1.0, 1.0, 1.0, 0.85), -0.6)
+		draw_circle(center + Vector2(0.14, -0.72) * RADIUS, RADIUS * 0.1, Color(1.0, 1.0, 1.0, 0.85))
+		# Little splashes of foam at both sides of the waterline.
+		for side: float in [-1.0, 1.0]:
+			var splash := PackedVector2Array()
+			for step in 5:
+				var angle := PI * (0.15 + 0.3 * step / 4.0)
+				splash.append(Vector2(side * (RADIUS * 0.6 + cos(angle) * RADIUS * 0.7), sin(angle) * RADIUS * 0.35 - 1.0))
+			draw_polyline(splash, WHITE, 3.0, true)
+
+	## A stripe around the ball's middle, bent like a ring seen from slightly above.
+	func _draw_band(center: Vector2, band_color: Color) -> void:
+		var points := PackedVector2Array()
+		for edge: Vector2 in [Vector2(0.05, 1.0), Vector2(0.32, -1.0)]:
+			for step in 9:
+				var along := edge.y * (-1.0 + 2.0 * step / 8.0)
+				var y := (edge.x + 0.27 * (1.0 - along * along)) * RADIUS
+				var half := sqrt(maxf(RADIUS * RADIUS - y * y, 0.0))
+				points.append(center + Vector2(along * half, y))
+		draw_colored_polygon(points, band_color)
+		var closed := points.duplicate()
+		closed.append(points[0])
+		draw_polyline(closed, IsoDraw.OUTLINE, 2.0, true)
