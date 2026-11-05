@@ -243,6 +243,8 @@ var _shake := 0.0
 var _camera := Vector2.ZERO
 var _shown_money := 0.0
 var _money_tween: Tween
+## The player came back to the "Sell fish" pad during Tutorial.Step.HIRE: the hire tip shows.
+var _hire_tip_shown := false
 
 @onready var wader: Wader = $World/Entities/Wader
 @onready var _water: ColorRect = $Water
@@ -838,9 +840,10 @@ func _refresh_squares() -> void:
 	var hire := square_by_id("hire_seller")
 	hire.ground_center = _booth_pad_center(1 + site.seller_count)
 	hire.position = Iso.to_screen(hire.ground_center)
-	# Sellers are only offered after the tutorial: until then the player sells by hand.
+	# Sellers are only offered after the gear shop's part of the tutorial: until then the player
+	# sells by hand.
 	_set_purchase(hire, "hire_seller", tr("Hire seller"),
-			Selling.next_seller_cost(site) if Tutorial.is_done(GameState.state) else -1.0,
+			Selling.next_seller_cost(site) if Tutorial.reached(GameState.state, Tutorial.Step.HIRE) else -1.0,
 			_prop("cashier_%d" % (site.seller_count % CASHIER_LOOKS + 1)))
 
 
@@ -1016,6 +1019,7 @@ func _complete_purchase(target: ActionSquare) -> void:
 	var message := ""
 	if target.id == "hire_seller":
 		GameState.hire_seller()
+		Tutorial.complete(GameState.state, Tutorial.Step.HIRE)
 		_sync_shops()
 		message = tr("Seller hired!\nSells grown fish for you")
 	_announce(at, message, COMBO_COLOR, 1.0)
@@ -1371,9 +1375,21 @@ func _update_tutorial() -> void:
 			tutorial.show_message(tr("You earned coins!"),
 					tr("Spend them in the gear shop."))
 			_point_tutorial_at(Vector2(GEAR_SHOP_DOOR_X, Grid.rect(GEAR_SHOP_CELL, GEAR_SHOP_SIZE).end.y))
+		Tutorial.Step.HIRE:
+			tutorial.hide_message()
+			tutorial.clear_arrow()
+			_hire_tip_shown = _hire_tip_shown or _current_square == _sell_square
+			var hire := square("hire_seller")
+			if _hire_tip_shown and hire != null:
+				# Over the pad's north corner, clear of its picture and text.
+				tutorial.show_tips([[ground_to_scene(hire.ground_center - Vector2.ONE * Grid.UNIT * 0.5),
+						tr("Sells fish for you")]] as Array[Array])
+			else:
+				tutorial.clear_tips()
 		_:
 			tutorial.hide_message()
 			tutorial.clear_arrow()
+			tutorial.clear_tips()
 
 
 ## Points the tutorial's arrow at a ground point. For a pad that is its north corner, the top one

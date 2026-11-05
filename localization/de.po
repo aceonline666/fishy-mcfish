@@ -1308,3 +1308,6 @@ msgstr "Mehr Verkäufer"
 
 msgid "Fishes for you"
 msgstr "Fischt für dich"
+
+msgid "Sells fish for you"
+msgstr "Verkauft Fische für dich"

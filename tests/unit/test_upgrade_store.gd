@@ -137,15 +137,15 @@ func test_on_the_first_visit_a_tip_over_each_pad_says_what_it_is_for() -> void:
 	GameState.add_money(Aquarium.backpack_upgrade_cost(GameState.here()))
 	_stand_on("upgrade_backpack")
 	await wait_seconds(2.0)
-	assert_eq(GameState.state.tutorial_step, Tutorial.Step.DONE, "buying something ends the tutorial")
+	assert_eq(GameState.state.tutorial_step, Tutorial.Step.HIRE, "buying something ends the shop's tips")
 	assert_eq(_store.tutorial.message_title(), "")
 	assert_eq(_store.tutorial.tip_texts(), [] as Array[String])
 
 
-func test_leaving_the_gear_shop_ends_the_tutorial() -> void:
+func test_leaving_the_gear_shop_ends_its_tips() -> void:
 	GameState.state.tutorial_step = Tutorial.Step.SHOP
 	_store.left.emit()
-	assert_eq(GameState.state.tutorial_step, Tutorial.Step.DONE)
+	assert_eq(GameState.state.tutorial_step, Tutorial.Step.HIRE)
 
 
 func test_no_tips_once_the_tutorial_is_done() -> void:

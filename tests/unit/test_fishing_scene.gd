@@ -537,6 +537,26 @@ func test_the_tutorial_leads_from_fishing_to_the_tank_the_booth_and_the_gear_sho
 	assert_false(guide.has_arrow())
 
 
+func test_back_at_the_booth_a_tip_explains_the_hire_seller_pad() -> void:
+	var guide: TutorialGuide = _scene.tutorial
+	GameState.state.tutorial_step = Tutorial.Step.HIRE
+	_scene._refresh_squares()
+	await wait_process_frames(2)
+	assert_not_null(_scene.square("hire_seller"), "shown after the gear shop")
+	assert_eq(guide.tip_texts(), [] as Array[String], "not before the player comes back to sell")
+
+	_stand_on("sell")
+	await wait_process_frames(2)
+	assert_eq(guide.tip_texts(), ["Sells fish for you"] as Array[String])
+
+	GameState.add_money(Selling.next_seller_cost(GameState.here()))
+	_stand_on("hire_seller")
+	await wait_seconds(2.0)
+	assert_eq(GameState.here().seller_count, 1)
+	assert_eq(GameState.state.tutorial_step, Tutorial.Step.DONE, "hiring ends the tutorial")
+	assert_eq(guide.tip_texts(), [] as Array[String])
+
+
 func test_the_tutorial_arrow_waits_at_the_edge_pointing_to_a_place_out_of_view() -> void:
 	var guide: TutorialGuide = _scene.tutorial
 	GameState.state.tutorial_step = Tutorial.Step.STORE
