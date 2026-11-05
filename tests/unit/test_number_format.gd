@@ -27,3 +27,18 @@ func test_larger_tiers() -> void:
 
 func test_negative_values() -> void:
 	assert_eq(NumberFormat.compact(-1500.0), "-1.50K")
+
+
+func test_words_group_the_thousands_below_a_million() -> void:
+	assert_eq(NumberFormat.words(0.0), "0")
+	assert_eq(NumberFormat.words(999.9), "999")
+	assert_eq(NumberFormat.words(12345.6), "12,345")
+	assert_eq(NumberFormat.words(999_999.0), "999,999")
+
+
+func test_words_name_the_millions_and_up() -> void:
+	assert_eq(NumberFormat.words(1_000_000.0), "1 million")
+	assert_eq(NumberFormat.words(1_390_000.0), "1.3 million")
+	assert_eq(NumberFormat.words(25_700_000.0), "25 million")
+	assert_eq(NumberFormat.words(4.2e9), "4.2 billion")
+	assert_eq(NumberFormat.words(3e12), "3 trillion")

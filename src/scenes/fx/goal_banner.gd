@@ -2,7 +2,9 @@ class_name GoalBanner
 extends Control
 ## Celebrates a reached goal: a card with the goal's name pops in over turning sun rays, a burst of
 ## confetti and a fanfare, and the reward flies to the wallet as a shower of coins. Goals reached together are
-## celebrated one after the other. Covers its parent and lets every touch through.
+## celebrated one after the other. The same card welcomes the player back with what was earned while
+## they were away; that card stays until tapped. Covers its parent and lets every touch through,
+## except while waiting for that tap.
 
 const GOLD := Color(1.0, 0.85, 0.2)
 const CARD_COLOR := Color(0.1, 0.24, 0.4)
@@ -22,8 +24,14 @@ var wallet: Control
 ## Size of the flying coins.
 var coin_radius := 18.0
 
-var _queue: Array[AchievementDef] = []
+var _queue: Array[Entry] = []
 var _showing := false
+## The card on screen, its rays, their tweens and the scale that fits the card on the screen.
+var _card: PanelContainer
+var _rays: Rays
+var _card_tween: Tween
+var _rays_tween: Tween
+var _fit := 1.0
 
 
 func _ready() -> void:
@@ -33,7 +41,40 @@ func _ready() -> void:
 
 
 func celebrate(def: AchievementDef) -> void:
-	_queue.append(def)
+	var entry := Entry.new()
+	entry.lines.append([tr("Goal reached!"), 44, GOLD, false])
+	entry.lines.append([tr(def.name), 92, Color.WHITE, true])
+	entry.lines.append([tr(def.description), 38, OverlayPanel.MUTED, false])
+	if def.reward > 0.0:
+		entry.lines.append([tr("+%s coins") % NumberFormat.compact(def.reward), 60, GOLD, false])
+	entry.reward = def.reward
+	_enqueue(entry)
+
+
+## Welcomes the player back: the coins the sellers made (big) and the fish the drones stored.
+## Shows nothing if there is neither.
+func welcome_back(earned: float, stored: int) -> void:
+	if earned < 1.0 and stored <= 0:
+		return
+	var entry := Entry.new()
+	entry.lines.append([tr("Welcome back!"), 44, GOLD, false])
+	if earned >= 1.0:
+		entry.lines.append([tr("You made"), 52, Color.WHITE, false])
+		entry.lines.append([tr("%s coins") % NumberFormat.words(earned), 110, GOLD, true])
+		entry.lines.append([tr("Your sellers kept on selling."), 36, OverlayPanel.MUTED, false])
+		if stored > 0:
+			entry.lines.append([tr("Your drones caught %d fish.") % stored, 36, OverlayPanel.MUTED, false])
+	else:
+		entry.lines.append([tr("Your drones caught"), 52, Color.WHITE, false])
+		entry.lines.append([tr("%s fish") % NumberFormat.words(stored), 110, GOLD, true])
+	entry.lines.append([tr("Tap to continue"), 32, Color.WHITE, false])
+	entry.reward = earned
+	entry.wait_for_tap = true
+	_enqueue(entry)
+
+
+func _enqueue(entry: Entry) -> void:
+	_queue.append(entry)
 	if not _showing:
 		_show_next()
 
@@ -47,49 +88,80 @@ func _show_next() -> void:
 		_showing = false
 		return
 	_showing = true
-	var def: AchievementDef = _queue.pop_front()
+	var entry: Entry = _queue.pop_front()
 	var center := Vector2(size.x * 0.5, top_offset)
-	var rays := Rays.new()
-	rays.position = center
-	rays.scale = Vector2.ZERO
-	add_child(rays)
-	var card := _make_card(def)
-	add_child(card)
-	card.reset_size()
-	card.pivot_offset = card.size * 0.5
-	card.position = center - card.pivot_offset
-	var fit := minf((size.x - 32.0) / card.size.x, 1.0) if size.x > 0.0 else 1.0
-	card.scale = Vector2.ONE * 0.2 * fit
-	card.rotation = deg_to_rad(-8.0)
+	_rays = Rays.new()
+	_rays.position = center
+	_rays.scale = Vector2.ZERO
+	add_child(_rays)
+	_card = _make_card(entry)
+	add_child(_card)
+	_card.reset_size()
+	_card.pivot_offset = _card.size * 0.5
+	_card.position = center - _card.pivot_offset
+	_fit = minf((size.x - 32.0) / _card.size.x, 1.0) if size.x > 0.0 else 1.0
+	_card.scale = Vector2.ONE * 0.2 * _fit
+	_card.rotation = deg_to_rad(-8.0)
 
-	var tween := card.create_tween()
-	tween.tween_property(card, "scale", Vector2.ONE * fit, POP_IN_S).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tween.parallel().tween_property(card, "rotation", 0.0, POP_IN_S).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
-	tween.tween_property(card, "scale", Vector2.ONE * fit * 1.06, HOLD_S * 0.5).set_trans(Tween.TRANS_SINE)
-	tween.tween_property(card, "scale", Vector2.ONE * fit, HOLD_S * 0.5).set_trans(Tween.TRANS_SINE)
-	tween.tween_property(card, "position:y", card.position.y - 120.0, LEAVE_S).set_ease(Tween.EASE_IN)
-	tween.parallel().tween_property(card, "modulate:a", 0.0, LEAVE_S)
-	tween.tween_callback(card.queue_free)
-	tween.tween_callback(_show_next)
+	_card_tween = _card.create_tween()
+	_card_tween.tween_property(_card, "scale", Vector2.ONE * _fit, POP_IN_S).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_card_tween.parallel().tween_property(_card, "rotation", 0.0, POP_IN_S).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+	var radius := _card.size.x * _fit * 0.75
+	_rays_tween = _rays.create_tween()
+	_rays_tween.tween_property(_rays, "scale", Vector2.ONE * radius, POP_IN_S).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	if entry.wait_for_tap:
+		# Breathes until tapped; the whole screen waits for that tap.
+		_card_tween.tween_callback(_wait_for_tap)
+	else:
+		_breathe(_card_tween, entry.hold_s)
+		_card_tween.tween_callback(_leave)
 
-	var radius := card.size.x * fit * 0.75
-	var spin := rays.create_tween()
-	spin.tween_property(rays, "scale", Vector2.ONE * radius, POP_IN_S).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	spin.parallel().tween_property(rays, "rotation", PI * 0.5, POP_IN_S + HOLD_S + LEAVE_S)
-	spin.parallel().tween_property(rays, "modulate:a", 0.0, LEAVE_S).set_delay(POP_IN_S + HOLD_S)
-	spin.tween_callback(rays.queue_free)
-
-	_confetti(center + Vector2(-card.size.x * 0.4 * fit, 0.0), Vector2(-0.4, -1.0))
-	_confetti(center + Vector2(card.size.x * 0.4 * fit, 0.0), Vector2(0.4, -1.0))
+	_confetti(center + Vector2(-_card.size.x * 0.4 * _fit, 0.0), Vector2(-0.4, -1.0))
+	_confetti(center + Vector2(_card.size.x * 0.4 * _fit, 0.0), Vector2(0.4, -1.0))
 	Sfx.play(&"fanfare")
 	Haptics.bump()
 	get_tree().create_timer(0.45).timeout.connect(Haptics.bump)
-	if wallet and def.reward > 0.0:
-		# From the reward line at the bottom of the card.
-		_coin_shower(center + Vector2(0.0, card.size.y * 0.3 * fit), def.reward)
+	if wallet and entry.reward >= 1.0:
+		# From the lower part of the card.
+		_coin_shower(center + Vector2(0.0, _card.size.y * 0.3 * _fit), entry.reward)
 
 
-func _make_card(def: AchievementDef) -> PanelContainer:
+## The card swells a little and back, over `duration` seconds.
+func _breathe(tween: Tween, duration: float) -> void:
+	tween.tween_property(_card, "scale", Vector2.ONE * _fit * 1.06, duration * 0.5).set_trans(Tween.TRANS_SINE)
+	tween.tween_property(_card, "scale", Vector2.ONE * _fit, duration * 0.5).set_trans(Tween.TRANS_SINE)
+
+
+func _wait_for_tap() -> void:
+	_card_tween = _card.create_tween().set_loops()
+	_breathe(_card_tween, 1.6)
+	mouse_filter = Control.MOUSE_FILTER_STOP
+
+
+func _gui_input(event: InputEvent) -> void:
+	var pressed := (event is InputEventMouseButton or event is InputEventScreenTouch) and event.is_pressed()
+	if pressed and mouse_filter == Control.MOUSE_FILTER_STOP:
+		accept_event()
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_leave()
+
+
+## The card flies up and fades with its rays; then the next one shows.
+func _leave() -> void:
+	_card_tween.kill()
+	_rays_tween.kill()
+	var card := _card
+	var rays := _rays
+	var tween := card.create_tween()
+	tween.tween_property(card, "position:y", card.position.y - 120.0, LEAVE_S).set_ease(Tween.EASE_IN)
+	tween.parallel().tween_property(card, "modulate:a", 0.0, LEAVE_S)
+	tween.parallel().tween_property(rays, "modulate:a", 0.0, LEAVE_S)
+	tween.tween_callback(rays.queue_free)
+	tween.tween_callback(card.queue_free)
+	tween.tween_callback(_show_next)
+
+
+func _make_card(entry: Entry) -> PanelContainer:
 	var card := PanelContainer.new()
 	card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	card.custom_minimum_size.x = 640.0
@@ -106,13 +178,11 @@ func _make_card(def: AchievementDef) -> PanelContainer:
 	column.add_theme_constant_override("separation", 6)
 	card.add_child(column)
 
-	column.add_child(_label(tr("Goal reached!"), 44, GOLD))
-	var title := _label(tr(def.name), 92, Color.WHITE)
-	title.theme_type_variation = &"TitleLabel"
-	column.add_child(title)
-	column.add_child(_label(tr(def.description), 38, OverlayPanel.MUTED))
-	if def.reward > 0.0:
-		column.add_child(_label(tr("+%s coins") % NumberFormat.compact(def.reward), 60, GOLD))
+	for line in entry.lines:
+		var label := _label(line[0], line[1], line[2])
+		if line[3]:
+			label.theme_type_variation = &"TitleLabel"
+		column.add_child(label)
 	return card
 
 
@@ -185,9 +255,23 @@ func _fly_coin(from: Vector2, pitch: float) -> void:
 	Sfx.play(&"coin", pitch, -4.0)
 
 
+## One card to show: its lines ([text, font size, color, is title]), the coins that fly to the
+## wallet, and how long it stays, or that it stays until tapped.
+class Entry:
+	var lines: Array[Array] = []
+	var reward := 0.0
+	var hold_s := HOLD_S
+	var wait_for_tap := false
+
+
 ## Light rays around the card, alternating with gaps. Drawn with radius 1, scaled to size.
 class Rays extends Node2D:
 	const COUNT := 14
+	## Turns a quarter round while a goal's card shows.
+	const SPEED := PI * 0.5 / (POP_IN_S + HOLD_S + LEAVE_S)
+
+	func _process(delta: float) -> void:
+		rotation += SPEED * delta
 
 	func _draw() -> void:
 		var step := TAU / COUNT

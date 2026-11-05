@@ -195,18 +195,25 @@ func test_selling_by_hand_takes_one_buyer_at_a_time() -> void:
 	assert_eq(tank.fish.size(), 7, "then the next buyer, after a while")
 
 
-func test_each_seller_has_a_booth_and_the_line_feeds_the_next_free_one() -> void:
+func test_the_first_seller_takes_over_the_players_booth() -> void:
 	GameState.here().seller_count = 1
 	GameState.replace_state(GameState.state)
 	await wait_process_frames(1)
-	assert_eq(_scene._booths.size(), 2, "one booth for the player, one for the seller")
+	assert_eq(_scene._booths.size(), 1, "the seller sells at the player's booth")
+	assert_null(_scene.square("sell"), "no more selling by hand")
 	await _buyers_waiting(4)
-	await wait_seconds(0.2)
-	assert_null(_scene._booths[0], "the player's booth stays empty while the player is away")
-	assert_not_null(_scene._booths[1], "the first buyer goes to the seller")
-	_stand_on("sell")
 	await wait_until(func() -> bool: return _scene._booths[0] != null, 3.0)
-	assert_not_null(_scene._booths[0], "the next buyer goes to the player")
+	assert_not_null(_scene._booths[0], "buyers go to the seller there without the player")
+
+
+func test_each_further_seller_has_a_booth_and_the_line_feeds_the_next_free_one() -> void:
+	GameState.here().seller_count = 2
+	GameState.replace_state(GameState.state)
+	await wait_process_frames(1)
+	assert_eq(_scene._booths.size(), 2, "one booth per seller")
+	await _buyers_waiting(4)
+	await wait_until(func() -> bool: return _scene._booths[0] != null and _scene._booths[1] != null, 3.0)
+	assert_not_null(_scene._booths[1], "the next buyer goes to the second seller")
 
 
 func test_selling_waits_for_a_buyer_at_the_counter() -> void:
@@ -314,7 +321,12 @@ func test_wader_walks_no_further_up_the_beach_than_the_next_hire_pad() -> void:
 	_scene._sync_shops()
 	_wader.ground_position = Vector2(pad.ground_center.x, Scene.BEACH_TOP)
 	await wait_process_frames(2)
-	assert_almost_eq(_wader.ground_position.y, Grid.rect(Vector2i(0, -9)).position.y, 25.0, "one row further with a seller")
+	assert_almost_eq(_wader.ground_position.y, Grid.rect(Vector2i(0, -8)).position.y, 25.0, "the first seller takes the player's booth")
+	GameState.here().seller_count = 2
+	_scene._sync_shops()
+	_wader.ground_position = Vector2(pad.ground_center.x, Scene.BEACH_TOP)
+	await wait_process_frames(2)
+	assert_almost_eq(_wader.ground_position.y, Grid.rect(Vector2i(0, -9)).position.y, 25.0, "one row further with a second seller")
 
 
 func test_the_booth_line_keeps_the_wader_from_the_buyers() -> void:
@@ -352,7 +364,10 @@ func test_the_pier_reaches_the_next_hire_pad() -> void:
 	assert_true(_scene._boardwalk.area.has_point(pad.ground_center))
 	GameState.here().seller_count = 1
 	_scene._sync_shops()
-	assert_almost_eq(_scene._boardwalk.area.position.y, Grid.rect(Vector2i(0, -9)).position.y, 1.0, "one row further with a seller")
+	assert_almost_eq(_scene._boardwalk.area.position.y, Grid.rect(Vector2i(0, -8)).position.y, 1.0, "the first seller takes the player's booth")
+	GameState.here().seller_count = 2
+	_scene._sync_shops()
+	assert_almost_eq(_scene._boardwalk.area.position.y, Grid.rect(Vector2i(0, -9)).position.y, 1.0, "one row further with a second seller")
 
 
 func test_catches_count_towards_charting_their_zone() -> void:

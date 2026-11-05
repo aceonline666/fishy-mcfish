@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<!-- Gear shop display, 1 x 1 cell at 240 px per cell edge, bottom corner (512, 880), at most 240 px tall, wall behind: free. See art_source/store/fixture_sprite_prompts.md. -->
+<rect width="1024" height="1024" fill="#ffffff"/>
+<polygon points="512,640 752,760 512,880 272,760" fill="#d9d9d9" fill-opacity="1.0" stroke="#555" stroke-width="3"/>
+<polyline points="512,400 752,520 512,640 272,520 512,400" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="10,8"/>
+<polyline points="752,760 752,520" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="10,8"/>
+<polyline points="512,880 512,640" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="10,8"/>
+<polyline points="272,760 272,520" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="10,8"/>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024">
+<!-- Gear shop room, 7 x 7 cells at 100 px per cell edge (100 across, 50 down); back corner (768, 250), walls 180 px. See art_source/store/room_sprite_prompt.md. -->
+<rect width="1536" height="1024" fill="#ffffff"/>
+<polygon points="68,600 68,616 768,966 1468,616 1468,600 768,950" fill="#a0522d" fill-opacity="0.35" stroke="#6b3519" stroke-width="3"/>
+<polygon points="768,250 1468,600 768,950 68,600" fill="#d9d9d9" fill-opacity="1.0" stroke="#555" stroke-width="3"/>
+<polyline points="868,300 168,650" fill="none" stroke="#888" stroke-width="2"/>
+<polyline points="968,350 268,700" fill="none" stroke="#888" stroke-width="2"/>
+<polyline points="1068,400 368,750" fill="none" stroke="#888" stroke-width="2"/>
+<polyline points="1168,450 468,800" fill="none" stroke="#888" stroke-width="2"/>
+<polyline points="1268,500 568,850" fill="none" stroke="#888" stroke-width="2"/>
+<polyline points="1368,550 668,900" fill="none" stroke="#888" stroke-width="2"/>
+<polyline points="668,300 1368,650" fill="none" stroke="#888" stroke-width="2"/>
+<polyline points="568,350 1268,700" fill="none" stroke="#888" stroke-width="2"/>
+<polyline points="468,400 1168,750" fill="none" stroke="#888" stroke-width="2"/>
+<polyline points="368,450 1068,800" fill="none" stroke="#888" stroke-width="2"/>
+<polyline points="268,500 968,850" fill="none" stroke="#888" stroke-width="2"/>
+<polyline points="168,550 868,900" fill="none" stroke="#888" stroke-width="2"/>
+<polygon points="443,727.5 513,762.5 453,792.5 383,757.5" fill="#8b5a2b" fill-opacity="0.6" stroke="#5a3a1a" stroke-width="3"/>
+<polygon points="68,600 768,250 768,70 68,420" fill="#3cb371" fill-opacity="0.35" stroke="#1e7a45" stroke-width="4"/>
+<polygon points="768,250 1468,600 1468,420 768,70" fill="#4a90d9" fill-opacity="0.3" stroke="#1f5fa8" stroke-width="4"/>
+<polygon points="468,400 368,450 368,270 468,220" fill="#ff8c00" fill-opacity="0.45" stroke="#c05f00" stroke-width="3"/>
+<polygon points="268,500 168,550 168,370 268,320" fill="#ff8c00" fill-opacity="0.45" stroke="#c05f00" stroke-width="3"/>
+<polygon points="868,300 968,350 968,170 868,120" fill="#ff8c00" fill-opacity="0.45" stroke="#c05f00" stroke-width="3"/>
+<polygon points="1068,400 1168,450 1168,270 1068,220" fill="#ff8c00" fill-opacity="0.45" stroke="#c05f00" stroke-width="3"/>
+<polygon points="1278,455 1358,495 1358,395 1278,355" fill="#8a2be2" fill-opacity="0.4" stroke="#5a1a99" stroke-width="3"/>
+<polyline points="768,250 768,70" fill="none" stroke="#000" stroke-width="4"/>
+</svg>

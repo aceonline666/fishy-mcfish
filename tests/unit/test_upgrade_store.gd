@@ -69,19 +69,25 @@ func test_every_upgrade_can_be_bought() -> void:
 
 
 func test_drones_are_offered_once_a_zone_is_charted() -> void:
-	assert_null(_store.square("buy_drone"))
+	var drone := _store.square("buy_drone")
+	assert_not_null(drone, "shown from the start")
+	assert_true(drone.disabled, "but greyed out until its zone is charted")
+	GameState.add_money(Automation.next_drone_cost(GameState.here()) * 2.0)
+	_stand_on("buy_drone")
+	await wait_seconds(1.0)
+	assert_eq(GameState.here().drone_count, 0, "a greyed-out pad takes no coins")
 	var shallows := DataRegistry.zones[0]
 	for i in Charting.CATCHES_TO_CHART:
 		GameState.record_catch("european_sprat", shallows.id)
 	for id in Charting.required_species(shallows):
 		GameState.record_catch(id, shallows.id)
 	_store._refresh_squares()
-	assert_not_null(_store.square("buy_drone"))
+	assert_false(_store.square("buy_drone").disabled)
 
 
 func test_the_door_leads_back_to_the_beach() -> void:
 	watch_signals(_store)
-	_stand_on("exit")
+	_store.wader.ground_position = _store._floor.mat().get_center()
 	await wait_seconds(UpgradeStore.DOOR_DELAY_S + 0.3)
 	assert_signal_emitted(_store, "left")
 
@@ -154,3 +160,43 @@ func test_no_tips_once_the_tutorial_is_done() -> void:
 	assert_eq(_store.tutorial.tip_texts(), [] as Array[String])
 
 #endregion
+
+
+func test_the_travel_pad_opens_the_next_beach_and_goes_there() -> void:
+	var reef := DataRegistry.location("coral_reef")
+	GameState.add_money(reef.travel_cost)
+	watch_signals(_store)
+	_stand_on("travel_next")
+	await wait_seconds(2.5)
+	assert_true(GameState.state.unlocked_locations.has("coral_reef"))
+	assert_eq(GameState.state.current_location, "coral_reef")
+	assert_eq(GameState.state.money, 0.0, "the travel fee was paid")
+	assert_signal_emitted(_store, "travelled")
+
+
+func test_the_travel_pad_is_free_once_the_beach_is_open() -> void:
+	GameState.state.unlocked_locations.append("coral_reef")
+	_store._refresh_squares()
+	watch_signals(_store)
+	_stand_on("travel_next")
+	await wait_process_frames(3)
+	assert_eq(GameState.state.current_location, "coral_reef")
+	assert_signal_emitted(_store, "travelled")
+
+
+func test_the_travel_pad_waits_for_the_goal() -> void:
+	var reef := DataRegistry.location("coral_reef")
+	GameState.state.achievements.erase(reef.unlock)
+	_store._refresh_squares()
+	assert_true(_store.square("travel_next").disabled)
+	GameState.add_money(reef.travel_cost)
+	_stand_on("travel_next")
+	await wait_seconds(1.0)
+	assert_eq(GameState.state.money, reef.travel_cost, "no coins taken")
+	assert_false(GameState.state.unlocked_locations.has("coral_reef"))
+
+
+func test_there_is_no_travel_pad_at_the_last_beach() -> void:
+	GameState.state.current_location = DataRegistry.locations[-1].id
+	_store._refresh_squares()
+	assert_null(_store.square("travel_next"))

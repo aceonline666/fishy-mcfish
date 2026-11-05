@@ -21,6 +21,12 @@ static func can_unlock(state: PlayerState, def: LocationDef) -> bool:
 	return not is_unlocked(state, def) and state.achievements.has(def.unlock)
 
 
+## The location after the current one, or null at the last.
+static func next_location(state: PlayerState) -> LocationDef:
+	var index := DataRegistry.locations.find(current(state))
+	return DataRegistry.locations[index + 1] if index + 1 < DataRegistry.locations.size() else null
+
+
 ## The goal that opens the location, or null for home.
 static func unlock_goal(def: LocationDef) -> AchievementDef:
 	for goal in DataRegistry.achievements:

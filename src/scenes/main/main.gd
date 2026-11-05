@@ -52,7 +52,16 @@ func _on_store_requested() -> void:
 	GameState.in_store = true
 	_store = UpgradeStore.new()
 	_store.left.connect(_on_store_left)
+	_store.travelled.connect(_on_store_travelled)
 	add_child(_store)
+
+
+## The wader travelled from the gear shop's travel pad: the beach is rebuilt at the new location.
+func _on_store_travelled() -> void:
+	_store.queue_free()
+	_store = null
+	GameState.in_store = false
+	_on_rebuild_requested()
 
 
 func _on_store_left() -> void:

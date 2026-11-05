@@ -17,14 +17,44 @@ msgstr "Im Angelladen kaufen: %s\num weiter hinauszuschwimmen!"
 msgid "Beach"
 msgstr "Strand"
 
-msgid "Stored by drones: %d fish"
-msgstr "Von Drohnen eingelagerte Fische: %d"
+msgid "Welcome back!"
+msgstr "Willkommen zurück!"
 
-msgid "Your sellers earned +%s coins"
-msgstr "Deine Verkäufer haben +%s Münzen verdient"
+msgid "You made"
+msgstr "Du hast verdient:"
 
-msgid "While you were away:"
-msgstr "Während du weg warst:"
+msgid "%s coins"
+msgstr "%s Münzen"
+
+msgid "Your sellers kept on selling."
+msgstr "Deine Verkäufer waren fleißig."
+
+msgid "Your drones caught %d fish."
+msgstr "Deine Drohnen haben %d Fische gefangen."
+
+msgid "Your drones caught"
+msgstr "Deine Drohnen haben gefangen:"
+
+msgid "%s fish"
+msgstr "%s Fische"
+
+msgid "Tap to continue"
+msgstr "Tippen zum Weiterspielen"
+
+msgid "million"
+msgstr "Mio."
+
+msgid "billion"
+msgstr "Mrd."
+
+msgid "trillion"
+msgstr "Bio."
+
+msgid "quadrillion"
+msgstr "Brd."
+
+msgid "quintillion"
+msgstr "Trio."
 
 msgid "New species!"
 msgstr "Neue Art!"
@@ -59,14 +89,14 @@ msgstr "%d verkauft\n+%s Münzen"
 msgid "Not enough coins"
 msgstr "Nicht genug Münzen"
 
-msgid "Bigger shop"
-msgstr "Größerer Laden"
+msgid "More selling space"
+msgstr "Mehr Verkaufsfläche"
 
 msgid "+1 seller"
 msgstr "+1 Verkäufer"
 
-msgid "%s!\nRoom for one more seller"
-msgstr "%s!\nPlatz für einen weiteren Verkäufer"
+msgid "More selling space!\nRoom for one more seller"
+msgstr "Mehr Verkaufsfläche!\nPlatz für einen weiteren Verkäufer"
 
 msgid "No room in the tank!"
 msgstr "Kein Platz im Becken!"
@@ -1243,17 +1273,14 @@ msgstr "Verkäufer 9"
 msgid "Seller 10"
 msgstr "Verkäufer 10"
 
-msgid "%s!\nRoom for %d more sellers"
-msgstr "%s!\nPlatz für %d weitere Verkäufer"
+msgid "More selling space!\nRoom for %d more sellers"
+msgstr "Mehr Verkaufsfläche!\nPlatz für %d weitere Verkäufer"
 
 msgid "Needs a %s L tank"
 msgstr "Braucht ein %s-L-Becken"
 
 msgid "Fishing gear"
 msgstr "Angelbedarf"
-
-msgid "Back to the beach"
-msgstr "Zurück zum Strand"
 
 msgid "Stand on a pad to buy. Upgrades are for this beach only."
 msgstr "Stell dich auf ein Feld, um zu kaufen. Verbesserungen gelten nur für diesen Strand."
@@ -1308,6 +1335,18 @@ msgstr "Mehr Verkäufer"
 
 msgid "Fishes for you"
 msgstr "Fischt für dich"
+
+msgid "Travel to next beach"
+msgstr "Zum nächsten Strand reisen"
+
+msgid "Goal: %s"
+msgstr "Ziel: %s"
+
+msgid "A new beach to fish"
+msgstr "Ein neuer Strand zum Fischen"
+
+msgid "Chart first: %s"
+msgstr "Erst kartieren: %s"
 
 msgid "Sells fish for you"
 msgstr "Verkauft Fische für dich"

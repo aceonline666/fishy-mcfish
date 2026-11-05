@@ -74,3 +74,37 @@ func test_banner_celebrates_goals_one_after_the_other() -> void:
 	assert_eq(cards.size(), 1, "then the second one shows")
 	await wait_seconds(GoalBanner.POP_IN_S + GoalBanner.HOLD_S + GoalBanner.LEAVE_S + 0.2)
 	assert_false(banner.is_showing())
+
+
+func test_welcome_back_card_shows_the_money_big_and_waits_for_a_tap() -> void:
+	var banner := GoalBanner.new()
+	banner.size = Vector2(1080.0, 1920.0)
+	add_child_autofree(banner)
+	banner.welcome_back(1_390_000.0, 12)
+	var texts := _card_texts(banner)
+	assert_has(texts, "1.3 million coins")
+	assert_has(texts, "Your drones caught 12 fish.")
+	await wait_seconds(GoalBanner.POP_IN_S + GoalBanner.HOLD_S + GoalBanner.LEAVE_S + 0.2)
+	assert_true(banner.is_showing(), "stays until tapped")
+	assert_eq(banner.mouse_filter, Control.MOUSE_FILTER_STOP, "catches the tap")
+	var tap := InputEventMouseButton.new()
+	tap.button_index = MOUSE_BUTTON_LEFT
+	tap.pressed = true
+	banner._gui_input(tap)
+	assert_eq(banner.mouse_filter, Control.MOUSE_FILTER_IGNORE, "lets touches through again")
+	await wait_seconds(GoalBanner.LEAVE_S + 0.2)
+	assert_false(banner.is_showing())
+
+
+func test_no_welcome_back_card_without_earnings() -> void:
+	var banner := GoalBanner.new()
+	add_child_autofree(banner)
+	banner.welcome_back(0.0, 0)
+	assert_false(banner.is_showing())
+
+
+func _card_texts(banner: GoalBanner) -> Array[String]:
+	var texts: Array[String] = []
+	for label in banner.find_children("*", "Label", true, false):
+		texts.append((label as Label).text)
+	return texts

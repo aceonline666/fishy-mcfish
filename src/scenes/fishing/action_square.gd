@@ -6,10 +6,10 @@ extends Node2D
 ## picture and texts on their own layer above it (Layers), both above every sprite, so the tank
 ## or a booth never hides them, and both under the wader.
 
-enum Kind { STORE, SELL, BUY, DOOR }
+enum Kind { STORE, SELL, BUY }
 
 ## Pad colours by Kind.
-const COLORS: Array[Color] = [Color(0.55, 0.85, 1.0), Color(1.0, 0.62, 0.3), Color(0.55, 1.0, 0.6), Color(1.0, 0.85, 0.35)]
+const COLORS: Array[Color] = [Color(0.55, 0.85, 1.0), Color(1.0, 0.62, 0.3), Color(0.55, 1.0, 0.6)]
 const CALLING_COLOR := Color(1.0, 0.85, 0.2)
 const SUBTITLE_COLOR := Color(0.92, 0.96, 1.0)
 const DISABLED_COLOR := Color(0.62, 0.64, 0.68)

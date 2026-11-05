@@ -35,19 +35,21 @@ const PLAY_MARGIN_BOTTOM := 330.0
 ## through the gear shop. A boardwalk (the pier) leads from the water up the beach to the next
 ## "Hire seller" pad; the tank's "Put in tank" pad stands on it, east of the tank, then it is free
 ## of pads up to the booths. The sales booths stand in a line up the beach a column east of the
-## pier, one cell each: the player's first, then one per seller. Their counters face east, where
-## the buyers come down the beach in one queue; the pads are on their west side, on the pier, where
-## the seller stands: "Sell fish" at the player's booth, "Hire seller" at the next free one. West
+## pier, one cell each: the player's first, which the first seller takes over, then one per
+## further seller. Their counters face east, where the buyers come down the beach in one queue; the
+## pads are on their west side, on the pier, where the seller stands: "Sell fish" at the player's
+## booth (gone once a seller has it), "Hire seller" at the next free one. West
 ## of the pier is the tank, a row off the waterline, growing west, then up the beach with its
 ## level (up to 3 x 5 cells), and the sales belt from the tank's back up the beach to the last
 ## booth: a bigger tank leaves less belt, every seller adds a cell. East of the pier, two cells
 ## off so its walls do not hide the pier, is the gear shop, with the drones' dock in front of it.
 ##
 ##   row   cols 0..1    2               3                  4               5..8
-##   -17                belt            pier, "Hire..."    seller 10       buyer, queue
+##   -16                belt            pier               seller 10       buyer, queue
 ##    ..                belt            pier               ..              buyer, queue
-##    -8                belt            pier, "Hire..."    seller 1        buyer, queue
-##    -7                belt            pier, "Sell fish"  player booth    buyer, queue
+##    -8                belt            pier, "Hire..."    seller 2        buyer, queue
+##    -7                belt            pier, "Sell fish"  player booth,   buyer, queue
+##                                                         then seller 1
 ##    -6   (tank 7)     belt            pier
 ##    -5   (tank 6..7)  belt            pier
 ##    -4   (tank 5..7)  belt            pier                               . gear shop (6..8)
@@ -113,11 +115,11 @@ const WRECKS: Dictionary[String, Array] = {
 	"coral_reef": ["galleon", Vector2(1080.0, 2400.0)],
 }
 ## The sales booths stand in a line up the beach, a column east of the pier, one cell each: the
-## player's in PLAYER_BOOTH_CELL, then one per seller further north. Their pads, a column west of
-## them, stand on the pier. Buyers come in from the east and line up in one queue east of the
-## booths, running up the beach from the player's booth; the first in line goes to the next free
-## booth (the player's only while the player stands on the "Sell fish" pad), and each sale sends
-## them off east with a fish.
+## player's in PLAYER_BOOTH_CELL, which the first seller takes over (selling by hand ends there),
+## then one per further seller north of it. Their pads, a column west of them, stand on the pier.
+## Buyers come in from the east and line up in one queue east of the booths, running up the beach
+## from the first booth; the first in line goes to the next free booth (the player's only while
+## the player stands on the "Sell fish" pad), and each sale sends them off east with a fish.
 const BOOTH_COLUMN := PIER_COLUMN + 1
 const PLAYER_BOOTH_CELL := Vector2i(BOOTH_COLUMN, -PIER_ROWS - 1)
 ## The queue's line, this far east of the booths' counters (ground units).
@@ -511,7 +513,7 @@ func _update_covers() -> void:
 ## last booth once every seller is hired.
 func _walk_top() -> float:
 	var last := int(DataRegistry.shop_levels[-1].capacity)
-	return Grid.rect(_booth_cell(mini(GameState.here().seller_count + 1, last))).position.y
+	return Grid.rect(_booth_cell(mini(_hire_index(), last - 1))).position.y
 
 
 ## The ground the pier covers: from the water up to the walkable beach's north edge.
@@ -523,7 +525,7 @@ func _pier_area() -> Rect2:
 ## one cell.
 func _belt_area() -> Rect2:
 	var start := _tank_area().position.y / Grid.UNIT - 1.0
-	var end := minf(float(_booth_cell(GameState.here().seller_count).y), start)
+	var end := minf(float(_booth_cell(_booth_count() - 1).y), start)
 	return Grid.rect(Vector2i(BELT_COLUMN, int(end)), Vector2i(1, int(start - end) + 1))
 
 
@@ -565,15 +567,10 @@ func _update_location_label() -> void:
 	_location_label.text = "%s · %s" % [tr(location.name), tr(_wader_zone.name) if _wader_zone != null else tr("Beach")]
 
 
+## A card like a reached goal's: what the sellers made and the drones caught while the player was
+## away. It stays until tapped.
 func _show_offline_earnings() -> void:
-	var lines: Array[String] = []
-	if GameState.last_offline_stored > 0:
-		lines.append(tr("Stored by drones: %d fish") % GameState.last_offline_stored)
-	if GameState.last_offline_earned >= 1.0:
-		lines.append(tr("Your sellers earned +%s coins") % NumberFormat.compact(GameState.last_offline_earned))
-	if not lines.is_empty():
-		Juice.popup_text(_popups, Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 160.0),
-				tr("While you were away:") + "\n" + "\n".join(lines), 52, COIN_COLOR, 2.5)
+	goal_banner.welcome_back(GameState.last_offline_earned, GameState.last_offline_stored)
 	GameState.last_offline_earned = 0.0
 	GameState.last_offline_stored = 0
 
@@ -790,7 +787,7 @@ func _build_squares() -> void:
 		_squares_layer.add_child(grid)
 	_add_square("store", ActionSquare.Kind.STORE, Grid.center(STORE_CELL))
 	_sell_square = _add_square("sell", ActionSquare.Kind.SELL, _booth_pad_center(0))
-	_add_square("hire_seller", ActionSquare.Kind.BUY, _booth_pad_center(1))
+	_add_square("hire_seller", ActionSquare.Kind.BUY, _booth_pad_center(_hire_index()))
 	var dock := Sprite2D.new()
 	dock.texture = DRONE_DOCK_TEXTURE
 	dock.centered = false
@@ -835,10 +832,12 @@ func _add_square(square_id: String, kind: ActionSquare.Kind, center: Vector2) ->
 func _refresh_squares() -> void:
 	var site := GameState.here()
 	square_by_id("store").title = tr("Put in tank")
+	# The player sells by hand only until the first cashier takes over their booth.
 	var sell := square_by_id("sell")
 	sell.title = tr("Sell fish")
+	sell.visible = site.seller_count == 0
 	var hire := square_by_id("hire_seller")
-	hire.ground_center = _booth_pad_center(1 + site.seller_count)
+	hire.ground_center = _booth_pad_center(_hire_index())
 	hire.position = Iso.to_screen(hire.ground_center)
 	# Sellers are only offered after the gear shop's part of the tutorial: until then the player
 	# sells by hand.
@@ -1040,7 +1039,8 @@ func _complete_purchase(target: ActionSquare) -> void:
 
 #region Shops
 
-## Shows the booths at the shop's level, a booth for each seller, and the belt up to the last one.
+## Shows the booths at the shop's level and the belt up to the last one: the player's booth until
+## the first seller is hired, who takes it over, then a booth per seller.
 func _sync_shops() -> void:
 	var site := GameState.here()
 	if _belt != null:
@@ -1053,23 +1053,25 @@ func _sync_shops() -> void:
 		_boardwalk.setup(_pier_area())
 	if walk_area != null:
 		walk_area = PlayArea.new(Rect2(walk_area.rect.position.x, _walk_top(), walk_area.rect.size.x, walk_area.rect.end.y - _walk_top()))
-	# One booth for the player and one per seller.
-	while _booths.size() < 1 + site.seller_count:
+	while _booths.size() < _booth_count():
 		var booth := Booth.new()
 		var cell := _booth_cell(_booths.size())
 		booth.setup(Vector2(Grid.rect(cell).end.x, Grid.center(cell).y), _booths.size())
 		_entities.add_child(booth)
 		_booth_nodes.append(booth)
 		_booths.append(null)
+	# The booths form one row: the last one closes it at the north end.
 	for booth in _booth_nodes:
 		booth.level = site.shop_level
+		booth.is_player = booth == _booth_nodes[0] and site.seller_count == 0
+		booth.is_last = booth == _booth_nodes[-1]
 	_move_queue()
 
 
 ## A seller sold a fish: coins pop up at the shop and the buyer at a seller's booth leaves with it.
 func _on_fish_sold_by_seller(_species_id: String, price: float) -> void:
-	var at_booth := 1
-	for booth in range(1, _booths.size()):
+	var at_booth := 0
+	for booth in _booths.size():
 		if _booths[booth] != null and _booths[booth].is_waiting():
 			at_booth = booth
 			break
@@ -1100,8 +1102,9 @@ func _update_customers(delta: float) -> void:
 	for booth in _booths.size():
 		if _queue.is_empty() or not _queue[0].is_waiting():
 			return
-		# The player's booth only takes buyers while the player is there to sell.
-		if _booths[booth] != null or (booth == 0 and _current_square != _sell_square):
+		# The player's booth only takes buyers while the player is there to sell (until a seller
+		# takes it over).
+		if _booths[booth] != null or (booth == 0 and GameState.here().seller_count == 0 and _current_square != _sell_square):
 			continue
 		var buyer: Customer = _queue.pop_front()
 		buyer.move_to(_booth_spot(booth))
@@ -1137,6 +1140,17 @@ func _queue_spot(index: int) -> Vector2:
 ## Ground x of the queue's line.
 func _queue_x() -> float:
 	return Grid.rect(PLAYER_BOOTH_CELL).end.x + QUEUE_OFFSET
+
+
+## How many booths stand: the player's, which the first seller takes over, then one per seller.
+func _booth_count() -> int:
+	return maxi(1, GameState.here().seller_count)
+
+
+## Booth index of the "Hire seller" pad: the next booth to be built (the first seller takes over
+## the player's booth, so it starts at 1).
+func _hire_index() -> int:
+	return maxi(1, GameState.here().seller_count)
 
 
 ## Centre of the pad on the seller's side of booth `index` (which need not be built yet).

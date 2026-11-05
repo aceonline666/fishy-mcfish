@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024">
+<!-- Booth row: 3 cells along ground y at 300 px per cell edge, booth 0.45 cell deep at the east edge, counter 190 px, top 480 px; middle segment blue. See art_source/buildings/booth_row_sprite_prompt.md. -->
+<rect width="1536" height="1024" fill="#ffffff"/>
+<polygon points="986,410 1286,560 986,710 686,560" fill="#d9d9d9" fill-opacity="1.0" stroke="#555" stroke-width="2"/>
+<polygon points="686,560 986,710 686,860 386,710" fill="#d9d9d9" fill-opacity="1.0" stroke="#555" stroke-width="2"/>
+<polygon points="386,710 686,860 386,1010 86,860" fill="#d9d9d9" fill-opacity="1.0" stroke="#555" stroke-width="2"/>
+<polygon points="1151,492.5 1286,560 986,710 851,642.5" fill="#a0522d" fill-opacity="0.35" stroke="#6b3519" stroke-width="3"/>
+<polygon points="851,642.5 986,710 686,860 551,792.5" fill="#a0522d" fill-opacity="0.35" stroke="#6b3519" stroke-width="3"/>
+<polygon points="551,792.5 686,860 386,1010 251,942.5" fill="#a0522d" fill-opacity="0.35" stroke="#6b3519" stroke-width="3"/>
+<polyline points="1151,12.5 1286,80 386,530 251,462.5 1151,12.5" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="10,8"/>
+<polygon points="1286,560 986,710 986,520 1286,370" fill="#3cb371" fill-opacity="0.3" stroke="#1e7a45" stroke-width="3"/>
+<polygon points="986,710 686,860 686,670 986,520" fill="#4a90d9" fill-opacity="0.35" stroke="#1f5fa8" stroke-width="3"/>
+<polygon points="686,860 386,1010 386,820 686,670" fill="#3cb371" fill-opacity="0.3" stroke="#1e7a45" stroke-width="3"/>
+<polyline points="1286,140 386,590" fill="none" stroke="#e67e22" stroke-width="6"/>
+<polyline points="1286,560 1286,120" fill="none" stroke="#000" stroke-width="5"/>
+<polyline points="1151,492.5 1151,52.5" fill="none" stroke="#555" stroke-width="3" stroke-dasharray="10,8"/>
+<polyline points="986,710 986,270" fill="none" stroke="#000" stroke-width="5"/>
+<polyline points="851,642.5 851,202.5" fill="none" stroke="#555" stroke-width="3" stroke-dasharray="10,8"/>
+<polyline points="686,860 686,420" fill="none" stroke="#000" stroke-width="5"/>
+<polyline points="551,792.5 551,352.5" fill="none" stroke="#555" stroke-width="3" stroke-dasharray="10,8"/>
+<polyline points="386,1010 386,570" fill="none" stroke="#000" stroke-width="5"/>
+<polyline points="251,942.5 251,502.5" fill="none" stroke="#555" stroke-width="3" stroke-dasharray="10,8"/>
+</svg>

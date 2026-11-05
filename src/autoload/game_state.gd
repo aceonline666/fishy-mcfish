@@ -120,8 +120,14 @@ func pay_into(square_id: String, amount: float, price: float) -> bool:
 func unlock_location(def: LocationDef) -> bool:
 	if not Travel.can_unlock(state, def) or not try_spend(def.travel_cost):
 		return false
-	state.unlocked_locations.append(def.id)
+	open_location(def)
 	return true
+
+
+## Opens a location whose fee is already paid (on the gear shop's travel pad, coin by coin).
+func open_location(def: LocationDef) -> void:
+	if not state.unlocked_locations.has(def.id):
+		state.unlocked_locations.append(def.id)
 
 
 func travel_to(def: LocationDef) -> void:

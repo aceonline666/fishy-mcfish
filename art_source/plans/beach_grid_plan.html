@@ -74,6 +74,22 @@ svg text { font-family: var(--mono); }
     <div><b>Gear shop</b> covers 3 × 2 cells, columns 6–8, rows −4…−3, south of the booth line so it does not hide the first booths. The drones' dock stands in front of it at 8,−2.</div>
     <div><b>Sea zones</b> sit on the grid: each is 4 rows (960 units) deep, so zone 1 covers rows 0–3, zone 2 rows 4–7, down to zone 6 at rows 20–23.</div>
   </div>
+  <h1>Inside the gear shop</h1>
+  <p>The room behind the gear shop's door (UpgradeStore), on its own grid with the same 240-unit cells: 7 columns by 7 rows, rows −7…−1, the doormat at the front (south) leads out. The same in every location; it does not change with upgrades.</p>
+  <div class="legend">
+    <span><i class="sw start"></i>Pad</span>
+    <span><i class="sw fixed"></i>Shelf or desk</span>
+  </div>
+  <div class="map" id="room"></div>
+  <div class="notes">
+    <div>Built as shown, from <code>src/scenes/store/upgrade_store.gd</code>. The pads stand on the grid; the display sprites behind them (painted, <code>FIXTURES</code>) are placed freely where they look good, so their cells here are approximate.</div>
+    <div><b>Walkable</b>: columns 1–6, rows −6…−1. The wader keeps one cell off the back walls (north and west), where the shelves and the desk stand, and can walk behind them.</div>
+    <div><b>Pads off the grid</b>: each pad is one cell, but stands a quarter cell further towards the room's middle (3.5,−3.5) than the cell grid would put it, to leave the displays room. Positions here are the pads' middles. The displays (painted sprites) are placed freely and drawn here only roughly.</div>
+    <div><b>West side</b>: "Diving gear" at 1.75,−3.5 in front of the gear rack, "Net" at 1.75,−1.75 in front of the net barrel, both along the wall.</div>
+    <div><b>Back</b>: "Tank" at 1.75,−5.25 in front of the tank parts; "Market" at 3.5,−5.25 in front of the desk at 3,−7. "Travel to next beach" at 5.25,−5.25: once the next beach's goal is reached it takes that beach's travel fee coin by coin, opens it and goes there (free once open; greyed out before the goal, hidden at the last beach). The World map on the beach does the same.</div>
+    <div><b>East side</b>: "Backpack" at 5.25,−3.5 and "Drone" at 5.25,−1.75; the drone pile stands east of the drone pad.</div>
+    <div><b>Doormat</b> painted on the floor at the front, about 2.65–3.95 east and −0.78…0 north (cell 3,−1, a little west); there is no pad. The wader comes in just north of it, at 3.3,−1.5. Standing on it 0.3 s walks back out onto the beach.</div>
+  </div>
 </main>
 
 <script>
@@ -150,4 +166,40 @@ s += `<rect x="${x(4.5) - 18}" y="${y(10.5) - 7}" width="36" height="14" rx="7" 
 s += `<text x="${x(COLS) - 4}" y="${y(0) - 5}" font-size="10" text-anchor="end" fill="${css("ink")}">waterline</text>`;
 s += `</svg>`;
 document.getElementById("map").innerHTML = s;
+
+// The gear shop's room: cols 0..6, rows -7..-1.
+{
+  const RCOLS = 7, RTOP = -7, RBOTTOM = 0;
+  const RW = LEFT + RCOLS * C + 8, RH = HEAD + (RBOTTOM - RTOP) * C + 30;
+  const rx = c => LEFT + c * C, ry = r => HEAD + (r - RTOP) * C;
+  // [label, col, row, width, depth, kind]  kind: pad | fixed
+  const ROOM = [
+    ["rack", 0, -4, 1, 1, "fixed"], ["barrel", 0, -2, 1, 1, "fixed"],
+    ["parts", 1, -7, 1, 1, "fixed"], ["desk", 3, -7, 1, 1, "fixed"],
+    ["gear", 1.25, -4, 1, 1, "pad"], ["net", 1.25, -2.25, 1, 1, "pad"],
+    ["tank", 1.25, -5.75, 1, 1, "pad"], ["mkt", 3, -5.75, 1, 1, "pad"],
+    ["travel", 4.75, -5.75, 1, 1, "pad"],
+    ["pack", 4.75, -4, 1, 1, "pad"], ["drone", 4.75, -2.25, 1, 1, "pad"],
+    ["mat", 2.65, -0.78, 1.3, 0.78, "fixed"],
+  ];
+  let t = `<svg width="${RW}" height="${RH}" viewBox="0 0 ${RW} ${RH}" role="img" aria-label="Grid map of the gear shop's room">`;
+  t += `<rect x="${rx(0)}" y="${ry(RTOP)}" width="${RCOLS * C}" height="${(RBOTTOM - RTOP) * C}" fill="${css("sand")}"/>`;
+  for (let c = 0; c <= RCOLS; c++) t += `<line x1="${rx(c)}" x2="${rx(c)}" y1="${ry(RTOP)}" y2="${ry(RBOTTOM)}" stroke="${css("gridline")}"/>`;
+  for (let r = RTOP; r <= RBOTTOM; r++) t += `<line x1="${rx(0)}" x2="${rx(RCOLS)}" y1="${ry(r)}" y2="${ry(r)}" stroke="${css("gridline")}"/>`;
+  for (let c = 0; c < RCOLS; c++) t += `<text x="${rx(c + 0.5)}" y="${HEAD - 8}" font-size="10" text-anchor="middle" fill="${css("muted")}">${c}</text>`;
+  for (let r = RTOP; r < RBOTTOM; r++) t += `<text x="${LEFT - 6}" y="${ry(r + 0.5) + 3}" font-size="10" text-anchor="end" fill="${css("muted")}">${r}</text>`;
+  // back walls (north and west) and the front wall with the door gap
+  t += `<path d="M${rx(0)} ${ry(RBOTTOM)} V${ry(RTOP)} H${rx(RCOLS)}" fill="none" stroke="${css("ink")}" stroke-width="4"/>`;
+  t += `<path d="M${rx(0)} ${ry(RBOTTOM)} H${rx(3)} M${rx(4)} ${ry(RBOTTOM)} H${rx(RCOLS)} V${ry(RTOP)}" fill="none" stroke="${css("ink")}" stroke-width="2"/>`;
+  // walkable area
+  t += `<rect x="${rx(1)}" y="${ry(-6)}" width="${6 * C}" height="${6 * C}" fill="none" stroke="${css("ink")}" stroke-width="2" stroke-dasharray="5 3"/>`;
+  t += `<text x="${rx(3.5)}" y="${ry(-3.5) + 3}" font-size="10" text-anchor="middle" fill="${css("muted")}">walkable</text>`;
+  for (const [label, c, r, w, d, kind] of ROOM) {
+    t += `<rect x="${rx(c) + 1.5}" y="${ry(r) + 1.5}" width="${w * C - 3}" height="${d * C - 3}" rx="3" fill="${css(kind === "pad" ? "start" : "ink")}"/>`;
+    t += `<text x="${rx(c + w / 2)}" y="${ry(r + d / 2) + 3}" font-size="${label.length > 4 ? 8 : 10}" font-weight="500" text-anchor="middle" fill="${css("label-on")}">${label}</text>`;
+  }
+  t += `<text x="${rx(3.5)}" y="${ry(RBOTTOM) + 18}" font-size="10" text-anchor="middle" fill="${css("ink")}">↓ out to the beach</text>`;
+  t += `</svg>`;
+  document.getElementById("room").innerHTML = t;
+}
 </script>

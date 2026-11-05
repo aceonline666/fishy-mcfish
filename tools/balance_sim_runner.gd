@@ -95,7 +95,8 @@ func _has_unknown_species(zone: ZoneDef) -> bool:
 	return zone.spawns.keys().any(func(id: String) -> bool: return not _state.species_caught.has(id))
 
 
-## Walks up the beach: store what fits (the rest stays in the backpack), sell all grown fish,
+## Walks up the beach: store what fits (the rest stays in the backpack), sell all grown fish (by
+## hand until a seller is hired),
 ## buy upgrades, and travel on once this location is done.
 func _trip() -> void:
 	var site := _state.here()
@@ -103,7 +104,8 @@ func _trip() -> void:
 	var sold := 0
 	_backpack = _backpack.filter(func(id: String) -> bool:
 		return Aquarium.store(site, id, Aquarium.catch_growth(_rng)) == null)
-	while not Selling.sell_next(_state, site).is_empty():
+	# Selling by hand ends once the first seller takes over the player's booth.
+	while site.seller_count == 0 and not Selling.sell_next(_state, site).is_empty():
 		sold += 1
 	_pass_time(sold * SELL_SECONDS)
 	while _buy_cheapest():

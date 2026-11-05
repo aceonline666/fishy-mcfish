@@ -4,12 +4,14 @@ extends Control
 ## beach: a room in isometric view where the wader buys the upgrades by standing on their pads,
 ## as on the beach: diving gear and nets on the west side in front of their shelves, the backpack
 ## and drones on the east side, bigger tanks (in front of a shelf) and the market upgrade (at a
-## desk) at the back, and the door back to the beach at the front. The pads keep wide gaps, so nothing is bought by accident on the way.
+## desk) at the back, and the doormat back to the beach at the front. The pads keep wide gaps, so nothing is bought by accident on the way.
 ## Every location has one; the upgrades are bought for that location. The beach keeps running
 ## behind it (Main), and its drones keep fishing (GameState.in_store).
 
 ## The wader walked out through the door.
 signal left
+## The wader travelled to the next beach (GameState already points there).
+signal travelled
 
 const ZOOM := 1.5
 const CAMERA_SMOOTHING := 6.0
@@ -20,43 +22,54 @@ const PLAY_MARGIN_BOTTOM := 190.0
 const WALK_SPEED := 1.5
 
 #region Layout (on the layout grid, Grid; the front wall with the door is at row 0)
-## Everything in the room covers whole cells of the layout grid (Grid), given by the cell at its
-## north-west corner. The wader keeps one cell off the back walls (north and west), where the
-## shelves and the desk stand; each pad is right in front of its fixture, the door pad in the
-## middle of the front.
+## The room covers whole cells of the layout grid (Grid), given by the cell at its north-west
+## corner. The wader keeps one cell off the back walls (north and west), where the displays
+## stand. The pads are one cell each but off the cell grid: each sits a quarter cell further
+## towards the room's middle than the cell grid would put it, to leave the displays room. Their
+## spots are their middles, in cells (Grid.center of cell 1,-4 is spot 1.5,-3.5). The doormat at
+## the front (StoreRoom.MAT, about cell 3,-1) leads out.
 ##
-##   row   col 0   1         2       3   4      5   6       7          8
-##    -7           .         shelf   .   .      .   desk    .          .
-##    -6           .         tank    .   .      .   market  .          .
-##    -4   shelf   gear      .       .   .      .   .       backpack   .
-##    -2   shelf   net       .       .   entry  .   .       drone      .
-##    -1           .         .       .   door   .   .       .          .
+##   spot y   x 1.75   3.5      5.25
+##    -5.25     tank     market   travel
+##    -3.5      gear     .        backpack
+##    -1.75     net      .        drone
+##    -1.5               entry (3.3)
+##    -0.4               mat (3.3)
 const ROOM_CELL := Vector2i(0, -7)
-const ROOM_SIZE := Vector2i(9, 7)
-const GEAR_CELL := Vector2i(1, -4)
-const NET_CELL := Vector2i(1, -2)
-const BACKPACK_CELL := Vector2i(7, -4)
-const DRONE_CELL := Vector2i(7, -2)
-const TANK_CELL := Vector2i(2, -6)
-const SHOP_UPGRADE_CELL := Vector2i(6, -6)
-const EXIT_CELL := Vector2i(4, -1)
-## The wader comes in here, just inside the door.
-const ENTRY := (Vector2(EXIT_CELL) + Vector2(0.5, -0.5)) * Grid.UNIT
+const ROOM_SIZE := Vector2i(7, 7)
+const GEAR_SPOT := Vector2(1.75, -3.5)
+const NET_SPOT := Vector2(1.75, -1.75)
+const BACKPACK_SPOT := Vector2(5.25, -3.5)
+const DRONE_SPOT := Vector2(5.25, -1.75)
+const TANK_SPOT := Vector2(1.75, -5.25)
+const SHOP_UPGRADE_SPOT := Vector2(3.5, -5.25)
+## Travel to the next beach: unlocks it (paying its fee, once its goal is reached) and goes there.
+## The other way is the World map on the beach.
+const TRAVEL_SPOT := Vector2(5.25, -5.25)
+## The wader comes in here, just north of the doormat.
+const ENTRY := Vector2(3.3, -1.5) * Grid.UNIT
 ## Show the layout grid over the room, to lay things out.
 const SHOW_GRID := false
-## The shelves and the desk behind the pads: sprite (assets/sprites/props, PLACEHOLDER SVGs drawn
-## at ground scale), the cell whose middle the middle of its footprint stands on, where that
-## middle is in the sprite, and whether it is mirrored (a shelf then runs east-west). Nothing
-## stands east of a pad: it would hide it on screen; things behind a pad keep clear of its label.
+## The displays behind the pads, showing what they sell: sprite (assets/sprites/props; the
+## paintings from art_source/store/fixture_sprite_prompts.md, brought in by
+## tools/import_store_art.py, or PLACEHOLDER SVGs drawn at ground scale), where it stands on the
+## floor (in cells, free of the grid: placed where it looks good), the point in the sprite that
+## stands there, the sprite's pixels per cell edge across (its scale), and whether it is
+## mirrored. The room's painted walls stand about a quarter cell inside the grid's room edge.
+## The pads are drawn over the displays, so a display keeps clear of its pad on screen.
 const FIXTURES: Array[Array] = [
-	["shelf", Vector2i(0, -4), Vector2(130.0, 175.0), false],
-	["shelf", Vector2i(0, -2), Vector2(130.0, 175.0), false],
-	["shelf", Vector2i(2, -7), Vector2(130.0, 175.0), true],
-	["desk", Vector2i(6, -7), Vector2(130.0, 135.0), false],
+	["gear_display.png", Vector2(0.6, -3.75), Vector2(652.0, 873.0), 430.0, false],
+	["net_display.png", Vector2(0.75, -1.75), Vector2(628.0, 1102.0), 600.0, false],
+	["tank_display.png", Vector2(0.75, -6.33), Vector2(635.0, 808.0), 590.0, false],
+	["drone_display.png", Vector2(6.6, -1.5), Vector2(625.0, 812.0), 650.0, false],
+	["basket_display.png", Vector2(6.55, -3.5), Vector2(510.0, 448.0), 650.0, false],
+	["selling_display.png", Vector2(3.5, -6.6), Vector2(457.0, 772.0), 560.0, true],
 ]
+## Screen pixels across one cell edge at ground scale.
+const CELL_EDGE_ACROSS := Grid.UNIT * 0.70710678
 #endregion
 
-## Seconds the wader stands on the door before walking out.
+## Seconds the wader stands on the doormat before walking out.
 const DOOR_DELAY_S := 0.3
 ## Seconds between payments on a pad; each pays this share of the price.
 const PAY_INTERVAL_S := 0.05
@@ -94,6 +107,9 @@ var _warned := false
 ## After a purchase the pad turns into the next offer; it only takes coins again once the wader
 ## has stepped off and back on.
 var _purchase_done := false
+## Seconds the wader has stood on the doormat; it leaves once only.
+var _mat_time := 0.0
+var _left := false
 var _shown_money := 0.0
 var _money_tween: Tween
 
@@ -143,13 +159,13 @@ func _ready() -> void:
 		var grid := GridOverlay.new()
 		grid.setup(Rect2i(ROOM_CELL, ROOM_SIZE))
 		_squares_layer.add_child(grid)
-	_add_square("upgrade_gear", ActionSquare.Kind.BUY, GEAR_CELL)
-	_add_square("upgrade_net", ActionSquare.Kind.BUY, NET_CELL)
-	_add_square("upgrade_backpack", ActionSquare.Kind.BUY, BACKPACK_CELL)
-	_add_square("buy_drone", ActionSquare.Kind.BUY, DRONE_CELL)
-	_add_square("upgrade_tank", ActionSquare.Kind.BUY, TANK_CELL)
-	_add_square("upgrade_shop", ActionSquare.Kind.BUY, SHOP_UPGRADE_CELL)
-	_add_square("exit", ActionSquare.Kind.DOOR, EXIT_CELL)
+	_add_square("upgrade_gear", ActionSquare.Kind.BUY, GEAR_SPOT)
+	_add_square("upgrade_net", ActionSquare.Kind.BUY, NET_SPOT)
+	_add_square("upgrade_backpack", ActionSquare.Kind.BUY, BACKPACK_SPOT)
+	_add_square("buy_drone", ActionSquare.Kind.BUY, DRONE_SPOT)
+	_add_square("upgrade_tank", ActionSquare.Kind.BUY, TANK_SPOT)
+	_add_square("upgrade_shop", ActionSquare.Kind.BUY, SHOP_UPGRADE_SPOT)
+	_add_square("travel_next", ActionSquare.Kind.BUY, TRAVEL_SPOT)
 	_place_fixtures()
 	var site := GameState.here()
 	wader.in_water = false
@@ -180,6 +196,7 @@ func _process(delta: float) -> void:
 	_update_camera(delta)
 	_update_tutorial()
 	_update_squares(delta)
+	_update_mat(delta)
 
 
 ## Touch to walk towards the finger, drag to steer; the wader stops when the finger lifts.
@@ -266,18 +283,18 @@ func _update_texts() -> void:
 	_hint_label.text = tr("Stand on a pad to buy. Upgrades are for this beach only.")
 
 
-## The shelves and the desk; they take part in the depth sorting, and the wader can walk behind
-## them.
+## The displays; they take part in the depth sorting, and the wader can walk behind them.
 func _place_fixtures() -> void:
 	for entry: Array in FIXTURES:
 		var fixture := Sprite2D.new()
-		fixture.texture = load("res://assets/sprites/props/%s.svg" % entry[0])
+		fixture.texture = load("res://assets/sprites/props/%s" % entry[0])
 		fixture.centered = false
 		fixture.offset = -entry[2]
-		fixture.flip_h = entry[3]
-		if entry[3]:
+		fixture.scale = Vector2.ONE * CELL_EDGE_ACROSS / entry[3]
+		fixture.flip_h = entry[4]
+		if entry[4]:
 			fixture.offset.x = -(fixture.texture.get_width() - entry[2].x)
-		fixture.position = Iso.to_screen(Grid.center(entry[1]))
+		fixture.position = Iso.to_screen(entry[1] * Grid.UNIT)
 		_entities.add_child(fixture)
 		wader.covers.append(Layers.sprite_cover(fixture))
 
@@ -307,9 +324,10 @@ func _clamp_axis(value: float, low: float, high: float) -> float:
 
 #region Pads
 
-func _add_square(square_id: String, kind: ActionSquare.Kind, cell: Vector2i) -> ActionSquare:
+## A pad with its middle on `spot` (in cells).
+func _add_square(square_id: String, kind: ActionSquare.Kind, spot: Vector2) -> ActionSquare:
 	var new_square := ActionSquare.new()
-	new_square.setup(square_id, kind, "", Grid.center(cell))
+	new_square.setup(square_id, kind, "", spot * Grid.UNIT)
 	_squares_layer.add_child(new_square)
 	_squares.append(new_square)
 	return new_square
@@ -326,14 +344,13 @@ func _square_by_id(square_id: String) -> ActionSquare:
 func _refresh_squares() -> void:
 	var state := GameState.state
 	var site := GameState.here()
-	_square_by_id("exit").title = tr("Back to the beach")
 	var tank_square := _square_by_id("upgrade_tank")
 	_set_purchase(tank_square, tr("Bigger tank"), Aquarium.tank_upgrade_cost(site), _prop("tank_%d" % (site.tank.level + 1)))
 	if site.tank.level < DataRegistry.tank_levels.size():
 		tank_square.subtitle = tr("Fish grow %s× as fast") % String.num(DataRegistry.tank_levels[site.tank.level].speed, 2)
 	# Each shop level makes room for more sellers.
 	var shop := _square_by_id("upgrade_shop")
-	_set_purchase(shop, tr("Bigger shop"), Selling.shop_upgrade_cost(site), _prop("shop_%d" % (site.shop_level + 1)))
+	_set_purchase(shop, tr("More selling space"), Selling.shop_upgrade_cost(site), _prop("shop_%d" % (site.shop_level + 1)))
 	if site.shop_level < DataRegistry.shop_levels.size():
 		var more := int(DataRegistry.shop_levels[site.shop_level].capacity) - Selling.seller_slots(site)
 		shop.subtitle = tr("+1 seller") if more == 1 else tr("+%d sellers") % more
@@ -345,12 +362,25 @@ func _refresh_squares() -> void:
 	var next_gear := DataRegistry.gear_levels[mini(site.gear_level, DataRegistry.gear_levels.size() - 1)]
 	_set_purchase(_square_by_id("upgrade_gear"), tr(next_gear.name), Aquarium.gear_upgrade_cost(site),
 			_prop("gear_%d" % (site.gear_level + 1)))
-	# Drone N fishes zone N, so it is offered once that zone is charted.
+	# Drone N fishes zone N, so it is greyed out until that zone is charted.
 	var drone_square := _square_by_id("buy_drone")
 	var drone_available := Automation.next_drone_available(state, site)
-	_set_purchase(drone_square, tr("Buy drone"), Automation.next_drone_cost(site) if drone_available else -1.0,
-			_prop("drone_%d" % (site.drone_count + 1)))
-	drone_square.subtitle = tr(Automation.drone_zone(state, site, site.drone_count).name) if drone_available else ""
+	_set_purchase(drone_square, tr("Buy drone"), Automation.next_drone_cost(site), _prop("drone_%d" % (site.drone_count + 1)))
+	drone_square.disabled = not drone_available
+	drone_square.subtitle = ""
+	for zone in DataRegistry.zones_in(site.location_id):
+		if zone.order == site.drone_count + 1:
+			drone_square.subtitle = tr(zone.name) if drone_available else tr("Chart first: %s") % tr(zone.name)
+	# The next beach: free once open, its travel fee once its goal is reached, greyed out before.
+	var travel := _square_by_id("travel_next")
+	var next := Travel.next_location(state)
+	if next == null:
+		_set_purchase(travel, "", -1.0)
+	else:
+		var open := Travel.is_unlocked(state, next)
+		_set_purchase(travel, tr("Travel to next beach"), 0.0 if open else next.travel_cost, _prop("location_%s" % next.id))
+		travel.disabled = not open and not Travel.can_unlock(state, next)
+		travel.subtitle = tr("Goal: %s") % tr(Travel.unlock_goal(next).name) if travel.disabled else tr(next.name)
 
 
 ## A wader sprite from assets/sprites/wader by name, or null if there is none.
@@ -387,25 +417,35 @@ func _update_squares(delta: float) -> void:
 		s.active = s == on
 	if on != _current_square:
 		_current_square = on
-		_action_timer = DOOR_DELAY_S if on != null and on.kind == ActionSquare.Kind.DOOR else 0.0
+		_action_timer = 0.0
 		_action_count = 0
 		_warned = false
 		_purchase_done = false
-	if on == null or _purchase_done:
+	if on == null or _purchase_done or on.disabled:
 		return
 	_action_timer -= delta
 	if _action_timer > 0.0:
-		return
-	if on.kind == ActionSquare.Kind.DOOR:
-		_purchase_done = true
-		left.emit()
 		return
 	_action_timer = PAY_INTERVAL_S
 	_pay_into(on)
 
 
+## Standing on the doormat for DOOR_DELAY_S walks out to the beach.
+func _update_mat(delta: float) -> void:
+	if _left or not _floor.mat().has_point(wader.ground_position):
+		_mat_time = 0.0
+		return
+	_mat_time += delta
+	if _mat_time >= DOOR_DELAY_S:
+		_left = true
+		left.emit()
+
+
 ## Pays a slice of the price; completes the purchase once fully paid.
 func _pay_into(target: ActionSquare) -> void:
+	if target.price <= 0.0:
+		_complete_purchase(target)
+		return
 	if GameState.state.money < 0.01:
 		if not _warned:
 			_warned = true
@@ -424,6 +464,9 @@ func _pay_into(target: ActionSquare) -> void:
 
 
 func _complete_purchase(target: ActionSquare) -> void:
+	if target.id == "travel_next":
+		_travel_next()
+		return
 	var state := GameState.state
 	var site := GameState.here()
 	var message := ""
@@ -439,10 +482,9 @@ func _complete_purchase(target: ActionSquare) -> void:
 			message = tr("New drone!\nIt fishes here: %s") % tr(Automation.drone_zone(state, site, site.drone_count - 1).name)
 		"upgrade_shop":
 			GameState.upgrade_shop()
-			var shop_name := tr(DataRegistry.shop_levels[site.shop_level - 1].name)
 			var more := Selling.seller_slots(site) - int(DataRegistry.shop_levels[site.shop_level - 2].capacity)
-			message = tr("%s!\nRoom for one more seller") % shop_name if more == 1 \
-					else tr("%s!\nRoom for %d more sellers") % [shop_name, more]
+			message = tr("More selling space!\nRoom for one more seller") if more == 1 \
+					else tr("More selling space!\nRoom for %d more sellers") % more
 		"upgrade_net":
 			GameState.upgrade_net()
 			wader.net_level = site.net_level
@@ -464,6 +506,19 @@ func _complete_purchase(target: ActionSquare) -> void:
 	_refresh_squares()
 	GameState.check_achievements()
 	SaveSystem.save_game()
+
+
+## The travel pad is paid (or free): opens the next beach and goes there.
+func _travel_next() -> void:
+	var state := GameState.state
+	var next := Travel.next_location(state)
+	_purchase_done = true
+	if not Travel.is_unlocked(state, next):
+		GameState.open_location(next)
+	GameState.travel_to(next)
+	GameState.check_achievements()
+	SaveSystem.save_game()
+	travelled.emit()
 
 #endregion
 
@@ -503,6 +558,8 @@ func _pad_tip(square_id: String) -> String:
 			return tr("More sellers")
 		"buy_drone":
 			return tr("Fishes for you")
+		"travel_next":
+			return tr("A new beach to fish")
 	return ""
 
 #endregion
