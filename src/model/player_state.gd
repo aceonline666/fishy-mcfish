@@ -25,6 +25,8 @@ var unlocked_locations: Array[String] = []
 var achievements: Array[String] = []
 ## The beach business of each location visited, by location id.
 var sites: Dictionary[String, Site] = {}
+## How far the player is through the tutorial (Tutorial.Step).
+var tutorial_step := 0
 
 
 static func new_game() -> PlayerState:
@@ -116,6 +118,7 @@ func to_dict() -> Dictionary:
 		"current_location": current_location,
 		"unlocked_locations": unlocked_locations.duplicate(),
 		"sites": site_data,
+		"tutorial_step": tutorial_step,
 	}
 
 
@@ -137,6 +140,8 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	var raw_locations: Array = data.get("unlocked_locations", [])
 	for id: Variant in raw_locations:
 		state.unlocked_locations.append(str(id))
+	# Saves from before the tutorial are past it.
+	state.tutorial_step = int(data.get("tutorial_step", Tutorial.Step.DONE))
 	var raw_zones: Dictionary = data.get("zone_catches", {})
 	for key: Variant in raw_zones:
 		state.zone_catches[str(key)] = int(raw_zones[key])

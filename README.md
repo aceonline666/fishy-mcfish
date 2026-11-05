@@ -23,6 +23,10 @@ come within reach of the hand net are scooped up automatically and stack up in t
 Small fish go in at once; bigger ones (herring, mackerel) must stay in the net until the yellow
 ring fills. Catches in quick succession build a combo.
 
+A new game starts with a short tutorial: a card at the top says what to do next and a golden
+arrow shows where to walk: fill the basket, put the catch into the tank, sell a grown fish at
+your booth, then go into the gear shop. Saves from before the tutorial skip it.
+
 Up on the beach, pads act while you stand on them (walking on sand is faster than wading). A
 boardwalk in the middle leads from the water to the back of the beach without crossing any pad.
 Left of it is the business, right of it the upgrades (net, diving gear, drones, backpack, tank).
@@ -211,8 +215,10 @@ Rules of thumb:
 
 
 ## TODOs
+- Add tutorial messages to explain the game
 - Redesign gear shop interior. It's too large and there are no sprites yet
 - "While you were away" message should show the progress and should have to be clicked away to have time to read.
+- Add belt and helipad sprites
 - Animate all species properly, replace un-animateable sprites for species
 - Replace wrong species sprites and fact-check species info panels
 - Swimming wader in zones 3 and 4 (swim sheets, see `art_source/characters/wader_sprite_prompt.md`)

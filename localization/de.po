@@ -1257,3 +1257,30 @@ msgstr "Zurück zum Strand"
 
 msgid "Stand on a pad to buy. Upgrades are for this beach only."
 msgstr "Stell dich auf ein Feld, um zu kaufen. Verbesserungen gelten nur für diesen Strand."
+
+msgid "Welcome to Fishy McFish!"
+msgstr "Willkommen bei Fishy McFish!"
+
+msgid "Wade into the sea and fetch some fish: walk close to them to scoop them up, until your basket is full."
+msgstr "Wate ins Meer und hol dir ein paar Fische: Geh nah an sie heran, um sie einzukeschern, bis dein Korb voll ist."
+
+msgid "Follow the arrow to the tank and stand on \"Put in tank\"."
+msgstr "Folge dem Pfeil zum Becken und stell dich auf „Ins Becken“."
+
+msgid "Your fish are growing"
+msgstr "Deine Fische wachsen"
+
+msgid "Only grown fish can be sold. As soon as one is grown, sell it at your booth."
+msgstr "Nur ausgewachsene Fische lassen sich verkaufen. Sobald einer ausgewachsen ist, verkaufe ihn an deinem Stand."
+
+msgid "A fish is grown!"
+msgstr "Ein Fisch ist ausgewachsen!"
+
+msgid "Follow the arrow to your booth and stand on \"Sell fish\" to sell it for coins."
+msgstr "Folge dem Pfeil zu deinem Stand und stell dich auf „Fisch verkaufen“, um ihn für Münzen zu verkaufen."
+
+msgid "You earned coins!"
+msgstr "Du hast Münzen verdient!"
+
+msgid "Follow the arrow into the gear shop and spend them on a better net, a bigger tank and more."
+msgstr "Folge dem Pfeil in den Angelladen und gib sie für ein besseres Netz, ein größeres Becken und mehr aus."

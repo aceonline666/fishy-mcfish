@@ -270,6 +270,7 @@ var goals := GoalsPanel.new()
 var world_map := WorldMap.new()
 var game_menu := GameMenu.new()
 var goal_banner := GoalBanner.new()
+var tutorial := TutorialGuide.new()
 
 
 func _ready() -> void:
@@ -287,8 +288,10 @@ func _ready() -> void:
 	goal_banner.top_offset = PLAY_MARGIN_TOP + 260.0
 	goal_banner.wallet = _coin_icon
 	goal_banner.coin_radius = 12.0 * ZOOM
-	# Above the HUD, below the full-screen panels.
+	# Above the HUD, below the full-screen panels; the tutorial below the goal banner.
 	_popups.add_sibling(goal_banner)
+	tutorial.top_offset = PLAY_MARGIN_TOP + 10.0
+	_popups.add_sibling(tutorial)
 	add_child(fishpedia)
 	_fishpedia_button.pressed.connect(fishpedia.open)
 	add_child(goals)
@@ -364,6 +367,7 @@ func _process(delta: float) -> void:
 	_update_squares(delta)
 	_update_customers(delta)
 	refresh_sell_pad()
+	_update_tutorial()
 
 	if auto_spawn:
 		_spawn_timer -= delta
@@ -910,8 +914,10 @@ func _finish_square_action() -> void:
 	match _current_square.kind:
 		ActionSquare.Kind.STORE:
 			_announce(at, tr("%d stored!") % _action_count, STORED_COLOR)
+			Tutorial.complete(GameState.state, Tutorial.Step.STORE)
 		ActionSquare.Kind.SELL:
 			_announce(at, tr("%d sold\n+%s coins") % [_action_count, NumberFormat.compact(_action_total)], COIN_COLOR)
+			Tutorial.complete(GameState.state, Tutorial.Step.SELL)
 	_action_count = 0
 	_action_total = 0.0
 
@@ -1233,6 +1239,7 @@ func _update_gear_shop() -> void:
 	if absf(at.x - GEAR_SHOP_DOOR_X) <= GEAR_SHOP_DOOR_HALF_WIDTH and at.y > shop.end.y - GEAR_SHOP_MARGIN:
 		_in_store = true
 		wader.stop()
+		Tutorial.complete(GameState.state, Tutorial.Step.GEAR)
 		store_requested.emit()
 		return
 	_push_out(shop)
@@ -1328,6 +1335,49 @@ func _bump(control: Control) -> void:
 	control.pivot_offset = control.size * 0.5
 	control.scale = Vector2.ONE * 1.08
 	create_tween().tween_property(control, "scale", Vector2.ONE, 0.12)
+
+#endregion
+
+
+#region Tutorial
+
+## Shows the tutorial's step (Tutorial): a card with what to do next, and an arrow to where.
+func _update_tutorial() -> void:
+	var state := GameState.state
+	if state.tutorial_step == Tutorial.Step.CATCH and live_well.is_full():
+		Tutorial.complete(state, Tutorial.Step.CATCH)
+	tutorial.allow_card(not goal_banner.is_showing())
+	tutorial.view_rect = Rect2(0.0, PLAY_MARGIN_TOP, size.x, size.y - PLAY_MARGIN_TOP - PLAY_MARGIN_BOTTOM)
+	match state.tutorial_step:
+		Tutorial.Step.CATCH:
+			tutorial.show_message(tr("Welcome to Fishy McFish!"),
+					tr("Wade into the sea and fetch some fish: walk close to them to scoop them up, until your basket is full."))
+			tutorial.clear_arrow()
+		Tutorial.Step.STORE:
+			tutorial.show_message(tr("Basket full!"),
+					tr("Follow the arrow to the tank and stand on \"Put in tank\"."))
+			_point_tutorial_at(Grid.rect(STORE_CELL).position)
+		Tutorial.Step.SELL:
+			if Aquarium.adult_count(GameState.here()) == 0:
+				tutorial.show_message(tr("Your fish are growing"),
+						tr("Only grown fish can be sold. As soon as one is grown, sell it at your booth."))
+			else:
+				tutorial.show_message(tr("A fish is grown!"),
+						tr("Follow the arrow to your booth and stand on \"Sell fish\" to sell it for coins."))
+			_point_tutorial_at(Grid.rect(_booth_cell(0) + Vector2i(-1, 0)).position)
+		Tutorial.Step.GEAR:
+			tutorial.show_message(tr("You earned coins!"),
+					tr("Follow the arrow into the gear shop and spend them on a better net, a bigger tank and more."))
+			_point_tutorial_at(Vector2(GEAR_SHOP_DOOR_X, Grid.rect(GEAR_SHOP_CELL, GEAR_SHOP_SIZE).end.y))
+		_:
+			tutorial.hide_message()
+			tutorial.clear_arrow()
+
+
+## Points the tutorial's arrow at a ground point. For a pad that is its north corner, the top one
+## on screen, so the arrow does not hide the pad's text.
+func _point_tutorial_at(ground: Vector2) -> void:
+	tutorial.point_at(ground_to_scene(ground))
 
 #endregion
 

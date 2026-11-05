@@ -479,3 +479,73 @@ func test_the_tank_cannot_be_walked_on() -> void:
 	_wader.stop()
 	await wait_process_frames(2)
 	assert_false(tank.has_point(_wader.ground_position))
+
+
+#region Tutorial
+
+func test_the_tutorial_leads_from_fishing_to_the_tank_the_booth_and_the_gear_shop() -> void:
+	var guide: TutorialGuide = _scene.tutorial
+	var state := GameState.state
+	assert_eq(state.tutorial_step, Tutorial.Step.CATCH)
+	assert_eq(guide.message_title(), "Welcome to Fishy McFish!")
+	assert_false(guide.has_arrow(), "no arrow while fetching fish")
+
+	var catch: Array[String] = []
+	for i: int in _scene.live_well.capacity:
+		catch.append("european_sprat")
+	await _catch(catch)
+	assert_eq(state.tutorial_step, Tutorial.Step.STORE, "a full basket goes to the tank")
+	assert_eq(guide.message_title(), "Basket full!")
+	assert_true(guide.has_arrow())
+	assert_almost_eq(guide._target, _scene.ground_to_scene(Grid.rect(Scene.STORE_CELL).position), Vector2.ONE * 2.0)
+
+	_stand_on("store")
+	await wait_seconds(2.0)
+	assert_eq(state.tutorial_step, Tutorial.Step.SELL, "the catch is in the tank")
+	# Some fish come out of the net grown already.
+	for fish in GameState.here().tank.fish:
+		fish.growth = 0.0
+	await wait_process_frames(2)
+	assert_eq(guide.message_title(), "Your fish are growing")
+	assert_almost_eq(guide._target, _scene.ground_to_scene(Grid.rect(Scene.PLAYER_BOOTH_CELL + Vector2i(-1, 0)).position),
+			Vector2.ONE * 2.0, "the arrow shows the way to the booth")
+
+	GameState.here().tank.fish.append(TankFish.new("european_sprat", 1.0))
+	await wait_process_frames(2)
+	assert_eq(guide.message_title(), "A fish is grown!")
+	await _buyers_waiting(2)
+	_stand_on("sell")
+	await wait_seconds(Scene.SELL_INTERVAL_S + 1.0)
+	_wader.ground_position = Vector2(Scene.PATH_X, 130.0)
+	await wait_process_frames(2)
+	assert_eq(state.tutorial_step, Tutorial.Step.GEAR, "sold for coins")
+	assert_eq(guide.message_title(), "You earned coins!")
+
+	var front: float = Grid.rect(Scene.GEAR_SHOP_CELL, Scene.GEAR_SHOP_SIZE).end.y
+	_wader.ground_position = Vector2(Scene.GEAR_SHOP_DOOR_X, front + 10.0)
+	await wait_process_frames(2)
+	assert_eq(state.tutorial_step, Tutorial.Step.DONE)
+	assert_eq(guide.message_title(), "")
+	assert_false(guide.has_arrow())
+
+
+func test_the_tutorial_arrow_waits_at_the_edge_pointing_to_a_place_out_of_view() -> void:
+	var guide: TutorialGuide = _scene.tutorial
+	GameState.state.tutorial_step = Tutorial.Step.STORE
+	_wader.ground_position = Vector2(Scene.SPOT_WIDTH - 100.0, 900.0)
+	_scene._update_camera(0.0, true)
+	await wait_process_frames(2)
+	var target: Vector2 = guide._target
+	assert_false(guide.view_rect.has_point(target), "the tank is out of view")
+	var tip: Array[Vector2] = guide.arrow_tip()
+	assert_true(guide.view_rect.has_point(tip[0]), "the arrow stays in view")
+	assert_gt(tip[1].dot(tip[0].direction_to(target)), 0.9, "and points towards the tank")
+
+
+func test_a_finished_tutorial_shows_nothing() -> void:
+	GameState.state.tutorial_step = Tutorial.Step.DONE
+	await wait_process_frames(2)
+	assert_eq(_scene.tutorial.message_title(), "")
+	assert_false(_scene.tutorial.has_arrow())
+
+#endregion

@@ -33,6 +33,14 @@ func test_survives_json_round_trip() -> void:
 	assert_typeof(restored.stats["fish_caught"], TYPE_INT)
 
 
+func test_the_tutorial_step_is_saved_and_old_saves_skip_it() -> void:
+	var state := PlayerState.new_game()
+	assert_eq(state.tutorial_step, Tutorial.Step.CATCH, "a new game starts with the tutorial")
+	state.tutorial_step = Tutorial.Step.SELL
+	assert_eq(PlayerState.from_dict(JSON.parse_string(JSON.stringify(state.to_dict()))).tutorial_step, Tutorial.Step.SELL)
+	assert_eq(PlayerState.from_dict({"money": 50.0}).tutorial_step, Tutorial.Step.DONE, "saves from before it are past it")
+
+
 func test_record_catch_reports_new_species_once() -> void:
 	var state := PlayerState.new()
 	assert_true(state.record_catch("european_sprat"))
