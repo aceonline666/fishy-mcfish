@@ -131,7 +131,7 @@ func test_on_the_first_visit_a_tip_over_each_pad_says_what_it_is_for() -> void:
 	await wait_process_frames(2)
 	assert_eq(_store.tutorial.message_title(), "Welcome to the gear shop!")
 	var tips := _store.tutorial.tip_texts()
-	assert_has(tips, "Bigger basket:\ncatch more fish at once")
+	assert_has(tips, "More fish at once")
 	assert_eq(tips.size(), _store._squares.filter(func(s: ActionSquare) -> bool: return s.visible and s.kind == ActionSquare.Kind.BUY).size(), "one per pad")
 
 	GameState.add_money(Aquarium.backpack_upgrade_cost(GameState.here()))

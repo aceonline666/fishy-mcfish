@@ -1261,50 +1261,50 @@ msgstr "Stell dich auf ein Feld, um zu kaufen. Verbesserungen gelten nur für di
 msgid "Welcome to Fishy McFish!"
 msgstr "Willkommen bei Fishy McFish!"
 
-msgid "Wade into the sea and fetch some fish: walk close to them to scoop them up, until your basket is full."
-msgstr "Wate ins Meer und hol dir ein paar Fische: Geh nah an sie heran, um sie einzukeschern, bis dein Korb voll ist."
+msgid "Wade into the sea and catch fish until your basket is full."
+msgstr "Wate ins Meer und fang Fische, bis dein Korb voll ist."
 
-msgid "Follow the arrow to the tank and stand on \"Put in tank\"."
-msgstr "Folge dem Pfeil zum Becken und stell dich auf „Ins Becken“."
+msgid "Put the fish into the tank."
+msgstr "Bring die Fische ins Becken."
 
 msgid "Your fish are growing"
 msgstr "Deine Fische wachsen"
 
-msgid "Only grown fish can be sold. As soon as one is grown, sell it at your booth."
-msgstr "Nur ausgewachsene Fische lassen sich verkaufen. Sobald einer ausgewachsen ist, verkaufe ihn an deinem Stand."
+msgid "Sell them at your booth once grown."
+msgstr "Verkaufe sie an deinem Stand, wenn sie ausgewachsen sind."
 
 msgid "A fish is grown!"
 msgstr "Ein Fisch ist ausgewachsen!"
 
-msgid "Follow the arrow to your booth and stand on \"Sell fish\" to sell it for coins."
-msgstr "Folge dem Pfeil zu deinem Stand und stell dich auf „Fisch verkaufen“, um ihn für Münzen zu verkaufen."
+msgid "Sell it at your booth."
+msgstr "Verkaufe ihn an deinem Stand."
 
 msgid "You earned coins!"
 msgstr "Du hast Münzen verdient!"
 
-msgid "Follow the arrow into the gear shop and spend them on a better net, a bigger tank and more."
-msgstr "Folge dem Pfeil in den Angelladen und gib sie für ein besseres Netz, ein größeres Becken und mehr aus."
+msgid "Spend them in the gear shop."
+msgstr "Gib sie im Angelladen aus."
 
 msgid "Welcome to the gear shop!"
 msgstr "Willkommen im Angelladen!"
 
-msgid "Here you spend your coins. Stand on a pad to buy what it shows."
-msgstr "Hier gibst du deine Münzen aus. Stell dich auf ein Feld, um zu kaufen, was es zeigt."
+msgid "Spend your coins here."
+msgstr "Hier gibst du deine Münzen aus."
 
-msgid "Bigger basket:\ncatch more fish at once"
-msgstr "Größerer Korb:\nmehr Fische auf einmal fangen"
+msgid "More fish at once"
+msgstr "Mehr Fische auf einmal"
 
-msgid "Better net:\nland big fish faster"
-msgstr "Besseres Netz:\ngroße Fische schneller fangen"
+msgid "Big fish faster"
+msgstr "Große Fische schneller"
 
-msgid "Diving gear:\nswim further out"
-msgstr "Tauchausrüstung:\nweiter hinausschwimmen"
+msgid "Swim further out"
+msgstr "Weiter hinausschwimmen"
 
-msgid "Bigger tank:\nmore fish, faster growth"
-msgstr "Größeres Becken:\nmehr Fische, schnelleres Wachstum"
+msgid "Room for more fish"
+msgstr "Platz für mehr Fische"
 
-msgid "Bigger shop:\nroom for more sellers"
-msgstr "Größerer Laden:\nPlatz für mehr Verkäufer"
+msgid "More sellers"
+msgstr "Mehr Verkäufer"
 
-msgid "Drone:\nfishes for you"
-msgstr "Drohne:\nfischt für dich"
+msgid "Fishes for you"
+msgstr "Fischt für dich"

@@ -16,6 +16,8 @@ func before_each() -> void:
 	# Goal rewards would add coins in the middle of the money checks below.
 	for def in DataRegistry.achievements:
 		state.achievements.append(def.id)
+	# Past the tutorial, which hides the "Hire seller" pad; its own tests start it again.
+	state.tutorial_step = Tutorial.Step.DONE
 	GameState.replace_state(state)
 	_scene = FishingSceneFile.instantiate()
 	_scene.auto_spawn = false
@@ -486,8 +488,11 @@ func test_the_tank_cannot_be_walked_on() -> void:
 func test_the_tutorial_leads_from_fishing_to_the_tank_the_booth_and_the_gear_shop() -> void:
 	var guide: TutorialGuide = _scene.tutorial
 	var state := GameState.state
-	assert_eq(state.tutorial_step, Tutorial.Step.CATCH)
+	state.tutorial_step = Tutorial.Step.CATCH
+	_scene._refresh_squares()
+	await wait_process_frames(2)
 	assert_eq(guide.message_title(), "Welcome to Fishy McFish!")
+	assert_null(_scene.square("hire_seller"), "no sellers to hire during the tutorial")
 	assert_false(guide.has_arrow(), "no arrow while fetching fish")
 
 	var catch: Array[String] = []
@@ -525,6 +530,9 @@ func test_the_tutorial_leads_from_fishing_to_the_tank_the_booth_and_the_gear_sho
 	_wader.ground_position = Vector2(Scene.GEAR_SHOP_DOOR_X, front + 10.0)
 	await wait_process_frames(2)
 	assert_eq(state.tutorial_step, Tutorial.Step.SHOP, "inside, the shop explains its pads")
+	Tutorial.complete(state, Tutorial.Step.SHOP)
+	_scene.return_from_store()
+	assert_not_null(_scene.square("hire_seller"), "back from the shop, sellers can be hired")
 	assert_eq(guide.message_title(), "")
 	assert_false(guide.has_arrow())
 

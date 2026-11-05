@@ -838,7 +838,9 @@ func _refresh_squares() -> void:
 	var hire := square_by_id("hire_seller")
 	hire.ground_center = _booth_pad_center(1 + site.seller_count)
 	hire.position = Iso.to_screen(hire.ground_center)
-	_set_purchase(hire, "hire_seller", tr("Hire seller"), Selling.next_seller_cost(site),
+	# Sellers are only offered after the tutorial: until then the player sells by hand.
+	_set_purchase(hire, "hire_seller", tr("Hire seller"),
+			Selling.next_seller_cost(site) if Tutorial.is_done(GameState.state) else -1.0,
 			_prop("cashier_%d" % (site.seller_count % CASHIER_LOOKS + 1)))
 
 
@@ -1351,23 +1353,23 @@ func _update_tutorial() -> void:
 	match state.tutorial_step:
 		Tutorial.Step.CATCH:
 			tutorial.show_message(tr("Welcome to Fishy McFish!"),
-					tr("Wade into the sea and fetch some fish: walk close to them to scoop them up, until your basket is full."))
+					tr("Wade into the sea and catch fish until your basket is full."))
 			tutorial.clear_arrow()
 		Tutorial.Step.STORE:
 			tutorial.show_message(tr("Basket full!"),
-					tr("Follow the arrow to the tank and stand on \"Put in tank\"."))
+					tr("Put the fish into the tank."))
 			_point_tutorial_at(Grid.rect(STORE_CELL).position)
 		Tutorial.Step.SELL:
 			if Aquarium.adult_count(GameState.here()) == 0:
 				tutorial.show_message(tr("Your fish are growing"),
-						tr("Only grown fish can be sold. As soon as one is grown, sell it at your booth."))
+						tr("Sell them at your booth once grown."))
 			else:
 				tutorial.show_message(tr("A fish is grown!"),
-						tr("Follow the arrow to your booth and stand on \"Sell fish\" to sell it for coins."))
+						tr("Sell it at your booth."))
 			_point_tutorial_at(Grid.rect(_booth_cell(0) + Vector2i(-1, 0)).position)
 		Tutorial.Step.GEAR:
 			tutorial.show_message(tr("You earned coins!"),
-					tr("Follow the arrow into the gear shop and spend them on a better net, a bigger tank and more."))
+					tr("Spend them in the gear shop."))
 			_point_tutorial_at(Vector2(GEAR_SHOP_DOOR_X, Grid.rect(GEAR_SHOP_CELL, GEAR_SHOP_SIZE).end.y))
 		_:
 			tutorial.hide_message()

@@ -18,10 +18,9 @@ const BOB_SPEED := 6.0
 ## The arrow keeps this far inside the view's edges.
 const EDGE_MARGIN := 40.0
 const POP_IN_S := 0.35
-## A tip's arrow is this much smaller than the main one; its text this big and this wide at most.
+## A tip's arrow is this much smaller than the main one; its text (one line) this big.
 const TIP_SCALE := 0.55
 const TIP_FONT_SIZE := 34
-const TIP_TEXT_WIDTH := 360.0
 
 ## Top of the card.
 var top_offset := 280.0
@@ -158,16 +157,13 @@ func _draw_tip(at: Vector2, text: String, index: int) -> void:
 	var bob := (0.5 + 0.5 * sin(_time * BOB_SPEED + index * 0.9)) * BOB_PX * TIP_SCALE
 	var tip := at + Vector2(0.0, -bob)
 	_draw_arrow(tip, Vector2.DOWN, TIP_SCALE)
+	# Measured, so a long text (German) is centred over the arrow and never cut off.
 	var font := get_theme_default_font()
-	var lines := text.split("
-")
-	var line_height := font.get_height(TIP_FONT_SIZE)
-	var top := tip.y - ARROW_LENGTH * TIP_SCALE - 12.0 - line_height * lines.size()
-	for i in lines.size():
-		var baseline := Vector2(tip.x - TIP_TEXT_WIDTH * 0.5, top + line_height * i + font.get_ascent(TIP_FONT_SIZE))
-		draw_string_outline(font, baseline, lines[i], HORIZONTAL_ALIGNMENT_CENTER, TIP_TEXT_WIDTH, TIP_FONT_SIZE,
-				maxi(TIP_FONT_SIZE / 4, 6), Juice.OUTLINE_COLOR)
-		draw_string(font, baseline, lines[i], HORIZONTAL_ALIGNMENT_CENTER, TIP_TEXT_WIDTH, TIP_FONT_SIZE, Color.WHITE)
+	var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, TIP_FONT_SIZE).x
+	var baseline := Vector2(tip.x - width * 0.5, tip.y - ARROW_LENGTH * TIP_SCALE - 12.0 - font.get_descent(TIP_FONT_SIZE))
+	draw_string_outline(font, baseline, text, HORIZONTAL_ALIGNMENT_LEFT, -1, TIP_FONT_SIZE,
+			maxi(TIP_FONT_SIZE / 4, 6), Juice.OUTLINE_COLOR)
+	draw_string(font, baseline, text, HORIZONTAL_ALIGNMENT_LEFT, -1, TIP_FONT_SIZE, Color.WHITE)
 
 
 ## An outlined golden arrow, its tip at `tip`, pointing in `direction`.

@@ -479,7 +479,7 @@ func _update_tutorial() -> void:
 		return
 	tutorial.allow_card(not _goal_banner.is_showing())
 	tutorial.show_message(tr("Welcome to the gear shop!"),
-			tr("Here you spend your coins. Stand on a pad to buy what it shows."))
+			tr("Spend your coins here."))
 	var tips: Array[Array] = []
 	for s in _squares:
 		if s.visible and not _pad_tip(s.id).is_empty():
@@ -492,23 +492,17 @@ func _update_tutorial() -> void:
 func _pad_tip(square_id: String) -> String:
 	match square_id:
 		"upgrade_backpack":
-			return tr("Bigger basket:
-catch more fish at once")
+			return tr("More fish at once")
 		"upgrade_net":
-			return tr("Better net:
-land big fish faster")
+			return tr("Big fish faster")
 		"upgrade_gear":
-			return tr("Diving gear:
-swim further out")
+			return tr("Swim further out")
 		"upgrade_tank":
-			return tr("Bigger tank:
-more fish, faster growth")
+			return tr("Room for more fish")
 		"upgrade_shop":
-			return tr("Bigger shop:
-room for more sellers")
+			return tr("More sellers")
 		"buy_drone":
-			return tr("Drone:
-fishes for you")
+			return tr("Fishes for you")
 	return ""
 
 #endregion
