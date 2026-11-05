@@ -66,8 +66,33 @@ verify="$("$JAVA_HOME/bin/jarsigner.exe" -verify "$OUT" 2>&1 || true)"
 grep -q "jar verified" <<<"$verify" || die "$OUT is not validly signed"
 unzip -p "$OUT" base/manifest/AndroidManifest.xml | grep -aq "com.aceonline666.fishymcfish" || die "unexpected package name in $OUT"
 
+# Native debug symbols for Play Console (readable crash reports): the libraries in the bundle come
+# from Godot's official release template, so Godot's published symbols for this version match
+# them. Downloaded once (780 MB, all ABIs) into build/cache; only the bundle's ABIs are kept.
+SYMBOLS="build/native-debug-symbols.zip"
+GODOT_VERSION="$(basename "$GODOT" | sed -E 's/^Godot_v([0-9.]+)-stable.*/\1/')"
+SYMBOLS_CACHE="build/cache/godot_native_debug_symbols_$GODOT_VERSION.zip"
+if [ ! -s "$SYMBOLS_CACHE" ]; then
+    echo "Downloading Godot $GODOT_VERSION native debug symbols (once)..."
+    mkdir -p build/cache
+    curl -fL -o "$SYMBOLS_CACHE.part" "https://github.com/godotengine/godot/releases/download/$GODOT_VERSION-stable/Godot_native_debug_symbols.$GODOT_VERSION.stable.template_release.android.zip" \
+        || die "could not download the native debug symbols"
+    mv "$SYMBOLS_CACHE.part" "$SYMBOLS_CACHE"
+fi
+python - "$OUT" "$SYMBOLS_CACHE" "$SYMBOLS" <<'PY' || die "could not make $SYMBOLS"
+import sys, zipfile
+bundle, cache, out = sys.argv[1:]
+abis = {n.split("/")[2] for n in zipfile.ZipFile(bundle).namelist() if n.startswith("base/lib/") and n.endswith(".so")}
+with zipfile.ZipFile(cache) as src, zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as dst:
+    for name in src.namelist():
+        if name.split("/")[0] in abis:
+            dst.writestr(name, src.read(name))
+print("native debug symbols for", ", ".join(sorted(abis)))
+PY
+
 code="$(awk '/^\[preset\.1\.options\]/{f=1} f&&/^version\/code=/{sub(/.*=/,"");print;exit}' export_presets.cfg | tr -d '\r')"
 name="$(awk '/^\[preset\.1\.options\]/{f=1} f&&/^version\/name=/{sub(/.*=/,"");print;exit}' export_presets.cfg | tr -d '\r')"
 echo
 echo "Signed bundle ready: $OUT ($(du -h "$OUT" | cut -f1)), version code $code, name $name"
+echo "Native debug symbols: $SYMBOLS ($(du -h "$SYMBOLS" | cut -f1)), upload it with the bundle."
 echo "Not uploaded. To release: Play Console > Release > Testing > Internal testing > Create new release."

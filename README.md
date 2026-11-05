@@ -42,8 +42,8 @@ The shop is not a building: its level gives every booth its look:
   water rises with the fish in it and runs over at 100 %.
 - **Sell fish** in front of the shop is greyed out ("No grown fish") until a fish is grown, then
   sells the grown fish from the tank, first grown first, to the buyers lining up there from the start. The shop buys
-  every fish; **Bigger shop** adds booths for more sellers (1, 2, 4, 6, 8 and finally 10 in
-  the seafood palace). While you stand on the pad you
+  every fish; **More selling space** (gear shop) adds booths for more sellers (1, 2, 4, 6, 8
+  and finally 10). The first hired seller takes over your booth and the "Sell fish" pad. While you stand on the pad you
   sell one fish every 2 s at your own booth; one line of buyers feeds the next free booth.
 - **Hire seller**: one seller per free booth, each as fast as you,
   also while the game is closed. With bigger tanks you need more of them to keep up; the drones
@@ -151,6 +151,12 @@ The **Android Play Store** export preset builds a signed `.aab` (Gradle build, a
 `tools/build_android_release.sh` only builds and verifies the bundle; uploading it in Play
 Console is done by hand.
 
+It also writes `build/native-debug-symbols.zip`: Godot's published debug symbols for the release
+template (downloaded once, 780 MB, into `build/cache/`), cut down to the ABIs in the bundle. Upload
+it with each bundle (App bundle explorer > the version > Downloads > Native debug symbols) so crash
+reports show Godot's function names. The Play warning about a missing deobfuscation (R8/ProGuard)
+file can be ignored: the build does not shrink or obfuscate the Java code, so there is no mapping.
+
 Run it with **Ctrl+Shift+B** in VS Code (`.vscode/tasks.json`), or:
 
     & "C:/Program Files/Git/bin/bash.exe" tools/build_android_release.sh [--bump]
@@ -162,6 +168,17 @@ The upload keystore and its password are in 1Password (personal account, vault G
 "Fishy McFish Key"; the keystore is attached and also stored base64 in the `keystore_b64` field).
 The script reads the item once, writes the keystore to a temp folder and deletes it on exit, so
 no secret lands in `export_presets.cfg` or the repo. Keep one offline backup of the keystore.
+
+**Store graphics** (texts and Console answers in `docs/play_store_listing.md`): the icon, the
+feature graphic and the phone screenshots in `art_source/play_store/` are made by
+`tools/make_play_store_art.py`. It frames the screenshots with a caption; take the game pictures
+for them first, once per language (they land in the git-ignored `build/store_shots/`):
+
+```powershell
+& "C:\Program Files\Godot\Godot_v4.7.2-stable_win64_console.exe" --path . -s res://tools/store_screenshots.gd -- --out=build/store_shots/en --lang=en
+& "C:\Program Files\Godot\Godot_v4.7.2-stable_win64_console.exe" --path . -s res://tools/store_screenshots.gd -- --out=build/store_shots/de --lang=de
+python tools/make_play_store_art.py
+```
 
 One-time setup: install `platform-tools`, `build-tools;35.0.1`, `platforms;android-35` and
 `cmdline-tools;latest` in the Android SDK. The `android/` build template is generated and
@@ -217,7 +234,7 @@ Rules of thumb:
 
 ## TODOs
 - Redesign gear shop interior. It's too large and there are no sprites yet
-- "While you were away" message should show the progress and should have to be clicked away to have time to read.
+- Selling yourself is too slow, selling by cashier is too fast. You don't need more than 4 cashiers . Balance this.
 - Add belt and helipad sprites
 - Animate all species properly, replace un-animateable sprites for species
 - Replace wrong species sprites and fact-check species info panels
@@ -235,7 +252,9 @@ Rules of thumb:
 - Improve sounds
   - Walking sound should reflect the underground. Wooden on pier, sandy on beach, muddy in water
 - Replace booth sprites with perspectively correct ones
-- Later: Add new locations. Ideas:
+
+Later: 
+- Add new locations. Ideas:
   - Antarctic sea (pengiuins? black smokers in the deep zones?)
   - Jurasic sea (with ichtyosaurs, plesiosaurs, leopleurodon etc?)
 - Add some secrets, like:
