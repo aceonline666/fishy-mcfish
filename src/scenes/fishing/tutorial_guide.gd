@@ -2,8 +2,9 @@ class_name TutorialGuide
 extends Control
 ## Shows the tutorial (Tutorial): a card at the top of the play area with what to do next, and a
 ## golden arrow showing where to walk. While that place is in view the arrow bobs over it, pointing
-## down; while it is not, the arrow waits at the edge of the view, pointing towards it. Covers its
-## parent and lets every touch through.
+## down; while it is not, the arrow waits at the edge of the view, pointing towards it. Tips are
+## smaller arrows with a short text above them, one over each of several places (the gear shop's
+## pads), saying what can be done there. Covers its parent and lets every touch through.
 
 const GOLD := Color(1.0, 0.85, 0.2)
 const CARD_COLOR := Color(0.1, 0.24, 0.4)
@@ -17,9 +18,16 @@ const BOB_SPEED := 6.0
 ## The arrow keeps this far inside the view's edges.
 const EDGE_MARGIN := 40.0
 const POP_IN_S := 0.35
+## A tip's arrow is this much smaller than the main one; its text this big and this wide at most.
+const TIP_SCALE := 0.55
+const TIP_FONT_SIZE := 34
+const TIP_TEXT_WIDTH := 360.0
 
 ## Top of the card.
 var top_offset := 280.0
+## If set (0 or more), the card sits at the bottom instead, its lower edge this far above the
+## bottom of the screen: where tips are shown, as they are mostly up the screen.
+var bottom_offset := -1.0
 ## Where the arrow may be (this control's coordinates): the play area between the HUD bars.
 var view_rect := Rect2()
 
@@ -31,6 +39,8 @@ var _card_allowed := true
 var _target := Vector2.ZERO
 var _has_target := false
 var _time := 0.0
+## [position, text] of each tip.
+var _tips: Array[Array] = []
 
 
 func _ready() -> void:
@@ -43,7 +53,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	_time += delta
 	_place_card()
-	if _has_target:
+	if _has_target or not _tips.is_empty():
 		queue_redraw()
 
 
@@ -96,6 +106,26 @@ func has_arrow() -> bool:
 	return _has_target
 
 
+## Shows a tip over each place: `tips` holds [position (this control's coordinates), text].
+func show_tips(tips: Array[Array]) -> void:
+	_tips = tips
+	queue_redraw()
+
+
+func clear_tips() -> void:
+	if not _tips.is_empty():
+		_tips = []
+		queue_redraw()
+
+
+## The texts of the tips shown.
+func tip_texts() -> Array[String]:
+	var texts: Array[String] = []
+	for tip in _tips:
+		texts.append(tip[1])
+	return texts
+
+
 ## Where the arrow's tip is and the direction it points in, for the current target.
 func arrow_tip() -> Array[Vector2]:
 	var area := _arrow_area()
@@ -116,24 +146,48 @@ func arrow_tip() -> Array[Vector2]:
 
 
 func _draw() -> void:
-	if not _has_target:
-		return
-	var tip := arrow_tip()
-	var points := _arrow_shape(tip[0], tip[1])
+	for i in _tips.size():
+		_draw_tip(_tips[i][0], _tips[i][1], i)
+	if _has_target:
+		var tip := arrow_tip()
+		_draw_arrow(tip[0], tip[1], 1.0)
+
+
+## A small arrow bobbing over `at`, with `text` above it. Each tip bobs a little out of step.
+func _draw_tip(at: Vector2, text: String, index: int) -> void:
+	var bob := (0.5 + 0.5 * sin(_time * BOB_SPEED + index * 0.9)) * BOB_PX * TIP_SCALE
+	var tip := at + Vector2(0.0, -bob)
+	_draw_arrow(tip, Vector2.DOWN, TIP_SCALE)
+	var font := get_theme_default_font()
+	var lines := text.split("
+")
+	var line_height := font.get_height(TIP_FONT_SIZE)
+	var top := tip.y - ARROW_LENGTH * TIP_SCALE - 12.0 - line_height * lines.size()
+	for i in lines.size():
+		var baseline := Vector2(tip.x - TIP_TEXT_WIDTH * 0.5, top + line_height * i + font.get_ascent(TIP_FONT_SIZE))
+		draw_string_outline(font, baseline, lines[i], HORIZONTAL_ALIGNMENT_CENTER, TIP_TEXT_WIDTH, TIP_FONT_SIZE,
+				maxi(TIP_FONT_SIZE / 4, 6), Juice.OUTLINE_COLOR)
+		draw_string(font, baseline, lines[i], HORIZONTAL_ALIGNMENT_CENTER, TIP_TEXT_WIDTH, TIP_FONT_SIZE, Color.WHITE)
+
+
+## An outlined golden arrow, its tip at `tip`, pointing in `direction`.
+func _draw_arrow(tip: Vector2, direction: Vector2, arrow_scale: float) -> void:
+	var points := _arrow_shape(tip, direction, arrow_scale)
 	var outline := points.duplicate()
 	outline.append(points[0])
-	draw_polyline(outline, Juice.OUTLINE_COLOR, ARROW_OUTLINE * 2.0, true)
+	draw_polyline(outline, Juice.OUTLINE_COLOR, ARROW_OUTLINE * 2.0 * arrow_scale, true)
 	draw_colored_polygon(points, GOLD)
 
 
 ## An arrow with its tip at `tip`, pointing in `direction`.
-func _arrow_shape(tip: Vector2, direction: Vector2) -> PackedVector2Array:
-	var head := ARROW_LENGTH * 0.55
-	var half := ARROW_WIDTH * 0.5
-	var shaft := ARROW_WIDTH * 0.2
+func _arrow_shape(tip: Vector2, direction: Vector2, arrow_scale: float = 1.0) -> PackedVector2Array:
+	var length := ARROW_LENGTH * arrow_scale
+	var head := length * 0.55
+	var half := ARROW_WIDTH * arrow_scale * 0.5
+	var shaft := ARROW_WIDTH * arrow_scale * 0.2
 	var local := PackedVector2Array([
-		Vector2.ZERO, Vector2(-head, -half), Vector2(-head, -shaft), Vector2(-ARROW_LENGTH, -shaft),
-		Vector2(-ARROW_LENGTH, shaft), Vector2(-head, shaft), Vector2(-head, half),
+		Vector2.ZERO, Vector2(-head, -half), Vector2(-head, -shaft), Vector2(-length, -shaft),
+		Vector2(-length, shaft), Vector2(-head, shaft), Vector2(-head, half),
 	])
 	return Transform2D(direction.angle(), tip) * local
 
@@ -141,7 +195,7 @@ func _arrow_shape(tip: Vector2, direction: Vector2) -> PackedVector2Array:
 ## The view minus a margin, below the card while it shows. The arrow's tail stays inside it too.
 func _arrow_area() -> Rect2:
 	var area := view_rect if view_rect.has_area() else Rect2(Vector2.ZERO, size)
-	if _card.visible:
+	if _card.visible and bottom_offset < 0.0:
 		var below_card := _card.position.y + _card.size.y
 		var cut := clampf(below_card - area.position.y, 0.0, area.size.y * 0.5)
 		area = Rect2(area.position.x, area.position.y + cut, area.size.x, area.size.y - cut)
@@ -158,7 +212,8 @@ func _place_card() -> void:
 	# The wrapped text only knows its height once the card has its width.
 	_card.reset_size()
 	_card.pivot_offset = _card.size * 0.5
-	_card.position = Vector2((size.x - _card.size.x) * 0.5, top_offset)
+	var top := size.y - bottom_offset - _card.size.y if bottom_offset >= 0.0 else top_offset
+	_card.position = Vector2((size.x - _card.size.x) * 0.5, top)
 
 
 func _build_card() -> void:

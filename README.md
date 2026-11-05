@@ -25,7 +25,8 @@ ring fills. Catches in quick succession build a combo.
 
 A new game starts with a short tutorial: a card at the top says what to do next and a golden
 arrow shows where to walk: fill the basket, put the catch into the tank, sell a grown fish at
-your booth, then go into the gear shop. Saves from before the tutorial skip it.
+your booth, then go into the gear shop, where a small arrow over each pad says what it is for
+until you buy something or leave. Saves from before the tutorial skip it.
 
 Up on the beach, pads act while you stand on them (walking on sand is faster than wading). A
 boardwalk in the middle leads from the water to the back of the beach without crossing any pad.
@@ -215,7 +216,6 @@ Rules of thumb:
 
 
 ## TODOs
-- Add tutorial messages to explain the game
 - Redesign gear shop interior. It's too large and there are no sprites yet
 - "While you were away" message should show the progress and should have to be clicked away to have time to read.
 - Add belt and helipad sprites

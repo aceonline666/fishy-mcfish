@@ -1284,3 +1284,27 @@ msgstr "Du hast Münzen verdient!"
 
 msgid "Follow the arrow into the gear shop and spend them on a better net, a bigger tank and more."
 msgstr "Folge dem Pfeil in den Angelladen und gib sie für ein besseres Netz, ein größeres Becken und mehr aus."
+
+msgid "Welcome to the gear shop!"
+msgstr "Willkommen im Angelladen!"
+
+msgid "Here you spend your coins. Stand on a pad to buy what it shows."
+msgstr "Hier gibst du deine Münzen aus. Stell dich auf ein Feld, um zu kaufen, was es zeigt."
+
+msgid "Bigger basket:\ncatch more fish at once"
+msgstr "Größerer Korb:\nmehr Fische auf einmal fangen"
+
+msgid "Better net:\nland big fish faster"
+msgstr "Besseres Netz:\ngroße Fische schneller fangen"
+
+msgid "Diving gear:\nswim further out"
+msgstr "Tauchausrüstung:\nweiter hinausschwimmen"
+
+msgid "Bigger tank:\nmore fish, faster growth"
+msgstr "Größeres Becken:\nmehr Fische, schnelleres Wachstum"
+
+msgid "Bigger shop:\nroom for more sellers"
+msgstr "Größerer Laden:\nPlatz für mehr Verkäufer"
+
+msgid "Drone:\nfishes for you"
+msgstr "Drohne:\nfischt für dich"

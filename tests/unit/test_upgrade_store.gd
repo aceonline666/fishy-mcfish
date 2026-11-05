@@ -122,3 +122,35 @@ func test_the_beach_drones_keep_fishing_while_the_player_is_in_the_store() -> vo
 	for i in 20:
 		GameState._run_remote_drones(1.0 / Automation.OFFLINE_DRONE_FISH_PER_SECOND)
 	assert_gt(GameState.here().tank.fish.size(), 0)
+
+
+#region Tutorial
+
+func test_on_the_first_visit_a_tip_over_each_pad_says_what_it_is_for() -> void:
+	GameState.state.tutorial_step = Tutorial.Step.SHOP
+	await wait_process_frames(2)
+	assert_eq(_store.tutorial.message_title(), "Welcome to the gear shop!")
+	var tips := _store.tutorial.tip_texts()
+	assert_has(tips, "Bigger basket:\ncatch more fish at once")
+	assert_eq(tips.size(), _store._squares.filter(func(s: ActionSquare) -> bool: return s.visible and s.kind == ActionSquare.Kind.BUY).size(), "one per pad")
+
+	GameState.add_money(Aquarium.backpack_upgrade_cost(GameState.here()))
+	_stand_on("upgrade_backpack")
+	await wait_seconds(2.0)
+	assert_eq(GameState.state.tutorial_step, Tutorial.Step.DONE, "buying something ends the tutorial")
+	assert_eq(_store.tutorial.message_title(), "")
+	assert_eq(_store.tutorial.tip_texts(), [] as Array[String])
+
+
+func test_leaving_the_gear_shop_ends_the_tutorial() -> void:
+	GameState.state.tutorial_step = Tutorial.Step.SHOP
+	_store.left.emit()
+	assert_eq(GameState.state.tutorial_step, Tutorial.Step.DONE)
+
+
+func test_no_tips_once_the_tutorial_is_done() -> void:
+	GameState.state.tutorial_step = Tutorial.Step.DONE
+	await wait_process_frames(2)
+	assert_eq(_store.tutorial.tip_texts(), [] as Array[String])
+
+#endregion

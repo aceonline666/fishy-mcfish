@@ -2,7 +2,8 @@ class_name Tutorial
 extends RefCounted
 ## The first steps of a new game. A card at the top tells the player what to do next, and an
 ## arrow on the beach shows where to walk: fetch fish until the basket is full, put them into the
-## tank, sell a grown fish at the booth, then go into the gear shop. The step is saved in
+## tank, sell a grown fish at the booth, then go into the gear shop, where a tip over each pad
+## says what it is for until the player buys something or leaves. The step is saved in
 ## PlayerState.tutorial_step. Saves from before the tutorial existed start with it done.
 
 enum Step {
@@ -14,6 +15,8 @@ enum Step {
 	SELL,
 	## Spend the coins at the gear shop.
 	GEAR,
+	## In the gear shop: what each pad is for.
+	SHOP,
 	DONE,
 }
 

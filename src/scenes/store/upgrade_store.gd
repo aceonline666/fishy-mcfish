@@ -79,6 +79,7 @@ var _entities := Node2D.new()
 var _effects := Node2D.new()
 var _popups := Control.new()
 var _goal_banner := GoalBanner.new()
+var tutorial := TutorialGuide.new()
 var _squares: Array[ActionSquare] = []
 var _money_label := Label.new()
 var _coin_icon := TextureRect.new()
@@ -125,12 +126,16 @@ func _ready() -> void:
 	_popups.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_popups.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	add_child(_popups)
+	# At the bottom, clear of the tips over the pads.
+	tutorial.bottom_offset = PLAY_MARGIN_BOTTOM + 10.0
+	add_child(tutorial)
 	_goal_banner.top_offset = PLAY_MARGIN_TOP + 260.0
 	_goal_banner.wallet = _coin_icon
 	_goal_banner.coin_radius = 12.0 * ZOOM
 	add_child(_goal_banner)
 	EventBus.money_changed.connect(_on_money_changed)
 	EventBus.achievement_reached.connect(_on_achievement_reached)
+	left.connect(func() -> void: Tutorial.complete(GameState.state, Tutorial.Step.SHOP))
 	resized.connect(_update_camera.bind(0.0, true))
 
 	walk_area = PlayArea.new(Grid.rect(ROOM_CELL + Vector2i.ONE, ROOM_SIZE - Vector2i.ONE))
@@ -173,6 +178,7 @@ func _notification(what: int) -> void:
 func _process(delta: float) -> void:
 	wader.simulate(delta, walk_area)
 	_update_camera(delta)
+	_update_tutorial()
 	_update_squares(delta)
 
 
@@ -454,9 +460,56 @@ func _complete_purchase(target: ActionSquare) -> void:
 	Haptics.bump()
 	_action_count = 0
 	_purchase_done = true
+	Tutorial.complete(GameState.state, Tutorial.Step.SHOP)
 	_refresh_squares()
 	GameState.check_achievements()
 	SaveSystem.save_game()
+
+#endregion
+
+
+#region Tutorial
+
+## On the first visit (Tutorial.Step.SHOP) a card welcomes the player and a tip over each pad says
+## what it is for, until something is bought or the player leaves.
+func _update_tutorial() -> void:
+	if GameState.state.tutorial_step != Tutorial.Step.SHOP:
+		tutorial.hide_message()
+		tutorial.clear_tips()
+		return
+	tutorial.allow_card(not _goal_banner.is_showing())
+	tutorial.show_message(tr("Welcome to the gear shop!"),
+			tr("Here you spend your coins. Stand on a pad to buy what it shows."))
+	var tips: Array[Array] = []
+	for s in _squares:
+		if s.visible and not _pad_tip(s.id).is_empty():
+			# Over the pad's north corner, the top one on screen, clear of its picture and text.
+			tips.append([ground_to_scene(s.ground_center - Vector2.ONE * Grid.UNIT * 0.5), _pad_tip(s.id)])
+	tutorial.show_tips(tips)
+
+
+## What a pad is for, in a few words.
+func _pad_tip(square_id: String) -> String:
+	match square_id:
+		"upgrade_backpack":
+			return tr("Bigger basket:
+catch more fish at once")
+		"upgrade_net":
+			return tr("Better net:
+land big fish faster")
+		"upgrade_gear":
+			return tr("Diving gear:
+swim further out")
+		"upgrade_tank":
+			return tr("Bigger tank:
+more fish, faster growth")
+		"upgrade_shop":
+			return tr("Bigger shop:
+room for more sellers")
+		"buy_drone":
+			return tr("Drone:
+fishes for you")
+	return ""
 
 #endregion
 

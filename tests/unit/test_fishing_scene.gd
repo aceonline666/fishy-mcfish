@@ -524,7 +524,7 @@ func test_the_tutorial_leads_from_fishing_to_the_tank_the_booth_and_the_gear_sho
 	var front: float = Grid.rect(Scene.GEAR_SHOP_CELL, Scene.GEAR_SHOP_SIZE).end.y
 	_wader.ground_position = Vector2(Scene.GEAR_SHOP_DOOR_X, front + 10.0)
 	await wait_process_frames(2)
-	assert_eq(state.tutorial_step, Tutorial.Step.DONE)
+	assert_eq(state.tutorial_step, Tutorial.Step.SHOP, "inside, the shop explains its pads")
 	assert_eq(guide.message_title(), "")
 	assert_false(guide.has_arrow())
 
