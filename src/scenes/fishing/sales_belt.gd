@@ -3,27 +3,39 @@ extends Node2D
 ## The conveyor belt from the tank up the beach to the booths: the grown fish ride on it in the
 ## order they will be sold, the next one at the booths' end, each with its price above it. Fish
 ## slide along when one is sold and come on at the tank end when they grow up, each in a fish
-## glass. The belt covers cells of the layout grid (Grid) and runs north, up the beach. Drawn in
-## code as a PLACEHOLDER (glass: assets/sprites/props/fish_bowl.svg) until the final art exists.
-## The node sits at the middle of the belt, on the ground.
+## glass. The belt covers cells of the layout grid (Grid) and runs north, up the beach. It is a
+## painting (art_source/buildings/sales_belt_sprite_prompt.md) cut by tools/cut_belt.py into the tank end,
+## a section that repeats and the booth end, so it is drawn at any length; the glasses are still a
+## PLACEHOLDER (assets/sprites/props/fish_bowl.svg). The node sits at the middle of the belt, on
+## the ground.
 
 ## Ground distance between two fish on the belt.
 const SLOT := 120.0
-## Screen height of the belt's top above the ground.
-const LIFT := 18.0
 ## Share of the cells' width the belt takes.
 const WIDTH_SHARE := 0.6
-## Ground distance between the slats, and how fast they run.
-const SLAT_SPACING := 40.0
-const SLAT_SPEED := 40.0
+## The painted pieces and their top-left corners in the (narrowed) painting, as
+## tools/cut_belt.py prints them.
+const TANK_PIECE := preload("res://assets/sprites/props/sales_belt_tank.png")
+const SECTION_PIECE := preload("res://assets/sprites/props/sales_belt_section.png")
+const BOOTH_PIECE := preload("res://assets/sprites/props/sales_belt_booth.png")
+const TANK_PIECE_AT := Vector2(75.0, 516.0)
+const SECTION_PIECE_AT := Vector2(435.0, 441.0)
+const BOOTH_PIECE_AT := Vector2(690.0, 120.0)
+## The painting's measures, as in tools/cut_belt.py: the middle of the belt's top at the tank end,
+## the belt's half width and where the cuts are, in pixels across along the run; the booth end of
+## the belt's top; how far below the top's middle the ground is.
+const PAINTED_TANK_END := Vector2(110.0, 768.0)
+const PAINTED_HALF_WIDTH := 65.0
+const SECTION_FROM := 390.0
+const SECTION_TO := 535.0
+const END_FROM := 645.0
+const PAINTED_BOOTH_END := 936.0
+const PAINTED_HEIGHT := 167.0
 const BOWL_TEXTURE: Texture2D = preload("res://assets/sprites/props/fish_bowl.svg")
 const BOWL_WIDTH := 78.0
 const FISH_LENGTH := 46.0
 ## How fast fish slide to their place, in slots per second.
 const SLIDE_SPEED := 4.0
-const FRAME_COLOR := Color(0.55, 0.58, 0.62)
-const BELT_COLOR := Color(0.2, 0.22, 0.26)
-const SLAT_COLOR := Color(0.32, 0.35, 0.4)
 const PRICE_COLOR := Color(1.0, 0.86, 0.3)
 const MORE_COLOR := Color(1.0, 1.0, 1.0)
 
@@ -33,6 +45,9 @@ var art_for: Callable
 
 ## Half the belt's ground size, east-west by north-south.
 var _half := Vector2.ZERO
+## Screen pixels per painted pixel, and the screen height of the belt's top above the ground.
+var _scale := 1.0
+var _lift := 0.0
 ## Where each shown fish is drawn, in slots counted from the booths' end.
 var _places: Dictionary[TankFish, float] = {}
 var _time := 0.0
@@ -44,6 +59,9 @@ func setup(tank_state: TankState, area: Rect2, art_lookup: Callable) -> void:
 	art_for = art_lookup
 	position = Iso.to_screen(area.get_center())
 	_half = Vector2(area.size.x * WIDTH_SHARE, area.size.y) * 0.5
+	# The belt's width across on screen, over its painted width.
+	_scale = Iso.to_screen(Vector2(_half.x * 2.0, 0.0)).x / (PAINTED_HALF_WIDTH * 2.0)
+	_lift = PAINTED_HEIGHT * _scale
 
 
 ## How many fish fit on the belt.
@@ -79,21 +97,33 @@ func _process(delta: float) -> void:
 
 ## Screen position on the belt's top, `along` ground units north of its tank end.
 func _on_top(along: float) -> Vector2:
-	return Iso.to_screen(Vector2(0.0, _half.y - along)) + Vector2(0.0, -LIFT)
+	return Iso.to_screen(Vector2(0.0, _half.y - along)) + Vector2(0.0, -_lift)
+
+
+## Draws the painted belt: the booth end at the belt's north end, sections from there down to the
+## tank end, then the tank end on top (the nearer piece covers the overlap). A belt shorter than
+## its two ends draws them overlapping.
+func _draw_belt() -> void:
+	draw_set_transform(_on_top(0.0), 0.0, Vector2.ONE * _scale)
+	# The belt's length in painted pixels across, and where the booth end goes.
+	var length := Iso.to_screen(Vector2(0.0, -_half.y * 2.0)).x / _scale
+	var booth_shift := length - PAINTED_BOOTH_END
+	_draw_piece(BOOTH_PIECE, BOOTH_PIECE_AT, booth_shift)
+	var from := END_FROM + booth_shift
+	while from > SECTION_FROM:
+		from -= SECTION_TO - SECTION_FROM
+		_draw_piece(SECTION_PIECE, SECTION_PIECE_AT, from - SECTION_FROM)
+	_draw_piece(TANK_PIECE, TANK_PIECE_AT, 0.0)
+	draw_set_transform(Vector2.ZERO)
+
+
+## A piece at its place in the painting, moved `shift` painted pixels across along the run.
+func _draw_piece(piece: Texture2D, at: Vector2, shift: float) -> void:
+	draw_texture(piece, at - PAINTED_TANK_END + Vector2(shift, -shift * 0.5))
 
 
 func _draw() -> void:
-	var lift := Vector2(0.0, -LIFT)
-	IsoDraw.box_back(self, Vector2.ZERO, _half, LIFT, FRAME_COLOR.darkened(0.3))
-	IsoDraw.box_front(self, Vector2.ZERO, _half, LIFT, FRAME_COLOR.darkened(0.2), FRAME_COLOR, BELT_COLOR)
-	# Slats across the belt, running north.
-	var inner := _half.x - 8.0
-	var offset := fmod(_time * SLAT_SPEED, SLAT_SPACING)
-	var along := offset + 6.0
-	while along < _half.y * 2.0 - 6.0:
-		var y := _half.y - along
-		draw_line(Iso.to_screen(Vector2(-inner, y)) + lift, Iso.to_screen(Vector2(inner, y)) + lift, SLAT_COLOR, 4.0, true)
-		along += SLAT_SPACING
+	_draw_belt()
 
 	# Each grown fish in a glass on the belt, the next to be sold at the booths' end.
 	var bowl := BOWL_TEXTURE.get_size() * (BOWL_WIDTH / BOWL_TEXTURE.get_width())

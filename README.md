@@ -233,21 +233,16 @@ Rules of thumb:
 
 
 ## TODOs
-- Redesign gear shop interior. It's too large and there are no sprites yet
-- Selling yourself is too slow, selling by cashier is too fast. You don't need more than 4 cashiers . Balance this.
-- Add belt and helipad sprites
 - Animate all species properly, replace un-animateable sprites for species
 - Replace wrong species sprites and fact-check species info panels
-- Swimming wader in zones 3 and 4 (swim sheets, see `art_source/characters/wader_sprite_prompt.md`)
 - Towed catch bag instead of the basket from zone 3 on (the catch stack has no place on the tank)
-- Replace too small buyers and cashiers with better sprites
+- Replace too small buyers with better sprites
 - Fix the buyers queue and where the selling spots are
 - Better selling booth sprites
 - Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors. Sound?
 - Some zones have names like "seagrass bay" but you don't see seagrass. We should add these objects depending on the names. Will require more sprites.
 - Barriers to the left and right could be more natural. Make them rocks or some other obstacles instead of invisible walls
 - Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console)
-- Walking sound is annoying. Replace with a better sound
 - Improve coin look when the coins are flying. They are too small and not comic-style enough. Maybe they could spin?
 - Improve sounds
   - Walking sound should reflect the underground. Wooden on pier, sandy on beach, muddy in water
