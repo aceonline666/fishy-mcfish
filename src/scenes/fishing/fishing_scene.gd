@@ -1335,21 +1335,29 @@ func _announce(at: Vector2, text: String, color: Color, hold_s: float = 0.35) ->
 	Juice.popup_text(_popups, at, text, 52, color, hold_s)
 
 
-## Little rings around the legs while wading (not under water), and a soft slosh on every step.
+## A footfall that sounds like the ground (a slosh in the water, a knock on the pier, a crunch
+## on the sand; nothing when swimming under water), and little rings around the legs while wading.
 func _update_wake(delta: float) -> void:
 	var steps := wader.steps_taken()
 	var stepped := steps != _wake_step
 	_wake_step = steps
-	if not wader.is_walking() or wader.waterline() <= Wader.SUBMERGED or wader.waterline() >= Wader.DRY:
+	var waterline := wader.waterline()
+	if stepped and wader.is_walking() and waterline > Wader.SUBMERGED and not wader.in_submarine():
+		# Left and right foot sound a little different.
+		var pitch := (0.92 if steps % 2 == 0 else 1.04) * rng.randf_range(0.94, 1.06)
+		if waterline < Wader.DRY:
+			Sfx.play(&"slosh", pitch, -14.0)
+		elif _pier_area().has_point(wader.ground_position):
+			Sfx.play(&"wood", pitch, -12.0)
+		else:
+			Sfx.play(&"sand", pitch, -15.0)
+	if not wader.is_walking() or waterline <= Wader.SUBMERGED or waterline >= Wader.DRY:
 		_wake_timer = 0.0
 		return
-	if stepped:
-		# Left and right foot sound a little different.
-		Sfx.play(&"slosh", (0.92 if steps % 2 == 0 else 1.04) * rng.randf_range(0.94, 1.06), -14.0)
 	_wake_timer -= delta
 	if _wake_timer <= 0.0:
 		_wake_timer = WAKE_INTERVAL_S
-		Juice.ripple(_effects, wader.position + Vector2(0.0, wader.waterline()), 60.0)
+		Juice.ripple(_effects, wader.position + Vector2(0.0, waterline), 60.0)
 
 
 func _update_shake(delta: float) -> void:

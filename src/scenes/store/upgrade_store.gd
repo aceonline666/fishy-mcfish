@@ -111,6 +111,8 @@ var _purchase_done := false
 var _mat_time := 0.0
 var _left := false
 var _shown_money := 0.0
+## Wader.steps_taken() last frame; a change is a footfall on the wooden floor.
+var _last_step := 0
 var _money_tween: Tween
 
 
@@ -193,10 +195,19 @@ func _notification(what: int) -> void:
 
 func _process(delta: float) -> void:
 	wader.simulate(delta, walk_area)
+	_update_steps()
 	_update_camera(delta)
 	_update_tutorial()
 	_update_squares(delta)
 	_update_mat(delta)
+
+
+## A knock on the wooden floor with every step.
+func _update_steps() -> void:
+	var steps := wader.steps_taken()
+	if steps != _last_step and wader.is_walking():
+		Sfx.play(&"wood", (0.92 if steps % 2 == 0 else 1.04) * randf_range(0.94, 1.06), -12.0)
+	_last_step = steps
 
 
 ## Touch to walk towards the finger, drag to steer; the wader stops when the finger lifts.

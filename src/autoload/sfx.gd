@@ -26,6 +26,8 @@ func _ready() -> void:
 	_sounds[&"pop"] = _pop()
 	_sounds[&"splash"] = _splash()
 	_sounds[&"slosh"] = _slosh()
+	_sounds[&"sand"] = _sand()
+	_sounds[&"wood"] = _wood()
 	_sounds[&"plop"] = _plop()
 	_sounds[&"ding"] = _ding()
 	_sounds[&"coin"] = _coin()
@@ -90,6 +92,49 @@ static func _slosh() -> AudioStreamWAV:
 		var swell := sin(PI * minf(t / 0.05, 1.0) * 0.5) * exp(-maxf(t - 0.05, 0.0) * 14.0)
 		phase += TAU * lerpf(210.0, 120.0, t / duration) / MIX_RATE
 		samples.append((second * 3.5 + sin(phase) * 0.12) * swell)
+	return _to_wav(samples)
+
+
+## Step on sand: a short soft crunch of many tiny grains (band-passed noise that crackles), no
+## thump.
+static func _sand() -> AudioStreamWAV:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 23
+	var duration := 0.16
+	var samples := PackedFloat32Array()
+	var low := 0.0
+	var lower := 0.0
+	for i in int(duration * MIX_RATE):
+		var t := float(i) / MIX_RATE
+		var noise := rng.randf_range(-1.0, 1.0)
+		low += (noise - low) * 0.35
+		lower += (low - lower) * 0.08
+		# Band-pass: the low-passed noise minus its slower copy; grains crackle in and out.
+		var grain := 1.0 if rng.randf() < 0.35 else 0.25
+		var envelope := sin(PI * minf(t / 0.015, 1.0) * 0.5) * exp(-t * 22.0)
+		samples.append((low - lower) * grain * envelope * 1.6)
+	return _to_wav(samples)
+
+
+## Step on a wooden plank: a low hollow knock (a short falling tone under a muffled click), with
+## a little ring of the board.
+static func _wood() -> AudioStreamWAV:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 31
+	var duration := 0.2
+	var samples := PackedFloat32Array()
+	var phase := 0.0
+	var ring := 0.0
+	var click := 0.0
+	for i in int(duration * MIX_RATE):
+		var t := float(i) / MIX_RATE
+		phase += TAU * (95.0 + 70.0 * exp(-t * 40.0)) / MIX_RATE
+		ring += TAU * 410.0 / MIX_RATE
+		click += (rng.randf_range(-1.0, 1.0) - click) * 0.25
+		var attack := sin(PI * minf(t / 0.004, 1.0) * 0.5)
+		var knock := sin(phase) * exp(-t * 28.0) * 0.7
+		var board := sin(ring) * exp(-t * 45.0) * 0.18
+		samples.append((knock + board + click * exp(-t * 120.0) * 0.5) * attack)
 	return _to_wav(samples)
 
 

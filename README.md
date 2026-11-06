@@ -241,7 +241,6 @@ Rules of thumb:
 - Barriers to the left and right could be more natural. Make them rocks or some other obstacles instead of invisible walls
 - Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console)
 - Improve sounds
-  - Walking sound should reflect the underground. Wooden on pier, sandy on beach, muddy in water
 - Replace booth sprites with perspectively correct ones
 
 Later: 
