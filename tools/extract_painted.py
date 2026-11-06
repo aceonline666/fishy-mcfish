@@ -146,6 +146,20 @@ SHEETS = {
         "pacific_blackdragon": (933, 379, "left", True),
         "blobfish": (579, 628, "left", True),
     },
+    # Replaces sprites that showed the wrong animal (art_source/fish/species_sheet_6_prompt.md).
+    "species_sheet_6.png": {
+        "european_sprat": (190, 180, "left", True),
+        "atlantic_herring": (570, 180, "left", True),
+        "atlantic_mackerel": (960, 180, "left", True),
+        "south_african_sardine": (1330, 180, "left", True),
+        "lesser_sand_eel": (200, 470, "left", True),
+        "kingklip": (590, 470, "left", False),
+        "old_wife": (940, 450, "left", True),
+        "rabbit_fish": (1240, 470, "left", False),
+        "tiger_puffer": (210, 760, "left", True),
+        "blue_green_chromis": (600, 760, "left", True),
+        "port_jackson_shark": (1150, 790, "left", True),
+    },
 }
 
 # Sheet rows below which a sprite's region is its label, not the creature.
@@ -153,7 +167,7 @@ BOTTOM_LIMIT = {"green_sea_turtle": 800}
 
 ALPHA_FLOOR = 40
 # Sheets whose sprites glow: alpha up to this is the glow around them, not the sprite.
-GLOW_FLOOR = {"sea_creatures_sheet.png": 120}
+GLOW_FLOOR = {"sea_creatures_sheet.png": 120, "species_sheet_6.png": 120}
 MAX_TAIL_SHARE = 0.3
 
 

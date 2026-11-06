@@ -722,8 +722,8 @@ msgstr "Rote Thunfische halten ihren Körper wärmer als das Wasser und schwimme
 msgid "Ocean sunfish"
 msgstr "Mondfisch"
 
-msgid "The heaviest bony fish in the world; a big sunfish weighs as much as a small car."
-msgstr "Der schwerste Knochenfisch der Welt: Ein großer Mondfisch wiegt so viel wie ein Kleinwagen."
+msgid "One of the heaviest bony fish in the world: a big sunfish weighs as much as a small car."
+msgstr "Einer der schwersten Knochenfische der Welt: Ein großer Mondfisch wiegt so viel wie ein Kleinwagen."
 
 msgid "Basking shark"
 msgstr "Riesenhai"
@@ -770,8 +770,8 @@ msgstr "Ein runder Tiefsee-Anglerfisch, dessen leuchtender Köder Dutzende klein
 msgid "Giant squid"
 msgstr "Riesenkalmar"
 
-msgid "The real Kraken: its eyes are as big as dinner plates, the largest in the animal kingdom."
-msgstr "Der echte Krake der Sagen: Seine Augen sind so groß wie Teller, die größten im Tierreich."
+msgid "The real Kraken: its eyes are as big as dinner plates, among the largest in the animal kingdom."
+msgstr "Der echte Krake der Sagen: Seine Augen sind so groß wie Teller, mit die größten im Tierreich."
 
 msgid "Sperm whale"
 msgstr "Pottwal"
@@ -818,8 +818,8 @@ msgstr "Laternenfische leuchten mit Reihen von Leuchtorganen und steigen jede Na
 msgid "Chambered nautilus"
 msgstr "Perlboot"
 
-msgid "A living fossil: nautiluses have barely changed in 500 million years and float with gas in their shell."
-msgstr "Ein lebendes Fossil: Perlboote haben sich in 500 Millionen Jahren kaum verändert und schweben mit Gas in ihrer Schale."
+msgid "A living fossil: their shelled ancestors swam 500 million years ago, and they float with gas in their shell."
+msgstr "Ein lebendes Fossil: Ihre beschalten Vorfahren schwammen schon vor 500 Millionen Jahren, und sie schweben mit Gas in ihrer Schale."
 
 msgid "Bluntnose sixgill shark"
 msgstr "Stumpfnasen-Sechskiemerhai"
