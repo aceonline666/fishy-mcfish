@@ -1,9 +1,9 @@
 class_name Customer
 extends Node2D
 ## A buyer at the fish shop: walks to a place in the queue, waits, and walks off with a fish in
-## a water bag once served at a booth. Drawn from painted sprites
-## (assets/sprites/props) in front or back view, depending on where they walk; most looks have a
-## painted "leaving with a fish" version, the others get a bag drawn in their hand.
+## a water bag once served at a booth. Drawn from painted sprites (assets/sprites/buyers, cut by
+## tools/import_buyers.py from art_source/characters/buyer_sheet_N.png) in front or back view,
+## depending on where they walk, each also painted leaving with the fish.
 
 signal left
 
@@ -11,17 +11,13 @@ enum State { ARRIVING, WAITING, LEAVING }
 
 ## Three-quarter views: the front views look down towards screen-right, the back views up
 ## towards screen-right; they are mirrored when walking left.
-const LOOKS: Array[String] = ["customer_2", "customer_3", "customer_4", "customer_5", "customer_6"]
-## The same person carrying a fish, by look index.
-const WITH_FISH: Dictionary[int, String] = {0: "buyer_1", 1: "buyer_3"}
-const PROPS_DIR := "res://assets/sprites/props/"
+const LOOKS: Array[String] = ["buyer_1", "buyer_2", "buyer_3"]
+const BUYERS_DIR := "res://assets/sprites/buyers/"
 ## Ground units per second.
 const SPEED := 150.0
-const HEIGHT := 175.0
+## Screen height of the figures, a little smaller than the wader and the sellers.
+const HEIGHT := 200.0
 const ARRIVE_DISTANCE := 6.0
-const BAG_WATER := Color(0.6, 0.85, 1.0, 0.75)
-const BAG_FISH := Color(1.0, 0.55, 0.15)
-const OUTLINE := Color(0.07, 0.09, 0.15)
 const SHADOW := Color(0.0, 0.06, 0.14, 0.25)
 
 var state := State.ARRIVING
@@ -36,15 +32,11 @@ var _mirrored := false
 var _walk_phase := 0.0
 var _exit := Vector2.ZERO
 var _look := 0
-## True while the sprite shows the bag; otherwise it is drawn.
-var _painted_bag := false
 
 
 func setup(look: int, start: Vector2, queue_spot: Vector2, exit: Vector2) -> void:
 	_look = look % LOOKS.size()
-	var name_prefix := PROPS_DIR + LOOKS[_look]
-	_front = load(name_prefix + "_front.png")
-	_back = load(name_prefix + "_back.png")
+	_load_sprites("")
 	ground_position = start
 	target = queue_spot
 	_exit = exit
@@ -63,13 +55,16 @@ func serve(exit: Vector2 = Vector2.INF) -> void:
 	if exit != Vector2.INF:
 		_exit = exit
 	has_fish = true
-	if WITH_FISH.has(_look):
-		_front = load(PROPS_DIR + WITH_FISH[_look] + "_front.png")
-		_back = load(PROPS_DIR + WITH_FISH[_look] + "_back.png")
-		_painted_bag = true
+	_load_sprites("_fish")
 	state = State.LEAVING
 	target = _exit
 	queue_redraw()
+
+
+## The front and back views, `suffix` "_fish" for the ones carrying the fish.
+func _load_sprites(suffix: String) -> void:
+	_front = load(BUYERS_DIR + LOOKS[_look] + "_front" + suffix + ".png")
+	_back = load(BUYERS_DIR + LOOKS[_look] + "_back" + suffix + ".png")
 
 
 func is_waiting() -> bool:
@@ -107,17 +102,3 @@ func _draw() -> void:
 	var base := Transform2D(0.0, Vector2(-1.0 if _mirrored else 1.0, 1.0), 0.0, Vector2.ZERO)
 	WalkDraw.figure(self, base, texture, rect, _walk_phase, 1.0 if walking else 0.0, bob)
 	draw_set_transform(Vector2.ZERO)
-	if has_fish and not _painted_bag:
-		_draw_bag(Vector2(size.x * (0.42 if not _mirrored else -0.42), -size.y * 0.42 - bob))
-
-
-## A water bag with a fish, hanging from the hand.
-func _draw_bag(at: Vector2) -> void:
-	draw_line(at + Vector2(0.0, -16.0), at + Vector2(0.0, -8.0), OUTLINE, 2.5)
-	draw_circle(at + Vector2(0.0, 6.0), 15.0, OUTLINE)
-	draw_circle(at + Vector2(0.0, 6.0), 13.0, BAG_WATER)
-	draw_colored_polygon(PackedVector2Array([
-		at + Vector2(-7.0, 7.0), at + Vector2(0.0, 2.0), at + Vector2(6.0, 7.0), at + Vector2(0.0, 12.0),
-	]), BAG_FISH)
-	draw_colored_polygon(PackedVector2Array([at + Vector2(6.0, 7.0), at + Vector2(11.0, 3.0), at + Vector2(11.0, 11.0)]), BAG_FISH)
-	draw_circle(at + Vector2(-3.0, 0.0), 2.5, Color(1.0, 1.0, 1.0, 0.8))

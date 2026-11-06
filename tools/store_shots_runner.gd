@@ -20,6 +20,9 @@ var _only := ""
 ## --view=x,y: instead of the store shots, one shot of the developed beach (the business shot's
 ## state) with the wader at this ground point, to look at art in the game.
 var _view := Vector2.INF
+## --frames=N: with --view, N shots one --every=S seconds apart, to watch something move.
+var _frames := 1
+var _every := 1.0
 var _viewport: SubViewport
 var _main: Node
 
@@ -35,6 +38,10 @@ func _ready() -> void:
 		elif arg.begins_with("--view="):
 			var parts := arg.trim_prefix("--view=").split(",")
 			_view = Vector2(parts[0].to_float(), parts[1].to_float())
+		elif arg.begins_with("--frames="):
+			_frames = arg.trim_prefix("--frames=").to_int()
+		elif arg.begins_with("--every="):
+			_every = arg.trim_prefix("--every=").to_float()
 	DirAccess.make_dir_recursive_absolute(_out_dir)
 	_run.call_deferred()
 
@@ -100,7 +107,10 @@ func _shot_view() -> void:
 	var spot := await _start(state)
 	_place(spot, _view)
 	await get_tree().create_timer(3.0).timeout
-	await _capture("view_%d_%d" % [_view.x, _view.y])
+	for frame in _frames:
+		if frame > 0:
+			await get_tree().create_timer(_every).timeout
+		await _capture("view_%d_%d%s" % [_view.x, _view.y, "" if _frames == 1 else "_%d" % frame])
 
 
 ## Inside the gear shop.
