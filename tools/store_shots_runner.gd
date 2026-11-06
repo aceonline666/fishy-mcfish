@@ -17,6 +17,9 @@ const BUSINESS_VIEW := Vector2(1450.0, -1900.0)
 var _out_dir := "user://store_shots"
 var _lang := "en"
 var _only := ""
+## --view=x,y: instead of the store shots, one shot of the developed beach (the business shot's
+## state) with the wader at this ground point, to look at art in the game.
+var _view := Vector2.INF
 var _viewport: SubViewport
 var _main: Node
 
@@ -29,6 +32,9 @@ func _ready() -> void:
 			_lang = arg.trim_prefix("--lang=")
 		elif arg.begins_with("--only="):
 			_only = arg.trim_prefix("--only=")
+		elif arg.begins_with("--view="):
+			var parts := arg.trim_prefix("--view=").split(",")
+			_view = Vector2(parts[0].to_float(), parts[1].to_float())
 	DirAccess.make_dir_recursive_absolute(_out_dir)
 	_run.call_deferred()
 
@@ -40,6 +46,10 @@ func _run() -> void:
 	_viewport.size = SIZE
 	_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	add_child(_viewport)
+	if _view != Vector2.INF:
+		await _shot_view()
+		get_tree().quit()
+		return
 	var shots: Array[Callable] = [_shot_catch, _shot_business, _shot_gear_shop, _shot_open_sea,
 			_shot_deep_sea, _shot_reef, _shot_fishpedia, _shot_map]
 	for shot in shots:
@@ -76,6 +86,20 @@ func _shot_business() -> void:
 	_place(spot, BUSINESS_VIEW)
 	await get_tree().create_timer(3.0).timeout
 	await _capture("02_business")
+
+
+## The developed beach around a ground point (--view).
+func _shot_view() -> void:
+	var state := _state(["north_sea"], 3)
+	var site := state.here()
+	site.tank.level = 5
+	site.shop_level = 4
+	site.seller_count = 4
+	site.drone_count = 3
+	var spot := await _start(state)
+	_place(spot, _view)
+	await get_tree().create_timer(3.0).timeout
+	await _capture("view_%d_%d" % [_view.x, _view.y])
 
 
 ## Inside the gear shop.

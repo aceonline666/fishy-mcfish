@@ -97,9 +97,13 @@ const GEAR_SHOP_DOOR_HALF_WIDTH := 95.0
 const GEAR_SHOP_MARGIN := 40.0
 const DRONE_DOCK_CELL := Vector2i(8, -2)
 const DRONE_PAD := (Vector2(DRONE_DOCK_CELL) + Vector2(0.5, 0.5)) * Grid.UNIT
-const DRONE_DOCK_TEXTURE: Texture2D = preload("res://assets/sprites/props/drone_dock.svg")
-## Where the dock's middle is in its sprite (PLACEHOLDER, drawn at ground scale).
-const DRONE_DOCK_ANCHOR := Vector2(200.0, 110.0)
+## The painted landing pad (art_source/props/drone_dock_sprite_prompt.md, cropped by
+## tools/import_store_art.py), flat on the ground: the wader walks over it.
+const DRONE_DOCK_TEXTURE: Texture2D = preload("res://assets/sprites/props/drone_dock.png")
+## The middle of the deck's base in the sprite, and the deck's west, south and east top corners,
+## which are fitted to one cell.
+const DRONE_DOCK_ANCHOR := Vector2(654.0, 350.0)
+const DRONE_DOCK_CORNERS: Array[Vector2] = [Vector2(1.0, 286.0), Vector2(654.0, 628.0), Vector2(1308.0, 288.0)]
 ## The tank's south-east cell: the tank covers its level's footprint (data/tanks.csv) from here
 ## to the west and up the beach. It cannot be walked on. Its store pad stands east of it.
 const TANK_CELL := Vector2i(2, -2)
@@ -792,6 +796,7 @@ func _build_squares() -> void:
 	dock.texture = DRONE_DOCK_TEXTURE
 	dock.centered = false
 	dock.offset = -DRONE_DOCK_ANCHOR
+	dock.scale = Vector2.ONE * Grid.fit_scale(DRONE_DOCK_CORNERS[0], DRONE_DOCK_CORNERS[1], DRONE_DOCK_CORNERS[2], Vector2i.ONE)
 	dock.position = Iso.to_screen(DRONE_PAD)
 	Layers.put(dock, Layers.FLOOR)
 	_squares_layer.add_child(dock)

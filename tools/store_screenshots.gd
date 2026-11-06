@@ -5,7 +5,9 @@ extends SceneTree
 ## Usage (not headless, it needs to render):
 ##   godot --path . -s res://tools/store_screenshots.gd -- --out=C:/temp/store_shots [--lang=de] [--only=reef]
 ##
-## --only runs the shots whose function name ends with the given text.
+## --only runs the shots whose function name ends with the given text. --view=x,y takes only one
+## shot of the developed beach with the wader at that ground point, e.g. --view=2040,-360 (the
+## drone dock).
 
 
 func _initialize() -> void:
