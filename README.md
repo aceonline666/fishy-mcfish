@@ -237,8 +237,8 @@ Rules of thumb:
 - Gear shop music: "Buy Something!" ("Shop Theme") by CleytonKauffman, CC0
   ([OpenGameArt](https://opengameart.org/content/shop-theme)).
 
-
 ## TODOs
+- Make menu icons sharper, either resize or regenerate
 - Replace Fishbowl with sprite
 - Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors.
 - Replace fishnet sprites with transparent ones that fit the style better
@@ -250,5 +250,9 @@ Rules of thumb:
 
 Later: 
 - Add new locations. Ideas:
-  - Antarctic sea (pengiuins? black smokers in the deep zones?)
-  - Jurasic sea (with ichtyosaurs, plesiosaurs, leopleurodon etc?)
+  - Antarctic sea (Orcas, pengiuins? black smokers in the deep zones?)
+  - Jurasic sea (with ichtyosaurs, plesiosaurs, leopleurodon, ammonites etc?)
+- Add more species - mostly the well known ones
+  - Whale Shark
+  - Orcas
+  
