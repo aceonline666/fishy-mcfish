@@ -153,12 +153,22 @@ SHEETS = {
         "atlantic_mackerel": (960, 180, "left", True),
         "south_african_sardine": (1330, 180, "left", True),
         "lesser_sand_eel": (200, 470, "left", True),
-        "kingklip": (590, 470, "left", False),
         "old_wife": (940, 450, "left", True),
         "rabbit_fish": (1240, 470, "left", False),
         "tiger_puffer": (210, 760, "left", True),
         "blue_green_chromis": (600, 760, "left", True),
         "port_jackson_shark": (1150, 790, "left", True),
+    },
+    # Straight eel-like creatures, so their body wave does not bend an already bent painting
+    # (art_source/fish/species_sheet_7_prompt.md).
+    "species_sheet_7.png": {
+        "conger_eel": (300, 160, "left", False),
+        "frilled_shark": (1000, 170, "left", False),
+        "pelican_eel": (300, 385, "left", False),
+        "sloanes_viperfish": (1100, 400, "left", False),
+        "roundnose_grenadier": (200, 630, "left", False),
+        "pink_ling": (1100, 630, "left", False),
+        "kingklip": (700, 840, "left", False),
     },
 }
 
@@ -167,7 +177,7 @@ BOTTOM_LIMIT = {"green_sea_turtle": 800}
 
 ALPHA_FLOOR = 40
 # Sheets whose sprites glow: alpha up to this is the glow around them, not the sprite.
-GLOW_FLOOR = {"sea_creatures_sheet.png": 120, "species_sheet_6.png": 120}
+GLOW_FLOOR = {"sea_creatures_sheet.png": 120, "species_sheet_6.png": 120, "species_sheet_7.png": 120}
 MAX_TAIL_SHARE = 0.3
 
 

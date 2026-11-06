@@ -233,8 +233,6 @@ Rules of thumb:
 
 
 ## TODOs
-- Animate all species properly, replace un-animateable sprites for species
-- Replace wrong species sprites and fact-check species info panels
 - Towed catch bag instead of the basket from zone 3 on (the catch stack has no place on the tank)
 - Replace too small buyers with better sprites
 - Fix the buyers queue and where the selling spots are
