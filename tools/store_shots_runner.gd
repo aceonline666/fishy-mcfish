@@ -96,6 +96,7 @@ func _shot_view() -> void:
 	site.shop_level = 4
 	site.seller_count = 4
 	site.drone_count = 3
+	site.backpack.assign(["atlantic_cod", "atlantic_mackerel", "lumpsucker", "atlantic_herring", "european_plaice"])
 	var spot := await _start(state)
 	_place(spot, _view)
 	await get_tree().create_timer(3.0).timeout

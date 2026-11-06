@@ -233,7 +233,6 @@ Rules of thumb:
 
 
 ## TODOs
-- Towed catch bag instead of the basket from zone 3 on (the catch stack has no place on the tank)
 - Replace too small buyers with better sprites
 - Fix the buyers queue and where the selling spots are
 - Better selling booth sprites

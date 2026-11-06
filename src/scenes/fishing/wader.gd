@@ -6,7 +6,9 @@ extends Node2D
 ## assets/sprites/wader: the figure in the outfit the zone calls for (waders with the basket,
 ## snorkel, scuba gear, rebreather, hard-hat suit, submersible; tools/extract_wader_sheet.py) in
 ## the view of its walking direction, painted in step while walking, with the catch stacked on its
-## back and the landing net of its net level (tools/extract_wader.py).
+## back and the landing net of its net level (tools/extract_wader.py). From the scuba gear on the
+## tank takes the back, so the catch goes into a mesh bag towed on a short line instead
+## (assets/sprites/wader/catch_bag.png, art_source/characters/catch_bag_sprite_prompt.md).
 
 const WALK_SPEED := 450.0
 const ACCELERATION := 2400.0
@@ -48,6 +50,27 @@ const SUB_FLOAT := 40.0
 const STACK_BASE := Vector2(0.0, -136.0)
 const STACK_STEP := 12.0
 const STACK_FISH_LENGTH := 50.0
+## From this gear on the catch is towed in a bag instead of stacked on the back.
+const TOW_FROM_GEAR := 3
+const CATCH_BAG: Texture2D = preload("res://assets/sprites/wader/catch_bag.png")
+## In the bag sprite: the middle of its mouth (the ring), where the tow line is tied (the snap
+## hook), and the ring's width.
+const BAG_MOUTH := Vector2(615.0, 145.0)
+const BAG_HOOK := Vector2(45.0, 365.0)
+const BAG_RING_WIDTH := 470.0
+## Screen width of the ring, empty and with BAG_FULL_COUNT fish or more.
+const BAG_MOUTH_SCREEN := Vector2(34.0, 52.0)
+const BAG_FULL_COUNT := 12
+## The bag trails this far behind and to the side (ground units, so the body does not hide it)
+## and floats this high (screen) on its line, which is tied to the diver's belt.
+const TOW_DISTANCE := 95.0
+const TOW_SIDE := 70.0
+const TOW_HEIGHT := 70.0
+const TOW_BELT := Vector2(0.0, -95.0)
+const TOW_LINE := Color(0.95, 0.78, 0.2)
+## Fish shown poking out of the bag's mouth, and their length.
+const BAG_SHOWN := 3
+const BAG_FISH_LENGTH := 40.0
 ## Shoulder of the net arm, for side = +1 (net on the right).
 const NET_SHOULDER := Vector2(27.0, -112.0)
 ## Landing nets by net level (assets/sprites/wader/net_N): the hoop lies on the water at the catch
@@ -196,9 +219,16 @@ func hoop_screen_position() -> Vector2:
 	return position + _hoop_offset()
 
 
-## Screen position of the top of the catch stack.
+## Screen position of the top of the catch stack, or of the towed bag's mouth.
 func stack_top_position() -> Vector2:
+	if tows_bag():
+		return position + _bag_mouth()
 	return position + STACK_BASE + Vector2(0.0, -STACK_STEP * maxi(carried.size() - 1, 0))
+
+
+## True when the catch goes into the towed bag rather than onto the back.
+func tows_bag() -> bool:
+	return _gear() >= TOW_FROM_GEAR
 
 
 ## Puts a caught fish on top of the stack, with a short dip of the net.
@@ -288,16 +318,23 @@ func _draw_figure(canvas: CanvasItem) -> void:
 	var view_name: String = view[0]
 	var from_behind := view_name == "back" or view_name == "away"
 
+	# The towed bag trails behind: drawn first when it is further from the camera than the diver.
+	var bag_behind := tows_bag() and _bag_mouth().y < -TOW_HEIGHT
+	if bag_behind:
+		_draw_bag(canvas)
 	# Facing the camera, the catch on the back is hidden behind the body and the net is in front.
 	if from_behind:
 		_draw_net(canvas, hoop, side, bob)
-	else:
+	elif not tows_bag():
 		_draw_stack(canvas, bob)
 	_draw_body(canvas, view, bob, gear)
 	if from_behind:
-		_draw_stack(canvas, bob)
+		if not tows_bag():
+			_draw_stack(canvas, bob)
 	else:
 		_draw_net(canvas, hoop, side, bob)
+	if tows_bag() and not bag_behind:
+		_draw_bag(canvas)
 
 
 ## The outfit the gear calls for, in the view of the walking direction: the standing frame, or the
@@ -340,6 +377,35 @@ func _draw_stack(canvas: CanvasItem, bob: float) -> void:
 		var at := STACK_BASE + Vector2(offset_x, -bob - STACK_STEP * i * squash)
 		var mirror := 1.0 if i % 2 == 0 else -1.0
 		carried[i].draw(canvas, Transform2D(Vector2(mirror, 0.0), Vector2(0.0, 1.0), at), STACK_FISH_LENGTH)
+
+
+## The bag's mouth on screen, relative to the feet: behind the diver on its line, swaying a little.
+func _bag_mouth() -> Vector2:
+	var sway := Vector2(sin(_time * 1.3) * 6.0, sin(_time * 1.9) * 4.0)
+	var behind := -facing * TOW_DISTANCE + facing.orthogonal() * TOW_SIDE
+	return Iso.to_screen(behind) + Vector2(0.0, -TOW_HEIGHT) + sway
+
+
+## The towed catch bag on its line, growing with the catch, the top fish poking out of its mouth.
+func _draw_bag(canvas: CanvasItem) -> void:
+	var mouth := _bag_mouth()
+	var fill := clampf(float(carried.size()) / BAG_FULL_COUNT, 0.0, 1.0)
+	var scale_factor := lerpf(BAG_MOUTH_SCREEN.x, BAG_MOUTH_SCREEN.y, fill) / BAG_RING_WIDTH
+	# The hook side faces the diver.
+	var mirror := 1.0 if mouth.x > 0.0 else -1.0
+	var hook := mouth + (BAG_HOOK - BAG_MOUTH) * Vector2(mirror, 1.0) * scale_factor
+	canvas.draw_line(TOW_BELT, hook, OUTLINE, 4.0, true)
+	canvas.draw_line(TOW_BELT, hook, TOW_LINE, 2.0, true)
+	canvas.draw_set_transform(mouth, 0.0, Vector2(mirror, 1.0) * scale_factor)
+	canvas.draw_texture(CATCH_BAG, -BAG_MOUTH)
+	canvas.draw_set_transform(Vector2.ZERO)
+	var shown := mini(carried.size(), BAG_SHOWN)
+	for i in shown:
+		var art := carried[carried.size() - shown + i]
+		# Head up, tail in the bag, fanned out a little.
+		var tilt := -PI * 0.5 + (i - (shown - 1) * 0.5) * 0.45
+		var at := mouth + Vector2.from_angle(tilt) * BAG_FISH_LENGTH * 0.3
+		art.draw(canvas, Transform2D(tilt, at), BAG_FISH_LENGTH, _time * 4.0 + i, 0.3)
 
 
 ## The landing net of the net level, its hoop lying on the water at the catch point and its handle
