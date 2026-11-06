@@ -328,6 +328,9 @@ func _ready() -> void:
 	_seabed.water = location.env
 	_seabed.generate(water_area)
 	_seabed.add_edges(water_area)
+	for zone in _zones:
+		var top := maxf(zone.depth_start, SHORE_Y + WATER_MARGIN)
+		_seabed.add_zone(zone.id, PlayArea.new(Rect2(_spot_rect.position.x, top, _spot_rect.size.x, zone.depth_end - top)))
 	if WRECKS.has(location.id):
 		_seabed.add_wreck(WRECKS[location.id][0], WRECKS[location.id][1])
 	EventBus.fish_sold_by_seller.connect(_on_fish_sold_by_seller)

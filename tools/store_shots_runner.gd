@@ -22,6 +22,8 @@ var _only := ""
 var _view := Vector2.INF
 ## --frames=N: with --view, N shots one --every=S seconds apart, to watch something move.
 var _frames := 1
+## --location=id: with --view, the location to look at (the North Sea by default).
+var _location := "north_sea"
 var _every := 1.0
 var _viewport: SubViewport
 var _main: Node
@@ -38,6 +40,8 @@ func _ready() -> void:
 		elif arg.begins_with("--view="):
 			var parts := arg.trim_prefix("--view=").split(",")
 			_view = Vector2(parts[0].to_float(), parts[1].to_float())
+		elif arg.begins_with("--location="):
+			_location = arg.trim_prefix("--location=")
 		elif arg.begins_with("--frames="):
 			_frames = arg.trim_prefix("--frames=").to_int()
 		elif arg.begins_with("--every="):
@@ -99,7 +103,7 @@ func _shot_business() -> void:
 
 ## The developed beach around a ground point (--view).
 func _shot_view() -> void:
-	var state := _state(["north_sea"], 3)
+	var state := _state([_location], 3)
 	var site := state.here()
 	site.tank.level = 5
 	site.shop_level = 4

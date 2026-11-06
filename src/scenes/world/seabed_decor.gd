@@ -21,6 +21,18 @@ const PROPS: Dictionary[String, Array] = {
 		["treasure_chest", 110.0, 1],
 	],
 }
+## Zones named after what grows or lies there show it: extra props scattered in their depth band,
+## per zone id, as in PROPS (sprite, screen width, how many).
+const ZONE_PROPS: Dictionary[String, Array] = {
+	"seagrass_bay": [["seagrass", 80.0, 26], ["blue_starfish", 60.0, 2]],
+	"lagoon": [["seagrass", 75.0, 12], ["giant_clam", 90.0, 1]],
+	"reef_crest": [["branch_coral", 95.0, 4], ["brain_coral", 100.0, 3], ["table_coral", 105.0, 3]],
+	"kelp_forest_au": [["kelp_tall", 95.0, 13], ["kelp", 80.0, 8]],
+	"cape_kelp": [["kelp_tall", 95.0, 13], ["kelp", 80.0, 8]],
+	"seaweed_bed": [["sea_lettuce", 90.0, 11], ["kelp_small", 65.0, 11]],
+	"rocky_reef": [["boulder", 130.0, 5], ["rock", 100.0, 5], ["stones", 80.0, 4]],
+	"rocky_shore": [["boulder", 125.0, 4], ["rock", 95.0, 5], ["stones", 75.0, 5], ["mussels", 85.0, 3]],
+}
 ## Rocks lined up along the spot's west and east edges, so the water ends at a reef wall rather
 ## than an invisible one: per water, the sprites taken in turn and their screen widths.
 const EDGE_PROPS: Dictionary[String, Array] = {
@@ -33,8 +45,10 @@ const EDGE_SPACING := 95.0
 const EDGE_OFFSET := Vector2(15.0, 70.0)
 const SWAY: Array[String] = ["kelp_small", "kelp", "kelp_tall", "sea_lettuce", "seagrass", "reef_anemone", "sea_fan"]
 const WRECK_WIDTH := 460.0
-## Props keep at least this far apart (ground units).
+## Props keep at least this far apart (ground units); a zone's own props, which grow in beds,
+## closer.
 const PROP_SPACING := 150.0
+const ZONE_PROP_SPACING := 90.0
 ## Share of the sprite height below the prop's ground point (the sand patch it stands on).
 const PROP_BASE := 0.12
 ## Props fade into the water colour with depth like the seabed (SeaDepth,
@@ -81,6 +95,26 @@ func generate(area: PlayArea, seed_value: int = 1) -> void:
 	queue_redraw()
 
 
+## Scatters the zone's own props (ZONE_PROPS) in its area, if it has any.
+func add_zone(zone_id: String, area: PlayArea, seed_value: int = 3) -> void:
+	if not ZONE_PROPS.has(zone_id):
+		return
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed_value + zone_id.hash()
+	var taken := PackedVector2Array()
+	for entry: Array in ZONE_PROPS[zone_id]:
+		for i in int(entry[2]):
+			var ground := area.random_point(rng, 80.0)
+			for attempt in 20:
+				if not _crowded(ground, taken, ZONE_PROP_SPACING):
+					break
+				ground = area.random_point(rng, 80.0)
+			taken.append(ground)
+			_props.append(_make_prop(entry[0], ground, float(entry[1]) * rng.randf_range(0.85, 1.15), rng.randf() * TAU))
+	_sort_props()
+	queue_redraw()
+
+
 ## Lines the area's west and east edges with rocks, from its top down to its bottom.
 func add_edges(area: PlayArea, seed_value: int = 2) -> void:
 	var rng := RandomNumberGenerator.new()
@@ -107,9 +141,9 @@ func add_wreck(prop_name: String, ground: Vector2) -> void:
 	queue_redraw()
 
 
-func _crowded(ground: Vector2, taken: PackedVector2Array) -> bool:
+func _crowded(ground: Vector2, taken: PackedVector2Array, spacing: float = PROP_SPACING) -> bool:
 	for other in taken:
-		if ground.distance_to(other) < PROP_SPACING:
+		if ground.distance_to(other) < spacing:
 			return true
 	return false
 
