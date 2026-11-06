@@ -1,8 +1,7 @@
 class_name SwimmingFish
 extends Node2D
 ## A fish in the fishing scene. Steers itself in ground coordinates (wander, schooling, fleeing
-## the wader) and draws itself side-on: from SVG sprites (FishArt) where they exist, otherwise
-## with chunky placeholder shapes drawn in code.
+## the wader) and draws itself side-on from its painted sprites (FishArt).
 
 enum State { SWIMMING, CAUGHT }
 

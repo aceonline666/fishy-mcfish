@@ -52,7 +52,7 @@ const ENTRY := Vector2(3.3, -1.5) * Grid.UNIT
 const SHOW_GRID := false
 ## The displays behind the pads, showing what they sell: sprite (assets/sprites/props; the
 ## paintings from art_source/store/fixture_sprite_prompts.md, brought in by
-## tools/import_store_art.py, or PLACEHOLDER SVGs drawn at ground scale), where it stands on the
+## tools/import_store_art.py), where it stands on the
 ## floor (in cells, free of the grid: placed where it looks good), the point in the sprite that
 ## stands there, the sprite's pixels per cell edge across (its scale), and whether it is
 ## mirrored. The room's painted walls stand about a quarter cell inside the grid's room edge.
