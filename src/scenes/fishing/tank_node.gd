@@ -76,6 +76,10 @@ const WATER_COLOR := Color(0.55, 0.82, 1.0)
 const JUMPERS := 3
 const JUMP_PERIOD := 2.6
 const JUMP_AIR_SHARE := 0.32
+## A jump goes about a body length high and a few lengths across, within these bounds (screen
+## pixels), whatever the tank's size.
+const JUMP_HEIGHT := Vector2(25.0, 80.0)
+const JUMP_REACH := Vector2(60.0, 200.0)
 const SPILL_DROPS := 8
 const GROW_BAR_SIZE := Vector2(170.0, 14.0)
 const GROW_BAR_BACK := Color(0.05, 0.1, 0.2, 0.7)
@@ -206,7 +210,7 @@ func _draw() -> void:
 	_draw_front(rect)
 	if full:
 		_draw_overflow(water)
-		_draw_jumpers(rect, water)
+		_draw_jumpers(water)
 
 	var text := "%s / %s L" % [NumberFormat.compact(_used), NumberFormat.compact(Aquarium.capacity(tank))]
 	IsoDraw.label(self, Vector2(middle, rect.position.y - 22.0), text, 26, FULL_COLOR if full else LABEL_COLOR)
@@ -388,28 +392,28 @@ func _draw_overflow(water: Rect2) -> void:
 
 
 ## A few fish leap out of the water in an arc and splash back in.
-func _draw_jumpers(rect: Rect2, water: Rect2) -> void:
+func _draw_jumpers(water: Rect2) -> void:
 	if tank.fish.is_empty():
 		return
 	var surface := water.position.y
 	var left := water.position.x
 	var swim_width := water.size.x
-	var height := rect.size.y * 0.55
-	var reach := swim_width * 0.6
 	for j in mini(JUMPERS, tank.fish.size()):
 		var clock := _time + j * 0.9
 		var cycle := int(clock / JUMP_PERIOD)
 		var t := fmod(clock, JUMP_PERIOD) / JUMP_PERIOD
 		var direction := 1.0 if (cycle + j) % 2 == 0 else -1.0
+		var fish := tank.fish[(cycle * 5 + j * 3) % tank.fish.size()]
+		var art: FishArt = art_for.call(fish.species_id)
+		var length := fish_length(art.species, fish.growth)
+		var height := clampf(length, JUMP_HEIGHT.x, JUMP_HEIGHT.y)
+		var reach := minf(clampf(length * 2.5, JUMP_REACH.x, JUMP_REACH.y), swim_width * 0.6)
 		var start_x := left + swim_width * (0.5 + 0.5 * direction * -0.5 + 0.12 * (j - 1))
 		var end_x := start_x + direction * reach
 		if t < JUMP_AIR_SHARE:
 			var u := t / JUMP_AIR_SHARE
 			var at := Vector2(lerpf(start_x, end_x, u), surface - 4.0 * height * u * (1.0 - u))
 			var velocity := Vector2(direction * reach, -4.0 * height * (1.0 - 2.0 * u))
-			var fish := tank.fish[(cycle * 5 + j * 3) % tank.fish.size()]
-			var art: FishArt = art_for.call(fish.species_id)
-			var length := fish_length(art.species, fish.growth)
 			var tilt := velocity.angle() if direction > 0.0 else velocity.angle() - PI
 			var view := Transform2D(tilt, at) * Transform2D(Vector2(direction, 0.0), Vector2(0.0, 1.0), Vector2.ZERO)
 			art.draw(self, view, length, _time * 14.0 + j, 1.0)

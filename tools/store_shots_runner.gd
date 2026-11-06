@@ -24,6 +24,8 @@ var _view := Vector2.INF
 var _frames := 1
 ## --location=id: with --view, the location to look at (the North Sea by default).
 var _location := "north_sea"
+## --full: with --view, the tank is filled to the brim (it overflows and fish jump out).
+var _full := false
 var _every := 1.0
 var _viewport: SubViewport
 var _main: Node
@@ -40,6 +42,8 @@ func _ready() -> void:
 		elif arg.begins_with("--view="):
 			var parts := arg.trim_prefix("--view=").split(",")
 			_view = Vector2(parts[0].to_float(), parts[1].to_float())
+		elif arg == "--full":
+			_full = true
 		elif arg.begins_with("--location="):
 			_location = arg.trim_prefix("--location=")
 		elif arg.begins_with("--frames="):
@@ -109,6 +113,12 @@ func _shot_view() -> void:
 	site.shop_level = 4
 	site.seller_count = 4
 	site.drone_count = 3
+	if _full:
+		# Nobody sells, so it stays full.
+		site.seller_count = 0
+		_fill_tank(site, site.tank.fish.map(func(fish: TankFish) -> String: return fish.species_id), RandomNumberGenerator.new(), 1.0)
+		# Small fish close the last gaps, so the tank counts as full.
+		_fill_tank(site, ["european_sprat"], RandomNumberGenerator.new(), 1.0)
 	site.backpack.assign(["atlantic_cod", "atlantic_mackerel", "lumpsucker", "atlantic_herring", "european_plaice"])
 	var spot := await _start(state)
 	_place(spot, _view)
@@ -223,13 +233,16 @@ func _state(locations: Array[String], depth: int) -> PlayerState:
 	return state
 
 
-## Fills up to half of the site's tank with known species at mixed growth.
-func _fill_tank(site: Site, species: Array[String], rng: RandomNumberGenerator) -> void:
+## Fills up to `share` of the site's tank (about half by default) with known species at mixed
+## growth.
+func _fill_tank(site: Site, species: Array, rng: RandomNumberGenerator, share: float = 0.55) -> void:
 	var capacity := DataRegistry.tank_levels[site.tank.level - 1].capacity
 	var litres := 0.0
+	for fish in site.tank.fish:
+		litres += DataRegistry.species[fish.species_id].space_l
 	for attempt in 4000:
 		var def: SpeciesDef = DataRegistry.species[species[rng.randi() % species.size()]]
-		if def.min_tank_l > capacity or litres + def.space_l > capacity * 0.55:
+		if def.min_tank_l > capacity or litres + def.space_l > capacity * share:
 			continue
 		site.tank.fish.append(TankFish.new(def.id, 1.0 if rng.randf() < 0.4 else rng.randf_range(0.3, 0.95)))
 		litres += def.space_l

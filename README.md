@@ -238,12 +238,10 @@ Rules of thumb:
 
 ## TODOs
 - Replace Fishbowl with sprite
-- Fix the buyers queue and where the selling spots are
 - Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors. Sound?
 - Zone props: seagrass bay, kelp forests, seaweed bed, rocky reef/shore, lagoon and reef crest show theirs (existing seabed sprites, `SeabedDecor.ZONE_PROPS`); still missing sprites for e.g. Sardine run, Shark alley, the currents
 - Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console)
-- Improve sounds
-- Replace booth sprites with perspectively correct ones
+- Add sound for the submarine and the drones
 
 Later: 
 - Add new locations. Ideas:
