@@ -69,3 +69,21 @@ Do not draw: sand, ground, water, fish, glasses or anything on the belt, cast sh
 soft contact shadow under the legs, people, text, letters, numbers or price tags anywhere, a
 border or frame. One belt only.
 ```
+
+## Follow-up: shorter legs
+
+The first result stood on legs about 210 px tall: in the game the belt's top came up to the
+wader's head and its feet seemed to stand on the pier. `sales_belt.png` is the follow-up, sent in
+the same chat with the first result attached:
+
+```
+Edit the attached conveyor belt (your last image): keep everything exactly the same (style,
+colours, the belt, the side boards, the crank end, the bell end, the camera angle, the canvas and
+the belt's position on it), but make the LEGS MUCH SHORTER: the belt's top should be only about
+70 px above the sand instead of about 210 px. The legs become short stubby posts on their stone
+feet, still one pair at the start of every section, evenly spaced. The side boards and the belt
+sit just above the feet. Drop the cross braces between the legs if there is no room. Keep the
+bell post as tall as it is. Fully transparent background, nothing else in the image, no text.
+```
+
+The result is not exact 2:1 (both directions slope about 0.39); `tools/cut_belt.py` narrows it.
