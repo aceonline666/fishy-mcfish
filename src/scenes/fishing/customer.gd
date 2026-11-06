@@ -12,6 +12,10 @@ enum State { ARRIVING, WAITING, LEAVING }
 ## Three-quarter views: the front views look down towards screen-right, the back views up
 ## towards screen-right; they are mirrored when walking left.
 const LOOKS: Array[String] = ["buyer_1", "buyer_2", "buyer_3"]
+## Per look, for the walk (WalkDraw): the share of the height above the hips (the hem of the dress
+## or shorts) and the legs' half width as a share of the height.
+const HIPS: Array[float] = [0.76, 0.8, 0.74]
+const LEGS: Array[float] = [0.15, 0.2, 0.15]
 const BUYERS_DIR := "res://assets/sprites/buyers/"
 ## Ground units per second.
 const SPEED := 150.0
@@ -100,5 +104,5 @@ func _draw() -> void:
 	var bob := absf(sin(_walk_phase)) * 5.0 if walking else 0.0
 	var rect := Rect2(Vector2(-size.x * 0.5, -size.y), size)
 	var base := Transform2D(0.0, Vector2(-1.0 if _mirrored else 1.0, 1.0), 0.0, Vector2.ZERO)
-	WalkDraw.figure(self, base, texture, rect, _walk_phase, 1.0 if walking else 0.0, bob)
+	WalkDraw.figure(self, base, texture, rect, _walk_phase, 1.0 if walking else 0.0, bob, HIPS[_look], LEGS[_look])
 	draw_set_transform(Vector2.ZERO)

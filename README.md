@@ -235,7 +235,6 @@ Rules of thumb:
 ## TODOs
 - Improve loading size. Maybe resize some sprites because they are pretty high-resolution and could be shrinked down. Icons for example.
 - Replace Fishbowl with sprite
-- Improve walking animation of the buyers
 - Fix the buyers queue and where the selling spots are
 - Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors. Sound?
 - Some zones have names like "seagrass bay" but you don't see seagrass. We should add these objects depending on the names. Will require more sprites.

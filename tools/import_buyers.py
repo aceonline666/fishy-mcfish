@@ -2,10 +2,11 @@
 one sprite per buyer and pose for Customer.
 
 The sheet has three buyers (rows) in four poses (columns): front, back, front with a fish, back
-with a fish. Each figure is found in its cell (its faint glow cleared) and cropped so the middle
+with a fish. Each figure is found in its cell (its faint glow cleared, bits of the neighbours'
+figures dropped) and cropped so the middle
 of its feet is the sprite's bottom centre, where Customer stands it on the ground.
 
-Needs Pillow and NumPy. Usage:
+Needs Pillow, NumPy and SciPy. Usage:
   python tools/import_buyers.py art_source/characters/buyer_sheet_1.png assets/sprites/buyers 1
 writes buyer_1..3 (the number after the folder is the sheet's number: sheet 2 writes buyer_4..6)
 as <buyer>_front.png, _back.png, _front_fish.png and _back_fish.png.
@@ -15,6 +16,7 @@ from pathlib import Path
 
 import numpy as np
 from PIL import Image
+from scipy import ndimage
 
 ROWS, COLUMNS = 3, 4
 POSES = ["front", "back", "front_fish", "back_fish"]
@@ -35,7 +37,12 @@ def main() -> None:
         for column in range(COLUMNS):
             y0, y1 = row * height // ROWS, (row + 1) * height // ROWS
             x0, x1 = column * width // COLUMNS, (column + 1) * width // COLUMNS
-            cell = sheet[y0:y1, x0:x1]
+            cell = sheet[y0:y1, x0:x1].copy()
+            # Keep the figure: the biggest blob and what lies close to it.
+            labels, _ = ndimage.label(ndimage.binary_dilation(cell[..., 3] > 0, iterations=4))
+            sizes = np.bincount(labels.ravel())
+            sizes[0] = 0
+            cell[labels != np.argmax(sizes)] = 0
             ys, xs = np.where(cell[..., 3] > 128)
             top, bottom = ys.min(), ys.max()
             band = cell[bottom - FOOT_BAND:bottom + 1, :, 3] > 128
