@@ -240,7 +240,6 @@ Rules of thumb:
 - Some zones have names like "seagrass bay" but you don't see seagrass. We should add these objects depending on the names. Will require more sprites.
 - Barriers to the left and right could be more natural. Make them rocks or some other obstacles instead of invisible walls
 - Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console)
-- Improve coin look when the coins are flying. They are too small and not comic-style enough. Maybe they could spin?
 - Improve sounds
   - Walking sound should reflect the underground. Wooden on pier, sandy on beach, muddy in water
 - Replace booth sprites with perspectively correct ones
