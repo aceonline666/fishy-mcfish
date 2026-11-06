@@ -241,7 +241,6 @@ Rules of thumb:
 - Fix the buyers queue and where the selling spots are
 - Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors. Sound?
 - Some zones have names like "seagrass bay" but you don't see seagrass. We should add these objects depending on the names. Will require more sprites.
-- Barriers to the left and right could be more natural. Make them rocks or some other obstacles instead of invisible walls
 - Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console)
 - Improve sounds
 - Replace booth sprites with perspectively correct ones

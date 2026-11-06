@@ -327,6 +327,7 @@ func _ready() -> void:
 	_sand_texture = load(sand_path) if ResourceLoader.exists(sand_path) else null
 	_seabed.water = location.env
 	_seabed.generate(water_area)
+	_seabed.add_edges(water_area)
 	if WRECKS.has(location.id):
 		_seabed.add_wreck(WRECKS[location.id][0], WRECKS[location.id][1])
 	EventBus.fish_sold_by_seller.connect(_on_fish_sold_by_seller)

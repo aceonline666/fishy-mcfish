@@ -21,6 +21,16 @@ const PROPS: Dictionary[String, Array] = {
 		["treasure_chest", 110.0, 1],
 	],
 }
+## Rocks lined up along the spot's west and east edges, so the water ends at a reef wall rather
+## than an invisible one: per water, the sprites taken in turn and their screen widths.
+const EDGE_PROPS: Dictionary[String, Array] = {
+	"temperate": [["boulder", 150.0], ["rock", 115.0], ["stones", 95.0], ["boulder", 135.0], ["rock", 125.0]],
+	"tropical": [["coral_rock", 150.0], ["brain_coral", 115.0], ["coral_stones", 105.0], ["coral_rock", 135.0], ["table_coral", 120.0]],
+}
+## Ground distance between edge rocks along the edge, and how far outside the edge they lie
+## (between the two values).
+const EDGE_SPACING := 95.0
+const EDGE_OFFSET := Vector2(15.0, 70.0)
 const SWAY: Array[String] = ["kelp_small", "kelp", "kelp_tall", "sea_lettuce", "seagrass", "reef_anemone", "sea_fan"]
 const WRECK_WIDTH := 460.0
 ## Props keep at least this far apart (ground units).
@@ -67,6 +77,25 @@ func generate(area: PlayArea, seed_value: int = 1) -> void:
 				ground = area.random_point(rng, 80.0)
 			taken.append(ground)
 			_props.append(_make_prop(entry[0], ground, float(entry[1]) * rng.randf_range(0.85, 1.15), rng.randf() * TAU))
+	_sort_props()
+	queue_redraw()
+
+
+## Lines the area's west and east edges with rocks, from its top down to its bottom.
+func add_edges(area: PlayArea, seed_value: int = 2) -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed_value
+	var props: Array = EDGE_PROPS.get(water, EDGE_PROPS["temperate"])
+	var index := 0
+	for side: float in [-1.0, 1.0]:
+		var edge_x := area.rect.position.x if side < 0.0 else area.rect.end.x
+		var y := area.rect.position.y + rng.randf_range(0.0, EDGE_SPACING)
+		while y < area.rect.end.y:
+			var entry: Array = props[index % props.size()]
+			index += 1
+			var ground := Vector2(edge_x + side * rng.randf_range(EDGE_OFFSET.x, EDGE_OFFSET.y), y)
+			_props.append(_make_prop(entry[0], ground, float(entry[1]) * rng.randf_range(0.85, 1.15), 0.0))
+			y += EDGE_SPACING * rng.randf_range(0.8, 1.2)
 	_sort_props()
 	queue_redraw()
 
