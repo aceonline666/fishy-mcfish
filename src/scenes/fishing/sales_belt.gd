@@ -32,12 +32,15 @@ const END_FROM := 645.0
 const PAINTED_BOOTH_END := 936.0
 const PAINTED_HEIGHT := 167.0
 ## The belt's top, cut out of the pieces and drawn under them, scrolling while the fish slide:
-## straightened (x along the run, y across), one section long so it repeats. It covers the run
-## from SURFACE_FROM to SURFACE_END_GAP short of the booth end, SURFACE_HALF_WIDTH to each side.
+## straightened (x along the run, y across from SURFACE_BACK - SURFACE_MARGIN), one section long so
+## it repeats. It covers the run from SURFACE_FROM to SURFACE_END_GAP short of the booth end, and
+## across from SURFACE_BACK to SURFACE_FRONT, plus the margin that lies under the pieces.
 const SURFACE := preload("res://assets/sprites/props/sales_belt_surface.png")
 const SURFACE_FROM := 6.0
 const SURFACE_END_GAP := 8.0
-const SURFACE_HALF_WIDTH := 64.0
+const SURFACE_BACK := -64.0
+const SURFACE_FRONT := 81.0
+const SURFACE_MARGIN := 2.0
 const BOWL_TEXTURE: Texture2D = preload("res://assets/sprites/props/fish_bowl.svg")
 const BOWL_WIDTH := 78.0
 const FISH_LENGTH := 46.0
@@ -60,6 +63,16 @@ var _places: Dictionary[TankFish, float] = {}
 var _time := 0.0
 ## How far the belt's top has run, in painted pixels along it.
 var _run := 0.0
+## Draws the belt's top behind the pieces; its own node, so only the top repeats its texture
+## (repeating the pieces' textures would bleed their opposite edges in at the joins).
+var _surface := Node2D.new()
+
+
+func _init() -> void:
+	_surface.show_behind_parent = true
+	_surface.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+	_surface.draw.connect(_draw_surface)
+	add_child(_surface)
 
 
 ## `area` is the ground the belt covers: whole cells, running north from the tank's end.
@@ -71,7 +84,6 @@ func setup(tank_state: TankState, area: Rect2, art_lookup: Callable) -> void:
 	# The belt's width across on screen, over its painted width.
 	_scale = Iso.to_screen(Vector2(_half.x * 2.0, 0.0)).x / (PAINTED_HALF_WIDTH * 2.0)
 	_lift = PAINTED_HEIGHT * _scale
-	texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 
 
 ## How many fish fit on the belt.
@@ -107,6 +119,7 @@ func _process(delta: float) -> void:
 	# The belt carries them: it runs as far as they slide towards the booths.
 	var slot_length := Iso.to_screen(Vector2(0.0, -_half.y * 2.0 / slots())).x / _scale
 	_run = fmod(_run + moved * slot_length, SURFACE.get_width())
+	_surface.queue_redraw()
 	queue_redraw()
 
 
@@ -123,7 +136,6 @@ func _draw_belt() -> void:
 	# The belt's length in painted pixels across, and where the booth end goes.
 	var length := Iso.to_screen(Vector2(0.0, -_half.y * 2.0)).x / _scale
 	var booth_shift := length - PAINTED_BOOTH_END
-	_draw_surface(length - SURFACE_END_GAP)
 	_draw_piece(BOOTH_PIECE, BOOTH_PIECE_AT, booth_shift)
 	var from := END_FROM + booth_shift
 	while from > SECTION_FROM:
@@ -133,18 +145,22 @@ func _draw_belt() -> void:
 	draw_set_transform(Vector2.ZERO)
 
 
-## The belt's top from SURFACE_FROM to `to` (painted pixels along the run), its pattern moved
-## `_run` towards the booths.
-func _draw_surface(to: float) -> void:
+## The belt's top from SURFACE_FROM to SURFACE_END_GAP short of the booth end, its pattern moved
+## `_run` towards the booths, on `_surface` with the pieces' transform.
+func _draw_surface() -> void:
+	_surface.draw_set_transform(_on_top(0.0), 0.0, Vector2.ONE * _scale)
+	var to := Iso.to_screen(Vector2(0.0, -_half.y * 2.0)).x / _scale - SURFACE_END_GAP
 	var points := PackedVector2Array()
 	var uvs := PackedVector2Array()
 	var size := SURFACE.get_size()
-	for corner: Vector2 in [Vector2(SURFACE_FROM, -1.0), Vector2(to, -1.0), Vector2(to, 1.0), Vector2(SURFACE_FROM, 1.0)]:
+	var back := SURFACE_BACK - SURFACE_MARGIN
+	var front := SURFACE_FRONT + SURFACE_MARGIN
+	for corner: Vector2 in [Vector2(SURFACE_FROM, back), Vector2(to, back), Vector2(to, front), Vector2(SURFACE_FROM, front)]:
 		var along := corner.x
-		var across := corner.y * SURFACE_HALF_WIDTH
+		var across := corner.y
 		points.append(Vector2(along + across, (across - along) * 0.5))
-		uvs.append(Vector2((along - SECTION_FROM - _run) / size.x, (across + SURFACE_HALF_WIDTH) / (size.y - 1.0)))
-	draw_polygon(points, PackedColorArray([Color.WHITE]), uvs, SURFACE)
+		uvs.append(Vector2((along - SECTION_FROM - _run) / size.x, (across - back + 0.5) / size.y))
+	_surface.draw_polygon(points, PackedColorArray([Color.WHITE]), uvs, SURFACE)
 
 
 ## A piece at its place in the painting, moved `shift` painted pixels across along the run.

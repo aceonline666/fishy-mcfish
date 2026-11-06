@@ -15,8 +15,10 @@ legs; the booth end starts at END_FROM, the same distance before another pair, s
 section like the section joins itself. Each piece reaches OVERLAP pixels past its tank-side cut.
 
 So the belt can run, its top is taken out of the pieces (SURFACE_FROM to SURFACE_TO along the run,
-SURFACE_HALF_WIDTH across) and saved apart as `<prefix>_surface.png`: straightened, one pixel per
-painted pixel along (x) and across (y), one section long (two cleats), so it repeats. SalesBelt
+SURFACE_BACK to SURFACE_FRONT across: the belt shows further in front of the centre line than
+behind it) and saved apart as `<prefix>_surface.png`: straightened, one pixel per painted pixel
+along (x) and across (y, from SURFACE_BACK - SURFACE_MARGIN), one section long (two cleats), so it
+repeats; the margin lies under the pieces, so no gap shows at its edges. SalesBelt
 draws it scrolling under the pieces.
 
 Prints each piece's top-left corner in the narrowed painting, for SalesBelt's constants, and saves
@@ -39,7 +41,9 @@ END_FROM = 645.0
 # The belt's top between the end rollers, and the stretch of it saved as the repeating surface.
 SURFACE_FROM = 6.0
 SURFACE_TO = 928.0
-SURFACE_HALF_WIDTH = 64
+SURFACE_BACK = -64
+SURFACE_FRONT = 81
+SURFACE_MARGIN = 2
 # Alpha below this is the painting's faint glow, not the belt.
 CLEAR_BELOW = 100
 OVERLAP = 3.0
@@ -61,7 +65,7 @@ def main(source: str, prefix: str) -> None:
 
     surface = _straighten(image, SECTION_FROM, SECTION_TO - SECTION_FROM)
     Image.fromarray(surface).save("%s_surface.png" % prefix)
-    on_top = (s > SURFACE_FROM) & (s < SURFACE_TO) & (np.abs(b) <= SURFACE_HALF_WIDTH)
+    on_top = (s > SURFACE_FROM) & (s < SURFACE_TO) & (b >= SURFACE_BACK) & (b <= SURFACE_FRONT)
     image[on_top] = 0
 
     def tank_side(cut: float) -> np.ndarray:
@@ -108,7 +112,7 @@ def main(source: str, prefix: str) -> None:
 
 def _straighten(image: np.ndarray, start: float, length: float) -> np.ndarray:
     """The belt's top from `start`, `length` long, as a rectangle: x along the run, y across."""
-    us, vs = np.meshgrid(np.arange(int(length)), np.arange(-SURFACE_HALF_WIDTH, SURFACE_HALF_WIDTH + 1))
+    us, vs = np.meshgrid(np.arange(int(length)), np.arange(SURFACE_BACK - SURFACE_MARGIN, SURFACE_FRONT + SURFACE_MARGIN + 1))
     xs = TANK_END[0] + (start + us) + vs
     ys = TANK_END[1] - (start + us) * 0.5 + vs * 0.5
     x0, y0 = np.floor(xs).astype(int), np.floor(ys).astype(int)

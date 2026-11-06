@@ -43,6 +43,8 @@ func _ready() -> void:
 		elif arg.begins_with("--every="):
 			_every = arg.trim_prefix("--every=").to_float()
 	DirAccess.make_dir_recursive_absolute(_out_dir)
+	# Keep Godot from importing the shots (and the export from shipping them).
+	FileAccess.open(_out_dir.path_join(".gdignore"), FileAccess.WRITE)
 	_run.call_deferred()
 
 

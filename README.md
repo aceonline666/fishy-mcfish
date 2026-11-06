@@ -106,6 +106,10 @@ the prompts they were generated from lie next to them. The props on the seabed a
 mussels, starfish, sunken boats and the North Sea wreck) and `seabed_props_coral_reef.png`
 (tropical water: corals, sponges, seagrass, a giant clam and the reef's galleon); they fade
 into the water colour with depth like the seabed.
+Sprites are imported as lossy WebP at quality 0.9 (the project's import default): about a third
+of the lossless size, with the same pixel sizes. `build/` and `art_source/` are left out of the
+export; the screenshot tools put a `.gdignore` into their output folder so Godot does not import
+the shots.
 `art_source/` holds the source sheets (generated images) and is not imported by Godot, sorted by
 subject: `fish/`, `characters/` (wader and divers), `props/` (coastal and gear sheets),
 `buildings/` (booths, gear shop, pier), `tanks/`, `ground/` (beach, seafloor and seabed props),
@@ -233,7 +237,6 @@ Rules of thumb:
 
 
 ## TODOs
-- Improve loading size. Maybe resize some sprites because they are pretty high-resolution and could be shrinked down. Icons for example.
 - Replace Fishbowl with sprite
 - Fix the buyers queue and where the selling spots are
 - Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors. Sound?

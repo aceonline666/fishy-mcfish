@@ -55,6 +55,13 @@ enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 
 theme/custom="res://src/scenes/ui/main_theme.tres"
 
+[importer_defaults]
+
+texture={
+"compress/lossy_quality": 0.9,
+"compress/mode": 1
+}
+
 [input_devices]
 
 pointing/emulate_touch_from_mouse=true
