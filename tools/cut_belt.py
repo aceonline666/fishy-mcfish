@@ -14,6 +14,11 @@ post stay whole. The section runs from SECTION_FROM to SECTION_TO, each cut just
 legs; the booth end starts at END_FROM, the same distance before another pair, so it joins the
 section like the section joins itself. Each piece reaches OVERLAP pixels past its tank-side cut.
 
+So the belt can run, its top is taken out of the pieces (SURFACE_FROM to SURFACE_TO along the run,
+SURFACE_HALF_WIDTH across) and saved apart as `<prefix>_surface.png`: straightened, one pixel per
+painted pixel along (x) and across (y), one section long (two cleats), so it repeats. SalesBelt
+draws it scrolling under the pieces.
+
 Prints each piece's top-left corner in the narrowed painting, for SalesBelt's constants, and saves
 a preview of a belt with PREVIEW_SECTIONS sections next to the pieces.
 
@@ -31,6 +36,10 @@ HALF_WIDTH = 65.0
 SECTION_FROM = 390.0
 SECTION_TO = 535.0
 END_FROM = 645.0
+# The belt's top between the end rollers, and the stretch of it saved as the repeating surface.
+SURFACE_FROM = 6.0
+SURFACE_TO = 928.0
+SURFACE_HALF_WIDTH = 64
 # Alpha below this is the painting's faint glow, not the belt.
 CLEAR_BELOW = 100
 OVERLAP = 3.0
@@ -49,6 +58,11 @@ def main(source: str, prefix: str) -> None:
     # Screen = TANK_END + s * (1, -1/2) + b * (1, 1/2).
     px, py = xs - TANK_END[0], ys - TANK_END[1]
     s, b = (px - 2.0 * py) / 2.0, (px + 2.0 * py) / 2.0
+
+    surface = _straighten(image, SECTION_FROM, SECTION_TO - SECTION_FROM)
+    Image.fromarray(surface).save("%s_surface.png" % prefix)
+    on_top = (s > SURFACE_FROM) & (s < SURFACE_TO) & (np.abs(b) <= SURFACE_HALF_WIDTH)
+    image[on_top] = 0
 
     def tank_side(cut: float) -> np.ndarray:
         back_x = TANK_END[0] + cut - HALF_WIDTH
@@ -90,6 +104,21 @@ def main(source: str, prefix: str) -> None:
         paste("section", i * section)
     paste("tank", 0.0)
     preview.save("%s_preview.png" % prefix)
+
+
+def _straighten(image: np.ndarray, start: float, length: float) -> np.ndarray:
+    """The belt's top from `start`, `length` long, as a rectangle: x along the run, y across."""
+    us, vs = np.meshgrid(np.arange(int(length)), np.arange(-SURFACE_HALF_WIDTH, SURFACE_HALF_WIDTH + 1))
+    xs = TANK_END[0] + (start + us) + vs
+    ys = TANK_END[1] - (start + us) * 0.5 + vs * 0.5
+    x0, y0 = np.floor(xs).astype(int), np.floor(ys).astype(int)
+    fx, fy = (xs - x0)[..., None], (ys - y0)[..., None]
+    pixels = image.astype(float)
+    top = pixels[y0, x0] * (1 - fx) + pixels[y0, x0 + 1] * fx
+    bottom = pixels[y0 + 1, x0] * (1 - fx) + pixels[y0 + 1, x0 + 1] * fx
+    out = (top * (1 - fy) + bottom * fy).round().astype(np.uint8)
+    out[..., 3] = 255
+    return out
 
 
 if __name__ == "__main__":
