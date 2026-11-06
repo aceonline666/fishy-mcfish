@@ -197,7 +197,7 @@ Tests can also be run from the GUT panel in the editor. CI runs them on every pu
 **Balance:** `tools/balance_sim.gd` plays the game headless with a greedy bot using the real
 rules and prints a timeline of purchases, charted zones, goals and income. `tests/unit/test_pacing.gd`
 runs the same bot and checks the pacing targets (first tank upgrade < 5 min, snorkel 5–25 min,
-Coral Reef 25–70 min, open sea charted after 55–120 min). The bot reaches the North Sea's
+Coral Reef 25–70 min, open sea charted after 55–140 min). The bot reaches the North Sea's
 deep sea after about 3 h and has charted all five locations after about 12 h. Run it after
 changing prices or income:
 
@@ -233,7 +233,8 @@ Rules of thumb:
 
 
 ## TODOs
-- Replace too small buyers with better sprites
+- Make belt move
+- Improve walking animation of the buyers
 - Fix the buyers queue and where the selling spots are
 - Better selling booth sprites
 - Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors. Sound?
