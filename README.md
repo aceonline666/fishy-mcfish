@@ -238,15 +238,14 @@ Rules of thumb:
 
 ## TODOs
 - Replace Fishbowl with sprite
-- Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors. Sound?
+- Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors.
 - Zone props: seagrass bay, kelp forests, seaweed bed, rocky reef/shore, lagoon and reef crest show theirs (existing seabed sprites, `SeabedDecor.ZONE_PROPS`); still missing sprites for e.g. Sardine run, Shark alley, the currents
 - Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console)
-- Add sound for the submarine and the drones
-
+- Add some secrets, like:
+  - get extra money when you find the treasure chest
+  - some deep sea horror like cthulu that is barely visible
+  
 Later: 
 - Add new locations. Ideas:
   - Antarctic sea (pengiuins? black smokers in the deep zones?)
   - Jurasic sea (with ichtyosaurs, plesiosaurs, leopleurodon etc?)
-- Add some secrets, like:
-  - get extra money when you find the treasure chest
-  - some deep sea horror like cthulu that is barely visible

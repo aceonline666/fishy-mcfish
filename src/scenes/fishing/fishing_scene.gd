@@ -149,6 +149,8 @@ const QUEUE_SPACING := 90.0
 const CASHIER_LOOKS := 3
 ## Buyers keep coming at this pace from the start, whether anyone sells or not.
 const CUSTOMER_INTERVAL_S := 2.0
+## A flying drone is heard within this many screen pixels of the wader, louder the closer.
+const DRONE_HEARING := 900.0
 ## Painted decoration on the beach: sprite (assets/sprites/props), the cell it stands in the
 ## middle of, screen height, and where it shows ("" everywhere, else only at locations with that
 ## water).
@@ -369,6 +371,7 @@ func _process(delta: float) -> void:
 	_update_zone()
 	_update_camera(delta)
 	_update_wake(delta)
+	_update_hums(delta)
 	var view := Rect2(-_world.position / ZOOM, size / ZOOM).grow(CULL_MARGIN)
 	for fish in _fish:
 		fish.visible = view.has_point(fish.position)
@@ -1362,6 +1365,22 @@ func _update_wake(delta: float) -> void:
 	if _wake_timer <= 0.0:
 		_wake_timer = WAKE_INTERVAL_S
 		Juice.ripple(_effects, wader.position + Vector2(0.0, waterline), 60.0)
+
+
+## The submarine's motor while the wader rides it (louder when moving), and the drones' rotors,
+## louder the closer the nearest flying drone is to the wader. Silent while in the gear shop.
+func _update_hums(delta: float) -> void:
+	var here := not GameState.in_store and is_visible_in_tree()
+	var motor := 0.0
+	if here and wader.in_submarine():
+		motor = 1.0 if wader.is_walking() else 0.55
+	Sfx.hum(&"motor", motor, delta, 0.9 + 0.15 * motor, -12.0)
+	var rotors := 0.0
+	if here:
+		for drone in _drones:
+			var distance := drone.position.distance_to(wader.position)
+			rotors = maxf(rotors, drone.flight() * clampf(1.0 - distance / DRONE_HEARING, 0.0, 1.0))
+	Sfx.hum(&"rotors", rotors, delta, 1.0, -18.0)
 
 
 func _update_shake(delta: float) -> void:

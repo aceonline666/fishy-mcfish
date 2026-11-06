@@ -9,12 +9,20 @@ const HEADROOM_DB := -6.0
 ## The same sound started again within this time (but not in the same frame, which is a chord)
 ## is skipped, so fast selling does not turn into a buzz.
 const REPEAT_GAP_S := 0.055
+## How fast a hum fades in and out (share of full level per second).
+const HUM_FADE := 2.5
+## Seconds over which a looping sound's end blends into its start.
+const LOOP_BLEND := 0.08
 
 var _sounds: Dictionary[StringName, AudioStreamWAV] = {}
 var _players: Array[AudioStreamPlayer] = []
 var _next_voice := 0
 ## Sound name -> Time.get_ticks_msec() and process frame when it last started.
 var _last_played: Dictionary[StringName, Vector2i] = {}
+## Looping sounds (hum()): their own players and their current levels, which follow the levels
+## asked for smoothly.
+var _hum_players: Dictionary[StringName, AudioStreamPlayer] = {}
+var _hum_levels: Dictionary[StringName, float] = {}
 
 
 func _ready() -> void:
@@ -32,6 +40,8 @@ func _ready() -> void:
 	_sounds[&"ding"] = _ding()
 	_sounds[&"coin"] = _coin()
 	_sounds[&"fanfare"] = _fanfare()
+	_sounds[&"motor"] = _motor()
+	_sounds[&"rotors"] = _rotors()
 
 
 func play(sound: StringName, pitch: float = 1.0, volume_db: float = 0.0) -> void:
@@ -46,6 +56,28 @@ func play(sound: StringName, pitch: float = 1.0, volume_db: float = 0.0) -> void
 	player.pitch_scale = pitch
 	player.volume_db = volume_db + HEADROOM_DB
 	player.play()
+
+
+## Keeps the looping `sound` going at `level` (0 silent to 1 full, at `volume_db`): call it every
+## frame with the level wanted; it fades there at HUM_FADE per second and stops when silent.
+func hum(sound: StringName, level: float, delta: float, pitch: float = 1.0, volume_db: float = 0.0) -> void:
+	var current: float = move_toward(_hum_levels.get(sound, 0.0), clampf(level, 0.0, 1.0), HUM_FADE * delta)
+	_hum_levels[sound] = current
+	var player: AudioStreamPlayer = _hum_players.get(sound)
+	if current <= 0.001:
+		if player != null and player.playing:
+			player.stop()
+		return
+	if player == null:
+		player = AudioStreamPlayer.new()
+		player.bus = Settings.SOUND_BUS
+		player.stream = _sounds[sound]
+		add_child(player)
+		_hum_players[sound] = player
+	player.pitch_scale = pitch
+	player.volume_db = linear_to_db(current) + volume_db + HEADROOM_DB
+	if not player.playing:
+		player.play()
 
 
 ## Bubble "bloop": a sine sweeping down with a fast decay.
@@ -200,6 +232,61 @@ static func _fanfare() -> AudioStreamWAV:
 			value += tone * exp(-local * decay) * minf(local * 200.0, 1.0)
 		samples.append(value * 0.28)
 	return _to_wav(samples)
+
+
+## The submarine's motor, looping: a low throb whose propeller chops it a few times a second,
+## under the muffled churn of the water. One second long, every tone a whole number of cycles.
+static func _motor() -> AudioStreamWAV:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 41
+	var samples := PackedFloat32Array()
+	var first := 0.0
+	var second := 0.0
+	for i in MIX_RATE:
+		var t := float(i) / MIX_RATE
+		var throb := sin(TAU * 55.0 * t) * 0.5 + sin(TAU * 110.0 * t) * 0.22 + sin(TAU * 165.0 * t) * 0.08
+		var chop := 0.75 + 0.25 * sin(TAU * 9.0 * t)
+		first += (rng.randf_range(-1.0, 1.0) - first) * 0.05
+		second += (first - second) * 0.05
+		samples.append((throb * chop + second * 2.5) * 0.7)
+	return _to_loop(samples)
+
+
+## Drone rotors, looping: two slightly different buzzing tones that beat against each other,
+## softened, with a little air noise. One second long, every tone a whole number of cycles.
+static func _rotors() -> AudioStreamWAV:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 43
+	var samples := PackedFloat32Array()
+	var soft := 0.0
+	var air := 0.0
+	for i in MIX_RATE:
+		var t := float(i) / MIX_RATE
+		var buzz := 0.0
+		for rotor: float in [180.0, 187.0]:
+			# A few harmonics of a sawtooth.
+			for k in range(1, 6):
+				buzz += sin(TAU * rotor * k * t) / k
+		soft += (buzz * 0.25 - soft) * 0.3
+		air += (rng.randf_range(-1.0, 1.0) - air) * 0.2
+		samples.append(soft * 0.8 + air * 0.15)
+	return _to_loop(samples)
+
+
+## A looping WAV: the end fades into the start over LOOP_BLEND seconds, so noise loops without a
+## click.
+static func _to_loop(samples: PackedFloat32Array) -> AudioStreamWAV:
+	var blend := int(LOOP_BLEND * MIX_RATE)
+	var count := samples.size() - blend
+	var looped := samples.slice(0, count)
+	for i in blend:
+		var w := float(i) / blend
+		looped[i] = samples[count + i] * (1.0 - w) + samples[i] * w
+	var wav := _to_wav(looped)
+	wav.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	wav.loop_begin = 0
+	wav.loop_end = looped.size()
+	return wav
 
 
 static func _to_wav(samples: PackedFloat32Array) -> AudioStreamWAV:

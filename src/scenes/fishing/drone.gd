@@ -162,6 +162,11 @@ func _pick_target(fish: Array[SwimmingFish], can_take: Callable) -> SwimmingFish
 	return best
 
 
+## How high it flies, 0 resting on the pad to 1 up in the air.
+func flight() -> float:
+	return _height
+
+
 func _draw() -> void:
 	draw_colored_polygon(Iso.ellipse(Vector2.ZERO, 34.0, 16), SHADOW)
 	var bob := sin(_time * 3.0) * 4.0 * _height
