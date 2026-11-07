@@ -73,18 +73,17 @@ const BAG_SHOWN := 3
 const BAG_FISH_LENGTH := 40.0
 ## Shoulder of the net arm, for side = +1 (net on the right).
 const NET_SHOULDER := Vector2(27.0, -112.0)
-## Landing nets by net level (assets/sprites/wader/net_N): the hoop lies on the water at the catch
-## point, and the painted handle runs from it to the hand, stretched along its own length as far
-## as needed (the hoop keeps its shape). In the sprites: the hoop centre, the handle's tip and the
-## hoop's width as shares of the sprite, and where the handle starts (share of the width, measured
-## from the hoop centre along the handle).
-const NET_HOOP := Vector2(0.40, 0.29)
-const NET_TIPS: Array[Vector2] = [
-	Vector2(0.927, 0.565), Vector2(0.915, 0.776), Vector2(0.94, 0.623), Vector2(0.94, 0.55), Vector2(0.925, 0.115),
-	Vector2(0.931, 0.551),
-]
-const NET_HOOP_WIDTH := 0.68
-const NET_HANDLE_START := 0.36
+## Landing nets by net level (assets/sprites/wader/net_N, art_source/characters/net_sprite_prompt.md,
+## all six painted to the same layout): the hoop lies on the water at the catch point, and the
+## painted handle runs from it to the hand, stretched along its own length as far as needed (the
+## hoop keeps its shape). In the sprites: the hoop centre, the handle's tip and the hoop's width as
+## shares of the sprite, and where the handle starts (share of the width, measured from the hoop
+## centre along the handle).
+const NET_HOOP := Vector2(0.316, 0.256)
+const NET_TIP := Vector2(0.945, 0.836)
+const NET_HOOP_WIDTH := 0.577
+const NET_HANDLE_START := 0.303
+const NET_LEVELS := 6
 ## Screen width of the hoop with the first net; better nets are a little bigger.
 const NET_HOOP_SCREEN := 64.0
 const NET_GROWTH := 0.08
@@ -414,11 +413,11 @@ func _draw_net(canvas: CanvasItem, hoop: Vector2, side: float, bob: float) -> vo
 	var shoulder := Vector2(NET_SHOULDER.x * side, NET_SHOULDER.y - bob)
 	var hand := shoulder + shoulder.direction_to(hoop) * 30.0
 
-	var level := clampi(net_level, 1, NET_TIPS.size())
+	var level := clampi(net_level, 1, NET_LEVELS)
 	var texture := _texture("net_%d" % level)
 	var size := texture.get_size()
 	var center := NET_HOOP * size
-	var along := NET_TIPS[level - 1] * size - center
+	var along := NET_TIP * size - center
 	var tip_distance := along.length()
 	var u := along / tip_distance
 	var v := u.orthogonal()
