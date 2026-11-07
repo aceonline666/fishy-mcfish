@@ -2,8 +2,8 @@
 
 A test for one consistent species style before regenerating all sheets (README TODO: some sheets
 are very comic, some very realistic; we want cute comic, and an isometric view instead of the side
-view). Attach `ref_style_sheet_5.png` (the target style) and `ref_game_view.png` (the game's
-camera: 2:1 isometric, seen from above at about 30°).
+view). Attach `art_source/fish/species_sheet_5.png` (the target style) and a screenshot of the open sea
+(`tools/store_screenshots.gd --only=open_sea`; the game's camera: 2:1 isometric).
 
 ## Prompt
 
@@ -26,3 +26,22 @@ three times on one canvas, well apart, nothing overlapping:
 Canvas 1536 x 1024 px, fully transparent background (PNG with alpha), no shadows, no water, no
 bubbles, no text, no labels, no frames.
 ```
+
+## Follow-up (2026-11-07)
+
+The first result kept the style but drew the two "isometric" cods as tilted side views, which the
+game already does with the side sprites. This follow-up gave a real view from above:
+
+```
+The style is perfect, keep it exactly. But the top two are only tilted side views. I need a real
+view FROM ABOVE: the camera looks steeply down on the fish (like a drone looking down at 60
+degrees), so we see the whole width of its back from above, the spotted back and the dorsal fins
+seen from the top, both eyes visible on top of the head, both pectoral fins sticking out left and
+right, and only a thin strip of the left flank. Redraw the same canvas: top left the cod swimming
+towards the lower left in that top-down view, top right swimming towards the upper left in that
+top-down view, bottom the side view as before. Fully transparent background, no checkerboard
+drawn.
+```
+
+Result (ChatGPT chat "Generate cod sprites"): style right; the top views read well. ChatGPT warns
+that the background may not be truly transparent (the cutters remove a checkerboard anyway).
