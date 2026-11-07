@@ -35,6 +35,16 @@ const ZONE_PROPS: Dictionary[String, Array] = {
 	"sardine_run": [["sand_ripples", 140.0, 6], ["sardine_shoal", 130.0, 3]],
 	"shark_alley": [["whale_bones", 220.0, 1], ["shark_cage", 160.0, 1], ["red_bait", 100.0, 5], ["boulder", 125.0, 3]],
 	"agulhas_current": [["sand_ripples", 140.0, 8], ["sea_whips", 95.0, 7]],
+	"norwegian_trench": [["brittle_stars", 120.0, 6], ["sea_pens", 90.0, 5]],
+	"deep_sea": [["whale_fall", 260.0, 1], ["glass_sponge", 110.0, 4], ["brittle_stars", 120.0, 5]],
+	"twilight_zone": [["sea_pens", 90.0, 6], ["glass_sponge", 110.0, 3]],
+	"trench": [["black_smoker", 150.0, 2], ["tube_worms", 110.0, 4], ["brittle_stars", 120.0, 4]],
+	"continental_slope": [["glass_sponge", 110.0, 4], ["sea_pens", 90.0, 5]],
+	"abyss_au": [["whale_fall", 260.0, 1], ["brittle_stars", 120.0, 6]],
+	"deep_slope_jp": [["glass_sponge", 110.0, 4], ["brittle_stars", 120.0, 4]],
+	"japan_trench": [["black_smoker", 150.0, 2], ["tube_worms", 110.0, 5]],
+	"cape_canyon": [["sea_pens", 90.0, 6], ["brittle_stars", 120.0, 4]],
+	"abyssal_plain": [["whale_fall", 260.0, 1], ["brittle_stars", 120.0, 6], ["glass_sponge", 110.0, 2]],
 }
 ## Rocks lined up along the spot's west and east edges, so the water ends at a reef wall rather
 ## than an invisible one: per water, the sprites taken in turn and their screen widths.
@@ -46,7 +56,7 @@ const EDGE_PROPS: Dictionary[String, Array] = {
 ## (between the two values).
 const EDGE_SPACING := 95.0
 const EDGE_OFFSET := Vector2(15.0, 70.0)
-const SWAY: Array[String] = ["kelp_small", "kelp", "kelp_tall", "sea_lettuce", "seagrass", "reef_anemone", "sea_fan", "sea_whips"]
+const SWAY: Array[String] = ["kelp_small", "kelp", "kelp_tall", "sea_lettuce", "seagrass", "reef_anemone", "sea_fan", "sea_whips", "sea_pens"]
 const WRECK_WIDTH := 460.0
 ## Props keep at least this far apart (ground units); a zone's own props, which grow in beds,
 ## closer.
