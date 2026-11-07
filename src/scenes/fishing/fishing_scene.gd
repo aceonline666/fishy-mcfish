@@ -22,10 +22,13 @@ const CAMERA_SMOOTHING := 6.0
 ## The camera may show this much (world pixels) beyond the spot's edges.
 const CAMERA_OVERSCROLL := 120.0
 ## Zones with bait balls (BaitBall): which species, how many balls and how many fish in each.
-const BAIT_BALLS: Dictionary[String, Array] = {"sardine_run": ["south_african_sardine", 2, 55]}
+const BAIT_BALLS: Dictionary[String, Array] = {
+	"sardine_run": ["south_african_sardine", 2, 55], "krill_swarm": ["antarctic_krill", 3, 60],
+}
 ## Zones whose current carries the wader along, in ground units per second: the Kuroshio sweeps
-## it westward, a little under a fifth of its swimming speed there.
-const CURRENTS: Dictionary[String, Vector2] = {"kuroshio": Vector2(-90.0, 0.0)}
+## it westward, a little under a fifth of its swimming speed there, the Antarctic Circumpolar
+## Current at the polar front eastward.
+const CURRENTS: Dictionary[String, Vector2] = {"kuroshio": Vector2(-90.0, 0.0), "polar_front": Vector2(90.0, 0.0)}
 ## Screen pixels covered by the HUD bars at the top and bottom.
 const PLAY_MARGIN_TOP := 270.0
 const PLAY_MARGIN_BOTTOM := 330.0

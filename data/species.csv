@@ -85,3 +85,19 @@ kingklip,Kingklip,Genypterus capensis,uncommon,80000,150,0.2,60,800,1.5,fish,tem
 sloanes_viperfish,Sloane's viperfish,Chauliodus sloani,common,120000,35,0.2,6,120,0.5,fish,temperate,1800,#2a3a4a,Its fangs are so long that they do not fit inside its mouth.
 pelican_eel,Pelican eel,Eurypharynx pelecanoides,uncommon,250000,75,0.15,10,200,0.5,shrimp,temperate,2400,#1e1e28,"Its huge mouth opens like a pelican's pouch, and the tip of its tail glows pink."
 colossal_squid,Colossal squid,Mesonychoteuthis hamiltoni,legendary,8000000,1000,0.3,8000,50000,15,fish,temperate,7200,#a0303a,"The heaviest invertebrate on Earth, with swivelling hooks on its tentacles."
+great_barracuda,Great barracuda,Sphyraena barracuda,rare,3000,150,0.18,150,2000,2,fish,tropical,1500,#a8b4bc,It hunts by sight in a lightning-fast dash and is drawn to anything that flashes silver.
+whale_shark,Whale shark,Rhincodon typus,legendary,300000,1200,0.25,15000,50000,20,plankton,tropical,7200,#4a5a6e,The largest fish in the world; its pattern of white spots is as unique as a fingerprint.
+common_bottlenose_dolphin,Common bottlenose dolphin,Tursiops truncatus,epic,20000,300,0.28,2000,16000,6,fish,temperate,2400,#7a8a98,"Every dolphin has its own signature whistle, and the others call it by that name."
+antarctic_krill,Antarctic krill,Euphausia superba,common,600,6,0.25,1,20,0.1,plankton,polar,45,#e8806a,All the Antarctic krill together may weigh more than all the people on Earth.
+crocodile_icefish,Crocodile icefish,Chionodraco hamatus,uncommon,4000,50,0.18,15,300,0.6,krill,polar,600,#e6e2da,Its blood has no red blood cells and is clear: the icy water carries enough oxygen for it.
+leopard_seal,Leopard seal,Hydrurga leptonyx,epic,600000,330,0.25,2500,16000,8,penguins,polar,3600,#8a9098,"A fierce hunter of penguins, yet it filters krill through its teeth like a whale."
+southern_elephant_seal,Southern elephant seal,Mirounga leonina,epic,1500000,500,0.3,6000,50000,15,squid,polar,5400,#7a6e64,"The largest seal of all; it dives deeper than 1,500 metres and stays down for up to two hours."
+antarctic_toothfish,Antarctic toothfish,Dissostichus mawsoni,common,300000,170,0.25,300,5000,3,fish,polar,2400,#7a7468,Antifreeze proteins in its blood keep it from freezing in water below zero degrees.
+giant_sea_spider,Giant sea spider,Colossendeis megalonyx,uncommon,600000,70,0.4,20,300,0.3,anemones,polar,2400,#e07a30,Its body is so thin that its gut and organs reach out into its long legs.
+orca,Orca,Orcinus orca,legendary,30000000,800,0.3,15000,50000,25,seals,polar,7200,#1e2228,"Orcas hunt in families, each with its own calls and tricks, such as washing seals off the ice."
+ammonite,Ammonite,Dactylioceras commune,common,2000,25,0.6,4,80,0.3,plankton,tropical,60,#c8a878,Its coiled shell was full of chambers it filled with gas or water to rise and sink.
+belemnite,Belemnite,Passaloteuthis bisulcata,common,5000,40,0.2,8,120,0.5,shrimp,tropical,300,#a0583a,A squid-like animal with ten hooked arms; its bullet-shaped fossils are called thunderbolts.
+ichthyosaurus,Ichthyosaurus,Ichthyosaurus communis,rare,400000,300,0.25,1500,16000,6,squid,tropical,2400,#6a7e94,A marine reptile shaped like a dolphin; it gave birth to live young in the sea.
+plesiosaurus,Plesiosaurus,Plesiosaurus dolichodeirus,epic,2000000,350,0.3,3000,16000,8,fish,tropical,3600,#7a7a50,It rowed through the sea with four long flippers and snapped up fish with its long neck.
+leedsichthys,Leedsichthys,Leedsichthys problematicus,legendary,20000000,1600,0.3,20000,50000,25,plankton,tropical,7200,#7a7468,"One of the largest fish that ever lived, and a gentle giant: it filtered plankton from the water."
+liopleurodon,Liopleurodon,Liopleurodon ferox,legendary,60000000,700,0.3,12000,50000,20,reptiles,tropical,7200,#4a463e,The top predator of its sea: a short-necked pliosaur with jaws more than a metre long.

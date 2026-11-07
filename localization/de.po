@@ -470,8 +470,8 @@ msgstr "Besitze 10 Drohnen"
 msgid "World traveller"
 msgstr "Weltenbummler"
 
-msgid "Unlock all 5 locations"
-msgstr "Schalte alle 5 Orte frei"
+msgid "Unlock all 7 locations"
+msgstr "Schalte alle 7 Orte frei"
 
 msgid "Ocean mogul"
 msgstr "Ozean-Mogul"
@@ -1386,3 +1386,163 @@ msgstr "Erst kartieren: %s"
 
 msgid "Sells fish for you"
 msgstr "Verkauft Fische für dich"
+
+#. Antarctica and the Jurassic Sea, and the well-known species added with them
+msgid "Polar water"
+msgstr "Polares Wasser"
+
+msgid "Antarctica"
+msgstr "Antarktis"
+
+msgid "The icy Southern Ocean: krill swarms, seals and orcas, and hot black smokers in the deep."
+msgstr "Das eisige Südpolarmeer: Krillschwärme, Robben und Orcas, und heiße Schwarze Raucher in der Tiefe."
+
+msgid "Jurassic Sea"
+msgstr "Jurameer"
+
+msgid "150 million years ago: a warm sea of ammonites, ichthyosaurs, plesiosaurs and the mighty Liopleurodon."
+msgstr "Vor 150 Millionen Jahren: ein warmes Meer voller Ammoniten, Ichthyosaurier, Plesiosaurier und dem gewaltigen Liopleurodon."
+
+msgid "Ice shore"
+msgstr "Eisküste"
+
+msgid "Krill swarm"
+msgstr "Krillschwarm"
+
+msgid "Pack ice"
+msgstr "Packeis"
+
+msgid "Polar front"
+msgstr "Polarfront"
+
+msgid "Ice shelf slope"
+msgstr "Schelfeishang"
+
+msgid "Hydrothermal vents"
+msgstr "Hydrothermalquellen"
+
+msgid "Lime lagoon"
+msgstr "Kalklagune"
+
+msgid "Ammonite reef"
+msgstr "Ammonitenriff"
+
+msgid "Sponge reef"
+msgstr "Schwammriff"
+
+msgid "Open Tethys"
+msgstr "Offene Tethys"
+
+msgid "Deep basin"
+msgstr "Tiefes Becken"
+
+msgid "Pliosaur deep"
+msgstr "Pliosaurier-Tiefe"
+
+msgid "Ice breaker"
+msgstr "Eisbrecher"
+
+msgid "Chart the Pack ice"
+msgstr "Kartiere das Packeis"
+
+msgid "Time traveller"
+msgstr "Zeitreisender"
+
+msgid "Chart the Open Tethys"
+msgstr "Kartiere die Offene Tethys"
+
+msgid "Great barracuda"
+msgstr "Großer Barrakuda"
+
+msgid "It hunts by sight in a lightning-fast dash and is drawn to anything that flashes silver."
+msgstr "Er jagt nach Sicht mit einem blitzschnellen Vorstoß und wird von allem angelockt, was silbern blitzt."
+
+msgid "Whale shark"
+msgstr "Walhai"
+
+msgid "The largest fish in the world; its pattern of white spots is as unique as a fingerprint."
+msgstr "Der größte Fisch der Welt; sein Muster aus weißen Punkten ist so einzigartig wie ein Fingerabdruck."
+
+msgid "Common bottlenose dolphin"
+msgstr "Großer Tümmler"
+
+msgid "Every dolphin has its own signature whistle, and the others call it by that name."
+msgstr "Jeder Delfin hat seinen eigenen Erkennungspfiff, und die anderen rufen ihn bei diesem Namen."
+
+msgid "Antarctic krill"
+msgstr "Antarktischer Krill"
+
+msgid "All the Antarctic krill together may weigh more than all the people on Earth."
+msgstr "Aller Antarktische Krill zusammen wiegt vielleicht mehr als alle Menschen der Erde."
+
+msgid "Crocodile icefish"
+msgstr "Krokodileisfisch"
+
+msgid "Its blood has no red blood cells and is clear: the icy water carries enough oxygen for it."
+msgstr "Sein Blut hat keine roten Blutkörperchen und ist klar: Das eisige Wasser enthält genug Sauerstoff für ihn."
+
+msgid "Leopard seal"
+msgstr "Seeleopard"
+
+msgid "A fierce hunter of penguins, yet it filters krill through its teeth like a whale."
+msgstr "Ein wilder Pinguinjäger, der aber auch wie ein Wal Krill durch seine Zähne filtert."
+
+msgid "Southern elephant seal"
+msgstr "Südlicher See-Elefant"
+
+msgid "The largest seal of all; it dives deeper than 1,500 metres and stays down for up to two hours."
+msgstr "Die größte aller Robben; sie taucht tiefer als 1.500 Meter und bleibt bis zu zwei Stunden unten."
+
+msgid "Antarctic toothfish"
+msgstr "Antarktischer Seehecht"
+
+msgid "Antifreeze proteins in its blood keep it from freezing in water below zero degrees."
+msgstr "Frostschutz-Eiweiße in seinem Blut bewahren ihn im Wasser unter null Grad vor dem Erfrieren."
+
+msgid "Giant sea spider"
+msgstr "Riesenasselspinne"
+
+msgid "Its body is so thin that its gut and organs reach out into its long legs."
+msgstr "Ihr Körper ist so dünn, dass Darm und Organe bis in die langen Beine reichen."
+
+msgid "Orca"
+msgstr "Orca"
+
+msgid "Orcas hunt in families, each with its own calls and tricks, such as washing seals off the ice."
+msgstr "Orcas jagen in Familien, jede mit eigenen Rufen und Tricks, etwa Robben mit einer Welle vom Eis zu spülen."
+
+msgid "Ammonite"
+msgstr "Ammonit"
+
+msgid "Its coiled shell was full of chambers it filled with gas or water to rise and sink."
+msgstr "Seine eingerollte Schale bestand aus Kammern, die er mit Gas oder Wasser füllte, um zu steigen und zu sinken."
+
+msgid "Belemnite"
+msgstr "Belemnit"
+
+msgid "A squid-like animal with ten hooked arms; its bullet-shaped fossils are called thunderbolts."
+msgstr "Ein tintenfischartiges Tier mit zehn Hakenarmen; seine geschossförmigen Fossilien heißen Donnerkeile."
+
+msgid "Ichthyosaurus"
+msgstr "Ichthyosaurus"
+
+msgid "A marine reptile shaped like a dolphin; it gave birth to live young in the sea."
+msgstr "Ein Meeresreptil in Delfingestalt; es brachte seine Jungen lebend im Meer zur Welt."
+
+msgid "Plesiosaurus"
+msgstr "Plesiosaurus"
+
+msgid "It rowed through the sea with four long flippers and snapped up fish with its long neck."
+msgstr "Er ruderte mit vier langen Flossen durchs Meer und schnappte mit dem langen Hals nach Fischen."
+
+msgid "Leedsichthys"
+msgstr "Leedsichthys"
+
+msgid "One of the largest fish that ever lived, and a gentle giant: it filtered plankton from the water."
+msgstr "Einer der größten Fische, die je lebten, und ein sanfter Riese: Er filterte Plankton aus dem Wasser."
+
+msgid "Liopleurodon"
+msgstr "Liopleurodon"
+
+msgid "The top predator of its sea: a short-necked pliosaur with jaws more than a metre long."
+msgstr "Der größte Räuber seines Meeres: ein kurzhalsiger Pliosaurier mit über einem Meter langen Kiefern."

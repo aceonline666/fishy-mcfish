@@ -5,7 +5,7 @@ generated ahead of the location (it is not in `data/locations.csv` yet). Same ru
 ground tiles (see `south_africa_ground_prompt.md`): painted straight from above, seamless on all
 four edges, 1254 × 1254, then `python tools/make_seafloor.py` once the location exists.
 
-Save as `art_source/ground/beach_jurassic.png` and `art_source/ground/seafloor_jurassic.png`.
+Save as `art_source/ground/beach_jurassic_sea.png` and `art_source/ground/seafloor_jurassic_sea.png`.
 
 ---
 

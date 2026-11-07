@@ -4,11 +4,11 @@ sandbanks,north_sea,Sandbanks,2,960,1920,2,8,atlantic_herring:30;european_plaice
 wreck,north_sea,Wreck,3,1920,2880,3,6,atlantic_cod:30;atlantic_mackerel:20;lumpsucker:10;atlantic_wolffish:5;conger_eel:3
 lagoon,coral_reef,Lagoon,1,0,960,1,11,ocellaris_clownfish:40;blue_green_chromis:40;blue_tang:15;mandarinfish:3
 reef_crest,coral_reef,Reef crest,2,960,1920,2,9,blue_green_chromis:25;blue_tang:30;red_lionfish:12;mandarinfish:6;ocellaris_clownfish:10
-drop_off,coral_reef,Drop-off,3,1920,2880,3,6,red_lionfish:20;blue_tang:20;blacktip_reef_shark:6;humphead_wrasse:2
-open_sea,north_sea,Open sea,4,2880,3840,4,7,atlantic_mackerel:30;lions_mane_jellyfish:30;atlantic_bluefin_tuna:12;ocean_sunfish:4;basking_shark:1
+drop_off,coral_reef,Drop-off,3,1920,2880,3,6,red_lionfish:20;blue_tang:20;blacktip_reef_shark:6;humphead_wrasse:2;great_barracuda:8
+open_sea,north_sea,Open sea,4,2880,3840,4,7,atlantic_mackerel:30;lions_mane_jellyfish:30;atlantic_bluefin_tuna:12;ocean_sunfish:4;basking_shark:1;common_bottlenose_dolphin:3
 norwegian_trench,north_sea,Norwegian Trench,5,3840,4800,5,6,roundnose_grenadier:40;rabbit_fish:25;curled_octopus:8;atlantic_wolffish:5;greenland_shark:2
 deep_sea,north_sea,Deep sea,6,4800,5760,6,5,humpback_anglerfish:40;atlantic_footballfish:12;giant_squid:2;sperm_whale:1
-open_ocean,coral_reef,Open ocean,4,2880,3840,4,7,moon_jellyfish:35;yellowfin_tuna:30;green_sea_turtle:10;reef_manta_ray:4;blue_whale:1
+open_ocean,coral_reef,Open ocean,4,2880,3840,4,7,moon_jellyfish:35;yellowfin_tuna:30;green_sea_turtle:10;reef_manta_ray:4;blue_whale:1;whale_shark:1
 twilight_zone,coral_reef,Twilight zone,5,3840,4800,5,6,skinnycheek_lanternfish:45;chambered_nautilus:25;bluntnose_sixgill_shark:3
 trench,coral_reef,Trench,6,4800,5760,6,5,pacific_blackdragon:40;vampire_squid:20;west_indian_ocean_coelacanth:1
 seagrass_bay,australia,Seagrass bay,1,0,960,1,10,australian_salmon:50;old_wife:30;southern_blue_ringed_octopus:10;weedy_seadragon:3
@@ -29,3 +29,15 @@ shark_alley,south_africa,Shark alley,3,1920,2880,3,6,galjoen:30;ragged_tooth_sha
 agulhas_current,south_africa,Agulhas current,4,2880,3840,4,7,portuguese_man_o_war:40;shortfin_mako:10;leatherback_turtle:4;southern_right_whale:1
 cape_canyon,south_africa,Cape canyon,5,3840,4800,5,6,cape_hake:40;kingklip:25
 abyssal_plain,south_africa,Abyssal plain,6,4800,5760,6,5,sloanes_viperfish:40;pelican_eel:20;sperm_whale:2;colossal_squid:1
+antarctic_ice_shore,antarctica,Ice shore,1,0,960,1,10,antarctic_krill:60;crocodile_icefish:15
+krill_swarm,antarctica,Krill swarm,2,960,1920,2,10,antarctic_krill:50;crocodile_icefish:25;leopard_seal:2
+pack_ice,antarctica,Pack ice,3,1920,2880,3,7,crocodile_icefish:30;leopard_seal:8;southern_elephant_seal:4
+polar_front,antarctica,Polar front,4,2880,3840,4,6,antarctic_toothfish:40;southern_elephant_seal:8;orca:2
+ice_shelf_slope,antarctica,Ice shelf slope,5,3840,4800,5,6,antarctic_toothfish:30;giant_sea_spider:30
+hydrothermal_vents,antarctica,Hydrothermal vents,6,4800,5760,6,5,giant_sea_spider:40;antarctic_toothfish:15;orca:1
+lime_lagoon,jurassic_sea,Lime lagoon,1,0,960,1,10,ammonite:60;belemnite:20;chambered_nautilus:5
+ammonite_reef,jurassic_sea,Ammonite reef,2,960,1920,2,10,ammonite:40;belemnite:40;chambered_nautilus:10
+sponge_reef,jurassic_sea,Sponge reef,3,1920,2880,3,7,belemnite:40;chambered_nautilus:10;ichthyosaurus:8
+open_tethys,jurassic_sea,Open Tethys,4,2880,3840,4,6,ichthyosaurus:30;plesiosaurus:8;leedsichthys:1
+deep_basin,jurassic_sea,Deep basin,5,3840,4800,5,6,plesiosaurus:20;leedsichthys:4;west_indian_ocean_coelacanth:3
+pliosaur_deep,jurassic_sea,Pliosaur deep,6,4800,5760,6,5,ichthyosaurus:20;leedsichthys:4;liopleurodon:6

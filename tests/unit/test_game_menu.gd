@@ -74,7 +74,7 @@ func test_a_slot_shows_its_coins_readably_and_the_locations_opened() -> void:
 	assert_eq(SaveSystem.slot_info(2)["locations"], 4)
 	var info: String = _menu._slots[2]["info"].text
 	assert_string_contains(info, "12.3 million coins")
-	assert_string_contains(info, "4/5 locations")
+	assert_string_contains(info, "4/%d locations" % DataRegistry.locations.size())
 
 
 func test_empty_slots_cannot_be_loaded() -> void:

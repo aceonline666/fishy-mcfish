@@ -33,6 +33,8 @@ STRIPS = {
     "japan": (934, 1224, 150.0, 560.0),
     "south_africa": (1244, 1532, 150.0, 560.0),
 }
+# Locations with only painted tiles: no strip on the sheet.
+PAINTED_ONLY = ["antarctica", "jurassic_sea"]
 # The nearest row used: just above the location's name label.
 NEAR = 945.0
 # Size of the flattened patch and of the tile.
@@ -40,7 +42,7 @@ PATCH = (384, 384)
 
 
 def main() -> None:
-    for location in STRIPS:
+    for location in list(STRIPS) + PAINTED_ONLY:
         for kind, out in (("seafloor", OUT), ("beach", BEACH_OUT)):
             source = Path(f"art_source/ground/{kind}_{location}.png")
             if kind == "beach" and not source.exists() and location in BEACH_BORROWS:

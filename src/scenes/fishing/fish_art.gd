@@ -32,7 +32,10 @@ const MOTIONS: Dictionary[String, Motion] = {
 	"pelican_eel": Motion.WAVE, "pink_ling": Motion.WAVE, "roundnose_grenadier": Motion.WAVE,
 	"sloanes_viperfish": Motion.WAVE, "kingklip": Motion.WAVE, "rabbit_fish": Motion.WAVE,
 	"blue_whale": Motion.WAVE, "humpback_whale": Motion.WAVE, "southern_right_whale": Motion.WAVE,
-	"sperm_whale": Motion.WAVE,
+	"sperm_whale": Motion.WAVE, "orca": Motion.WAVE, "common_bottlenose_dolphin": Motion.WAVE,
+	"leopard_seal": Motion.WAVE, "southern_elephant_seal": Motion.WAVE,
+	"plesiosaurus": Motion.FLAP, "liopleurodon": Motion.FLAP, "giant_sea_spider": Motion.CRAWL,
+	"ammonite": Motion.JET, "belemnite": Motion.JET,
 	"ocean_sunfish": Motion.WAVE,
 	"reef_manta_ray": Motion.FLAP, "smooth_stingray": Motion.FLAP,
 	"green_sea_turtle": Motion.FLAP, "leatherback_turtle": Motion.FLAP, "loggerhead_turtle": Motion.FLAP,
@@ -50,6 +53,8 @@ const WAVES: Dictionary[String, Vector2] = {
 	"sloanes_viperfish": Vector2(0.06, 1.2), "kingklip": Vector2(0.06, 1.2), "rabbit_fish": Vector2(0.05, 1.0),
 	"blue_whale": Vector2(0.05, 0.6), "humpback_whale": Vector2(0.05, 0.6), "southern_right_whale": Vector2(0.05, 0.6),
 	"sperm_whale": Vector2(0.05, 0.6), "smooth_stingray": Vector2(0.03, 0.9),
+	"orca": Vector2(0.05, 0.6), "common_bottlenose_dolphin": Vector2(0.06, 0.6),
+	"leopard_seal": Vector2(0.06, 0.8), "southern_elephant_seal": Vector2(0.05, 0.7),
 }
 const GENTLE_WAVE := Vector2(0.025, 0.6)
 ## Flapping: the share of the sprite's height around the body axis that stays put (shell or body),

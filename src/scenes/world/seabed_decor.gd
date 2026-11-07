@@ -51,6 +51,12 @@ const ZONE_PROPS: Dictionary[String, Array] = {
 	"japan_trench": [["black_smoker", 150.0, 2], ["tube_worms", 110.0, 5]],
 	"cape_canyon": [["sea_pens", 90.0, 6], ["brittle_stars", 120.0, 4]],
 	"abyssal_plain": [["whale_fall", 260.0, 1], ["brittle_stars", 120.0, 6], ["glass_sponge", 110.0, 2]],
+	"polar_front": [["brittle_stars", 120.0, 4]],
+	"ice_shelf_slope": [["glass_sponge", 110.0, 6], ["brittle_stars", 120.0, 5], ["sea_pens", 90.0, 3]],
+	"hydrothermal_vents": [["black_smoker", 150.0, 3], ["tube_worms", 110.0, 5]],
+	"sponge_reef": [["glass_sponge", 110.0, 5], ["wall_sponges", 110.0, 5]],
+	"deep_basin": [["brittle_stars", 120.0, 4], ["sea_cucumbers", 100.0, 3]],
+	"pliosaur_deep": [["whale_fall", 260.0, 1], ["brittle_stars", 120.0, 4]],
 }
 ## Rocks lined up along the spot's west and east edges, so the water ends at a reef wall rather
 ## than an invisible one: per water, the sprites taken in turn and their screen widths.

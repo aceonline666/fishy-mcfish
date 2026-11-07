@@ -71,7 +71,12 @@ func _make_card(def: LocationDef) -> PanelContainer:
 
 
 func _water_name(env: String) -> String:
-	return tr("Tropical water") if env == "tropical" else tr("Temperate water")
+	match env:
+		"tropical":
+			return tr("Tropical water")
+		"polar":
+			return tr("Polar water")
+	return tr("Temperate water")
 
 
 func _species_count(def: LocationDef) -> int:

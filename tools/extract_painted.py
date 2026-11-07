@@ -176,6 +176,33 @@ SHEETS = {
         "japanese_spider_crab": (750, 170, "right", False),
         "giant_squid": (1000, 780, "right", False),
     },
+    # Well-known species from the README's wish list (art_source/fish/species_sheet_9_prompt.md).
+    # Its hammerhead is not used (the hammer looks seen from the front): sheet 12 has it.
+    "species_sheet_9.png": {
+        "whale_shark": (664, 212, "left", True),
+        "orca": (343, 560, "left", False),
+        "common_bottlenose_dolphin": (1137, 848, "left", False),
+        "great_barracuda": (376, 851, "left", True),
+    },
+    # The Antarctic sea (art_source/fish/species_sheet_10_prompt.md). Its penguins are not used
+    # (two flippers on one side, three feet): sheet 12 has them.
+    "species_sheet_10.png": {
+        "antarctic_krill": (445, 105, "left", True),
+        "leopard_seal": (1088, 375, "left", False),
+        "antarctic_toothfish": (375, 594, "left", True),
+        "crocodile_icefish": (1164, 598, "left", True),
+        "giant_sea_spider": (371, 791, "left", False),
+        "southern_elephant_seal": (1087, 851, "left", False),
+    },
+    # The Jurassic sea (art_source/fish/species_sheet_10_prompt.md, sheet 11).
+    "species_sheet_11.png": {
+        "ichthyosaurus": (360, 152, "left", True),
+        "plesiosaurus": (1222, 149, "left", False),
+        "ammonite": (1226, 499, "right", False),
+        "liopleurodon": (420, 475, "left", False),
+        "leedsichthys": (1083, 823, "left", True),
+        "belemnite": (349, 820, "right", False),
+    },
 }
 
 # Sheet rows below which a sprite's region is its label, not the creature.
@@ -184,7 +211,8 @@ BOTTOM_LIMIT = {"green_sea_turtle": 800}
 ALPHA_FLOOR = 40
 # Sheets whose sprites glow: alpha up to this is the glow around them, not the sprite.
 GLOW_FLOOR = {"sea_creatures_sheet.png": 120, "species_sheet_6.png": 120, "species_sheet_7.png": 120,
-              "species_sheet_8.png": 120}
+              "species_sheet_8.png": 120, "species_sheet_9.png": 120, "species_sheet_10.png": 120,
+              "species_sheet_11.png": 120}
 MAX_TAIL_SHARE = 0.3
 
 
