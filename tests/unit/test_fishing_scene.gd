@@ -542,7 +542,10 @@ func test_the_pier_is_drawn_in_front_of_the_tank_and_the_belt() -> void:
 func test_the_drone_dock_lies_in_front_of_the_tank_once_there_is_a_drone() -> void:
 	var dock: Sprite2D = _scene._drone_dock
 	assert_false(dock.visible, "no drone yet")
-	assert_eq(Scene.DRONE_DOCK_CELL, Scene.TANK_CELL + Vector2i(0, 1), "the row in front of the tank")
+	var tank_front := Grid.rect(Scene.TANK_CELL).end.y
+	assert_almost_eq(Scene.DRONE_PAD.y - Grid.UNIT * 0.5, tank_front + Grid.UNIT * 0.5, 0.01, "half a cell off the tank")
+	assert_almost_eq(Scene.DRONE_PAD.y + Grid.UNIT * 0.5, Scene.SHORE_Y - Grid.UNIT * 0.5, 0.01, "and off the water")
+	assert_eq(Scene.DRONE_PAD.x, Grid.center(Scene.TANK_CELL).x, "in front of the tank")
 	GameState.buy_drone()
 	_scene.return_from_store()
 	assert_true(dock.visible)

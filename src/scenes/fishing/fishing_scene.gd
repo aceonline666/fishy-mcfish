@@ -51,22 +51,22 @@ const PLAY_MARGIN_BOTTOM := 330.0
 ## level (up to 3 x 5 cells), and the sales belt from the tank's back up the beach to the last
 ## booth: a bigger tank leaves less belt, every seller adds a cell. East of the pier, two cells
 ## off so its walls do not hide the pier, is the gear shop. The drones' dock lies in front of the
-## tank, on the row along the water, once the beach has a drone.
+## tank, half a cell off it and off the water, once the beach has a drone.
 ##
 ##   row   cols 0..1    2               3                  4               5..8
 ##   -16                belt            pier               seller 10       buyer, queue
 ##    ..                belt            pier               ..              buyer, queue
 ##    -8                belt            pier, "Hire..."    seller 2        buyer, queue
-##    -7                belt            pier, "Sell fish"  player booth,   buyer, queue
+##    -7   (tank 7)     belt            pier, "Sell fish"  player booth,   buyer, queue
 ##                                                         then seller 1
-##    -6   (tank 7)     belt            pier
-##    -5   (tank 6..7)  belt            pier
-##    -4   (tank 5..7)  belt            pier                               . gear shop (6..8)
-##    -3   (tank 3..7)  belt            pier                               . gear shop (6..8)
-##    -2   tank         tank (1 at 2)   pier, "Put in tank"                .
-##    -1                dock            pier
+##    -6   (tank 6..7)  belt            pier
+##    -5   (tank 5..7)  belt            pier
+##    -4   (tank 3..7)  belt            pier                               . gear shop (6..8)
+##    -3   tank         tank (1 at 2)   pier, "Put in tank"                . gear shop (6..8)
+##    -2                dock (upper     pier                               .
+##    -1                half: lower)    pier
 ##
-## Not walkable: cols 0..2 rows -18..-2, cols 4..8 rows -18..-5 and col 4 rows -4..-1 (a wall
+## Not walkable: cols 0..2 rows -18..-3, cols 4..8 rows -18..-5 and col 4 rows -4..-1 (a wall
 ## along the pier).
 ##
 ## The sea's zones (data/zones.csv) lie on the grid too, each 4 rows deep: zone 1 rows 0..3,
@@ -103,10 +103,10 @@ const GEAR_SHOP_DOOR_X := (GEAR_SHOP_CELL.x + 0.5) * Grid.UNIT
 const GEAR_SHOP_DOOR_HALF_WIDTH := 95.0
 ## How close the wader comes to the shop's walls.
 const GEAR_SHOP_MARGIN := 40.0
-## The drones start from and deliver to their dock, in front of the tank; it shows once the beach
-## has a drone. The wader walks over it.
-const DRONE_DOCK_CELL := Vector2i(TANK_CELL.x, TANK_CELL.y + 1)
-const DRONE_PAD := (Vector2(DRONE_DOCK_CELL) + Vector2(0.5, 0.5)) * Grid.UNIT
+## The drones start from and deliver to their dock, in front of the tank: a cell centred between
+## the tank's front and the water, half a cell off each. It shows once the beach has a drone. The
+## wader walks over it.
+const DRONE_PAD := Vector2(TANK_CELL.x + 0.5, TANK_CELL.y + 2.0) * Grid.UNIT
 ## The painted landing pad (art_source/props/drone_dock_sprite_prompt.md, cropped by
 ## tools/import_store_art.py), flat on the ground: the wader walks over it.
 const DRONE_DOCK_TEXTURE: Texture2D = preload("res://assets/sprites/props/drone_dock.png")
@@ -114,10 +114,11 @@ const DRONE_DOCK_TEXTURE: Texture2D = preload("res://assets/sprites/props/drone_
 ## which are fitted to one cell.
 const DRONE_DOCK_ANCHOR := Vector2(654.0, 350.0)
 const DRONE_DOCK_CORNERS: Array[Vector2] = [Vector2(1.0, 286.0), Vector2(654.0, 628.0), Vector2(1308.0, 288.0)]
-## The tank's south-east cell: the tank covers its level's footprint (data/tanks.csv) from here
-## to the west and up the beach. It cannot be walked on. Its store pad stands east of it.
-const TANK_CELL := Vector2i(2, -2)
-const STORE_CELL := Vector2i(3, -2)
+## The tank's south-east cell, two rows off the water (room for the drones' dock in front): the
+## tank covers its level's footprint (data/tanks.csv) from here to the west and up the beach. It
+## cannot be walked on. Its store pad stands east of it.
+const TANK_CELL := Vector2i(2, -3)
+const STORE_CELL := Vector2i(3, -3)
 ## How close the wader comes to the tank's sides.
 const TANK_MARGIN := 40.0
 ## The sales belt runs up the beach from the tank's back to the last booth's row, holding the grown
