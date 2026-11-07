@@ -21,6 +21,9 @@ const ZOOM := 1.5
 const CAMERA_SMOOTHING := 6.0
 ## The camera may show this much (world pixels) beyond the spot's edges.
 const CAMERA_OVERSCROLL := 120.0
+## Zones whose current carries the wader along, in ground units per second: the Kuroshio sweeps
+## it westward, a little under a fifth of its swimming speed there.
+const CURRENTS: Dictionary[String, Vector2] = {"kuroshio": Vector2(-90.0, 0.0)}
 ## Screen pixels covered by the HUD bars at the top and bottom.
 const PLAY_MARGIN_TOP := 270.0
 const PLAY_MARGIN_BOTTOM := 330.0
@@ -587,6 +590,7 @@ func _update_zone() -> void:
 	var zone := Charting.zone_at(location.id, wader.ground_position.y) if wader.in_water else null
 	wader.swimming = zone != null and zone.order > 1
 	wader.zone_order = zone.order if zone != null else 0
+	wader.drift = CURRENTS.get(zone.id, Vector2.ZERO) if zone != null else Vector2.ZERO
 	if zone == _wader_zone:
 		return
 	_wader_zone = zone

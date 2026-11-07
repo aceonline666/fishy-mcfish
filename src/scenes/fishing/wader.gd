@@ -123,6 +123,9 @@ var net_level := 1
 var scoop_radius := SCOOP_RADIUS
 ## Walking speed factor: faster on the sand than in the water.
 var speed_multiplier := 1.0
+## Ground units per second a current carries the wader along, on top of its own walking. Set by
+## the scene for the zone it is in.
+var drift := Vector2.ZERO
 ## What the wader can walk behind (Layers.Cover, in the parent's coordinates). Set by the scene.
 var covers: Array[Layers.Cover] = []
 ## True while one of `covers` stands in front of the figure.
@@ -263,7 +266,7 @@ func simulate(delta: float, area: PlayArea) -> void:
 		else:
 			_has_target = false
 	ground_velocity = ground_velocity.move_toward(desired, ACCELERATION * delta)
-	ground_position = area.clamp_point(ground_position + ground_velocity * delta, 20.0)
+	ground_position = area.clamp_point(ground_position + (ground_velocity + drift) * delta, 20.0)
 	if is_walking():
 		facing = facing.slerp(ground_velocity.normalized(), clampf(10.0 * delta, 0.0, 1.0)).normalized()
 	_walk_phase += delta * ground_velocity.length() / 42.0
