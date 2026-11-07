@@ -2,22 +2,22 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kh4dq7dpyw1r"
-path="res://.godot/imported/fish_bowl.svg-55c359a6c0f6ea18c4d02548103f4d21.ctex"
+uid="uid://d4kmam8a6qghf"
+path="res://.godot/imported/fish_bowl.png-bc28ff1694b9f98d90ee68bdfbc6e39a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/props/fish_bowl.svg"
-dest_files=["res://.godot/imported/fish_bowl.svg-55c359a6c0f6ea18c4d02548103f4d21.ctex"]
+source_file="res://assets/sprites/props/fish_bowl.png"
+dest_files=["res://.godot/imported/fish_bowl.png-bc28ff1694b9f98d90ee68bdfbc6e39a.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.7
+compress/lossy_quality=0.9
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

@@ -5,8 +5,8 @@ extends Node2D
 ## slide along when one is sold and come on at the tank end when they grow up, each in a fish
 ## glass. The belt covers cells of the layout grid (Grid) and runs north, up the beach. It is a
 ## painting (art_source/buildings/sales_belt_sprite_prompt.md) cut by tools/cut_belt.py into the tank end,
-## a section that repeats and the booth end, so it is drawn at any length; the glasses are still a
-## PLACEHOLDER (assets/sprites/props/fish_bowl.svg). The node sits at the middle of the belt, on
+## a section that repeats and the booth end, so it is drawn at any length; the glasses are a
+## painting too (art_source/props/fish_bowl_sprite_prompt.md). The node sits at the middle of the belt, on
 ## the ground.
 
 ## Ground distance between two fish on the belt.
@@ -41,7 +41,7 @@ const SURFACE_END_GAP := 8.0
 const SURFACE_BACK := -64.0
 const SURFACE_FRONT := 81.0
 const SURFACE_MARGIN := 2.0
-const BOWL_TEXTURE: Texture2D = preload("res://assets/sprites/props/fish_bowl.svg")
+const BOWL_TEXTURE: Texture2D = preload("res://assets/sprites/props/fish_bowl.png")
 const BOWL_WIDTH := 78.0
 const FISH_LENGTH := 46.0
 ## How fast fish slide to their place, in slots per second.
