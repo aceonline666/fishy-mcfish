@@ -75,7 +75,7 @@ func _fish_one() -> void:
 
 
 ## Explore first: the shallowest open zone here that is uncharted or still hides an unknown
-## species; otherwise the zone worth the most.
+## species; otherwise the zone worth the most (counting only fish the tank can hold).
 func _choose_zone() -> ZoneDef:
 	var site := _state.here()
 	var best: ZoneDef = null
@@ -85,9 +85,11 @@ func _choose_zone() -> ZoneDef:
 			continue
 		if not Charting.is_charted(_state, zone) or _has_unknown_species(zone):
 			return zone
+		# Only what the tank here can hold is worth anything: the rest swims back.
 		var value := 0.0
 		for id: String in zone.spawns:
-			value += zone.spawns[id] * DataRegistry.species[id].base_value
+			if Aquarium.can_ever_hold(site, DataRegistry.species[id]):
+				value += zone.spawns[id] * DataRegistry.species[id].base_value
 		if value > best_value:
 			best = zone
 			best_value = value
