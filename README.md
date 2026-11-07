@@ -251,7 +251,6 @@ Rules of thumb:
 
 ## TODOs
 - Drawing error: The pier should be drawn in front of the fish tank and the belt.
-- Move the drone-helipad in front of the tank and only make it appear once you bought a drone.
 - Replace Fishbowl with sprite
 - Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors.
 - Replace fishnet sprites with transparent ones that fit the style better

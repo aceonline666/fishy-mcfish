@@ -539,6 +539,15 @@ func test_the_pier_is_drawn_in_front_of_the_tank_and_the_belt() -> void:
 	assert_lt(pier, Layers.OBJECTS, "the booths and buyers east of it stand in front of it")
 
 
+func test_the_drone_dock_lies_in_front_of_the_tank_once_there_is_a_drone() -> void:
+	var dock: Sprite2D = _scene._drone_dock
+	assert_false(dock.visible, "no drone yet")
+	assert_eq(Scene.DRONE_DOCK_CELL, Scene.TANK_CELL + Vector2i(0, 1), "the row in front of the tank")
+	GameState.buy_drone()
+	_scene.return_from_store()
+	assert_true(dock.visible)
+
+
 func test_the_tank_cannot_be_walked_on() -> void:
 	var tank: Rect2 = _scene._tank_area()
 	_wader.ground_position = tank.get_center()

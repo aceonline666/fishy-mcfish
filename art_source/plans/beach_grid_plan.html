@@ -71,7 +71,7 @@ svg text { font-family: var(--mono); }
     <div><b>Walkable beach</b> reaches up to the row of the next "Hire seller" pad: row −8 in a new game, one row more per hired seller, row −17 with all ten. West of the pier, columns 0–2, rows −18…−2 (tank and belt) are blocked too: there only the row along the water is open. From row −5 up, only the pier can be walked on. An invisible wall along the pier's east side (all of column 4, rows −4…−1) keeps the wader from jumping down: it leaves the pier only into the water.</div>
     <div><b>Tank</b> starts as 1 × 1 at 2,−2, a row off the waterline, and grows west, then up the beach: 1×1, 2×1, 2×2, 2×3, 3×3, 3×4, 3×5 (cols 0–2, rows −6…−2 at the last level). It is solid. "Put in tank" is at 3,−2, on the pier.</div>
     <div><b>Conveyor belt</b> runs in column 2 from the tank's back to the last booth's row: a bigger tank makes it shorter, every hired seller one cell longer. The next fish to be sold is at its north end.</div>
-    <div><b>Gear shop</b> covers 3 × 2 cells, columns 6–8, rows −4…−3, south of the booth line so it does not hide the first booths. The drones' dock stands in front of it at 8,−2.</div>
+    <div><b>Gear shop</b> covers 3 × 2 cells, columns 6–8, rows −4…−3, south of the booth line so it does not hide the first booths. The drones' dock lies in front of the tank at 2,−1 and only shows once the beach has a drone.</div>
     <div><b>Sea zones</b> sit on the grid: each is 4 rows (960 units) deep, so zone 1 covers rows 0–3, zone 2 rows 4–7, down to zone 6 at rows 20–23.</div>
   </div>
   <h1>Inside the gear shop</h1>
@@ -106,7 +106,7 @@ const ITEMS = [
   ["pier", 3, -6, 1, 6, "fixed"],
   ["pier", 3, -17, 1, 9, "full"],
   ["gear shop", 6, -4, 3, 2, "fixed"],
-  ["dock", 8, -2, 1, 1, "fixed"],
+  ["dock", 2, -1, 1, 1, "fixed"],
   ["put", 3, -2, 1, 1, "fixed"],
   ["sell", 3, -7, 1, 1, "fixed"],
   ["tank L7", 0, -6, 3, 5, "full"],

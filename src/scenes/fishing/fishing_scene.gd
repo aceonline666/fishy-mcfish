@@ -42,7 +42,8 @@ const PLAY_MARGIN_BOTTOM := 330.0
 ## of the pier is the tank, a row off the waterline, growing west, then up the beach with its
 ## level (up to 3 x 5 cells), and the sales belt from the tank's back up the beach to the last
 ## booth: a bigger tank leaves less belt, every seller adds a cell. East of the pier, two cells
-## off so its walls do not hide the pier, is the gear shop, with the drones' dock in front of it.
+## off so its walls do not hide the pier, is the gear shop. The drones' dock lies in front of the
+## tank, on the row along the water, once the beach has a drone.
 ##
 ##   row   cols 0..1    2               3                  4               5..8
 ##   -16                belt            pier               seller 10       buyer, queue
@@ -54,8 +55,8 @@ const PLAY_MARGIN_BOTTOM := 330.0
 ##    -5   (tank 6..7)  belt            pier
 ##    -4   (tank 5..7)  belt            pier                               . gear shop (6..8)
 ##    -3   (tank 3..7)  belt            pier                               . gear shop (6..8)
-##    -2   tank         tank (1 at 2)   pier, "Put in tank"                .  dock at 8
-##    -1                                pier
+##    -2   tank         tank (1 at 2)   pier, "Put in tank"                .
+##    -1                dock            pier
 ##
 ## Not walkable: cols 0..2 rows -18..-2, cols 4..8 rows -18..-5 and col 4 rows -4..-1 (a wall
 ## along the pier).
@@ -87,15 +88,16 @@ const PATH_X := (PIER_COLUMN + 0.5) * Grid.UNIT
 const SHOW_GRID := false
 ## The gear shop stands east of the pier, two rows off the water and south of the booth line: the
 ## upgrades are bought inside (UpgradeStore). It cannot be walked on; walking into its door, at the
-## west end of its front towards the pier, goes inside. The drones start from and deliver to their dock on
-## the row in front of it.
+## west end of its front towards the pier, goes inside.
 const GEAR_SHOP_CELL := Vector2i(6, -4)
 const GEAR_SHOP_SIZE := Vector2i(3, 2)
 const GEAR_SHOP_DOOR_X := (GEAR_SHOP_CELL.x + 0.5) * Grid.UNIT
 const GEAR_SHOP_DOOR_HALF_WIDTH := 95.0
 ## How close the wader comes to the shop's walls.
 const GEAR_SHOP_MARGIN := 40.0
-const DRONE_DOCK_CELL := Vector2i(8, -2)
+## The drones start from and deliver to their dock, in front of the tank; it shows once the beach
+## has a drone. The wader walks over it.
+const DRONE_DOCK_CELL := Vector2i(TANK_CELL.x, TANK_CELL.y + 1)
 const DRONE_PAD := (Vector2(DRONE_DOCK_CELL) + Vector2(0.5, 0.5)) * Grid.UNIT
 ## The painted landing pad (art_source/props/drone_dock_sprite_prompt.md, cropped by
 ## tools/import_store_art.py), flat on the ground: the wader walks over it.
@@ -235,6 +237,7 @@ var _booth_nodes: Array[Booth] = []
 var _customer_timer := 0.0
 var _sell_square: ActionSquare
 var _drones: Array[Drone] = []
+var _drone_dock: Sprite2D
 ## The props and the gear shop, which the wader can walk behind; the tank is added each frame.
 var _decor_covers: Array[Layers.Cover] = []
 var _holding := false
@@ -876,14 +879,15 @@ func _build_squares() -> void:
 	_add_square("store", ActionSquare.Kind.STORE, Grid.center(STORE_CELL))
 	_sell_square = _add_square("sell", ActionSquare.Kind.SELL, _booth_pad_center(0))
 	_add_square("hire_seller", ActionSquare.Kind.BUY, _booth_pad_center(_hire_index()))
-	var dock := Sprite2D.new()
-	dock.texture = DRONE_DOCK_TEXTURE
-	dock.centered = false
-	dock.offset = -DRONE_DOCK_ANCHOR
-	dock.scale = Vector2.ONE * Grid.fit_scale(DRONE_DOCK_CORNERS[0], DRONE_DOCK_CORNERS[1], DRONE_DOCK_CORNERS[2], Vector2i.ONE)
-	dock.position = Iso.to_screen(DRONE_PAD)
-	Layers.put(dock, Layers.FLOOR)
-	_squares_layer.add_child(dock)
+	_drone_dock = Sprite2D.new()
+	_drone_dock.texture = DRONE_DOCK_TEXTURE
+	_drone_dock.centered = false
+	_drone_dock.offset = -DRONE_DOCK_ANCHOR
+	_drone_dock.scale = Vector2.ONE * Grid.fit_scale(DRONE_DOCK_CORNERS[0], DRONE_DOCK_CORNERS[1], DRONE_DOCK_CORNERS[2], Vector2i.ONE)
+	_drone_dock.position = Iso.to_screen(DRONE_PAD)
+	_drone_dock.visible = false
+	Layers.put(_drone_dock, Layers.FLOOR)
+	_squares_layer.add_child(_drone_dock)
 
 
 ## Painted props on the sand and in the water; they take part in the depth sorting, and the wader
@@ -1273,6 +1277,7 @@ func _move_queue() -> void:
 func _sync_drones() -> void:
 	var state := GameState.state
 	var site := GameState.here()
+	_drone_dock.visible = site.drone_count > 0
 	for drone in _drones:
 		drone.queue_free()
 	_drones.clear()
