@@ -1,7 +1,8 @@
 class_name Selling
 extends RefCounted
-## Selling fish at a location's shop. The shop buys every fish; each shop level has booths for
-## more sellers (data/shop_levels.csv: capacity), up to 10 in the seafood palace. The player sells by standing on the shop's "Sell fish" pad; the sellers sell on
+## Selling fish at a location's shop. The shop buys every fish; the first shop levels have booths
+## for more sellers (data/shop_levels.csv: capacity, up to 4), and every level pays more for the
+## fish (price). The player sells by standing on the shop's "Sell fish" pad; the sellers sell on
 ## their own, at every location, also while the game is closed. From the tank only grown fish are
 ## sold; the drones fill the space up again.
 
@@ -23,9 +24,19 @@ static func sell_next(state: PlayerState, site: Site) -> Array:
 		return []
 	var fish: TankFish = site.tank.fish[index]
 	site.tank.fish.remove_at(index)
-	var price := Economy.sale_price(DataRegistry.species[fish.species_id], fish.growth)
+	var price := sale_price(site, DataRegistry.species[fish.species_id], fish.growth)
 	state.add_money(price)
 	return [fish.species_id, price]
+
+
+## What the site's shop pays for a fish compared to the first shop level.
+static func price_bonus(site: Site) -> float:
+	return DataRegistry.shop_levels[clampi(site.shop_level, 1, DataRegistry.shop_levels.size()) - 1].price
+
+
+## What a fish sells for at the site's shop: its value (Economy.sale_price) times the shop's bonus.
+static func sale_price(site: Site, def: SpeciesDef, growth: float = 0.0) -> float:
+	return Economy.sale_price(def, growth) * price_bonus(site)
 
 
 ## Fish per second the site's sellers sell together; 0 if none is hired.

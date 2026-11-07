@@ -73,7 +73,7 @@ static func catch_growth(rng: RandomNumberGenerator) -> float:
 static func tank_value(site: Site) -> float:
 	var value := 0.0
 	for fish in site.tank.fish:
-		value += Economy.sale_price(DataRegistry.species[fish.species_id], fish.growth)
+		value += Selling.sale_price(site, DataRegistry.species[fish.species_id], fish.growth)
 	return value
 
 

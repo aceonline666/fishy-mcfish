@@ -128,6 +128,22 @@ func test_saves_from_the_visitor_days_keep_their_coins() -> void:
 	assert_eq(state.here().seller_count, 1, "the cashier becomes the first seller")
 
 
+func test_sellers_that_no_longer_fit_are_paid_back() -> void:
+	var data := PlayerState.new_game().to_dict()
+	data["money"] = 10.0
+	data["sites"]["north_sea"]["shop_level"] = 6
+	data["sites"]["north_sea"]["seller_count"] = 7
+	data["sites"]["coral_reef"] = Site.create("coral_reef").to_dict()
+	data["sites"]["coral_reef"]["shop_level"] = 6
+	data["sites"]["coral_reef"]["seller_count"] = 5
+	var state := PlayerState.from_dict(data)
+	assert_eq(state.site("north_sea").seller_count, 4)
+	assert_eq(state.site("coral_reef").seller_count, 4)
+	var reef_factor := DataRegistry.location("coral_reef").price_factor
+	assert_eq(state.money, 10.0 + 25000.0 + 40000.0 + 65000.0 + 25000.0 * reef_factor, "sellers 5 to 7, and the reef's fifth")
+	assert_eq(state.total_earned, PlayerState.new_game().total_earned, "a refund is not earnings")
+
+
 func test_from_empty_dict_is_a_new_game() -> void:
 	var state := PlayerState.from_dict({})
 	assert_eq(state.money, 0.0)

@@ -48,7 +48,7 @@ static func reward(site: Site, zone: ZoneDef) -> float:
 	var value := 0.0
 	for id in zone.spawns:
 		weight += zone.spawns[id]
-		value += zone.spawns[id] * Economy.sale_price(DataRegistry.species[id], 1.0)
+		value += zone.spawns[id] * Selling.sale_price(site, DataRegistry.species[id], 1.0)
 	var price := value / weight if weight > 0.0 else 0.0
 	return roundf(price * (CHEST_FISH + Selling.seller_rate(site) * INCOME_S))
 

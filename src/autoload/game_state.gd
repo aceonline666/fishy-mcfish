@@ -73,7 +73,7 @@ func record_best(stat: String, value: int) -> void:
 func catch_value(species_ids: Array[String]) -> float:
 	var total := 0.0
 	for id in species_ids:
-		total += Economy.sale_price(DataRegistry.species[id])
+		total += Selling.sale_price(here(), DataRegistry.species[id])
 	return total
 
 
@@ -92,7 +92,7 @@ func store_fish(species_id: String) -> TankState:
 
 ## Sells a fish fresh from the backpack and returns the price.
 func sell_fish(species_id: String) -> float:
-	var price := Economy.sale_price(DataRegistry.species[species_id])
+	var price := Selling.sale_price(here(), DataRegistry.species[species_id])
 	add_money(price)
 	return price
 

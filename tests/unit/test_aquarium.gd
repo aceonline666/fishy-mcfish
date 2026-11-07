@@ -128,10 +128,27 @@ func test_bigger_shops_have_booths_for_more_sellers() -> void:
 	site.seller_count = 1
 	assert_eq(Selling.next_seller_cost(site), -1.0, "the fish stall is full")
 	site.shop_level = DataRegistry.shop_levels.size()
-	assert_eq(Selling.seller_slots(site), 10, "the seafood palace")
+	assert_eq(Selling.seller_slots(site), 4, "the seafood palace")
 	assert_eq(Selling.next_seller_cost(site), DataRegistry.staff_levels[1].cost)
 	site.seller_count = 15
 	assert_eq(Selling.next_seller_cost(site), -1.0)
+
+
+func test_every_shop_level_pays_more_for_the_fish() -> void:
+	var site := _site_with_tank()
+	var sprat := DataRegistry.species["european_sprat"]
+	assert_eq(Selling.sale_price(site, sprat, 1.0), Economy.sale_price(sprat, 1.0), "the fish stall pays the plain price")
+	var last := 1.0
+	for level in range(2, DataRegistry.shop_levels.size() + 1):
+		site.shop_level = level
+		assert_gt(Selling.price_bonus(site), last, "shop level %d" % level)
+		last = Selling.price_bonus(site)
+	assert_eq(Selling.sale_price(site, sprat, 1.0), Economy.sale_price(sprat, 1.0) * last)
+	_fill(site.tank, "european_sprat", 1, 1.0)
+	assert_eq(Aquarium.tank_value(site), Economy.sale_price(sprat, 1.0) * last)
+	var state := PlayerState.new_game()
+	state.sites[site.location_id] = site
+	assert_eq(Selling.sell_next(state, site)[1], Economy.sale_price(sprat, 1.0) * last, "sellers get the shop's price")
 
 
 func test_upgrade_prices_run_out_at_the_top_level() -> void:

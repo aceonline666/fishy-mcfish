@@ -1137,6 +1137,7 @@ func _sync_shops() -> void:
 		_belt.queue_free()
 	_belt = SalesBelt.new()
 	_belt.setup(site.tank, _belt_area(), _art_for)
+	_belt.price_bonus = Selling.price_bonus(site)
 	Layers.put(_belt, Layers.FLOOR)
 	_entities.add_child(_belt)
 	if _boardwalk != null:

@@ -35,6 +35,9 @@ var _seller_progress: Dictionary[String, float] = {}
 var _earned_at_report := 0.0
 ## Coins the sellers earned since the last report.
 var _seller_earned := 0.0
+## Per location id since the last report: fish the sellers sold, and how many they could have.
+var _seller_sold: Dictionary[String, float] = {}
+var _seller_could: Dictionary[String, float] = {}
 var _backpack: Array[String] = []
 var _quiet := false
 
@@ -222,7 +225,9 @@ func _run_drones(site: Site, step: float) -> void:
 
 
 func _run_sellers(site: Site, step: float) -> void:
-	var progress: float = _seller_progress.get(site.location_id, 0.0) + Selling.seller_rate(site) * step
+	var key := site.location_id
+	var progress: float = _seller_progress.get(key, 0.0) + Selling.seller_rate(site) * step
+	_seller_could[key] = _seller_could.get(key, 0.0) + Selling.seller_rate(site) * step
 	while progress >= 1.0:
 		progress -= 1.0
 		var sale := Selling.sell_next(_state, site)
@@ -230,6 +235,7 @@ func _run_sellers(site: Site, step: float) -> void:
 			progress = 0.0
 		else:
 			_seller_earned += sale[1]
+			_seller_sold[key] = _seller_sold.get(key, 0.0) + 1.0
 	_seller_progress[site.location_id] = progress
 
 
@@ -252,9 +258,14 @@ func _report() -> void:
 		_state.here().location_id])
 	_seller_earned = 0.0
 	for site: Site in _state.sites.values():
-		_print("          %s: tank %d, %d fish, gear %d, net %d, shop %d, %d sellers, %d drones" % [
+		# How busy the sellers were: the share of the fish they could have sold that they did sell.
+		var could: float = _seller_could.get(site.location_id, 0.0)
+		var busy := "" if could <= 0.0 else " (busy %d%%)" % roundi(100.0 * _seller_sold.get(site.location_id, 0.0) / could)
+		_print("          %s: tank %d, %d fish, gear %d, net %d, shop %d, %d sellers%s, %d drones" % [
 			site.location_id, site.tank.level, site.tank.fish.size(), site.gear_level, site.net_level, site.shop_level,
-			site.seller_count, site.drone_count])
+			site.seller_count, busy, site.drone_count])
+	_seller_sold.clear()
+	_seller_could.clear()
 
 
 func _clock() -> String:

@@ -1291,26 +1291,23 @@ msgstr "Verkäufer 3"
 msgid "Seller 4"
 msgstr "Verkäufer 4"
 
-msgid "Seller 5"
-msgstr "Verkäufer 5"
 
-msgid "Seller 6"
-msgstr "Verkäufer 6"
 
-msgid "Seller 7"
-msgstr "Verkäufer 7"
 
-msgid "Seller 8"
-msgstr "Verkäufer 8"
 
-msgid "Seller 9"
-msgstr "Verkäufer 9"
 
-msgid "Seller 10"
-msgstr "Verkäufer 10"
 
 msgid "More selling space!\nRoom for %d more sellers"
 msgstr "Mehr Verkaufsfläche!\nPlatz für %d weitere Verkäufer"
+
+msgid "Bigger shop"
+msgstr "Größerer Laden"
+
+msgid "Prices ×%s"
+msgstr "Preise ×%s"
+
+msgid "Bigger shop!\nFish sell for %s× as much"
+msgstr "Größerer Laden!\nFische bringen %s× so viel"
 
 msgid "Needs a %s L tank"
 msgstr "Braucht ein %s-L-Becken"

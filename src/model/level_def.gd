@@ -1,7 +1,7 @@
 class_name LevelDef
 extends RefCounted
 ## One level of something upgradeable (tank size, tank slot, backpack), loaded from a CSV with
-## the columns level, name, capacity and cost, and optionally speed, width and depth. `cost` is
+## the columns level, name, capacity and cost, and optionally speed, width, depth and price. `cost` is
 ## the price to reach this level, before the location's price factor.
 
 var level: int
@@ -14,6 +14,8 @@ var speed := 1.0
 ## Cells of the layout grid (Grid) this level covers, east-west by north-south (tanks: on the
 ## beach); 1 × 1 if the CSV has no width and depth columns.
 var footprint := Vector2i.ONE
+## What fish sell for compared to the first level (shops); 1 if the CSV has no price column.
+var price := 1.0
 
 
 ## Builds a level from a CSV row. Appends to `errors` and returns null if the row is invalid.
@@ -39,6 +41,11 @@ static func from_row(row: Dictionary, errors: PackedStringArray, where: String) 
 		def.speed = speed_text.to_float()
 	else:
 		errors.append("%s: 'speed' must be a number > 0, got '%s'" % [where, speed_text])
+	var price_text := str(row.get("price", "1"))
+	if price_text.is_valid_float() and price_text.to_float() > 0.0:
+		def.price = price_text.to_float()
+	else:
+		errors.append("%s: 'price' must be a number > 0, got '%s'" % [where, price_text])
 	for axis in 2:
 		var column: String = ["width", "depth"][axis]
 		var text := str(row.get(column, "1"))

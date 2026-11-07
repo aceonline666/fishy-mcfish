@@ -8,6 +8,10 @@ extends RefCounted
 ## temperate slots at home, then four tropical ones (now the Coral Reef's).
 const LEGACY_SLOTS_PER_LOCATION := 4
 const LEGACY_TROPICAL_LOCATION := "coral_reef"
+## Shops used to have booths for up to ten sellers, now four. Saves with more get the sellers that
+## no longer fit paid back at what they cost (sellers 5 to 10, before the location's price factor).
+const LEGACY_SELLER_COSTS: Array[float] = [25000.0, 40000.0, 65000.0, 100000.0, 160000.0, 250000.0]
+const LEGACY_FIRST_SELLER := 4
 
 var money := 0.0
 ## Lifetime earnings. Used later to pick the "most progressed" save on cloud conflicts.
@@ -156,11 +160,22 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	if raw_sites is Dictionary:
 		for id: Variant in raw_sites:
 			if raw_sites[id] is Dictionary:
-				state.sites[str(id)] = Site.from_dict(str(id), raw_sites[id])
+				var site := Site.from_dict(str(id), raw_sites[id])
+				state.sites[str(id)] = site
+				state.money += _seller_refund(site, int(raw_sites[id].get("seller_count", 0)))
 	else:
 		_read_legacy_business(state, data)
 	state.site(DataRegistry.home().id)
 	return state
+
+
+## Coins back for the sellers a save had that no longer fit into the shop (LEGACY_SELLER_COSTS).
+static func _seller_refund(site: Site, saved_count: int) -> float:
+	var refund := 0.0
+	for index in range(maxi(site.seller_count, LEGACY_FIRST_SELLER), saved_count):
+		if index - LEGACY_FIRST_SELLER < LEGACY_SELLER_COSTS.size():
+			refund += LEGACY_SELLER_COSTS[index - LEGACY_FIRST_SELLER] * site.price_factor()
+	return refund
 
 
 ## Saves from before each location had its own business kept it in global fields: it all

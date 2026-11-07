@@ -361,12 +361,17 @@ func _refresh_squares() -> void:
 	_set_purchase(tank_square, tr("Bigger tank"), Aquarium.tank_upgrade_cost(site), _prop("tank_%d" % (site.tank.level + 1)))
 	if site.tank.level < DataRegistry.tank_levels.size():
 		tank_square.subtitle = tr("Fish grow %s× as fast") % String.num(DataRegistry.tank_levels[site.tank.level].speed, 2)
-	# Each shop level makes room for more sellers.
+	# Each shop level pays more for the fish; the first ones also make room for more sellers.
 	var shop := _square_by_id("upgrade_shop")
-	_set_purchase(shop, tr("More selling space"), Selling.shop_upgrade_cost(site), _prop("shop_%d" % (site.shop_level + 1)))
+	var more_sellers := 0
 	if site.shop_level < DataRegistry.shop_levels.size():
-		var more := int(DataRegistry.shop_levels[site.shop_level].capacity) - Selling.seller_slots(site)
-		shop.subtitle = tr("+1 seller") if more == 1 else tr("+%d sellers") % more
+		more_sellers = int(DataRegistry.shop_levels[site.shop_level].capacity) - Selling.seller_slots(site)
+	_set_purchase(shop, tr("More selling space") if more_sellers > 0 else tr("Bigger shop"), Selling.shop_upgrade_cost(site),
+			_prop("shop_%d" % (site.shop_level + 1)))
+	if site.shop_level < DataRegistry.shop_levels.size():
+		var prices := tr("Prices ×%s") % String.num(DataRegistry.shop_levels[site.shop_level].price, 2)
+		var sellers := tr("+1 seller") if more_sellers == 1 else tr("+%d sellers") % more_sellers
+		shop.subtitle = "%s · %s" % [sellers, prices] if more_sellers > 0 else prices
 	_set_purchase(_square_by_id("upgrade_backpack"), tr("Bigger basket"), Aquarium.backpack_upgrade_cost(site),
 			_wader_prop("basket_%d" % (site.backpack_level + 1)))
 	var next_net := DataRegistry.net_levels[mini(site.net_level, DataRegistry.net_levels.size() - 1)]
@@ -496,8 +501,12 @@ func _complete_purchase(target: ActionSquare) -> void:
 		"upgrade_shop":
 			GameState.upgrade_shop()
 			var more := Selling.seller_slots(site) - int(DataRegistry.shop_levels[site.shop_level - 2].capacity)
-			message = tr("More selling space!\nRoom for one more seller") if more == 1 \
-					else tr("More selling space!\nRoom for %d more sellers") % more
+			if more == 1:
+				message = tr("More selling space!\nRoom for one more seller")
+			elif more > 1:
+				message = tr("More selling space!\nRoom for %d more sellers") % more
+			else:
+				message = tr("Bigger shop!\nFish sell for %s× as much") % String.num(Selling.price_bonus(site), 2)
 		"upgrade_net":
 			GameState.upgrade_net()
 			wader.net_level = site.net_level

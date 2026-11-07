@@ -52,6 +52,8 @@ const MORE_COLOR := Color(1.0, 1.0, 1.0)
 var tank: TankState
 ## Returns the FishArt for a species id.
 var art_for: Callable
+## What the shop pays compared to the first shop level (Selling.price_bonus), for the price tags.
+var price_bonus := 1.0
 
 ## Half the belt's ground size, east-west by north-south.
 var _half := Vector2.ZERO
@@ -101,7 +103,7 @@ func queue() -> Array[TankFish]:
 
 
 func _price(fish: TankFish) -> float:
-	return Economy.sale_price(DataRegistry.species[fish.species_id], fish.growth)
+	return Economy.sale_price(DataRegistry.species[fish.species_id], fish.growth) * price_bonus
 
 
 func _process(delta: float) -> void:

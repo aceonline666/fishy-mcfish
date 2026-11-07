@@ -42,8 +42,9 @@ The shop is not a building: its level gives every booth its look:
   water rises with the fish in it and runs over at 100 %.
 - **Sell fish** in front of the shop is greyed out ("No grown fish") until a fish is grown, then
   sells the grown fish from the tank, first grown first, to the buyers lining up there from the start. The shop buys
-  every fish; **More selling space** (gear shop) adds booths for more sellers (1, 2, 4, 6, 8
-  and finally 10). The first hired seller takes over your booth and the "Sell fish" pad. While you stand on the pad you
+  every fish; **More selling space** (gear shop) adds booths for more sellers (1, 2, 3 and
+  finally 4), and every shop level pays more for the fish (up to 1.4 times the price,
+  `price` in `data/shop_levels.csv`); the last two levels only raise the price. The first hired seller takes over your booth and the "Sell fish" pad. While you stand on the pad you
   sell one fish every 2 s at your own booth; one line of buyers feeds the next free booth.
 - **Hire seller**: one seller per free booth, each as fast as you,
   also while the game is closed. With bigger tanks you need more of them to keep up; the drones
@@ -212,7 +213,8 @@ Tests can also be run from the GUT panel in the editor. CI runs them on every pu
 rules and prints a timeline of purchases, charted zones, goals and income. `tests/unit/test_pacing.gd`
 runs the same bot and checks the pacing targets (first tank upgrade < 5 min, snorkel 5–25 min,
 Coral Reef 25–70 min, open sea charted after 55–120 min). The bot reaches the North Sea's
-deep sea after about 3 h and has charted all five locations after about 12 h. Run it after
+deep sea after about 5 h and opens Japan, the fourth location, after about 7.5 h. Its report
+every 10 minutes shows how busy each beach's sellers were. Run it after
 changing prices or income:
 
 ```powershell
@@ -248,7 +250,8 @@ Rules of thumb:
   ([OpenGameArt](https://opengameart.org/content/shop-theme)).
 
 ## TODOs
-- Rebalance cashiers. I think more than 3 cashiers are currently not necessary because there are not enough grown fish to occupy them.
+- Rebalance tanks. They become full too fast and when they are full you don't have the money to upgrade so you are stuck. Suggested fix would be to make the tanks twice the volume.
+- Drawing error: The pier should be drawn in front of the fish tank and the belt.
 - Replace Fishbowl with sprite
 - Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors.
 - Replace fishnet sprites with transparent ones that fit the style better
