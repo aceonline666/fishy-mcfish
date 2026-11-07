@@ -1,30 +1,35 @@
-id,name,description,type,target,param,reward
-first_catch,First catch,Catch your first fish,catch_count,1,,20
-combo_3,Triple!,Catch 3 fish in a row,best_combo,3,,50
-second_tank,Growing collection,Upgrade your tank,tank_level,2,,80
-catch_50,Busy net,Catch 300 fish,catch_count,300,,1500
-species_5,Naturalist,Discover 15 species,species_count,15,,1000
-chart_shallows,Mapmaker,Chart the Pier shallows,charted,1,pier_shallows,300
-combo_6,Mega haul,Catch 10 fish in a row,best_combo,10,,1500
-first_rare,Lucky find,Catch a rare fish,rarity_caught,1,rare,400
-first_drone,Robot helper,Buy a drone,drone_count,1,,500
-first_seller,Sales team,Hire a seller,seller_count,1,,500
-second_shop,Shopkeeper,Upgrade your shop,shop_level,2,,1000
-chart_sandbanks,Sandbank surveyor,Chart the Sandbanks,charted,1,sandbanks,1000
-earn_10k,Fish tycoon,Earn 100K coins in total,total_earned,100000,,10000
-first_epic,Sea monster,Catch an epic fish,rarity_caught,1,epic,2000
-chart_wreck,Wreck diver,Chart the Wreck,charted,1,wreck,3000
-chart_lagoon,Reef explorer,Chart the Lagoon,charted,1,lagoon,2000
-first_legendary,Legend of the sea,Catch a legendary fish,rarity_caught,1,legendary,10000
-chart_open_sea,Blue water,Chart the Open sea,charted,1,open_sea,8000
-chart_deep_sea,Into the abyss,Chart the Deep sea,charted,1,deep_sea,100000
-chart_trench,Trench pioneer,Chart the Trench,charted,1,trench,200000
-chart_drop_off,Reef diver,Chart the Drop-off,charted,1,drop_off,5000
-chart_rocky_reef,Down under,Chart the Rocky reef,charted,1,rocky_reef,30000
-chart_kuroshio,Current rider,Chart the Kuroshio current,charted,1,kuroshio,300000
-chart_shark_alley,Shark whisperer,Chart Shark alley,charted,1,shark_alley,3000000
-catch_2000,Master angler,"Catch 2,000 fish",catch_count,2000,,25000
-species_40,Marine biologist,Discover 40 species,species_count,40,,100000
-drones_10,Drone fleet,Own 10 drones,drone_count,10,,200000
-all_locations,World traveller,Unlock all 5 locations,locations_unlocked,5,,2000000
-earn_10m,Ocean mogul,Earn 10M coins in total,total_earned,10000000,,1000000
+id,name,description,type,target,param,reward,hidden
+first_catch,First catch,Catch your first fish,catch_count,1,,20,
+combo_3,Triple!,Catch 3 fish in a row,best_combo,3,,50,
+second_tank,Growing collection,Upgrade your tank,tank_level,2,,80,
+catch_50,Busy net,Catch 300 fish,catch_count,300,,1500,
+species_5,Naturalist,Discover 15 species,species_count,15,,1000,
+chart_shallows,Mapmaker,Chart the Pier shallows,charted,1,pier_shallows,300,
+combo_6,Mega haul,Catch 10 fish in a row,best_combo,10,,1500,
+first_rare,Lucky find,Catch a rare fish,rarity_caught,1,rare,400,
+first_drone,Robot helper,Buy a drone,drone_count,1,,500,
+first_seller,Sales team,Hire a seller,seller_count,1,,500,
+second_shop,Shopkeeper,Upgrade your shop,shop_level,2,,1000,
+chart_sandbanks,Sandbank surveyor,Chart the Sandbanks,charted,1,sandbanks,1000,
+earn_10k,Fish tycoon,Earn 100K coins in total,total_earned,100000,,10000,
+first_epic,Sea monster,Catch an epic fish,rarity_caught,1,epic,2000,
+chart_wreck,Wreck diver,Chart the Wreck,charted,1,wreck,3000,
+chart_lagoon,Reef explorer,Chart the Lagoon,charted,1,lagoon,2000,
+first_legendary,Legend of the sea,Catch a legendary fish,rarity_caught,1,legendary,10000,
+chart_open_sea,Blue water,Chart the Open sea,charted,1,open_sea,8000,
+chart_deep_sea,Into the abyss,Chart the Deep sea,charted,1,deep_sea,100000,
+chart_trench,Trench pioneer,Chart the Trench,charted,1,trench,200000,
+chart_drop_off,Reef diver,Chart the Drop-off,charted,1,drop_off,5000,
+chart_rocky_reef,Down under,Chart the Rocky reef,charted,1,rocky_reef,30000,
+chart_kuroshio,Current rider,Chart the Kuroshio current,charted,1,kuroshio,300000,
+chart_shark_alley,Shark whisperer,Chart Shark alley,charted,1,shark_alley,3000000,
+catch_2000,Master angler,"Catch 2,000 fish",catch_count,2000,,25000,
+species_40,Marine biologist,Discover 40 species,species_count,40,,100000,
+drones_10,Drone fleet,Own 10 drones,drone_count,10,,200000,
+all_locations,World traveller,Unlock all 5 locations,locations_unlocked,5,,2000000,
+earn_10m,Ocean mogul,Earn 10M coins in total,total_earned,10000000,,1000000,
+first_chest,Treasure hunter,Find a treasure chest,stat,1,chests_found,500,1
+chest_locations,Treasure map,Find a treasure chest at every location,chest_locations,5,,2000000,1
+chests_25,Treasure hoarder,Find 25 treasure chests,stat,25,chests_found,250000,1
+night_owl,Night owl,Catch a fish between midnight and 4 a.m.,stat,1,night_catches,2000,1
+deep_calm,Deep calm,Float still for a minute in the deepest zone,stat,60,still_in_deepest_s,50000,1

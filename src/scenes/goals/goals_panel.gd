@@ -1,6 +1,7 @@
 class_name GoalsPanel
 extends OverlayPanel
-## Lists every goal with its progress and reward. Reached goals are ticked off.
+## Lists every goal with its progress and reward. Reached goals are ticked off; secret goals
+## show as "???" until they are reached.
 
 const DONE_COLOR := Color(0.55, 1.0, 0.65)
 const REWARD_COLOR := Color(1.0, 0.86, 0.3)
@@ -19,6 +20,7 @@ func _refresh() -> void:
 
 
 func _make_row(def: AchievementDef, done: bool) -> PanelContainer:
+	var secret := def.hidden and not done
 	var row := PanelContainer.new()
 	row.add_theme_stylebox_override("panel", card_style())
 	var column := VBoxContainer.new()
@@ -27,19 +29,20 @@ func _make_row(def: AchievementDef, done: bool) -> PanelContainer:
 
 	var top := HBoxContainer.new()
 	column.add_child(top)
-	var name_label := make_label(tr(def.name), 40, HORIZONTAL_ALIGNMENT_LEFT)
+	var name_label := make_label("???" if secret else tr(def.name), 40, HORIZONTAL_ALIGNMENT_LEFT)
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(name_label)
-	var reward := make_label(tr("Done") if done else "+%s" % NumberFormat.compact(def.reward), 36, HORIZONTAL_ALIGNMENT_RIGHT)
+	var reward_text := tr("Done") if done else "+???" if secret else "+%s" % NumberFormat.compact(def.reward)
+	var reward := make_label(reward_text, 36, HORIZONTAL_ALIGNMENT_RIGHT)
 	reward.add_theme_color_override("font_color", DONE_COLOR if done else REWARD_COLOR)
 	reward.autowrap_mode = TextServer.AUTOWRAP_OFF
 	top.add_child(reward)
 
-	var description := make_label(tr(def.description), 30, HORIZONTAL_ALIGNMENT_LEFT)
+	var description := make_label(tr("A secret goal. Keep exploring!") if secret else tr(def.description), 30, HORIZONTAL_ALIGNMENT_LEFT)
 	description.add_theme_color_override("font_color", MUTED)
 	column.add_child(description)
 
-	if not done:
+	if not done and not secret:
 		var current := minf(Achievements.progress(GameState.state, def), def.target)
 		var bar := ProgressBar.new()
 		bar.custom_minimum_size = Vector2(0.0, 30.0)

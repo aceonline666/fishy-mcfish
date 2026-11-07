@@ -185,6 +185,12 @@ const NET_RADIUS_STEP := 0.12
 const PAY_INTERVAL_S := 0.05
 const PAY_SHARE := 0.04
 const WAKE_INTERVAL_S := 0.22
+## The net picks up the treasure chest within this distance of its rim (ground units).
+const CHEST_RADIUS := 45.0
+## Seconds between looks whether the treasure chest has come back.
+const CHEST_CHECK_S := 1.0
+## Coins that fly from an opened chest to the counter.
+const CHEST_COINS := 14
 ## How strongly the painted seabed shows through the shallow water.
 const FLOOR_STRENGTH := 0.8
 const COMBO_COLOR := Color(1.0, 0.85, 0.2)
@@ -253,6 +259,11 @@ var _shown_money := 0.0
 var _money_tween: Tween
 ## The player came back to the "Sell fish" pad during Tutorial.Step.HIRE: the hire tip shows.
 var _hire_tip_shown := false
+## The location's treasure chest on the seabed while it waits to be found, else null.
+var _chest: TreasureChest
+var _chest_timer := 0.0
+## Seconds the wader has kept still in the location's deepest zone.
+var _still_time := 0.0
 
 @onready var wader: Wader = $World/Entities/Wader
 @onready var _water: ColorRect = $Water
@@ -377,6 +388,8 @@ func _process(delta: float) -> void:
 		fish.visible = view.has_point(fish.position)
 		fish.simulate(delta, wader.ground_position, THREAT_RADIUS, _fish)
 	_check_catches(delta)
+	_update_chest(delta)
+	_update_stillness(delta)
 	_combo_timer = maxf(_combo_timer - delta, 0.0)
 	_update_drones(delta)
 	_update_squares(delta)
@@ -505,6 +518,7 @@ func _rebuild_from_state() -> void:
 	wader.net_level = site.net_level
 	_sync_shops()
 	_apply_gear()
+	_sync_chest()
 	_sync_drones()
 	_refresh_squares()
 	_update_hud()
@@ -781,6 +795,70 @@ func _record_catch(fish: SwimmingFish) -> void:
 		_refresh_squares()
 	GameState.check_achievements()
 	_update_hud()
+
+#endregion
+
+
+#region Treasure
+
+## Puts the treasure chest where it lies now (Treasure.spot), or takes it away while it is not
+## there to be found.
+func _sync_chest() -> void:
+	var state := GameState.state
+	var zone := Charting.deepest_open_zone(location.id, GameState.here().gear_level)
+	if zone == null or not Treasure.is_ready(state, location.id, TimeService.now_unix()):
+		if _chest != null:
+			_chest.queue_free()
+			_chest = null
+		return
+	var ground := Treasure.spot(state, location.id, zone, _zone_areas[_zones.find(zone)])
+	if _chest != null and _chest.ground == ground:
+		return
+	if _chest != null:
+		_chest.queue_free()
+	_chest = TreasureChest.new()
+	_chest.setup(ground, _seabed.material)
+	_seabed.add_child(_chest)
+
+
+## The net scoops up the chest like a fish; every now and then the chest may have come back.
+func _update_chest(delta: float) -> void:
+	_chest_timer -= delta
+	if _chest_timer <= 0.0:
+		_chest_timer = CHEST_CHECK_S
+		_sync_chest()
+	if _chest != null and wader.in_water \
+			and wader.scoop_center().distance_to(_chest.ground) <= wader.scoop_radius + CHEST_RADIUS:
+		_open_chest()
+
+
+## The chest pays out: coins burst from it to the counter, and it empties and fades.
+func _open_chest() -> void:
+	var zone := Charting.zone_at(location.id, _chest.ground.y)
+	var reward := GameState.find_treasure(zone)
+	var at := _world_to_scene(_chest.position + TreasureChest.GLINT_OFFSET)
+	for i in CHEST_COINS:
+		Juice.fly_coin(_popups, at + Vector2(rng.randf_range(-40.0, 40.0), rng.randf_range(-30.0, 20.0)), _wallet_position(), 12.0 * ZOOM)
+	Juice.splash(_effects, _chest.position, 20)
+	Juice.ripple(_effects, _chest.position, 90.0)
+	_announce(at + Vector2(0.0, -80.0), tr("Treasure!\n+%s coins") % NumberFormat.compact(reward), COIN_COLOR, 1.6)
+	Sfx.play(&"coin", 1.0, -2.0)
+	Sfx.play(&"ding", 1.26)
+	Sfx.play(&"ding", 1.5, -4.0)
+	Haptics.bump()
+	_shake = 14.0
+	_chest.open()
+	_chest = null
+	_update_hud()
+
+
+## Keeping still in the location's deepest zone counts for the "Deep calm" goal.
+func _update_stillness(delta: float) -> void:
+	if _wader_zone == _zones[-1] and not wader.is_walking():
+		_still_time += delta
+		GameState.state.record_best("still_in_deepest_s", int(_still_time))
+	else:
+		_still_time = 0.0
 
 #endregion
 

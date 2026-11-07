@@ -18,6 +18,9 @@ func before_each() -> void:
 		state.achievements.append(def.id)
 	# Past the tutorial, which hides the "Hire seller" pad; its own tests start it again.
 	state.tutorial_step = Tutorial.Step.DONE
+	# A treasure chest found by chance would add coins too; the treasure tests bring it back.
+	for def in DataRegistry.locations:
+		state.chest_found_at[def.id] = TimeService.now_unix()
 	GameState.replace_state(state)
 	_scene = FishingSceneFile.instantiate()
 	_scene.auto_spawn = false
@@ -58,6 +61,35 @@ func _catch(species_ids: Array[String]) -> void:
 	for id in species_ids:
 		_scene.spawn_fish(id, _wader.scoop_center(), 0.0)
 	await wait_seconds(1.0)
+
+
+#region Treasure
+
+func test_the_treasure_chest_lies_in_the_deepest_open_zone_and_pays_when_scooped() -> void:
+	assert_null(_scene._chest, "no chest while it is away")
+	GameState.state.chest_found_at.clear()
+	_scene._sync_chest()
+	var chest: TreasureChest = _scene._chest
+	assert_not_null(chest)
+	assert_eq(Charting.zone_at("north_sea", chest.ground.y).id, "pier_shallows")
+	var money := GameState.state.money
+	_wader.ground_position = chest.ground - _wader.facing * Wader.REACH
+	await wait_process_frames(2)
+	assert_null(_scene._chest, "the chest is taken")
+	assert_true(chest.opening)
+	assert_eq(GameState.state.money, money + Treasure.reward(GameState.here(), DataRegistry.zones[0]))
+	assert_eq(GameState.state.stats.get("chests_found"), 1)
+	_scene._sync_chest()
+	assert_null(_scene._chest, "it stays away for a while")
+
+
+func test_better_gear_moves_the_chest_deeper() -> void:
+	GameState.state.chest_found_at.clear()
+	GameState.upgrade_gear()
+	_scene.return_from_store()
+	assert_eq(Charting.zone_at("north_sea", _scene._chest.ground.y).id, "sandbanks")
+
+#endregion
 
 
 #region Catching

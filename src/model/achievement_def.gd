@@ -2,11 +2,13 @@ class_name AchievementDef
 extends RefCounted
 ## A goal from data/achievements.csv. `type` says what is measured (see Achievements), `target`
 ## is the value to reach, `param` narrows it down (a zone id, a rarity name), `reward` is paid
-## in coins when it is reached.
+## in coins when it is reached. A `hidden` goal is a secret: the Goals panel shows it as "???"
+## until it is reached.
 
 const TYPES: PackedStringArray = [
 	"catch_count", "best_combo", "tank_level", "species_count", "charted", "rarity_caught",
 	"drone_count", "total_earned", "seller_count", "shop_level", "locations_unlocked",
+	"stat", "chest_locations",
 ]
 
 var id: String
@@ -16,6 +18,7 @@ var type: String
 var target: float
 var param: String
 var reward: float
+var hidden := false
 
 
 static func from_row(row: Dictionary, errors: PackedStringArray, where: String) -> AchievementDef:
@@ -26,10 +29,13 @@ static func from_row(row: Dictionary, errors: PackedStringArray, where: String) 
 	def.description = str(row.get("description", ""))
 	def.type = str(row.get("type", ""))
 	def.param = str(row.get("param", ""))
+	def.hidden = str(row.get("hidden", "")) == "1"
 	if not def.id.is_valid_ascii_identifier() or def.name.is_empty() or def.description.is_empty():
 		errors.append("%s: achievement needs an id, a name and a description" % where)
 	if not TYPES.has(def.type):
 		errors.append("%s: unknown achievement type '%s'" % [where, def.type])
+	if def.type == "stat" and def.param.is_empty():
+		errors.append("%s: a 'stat' goal names the stat in 'param'" % where)
 	for column: String in ["target", "reward"]:
 		var text := str(row.get(column, ""))
 		if not text.is_valid_float() or text.to_float() < 0.0:

@@ -27,6 +27,8 @@ var achievements: Array[String] = []
 var sites: Dictionary[String, Site] = {}
 ## How far the player is through the tutorial (Tutorial.Step).
 var tutorial_step := 0
+## When the treasure chest of each location was last found (Unix time), by location id.
+var chest_found_at: Dictionary[String, int] = {}
 
 
 static func new_game() -> PlayerState:
@@ -119,6 +121,7 @@ func to_dict() -> Dictionary:
 		"unlocked_locations": unlocked_locations.duplicate(),
 		"sites": site_data,
 		"tutorial_step": tutorial_step,
+		"chest_found_at": chest_found_at.duplicate(),
 	}
 
 
@@ -145,6 +148,9 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	var raw_zones: Dictionary = data.get("zone_catches", {})
 	for key: Variant in raw_zones:
 		state.zone_catches[str(key)] = int(raw_zones[key])
+	var raw_chests: Dictionary = data.get("chest_found_at", {})
+	for key: Variant in raw_chests:
+		state.chest_found_at[str(key)] = int(raw_chests[key])
 
 	var raw_sites: Variant = data.get("sites")
 	if raw_sites is Dictionary:

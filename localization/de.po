@@ -476,6 +476,42 @@ msgstr "Ozean-Mogul"
 msgid "Earn 10M coins in total"
 msgstr "Verdiene insgesamt 10 Mio. Münzen"
 
+msgid "Treasure hunter"
+msgstr "Schatzsucher"
+
+msgid "Find a treasure chest"
+msgstr "Finde eine Schatztruhe"
+
+msgid "Treasure map"
+msgstr "Schatzkarte"
+
+msgid "Find a treasure chest at every location"
+msgstr "Finde an jedem Ort eine Schatztruhe"
+
+msgid "Treasure hoarder"
+msgstr "Schatzsammler"
+
+msgid "Find 25 treasure chests"
+msgstr "Finde 25 Schatztruhen"
+
+msgid "Night owl"
+msgstr "Nachteule"
+
+msgid "Catch a fish between midnight and 4 a.m."
+msgstr "Fange einen Fisch zwischen Mitternacht und 4 Uhr morgens"
+
+msgid "Deep calm"
+msgstr "Tiefe Ruhe"
+
+msgid "Float still for a minute in the deepest zone"
+msgstr "Schwebe eine Minute lang reglos in der tiefsten Zone"
+
+msgid "A secret goal. Keep exploring!"
+msgstr "Ein geheimes Ziel. Erkunde weiter!"
+
+msgid "Treasure!\n+%s coins"
+msgstr "Schatz!\n+%s Münzen"
+
 #. data/backpacks.csv, gear.csv, nets.csv, tanks.csv, tank_slots.csv, shop_slots.csv, staff.csv, drones.csv
 msgid "Basket"
 msgstr "Korb"

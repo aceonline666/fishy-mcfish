@@ -60,7 +60,16 @@ The shop is not a building: its level gives every booth its look:
   while the game is closed. Later drones are bigger and carry more.
 
 The **Fishpedia** button lists every species, with facts for the ones you have caught. **Goals**
-lists achievements with coin rewards. The **Map** travels between five locations: North Sea,
+lists achievements with coin rewards. Goals marked `hidden` in `data/achievements.csv` are
+secrets: they show as "???" until reached (a `stat` goal counts a value in the player's stats,
+named in `param`).
+
+**Secrets:** after the tutorial, every location hides a treasure chest on the seabed of the
+deepest zone the gear opens, with a glint over its coins (`src/sim/treasure.gd`,
+`src/scenes/world/treasure_chest.gd`). Scooping it up pays the price of 25 grown fish of that zone
+plus five minutes of the location's seller income; it turns up somewhere else 20 hours later.
+Secret goals: finding chests, catching a fish between midnight and 4 a.m., and keeping still for
+a minute in a location's deepest zone. The **Map** travels between five locations: North Sea,
 Coral Reef, Australia, Japan and South Africa. Each opens with a goal on the location before it
 (charting its third zone, or the Sandbanks for the Reef) and a one-time fee. Every location has its own beach
 business that starts from scratch (smallest net, first zone only, a small tank and a fish stall); building
@@ -244,9 +253,11 @@ Rules of thumb:
 - Replace fishnet sprites with transparent ones that fit the style better
 - Zone props: seagrass bay, kelp forests, seaweed bed, rocky reef/shore, lagoon and reef crest show theirs (existing seabed sprites, `SeabedDecor.ZONE_PROPS`); still missing sprites for e.g. Sardine run, Shark alley, the currents
 - Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console)
-- Add some secrets, like:
-  - get extra money when you find the treasure chest
-  - some deep sea horror like cthulu that is barely visible
+- More secrets (need new sprites, postponed):
+  - an original deep sea horror in the deepest zones, barely visible at the edge of the dark
+  - glowing eyes in the dark that vanish when you come close
+  - message in a bottle, rare finds (curiosities page in the Fishpedia)
+  - secret species per location that only show under a condition (night, charted zone, ...)
 
 Later: 
 - Add new locations. Ideas:

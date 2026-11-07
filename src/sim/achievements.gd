@@ -35,6 +35,11 @@ static func progress(state: PlayerState, def: AchievementDef) -> float:
 			return state.most("shop_level")
 		"total_earned":
 			return state.total_earned
+		# A counter or best value in the player's stats, named by param.
+		"stat":
+			return state.stats.get(def.param, 0)
+		"chest_locations":
+			return state.chest_found_at.size()
 		"locations_unlocked":
 			return DataRegistry.locations.filter(func(def: LocationDef) -> bool: return Travel.is_unlocked(state, def)).size()
 	return 0.0

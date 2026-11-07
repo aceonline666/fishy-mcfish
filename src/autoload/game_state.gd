@@ -9,6 +9,8 @@ extends Node
 ## so drones fish, fish grow and sellers sell over the whole time.
 const OFFLINE_MIN_STEP_S := 60.0
 const OFFLINE_MAX_STEPS := 24
+## Catches before this hour of the night (local time) count for the "Night owl" goal.
+const NIGHT_END_HOUR := 4
 
 ## Empty until SaveSystem loads the game (the game data is not loaded yet at this point).
 var state := PlayerState.new()
@@ -19,6 +21,8 @@ var last_offline_stored := 0
 ## True while the player is in the upgrade store: the beach's drones are not watched then, so
 ## they fish like those at other locations.
 var in_store := false
+## The hour of the local clock (0-23). Tests replace it.
+var clock_hour: Callable = func() -> int: return int(Time.get_datetime_dict_from_system().hour)
 
 ## Progress of each location's sellers towards their next sale, by location id.
 var _seller_progress: Dictionary[String, float] = {}
@@ -55,6 +59,8 @@ func try_spend(amount: float) -> bool:
 ## species is ever caught.
 func record_catch(species_id: String, zone_id: String = "") -> bool:
 	var is_new := state.record_catch(species_id, zone_id)
+	if int(clock_hour.call()) < NIGHT_END_HOUR:
+		state.increment_stat("night_catches")
 	EventBus.fish_caught.emit(species_id, is_new)
 	return is_new
 
@@ -160,6 +166,16 @@ func upgrade_shop() -> void:
 
 func hire_seller() -> void:
 	here().seller_count = mini(here().seller_count + 1, Selling.seller_slots(here()))
+
+
+## The treasure chest where the player is was found in the zone: pays its coins (returned) and
+## hides it for a while.
+func find_treasure(zone: ZoneDef) -> float:
+	var reward := Treasure.reward(here(), zone)
+	Treasure.record_find(state, here().location_id, TimeService.now_unix())
+	add_money(reward)
+	check_achievements()
+	return reward
 
 
 ## Records newly reached goals, pays their rewards and announces them.

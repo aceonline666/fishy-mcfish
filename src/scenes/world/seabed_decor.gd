@@ -3,7 +3,7 @@ extends Node2D
 ## Painted props on the seabed (assets/sprites/seabed, tools/extract_seabed.py), so the isometric
 ## ground reads clearly; sits below the fish and the wader. Temperate water has rocks, swaying
 ## kelp, mussels, starfish, anemones and a little sunken junk; tropical water has corals, sponges,
-## seagrass, a giant clam, sea urchins and a treasure chest.
+## seagrass, a giant clam and sea urchins. The treasure chest is a TreasureChest of its own.
 
 const PROPS_DIR := "res://assets/sprites/seabed/"
 ## Props per water: sprite, screen width and how many are scattered. Swaying ones are in SWAY.
@@ -18,7 +18,6 @@ const PROPS: Dictionary[String, Array] = {
 		["coral_stones", 90.0, 4], ["coral_rock", 120.0, 2], ["brain_coral", 100.0, 3], ["branch_coral", 95.0, 3],
 		["table_coral", 105.0, 2], ["sea_fan", 95.0, 3], ["tube_sponge", 80.0, 3], ["reef_anemone", 85.0, 3],
 		["seagrass", 75.0, 4], ["giant_clam", 95.0, 1], ["blue_starfish", 70.0, 2], ["sea_urchin", 55.0, 2],
-		["treasure_chest", 110.0, 1],
 	],
 }
 ## Zones named after what grows or lies there show it: extra props scattered in their depth band,
