@@ -16,6 +16,12 @@ const SCHOOLING_BELOW_CM := 25.0
 const MAX_BODY_LENGTH := 760.0
 ## Giants cruise rather than dart.
 const MAX_CRUISE_SPEED := 280.0
+## Drifters and crawlers move slower than their size suggests: share of the usual cruise speed.
+const SPEED_FACTORS: Dictionary[String, float] = {
+	"moon_jellyfish": 0.3, "lions_mane_jellyfish": 0.3, "blubber_jellyfish": 0.3,
+	"nomuras_jellyfish": 0.25, "portuguese_man_o_war": 0.3,
+	"japanese_spider_crab": 0.35, "giant_sea_spider": 0.5,
+}
 
 
 ## Seconds the net must stay on the fish to catch it. 0 means instant. A better net
@@ -35,7 +41,8 @@ static func body_length(def: SpeciesDef) -> float:
 
 ## Ground units per second.
 static func cruise_speed(def: SpeciesDef) -> float:
-	return minf((70.0 + body_length(def) * 0.5) * (1.0 + RARITY_SPEED_BONUS * def.rarity), MAX_CRUISE_SPEED)
+	var speed := minf((70.0 + body_length(def) * 0.5) * (1.0 + RARITY_SPEED_BONUS * def.rarity), MAX_CRUISE_SPEED)
+	return speed * SPEED_FACTORS.get(def.id, 1.0)
 
 
 ## Small fish arrive in schools, bigger ones alone.

@@ -39,6 +39,16 @@ func test_body_size_is_capped_for_giants() -> void:
 	assert_lte(CatchRules.cruise_speed(_species(3000.0)), CatchRules.MAX_CRUISE_SPEED, "giants cruise")
 
 
+func test_jellyfish_and_crabs_move_slower_than_fish_of_their_size() -> void:
+	var fish := _species(370.0, SpeciesDef.Rarity.RARE)
+	var crab := _species(370.0, SpeciesDef.Rarity.RARE)
+	crab.id = "japanese_spider_crab"
+	var jelly := _species(30.0)
+	jelly.id = "moon_jellyfish"
+	assert_lt(CatchRules.cruise_speed(crab), CatchRules.cruise_speed(fish) * 0.5)
+	assert_lt(CatchRules.cruise_speed(jelly), CatchRules.cruise_speed(_species(30.0)) * 0.5)
+
+
 func test_only_small_fish_school() -> void:
 	var rng := RandomNumberGenerator.new()
 	assert_between(CatchRules.school_size(_species(12.0), rng), 3, 5)
