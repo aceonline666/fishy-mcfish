@@ -11,7 +11,8 @@ extends RefCounted
 ## How a species swims (MOTIONS): most fish beat their tail fin ("tail"). Creatures without a
 ## cut tail are drawn as a bent mesh instead: eels, whales and slow swimmers send a wave down the
 ## body ("wave"), jellyfish and octopuses squeeze their bell or head and let the arms trail
-## ("pulse"), squids squeeze the mantle and pull their arms together ("jet").
+## ("pulse"), squids squeeze the mantle and pull their arms together ("jet"), turtles and rays beat
+## their flippers or wings up and down ("flap"), and crabs swing their legs ("crawl").
 
 const PAINTED_DIR := "res://assets/sprites/fish_painted/"
 ## Share of the total length taken by the body; the rest is tail fin.
@@ -23,7 +24,7 @@ const TAIL_CANVAS_WIDTH := 70.0
 const TAIL_ROOT_X := 62.0
 const OUTLINE_COLOR := Color(0.07, 0.09, 0.15)
 
-enum Motion { TAIL, WAVE, PULSE, JET }
+enum Motion { TAIL, WAVE, PULSE, JET, FLAP, CRAWL }
 ## Species that do not beat a tail fin; all others do. Waves: height of the wave at the tail
 ## (share of the length) and the number of waves along the body.
 const MOTIONS: Dictionary[String, Motion] = {
@@ -33,10 +34,10 @@ const MOTIONS: Dictionary[String, Motion] = {
 	"blue_whale": Motion.WAVE, "humpback_whale": Motion.WAVE, "southern_right_whale": Motion.WAVE,
 	"sperm_whale": Motion.WAVE,
 	"ocean_sunfish": Motion.WAVE,
-	"reef_manta_ray": Motion.WAVE, "smooth_stingray": Motion.WAVE,
-	"green_sea_turtle": Motion.WAVE, "leatherback_turtle": Motion.WAVE, "loggerhead_turtle": Motion.WAVE,
+	"reef_manta_ray": Motion.FLAP, "smooth_stingray": Motion.FLAP,
+	"green_sea_turtle": Motion.FLAP, "leatherback_turtle": Motion.FLAP, "loggerhead_turtle": Motion.FLAP,
 	"knysna_seahorse": Motion.WAVE, "leafy_seadragon": Motion.WAVE, "weedy_seadragon": Motion.WAVE,
-	"giant_isopod": Motion.WAVE, "japanese_spider_crab": Motion.WAVE, "chambered_nautilus": Motion.WAVE,
+	"giant_isopod": Motion.WAVE, "japanese_spider_crab": Motion.CRAWL, "chambered_nautilus": Motion.WAVE,
 	"moon_jellyfish": Motion.PULSE, "lions_mane_jellyfish": Motion.PULSE, "blubber_jellyfish": Motion.PULSE,
 	"nomuras_jellyfish": Motion.PULSE, "portuguese_man_o_war": Motion.PULSE, "vampire_squid": Motion.PULSE,
 	"common_octopus": Motion.PULSE, "curled_octopus": Motion.PULSE, "giant_pacific_octopus": Motion.PULSE,
@@ -48,9 +49,16 @@ const WAVES: Dictionary[String, Vector2] = {
 	"pelican_eel": Vector2(0.07, 1.4), "pink_ling": Vector2(0.06, 1.2), "roundnose_grenadier": Vector2(0.06, 1.0),
 	"sloanes_viperfish": Vector2(0.06, 1.2), "kingklip": Vector2(0.06, 1.2), "rabbit_fish": Vector2(0.05, 1.0),
 	"blue_whale": Vector2(0.05, 0.6), "humpback_whale": Vector2(0.05, 0.6), "southern_right_whale": Vector2(0.05, 0.6),
-	"sperm_whale": Vector2(0.05, 0.6), "reef_manta_ray": Vector2(0.05, 0.6), "smooth_stingray": Vector2(0.05, 0.9),
+	"sperm_whale": Vector2(0.05, 0.6), "smooth_stingray": Vector2(0.03, 0.9),
 }
 const GENTLE_WAVE := Vector2(0.025, 0.6)
+## Flapping: the share of the sprite's height around the body axis that stays put (shell or body),
+## and how far the flippers or wings beyond it fold in at the top of a beat.
+const FLAP_CORE := 0.18
+const FLAP_DEPTH := 0.35
+## Crawling: how far the legs swing (share of the width) and the body bobs (share of the height).
+const CRAWL_SWING := 0.025
+const CRAWL_BOB := 0.02
 ## Waves, squeezes and jets go slower than a tail beat.
 const WAVE_RATE := 0.7
 const PULSE_RATE := 0.35
@@ -120,6 +128,10 @@ func draw(canvas: CanvasItem, view: Transform2D, length: float, phase: float = 0
 			warp = _pulse.bind(body_rect, phase * PULSE_RATE, swim)
 		Motion.JET:
 			warp = _jet.bind(body_rect, phase * PULSE_RATE, swim)
+		Motion.FLAP:
+			warp = _flap.bind(body_rect, length, phase * WAVE_RATE, swim)
+		Motion.CRAWL:
+			warp = _crawl.bind(body_rect, phase * WAVE_RATE, swim)
 	canvas.draw_set_transform_matrix(view)
 	if tail != null:
 		_draw_mesh(canvas, tail, tail_rect, warp, tint)
@@ -153,6 +165,30 @@ func _jet(point: Vector2, rect: Rect2, phase: float, swim: float) -> Vector2:
 	var y := point.y * (1.0 - squeeze * (0.1 * mantle + 0.4 * arms))
 	y += sin(phase * 2.0 + mantle * 6.0) * rect.size.y * 0.04 * swim * arms
 	return Vector2(point.x - squeeze * rect.size.x * 0.12 * arms * arms, y)
+
+
+## Beats what lies beyond the body (flippers, wings) towards the axis and back, the beat running
+## from the head to the back, with a gentle wave down the body for the tail.
+func _flap(point: Vector2, rect: Rect2, length: float, phase: float, swim: float) -> Vector2:
+	point = _wave(point, length, phase, swim)
+	var core := rect.size.y * FLAP_CORE
+	var out := absf(point.y) - core
+	if out <= 0.0:
+		return point
+	var along := clampf((rect.end.x - point.x) / rect.size.x, 0.0, 1.0)
+	var fold := FLAP_DEPTH * swim * (0.5 + 0.5 * sin(phase * 2.0 - along * 1.5))
+	return Vector2(point.x, signf(point.y) * (core + out * (1.0 - fold)))
+
+
+## Swings the legs (below the body axis) back and forth in a ripple from the front to the back,
+## and bobs the body with every step.
+func _crawl(point: Vector2, rect: Rect2, phase: float, swim: float) -> Vector2:
+	var center := rect.get_center()
+	var leg := clampf((point.y - center.y) / (rect.size.y * 0.5), 0.0, 1.0)
+	var along := (point.x - rect.position.x) / rect.size.x
+	var x := point.x + sin(phase * 2.0 + along * TAU * 1.5) * rect.size.x * CRAWL_SWING * leg * swim
+	var y := point.y - absf(sin(phase * 2.0)) * rect.size.y * CRAWL_BOB * (1.0 - leg) * swim
+	return Vector2(x, y)
 
 
 ## 0 to 1: a quick squeeze, then a slow release.

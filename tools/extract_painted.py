@@ -170,6 +170,12 @@ SHEETS = {
         "pink_ling": (1100, 630, "left", False),
         "kingklip": (700, 840, "left", False),
     },
+    # A side-on spider crab and a straight giant squid, which animate cleanly
+    # (art_source/fish/species_sheet_8_prompt.md).
+    "species_sheet_8.png": {
+        "japanese_spider_crab": (750, 170, "right", False),
+        "giant_squid": (1000, 780, "right", False),
+    },
 }
 
 # Sheet rows below which a sprite's region is its label, not the creature.
@@ -177,7 +183,8 @@ BOTTOM_LIMIT = {"green_sea_turtle": 800}
 
 ALPHA_FLOOR = 40
 # Sheets whose sprites glow: alpha up to this is the glow around them, not the sprite.
-GLOW_FLOOR = {"sea_creatures_sheet.png": 120, "species_sheet_6.png": 120, "species_sheet_7.png": 120}
+GLOW_FLOOR = {"sea_creatures_sheet.png": 120, "species_sheet_6.png": 120, "species_sheet_7.png": 120,
+              "species_sheet_8.png": 120}
 MAX_TAIL_SHARE = 0.3
 
 
