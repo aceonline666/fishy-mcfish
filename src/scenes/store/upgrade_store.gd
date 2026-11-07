@@ -268,6 +268,8 @@ func _build_hud() -> void:
 	_coin_icon.custom_minimum_size = Vector2(100.0, 84.0)
 	_coin_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_coin_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	# The icon is drawn smaller than it is (tools/make_menu_art.py).
+	_coin_icon.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	row.add_child(_coin_icon)
 	_money_label.theme_type_variation = &"TitleLabel"
 	_money_label.add_theme_font_size_override("font_size", 56)

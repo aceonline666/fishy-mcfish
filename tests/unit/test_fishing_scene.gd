@@ -335,6 +335,16 @@ func test_better_gear_from_the_store_opens_the_next_zone() -> void:
 	assert_eq(_wader.gear_level, 2)
 
 
+func test_buoy_lines_beyond_the_first_float_above_the_swimming_wader() -> void:
+	var buoys: ZoneBuoys = _scene._buoys
+	var shallow: Node2D = buoys._buoys[0][0]
+	var deep: Node2D = buoys._buoys[1][0]
+	assert_eq(shallow.get_parent(), buoys, "the first line stays on the floor")
+	assert_true(buoys.z_as_relative and buoys.z_index == 0, "on the world's floor layer")
+	assert_gt(deep.get_parent().z_index, Layers.WADER)
+	assert_lt(deep.get_parent().z_index, Layers.FLYING)
+
+
 func test_deeper_zones_are_closed_without_gear() -> void:
 	var shallows := DataRegistry.zones[0]
 	var deep_target := Vector2(_wader.ground_position.x, shallows.depth_end + 300.0)

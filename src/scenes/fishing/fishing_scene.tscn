@@ -75,6 +75,7 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="CoinIcon" type="TextureRect" parent="Hud/Layout/TopBar/Row"]
+texture_filter = 5
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 84)
 layout_mode = 2
@@ -103,6 +104,7 @@ theme_override_constants/separation = 16
 alignment = 2
 
 [node name="MenuButton" type="Button" parent="Hud/Layout/Buttons"]
+texture_filter = 5
 unique_name_in_owner = true
 custom_minimum_size = Vector2(110, 84)
 layout_mode = 2
@@ -111,6 +113,7 @@ icon = ExtResource("12_cog")
 icon_alignment = 1
 
 [node name="MapButton" type="Button" parent="Hud/Layout/Buttons"]
+texture_filter = 5
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 84)
 layout_mode = 2
@@ -121,6 +124,7 @@ text = "Map"
 icon = ExtResource("9_map")
 
 [node name="GoalsButton" type="Button" parent="Hud/Layout/Buttons"]
+texture_filter = 5
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 84)
 layout_mode = 2
@@ -131,6 +135,7 @@ text = "Goals"
 icon = ExtResource("10_trophy")
 
 [node name="FishpediaButton" type="Button" parent="Hud/Layout/Buttons"]
+texture_filter = 5
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 84)
 layout_mode = 2

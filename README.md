@@ -248,7 +248,7 @@ Rules of thumb:
   ([OpenGameArt](https://opengameart.org/content/shop-theme)).
 
 ## TODOs
-- Make menu icons sharper, either resize or regenerate
+- Rebalance cashiers. I think more than 3 cashiers are currently not necessary because there are not enough grown fish to occupy them.
 - Replace Fishbowl with sprite
 - Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors.
 - Replace fishnet sprites with transparent ones that fit the style better

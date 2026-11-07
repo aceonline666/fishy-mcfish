@@ -5,6 +5,9 @@ extends Node2D
 ## of foam where the ball meets the water.
 ## Each buoy is its own node, drawn once and only moved as it bobs (redrawing every ball every
 ## frame cost most of the frame); only the ropes and the foam rings are drawn anew each frame.
+## The first line lies in shallow water, where the wader wades: it stays on the floor. Further out
+## the wader swims under water, so the lines from the second one on float above it, on the
+## surface layer (Layers.SURFACE).
 
 const SPACING := 130.0
 const RADIUS := 16.0
@@ -19,6 +22,8 @@ const GREEN := Color(0.4, 0.86, 0.42)
 const GREEN_SHADE := Color(0.13, 0.53, 0.3)
 const FOAM := Color(1.0, 1.0, 1.0, 0.75)
 const WATER_SHADOW := Color(0.02, 0.12, 0.2, 0.25)
+## Lines from this index on are drawn on the surface layer, above the wader.
+const SURFACE_FROM := 1
 
 ## Ground y of each buoy line and whether the zone behind it is open.
 var _lines: Array[Vector2] = []
@@ -27,17 +32,29 @@ var _time := 0.0
 ## Per line: where each buoy meets the calm water, and the buoy nodes standing there.
 var _rests: Array[PackedVector2Array] = []
 var _buoys: Array[Array] = []
+## Draws the ropes, foam and buoys of the lines from SURFACE_FROM on, above the wader.
+var _surface: Node2D
+
+
+func _ready() -> void:
+	_surface = Node2D.new()
+	Layers.put(_surface, Layers.SURFACE)
+	_surface.draw.connect(_draw_lines.bind(_surface, SURFACE_FROM, -1))
+	add_child(_surface)
 
 
 ## `lines`: x = ground y of the line, y = 1 if the zone beyond is open, else 0.
 func setup(lines: Array[Vector2], width: float) -> void:
 	_lines = lines
 	_width = width
-	for child in get_children():
-		child.queue_free()
+	for parent: Node in [self, _surface]:
+		for child in parent.get_children():
+			if child != _surface:
+				child.queue_free()
 	_rests.clear()
 	_buoys.clear()
-	for line in _lines:
+	for line_index in _lines.size():
+		var line := _lines[line_index]
 		var open := line.y > 0.5
 		var rests := PackedVector2Array()
 		var x := 0.0
@@ -51,11 +68,12 @@ func setup(lines: Array[Vector2], width: float) -> void:
 			buoy.color = GREEN if open else (RED if red else WHITE)
 			buoy.shade = GREEN_SHADE if open else (RED_SHADE if red else WHITE_SHADE)
 			buoy.position = rests[i]
-			add_child(buoy)
+			(_surface if line_index >= SURFACE_FROM else self).add_child(buoy)
 			buoys.append(buoy)
 		_rests.append(rests)
 		_buoys.append(buoys)
 	queue_redraw()
+	_surface.queue_redraw()
 
 
 func _process(delta: float) -> void:
@@ -66,21 +84,28 @@ func _process(delta: float) -> void:
 		for i in buoys.size():
 			(buoys[i] as Node2D).position = rests[i] + _bob(i)
 	queue_redraw()
+	_surface.queue_redraw()
 
 
-## The ropes and the foam rings on screen; the balls are the Buoy children, drawn over them.
 func _draw() -> void:
+	_draw_lines(self, 0, SURFACE_FROM)
+
+
+## The ropes and the foam rings on screen of the lines from `first` to before `end` (-1: all
+## the rest), on `canvas`; the balls are the Buoy children, drawn over them.
+func _draw_lines(canvas: CanvasItem, first: int, end: int) -> void:
 	var view := get_global_transform_with_canvas().affine_inverse() * get_viewport_rect()
 	view = view.grow(SPACING)
-	for rests in _rests:
+	for line in range(first, _rests.size() if end < 0 else mini(end, _rests.size())):
+		var rests := _rests[line]
 		for i in rests.size() - 1:
 			if view.has_point(rests[i]) or view.has_point(rests[i + 1]):
-				_draw_rope(rests[i] + _bob(i), rests[i + 1] + _bob(i + 1))
+				_draw_rope(canvas, rests[i] + _bob(i), rests[i + 1] + _bob(i + 1))
 		for i in rests.size():
 			if not view.has_point(rests[i]):
 				continue
 			var ripple := fmod(_time * 0.6 + i * 0.37, 1.0)
-			_draw_ellipse_ring(self, rests[i] + _bob(i), Vector2(RADIUS * (1.3 + ripple), RADIUS * (0.45 + ripple * 0.35)),
+			_draw_ellipse_ring(canvas, rests[i] + _bob(i), Vector2(RADIUS * (1.3 + ripple), RADIUS * (0.45 + ripple * 0.35)),
 					Color(FOAM, FOAM.a * (1.0 - ripple)), 2.5)
 
 
@@ -89,13 +114,13 @@ func _bob(index: int) -> Vector2:
 	return Vector2(0.0, sin(_time * 2.0 + index * 1.7) * 2.0)
 
 
-func _draw_rope(from: Vector2, to: Vector2) -> void:
+func _draw_rope(canvas: CanvasItem, from: Vector2, to: Vector2) -> void:
 	var points := PackedVector2Array()
 	for step in 9:
 		var t := step / 8.0
 		points.append(from.lerp(to, t) + Vector2(0.0, 4.0 * t * (1.0 - t) * SAG))
-	draw_polyline(points, IsoDraw.OUTLINE, 5.0, true)
-	draw_polyline(points, ROPE, 2.5, true)
+	canvas.draw_polyline(points, IsoDraw.OUTLINE, 5.0, true)
+	canvas.draw_polyline(points, ROPE, 2.5, true)
 
 
 static func _ellipse_points(center: Vector2, radii: Vector2, rotation: float = 0.0, count: int = 20) -> PackedVector2Array:
