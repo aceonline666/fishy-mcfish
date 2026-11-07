@@ -24,6 +24,9 @@ const FOAM := Color(1.0, 1.0, 1.0, 0.75)
 const WATER_SHADOW := Color(0.02, 0.12, 0.2, 0.25)
 ## Lines from this index on are drawn on the surface layer, above the wader.
 const SURFACE_FROM := 1
+## The last lines lie in the open sea's swell (src/shaders/water.gdshader): they ride it, rising
+## and falling slowly and much further, and rocking side to side.
+const ROUGH_LINES := 2
 
 ## Ground y of each buoy line and whether the zone behind it is open.
 var _lines: Array[Vector2] = []
@@ -82,7 +85,7 @@ func _process(delta: float) -> void:
 		var rests := _rests[line]
 		var buoys := _buoys[line]
 		for i in buoys.size():
-			(buoys[i] as Node2D).position = rests[i] + _bob(i)
+			(buoys[i] as Node2D).position = rests[i] + _bob(line, i)
 	queue_redraw()
 	_surface.queue_redraw()
 
@@ -100,17 +103,21 @@ func _draw_lines(canvas: CanvasItem, first: int, end: int) -> void:
 		var rests := _rests[line]
 		for i in rests.size() - 1:
 			if view.has_point(rests[i]) or view.has_point(rests[i + 1]):
-				_draw_rope(canvas, rests[i] + _bob(i), rests[i + 1] + _bob(i + 1))
+				_draw_rope(canvas, rests[i] + _bob(line, i), rests[i + 1] + _bob(line, i + 1))
 		for i in rests.size():
 			if not view.has_point(rests[i]):
 				continue
 			var ripple := fmod(_time * 0.6 + i * 0.37, 1.0)
-			_draw_ellipse_ring(canvas, rests[i] + _bob(i), Vector2(RADIUS * (1.3 + ripple), RADIUS * (0.45 + ripple * 0.35)),
+			_draw_ellipse_ring(canvas, rests[i] + _bob(line, i), Vector2(RADIUS * (1.3 + ripple), RADIUS * (0.45 + ripple * 0.35)),
 					Color(FOAM, FOAM.a * (1.0 - ripple)), 2.5)
 
 
-## Each buoy bobs on its own beat.
-func _bob(index: int) -> Vector2:
+## Each buoy bobs on its own beat; in the swell of the last lines, the swell's crests run along
+## the line.
+func _bob(line: int, index: int) -> Vector2:
+	if line >= _rests.size() - ROUGH_LINES:
+		var roll := _time * 1.2 + index * 0.45 + line * 1.3
+		return Vector2(cos(roll) * 3.0, sin(roll) * 8.0)
 	return Vector2(0.0, sin(_time * 2.0 + index * 1.7) * 2.0)
 
 

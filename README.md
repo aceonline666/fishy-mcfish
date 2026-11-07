@@ -252,7 +252,6 @@ Rules of thumb:
 ## TODOs
 - Fine tuning for tank fill-up and tank-is-full-animation
 - Make the species sprites consistent. Some are very comic-style (sheet 5) and some are very realistic. We want a cute-comic style so I fear we have to regenerate a large part of it. Also want a proper isometric view instead of the current side view. This should look better for the game. Maybe do a test with a single species before we regenerate all sprites.
-- The last two zones should get a heavier wave animation to make an "open sea" impression
 - More secrets (need new sprites, postponed):
   - an original deep sea horror in the deepest zones, barely visible at the edge of the dark
   - glowing eyes in the dark that vanish when you come close

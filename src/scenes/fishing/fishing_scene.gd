@@ -665,6 +665,8 @@ func _apply_world_position() -> void:
 	# The water shows the location's current, if one of its zones has one (CURRENTS).
 	water.set_shader_parameter("current_band", Vector2.ZERO)
 	water.set_shader_parameter("current_flow", Vector2.ZERO)
+	# The last two zones are the open sea, with a heavy swell.
+	water.set_shader_parameter("swell_start", _zones[_zones.size() - 2].depth_start - SHORE_Y if _zones.size() >= 2 else 1.0e9)
 	for zone in _zones:
 		if CURRENTS.has(zone.id):
 			water.set_shader_parameter("current_band", Vector2(zone.depth_start, zone.depth_end))

@@ -40,6 +40,18 @@ uniform vec2 current_band = vec2(0.0, 0.0);
 uniform vec2 current_flow = vec2(0.0, 0.0);
 // How far into the band the current fades in, at both edges.
 const float CURRENT_FADE = 160.0;
+// The open sea (the last two zones): from swell_start (distance from the waterline) a heavy swell
+// builds up over SWELL_BUILD and rolls towards the shore on the surface, over the dark below.
+uniform float swell_start = 1.0e9;
+const float SWELL_BUILD = 1400.0;
+
+// 0 to 1, the look of rolling swell at ground point g: long crests coming in towards the shore,
+// two trains crossing, bent by a slow sideways wobble.
+float swell_height(vec2 g, float t) {
+	float a = sin(g.y * 0.011 + t * 1.2 + sin(g.x * 0.0026 + t * 0.15) * 2.2);
+	float b = sin((g.y * 0.8 + g.x * 0.55) * 0.0085 + t * 0.85);
+	return (a * 0.65 + b * 0.35) * 0.5 + 0.5;
+}
 
 vec2 to_ground(vec2 screen) {
 	float a = screen.x / 0.70710678;
@@ -92,6 +104,16 @@ void fragment() {
 		}
 		color = mix(color, vec3(0.85, 1.0, 1.0), clamp(caustics * 0.22 * (1.0 - depth * 0.6), 0.0, 1.0));
 		color = mix(color, abyss_color.rgb, smoothstep(abyss_start, abyss_end, d) * 0.92);
+		float swell = smoothstep(swell_start - 200.0, swell_start + SWELL_BUILD, d);
+		if (swell > 0.0) {
+			// Lit slopes and dark troughs, and small whitecaps breaking up along the crests.
+			float h = swell_height(g, TIME);
+			color += vec3(0.04, 0.09, 0.13) * smoothstep(0.4, 1.0, h) * swell;
+			color *= 1.0 - swell * (1.0 - h) * 0.3;
+			float flecks = sin(g.x * 0.13 + sin(g.y * 0.09) * 3.0) * sin(g.y * 0.17 - g.x * 0.05 + TIME * 0.6);
+			float caps = smoothstep(0.86, 0.98, h) * smoothstep(0.45, 0.9, flecks);
+			color = mix(color, foam_color.rgb, caps * swell * 0.55);
+		}
 		color = mix(color, foam_color.rgb, (1.0 - smoothstep(0.0, 24.0, d)) * 0.85);
 	}
 	COLOR = vec4(color, 1.0);
