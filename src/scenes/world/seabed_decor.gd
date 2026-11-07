@@ -23,6 +23,13 @@ const PROPS: Dictionary[String, Array] = {
 ## Zones named after what grows or lies there show it: extra props scattered in their depth band,
 ## per zone id, as in PROPS (sprite, screen width, how many).
 const ZONE_PROPS: Dictionary[String, Array] = {
+	"pier_shallows": [["lost_lure", 110.0, 2], ["hermit_crab", 90.0, 3], ["razor_clams", 100.0, 3]],
+	"sandbanks": [["sand_dollars", 110.0, 6], ["razor_clams", 100.0, 5], ["sand_ripples", 140.0, 4]],
+	"open_sea": [["sea_cucumbers", 100.0, 4], ["sand_ripples", 140.0, 5]],
+	"drop_off": [["wall_sponges", 110.0, 5], ["sea_fan", 95.0, 3]],
+	"open_ocean": [["sea_cucumbers", 100.0, 4], ["sand_ripples", 140.0, 4]],
+	"southern_ocean": [["sea_cucumbers", 100.0, 4], ["brittle_stars", 120.0, 4]],
+	"sagami_bay": [["sea_cucumbers", 100.0, 4], ["glass_sponge", 110.0, 3]],
 	"seagrass_bay": [["seagrass", 80.0, 26], ["blue_starfish", 60.0, 2]],
 	"lagoon": [["seagrass", 75.0, 12], ["giant_clam", 90.0, 1]],
 	"reef_crest": [["branch_coral", 95.0, 4], ["brain_coral", 100.0, 3], ["table_coral", 105.0, 3]],
