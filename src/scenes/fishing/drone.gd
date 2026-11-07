@@ -22,7 +22,8 @@ const LAND_SPEED := 1.5
 ## Resting drones sit side by side on the pad, this far apart.
 const REST_SPACING := 70.0
 
-## Painted drones (assets/sprites/props), one look per drone in order of purchase.
+## Painted drones (assets/sprites/props, art_source/props/drone_sprite_prompt.md), one look per
+## drone in order of purchase. Their rotors are empty rings; the blades are drawn spinning on top.
 const TEXTURES: Array[Texture2D] = [
 	preload("res://assets/sprites/props/drone_1.png"), preload("res://assets/sprites/props/drone_2.png"),
 	preload("res://assets/sprites/props/drone_3.png"), preload("res://assets/sprites/props/drone_4.png"),
@@ -31,7 +32,25 @@ const TEXTURES: Array[Texture2D] = [
 ## Screen height of the sprite before the drone's size is applied, and how far below the body
 ## the net with the catch hangs.
 const SPRITE_HEIGHT := 120.0
-const NET_DROP := 45.0
+const NET_DROP := 38.0
+## Per look, its four rotor hubs as shares of the sprite (back left, back right, front left,
+## front right), and the blade length as a share of the sprite's width.
+const ROTORS: Array[Vector2] = [
+	Vector2(0.19, 0.09), Vector2(0.79, 0.08), Vector2(0.15, 0.35), Vector2(0.85, 0.34),
+	Vector2(0.243, 0.075), Vector2(0.748, 0.075), Vector2(0.136, 0.323), Vector2(0.859, 0.323),
+	Vector2(0.245, 0.077), Vector2(0.753, 0.071), Vector2(0.144, 0.316), Vector2(0.851, 0.316),
+	Vector2(0.205, 0.088), Vector2(0.772, 0.074), Vector2(0.139, 0.341), Vector2(0.869, 0.32),
+	Vector2(0.199, 0.078), Vector2(0.776, 0.07), Vector2(0.114, 0.317), Vector2(0.859, 0.292),
+	Vector2(0.237, 0.057), Vector2(0.769, 0.057), Vector2(0.118, 0.157), Vector2(0.879, 0.157),
+]
+const BLADE_LENGTHS: Array[float] = [0.115, 0.105, 0.105, 0.1, 0.105, 0.088]
+## Rotor turns per second in the air; they spin down when it lands.
+const ROTOR_SPEED := 4.5
+const BLADE := Color(0.12, 0.13, 0.16, 0.75)
+const BLADE_BLUR := Color(0.85, 0.9, 1.0, 0.18)
+## Below this share of the sprite's height lies the net's bag: it is drawn again over the catch,
+## so the fish are inside the mesh.
+const NET_TOP := 0.62
 const SHADOW := Color(0.0, 0.06, 0.14, 0.2)
 
 var ground_position := Vector2.ZERO
@@ -53,12 +72,16 @@ var _lift_left := 0.0
 var _time := 0.0
 var _rng := RandomNumberGenerator.new()
 var _texture: Texture2D = TEXTURES[0]
+var _look := 0
+## Rotor angle, in turns.
+var _spin := 0.0
 
 
 ## `size` scales the drawing: later drones are bigger. `look` picks the sprite.
 func setup(pad: Vector2, home_zone: ZoneDef, zone_area: PlayArea, carry: int, size: float = 1.0, look: int = 0) -> void:
 	scale = Vector2.ONE * size
-	_texture = TEXTURES[clampi(look, 0, TEXTURES.size() - 1)]
+	_look = clampi(look, 0, TEXTURES.size() - 1)
+	_texture = TEXTURES[_look]
 	_pad = pad
 	_rest = pad + Vector2((look % 3 - 1) * REST_SPACING, (look / 3) * REST_SPACING * 0.5)
 	zone = home_zone
@@ -129,6 +152,7 @@ func simulate(delta: float, fish: Array[SwimmingFish], can_take: Callable, tank_
 					_start_trip()
 	var landed := task == Task.REST and ground_position == _rest
 	_height = move_toward(_height, 0.0 if landed else 1.0, LAND_SPEED * delta)
+	_spin = fmod(_spin + ROTOR_SPEED * minf(_height * 2.0, 1.0) * delta, 1.0)
 	position = Iso.to_screen(ground_position)
 	queue_redraw()
 	return lifted
@@ -172,11 +196,35 @@ func _draw() -> void:
 	var bob := sin(_time * 3.0) * 4.0 * _height
 	var body := Vector2(0.0, -HEIGHT * _height + bob)
 	var size := _texture.get_size() * (SPRITE_HEIGHT / _texture.get_height())
-	draw_texture_rect(_texture, Rect2(body + Vector2(-size.x * 0.5, -SPRITE_HEIGHT * 0.4), size), false)
+	var rect := Rect2(body + Vector2(-size.x * 0.5, -SPRITE_HEIGHT * 0.4), size)
+	draw_texture_rect(_texture, rect, false)
+	_draw_rotors(rect)
 	# The catch in the net, and a line down to the fish being lifted.
 	var net := body + Vector2(0.0, NET_DROP)
 	if task == Task.LIFT:
 		draw_line(net, Vector2.ZERO, Color(1.0, 1.0, 1.0, 0.6), 2.0, true)
+	if cargo.is_empty():
+		return
 	for i in cargo.size():
 		var view := Transform2D(Vector2(1.0 if i % 2 == 0 else -1.0, 0.0), Vector2(0.0, 1.0), net + Vector2(0.0, 6.0 - i * 9.0))
 		cargo[i].draw(self, view, ICON_LENGTH)
+	var texture_size := _texture.get_size()
+	var bag := Rect2(0.0, texture_size.y * NET_TOP, texture_size.x, texture_size.y * (1.0 - NET_TOP))
+	draw_texture_rect_region(_texture, Rect2(rect.position + Vector2(0.0, size.y * NET_TOP), Vector2(size.x, size.y * (1.0 - NET_TOP))), bag)
+
+
+## Two-bladed propellers turning in the empty rotor rings, flat in the 2:1 view, with a faint
+## blur disc while they spin fast.
+func _draw_rotors(rect: Rect2) -> void:
+	var length := BLADE_LENGTHS[_look] * rect.size.x
+	var fast := minf(_height * 2.0, 1.0)
+	for i in 4:
+		var hub := rect.position + ROTORS[_look * 4 + i] * rect.size
+		if fast > 0.0:
+			draw_colored_polygon(Iso.ellipse(hub, length, 16), Color(BLADE_BLUR, BLADE_BLUR.a * fast))
+		# Neighbouring rotors turn the other way, as on a real quadcopter.
+		var angle := (_spin if i % 3 == 0 else -_spin) * TAU + i
+		for ghost in 2 if fast > 0.0 else 1:
+			var tip := Vector2.from_angle(angle - ghost * 0.35 * (1.0 if i % 3 == 0 else -1.0)) * length
+			tip.y *= 0.5
+			draw_line(hub - tip, hub + tip, Color(BLADE, BLADE.a * (1.0 - ghost * 0.6)), maxf(length * 0.18, 2.0), true)

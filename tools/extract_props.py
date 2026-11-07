@@ -52,8 +52,7 @@ SHEETS = {
             "net_5": (705, 143), "net_6": (793, 135),
             "gear_1": (916, 129), "gear_2": (1017, 119), "gear_3": (1130, 120), "gear_4": (1241, 120),
             "gear_5": (1351, 122), "gear_6": (1466, 119),
-            "drone_1": (57, 420), "drone_2": (169, 419), "drone_3": (292, 415), "drone_4": (414, 407),
-            "drone_5": (552, 401), "drone_6": (710, 384),
+            # The drones come from art_source/props/drone_sheet_2.png (tools/extract_magenta_sheet.py).
             "buyer_1_front": (852, 416), "buyer_1_back": (931, 417),
             "buyer_2_front": (1041, 416), "buyer_2_back": (1128, 417),
             "buyer_3_front": (1220, 416), "buyer_3_back": (1294, 416),
