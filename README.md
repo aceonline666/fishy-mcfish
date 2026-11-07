@@ -65,7 +65,8 @@ secrets: they show as "???" until reached (a `stat` goal counts a value in the p
 named in `param`).
 
 **Secrets:** after the tutorial, every location hides a treasure chest on the seabed of the
-deepest zone the gear opens, with a glint over its coins (`src/sim/treasure.gd`,
+deepest zone the gear opens, but no further out than the fourth zone (beyond it the dark water
+would hide it), with a glint over its coins (`src/sim/treasure.gd`,
 `src/scenes/world/treasure_chest.gd`). Scooping it up pays the price of 25 grown fish of that zone
 plus five minutes of the location's seller income; it turns up somewhere else 20 hours later.
 Secret goals: finding chests, catching a fish between midnight and 4 a.m., and keeping still for

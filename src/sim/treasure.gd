@@ -1,8 +1,9 @@
 class_name Treasure
 extends RefCounted
 ## The secret treasure chest: one per location, lying on the seabed of the deepest zone the gear
-## opens. The wader scoops it up like a fish; it pays a fortune and is gone until COOLDOWN_S
-## later, when it turns up somewhere else. Not shown during the tutorial.
+## opens, at most MAX_ZONE_ORDER (further out the dark water hides it). The wader scoops it up
+## like a fish; it pays a fortune and is gone until COOLDOWN_S later, when it turns up somewhere
+## else. Not shown during the tutorial.
 
 ## Seconds until a found chest turns up again: a little less than a day, so a daily visit finds
 ## it.
@@ -11,6 +12,8 @@ const COOLDOWN_S := 20 * 3600
 const CHEST_FISH := 25.0
 ## ...plus what the location's sellers make in this many seconds, so it stays worth finding later.
 const INCOME_S := 300.0
+## The deepest zone the chest lies in: beyond it the water is too dark to see it.
+const MAX_ZONE_ORDER := 4
 ## The chest keeps this far from the zone's edges (ground units).
 const EDGE_MARGIN := 150.0
 
@@ -20,6 +23,16 @@ static func is_ready(state: PlayerState, location_id: String, now_unix: int) -> 
 	if not Tutorial.is_done(state):
 		return false
 	return not state.chest_found_at.has(location_id) or now_unix >= state.chest_found_at[location_id] + COOLDOWN_S
+
+
+## The zone of a location the chest lies in with the gear: the deepest open one, at most
+## MAX_ZONE_ORDER; null if none is open.
+static func zone(location_id: String, gear_level: int) -> ZoneDef:
+	var deepest: ZoneDef = null
+	for candidate in DataRegistry.zones_in(location_id):
+		if candidate.gear_level <= gear_level and candidate.order <= MAX_ZONE_ORDER:
+			deepest = candidate
+	return deepest
 
 
 ## Where the chest lies in the zone's area: the same spot until it is found, a new one after.

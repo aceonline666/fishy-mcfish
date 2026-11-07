@@ -805,7 +805,7 @@ func _record_catch(fish: SwimmingFish) -> void:
 ## there to be found.
 func _sync_chest() -> void:
 	var state := GameState.state
-	var zone := Charting.deepest_open_zone(location.id, GameState.here().gear_level)
+	var zone := Treasure.zone(location.id, GameState.here().gear_level)
 	if zone == null or not Treasure.is_ready(state, location.id, TimeService.now_unix()):
 		if _chest != null:
 			_chest.queue_free()

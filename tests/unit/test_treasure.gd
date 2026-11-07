@@ -45,6 +45,13 @@ func test_the_chest_waits_after_the_tutorial_and_comes_back_after_the_cooldown()
 	assert_true(Treasure.is_ready(state, "coral_reef", 1000), "each location has its own chest")
 
 
+func test_the_chest_lies_no_deeper_than_the_fourth_zone() -> void:
+	assert_eq(Treasure.zone("north_sea", 1).id, "pier_shallows")
+	assert_eq(Treasure.zone("north_sea", 3).id, "wreck")
+	assert_eq(Treasure.zone("north_sea", 4).id, "open_sea")
+	assert_eq(Treasure.zone("north_sea", 6).id, "open_sea", "not in the dark deep zones")
+
+
 func test_the_chest_keeps_its_spot_until_it_is_found() -> void:
 	var state := GameState.state
 	var zone := _zone("pier_shallows")
@@ -60,7 +67,7 @@ func test_deeper_chests_and_more_sellers_pay_more() -> void:
 	var site := GameState.here()
 	var shallow := Treasure.reward(site, _zone("pier_shallows"))
 	assert_gt(shallow, 0.0)
-	assert_gt(Treasure.reward(site, _zone("deep_sea")), shallow)
+	assert_gt(Treasure.reward(site, _zone("open_sea")), shallow)
 	site.seller_count = 3
 	assert_gt(Treasure.reward(site, _zone("pier_shallows")), shallow)
 
