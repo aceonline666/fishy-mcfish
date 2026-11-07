@@ -10,7 +10,9 @@ how much the painting's front-left and front-right base edges rise or fall per p
 (as tools/extract_gear_shop.py does). Leave the slopes out for a painting that is already right.
 
 Needs Pillow and NumPy. Usage:
-  python tools/import_tank_art.py <painting> <sprite> [left_slope right_slope]
+  python tools/import_tank_art.py <painting> <sprite> [left_slope right_slope] [--scale=S]
+  python tools/import_tank_art.py art_source/props/fish_bowl.png assets/sprites/props/fish_bowl.png --scale=0.19
+    (the bowl is drawn small: scaled to about twice its screen size, it looks as soft as the rest)
   python tools/import_tank_art.py art_source/tanks/tank_1.png assets/sprites/props/tank_1.png 0.43 -0.47
   python tools/import_tank_art.py art_source/tanks/tank_2.png assets/sprites/props/tank_2.png 0.33 -0.485
   python tools/import_tank_art.py art_source/tanks/tank_3.png assets/sprites/props/tank_3.png 0.39 -0.425
@@ -30,13 +32,15 @@ VISIBLE = 16
 
 
 def main() -> None:
+    scale = next((float(arg[8:]) for arg in sys.argv if arg.startswith("--scale=")), SCALE)
+    sys.argv = [arg for arg in sys.argv if not arg.startswith("--scale=")]
     premult = _trim(np.array(Image.open(sys.argv[1]).convert("RGBA"))).astype(float)
     premult[..., :3] *= premult[..., 3:] / 255
     image = Image.fromarray(np.clip(premult, 0, 255).astype(np.uint8), "RGBA")
     if len(sys.argv) > 4:
         image = _straighten(image, float(sys.argv[3]), float(sys.argv[4]))
     image = Image.fromarray(_trim(np.array(image)))
-    out = np.array(image.resize((round(image.width * SCALE), round(image.height * SCALE)), Image.LANCZOS)).astype(float)
+    out = np.array(image.resize((round(image.width * scale), round(image.height * scale)), Image.LANCZOS)).astype(float)
     alpha = out[..., 3:]
     out[..., :3] = np.where(alpha > 0, out[..., :3] * 255 / np.maximum(alpha, 1), 0)
     Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), "RGBA").save(sys.argv[2])
