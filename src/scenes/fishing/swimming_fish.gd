@@ -127,6 +127,9 @@ func simulate(delta: float, threat: Vector2, threat_radius: float, school: Array
 			steer += _flee_direction * 2.5
 			speed *= FLEE_SPEED_MULT
 
+	if art.is_jellyfish and not is_held():
+		# Jellyfish drift forward in pushes, with each squeeze of the bell.
+		speed *= 0.5 + FishArt.soft_squeeze(_swim_phase * FishArt.JELLY_RATE)
 	velocity = velocity.lerp(steer.normalized() * speed, clampf(TURN_RATE * delta, 0.0, 1.0))
 	ground_position += velocity * delta
 	if velocity.length_squared() > 1.0:

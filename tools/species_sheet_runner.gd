@@ -76,6 +76,8 @@ class Sheet:
 				# Waves, pulses and jets run slower than a tail beat: spread their phases over their cycle.
 				if art.motion == FishArt.Motion.WAVE:
 					angle /= FishArt.WAVE_RATE
+				elif art.is_jellyfish:
+					angle /= FishArt.JELLY_RATE
 				elif art.motion != FishArt.Motion.TAIL:
 					angle /= FishArt.PULSE_RATE
 				art.draw(self, Transform2D(0.0, center), FISH_LENGTH, angle, 1.0)

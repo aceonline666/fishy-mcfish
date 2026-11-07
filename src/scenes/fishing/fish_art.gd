@@ -67,6 +67,15 @@ const CRAWL_BOB := 0.02
 ## Waves, squeezes and jets go slower than a tail beat.
 const WAVE_RATE := 0.7
 const PULSE_RATE := 0.35
+## Jellyfish pulse slower and softer than octopuses: rate, how much the bell narrows and lifts,
+## and how far the tentacles sway (shares of the sprite).
+const JELLYFISH: Array[String] = [
+	"moon_jellyfish", "lions_mane_jellyfish", "blubber_jellyfish", "nomuras_jellyfish", "portuguese_man_o_war",
+]
+const JELLY_RATE := 0.22
+const JELLY_NARROW := 0.12
+const JELLY_LIFT := 0.04
+const JELLY_SWAY := 0.02
 ## Grid the bent sprites are drawn as.
 const MESH_COLUMNS := 10
 const MESH_ROWS := 5
@@ -75,12 +84,14 @@ var species: SpeciesDef
 var body: Texture2D
 var tail: Texture2D
 var motion := Motion.TAIL
+var is_jellyfish := false
 
 
 static func for_species(def: SpeciesDef) -> FishArt:
 	var art := FishArt.new()
 	art.species = def
 	art.motion = MOTIONS.get(def.id, Motion.TAIL)
+	art.is_jellyfish = def.id in JELLYFISH
 	var body_path := PAINTED_DIR + def.id + "_body.png"
 	var tail_path := PAINTED_DIR + def.id + "_tail.png"
 	if ResourceLoader.exists(body_path) and ResourceLoader.exists(tail_path):
@@ -130,7 +141,10 @@ func draw(canvas: CanvasItem, view: Transform2D, length: float, phase: float = 0
 		Motion.WAVE:
 			warp = _wave.bind(length, phase * WAVE_RATE, swim)
 		Motion.PULSE:
-			warp = _pulse.bind(body_rect, phase * PULSE_RATE, swim)
+			if is_jellyfish:
+				warp = _jelly_pulse.bind(body_rect, phase * JELLY_RATE, swim)
+			else:
+				warp = _pulse.bind(body_rect, phase * PULSE_RATE, swim)
 		Motion.JET:
 			warp = _jet.bind(body_rect, phase * PULSE_RATE, swim)
 		Motion.FLAP:
@@ -160,6 +174,18 @@ func _pulse(point: Vector2, rect: Rect2, phase: float, swim: float) -> Vector2:
 	var x := center.x + (point.x - center.x) * (1.0 - 0.25 * squeeze * top)
 	x += sin(phase * 2.0 - top * 4.0) * rect.size.x * 0.03 * swim * (1.0 - top)
 	return Vector2(x, point.y - squeeze * rect.size.y * 0.08 * top)
+
+
+## A jellyfish's bell narrows and lifts softly, then opens again slowly; the tentacles below
+## follow in a slow sway.
+func _jelly_pulse(point: Vector2, rect: Rect2, phase: float, swim: float) -> Vector2:
+	var squeeze := soft_squeeze(phase) * swim
+	var center := rect.get_center()
+	var top := clampf((rect.end.y - point.y) / rect.size.y, 0.0, 1.0)
+	var bell := top * top
+	var x := center.x + (point.x - center.x) * (1.0 - JELLY_NARROW * squeeze * bell)
+	x += sin(phase - top * 3.0) * rect.size.x * JELLY_SWAY * swim * (1.0 - top)
+	return Vector2(x, point.y - squeeze * rect.size.y * JELLY_LIFT * top)
 
 
 ## Squeezes the mantle (head end, right) and pulls the arms (left) together and back.
@@ -200,6 +226,13 @@ func _crawl(point: Vector2, rect: Rect2, phase: float, swim: float) -> Vector2:
 static func _squeeze(phase: float) -> float:
 	var t := fposmod(phase, TAU) / TAU
 	return t / 0.25 if t < 0.25 else 1.0 - (t - 0.25) / 0.75
+
+
+## 0 to 1 and back, eased at both ends: a soft squeeze over a third of the cycle, then a slow
+## release.
+static func soft_squeeze(phase: float) -> float:
+	var t := fposmod(phase, TAU) / TAU
+	return smoothstep(0.0, 0.35, t) if t < 0.35 else 1.0 - smoothstep(0.35, 1.0, t)
 
 
 ## Draws the texture over the rect as a grid whose points `warp` moves.

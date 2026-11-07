@@ -253,7 +253,6 @@ Rules of thumb:
 - Fine tuning for tank fill-up and tank-is-full-animation
 - Helipad and tank are too close together. Maybe we can move the tank a bit up north (1 unit?) and also the helipad (1/2 unit?)
 - Make the species sprites consistent. Some are very comic-style (sheet 5) and some are very realistic. We want a cute-comic style so I fear we have to regenerate a large part of it. Also want a proper isometric view instead of the current side view. This should look better for the game. Maybe do a test with a single species before we regenerate all sprites.
-- Jellyfish are way too fast. They should move slower and their animation should be more gentle
 - Turtle animation should move their flippers instead of "squeeze" them
 - The last two zones should get a heavier wave animation to make an "open sea" impression
 - More secrets (need new sprites, postponed):
