@@ -34,6 +34,12 @@ uniform float floor_strength = 0.0;
 uniform sampler2D sand_texture : source_color, repeat_enable, filter_linear_mipmap;
 uniform float sand_tile = 900.0;
 uniform float sand_strength = 0.0;
+// A current (fishing_scene.gd, CURRENTS): between these ground y the caustics drift along
+// `current_flow` (ground units per second) and faint streaks run with it. No band, no current.
+uniform vec2 current_band = vec2(0.0, 0.0);
+uniform vec2 current_flow = vec2(0.0, 0.0);
+// How far into the band the current fades in, at both edges.
+const float CURRENT_FADE = 160.0;
 
 vec2 to_ground(vec2 screen) {
 	float a = screen.x / 0.70710678;
@@ -72,6 +78,18 @@ void fragment() {
 		color *= 1.0 - grid * 0.12 * (1.0 - depth) * (1.0 - floor_strength);
 		// One layer of caustics: phones fill the whole screen with this shader every frame.
 		float caustics = caustic_lines(g / 130.0, TIME);
+		float current = smoothstep(current_band.x, current_band.x + CURRENT_FADE, g.y)
+				* (1.0 - smoothstep(current_band.y - CURRENT_FADE, current_band.y, g.y));
+		if (current > 0.0) {
+			// The same light pattern, carried along, and long thin streaks in the flow's direction.
+			vec2 carried = g - current_flow * TIME;
+			caustics = mix(caustics, caustic_lines(carried / 130.0, TIME * 0.5), current);
+			vec2 along = normalize(current_flow);
+			vec2 p = vec2(dot(carried, along), dot(g, vec2(-along.y, along.x)));
+			float lane = pow(1.0 - abs(sin(p.y * 0.045 + sin(p.x * 0.004) * 1.5)), 8.0);
+			float dash = smoothstep(0.2, 0.9, sin(p.x * 0.012 + floor(p.y * 0.045 / 3.14159) * 2.1));
+			color = mix(color, vec3(0.85, 1.0, 1.0), lane * dash * 0.3 * current * (1.0 - depth * 0.5));
+		}
 		color = mix(color, vec3(0.85, 1.0, 1.0), clamp(caustics * 0.22 * (1.0 - depth * 0.6), 0.0, 1.0));
 		color = mix(color, abyss_color.rgb, smoothstep(abyss_start, abyss_end, d) * 0.92);
 		color = mix(color, foam_color.rgb, (1.0 - smoothstep(0.0, 24.0, d)) * 0.85);

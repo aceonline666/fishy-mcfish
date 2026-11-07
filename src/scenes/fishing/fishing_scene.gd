@@ -661,6 +661,13 @@ func _apply_world_position() -> void:
 	_seabed.set_water_colors(location.shallow_color, location.deep_color, FLOOR_STRENGTH)
 	wader.set_water_colors(location.shallow_color, location.deep_color, FLOOR_STRENGTH)
 	water.set_shader_parameter("sand_strength", 1.0 if _sand_texture != null else 0.0)
+	# The water shows the location's current, if one of its zones has one (CURRENTS).
+	water.set_shader_parameter("current_band", Vector2.ZERO)
+	water.set_shader_parameter("current_flow", Vector2.ZERO)
+	for zone in _zones:
+		if CURRENTS.has(zone.id):
+			water.set_shader_parameter("current_band", Vector2(zone.depth_start, zone.depth_end))
+			water.set_shader_parameter("current_flow", CURRENTS[zone.id])
 
 #endregion
 
