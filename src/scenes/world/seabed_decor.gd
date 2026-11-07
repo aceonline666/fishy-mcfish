@@ -24,10 +24,10 @@ const PROPS: Dictionary[String, Array] = {
 ## per zone id, as in PROPS (sprite, screen width, how many).
 const ZONE_PROPS: Dictionary[String, Array] = {
 	"pier_shallows": [["lost_lure", 110.0, 2], ["hermit_crab", 90.0, 3], ["razor_clams", 100.0, 3]],
-	"sandbanks": [["sand_dollars", 110.0, 6], ["razor_clams", 100.0, 5], ["sand_ripples", 140.0, 4]],
-	"open_sea": [["sea_cucumbers", 100.0, 4], ["sand_ripples", 140.0, 5]],
+	"sandbanks": [["sand_dollars", 110.0, 6], ["razor_clams", 100.0, 5]],
+	"open_sea": [["sea_cucumbers", 100.0, 4]],
 	"drop_off": [["wall_sponges", 110.0, 5], ["sea_fan", 95.0, 3]],
-	"open_ocean": [["sea_cucumbers", 100.0, 4], ["sand_ripples", 140.0, 4]],
+	"open_ocean": [["sea_cucumbers", 100.0, 4]],
 	"southern_ocean": [["sea_cucumbers", 100.0, 4], ["brittle_stars", 120.0, 4]],
 	"sagami_bay": [["sea_cucumbers", 100.0, 4], ["glass_sponge", 110.0, 3]],
 	"seagrass_bay": [["seagrass", 80.0, 26], ["blue_starfish", 60.0, 2]],
@@ -38,10 +38,9 @@ const ZONE_PROPS: Dictionary[String, Array] = {
 	"seaweed_bed": [["sea_lettuce", 90.0, 11], ["kelp_small", 65.0, 11]],
 	"rocky_reef": [["boulder", 130.0, 5], ["rock", 100.0, 5], ["stones", 80.0, 4]],
 	"rocky_shore": [["boulder", 125.0, 4], ["rock", 95.0, 5], ["stones", 75.0, 5], ["mussels", 85.0, 3]],
-	"kuroshio": [["sand_ripples", 140.0, 8], ["sea_whips", 95.0, 7]],
-	"sardine_run": [["sand_ripples", 140.0, 6], ["sardine_shoal", 130.0, 3]],
+	"kuroshio": [["sea_whips", 95.0, 7]],
 	"shark_alley": [["whale_bones", 220.0, 1], ["shark_cage", 160.0, 1], ["red_bait", 100.0, 5], ["boulder", 125.0, 3]],
-	"agulhas_current": [["sand_ripples", 140.0, 8], ["sea_whips", 95.0, 7]],
+	"agulhas_current": [["sea_whips", 95.0, 7]],
 	"norwegian_trench": [["brittle_stars", 120.0, 6], ["sea_pens", 90.0, 5]],
 	"deep_sea": [["whale_fall", 260.0, 1], ["glass_sponge", 110.0, 4], ["brittle_stars", 120.0, 5]],
 	"twilight_zone": [["sea_pens", 90.0, 6], ["glass_sponge", 110.0, 3]],
@@ -64,9 +63,6 @@ const EDGE_PROPS: Dictionary[String, Array] = {
 const EDGE_SPACING := 95.0
 const EDGE_OFFSET := Vector2(15.0, 70.0)
 const SWAY: Array[String] = ["kelp_small", "kelp", "kelp_tall", "sea_lettuce", "seagrass", "reef_anemone", "sea_fan", "sea_whips", "sea_pens"]
-## Zone props that swim in the water instead of lying on the seabed: not drawn here but listed in
-## `swimmers` for the scene to add among the fish (SardineShoal).
-const SWIMMERS: Array[String] = ["sardine_shoal"]
 const WRECK_WIDTH := 460.0
 ## Props keep at least this far apart (ground units); a zone's own props, which grow in beds,
 ## closer.
@@ -80,9 +76,6 @@ const PROPS_SHADER := preload("res://src/shaders/seabed_props.gdshader")
 
 ## Set before generate(): "tropical" for corals, anything else for temperate props.
 var water := "temperate"
-
-## Zone props that swim (SWIMMERS), for the scene to add.
-var swimmers: Array[Swimmer] = []
 
 ## Painted props, nearest last.
 var _props: Array[Prop] = []
@@ -136,11 +129,7 @@ func add_zone(zone_id: String, area: PlayArea, seed_value: int = 3) -> void:
 					break
 				ground = area.random_point(rng, 80.0)
 			taken.append(ground)
-			var width := float(entry[1]) * rng.randf_range(0.85, 1.15)
-			if SWIMMERS.has(entry[0]):
-				swimmers.append(Swimmer.new(entry[0], ground, width, rng.randf() * TAU))
-				continue
-			_props.append(_make_prop(entry[0], ground, width, rng.randf() * TAU))
+			_props.append(_make_prop(entry[0], ground, float(entry[1]) * rng.randf_range(0.85, 1.15), rng.randf() * TAU))
 	_sort_props()
 	queue_redraw()
 
@@ -216,16 +205,3 @@ class Prop extends RefCounted:
 	var phase := 0.0
 	var tint := Color.WHITE
 
-
-## A swimming zone prop: which, where on the ground, its screen width and a start angle.
-class Swimmer extends RefCounted:
-	var name: String
-	var ground: Vector2
-	var width: float
-	var angle: float
-
-	func _init(swimmer_name: String, at: Vector2, swimmer_width: float, start_angle: float) -> void:
-		name = swimmer_name
-		ground = at
-		width = swimmer_width
-		angle = start_angle

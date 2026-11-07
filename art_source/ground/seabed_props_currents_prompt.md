@@ -6,15 +6,12 @@ cut by `tools/extract_magenta_sheet.py` into `assets/sprites/seabed`:
 
 | Cell | Sprite | Zones |
 |---|---|---|
-| 1 | `sand_ripples` | sardine_run, kuroshio, agulhas_current |
+| 1 | (`sand_ripples`, not used: they looked wrong) | |
 | 2 | `sea_whips` (bent by the current) | kuroshio, agulhas_current |
-| 3 | `sardine_shoal` | sardine_run |
+| 3 | (`sardine_shoal`, not used: a painted shoal cannot swim; the Sardine run has bait balls of small sardines instead, `BaitBall`) | |
 | 4 | `whale_bones` | shark_alley |
 | 5 | `shark_cage` (sunken) | shark_alley |
 | 6 | `red_bait` (Cape sea squirts on a rock) | shark_alley |
-
-The shoal turns in the game, so it is cut again without its sand patch by
-`python tools/cut_sardine_shoal.py` (run it after the sheet cut).
 
 Paste the prompt below and attach `art_source/ground/seabed_props.png` (the style reference).
 

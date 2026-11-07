@@ -21,6 +21,8 @@ const ZOOM := 1.5
 const CAMERA_SMOOTHING := 6.0
 ## The camera may show this much (world pixels) beyond the spot's edges.
 const CAMERA_OVERSCROLL := 120.0
+## Zones with bait balls (BaitBall): which species, how many balls and how many fish in each.
+const BAIT_BALLS: Dictionary[String, Array] = {"sardine_run": ["south_african_sardine", 2, 55]}
 ## Zones whose current carries the wader along, in ground units per second: the Kuroshio sweeps
 ## it westward, a little under a fifth of its swimming speed there.
 const CURRENTS: Dictionary[String, Vector2] = {"kuroshio": Vector2(-90.0, 0.0)}
@@ -352,12 +354,7 @@ func _ready() -> void:
 		_seabed.add_zone(zone.id, PlayArea.new(Rect2(_spot_rect.position.x, top, _spot_rect.size.x, zone.depth_end - top)))
 	if WRECKS.has(location.id):
 		_seabed.add_wreck(WRECKS[location.id][0], WRECKS[location.id][1])
-	for swimmer in _seabed.swimmers:
-		var shoal := SardineShoal.new()
-		shoal.setup(swimmer.ground, swimmer.width, swimmer.angle)
-		shoal.set_water_colors(location.shallow_color, location.deep_color, FLOOR_STRENGTH)
-		_entities.add_child(shoal)
-		_decor_covers.append(shoal.cover())
+	_add_bait_balls()
 	EventBus.fish_sold_by_seller.connect(_on_fish_sold_by_seller)
 	_build_squares()
 	_place_decor()
@@ -909,6 +906,35 @@ func _build_squares() -> void:
 
 ## Painted props on the sand and in the water; they take part in the depth sorting, and the wader
 ## can walk behind them.
+## Bait balls in their zones (BAIT_BALLS), well apart, among the fish; the wader can swim behind
+## them.
+func _add_bait_balls() -> void:
+	for zone in _zones:
+		if not BAIT_BALLS.has(zone.id):
+			continue
+		var entry: Array = BAIT_BALLS[zone.id]
+		var top := maxf(zone.depth_start, SHORE_Y + WATER_MARGIN)
+		var area := PlayArea.new(Rect2(_spot_rect.position.x, top, _spot_rect.size.x, zone.depth_end - top))
+		var rng := RandomNumberGenerator.new()
+		rng.seed = zone.id.hash()
+		var taken := PackedVector2Array()
+		for i in int(entry[1]):
+			var ground := area.random_point(rng, BaitBall.RADIUS * 1.5)
+			for attempt in 20:
+				var apart := true
+				for other in taken:
+					apart = apart and ground.distance_to(other) > BaitBall.RADIUS * 3.0
+				if apart:
+					break
+				ground = area.random_point(rng, BaitBall.RADIUS * 1.5)
+			taken.append(ground)
+			var ball := BaitBall.new()
+			ball.setup(_art_for(entry[0]), ground, int(entry[2]), rng)
+			ball.set_water_colors(location.shallow_color, location.deep_color, FLOOR_STRENGTH)
+			_entities.add_child(ball)
+			_decor_covers.append(ball.cover())
+
+
 func _place_decor() -> void:
 	for entry: Array in DECOR:
 		var water: String = entry[3]
