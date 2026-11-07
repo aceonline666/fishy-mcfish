@@ -16,16 +16,16 @@ func _fill(tank: TankState, species_id: String, count: int, growth: float = 0.0)
 func test_store_fills_the_tank_until_it_is_full() -> void:
 	var site := _site_with_tank()
 	assert_eq(Aquarium.store(site, "european_sprat"), site.tank)
-	# Glass tank: 60 L, sprats take 2 L each.
-	_fill(site.tank, "european_sprat", 29)
-	assert_eq(Aquarium.used_space(site.tank), 60.0)
+	# Glass tank: 120 L, sprats take 2 L each.
+	_fill(site.tank, "european_sprat", 59)
+	assert_eq(Aquarium.used_space(site.tank), 120.0)
 	assert_null(Aquarium.store(site, "european_sprat"))
-	assert_eq(site.tank.fish.size(), 30)
+	assert_eq(site.tank.fish.size(), 60)
 
 
 func test_big_species_need_a_big_enough_tank() -> void:
 	var site := _site_with_tank(1)
-	# Mackerel needs at least 100 L; the glass tank holds 60 L.
+	# Mackerel needs at least 200 L; the glass tank holds 120 L.
 	assert_null(Aquarium.store(site, "atlantic_mackerel"))
 	site.tank.level = 2
 	assert_not_null(Aquarium.store(site, "atlantic_mackerel"))
@@ -100,12 +100,12 @@ func test_the_tank_is_full_when_not_even_the_smallest_fish_fits() -> void:
 	var site := _site_with_tank()
 	assert_eq(Aquarium.smallest_space("temperate"), 2.0, "the sprat")
 	assert_false(Aquarium.is_full(site))
-	_fill(site.tank, "atlantic_herring", 11)
-	assert_eq(Aquarium.used_space(site.tank), 55.0)
+	_fill(site.tank, "atlantic_herring", 23)
+	assert_eq(Aquarium.used_space(site.tank), 115.0)
 	assert_false(Aquarium.is_full(site), "a sprat still fits")
 	_fill(site.tank, "european_sprat", 2)
 	assert_true(Aquarium.is_full(site))
-	assert_eq(Aquarium.fill_share(site.tank), 59.0 / 60.0)
+	assert_eq(Aquarium.fill_share(site.tank), 119.0 / 120.0)
 
 
 func test_grown_fish_are_worth_three_times_as_much() -> void:

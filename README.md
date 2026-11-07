@@ -211,9 +211,9 @@ Tests can also be run from the GUT panel in the editor. CI runs them on every pu
 
 **Balance:** `tools/balance_sim.gd` plays the game headless with a greedy bot using the real
 rules and prints a timeline of purchases, charted zones, goals and income. `tests/unit/test_pacing.gd`
-runs the same bot and checks the pacing targets (first tank upgrade < 5 min, snorkel 5–25 min,
+runs the same bot and checks the pacing targets (first tank upgrade after 5–20 min, snorkel 5–25 min,
 Coral Reef 25–70 min, open sea charted after 55–120 min). The bot reaches the North Sea's
-deep sea after about 5 h and opens Japan, the fourth location, after about 7.5 h. Its report
+deep sea after about 3 h and opens Japan, the fourth location, after about 5 h. Its report
 every 10 minutes shows how busy each beach's sellers were. Run it after
 changing prices or income:
 
@@ -250,10 +250,12 @@ Rules of thumb:
   ([OpenGameArt](https://opengameart.org/content/shop-theme)).
 
 ## TODOs
-- Rebalance tanks. They become full too fast and when they are full you don't have the money to upgrade so you are stuck. Suggested fix would be to make the tanks twice the volume.
+- Drawing error: The pier should be drawn in front of the fish tank and the belt.
 - Replace Fishbowl with sprite
 - Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors.
 - Replace fishnet sprites with transparent ones that fit the style better
+- Improve swimming animation of turtles, rays, giant crab and kraken. Crab and kraken might need a new sprite.
+- Move the drone-helipad in front of the tank and only make it appear once you bought a drone.
 - Zone props: seagrass bay, kelp forests, seaweed bed, rocky reef/shore, lagoon and reef crest show theirs (existing seabed sprites, `SeabedDecor.ZONE_PROPS`); still missing sprites for e.g. Sardine run, Shark alley, the currents
 - Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console)
 - More secrets (need new sprites, postponed):
@@ -269,4 +271,7 @@ Later:
 - Add more species - mostly the well known ones
   - Whale Shark
   - Orcas
+  - Hammerhead Shark
+  - Baracuda
+  - Dolphins
   

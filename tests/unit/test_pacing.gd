@@ -17,8 +17,10 @@ func _minutes(key: String) -> float:
 	return _milestones.get(key, INF) / MINUTE
 
 
-func test_the_first_upgrade_comes_quickly() -> void:
-	assert_lt(_minutes("tank"), 5.0, "first tank upgrade")
+## The bot buys a bigger tank once its tank is 70 % full: the glass tank lasts a while (seed 1:
+## 13 minutes), but not so long that it never fills.
+func test_the_first_tank_fills_up_after_a_while() -> void:
+	assert_between(_minutes("tank"), 5.0, 20.0, "first tank upgrade")
 
 
 func test_the_snorkel_is_affordable_after_a_short_while() -> void:
@@ -29,7 +31,6 @@ func test_the_coral_reef_opens_after_about_half_an_hour_to_an_hour() -> void:
 	assert_between(_minutes("unlock_coral_reef"), 25.0, 70.0)
 
 
-## Seed 1 charts it after about 127 minutes, seeds 2 and 3 after 101 and 109: the long save for
-## the rebreather (60K) decides it.
+## Seed 1 charts it after about 75 minutes: the long save for the rebreather (60K) decides it.
 func test_the_open_sea_is_reached_after_about_one_to_two_hours() -> void:
 	assert_between(_minutes("charted_open_sea"), 55.0, 140.0)
