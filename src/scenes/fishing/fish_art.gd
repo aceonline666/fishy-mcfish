@@ -11,8 +11,9 @@ extends RefCounted
 ## How a species swims (MOTIONS): most fish beat their tail fin ("tail"). Creatures without a
 ## cut tail are drawn as a bent mesh instead: eels, whales and slow swimmers send a wave down the
 ## body ("wave"), jellyfish and octopuses squeeze their bell or head and let the arms trail
-## ("pulse"), squids squeeze the mantle and pull their arms together ("jet"), turtles and rays beat
-## their flippers or wings up and down ("flap"), and crabs swing their legs ("crawl").
+## ("pulse"), squids squeeze the mantle and pull their arms together ("jet"), rays beat their wings
+## up and down ("flap"), turtles row with their flippers ("paddle"), and crabs swing their legs
+## ("crawl").
 
 const PAINTED_DIR := "res://assets/sprites/fish_painted/"
 ## Share of the total length taken by the body; the rest is tail fin.
@@ -24,7 +25,7 @@ const TAIL_CANVAS_WIDTH := 70.0
 const TAIL_ROOT_X := 62.0
 const OUTLINE_COLOR := Color(0.07, 0.09, 0.15)
 
-enum Motion { TAIL, WAVE, PULSE, JET, FLAP, CRAWL }
+enum Motion { TAIL, WAVE, PULSE, JET, FLAP, CRAWL, PADDLE }
 ## Species that do not beat a tail fin; all others do. Waves: height of the wave at the tail
 ## (share of the length) and the number of waves along the body.
 const MOTIONS: Dictionary[String, Motion] = {
@@ -38,7 +39,7 @@ const MOTIONS: Dictionary[String, Motion] = {
 	"ammonite": Motion.JET, "belemnite": Motion.JET,
 	"ocean_sunfish": Motion.WAVE,
 	"reef_manta_ray": Motion.FLAP, "smooth_stingray": Motion.FLAP,
-	"green_sea_turtle": Motion.FLAP, "leatherback_turtle": Motion.FLAP, "loggerhead_turtle": Motion.FLAP,
+	"green_sea_turtle": Motion.PADDLE, "leatherback_turtle": Motion.PADDLE, "loggerhead_turtle": Motion.PADDLE,
 	"knysna_seahorse": Motion.WAVE, "leafy_seadragon": Motion.WAVE, "weedy_seadragon": Motion.WAVE,
 	"giant_isopod": Motion.WAVE, "japanese_spider_crab": Motion.CRAWL, "chambered_nautilus": Motion.WAVE,
 	"moon_jellyfish": Motion.PULSE, "lions_mane_jellyfish": Motion.PULSE, "blubber_jellyfish": Motion.PULSE,
@@ -61,6 +62,21 @@ const GENTLE_WAVE := Vector2(0.025, 0.6)
 ## and how far the flippers or wings beyond it fold in at the top of a beat.
 const FLAP_CORE := 0.18
 const FLAP_DEPTH := 0.35
+## Paddling, per species: the front and rear flippers' shoulders (shares of the sprite's width
+## and height, from its back end and top) and the line between the two flippers (share of the
+## width). Then how far each flipper swings around its shoulder (radians, the rear one a little
+## behind the front one), how fast, and how much the body bobs with each stroke.
+const PADDLE_SHAPES: Dictionary[String, Array] = {
+	"green_sea_turtle": [Vector2(0.55, 0.6), Vector2(0.17, 0.62), 0.29],
+	"loggerhead_turtle": [Vector2(0.62, 0.55), Vector2(0.18, 0.5), 0.38],
+	"leatherback_turtle": [Vector2(0.6, 0.5), Vector2(0.2, 0.55), 0.35],
+}
+const PADDLE_DEFAULT_SHAPE: Array = [Vector2(0.62, 0.55), Vector2(0.2, 0.55), 0.38]
+const PADDLE_FRONT_SWING := 0.38
+const PADDLE_REAR_SWING := 0.25
+const PADDLE_REAR_LAG := 1.2
+const PADDLE_RATE := 0.35
+const PADDLE_BOB := 0.02
 ## Crawling: how far the legs swing (share of the width) and the body bobs (share of the height).
 const CRAWL_SWING := 0.025
 const CRAWL_BOB := 0.02
@@ -76,9 +92,10 @@ const JELLY_RATE := 0.22
 const JELLY_NARROW := 0.12
 const JELLY_LIFT := 0.04
 const JELLY_SWAY := 0.02
-## Grid the bent sprites are drawn as.
+## Grid the bent sprites are drawn as; paddling flippers bend on a finer one.
 const MESH_COLUMNS := 10
 const MESH_ROWS := 5
+const PADDLE_MESH := Vector2i(16, 12)
 
 var species: SpeciesDef
 var body: Texture2D
@@ -151,10 +168,13 @@ func draw(canvas: CanvasItem, view: Transform2D, length: float, phase: float = 0
 			warp = _flap.bind(body_rect, length, phase * WAVE_RATE, swim)
 		Motion.CRAWL:
 			warp = _crawl.bind(body_rect, phase * WAVE_RATE, swim)
+		Motion.PADDLE:
+			warp = _paddle.bind(body_rect, phase * PADDLE_RATE, swim)
+	var grid := PADDLE_MESH if motion == Motion.PADDLE else Vector2i(MESH_COLUMNS, MESH_ROWS)
 	canvas.draw_set_transform_matrix(view)
 	if tail != null:
-		_draw_mesh(canvas, tail, tail_rect, warp, tint)
-	_draw_mesh(canvas, body, body_rect, warp, tint)
+		_draw_mesh(canvas, tail, tail_rect, warp, tint, grid)
+	_draw_mesh(canvas, body, body_rect, warp, tint, grid)
 	canvas.draw_set_transform_matrix(Transform2D.IDENTITY)
 
 
@@ -211,6 +231,29 @@ func _flap(point: Vector2, rect: Rect2, length: float, phase: float, swim: float
 	return Vector2(point.x, signf(point.y) * (core + out * (1.0 - fold)))
 
 
+## Rows with the flippers: what hangs below the shell swings around the front and the rear
+## shoulder, the rear flipper a little later, and the body bobs with the strokes. At the line
+## between the flippers the two swings blend, so the sprite does not tear.
+func _paddle(point: Vector2, rect: Rect2, phase: float, swim: float) -> Vector2:
+	var shape: Array = PADDLE_SHAPES.get(species.id, PADDLE_DEFAULT_SHAPE)
+	var split: float = shape[2]
+	var along := (point.x - rect.position.x) / rect.size.x
+	var down := (point.y - rect.position.y) / rect.size.y
+	var front_share := smoothstep(split - 0.03, split + 0.03, along)
+	var moved := point
+	for flipper in 2:
+		var shoulder: Vector2 = shape[flipper]
+		var share := front_share if flipper == 0 else 1.0 - front_share
+		var hang := smoothstep(shoulder.y - 0.04, shoulder.y + 0.08, down)
+		if share * hang <= 0.0:
+			continue
+		var angle := PADDLE_FRONT_SWING * sin(phase) if flipper == 0 else PADDLE_REAR_SWING * sin(phase - PADDLE_REAR_LAG)
+		var pivot := rect.position + shoulder * rect.size
+		moved += ((point - pivot).rotated(angle * swim) - (point - pivot)) * share * hang
+	moved.y -= sin(phase) * rect.size.y * PADDLE_BOB * swim
+	return moved
+
+
 ## Swings the legs (below the body axis) back and forth in a ripple from the front to the back,
 ## and bobs the body with every step.
 func _crawl(point: Vector2, rect: Rect2, phase: float, swim: float) -> Vector2:
@@ -236,21 +279,21 @@ static func soft_squeeze(phase: float) -> float:
 
 
 ## Draws the texture over the rect as a grid whose points `warp` moves.
-static func _draw_mesh(canvas: CanvasItem, texture: Texture2D, rect: Rect2, warp: Callable, tint: Color) -> void:
+static func _draw_mesh(canvas: CanvasItem, texture: Texture2D, rect: Rect2, warp: Callable, tint: Color, grid: Vector2i) -> void:
 	var points := PackedVector2Array()
 	var uvs := PackedVector2Array()
 	var colors := PackedColorArray()
-	for row in MESH_ROWS + 1:
-		for column in MESH_COLUMNS + 1:
-			var uv := Vector2(float(column) / MESH_COLUMNS, float(row) / MESH_ROWS)
+	for row in grid.y + 1:
+		for column in grid.x + 1:
+			var uv := Vector2(float(column) / grid.x, float(row) / grid.y)
 			points.append(warp.call(rect.position + uv * rect.size))
 			uvs.append(uv)
 			colors.append(tint)
 	var indices := PackedInt32Array()
-	for row in MESH_ROWS:
-		for column in MESH_COLUMNS:
-			var corner := row * (MESH_COLUMNS + 1) + column
-			indices.append_array([corner, corner + 1, corner + MESH_COLUMNS + 2, corner, corner + MESH_COLUMNS + 2, corner + MESH_COLUMNS + 1])
+	for row in grid.y:
+		for column in grid.x:
+			var corner := row * (grid.x + 1) + column
+			indices.append_array([corner, corner + 1, corner + grid.x + 2, corner, corner + grid.x + 2, corner + grid.x + 1])
 	RenderingServer.canvas_item_add_triangle_array(canvas.get_canvas_item(), indices, points, colors, uvs,
 		PackedInt32Array(), PackedFloat32Array(), texture.get_rid())
 
