@@ -39,6 +39,7 @@ func test_words_group_the_thousands_below_a_million() -> void:
 func test_words_name_the_millions_and_up() -> void:
 	assert_eq(NumberFormat.words(1_000_000.0), "1 million")
 	assert_eq(NumberFormat.words(1_390_000.0), "1.3 million")
-	assert_eq(NumberFormat.words(25_700_000.0), "25 million")
+	assert_eq(NumberFormat.words(25_700_000.0), "25.7 million")
+	assert_eq(NumberFormat.words(123_400_000.0), "123 million")
 	assert_eq(NumberFormat.words(4.2e9), "4.2 billion")
 	assert_eq(NumberFormat.words(3e12), "3 trillion")

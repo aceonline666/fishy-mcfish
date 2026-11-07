@@ -85,9 +85,12 @@ func slot_info(number: int) -> Dictionary:
 	if payload.is_empty():
 		return {}
 	var state: Dictionary = payload.get("state", {})
+	# The home beach is always open; the others once their travel fee is paid.
+	var unlocked: Array = state.get("unlocked_locations", [])
 	return {
 		"saved_at_unix": int(payload.get("saved_at_unix", 0)),
 		"money": float(state.get("money", 0.0)),
+		"locations": mini(1 + unlocked.size(), DataRegistry.locations.size()),
 	}
 
 

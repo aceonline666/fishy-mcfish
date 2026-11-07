@@ -251,11 +251,11 @@ Rules of thumb:
 
 ## TODOs
 - Drawing error: The pier should be drawn in front of the fish tank and the belt.
+- Move the drone-helipad in front of the tank and only make it appear once you bought a drone.
 - Replace Fishbowl with sprite
 - Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors.
 - Replace fishnet sprites with transparent ones that fit the style better
 - Improve swimming animation of turtles, rays, giant crab and kraken. Crab and kraken might need a new sprite.
-- Move the drone-helipad in front of the tank and only make it appear once you bought a drone.
 - Zone props: seagrass bay, kelp forests, seaweed bed, rocky reef/shore, lagoon and reef crest show theirs (existing seabed sprites, `SeabedDecor.ZONE_PROPS`); still missing sprites for e.g. Sardine run, Shark alley, the currents
 - Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console)
 - More secrets (need new sprites, postponed):

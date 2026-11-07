@@ -26,6 +26,9 @@ msgstr "Du hast verdient:"
 msgid "%s coins"
 msgstr "%s Münzen"
 
+msgid "%d/%d locations"
+msgstr "%d/%d Orte"
+
 msgid "Your sellers kept on selling."
 msgstr "Deine Verkäufer waren fleißig."
 

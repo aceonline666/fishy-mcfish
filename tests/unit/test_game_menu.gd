@@ -67,6 +67,16 @@ func test_autosave_never_overwrites_a_slot() -> void:
 	assert_eq(SaveSystem.slot_info(1)["money"], PlayerState.new_game().money + 500.0)
 
 
+func test_a_slot_shows_its_coins_readably_and_the_locations_opened() -> void:
+	GameState.add_money(12_345_678.0 - GameState.state.money)
+	GameState.state.unlocked_locations.append_array(["coral_reef", "australia", "japan"] as Array[String])
+	_menu._on_save(2)
+	assert_eq(SaveSystem.slot_info(2)["locations"], 4)
+	var info: String = _menu._slots[2]["info"].text
+	assert_string_contains(info, "12.3 million coins")
+	assert_string_contains(info, "4/5 locations")
+
+
 func test_empty_slots_cannot_be_loaded() -> void:
 	_menu.open()
 	assert_true(_menu._slots[SaveSystem.SLOT_COUNT]["load"].disabled)

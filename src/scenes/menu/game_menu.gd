@@ -119,9 +119,10 @@ func _describe(data: Dictionary) -> String:
 		return tr("Empty")
 	var local := int(data["saved_at_unix"]) + int(Time.get_time_zone_from_system()["bias"]) * 60
 	var when := Time.get_datetime_dict_from_unix_time(local)
-	return "%02d.%02d.%d %02d:%02d · %d" % [
-		when["day"], when["month"], when["year"], when["hour"], when["minute"],
-		int(data["money"])]
+	var saved := "%02d.%02d.%d %02d:%02d" % [when["day"], when["month"], when["year"], when["hour"], when["minute"]]
+	var coins := tr("%s coins") % NumberFormat.words(float(data["money"]))
+	var locations := tr("%d/%d locations") % [int(data.get("locations", 1)), DataRegistry.locations.size()]
+	return "%s\n%s · %s" % [saved, coins, locations]
 
 
 ## Saves the game into slot `number`. Only this ever writes a slot; autosave keeps its own file.

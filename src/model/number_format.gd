@@ -28,7 +28,8 @@ static func compact(value: float) -> String:
 	return prefix + text + SUFFIXES[tier]
 
 
-## Friendly number for a headline: 345,678 below a million, then 1.3 million, 25 billion, ...
+## Friendly number for a headline: 345,678 below a million, then 1.3 million, 25.7 billion, 120
+## trillion, ...
 ## (345.678 and 1,3 Mio. in German). Rounds down like compact().
 static func words(value: float) -> String:
 	var prefix := "-" if value < 0.0 else ""
@@ -40,7 +41,7 @@ static func words(value: float) -> String:
 		v /= 1000.0
 		tier += 1
 	var text: String
-	if v >= 10.0 or floorf(v * 10.0 + 1e-6) == floorf(v) * 10.0:
+	if v >= 100.0 or floorf(v * 10.0 + 1e-6) == floorf(v) * 10.0:
 		text = str(int(v + 1e-9))
 	else:
 		text = "%.1f" % (floorf(v * 10.0 + 1e-6) / 10.0)
