@@ -31,6 +31,10 @@ const ZONE_PROPS: Dictionary[String, Array] = {
 	"seaweed_bed": [["sea_lettuce", 90.0, 11], ["kelp_small", 65.0, 11]],
 	"rocky_reef": [["boulder", 130.0, 5], ["rock", 100.0, 5], ["stones", 80.0, 4]],
 	"rocky_shore": [["boulder", 125.0, 4], ["rock", 95.0, 5], ["stones", 75.0, 5], ["mussels", 85.0, 3]],
+	"kuroshio": [["sand_ripples", 140.0, 8], ["sea_whips", 95.0, 7]],
+	"sardine_run": [["sand_ripples", 140.0, 6], ["sardine_shoal", 130.0, 3]],
+	"shark_alley": [["whale_bones", 220.0, 1], ["shark_cage", 160.0, 1], ["red_bait", 100.0, 5], ["boulder", 125.0, 3]],
+	"agulhas_current": [["sand_ripples", 140.0, 8], ["sea_whips", 95.0, 7]],
 }
 ## Rocks lined up along the spot's west and east edges, so the water ends at a reef wall rather
 ## than an invisible one: per water, the sprites taken in turn and their screen widths.
@@ -42,7 +46,7 @@ const EDGE_PROPS: Dictionary[String, Array] = {
 ## (between the two values).
 const EDGE_SPACING := 95.0
 const EDGE_OFFSET := Vector2(15.0, 70.0)
-const SWAY: Array[String] = ["kelp_small", "kelp", "kelp_tall", "sea_lettuce", "seagrass", "reef_anemone", "sea_fan"]
+const SWAY: Array[String] = ["kelp_small", "kelp", "kelp_tall", "sea_lettuce", "seagrass", "reef_anemone", "sea_fan", "sea_whips"]
 const WRECK_WIDTH := 460.0
 ## Props keep at least this far apart (ground units); a zone's own props, which grow in beds,
 ## closer.
