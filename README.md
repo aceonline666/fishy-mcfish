@@ -250,27 +250,31 @@ Rules of thumb:
   ([OpenGameArt](https://opengameart.org/content/shop-theme)).
 
 ## TODOs
-- Drawing error: The pier should be drawn in front of the fish tank and the belt.
-- Replace Fishbowl with sprite
-- Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors.
-- Replace fishnet sprites with transparent ones that fit the style better
-- Improve swimming animation of turtles, rays, giant crab and kraken. Crab and kraken might need a new sprite.
-- Zone props: seagrass bay, kelp forests, seaweed bed, rocky reef/shore, lagoon and reef crest show theirs (existing seabed sprites, `SeabedDecor.ZONE_PROPS`); still missing sprites for e.g. Sardine run, Shark alley, the currents
-- Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console)
+- Fine tuning for tank fill-up and tank-is-full-animation
+- Helipad and tank are too close together. Maybe we can move the tank a bit up north (1 unit?) and also the helipad (1/2 unit?)
+- Make the species sprites consistent. Some are very comic-style (sheet 5) and some are very realistic. We want a cute-comic style so I fear we have to regenerate a large part of it. Also want a proper isometric view instead of the current side view. This should look better for the game. Maybe do a test with a single species before we regenerate all sprites.
+- Jellyfish are way too fast. They should move slower and their animation should be more gentle
+- Turtle animation should move their flippers instead of "squeeze" them
+- Giant Crab is too fast. Reduce their moving speed.
+- The last two zones should get a heavier wave animation to make an "open sea" impression
 - More secrets (need new sprites, postponed):
   - an original deep sea horror in the deepest zones, barely visible at the edge of the dark
   - glowing eyes in the dark that vanish when you come close
   - message in a bottle, rare finds (curiosities page in the Fishpedia)
   - secret species per location that only show under a condition (night, charted zone, ...)
 
-Later: 
-- Add new locations. Ideas:
-  - Antarctic sea (Orcas, pengiuins? black smokers in the deep zones?)
-  - Jurasic sea (with ichtyosaurs, plesiosaurs, leopleurodon, ammonites etc?)
+### Later 
+- ~~Add new locations. Ideas:~~
+  - ~~Antarctic sea (Orcas, pengiuins? black smokers in the deep zones?)~~ (penguins and everyday fish still to come: `species_sheet_14_prompt.md`)
+  - ~~Jurasic sea (with ichtyosaurs, plesiosaurs, leopleurodon, ammonites etc?)~~ (middle-sized species still to come: `species_sheet_14_prompt.md`)
 - Add more species - mostly the well known ones
-  - Whale Shark
-  - Orcas
+  - ~~Whale Shark~~
+  - ~~Orcas~~
   - Hammerhead Shark
-  - Baracuda
-  - Dolphins
+  - ~~Baracuda~~
+  - ~~Dolphins~~
+  - Seasnakes
+  - ~~Seals~~
+- Add weather and day cycle: Storms, Lightning, Night. Day and Night could sync with real time.
+- Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console - which requires a Google Cloud Project - which would cause costs)
   
