@@ -8,6 +8,9 @@ Attach `art_source/fish/species_sheet_6.png` as the **style** reference for both
 `python tools/extract_painted.py art_source/fish/species_sheet_10.png assets/sprites/fish_painted`
 once the species exist (add the sheet to `SHEETS` in the script first).
 
+Notes on the results: on sheet 10 the two seals got fish-like tail fins where seals have hind
+flippers (ask again for those two if it matters); sheet 11 came out as asked.
+
 ## Sheet 10: Antarctic sea
 
 ```

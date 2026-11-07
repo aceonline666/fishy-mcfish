@@ -10,6 +10,8 @@ once the species exist (add the sheet to `SHEETS` in the script first; all face 
 fin cut off to beat, except the whales and dolphins, which beat theirs up and down and are
 waved instead, like the other whales).
 
+Note on the result: the hammerhead's hammer reads a little as if seen from the front.
+
 ## Prompt
 
 ```
