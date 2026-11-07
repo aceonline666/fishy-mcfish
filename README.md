@@ -251,7 +251,6 @@ Rules of thumb:
 
 ## TODOs
 - Rebalance tanks. They become full too fast and when they are full you don't have the money to upgrade so you are stuck. Suggested fix would be to make the tanks twice the volume.
-- Drawing error: The pier should be drawn in front of the fish tank and the belt.
 - Replace Fishbowl with sprite
 - Replace drone sprites with transparent ones where the nets are see-through. Animate the rotors.
 - Replace fishnet sprites with transparent ones that fit the style better

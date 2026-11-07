@@ -507,6 +507,7 @@ func _rebuild_from_state() -> void:
 	_tank_node = TankNode.new()
 	_tank_node.setup(site.tank, _tank_area(), _art_for)
 	_tank_node.smallest_fish_l = Aquarium.smallest_space(site.location().env)
+	Layers.put(_tank_node, Layers.BEHIND_PIER)
 	_entities.add_child(_tank_node)
 	live_well.capacity = Aquarium.backpack_capacity(site)
 	# The backpack is this location's: the catch waits here while the player is elsewhere.
@@ -524,12 +525,10 @@ func _rebuild_from_state() -> void:
 	_update_hud()
 
 
-## What the wader can walk behind: the props, the gear shop, the tank at its current size and the
-## booths.
+## What the wader can walk behind: the props, the gear shop and the booths. The tank is behind the
+## pier, where nothing can walk behind it.
 func _update_covers() -> void:
 	wader.covers = _decor_covers.duplicate()
-	if _tank_node != null:
-		wader.covers.append(Layers.cover(_tank_node, _tank_node.sprite_bounds()))
 	for booth in _booth_nodes:
 		wader.covers.append(Layers.cover(booth, booth.sprite_bounds()))
 
@@ -868,7 +867,7 @@ func _update_stillness(delta: float) -> void:
 func _build_squares() -> void:
 	_boardwalk = Boardwalk.new()
 	_boardwalk.setup(_pier_area())
-	Layers.put(_boardwalk, Layers.FLOOR)
+	Layers.put(_boardwalk, Layers.PIER)
 	_squares_layer.add_child(_boardwalk)
 	if SHOW_GRID:
 		var grid := GridOverlay.new()
@@ -1138,7 +1137,7 @@ func _sync_shops() -> void:
 	_belt = SalesBelt.new()
 	_belt.setup(site.tank, _belt_area(), _art_for)
 	_belt.price_bonus = Selling.price_bonus(site)
-	Layers.put(_belt, Layers.FLOOR)
+	Layers.put(_belt, Layers.BEHIND_PIER)
 	_entities.add_child(_belt)
 	if _boardwalk != null:
 		_boardwalk.setup(_pier_area())

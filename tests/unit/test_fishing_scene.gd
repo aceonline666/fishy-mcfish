@@ -532,6 +532,13 @@ func test_the_wader_goes_behind_a_booth_and_stays_above_the_pads_elsewhere() -> 
 	assert_gt(_wader.z_index, Layers.PAD_TEXT)
 
 
+func test_the_pier_is_drawn_in_front_of_the_tank_and_the_belt() -> void:
+	var pier: int = _scene._boardwalk.z_index
+	assert_lt(_scene._tank_node.z_index, pier)
+	assert_lt(_scene._belt.z_index, pier)
+	assert_lt(pier, Layers.OBJECTS, "the booths and buyers east of it stand in front of it")
+
+
 func test_the_tank_cannot_be_walked_on() -> void:
 	var tank: Rect2 = _scene._tank_area()
 	_wader.ground_position = tank.get_center()
