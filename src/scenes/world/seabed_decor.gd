@@ -64,6 +64,9 @@ const EDGE_PROPS: Dictionary[String, Array] = {
 const EDGE_SPACING := 95.0
 const EDGE_OFFSET := Vector2(15.0, 70.0)
 const SWAY: Array[String] = ["kelp_small", "kelp", "kelp_tall", "sea_lettuce", "seagrass", "reef_anemone", "sea_fan", "sea_whips", "sea_pens"]
+## Props that turn about their middle, flat in the 2:1 view, in radians per second (positive is
+## clockwise on screen): the sardine shoal circles the way its fish swim.
+const SPIN: Dictionary[String, float] = {"sardine_shoal": 0.25}
 const WRECK_WIDTH := 460.0
 ## Props keep at least this far apart (ground units); a zone's own props, which grow in beds,
 ## closer.
@@ -174,6 +177,7 @@ func _make_prop(prop_name: String, ground: Vector2, width: float, phase: float) 
 	prop.at = Iso.to_screen(ground)
 	prop.size = prop.texture.get_size() * (width / prop.texture.get_width())
 	prop.sways = SWAY.has(prop_name)
+	prop.spin = SPIN.get(prop_name, 0.0)
 	prop.phase = phase
 	# The shader reads the depth from the colour (the waterline is at ground y 0).
 	prop.tint = Color(SeaDepth.depth(ground.y), SeaDepth.abyss(ground.y), 0.0)
@@ -191,6 +195,14 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
 	for prop in _props:
+		if prop.spin != 0.0:
+			# Turned on the ground, then squashed into the 2:1 view, about the sprite's middle.
+			var middle := prop.at - Vector2(0.0, prop.size.y * (0.5 - PROP_BASE))
+			var squash := Transform2D(Vector2(1.0, 0.0), Vector2(0.0, 0.5), Vector2.ZERO)
+			var turn := Transform2D(prop.phase + _time * prop.spin, Vector2.ZERO)
+			draw_set_transform_matrix(Transform2D(0.0, middle) * squash * turn * squash.affine_inverse())
+			draw_texture_rect(prop.texture, Rect2(-prop.size * 0.5, prop.size), false, prop.tint)
+			continue
 		# Swaying props lean from their base.
 		var lean := sin(_time * 1.3 + prop.phase) * 0.12 if prop.sways else 0.0
 		draw_set_transform_matrix(Transform2D(Vector2(1.0, 0.0), Vector2(lean, 1.0), prop.at))
@@ -203,5 +215,7 @@ class Prop extends RefCounted:
 	var at := Vector2.ZERO
 	var size := Vector2.ZERO
 	var sways := false
+	## Radians per second it turns (SPIN).
+	var spin := 0.0
 	var phase := 0.0
 	var tint := Color.WHITE

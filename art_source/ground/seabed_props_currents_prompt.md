@@ -13,6 +13,9 @@ cut by `tools/extract_magenta_sheet.py` into `assets/sprites/seabed`:
 | 5 | `shark_cage` (sunken) | shark_alley |
 | 6 | `red_bait` (Cape sea squirts on a rock) | shark_alley |
 
+The shoal turns in the game, so it is cut again without its sand patch by
+`python tools/cut_sardine_shoal.py` (run it after the sheet cut).
+
 Paste the prompt below and attach `art_source/ground/seabed_props.png` (the style reference).
 
 ---
