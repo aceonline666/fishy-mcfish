@@ -101,6 +101,12 @@ var species: SpeciesDef
 var body: Texture2D
 var tail: Texture2D
 var motion := Motion.TAIL
+## Views from above (the coming species style, art_source/fish/top_view), swimming towards the
+## lower left and the upper left of the screen (<id>_top_sw/_top_nw.png), mirrored for the right.
+## A species with them is drawn from above; `--no-top` on the command line draws the side view,
+## for comparisons. So far only the cod from the style test has them.
+var top_sw: Texture2D
+var top_nw: Texture2D
 var is_jellyfish := false
 
 
@@ -111,6 +117,10 @@ static func for_species(def: SpeciesDef) -> FishArt:
 	art.is_jellyfish = def.id in JELLYFISH
 	var body_path := PAINTED_DIR + def.id + "_body.png"
 	var tail_path := PAINTED_DIR + def.id + "_tail.png"
+	var top_path := PAINTED_DIR + def.id + "_top_%s.png"
+	if ResourceLoader.exists(top_path % "sw") and ResourceLoader.exists(top_path % "nw") and not "--no-top" in OS.get_cmdline_user_args():
+		art.top_sw = load(top_path % "sw")
+		art.top_nw = load(top_path % "nw")
 	if ResourceLoader.exists(body_path) and ResourceLoader.exists(tail_path):
 		art.body = load(body_path)
 		art.tail = load(tail_path)
@@ -175,6 +185,23 @@ func draw(canvas: CanvasItem, view: Transform2D, length: float, phase: float = 0
 	if tail != null:
 		_draw_mesh(canvas, tail, tail_rect, warp, tint, grid)
 	_draw_mesh(canvas, body, body_rect, warp, tint, grid)
+	canvas.draw_set_transform_matrix(Transform2D.IDENTITY)
+
+
+func has_top_view() -> bool:
+	return top_sw != null
+
+
+## Draws the view from above for a swimming direction on screen, centred on the
+## origin, the fish (lying along the sprite's diagonal) `length` long, swaying a little with the swimming beat.
+func draw_top(canvas: CanvasItem, screen_direction: Vector2, length: float, phase: float, swim: float) -> void:
+	var texture := top_sw if screen_direction.y >= 0.0 else top_nw
+	var size := texture.get_size() * (length / texture.get_size().length())
+	var view := Transform2D(sin(phase) * 0.06 * swim, Vector2.ZERO)
+	if screen_direction.x > 0.0:
+		view = Transform2D(Vector2(-1.0, 0.0), Vector2(0.0, 1.0), Vector2.ZERO) * view
+	canvas.draw_set_transform_matrix(view)
+	canvas.draw_texture_rect(texture, Rect2(-size * 0.5, size), false)
 	canvas.draw_set_transform_matrix(Transform2D.IDENTITY)
 
 
