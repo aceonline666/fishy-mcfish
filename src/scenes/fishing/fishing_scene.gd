@@ -786,12 +786,12 @@ func _check_catches(delta: float) -> void:
 				or fish.ground_position.distance_to(scoop) > wader.scoop_radius + fish.catch_radius():
 			fish.hold_time = maxf(fish.hold_time - delta * HOLD_DECAY, 0.0)
 			continue
-		# The net lets fish through that the tank cannot hold yet; they still count as caught.
+		# The net lets fish through that the tank cannot hold yet; they do not count as caught.
 		if not Aquarium.can_ever_hold(GameState.here(), fish.species):
 			fish.hold_time = 0.0
-			if not fish.has_meta(&"counted"):
-				fish.set_meta(&"counted", true)
-				_count_too_big(fish)
+			if not fish.has_meta(&"warned"):
+				fish.set_meta(&"warned", true)
+				_warn_too_big(fish)
 			continue
 		if live_well.is_full():
 			fish.hold_time = 0.0
@@ -834,13 +834,13 @@ func _catch(fish: SwimmingFish) -> void:
 	_record_catch(fish)
 
 
-## A fish the tank cannot hold yet slips through the net: it counts for the Fishpedia, charting
-## and goals, but stays in the water, and a bubble says which tank it needs.
-func _count_too_big(fish: SwimmingFish) -> void:
+## A fish the tank cannot hold yet slips through the net and stays in the water; a bubble says
+## which tank it needs. It does not count as caught (Fishpedia, charting, goals) until a big enough
+## tank stands on this beach.
+func _warn_too_big(fish: SwimmingFish) -> void:
 	Juice.ripple(_effects, fish.position, fish.body_length * 0.5)
 	_announce(_world_to_scene(fish.position + Vector2(0.0, -80.0)),
 			tr("Needs a %s L tank") % NumberFormat.compact(Aquarium.tank_needed(fish.species)), WARNING_COLOR, 1.0)
-	_record_catch(fish)
 
 
 ## Counts a catch: new species, charted zones and goals are announced.

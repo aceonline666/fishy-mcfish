@@ -57,11 +57,13 @@ func run(hours: float, seed_value: int, quiet: bool = false) -> Dictionary[Strin
 
 
 ## Catches one fish in the chosen zone, letting time pass. The net lets through fish no tank
-## here can hold yet; they still count as caught.
+## here can hold yet; they do not count as caught.
 func _fish_one() -> void:
 	var zone := _choose_zone()
 	var species_id := SpawnTable.new(zone.spawns).pick(_rng)
 	_pass_time(SECONDS_PER_CATCH + CatchRules.struggle_seconds(DataRegistry.species[species_id], Aquarium.net_speed(_state.here())))
+	if not Aquarium.can_ever_hold(_state.here(), DataRegistry.species[species_id]):
+		return
 	var was_charted := Charting.is_charted(_state, zone)
 	if _state.record_catch(species_id, zone.id):
 		_event("new species: %s (%s)" % [DataRegistry.species[species_id].common_name, zone.name])
@@ -70,8 +72,7 @@ func _fish_one() -> void:
 	if not was_charted and Charting.is_charted(_state, zone):
 		_event("charted %s" % zone.name)
 		milestones.get_or_add("charted_" + zone.id, _time)
-	if Aquarium.can_ever_hold(_state.here(), DataRegistry.species[species_id]):
-		_backpack.append(species_id)
+	_backpack.append(species_id)
 
 
 ## Explore first: the shallowest open zone here that is uncharted or still hides an unknown
@@ -96,8 +97,11 @@ func _choose_zone() -> ZoneDef:
 	return best
 
 
+## Only species the tank here can hold can be caught; the rest wait for a bigger tank.
 func _has_unknown_species(zone: ZoneDef) -> bool:
-	return zone.spawns.keys().any(func(id: String) -> bool: return not _state.species_caught.has(id))
+	var site := _state.here()
+	return zone.spawns.keys().any(func(id: String) -> bool:
+		return not _state.species_caught.has(id) and Aquarium.can_ever_hold(site, DataRegistry.species[id]))
 
 
 ## Walks up the beach: store what fits (the rest stays in the backpack), sell all grown fish (by

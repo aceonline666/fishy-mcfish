@@ -257,7 +257,6 @@ Rules of thumb:
 - Add seagulls / seabirds for the various locations which rarely fly over the screen. For jurasic sea this could be a pterodactyl, quezalcoatlus or something like that. Needs painted sprites in the isometric perspective (wing poses for flapping and gliding); a version drawn in code was tried and looked worse than none. Maybe also sounds for them to give a more maritim vibe to the game.
 - Replace the ice floes on the Antarctic pack ice (`IceFloes`, drawn in code) with painted sprites.
 - Fine tuning for tank fill-up and tank-is-full-animation. Edges for the tank fill-up are still not matching the sprites correctly. Also the tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too.
-- Do not mark species that you can't catch because your tank is to small as "catched" and do not unlock them in the fishpedia. It should be goal to catch them and to "clean" the location by upgrading the tank.
 - More secrets (need new sprites, postponed):
   - an original deep sea horror in the deepest zones, barely visible at the edge of the dark
   - glowing eyes in the dark that vanish when you come close

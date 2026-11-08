@@ -172,11 +172,12 @@ func test_store_square_moves_the_catch_into_the_tank() -> void:
 	assert_eq(GameState.state.money, 0.0, "storing does not sell")
 
 
-func test_fish_the_tank_cannot_hold_slip_through_the_net_but_count() -> void:
+func test_fish_the_tank_cannot_hold_slip_through_the_net_and_do_not_count() -> void:
 	# The glass tank (120 L) is too small for mackerel (200 L).
 	await _catch(["atlantic_mackerel", "european_sprat"] as Array[String])
 	assert_eq(_scene.live_well.species_ids, ["european_sprat"] as Array[String], "the mackerel stays in the water")
-	assert_true(GameState.state.species_caught.has("atlantic_mackerel"), "but counts as caught")
+	assert_false(GameState.state.species_caught.has("atlantic_mackerel"), "and is not caught yet")
+	assert_true(GameState.state.species_caught.has("european_sprat"))
 	assert_eq(Aquarium.tank_needed(DataRegistry.species["atlantic_mackerel"]), 400.0)
 
 
