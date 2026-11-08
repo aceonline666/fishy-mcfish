@@ -2,23 +2,24 @@
 
 All species redrawn in one style and seen from above, as decided after the style test
 (`art_source/fish/species_style_test_prompt.md`, 2026-11-08): the cute comic style of sheet 5,
-the steep view from above of the cods in `art_source/fish/species_style_test.png`.
+the steep view from above of the cod in `reference_top_cod.png` (cut from
+`../species_style_test.png`).
 
-Every species gets two sprites: swimming towards the lower left (`<id>_top_sw.png`) and towards
-the upper left (`<id>_top_nw.png`); the game mirrors them for the right. Each sheet holds
-8 species (16 drawings) on a 4 × 4 grid of 384 × 256 px cells: two species per row,
-each drawn heading lower left, then upper left. More drawings per image and ChatGPT starts to mix
-up species or drop a view; the cell's 3:2 shape is the 2:1 diagonal the sprites lie along.
+Every species gets ONE sprite, `assets/sprites/fish_painted/<id>_top.png`, swimming towards the
+lower left. The game flips it upside down for the upper left and mirrors it for the right: seen
+this steeply from above, a flipped fish looks right. Each sheet holds 8 species on a
+4 × 2 grid. Larger grids and two views per creature did not work (first try of sheet 01): ChatGPT
+fell back to tilted side views and kept them when asked to redraw.
 
 15 sheets for 116 species: the 102 in the game and the 14
 planned on sheet 14 (`../species_sheet_14_prompt.md`), which skip the side view. Sheets are grouped
 by body type (fish, eels, sharks, flat, cephalopods, jellyfish, crawlers, upright swimmers, big
 animals), so each creature's hint on how it looks from above stays short.
 
-Regenerate the prompts with . Workflow per sheet: attach `../species_style_test.png`, paste the prompt from
-`top_sheet_NN_prompt.md`, save the result as `top_sheet_NN.png` here. Cutting the sheets into
-sprites is still to be written (one script for all sheets: the grid is fixed, so it only needs
-the species ids per cell, listed in each prompt file).
+Workflow per sheet: a NEW ChatGPT chat, attach only `reference_top_cod.png`, paste the prompt
+from `top_sheet_NN_prompt.md`, save the result as `top_sheet_NN.png` here, then
+`python tools/extract_top_sheet.py NN`, import in Godot and turn mipmaps on for the new sprites.
+Regenerate the prompts with `python tools/make_top_view_prompts.py`.
 
 | Sheet | Species id | Species |
 |---|---|---|

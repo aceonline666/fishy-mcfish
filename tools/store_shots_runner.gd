@@ -151,19 +151,18 @@ func _shot_open_sea() -> void:
 	await _capture("04_open_sea")
 
 
-## Cods seen from above (FishArt.top_sw/top_nw) among side-view fish at the Wreck (with
-## --no-top: all from the side), to compare the views.
+## The species drawn from above (FishArt.top, art_source/fish/top_view) swimming every way,
+## among the rest (with --no-top: all from the side), to compare the views.
 func _shot_top_view_test() -> void:
 	var state := _state(["north_sea"], 3)
 	var spot := await _start(state)
-	var at := Vector2(1000.0, 2300.0)
+	var at := Vector2(1000.0, 1500.0)
 	_place(spot, at)
-	var headings: Array[float] = [0.3, 1.9, 3.4, 4.9, 2.6]
-	for i in headings.size():
-		var angle := TAU * i / headings.size() + 0.4
-		spot.spawn_fish("atlantic_cod", at + Vector2(cos(angle), sin(angle)) * (280.0 + 80.0 * (i % 2)), headings[i])
-	for i in 4:
-		spot.spawn_fish(["atlantic_mackerel", "lumpsucker"][i % 2], at + Vector2(-350.0 + i * 220.0, 480.0), PI * (i % 2))
+	var species: Array[String] = ["european_sprat", "atlantic_herring", "atlantic_mackerel", "lumpsucker",
+			"atlantic_cod", "atlantic_wolffish", "roundnose_grenadier", "rabbit_fish"]
+	for i in species.size():
+		var angle := TAU * i / species.size() + 0.3
+		spot.spawn_fish(species[i], at + Vector2(cos(angle), sin(angle)) * (300.0 + 90.0 * (i % 2)), angle * 1.7)
 	await get_tree().create_timer(0.6).timeout
 	await _capture("top_view_test")
 

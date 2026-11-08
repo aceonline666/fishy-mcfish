@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bupmysncpjien"
-path="res://.godot/imported/atlantic_cod_top_sw.png-2cdd081b78c79ab0b455976778204ebc.ctex"
+uid="uid://24q27oc7iinn"
+path="res://.godot/imported/atlantic_cod_top.png-5c6f4f8f5294660dcacb30f89c1c5af9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/fish_painted/atlantic_cod_top_sw.png"
-dest_files=["res://.godot/imported/atlantic_cod_top_sw.png-2cdd081b78c79ab0b455976778204ebc.ctex"]
+source_file="res://assets/sprites/fish_painted/atlantic_cod_top.png"
+dest_files=["res://.godot/imported/atlantic_cod_top.png-5c6f4f8f5294660dcacb30f89c1c5af9.ctex"]
 
 [params]
 

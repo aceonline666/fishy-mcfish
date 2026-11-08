@@ -154,26 +154,20 @@ CREATURES = [
 ]
 
 PER_SHEET = 8
+REFERENCE = "art_source/fish/top_view/reference_top_cod.png"
 
-HEADER = """Top-view sprite sheet for a cozy mobile fishing game. Image 1 is the reference for both the
-style AND the view: keep its art style exactly (cute comic style, bold dark outlines, flat colours
-with soft cel shading, big friendly eyes, yet every animal recognisable to a marine biologist)
-and draw every creature from the same steep view from above as the two top cods: the camera looks
-down at about 60 degrees, so we see the whole width of the back, both eyes, fins spreading to both
-sides, and only a thin strip of the left flank.
+# The wording that gave the steep view (sheet 01, 2026-11-08): the reference first, the view
+# spelled out, one view per creature, few creatures, a plain grid.
+HEADER = """The attached cod is my reference for the art style AND, most importantly, for the camera view:
+we look steeply DOWN on its back from above. We see the whole width of its back, BOTH eyes on top
+of the head, BOTH pectoral fins sticking out to the left and right of the body, the dorsal fins
+along the middle of the back, and only a thin strip of its flank. It swims towards the lower left:
+head at the lower left, tail at the upper right, lying along the diagonal.
 
-Canvas 1536 x 1024 px, fully transparent background (PNG with real alpha). A grid of 4 columns and
-4 rows of 384 x 256 px cells, one creature per cell, centred, filling about 85 % of the cell along
-its diagonal, never touching another cell. No glow or halo around the creatures, no shadows, no
-water, no bubbles, no text, no labels, no numbers, no frames, no checkerboard.
-
-Each row holds two creatures, each drawn twice:
-- columns 1 and 2: the first creature of the row, columns 3 and 4: the second,
-- columns 1 and 3: swimming towards the LOWER LEFT (head at the lower left, tail at the upper
-  right, the head closer to the camera, like the top-left cod in image 1),
-- columns 2 and 4: the same creature swimming towards the UPPER LEFT (head at the upper left, tail
-  at the lower right, the head further from the camera, like the top-right cod in image 1).
-Both drawings of a creature must match exactly in colours, markings and fins.
+Draw {count} different sea creatures EXACTLY in this view, pose and style (cute comic style, bold dark
+outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
+biologist). Canvas 1536 x 1024 px, a grid of 4 columns x 2 rows, one creature centred in each
+cell, nothing touching. Fully transparent background, no glow, no shadow, no water, no text.
 """
 
 
@@ -185,13 +179,16 @@ def main() -> None:
     missing = [s for s in species if s not in ids]
     assert not missing, missing
     os.makedirs(OUT, exist_ok=True)
+    for old in os.listdir(OUT):
+        if old.endswith("_prompt.md"):
+            os.remove(os.path.join(OUT, old))
     sheets = [creatures[i:i + PER_SHEET] for i in range(0, len(creatures), PER_SHEET)]
     overview = []
     for n, sheet in enumerate(sheets, 1):
-        lines = []
+        rows: list[list[str]] = [[], []]
         table = []
         for k, (cid, kind, text) in enumerate(sheet):
-            row, slot = k // 2 + 1, "first" if k % 2 == 0 else "second"
+            row, column = k // 4 + 1, k % 4 + 1
             if cid in species:
                 name = f"{species[cid]['common_name']} ({species[cid]['scientific_name']})"
                 desc = f"{name}: {text}."
@@ -199,25 +196,28 @@ def main() -> None:
                 name = text.split(")")[0] + ")"
                 desc = f"{text}."
             desc += KIND[kind]
-            lines.append(f"Row {row}, {slot}: {desc}")
-            table.append(f"| {row} | {'1–2' if slot == 'first' else '3–4'} | `{cid}` | {name}{'' if cid in species else ' (new, sheet 14)'} |")
+            rows[row - 1].append(f"{k + 1}. {desc}")
+            table.append(f"| {row} | {column} | `{cid}` | {name}{'' if cid in species else ' (new, sheet 14)'} |")
             overview.append((n, cid, name, cid in species))
-        rows_used = (len(sheet) + 1) // 2
-        layout_note = "" if rows_used == 4 else f"\nOnly the first {rows_used} rows are used; leave the rest of the canvas empty.\n"
-        prompt = HEADER + layout_note + "\nThe creatures:\n" + "\n".join(lines)
+        prompt = HEADER.format(count=len(sheet)) + "\nTop row from left:\n" + "\n".join(rows[0])
+        if rows[1]:
+            prompt += "\n\nBottom row from left:\n" + "\n".join(rows[1])
+        else:
+            prompt += "\n\nLeave the bottom row empty."
         doc = f"""# Top-view sheet {n:02d} – generation prompt
 
-Part of the top-view species set (overview: `README.md` in this folder). Attach
-`art_source/fish/species_style_test.png` (style and view: the cods) as image 1, then paste the
-prompt. Save the result as `art_source/fish/top_view/top_sheet_{n:02d}.png`.
+Part of the top-view species set (overview: `README.md` in this folder). In a NEW ChatGPT chat,
+attach only `{REFERENCE}`, then paste the prompt (as one paragraph is fine). Save the result as
+`art_source/fish/top_view/top_sheet_{n:02d}.png` and cut it with
+`python tools/extract_top_sheet.py {n}`.
 
-| Row | Columns | Species id | Species |
+| Row | Column | Species id | Species |
 |---|---|---|---|
 {chr(10).join(table)}
 
-Check before cutting: both drawings of each creature match, heads point lower left (columns 1, 3)
-and upper left (columns 2, 4), no glow, nothing touches the next cell. If one creature is wrong,
-ask ChatGPT to redraw only that cell pair, keeping everything else.
+Check before cutting: every creature seen steeply from above (both eyes, back from above), head at
+the lower left, nothing touching the next cell. If one creature is wrong, ask ChatGPT to redraw
+only that one, keeping everything else.
 
 ## Prompt
 
@@ -226,32 +226,33 @@ ask ChatGPT to redraw only that cell pair, keeping everything else.
 ```
 """
         open(os.path.join(OUT, f"top_sheet_{n:02d}_prompt.md"), "w", encoding="utf-8", newline="\n").write(doc)
-    rows = "\n".join(f"| {n:02d} | `{cid}` | {name}{'' if known else ' – new (sheet 14), add to data/species.csv'} |" for n, cid, name, known in overview)
+    table_rows = "\n".join(f"| {n:02d} | `{cid}` | {name}{'' if known else ' – new (sheet 14), add to data/species.csv'} |" for n, cid, name, known in overview)
     readme = f"""# Top-view species sprites
 
 All species redrawn in one style and seen from above, as decided after the style test
 (`art_source/fish/species_style_test_prompt.md`, 2026-11-08): the cute comic style of sheet 5,
-the steep view from above of the cods in `art_source/fish/species_style_test.png`.
+the steep view from above of the cod in `reference_top_cod.png` (cut from
+`../species_style_test.png`).
 
-Every species gets two sprites: swimming towards the lower left (`<id>_top_sw.png`) and towards
-the upper left (`<id>_top_nw.png`); the game mirrors them for the right. Each sheet holds
-{PER_SHEET} species (16 drawings) on a 4 × 4 grid of 384 × 256 px cells: two species per row,
-each drawn heading lower left, then upper left. More drawings per image and ChatGPT starts to mix
-up species or drop a view; the cell's 3:2 shape is the 2:1 diagonal the sprites lie along.
+Every species gets ONE sprite, `assets/sprites/fish_painted/<id>_top.png`, swimming towards the
+lower left. The game flips it upside down for the upper left and mirrors it for the right: seen
+this steeply from above, a flipped fish looks right. Each sheet holds {PER_SHEET} species on a
+4 × 2 grid. Larger grids and two views per creature did not work (first try of sheet 01): ChatGPT
+fell back to tilted side views and kept them when asked to redraw.
 
 {len(sheets)} sheets for {len(overview)} species: the {len(species)} in the game and the 14
 planned on sheet 14 (`../species_sheet_14_prompt.md`), which skip the side view. Sheets are grouped
 by body type (fish, eels, sharks, flat, cephalopods, jellyfish, crawlers, upright swimmers, big
 animals), so each creature's hint on how it looks from above stays short.
 
-Regenerate the prompts with . Workflow per sheet: attach `../species_style_test.png`, paste the prompt from
-`top_sheet_NN_prompt.md`, save the result as `top_sheet_NN.png` here. Cutting the sheets into
-sprites is still to be written (one script for all sheets: the grid is fixed, so it only needs
-the species ids per cell, listed in each prompt file).
+Workflow per sheet: a NEW ChatGPT chat, attach only `reference_top_cod.png`, paste the prompt
+from `top_sheet_NN_prompt.md`, save the result as `top_sheet_NN.png` here, then
+`python tools/extract_top_sheet.py NN`, import in Godot and turn mipmaps on for the new sprites.
+Regenerate the prompts with `python tools/make_top_view_prompts.py`.
 
 | Sheet | Species id | Species |
 |---|---|---|
-{rows}
+{table_rows}
 """
     open(os.path.join(OUT, "README.md"), "w", encoding="utf-8", newline="\n").write(readme)
     print(len(sheets), "sheets,", len(overview), "species")
