@@ -16,7 +16,7 @@ const PICKUP_RADIUS := 35.0
 ## Seconds to lift a fish, per second of struggle it would put up in a hand net.
 const LIFT_PER_STRUGGLE := 1.5
 const MIN_LIFT_S := 0.5
-const ICON_LENGTH := 34.0
+const ICON_LENGTH := 27.0
 ## How fast it sinks to the ground to rest, and climbs back, in share of its height per second.
 const LAND_SPEED := 1.5
 ## Resting drones sit side by side on the pad, this far apart.
@@ -30,9 +30,10 @@ const TEXTURES: Array[Texture2D] = [
 	preload("res://assets/sprites/props/drone_5.png"), preload("res://assets/sprites/props/drone_6.png"),
 ]
 ## Screen height of the sprite before the drone's size is applied, and how far below the body
-## the net with the catch hangs.
-const SPRITE_HEIGHT := 120.0
-const NET_DROP := 38.0
+## the net with the catch hangs. (Shrunk to 80 % on 2026-11-08: the drones looked too big.)
+const SPRITE_HEIGHT := 96.0
+const NET_DROP := 30.0
+const SHADOW_RADIUS := 27.0
 ## Per look, its four rotor hubs as shares of the sprite (back left, back right, front left,
 ## front right), and the blade length as a share of the sprite's width.
 const ROTORS: Array[Vector2] = [
@@ -192,7 +193,7 @@ func flight() -> float:
 
 
 func _draw() -> void:
-	draw_colored_polygon(Iso.ellipse(Vector2.ZERO, 34.0, 16), SHADOW)
+	draw_colored_polygon(Iso.ellipse(Vector2.ZERO, SHADOW_RADIUS, 16), SHADOW)
 	var bob := sin(_time * 3.0) * 4.0 * _height
 	var body := Vector2(0.0, -HEIGHT * _height + bob)
 	var size := _texture.get_size() * (SPRITE_HEIGHT / _texture.get_height())
@@ -206,7 +207,7 @@ func _draw() -> void:
 	if cargo.is_empty():
 		return
 	for i in cargo.size():
-		var view := Transform2D(Vector2(1.0 if i % 2 == 0 else -1.0, 0.0), Vector2(0.0, 1.0), net + Vector2(0.0, 6.0 - i * 9.0))
+		var view := Transform2D(Vector2(1.0 if i % 2 == 0 else -1.0, 0.0), Vector2(0.0, 1.0), net + Vector2(0.0, 5.0 - i * 7.0))
 		cargo[i].draw(self, view, ICON_LENGTH)
 	var texture_size := _texture.get_size()
 	var bag := Rect2(0.0, texture_size.y * NET_TOP, texture_size.x, texture_size.y * (1.0 - NET_TOP))

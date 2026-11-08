@@ -259,7 +259,6 @@ Rules of thumb:
 - Fine tuning for tank fill-up and tank-is-full-animation. Edges for the tank fill-up are still not matching the sprites correctly. Also the tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too.
 - Do not mark species that you can't catch because your tank is to small as "catched" and do not unlock them in the fishpedia. It should be goal to catch them and to "clean" the location by upgrading the tank.
 - Make currents a tiny bit stronger (maybe 20%). Also make the fish swim faster into the direction of the current and slower against it.
-- Rescale the drone sprites. They look too big. Shrink them maybe to 80%.
 - More secrets (need new sprites, postponed):
   - an original deep sea horror in the deepest zones, barely visible at the edge of the dark
   - glowing eyes in the dark that vanish when you come close
