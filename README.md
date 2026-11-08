@@ -250,8 +250,16 @@ Rules of thumb:
   ([OpenGameArt](https://opengameart.org/content/shop-theme)).
 
 ## TODOs
-- Fine tuning for tank fill-up and tank-is-full-animation
-- Make the species sprites consistent. Some are very comic-style (sheet 5) and some are very realistic. We want a cute-comic style so I fear we have to regenerate a large part of it. Also want a proper isometric view instead of the current side view. This should look better for the game. Maybe do a test with a single species before we regenerate all sprites.
+- Adjust game icon on phone to the app icon in the Google Console - don't use the nautilus icon, use the wader + background icon
+- Add location images for antarctica and jurasic sea
+- Move the ancor in the north sea away from the ship wreck - they don't match from sizing and they are too close together
+- Move the seagull away from the tank. On the biggest tank the seagull is showing through the background and it looks like the seagull is in the tank. Move it maybe in front of the upgrade store.
+- Wave animation for deep sea looks weird, like it's on the sea floor. It needs to be rendered on top of the fish, the seafloor objects and the wader, at the same level as the zone barriers.
+- Add ice floes to the ice shelf zone. Do we need sprites or can this be drawn via SVG? Ice floes should be on the same layer as the zone barriers (above wader and fish). Wader should become translucent behind/below it (like behind the shop).
+- Add seagulls / seabirds for the various locations which rarely fly over the screen. For jurasic sea this could be a pterodactyl or something like that.
+- Stack on the back can a bit denser. Fish should overlap each other a bit. And their sizes are not relative to their sizes in the sea. A sperm whale is sized down to the same level as a makrel.
+- Fine tuning for tank fill-up and tank-is-full-animation. Edges for the tank fill-up are still not matching the sprites correctly. Also the tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too. 
+- Make the species sprites consistent. Some are very comic-style (sheet 5) and some are very realistic. We want a cute-comic style so I fear we have to regenerate a large part of it (side view; the cod is done: `art_source/fish/views/`, prompts per species in `art_source/fish/views/prompts.md`).
 - More secrets (need new sprites, postponed):
   - an original deep sea horror in the deepest zones, barely visible at the edge of the dark
   - glowing eyes in the dark that vanish when you come close
@@ -259,17 +267,15 @@ Rules of thumb:
   - secret species per location that only show under a condition (night, charted zone, ...)
 
 ### Later 
+- Species seen from above (isometric) instead of the side view. Tested with the cod and sheet 01 (2026-11-08, see git history): looks better, but turning fish switch hard between the sprites (lower left / upper left, mirrored) and look stuttering; smooth turns would need more views per species (more memory). Drawing code is still in `FishArt.draw_top` (sprites `<id>_top.png` / `<id>_top_up.png`), the views come from one image per species (`tools/extract_species_views.py`).
 - ~~Add new locations. Ideas:~~
   - ~~Antarctic sea (Orcas, pengiuins? black smokers in the deep zones?)~~ (penguins and everyday fish still to come: `species_sheet_14_prompt.md`)
   - ~~Jurasic sea (with ichtyosaurs, plesiosaurs, leopleurodon, ammonites etc?)~~ (middle-sized species still to come: `species_sheet_14_prompt.md`)
 - Add more species - mostly the well known ones
-  - ~~Whale Shark~~
-  - ~~Orcas~~
   - Hammerhead Shark
-  - ~~Baracuda~~
-  - ~~Dolphins~~
   - Seasnakes
-  - ~~Seals~~
+  - Walrus
+  - Otter (with special swim and lay on the the back sprites and animation)
 - Add weather and day cycle: Storms, Lightning, Night. Day and Night could sync with real time.
 - Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console - which requires a Google Cloud Project - which would cause costs)
   
