@@ -74,8 +74,14 @@ const EDGE_OFFSET := Vector2(15.0, 70.0)
 const GLOWS: Dictionary[String, Array] = {
 	"black_smoker": [Vector2(0.49, 0.367), Color(1.0, 0.45, 0.12), 0.9],
 }
-## How much of the water's tint and the deep sea's dark lies on a glowing prop.
-const GLOW_DARKNESS := 0.35
+## Smoke rising from glowing props: puffs per prop, seconds one puff takes to rise, how high it
+## rises and how wide it grows (shares of the prop's width), and its colour.
+const SMOKE_PUFFS := 9
+const SMOKE_SECONDS := 5.0
+const SMOKE_RISE := 1.1
+const SMOKE_SIZE := Vector2(0.12, 0.42)
+const SMOKE_COLOR := Color(0.38, 0.37, 0.4)
+const SMOKE_LIT := Color(0.95, 0.5, 0.25)
 const SWAY: Array[String] = ["kelp_small", "kelp", "kelp_tall", "sea_lettuce", "seagrass", "reef_anemone", "sea_fan", "sea_whips", "sea_pens"]
 const WRECK_WIDTH := 460.0
 ## Props keep this far from a wreck's ground point (ground units), off its hull; the sunken junk
@@ -98,7 +104,8 @@ var water := "temperate"
 
 ## Painted props, nearest last.
 var _props: Array[Prop] = []
-## Draws the glowing props' light over the props, additively (Glow).
+## Draws the glowing props' smoke, then their light over the props, additively (Glow).
+var _smoke := Node2D.new()
 var _glows := Node2D.new()
 ## Sunken ships (add_wreck()): sprite and ground point.
 var _wrecks: Array[Array] = []
@@ -109,6 +116,8 @@ func _ready() -> void:
 	var shader_material := ShaderMaterial.new()
 	shader_material.shader = PROPS_SHADER
 	material = shader_material
+	_smoke.draw.connect(_draw_smoke)
+	add_child(_smoke)
 	_glows.material = Glow.material()
 	_glows.draw.connect(_draw_glows)
 	add_child(_glows)
@@ -214,9 +223,9 @@ func _make_prop(prop_name: String, ground: Vector2, width: float, phase: float) 
 	prop.sways = SWAY.has(prop_name)
 	prop.phase = phase
 	# The shader reads the depth from the colour (the waterline is at ground y 0).
-	# Glowing props light themselves: the water and the dark of the deep sea cover them only partly.
-	var cover := GLOW_DARKNESS if GLOWS.has(prop_name) else 1.0
-	prop.tint = Color(SeaDepth.depth(ground.y) * cover, SeaDepth.abyss(ground.y) * cover, 0.0)
+	# Glowing props pass the height of their light (seabed_props.gdshader).
+	var light_height: float = (GLOWS[prop_name][0] as Vector2).y if GLOWS.has(prop_name) else 0.0
+	prop.tint = Color(SeaDepth.depth(ground.y), SeaDepth.abyss(ground.y), light_height)
 	return prop
 
 
@@ -228,6 +237,30 @@ func _process(delta: float) -> void:
 	_time += delta
 	queue_redraw()
 	_glows.queue_redraw()
+	_smoke.queue_redraw()
+
+
+## Where a glowing prop's light sits on screen.
+func _light_point(prop: Prop) -> Vector2:
+	var share: Vector2 = GLOWS[prop.name][0]
+	return prop.at + Vector2(-prop.size.x * 0.5, -prop.size.y * (1.0 - PROP_BASE)) + share * prop.size
+
+
+## Smoke billowing up from the glowing props: soft puffs that rise, drift, grow and fade, lit by
+## the glow where they leave the vent.
+func _draw_smoke() -> void:
+	for prop in _props:
+		if not GLOWS.has(prop.name):
+			continue
+		var vent := _light_point(prop)
+		var width := prop.size.x
+		for i in SMOKE_PUFFS:
+			var t := fposmod(_time / SMOKE_SECONDS + float(i) / SMOKE_PUFFS + prop.phase, 1.0)
+			var drift := sin(_time * 0.7 + i * 1.7 + prop.phase) * width * 0.08 * t + width * 0.12 * t * t
+			var at := vent + Vector2(drift, -t * width * SMOKE_RISE)
+			var radius := lerpf(SMOKE_SIZE.x, SMOKE_SIZE.y, sqrt(t)) * width
+			var alpha := smoothstep(0.0, 0.1, t) * pow(1.0 - t, 1.5) * 0.95
+			Glow.draw(_smoke, at, radius, Color(SMOKE_LIT.lerp(SMOKE_COLOR, smoothstep(0.05, 0.5, t)), alpha))
 
 
 ## The light of the glowing props: a wide dim glow lighting the water and a bright core, both
@@ -237,8 +270,7 @@ func _draw_glows() -> void:
 		var glow: Array = GLOWS.get(prop.name, [])
 		if glow.is_empty():
 			continue
-		var share: Vector2 = glow[0]
-		var at := prop.at + Vector2(-prop.size.x * 0.5, -prop.size.y * (1.0 - PROP_BASE)) + share * prop.size
+		var at := _light_point(prop)
 		var flicker := 0.85 + 0.1 * sin(_time * 2.3 + prop.phase) + 0.05 * sin(_time * 7.1 + prop.phase * 3.0)
 		var color: Color = glow[1]
 		var radius := prop.size.x * float(glow[2])
