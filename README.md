@@ -253,9 +253,10 @@ Rules of thumb:
 ## TODOs
 - Add location images for antarctica and jurasic sea
 - Make last deep sea zones longer. Increase from 4 units to 8 units, but do not add more fish. The deep sea should feel wast and empty. And this also clarifies that this is the last zone.
-- Add seagulls / seabirds for the various locations which rarely fly over the screen. For jurasic sea this could be a pterodactyl, quezalcoatlus or something like that.
 - Black Smokers in the Antarctic deep sea are not visible. They need to glow. Also add glow to the deep sea angler fish.
 - Fine tuning for tank fill-up and tank-is-full-animation. Edges for the tank fill-up are still not matching the sprites correctly. Also the tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too.
+- Do not mark species that you can't catch because your tank is to small as "catched" and do not unlock them in the fishpedia. It should be goal to catch them and to "clean" the location by upgrading the tank.
+- Make currents a tiny bit stronger (maybe 20%). Also make the fish swim faster into the direction of the current and slower against it.
 - Rescale the drone sprites. They look too big. Shrink them maybe to 80%.
 - Make the species sprites consistent. Some are very comic-style (sheet 5) and some are very realistic. We want a cute-comic style so I fear we have to regenerate a large part of it (side view; the cod is done: `art_source/fish/views/`, prompts per species in `art_source/fish/views/prompts.md`).
 - More secrets (need new sprites, postponed):

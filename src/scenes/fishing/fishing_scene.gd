@@ -251,6 +251,8 @@ var _booth_nodes: Array[Booth] = []
 var _customer_timer := 0.0
 var _sell_square: ActionSquare
 var _drones: Array[Drone] = []
+## Seabirds now and then flying over the screen.
+var birds := SeaBirds.new()
 var _drone_dock: Sprite2D
 ## The props and the gear shop, which the wader can walk behind; the tank is added each frame.
 var _decor_covers: Array[Layers.Cover] = []
@@ -375,6 +377,9 @@ func _ready() -> void:
 		var top := maxf(zone.depth_start, SHORE_Y + WATER_MARGIN)
 		_seabed.add_zone(zone.id, PlayArea.new(Rect2(_spot_rect.position.x, top, _spot_rect.size.x, zone.depth_end - top)))
 	_add_ice_floes()
+	birds.setup(location.id, location.env)
+	Layers.put(birds, Layers.FLYING)
+	_world.add_child(birds)
 	_add_bait_balls()
 	EventBus.fish_sold_by_seller.connect(_on_fish_sold_by_seller)
 	_build_squares()
