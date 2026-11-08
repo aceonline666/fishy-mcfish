@@ -253,7 +253,6 @@ Rules of thumb:
 ## TODOs
 - Add location images for antarctica and jurasic sea
 - Move the ancor in the north sea away from the ship wreck - they don't match from sizing and they are too close together
-- Move the seagull away from the tank. On the biggest tank the seagull is showing through the background and it looks like the seagull is in the tank. Move it maybe in front of the upgrade store.
 - Wave animation for deep sea looks weird, like it's on the sea floor. It needs to be rendered on top of the fish, the seafloor objects and the wader, at the same level as the zone barriers.
 - Add ice floes to the ice shelf zone. Do we need sprites or can this be drawn via SVG? Ice floes should be on the same layer as the zone barriers (above wader and fish). Wader should become translucent behind/below it (like behind the shop).
 - Add seagulls / seabirds for the various locations which rarely fly over the screen. For jurasic sea this could be a pterodactyl, quezalcoatlus or something like that.

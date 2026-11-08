@@ -26,6 +26,8 @@ var _frames := 1
 var _location := "north_sea"
 ## --full: with --view, the tank is filled to the brim (it overflows and fish jump out).
 var _full := false
+## --tank=N: with --view, the tank's level (5 by default).
+var _tank := 5
 var _every := 1.0
 var _viewport: SubViewport
 var _main: Node
@@ -42,6 +44,8 @@ func _ready() -> void:
 		elif arg.begins_with("--view="):
 			var parts := arg.trim_prefix("--view=").split(",")
 			_view = Vector2(parts[0].to_float(), parts[1].to_float())
+		elif arg.begins_with("--tank="):
+			_tank = arg.trim_prefix("--tank=").to_int()
 		elif arg == "--full":
 			_full = true
 		elif arg.begins_with("--location="):
@@ -109,7 +113,7 @@ func _shot_business() -> void:
 func _shot_view() -> void:
 	var state := _state([_location], 3)
 	var site := state.here()
-	site.tank.level = 5
+	site.tank.level = _tank
 	site.shop_level = 4
 	site.seller_count = 4
 	site.drone_count = 3

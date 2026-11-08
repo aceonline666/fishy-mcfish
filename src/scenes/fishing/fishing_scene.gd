@@ -166,7 +166,7 @@ const DRONE_HEARING := 900.0
 ## middle of, screen height, and where it shows ("" everywhere, else only at locations with that
 ## water).
 const DECOR: Array[Array] = [
-	["seagull", Vector2i(0, -8), 55.0, "temperate"],
+	["seagull", Vector2i(7, -2), 55.0, "temperate"],
 ]
 #endregion
 

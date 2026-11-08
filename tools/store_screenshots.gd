@@ -7,7 +7,8 @@ extends SceneTree
 ##
 ## --only runs the shots whose function name ends with the given text. --view=x,y takes only one
 ## shot of the developed beach with the wader at that ground point, e.g. --view=2040,-360 (the
-## drone dock).
+## drone dock). With --view, --tank=N sets the tank level, --location=id the place, --full fills the
+## tank.
 
 
 func _initialize() -> void:
