@@ -128,9 +128,10 @@ subject: `fish/`, `characters/` (wader and divers), `props/` (coastal and gear s
 an image lie next to it. The boot
 splash (`assets/ui/splash.png`: `art_source/ui/splash.png` with the title in its sky) and the menu
 icons (`icon_coins/map/trophy/book/cog.png`, cut from the menu sheet) are made by
-`tools/make_menu_art.py`; the logo and the app icons (`logo.png`,
-`icon.png`, `icon_foreground/background.png`) are rendered by `tools/make_logo.py` from the
-painted sprites and the Luckiest Guy font (Apache 2.0, in `art_source/fonts/`).
+`tools/make_menu_art.py`; the logo (`logo.png`) is rendered by `tools/make_logo.py` from the
+painted sprites and the Luckiest Guy font (Apache 2.0, in `art_source/fonts/`), the app icons
+(`icon.png`, `icon_foreground/background.png`) by the same tool from the Play Store icon
+(`art_source/play_store/icon_source.png`), so the phone shows the same icon as the store.
 
 The UI theme (`src/scenes/ui/main_theme.tres`) uses Luckiest Guy for buttons and titles
 (`TitleLabel` type variation) and Fredoka (OFL, semi-bold) for body text, both in
@@ -250,13 +251,12 @@ Rules of thumb:
   ([OpenGameArt](https://opengameart.org/content/shop-theme)).
 
 ## TODOs
-- Adjust game icon on phone to the app icon in the Google Console - don't use the nautilus icon, use the wader + background icon
 - Add location images for antarctica and jurasic sea
 - Move the ancor in the north sea away from the ship wreck - they don't match from sizing and they are too close together
 - Move the seagull away from the tank. On the biggest tank the seagull is showing through the background and it looks like the seagull is in the tank. Move it maybe in front of the upgrade store.
 - Wave animation for deep sea looks weird, like it's on the sea floor. It needs to be rendered on top of the fish, the seafloor objects and the wader, at the same level as the zone barriers.
 - Add ice floes to the ice shelf zone. Do we need sprites or can this be drawn via SVG? Ice floes should be on the same layer as the zone barriers (above wader and fish). Wader should become translucent behind/below it (like behind the shop).
-- Add seagulls / seabirds for the various locations which rarely fly over the screen. For jurasic sea this could be a pterodactyl or something like that.
+- Add seagulls / seabirds for the various locations which rarely fly over the screen. For jurasic sea this could be a pterodactyl, quezalcoatlus or something like that.
 - Stack on the back can a bit denser. Fish should overlap each other a bit. And their sizes are not relative to their sizes in the sea. A sperm whale is sized down to the same level as a makrel.
 - Fine tuning for tank fill-up and tank-is-full-animation. Edges for the tank fill-up are still not matching the sprites correctly. Also the tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too. 
 - Make the species sprites consistent. Some are very comic-style (sheet 5) and some are very realistic. We want a cute-comic style so I fear we have to regenerate a large part of it (side view; the cod is done: `art_source/fish/views/`, prompts per species in `art_source/fish/views/prompts.md`).

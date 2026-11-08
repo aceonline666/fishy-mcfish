@@ -1,5 +1,7 @@
-"""Renders the game logo and the app icons from the title font and the painted sprites. (The boot
-splash comes from the menu sheet, see tools/make_menu_art.py.)
+"""Renders the game logo from the title font and the painted sprites, and the app icons from the
+Play Store icon (art_source/play_store/icon_source.png: the wader with the clownfish), so the
+phone shows the same icon as the store. (The boot splash comes from the menu sheet, see
+tools/make_menu_art.py.)
 
 Writes assets/ui/logo.png (title with a nautilus), assets/ui/icon.png and the Android adaptive
 icon layers assets/ui/icon_foreground.png and assets/ui/icon_background.png.
@@ -106,17 +108,29 @@ def sea_gradient(width: int, height: int) -> Image.Image:
     return Image.fromarray(image).convert("RGBA")
 
 
+ICON_SOURCE = "art_source/play_store/icon_source.png"
+# Adaptive icons: the launcher shows only the middle 72 of the 108 dp layer (two thirds), cut to
+# its own shape. The picture fills a bit more than that so the mask cuts only water at the edges.
+ICON_SHARE = 0.74
+
+
+def icon_picture(size: int) -> Image.Image:
+    return Image.open(ICON_SOURCE).convert("RGBA").resize((size, size), Image.LANCZOS)
+
+
 def icon_background(size: int) -> Image.Image:
-    out = sea_gradient(size, size)
-    bubbles(out, (int(size * 0.1), int(size * 0.55), int(size * 0.9), int(size * 0.9)), 5, 11)
+    """The store icon in the middle of the layer, on a blurred copy of itself that only shows
+    when the launcher moves or scales the layers."""
+    out = icon_picture(size).filter(ImageFilter.GaussianBlur(size / 30))
+    inner = int(size * ICON_SHARE)
+    margin = (size - inner) // 2
+    out.alpha_composite(icon_picture(inner), (margin, margin))
     return out
 
 
-def icon_foreground(size: int, fish_share: float) -> Image.Image:
-    out = Image.new("RGBA", (size, size))
-    fish = painted_fish("chambered_nautilus", int(size * fish_share)).rotate(-8, expand=True, resample=Image.BICUBIC)
-    out.alpha_composite(fish, ((size - fish.width) // 2, (size - fish.height) // 2))
-    return out
+def icon_foreground(size: int) -> Image.Image:
+    """Empty: the whole picture is in the background, the store art has no separate layers."""
+    return Image.new("RGBA", (size, size))
 
 
 def rounded(image: Image.Image, radius: int) -> Image.Image:
@@ -129,12 +143,9 @@ def rounded(image: Image.Image, radius: int) -> Image.Image:
 
 def main() -> None:
     logo().save(OUT + "logo.png")
-    icon = icon_background(512)
-    icon.alpha_composite(icon_foreground(512, 0.82))
-    rounded(icon, 110).save(OUT + "icon.png")
-    # Adaptive icons: the launcher masks the layers; keep the fish in the middle two thirds.
+    rounded(icon_picture(512), 110).save(OUT + "icon.png")
     icon_background(432).save(OUT + "icon_background.png")
-    icon_foreground(432, 0.6).save(OUT + "icon_foreground.png")
+    icon_foreground(432).save(OUT + "icon_foreground.png")
     print("written logo and icons")
 
 
