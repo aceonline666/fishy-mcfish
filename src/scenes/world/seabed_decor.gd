@@ -68,6 +68,14 @@ const EDGE_PROPS: Dictionary[String, Array] = {
 ## (between the two values).
 const EDGE_SPACING := 95.0
 const EDGE_OFFSET := Vector2(15.0, 70.0)
+## Props that glow in the dark (Glow): where the light sits as a share of the sprite, its colour
+## and its radius as a share of the prop's width. Black smokers glow red-hot at the vent and light
+## the water around them.
+const GLOWS: Dictionary[String, Array] = {
+	"black_smoker": [Vector2(0.49, 0.367), Color(1.0, 0.45, 0.12), 0.9],
+}
+## How much of the water's tint and the deep sea's dark lies on a glowing prop.
+const GLOW_DARKNESS := 0.35
 const SWAY: Array[String] = ["kelp_small", "kelp", "kelp_tall", "sea_lettuce", "seagrass", "reef_anemone", "sea_fan", "sea_whips", "sea_pens"]
 const WRECK_WIDTH := 460.0
 ## Props keep this far from a wreck's ground point (ground units), off its hull; the sunken junk
@@ -90,6 +98,8 @@ var water := "temperate"
 
 ## Painted props, nearest last.
 var _props: Array[Prop] = []
+## Draws the glowing props' light over the props, additively (Glow).
+var _glows := Node2D.new()
 ## Sunken ships (add_wreck()): sprite and ground point.
 var _wrecks: Array[Array] = []
 var _time := 0.0
@@ -99,6 +109,9 @@ func _ready() -> void:
 	var shader_material := ShaderMaterial.new()
 	shader_material.shader = PROPS_SHADER
 	material = shader_material
+	_glows.material = Glow.material()
+	_glows.draw.connect(_draw_glows)
+	add_child(_glows)
 
 
 ## The water colours of the location, which the props fade into with depth.
@@ -194,13 +207,16 @@ func _crowded(ground: Vector2, taken: PackedVector2Array, spacing: float = PROP_
 
 func _make_prop(prop_name: String, ground: Vector2, width: float, phase: float) -> Prop:
 	var prop := Prop.new()
+	prop.name = prop_name
 	prop.texture = load(PROPS_DIR + prop_name + ".png")
 	prop.at = Iso.to_screen(ground)
 	prop.size = prop.texture.get_size() * (width / prop.texture.get_width())
 	prop.sways = SWAY.has(prop_name)
 	prop.phase = phase
 	# The shader reads the depth from the colour (the waterline is at ground y 0).
-	prop.tint = Color(SeaDepth.depth(ground.y), SeaDepth.abyss(ground.y), 0.0)
+	# Glowing props light themselves: the water and the dark of the deep sea cover them only partly.
+	var cover := GLOW_DARKNESS if GLOWS.has(prop_name) else 1.0
+	prop.tint = Color(SeaDepth.depth(ground.y) * cover, SeaDepth.abyss(ground.y) * cover, 0.0)
 	return prop
 
 
@@ -211,6 +227,23 @@ func _sort_props() -> void:
 func _process(delta: float) -> void:
 	_time += delta
 	queue_redraw()
+	_glows.queue_redraw()
+
+
+## The light of the glowing props: a wide dim glow lighting the water and a bright core, both
+## flickering a little.
+func _draw_glows() -> void:
+	for prop in _props:
+		var glow: Array = GLOWS.get(prop.name, [])
+		if glow.is_empty():
+			continue
+		var share: Vector2 = glow[0]
+		var at := prop.at + Vector2(-prop.size.x * 0.5, -prop.size.y * (1.0 - PROP_BASE)) + share * prop.size
+		var flicker := 0.85 + 0.1 * sin(_time * 2.3 + prop.phase) + 0.05 * sin(_time * 7.1 + prop.phase * 3.0)
+		var color: Color = glow[1]
+		var radius := prop.size.x * float(glow[2])
+		Glow.draw(_glows, at, radius * 1.6, Color(color, 0.35 * flicker), 0.7)
+		Glow.draw(_glows, at, radius * 0.45, Color(color.lerp(Color(1.0, 0.9, 0.6), 0.4), 0.9 * flicker))
 
 
 func _draw() -> void:
@@ -223,6 +256,7 @@ func _draw() -> void:
 
 
 class Prop extends RefCounted:
+	var name := ""
 	var texture: Texture2D
 	var at := Vector2.ZERO
 	var size := Vector2.ZERO

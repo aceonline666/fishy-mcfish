@@ -58,6 +58,8 @@ var _swim_phase := 0.0
 var _flee_timer := 0.0
 var _flee_direction := Vector2.ZERO
 var _age := 0.0
+## The lure's light of anglerfish, drawn additively over the fish (Glow), or null.
+var _glow: Node2D
 
 
 func setup(fish_art: FishArt, home_zone: ZoneDef, home_area: PlayArea, start: Vector2, start_heading: float) -> void:
@@ -75,6 +77,11 @@ func setup(fish_art: FishArt, home_zone: ZoneDef, home_area: PlayArea, start: Ve
 	velocity = Vector2.from_angle(heading) * _cruise_speed
 	_swim_phase = randf() * TAU
 	_wander = randf_range(-1.0, 1.0)
+	if art.has_lure() and not art.has_top_view():
+		_glow = Node2D.new()
+		_glow.material = Glow.material()
+		_glow.draw.connect(_draw_lure)
+		add_child(_glow)
 
 
 ## Fish are seen through the water: they take on half of the seabed's tint for their depth
@@ -147,6 +154,8 @@ func simulate(delta: float, threat: Vector2, threat_radius: float, school: Array
 	if visible:
 		_update_water_depth()
 		queue_redraw()
+		if _glow != null:
+			_glow.queue_redraw()
 
 
 ## Shrinks the fish into the net at the given screen position, then frees it.
@@ -199,6 +208,15 @@ func _draw() -> void:
 		_draw_shapes(to_screen)
 	if species.rarity >= SpeciesDef.Rarity.UNCOMMON:
 		_draw_sparkles()
+
+
+## The anglerfish's lure: a bright point and a soft light around it, lighting the head a little,
+## pulsing slowly.
+func _draw_lure() -> void:
+	var at := _view_transform() * art.lure_point(body_length)
+	var pulse := 0.8 + 0.2 * sin(_age * 2.2 + _swim_phase * 0.1)
+	Glow.draw(_glow, at, body_length * 0.55, Color(0.55, 0.9, 1.0, 0.3 * pulse))
+	Glow.draw(_glow, at, body_length * 0.12, Color(0.85, 1.0, 0.95, 0.95 * pulse))
 
 
 ## Code-drawn fallback for species without sprites.

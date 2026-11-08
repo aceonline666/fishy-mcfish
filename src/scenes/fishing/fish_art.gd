@@ -85,6 +85,12 @@ const WAVE_RATE := 0.7
 const PULSE_RATE := 0.35
 ## Jellyfish pulse slower and softer than octopuses: rate, how much the bell narrows and lifts,
 ## and how far the tentacles sway (shares of the sprite).
+## Species with a glowing lure (anglerfish): where it sits on the body sprite, as a share of its
+## size. SwimmingFish draws its light (Glow).
+const LURES: Dictionary[String, Vector2] = {
+	"humpback_anglerfish": Vector2(0.821, 0.165),
+	"atlantic_footballfish": Vector2(0.877, 0.106),
+}
 const JELLYFISH: Array[String] = [
 	"moon_jellyfish", "lions_mane_jellyfish", "blubber_jellyfish", "nomuras_jellyfish", "portuguese_man_o_war",
 ]
@@ -139,6 +145,20 @@ static func for_species(def: SpeciesDef) -> FishArt:
 
 func has_sprite() -> bool:
 	return body != null
+
+
+## True if the species carries a glowing lure (LURES) on its sprite.
+func has_lure() -> bool:
+	return body != null and LURES.has(species.id)
+
+
+## The lure in fish space (as in draw()) for a fish `length` long.
+func lure_point(length: float) -> Vector2:
+	var units := length * BODY_SHARE / BODY_SPAN
+	var root_x := length * (0.5 - BODY_SHARE)
+	var body_size := body.get_size() * (BODY_CANVAS_WIDTH / body.get_width()) * units
+	var corner := Vector2(root_x - BODY_ROOT_X * units, -body_size.y * 0.5)
+	return corner + LURES[species.id] * body_size
 
 
 ## Draws the fish centred on the origin of `view` (fish space: head towards +x, back towards -y)
