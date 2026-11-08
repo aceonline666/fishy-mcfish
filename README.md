@@ -251,6 +251,7 @@ Rules of thumb:
   ([OpenGameArt](https://opengameart.org/content/shop-theme)).
 
 ## TODOs
+- More species for Antarctica and the Jurassic Sea, still to generate (one image each, prompts in `art_source/fish/views/prompts.md`, ChatGPT's image limit stopped the batch on 2026-11-08): Pachycormus, Lepidotes; then the penguins, Hybodus and Metriorhynchus from `art_source/fish/species_sheet_14_prompt.md` (need prompts in the one-image format first).
 - Add seagulls / seabirds for the various locations which rarely fly over the screen. For jurasic sea this could be a pterodactyl, quezalcoatlus or something like that. Needs painted sprites in the isometric perspective (wing poses for flapping and gliding); a version drawn in code was tried and looked worse than none. Maybe also sounds for them to give a more maritim vibe to the game.
 - Replace the ice floes on the Antarctic pack ice (`IceFloes`, drawn in code) with painted sprites.
 - Fine tuning for tank fill-up and tank-is-full-animation. Edges for the tank fill-up are still not matching the sprites correctly. Also the tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too.

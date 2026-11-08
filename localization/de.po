@@ -1616,3 +1616,52 @@ msgstr "Mein Schatz,\n\ndie Insel liegt das ganze Jahr im Nebel. Einmal im Jahr 
 
 msgid "My dear,\n\nI know now. It is not where I am, it is when.\n\nThe fog is a door. The creatures in the bay are the ones from your dinosaur books, and they are very much alive.\n\nIf this bottle reached you, you have found the door too. Follow the fog. I will keep the fire burning.\n\n- Dad"
 msgstr "Mein Schatz,\n\njetzt weiß ich es. Es geht nicht darum, wo ich bin, sondern wann.\n\nDer Nebel ist eine Tür. Die Geschöpfe in der Bucht sind die aus deinen Dinosaurierbüchern, und sie sind sehr lebendig.\n\nWenn diese Flasche dich erreicht hat, hast auch du die Tür gefunden. Folge dem Nebel. Ich halte das Feuer am Brennen.\n\n- Papa"
+
+#. Species: Antarctica and Jurassic Sea, new
+msgid "Antarctic silverfish"
+msgstr "Antarktischer Silberfisch"
+
+msgid "The most common fish of the open Antarctic sea: penguins, seals and whales all feed on it."
+msgstr "Der häufigste Fisch der offenen antarktischen See: Pinguine, Robben und Wale fressen ihn."
+
+msgid "Emerald rockcod"
+msgstr "Smaragd-Eisdorsch"
+
+msgid "It rests on the seabed under the sea ice, propped up on its big pectoral fins."
+msgstr "Er ruht unter dem Meereis auf dem Grund, auf seine großen Brustflossen gestützt."
+
+msgid "Bald notothen"
+msgstr "Kahler Eisfisch"
+
+msgid "It lives right under the sea ice and hides in its cracks, where the water is colder than freezing."
+msgstr "Er lebt direkt unter dem Meereis und versteckt sich in dessen Spalten, wo das Wasser kälter als der Gefrierpunkt ist."
+
+msgid "Mackerel icefish"
+msgstr "Bändereisfisch"
+
+msgid "Like all icefish it has clear blood without red blood cells; it hunts krill in big schools."
+msgstr "Wie alle Eisfische hat er klares Blut ohne rote Blutkörperchen; er jagt Krill in großen Schwärmen."
+
+msgid "Marbled rockcod"
+msgstr "Marmorierter Eisdorsch"
+
+msgid "It can live for more than 20 years and was once fished so much that it nearly disappeared."
+msgstr "Er kann über 20 Jahre alt werden und wurde einst so stark befischt, dass er fast verschwand."
+
+msgid "Antarctic jonasfish"
+msgstr "Jonasfisch"
+
+msgid "In 2021 scientists found a breeding colony of about 60 million jonasfish nests under the Antarctic ice."
+msgstr "2021 fanden Forscher unter dem antarktischen Eis eine Brutkolonie mit rund 60 Millionen Nestern dieses Fisches."
+
+msgid "Leptolepis"
+msgstr "Leptolepis"
+
+msgid "One of the first modern bony fish; its fossils are found in huge numbers in Jurassic rocks."
+msgstr "Einer der ersten modernen Knochenfische; seine Fossilien findet man in großer Zahl in Gesteinen aus dem Jura."
+
+msgid "Dapedium"
+msgstr "Dapedium"
+
+msgid "Its body was covered in thick, shiny enamel scales like armour, and it crushed shells with its teeth."
+msgstr "Sein Körper war mit dicken, glänzenden Schmelzschuppen wie mit einer Rüstung bedeckt, und es knackte Muscheln mit seinen Zähnen."

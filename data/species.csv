@@ -101,3 +101,11 @@ ichthyosaurus,Ichthyosaurus,Ichthyosaurus communis,rare,400000,300,0.25,1500,160
 plesiosaurus,Plesiosaurus,Plesiosaurus dolichodeirus,epic,2000000,350,0.3,3000,16000,8,fish,tropical,3600,#7a7a50,It rowed through the sea with four long flippers and snapped up fish with its long neck.
 leedsichthys,Leedsichthys,Leedsichthys problematicus,legendary,20000000,1600,0.3,20000,50000,25,plankton,tropical,7200,#7a7468,"One of the largest fish that ever lived, and a gentle giant: it filtered plankton from the water."
 liopleurodon,Liopleurodon,Liopleurodon ferox,legendary,60000000,700,0.3,12000,50000,20,reptiles,tropical,7200,#4a463e,The top predator of its sea: a short-necked pliosaur with jaws more than a metre long.
+antarctic_silverfish,Antarctic silverfish,Pleuragramma antarctica,common,1000,20,0.2,2,40,0.3,plankton,polar,45,#c8d0d8,"The most common fish of the open Antarctic sea: penguins, seals and whales all feed on it."
+emerald_rockcod,Emerald rockcod,Trematomus bernacchii,common,2000,25,0.3,4,80,0.5,shrimp,polar,120,#7a7a4a,"It rests on the seabed under the sea ice, propped up on its big pectoral fins."
+bald_notothen,Bald notothen,Pagothenia borchgrevinki,uncommon,3000,25,0.22,4,80,0.5,krill,polar,300,#9aa0a8,"It lives right under the sea ice and hides in its cracks, where the water is colder than freezing."
+mackerel_icefish,Mackerel icefish,Champsocephalus gunnari,uncommon,6000,50,0.18,15,300,0.8,krill,polar,600,#d8d8d0,Like all icefish it has clear blood without red blood cells; it hunts krill in big schools.
+marbled_rockcod,Marbled rockcod,Notothenia rossii,rare,30000,80,0.3,60,1200,3,fish,polar,1800,#7a6a3a,It can live for more than 20 years and was once fished so much that it nearly disappeared.
+antarctic_jonasfish,Antarctic jonasfish,Neopagetopsis ionah,rare,60000,50,0.2,20,400,1,krill,polar,2400,#d0ccc8,In 2021 scientists found a breeding colony of about 60 million jonasfish nests under the Antarctic ice.
+leptolepis,Leptolepis,Leptolepis coryphaenoides,common,1500,20,0.25,2,40,0.3,plankton,tropical,45,#b8c0c8,One of the first modern bony fish; its fossils are found in huge numbers in Jurassic rocks.
+dapedium,Dapedium,Dapedium politum,uncommon,8000,40,0.7,10,200,1,shellfish,tropical,600,#8a6a3a,"Its body was covered in thick, shiny enamel scales like armour, and it crushed shells with its teeth."

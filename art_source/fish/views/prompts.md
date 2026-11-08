@@ -57,14 +57,14 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `crocodile_icefish` | Crocodile icefish (Chionodraco hamatus) |
 | `antarctic_toothfish` | Antarctic toothfish (Dissostichus mawsoni) |
 | `leedsichthys` | Leedsichthys (Leedsichthys problematicus) |
-| `antarctic_silverfish` | Antarctic silverfish (Pleuragramma antarctica) – new (sheet 14), add to data/species.csv |
-| `emerald_rockcod` | Emerald rockcod (Trematomus bernacchii) – new (sheet 14), add to data/species.csv |
-| `bald_notothen` | Bald notothen (Pagothenia borchgrevinki) – new (sheet 14), add to data/species.csv |
-| `mackerel_icefish` | Mackerel icefish (Champsocephalus gunnari) – new (sheet 14), add to data/species.csv |
-| `marbled_rockcod` | Marbled rockcod (Notothenia rossii) – new (sheet 14), add to data/species.csv |
-| `antarctic_jonasfish` | Antarctic jonasfish (Neopagetopsis ionah) – new (sheet 14), add to data/species.csv |
-| `leptolepis` | Leptolepis (Leptolepis coryphaenoides) – new (sheet 14), add to data/species.csv |
-| `dapedium` | Dapedium (Dapedium politum) – new (sheet 14), add to data/species.csv |
+| `antarctic_silverfish` | Antarctic silverfish (Pleuragramma antarctica) – in the game (side view) |
+| `emerald_rockcod` | Emerald rockcod (Trematomus bernacchii) – in the game (side view) |
+| `bald_notothen` | Bald notothen (Pagothenia borchgrevinki) – in the game (side view) |
+| `mackerel_icefish` | Mackerel icefish (Champsocephalus gunnari) – in the game (side view) |
+| `marbled_rockcod` | Marbled rockcod (Notothenia rossii) – in the game (side view) |
+| `antarctic_jonasfish` | Antarctic jonasfish (Neopagetopsis ionah) – in the game (side view) |
+| `leptolepis` | Leptolepis (Leptolepis coryphaenoides) – in the game (side view) |
+| `dapedium` | Dapedium (Dapedium politum) – in the game (side view) |
 | `pachycormus` | Pachycormus (Pachycormus macropterus) – new (sheet 14), add to data/species.csv |
 | `lepidotes` | Lepidotes (Lepidotes elvensis) – new (sheet 14), add to data/species.csv |
 | `lesser_sand_eel` | Lesser sand eel (Ammodytes tobianus) |
