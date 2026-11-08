@@ -163,8 +163,10 @@ func _shot_top_view_test() -> void:
 	for i in species.size():
 		var angle := TAU * i / species.size() + 0.3
 		spot.spawn_fish(species[i], at + Vector2(cos(angle), sin(angle)) * (300.0 + 90.0 * (i % 2)), angle * 1.7)
-	await get_tree().create_timer(0.6).timeout
-	await _capture("top_view_test")
+	# Three shots a fraction of a beat apart, to see the tails move.
+	for frame in 3:
+		await get_tree().create_timer(0.6 if frame == 0 else 0.12).timeout
+		await _capture("top_view_test_%d" % frame)
 
 
 ## Submersible in the deep sea.

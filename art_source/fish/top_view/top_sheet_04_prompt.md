@@ -1,9 +1,14 @@
 # Top-view sheet 04 – generation prompt
 
-Part of the top-view species set (overview: `README.md` in this folder). In a NEW ChatGPT chat,
-attach only `art_source/fish/top_view/reference_top_cod.png`, then paste the prompt (as one paragraph is fine). Save the result as
-`art_source/fish/top_view/top_sheet_04.png` and cut it with
-`python tools/extract_top_sheet.py 4`.
+Part of the top-view species set (overview: `README.md` in this folder). Two images per sheet,
+in the same ChatGPT chat so the creatures match:
+
+1. In a NEW chat, attach only `art_source/fish/top_view/reference_top_cod.png` and paste the first prompt (as one paragraph is
+   fine). Save the result as `art_source/fish/top_view/top_sheet_04.png`, cut it with
+   `python tools/extract_top_sheet.py 4`.
+2. In the same chat, attach `art_source/fish/top_view/reference_top_cod_up.png` and paste the second prompt. Save the result as
+   `art_source/fish/top_view/top_sheet_04_up.png`, cut it with
+   `python tools/extract_top_sheet.py 4 --up`.
 
 | Row | Column | Species id | Species |
 |---|---|---|---|
@@ -20,7 +25,7 @@ Check before cutting: every creature seen steeply from above (both eyes, back fr
 the lower left, nothing touching the next cell. If one creature is wrong, ask ChatGPT to redraw
 only that one, keeping everything else.
 
-## Prompt
+## First prompt: towards the lower left
 
 ```
 The attached cod is my reference for the art style AND, most importantly, for the camera view:
@@ -45,4 +50,16 @@ Bottom row from left:
 6. Japanese amberjack (Seriola quinqueradiata): streamlined, blue-green back, a yellow stripe along the side, silver belly, a forked yellow tail.
 7. Opah (Lampris guttatus): a round disc-shaped fish, red-pink with white spots, bright red fins.
 8. Mariana snailfish (Pseudoliparis swirei): small, soft, pale pink and almost see-through, a tadpole shape with a big head.
+```
+
+## Second prompt: towards the upper left (same chat)
+
+```
+Perfect. Now the same 8 creatures again, a second sheet: identical colours, markings, fins
+and style, the same grid of 4 columns x 2 rows in the same order, but every creature now swims
+towards the UPPER LEFT, exactly like the newly attached cod: head at the upper left, tail at the
+lower right, lying along the diagonal. We still look steeply down on its back from above (back
+facing up, BOTH eyes on top of the head, BOTH pectoral fins to the left and right), and the head
+is now further from the camera than the tail. Do NOT just flip the old drawings upside down: the
+back must stay on top. Fully transparent background, no glow, no shadow, no text.
 ```

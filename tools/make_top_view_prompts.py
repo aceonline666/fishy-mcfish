@@ -155,6 +155,17 @@ CREATURES = [
 
 PER_SHEET = 8
 REFERENCE = "art_source/fish/top_view/reference_top_cod.png"
+REFERENCE_UP = "art_source/fish/top_view/reference_top_cod_up.png"
+
+# The follow-up in the same chat for the second sheet, the same creatures swimming upwards
+# (sheet 01, 2026-11-08). Flipping the first sheet upside down shows the bellies.
+UP_PROMPT = """Perfect. Now the same {count} creatures again, a second sheet: identical colours, markings, fins
+and style, the same grid of 4 columns x 2 rows in the same order, but every creature now swims
+towards the UPPER LEFT, exactly like the newly attached cod: head at the upper left, tail at the
+lower right, lying along the diagonal. We still look steeply down on its back from above (back
+facing up, BOTH eyes on top of the head, BOTH pectoral fins to the left and right), and the head
+is now further from the camera than the tail. Do NOT just flip the old drawings upside down: the
+back must stay on top. Fully transparent background, no glow, no shadow, no text."""
 
 # The wording that gave the steep view (sheet 01, 2026-11-08): the reference first, the view
 # spelled out, one view per creature, few creatures, a plain grid.
@@ -206,10 +217,15 @@ def main() -> None:
             prompt += "\n\nLeave the bottom row empty."
         doc = f"""# Top-view sheet {n:02d} – generation prompt
 
-Part of the top-view species set (overview: `README.md` in this folder). In a NEW ChatGPT chat,
-attach only `{REFERENCE}`, then paste the prompt (as one paragraph is fine). Save the result as
-`art_source/fish/top_view/top_sheet_{n:02d}.png` and cut it with
-`python tools/extract_top_sheet.py {n}`.
+Part of the top-view species set (overview: `README.md` in this folder). Two images per sheet,
+in the same ChatGPT chat so the creatures match:
+
+1. In a NEW chat, attach only `{REFERENCE}` and paste the first prompt (as one paragraph is
+   fine). Save the result as `art_source/fish/top_view/top_sheet_{n:02d}.png`, cut it with
+   `python tools/extract_top_sheet.py {n}`.
+2. In the same chat, attach `{REFERENCE_UP}` and paste the second prompt. Save the result as
+   `art_source/fish/top_view/top_sheet_{n:02d}_up.png`, cut it with
+   `python tools/extract_top_sheet.py {n} --up`.
 
 | Row | Column | Species id | Species |
 |---|---|---|---|
@@ -219,10 +235,16 @@ Check before cutting: every creature seen steeply from above (both eyes, back fr
 the lower left, nothing touching the next cell. If one creature is wrong, ask ChatGPT to redraw
 only that one, keeping everything else.
 
-## Prompt
+## First prompt: towards the lower left
 
 ```
 {prompt}
+```
+
+## Second prompt: towards the upper left (same chat)
+
+```
+{UP_PROMPT.format(count=len(sheet))}
 ```
 """
         open(os.path.join(OUT, f"top_sheet_{n:02d}_prompt.md"), "w", encoding="utf-8", newline="\n").write(doc)
@@ -234,20 +256,23 @@ All species redrawn in one style and seen from above, as decided after the style
 the steep view from above of the cod in `reference_top_cod.png` (cut from
 `../species_style_test.png`).
 
-Every species gets ONE sprite, `assets/sprites/fish_painted/<id>_top.png`, swimming towards the
-lower left. The game flips it upside down for the upper left and mirrors it for the right: seen
-this steeply from above, a flipped fish looks right. Each sheet holds {PER_SHEET} species on a
-4 × 2 grid. Larger grids and two views per creature did not work (first try of sheet 01): ChatGPT
-fell back to tilted side views and kept them when asked to redraw.
+Every species gets two sprites: `assets/sprites/fish_painted/<id>_top.png` swimming towards the
+lower left and `<id>_top_up.png` towards the upper left; the game mirrors them for the right.
+(Flipping the first upside down instead showed the bellies.) Each sheet holds {PER_SHEET} species on a
+4 × 2 grid, drawn as two images in one chat: first all heading lower left, then the same creatures
+heading upper left. Larger grids with both views in one image did not work (first try of sheet
+01): ChatGPT fell back to tilted side views and kept them when asked to redraw.
 
 {len(sheets)} sheets for {len(overview)} species: the {len(species)} in the game and the 14
 planned on sheet 14 (`../species_sheet_14_prompt.md`), which skip the side view. Sheets are grouped
 by body type (fish, eels, sharks, flat, cephalopods, jellyfish, crawlers, upright swimmers, big
 animals), so each creature's hint on how it looks from above stays short.
 
-Workflow per sheet: a NEW ChatGPT chat, attach only `reference_top_cod.png`, paste the prompt
-from `top_sheet_NN_prompt.md`, save the result as `top_sheet_NN.png` here, then
-`python tools/extract_top_sheet.py NN`, import in Godot and turn mipmaps on for the new sprites.
+Workflow per sheet (details in `top_sheet_NN_prompt.md`): a NEW ChatGPT chat with only
+`reference_top_cod.png` and the first prompt, saved as `top_sheet_NN.png`; then in the same chat
+`reference_top_cod_up.png` and the second prompt, saved as `top_sheet_NN_up.png`. Cut both with
+`python tools/extract_top_sheet.py NN` and `... NN --up`, import in Godot and turn mipmaps on for
+the new sprites. ChatGPT's free daily limit allows about two sheets.
 Regenerate the prompts with `python tools/make_top_view_prompts.py`.
 
 | Sheet | Species id | Species |

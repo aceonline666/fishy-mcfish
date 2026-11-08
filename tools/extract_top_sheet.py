@@ -1,11 +1,13 @@
 """Cuts a top-view species sheet (art_source/fish/top_view/top_sheet_NN.png) into sprites.
 
 The sheets have a fixed grid (tools/make_top_view_prompts.py): 4 x 2 cells, one species per cell,
-each swimming towards the lower left. The species per cell are read from the sheet's prompt file.
-Each drawing becomes assets/sprites/fish_painted/<id>_top.png, cropped to its pixels.
+each swimming towards the lower left (top_sheet_NN.png) or, on the second sheet of the same
+creatures, towards the upper left (top_sheet_NN_up.png). The species per cell are read from the
+sheet's prompt file. Each drawing becomes assets/sprites/fish_painted/<id>_top.png (or
+<id>_top_up.png), cropped to its pixels.
 
 Usage:
-    python tools/extract_top_sheet.py 1 [--scale=1.0]
+    python tools/extract_top_sheet.py 1 [--up] [--scale=0.75]
 
 A sheet with real transparency is cut by its alpha (a faint glow is dropped); a sheet with an
 opaque light background (white or a painted checkerboard) has the light pixels connected to the
@@ -53,12 +55,15 @@ def alpha_of(image: np.ndarray) -> np.ndarray:
 
 def main() -> None:
     sheet = int(sys.argv[1])
-    scale = 1.0
+    scale = 0.75
+    suffix = ""
     for arg in sys.argv[2:]:
         if arg.startswith("--scale="):
             scale = float(arg.split("=", 1)[1])
+        elif arg == "--up":
+            suffix = "_up"
     ids = cell_species(sheet)
-    image = np.array(Image.open(os.path.join(SHEET_DIR, f"top_sheet_{sheet:02d}.png")).convert("RGBA"))
+    image = np.array(Image.open(os.path.join(SHEET_DIR, f"top_sheet_{sheet:02d}{suffix}.png")).convert("RGBA"))
     height, width = image.shape[:2]
     cell_w, cell_h = width / COLUMNS, height / ROWS
     alpha = alpha_of(image)
@@ -86,7 +91,7 @@ def main() -> None:
         sprite = Image.fromarray(out[ys.min():ys.max() + 1, xs.min():xs.max() + 1])
         if scale != 1.0:
             sprite = sprite.resize((max(1, round(sprite.width * scale)), max(1, round(sprite.height * scale))), Image.LANCZOS)
-        sprite.save(os.path.join(OUT_DIR, f"{species_id}_top.png"))
-        print(f"{species_id}_top: {sprite.width} x {sprite.height}")
+        sprite.save(os.path.join(OUT_DIR, f"{species_id}_top{suffix}.png"))
+        print(f"{species_id}_top{suffix}: {sprite.width} x {sprite.height}")
 
 main()
