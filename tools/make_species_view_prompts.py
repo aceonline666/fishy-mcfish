@@ -1,25 +1,30 @@
-"""Writes the prompts for the top-view species sheets into art_source/fish/top_view/: one
-prompt file per sheet and an overview (README.md). The species, their order and their
-descriptions live in CREATURES below; edit them there and run again:
+"""Writes the prompts for the species views into art_source/fish/views/prompts.md: one image per
+species, in the layout of the cod in art_source/fish/species_style_test.png (top left seen from
+above heading lower left, top right seen from above heading upper left, bottom the side view).
+The species, their order and their descriptions live in CREATURES below; edit them there and run
+again:
 
-    python tools/make_top_view_prompts.py
+    python tools/make_species_view_prompts.py
+
+Cut each image with tools/extract_species_views.py.
 """
 import csv
 import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT = os.path.join(ROOT, "art_source/fish/top_view")
+OUT = os.path.join(ROOT, "art_source", "fish", "views")
+REFERENCE = "art_source/fish/species_style_test.png"
 
-# How each kind of creature looks from above (added to its line).
+# How each kind of creature looks in the three views (added to its description).
 KIND = {
     "fish": "",
-    "eel": " From above: a long, slim body in a gentle S-curve.",
-    "shark": " From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back, the tail fin trailing.",
+    "eel": " From above it is a long, slim body in a gentle S-curve.",
+    "shark": " From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.",
     "flat": "",
-    "ceph": "",
-    "jelly": " From above: the round bell seen from above (its pattern visible), the tentacles and arms trailing behind it, away from the swimming direction.",
-    "crust": "",
-    "upright": " It swims upright: draw it seen from above at an angle, so its snout, back and curled tail stay recognisable.",
+    "ceph": " In the side view it swims head first, the arms trailing behind.",
+    "jelly": " From above: the round bell seen from above (its pattern visible), the tentacles trailing behind it, away from the swimming direction. In the side view: the bell at the top, the tentacles hanging down and trailing.",
+    "crust": " In the side view it walks to the left on its legs.",
+    "upright": " It swims upright: in the views from above draw it seen from above at an angle, so its snout, back and curled tail stay recognisable; the side view shows it upright, snout pointing left.",
     "big": "",
 }
 
@@ -153,134 +158,75 @@ CREATURES = [
     ("adelie_penguin", "big", "Adélie penguin (Pygoscelis adeliae), swimming: smaller and rounder, from above the black back and head, a white eye ring, BOTH flippers at the sides, the two feet together behind"),
 ]
 
-PER_SHEET = 8
-REFERENCE = "art_source/fish/top_view/reference_top_cod.png"
-REFERENCE_UP = "art_source/fish/top_view/reference_top_cod_up.png"
 
-# The follow-up in the same chat for the second sheet, the same creatures swimming upwards
-# (sheet 01, 2026-11-08). Flipping the first sheet upside down shows the bellies.
-UP_PROMPT = """Perfect. Now the same {count} creatures again, a second sheet: identical colours, markings, fins
-and style, the same grid of 4 columns x 2 rows in the same order, but every creature now swims
-towards the UPPER LEFT, exactly like the newly attached cod: head at the upper left, tail at the
-lower right, lying along the diagonal. We still look steeply down on its back from above (back
-facing up, BOTH eyes on top of the head, BOTH pectoral fins to the left and right), and the head
-is now further from the camera than the tail. Do NOT just flip the old drawings upside down: the
-back must stay on top. Fully transparent background, no glow, no shadow, no text."""
+PROMPT = """Image 1 shows the exact layout, views and art style I need: one creature drawn three times on
+one canvas. Top left: seen steeply from above, swimming towards the lower left (head at the lower
+left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
+further from the camera). Bottom: a plain side view, head pointing left.
 
-# The wording that gave the steep view (sheet 01, 2026-11-08): the reference first, the view
-# spelled out, one view per creature, few creatures, a plain grid.
-HEADER = """The attached cod is my reference for the art style AND, most importantly, for the camera view:
-we look steeply DOWN on its back from above. We see the whole width of its back, BOTH eyes on top
-of the head, BOTH pectoral fins sticking out to the left and right of the body, the dorsal fins
-along the middle of the back, and only a thin strip of its flank. It swims towards the lower left:
-head at the lower left, tail at the upper right, lying along the diagonal.
-
-Draw {count} different sea creatures EXACTLY in this view, pose and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist). Canvas 1536 x 1024 px, a grid of 4 columns x 2 rows, one creature centred in each
-cell, nothing touching. Fully transparent background, no glow, no shadow, no water, no text.
-"""
+biologist), for a different species:
+
+{description}
+
+In both views from above we look steeply down on its back: the whole width of the back, both eyes
+on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
+always facing up (never belly up). All three drawings are the same individual: identical body
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
+glow, no shadow, no water, no text."""
 
 
 def main() -> None:
-    species = {r["id"]: r for r in csv.DictReader(open(os.path.join(ROOT, "data/species.csv"), encoding="utf-8"))}
-    creatures = CREATURES
-    ids = [c[0] for c in creatures]
+    species = {r["id"]: r for r in csv.DictReader(open(os.path.join(ROOT, "data", "species.csv"), encoding="utf-8"))}
+    ids = [c[0] for c in CREATURES]
     assert len(ids) == len(set(ids)), "duplicate"
     missing = [s for s in species if s not in ids]
     assert not missing, missing
     os.makedirs(OUT, exist_ok=True)
-    for old in os.listdir(OUT):
-        if old.endswith("_prompt.md"):
-            os.remove(os.path.join(OUT, old))
-    sheets = [creatures[i:i + PER_SHEET] for i in range(0, len(creatures), PER_SHEET)]
-    overview = []
-    for n, sheet in enumerate(sheets, 1):
-        rows: list[list[str]] = [[], []]
-        table = []
-        for k, (cid, kind, text) in enumerate(sheet):
-            row, column = k // 4 + 1, k % 4 + 1
-            if cid in species:
-                name = f"{species[cid]['common_name']} ({species[cid]['scientific_name']})"
-                desc = f"{name}: {text}."
-            else:
-                name = text.split(")")[0] + ")"
-                desc = f"{text}."
-            desc += KIND[kind]
-            rows[row - 1].append(f"{k + 1}. {desc}")
-            table.append(f"| {row} | {column} | `{cid}` | {name}{'' if cid in species else ' (new, sheet 14)'} |")
-            overview.append((n, cid, name, cid in species))
-        prompt = HEADER.format(count=len(sheet)) + "\nTop row from left:\n" + "\n".join(rows[0])
-        if rows[1]:
-            prompt += "\n\nBottom row from left:\n" + "\n".join(rows[1])
+    sections = []
+    table = []
+    for cid, kind, text in CREATURES:
+        if cid in species:
+            name = f"{species[cid]['common_name']} ({species[cid]['scientific_name']})"
+            description = f"{name}: {text}."
         else:
-            prompt += "\n\nLeave the bottom row empty."
-        doc = f"""# Top-view sheet {n:02d} – generation prompt
+            name = text.split(")")[0] + ")"
+            description = f"{text}."
+        description += KIND[kind]
+        new = "" if cid in species else " – new (sheet 14), add to data/species.csv"
+        table.append(f"| `{cid}` | {name}{new} |")
+        sections.append(f"""## {name} – `{cid}`
 
-Part of the top-view species set (overview: `README.md` in this folder). Two images per sheet,
-in the same ChatGPT chat so the creatures match:
+Save as `art_source/fish/views/{cid}.png`, then `python tools/extract_species_views.py {cid}`.
 
-1. In a NEW chat, attach only `{REFERENCE}` and paste the first prompt (as one paragraph is
-   fine). Save the result as `art_source/fish/top_view/top_sheet_{n:02d}.png`, cut it with
-   `python tools/extract_top_sheet.py {n}`.
-2. In the same chat, attach `{REFERENCE_UP}` and paste the second prompt. Save the result as
-   `art_source/fish/top_view/top_sheet_{n:02d}_up.png`, cut it with
-   `python tools/extract_top_sheet.py {n} --up`.
+```
+{PROMPT.format(description=description)}
+```
+""")
+    doc = f"""# Species views – generation prompts
 
-| Row | Column | Species id | Species |
-|---|---|---|---|
+One image per species, in a NEW ChatGPT chat each: attach only `{REFERENCE}` (the cod in
+the three views) and paste the species' prompt. Save the result here as `<id>.png` and cut it with
+`python tools/extract_species_views.py <id>` into the two views from above (`<id>_top.png`,
+`<id>_top_up.png`) and the side view (`<id>_body.png`, `<id>_tail.png`) in
+`assets/sprites/fish_painted/`. Then import in Godot and turn mipmaps on for new sprites.
+
+Check before cutting: both views from above show the back (both eyes on top), the three drawings
+are the same animal (same shape and markings), heads point lower left, upper left and left. If one
+view is wrong, ask in the same chat to redraw only that one.
+
+Generated by `tools/make_species_view_prompts.py` (edit the descriptions there). Why one image per
+species: on shared sheets ChatGPT drew the same species differently in the two views (the
+lumpsucker round in one, slim in the other) or fell back to tilted side views.
+
+| Species id | Species |
+|---|---|
 {chr(10).join(table)}
 
-Check before cutting: every creature seen steeply from above (both eyes, back from above), head at
-the lower left, nothing touching the next cell. If one creature is wrong, ask ChatGPT to redraw
-only that one, keeping everything else.
-
-## First prompt: towards the lower left
-
-```
-{prompt}
-```
-
-## Second prompt: towards the upper left (same chat)
-
-```
-{UP_PROMPT.format(count=len(sheet))}
-```
-"""
-        open(os.path.join(OUT, f"top_sheet_{n:02d}_prompt.md"), "w", encoding="utf-8", newline="\n").write(doc)
-    table_rows = "\n".join(f"| {n:02d} | `{cid}` | {name}{'' if known else ' – new (sheet 14), add to data/species.csv'} |" for n, cid, name, known in overview)
-    readme = f"""# Top-view species sprites
-
-All species redrawn in one style and seen from above, as decided after the style test
-(`art_source/fish/species_style_test_prompt.md`, 2026-11-08): the cute comic style of sheet 5,
-the steep view from above of the cod in `reference_top_cod.png` (cut from
-`../species_style_test.png`).
-
-Every species gets two sprites: `assets/sprites/fish_painted/<id>_top.png` swimming towards the
-lower left and `<id>_top_up.png` towards the upper left; the game mirrors them for the right.
-(Flipping the first upside down instead showed the bellies.) Each sheet holds {PER_SHEET} species on a
-4 × 2 grid, drawn as two images in one chat: first all heading lower left, then the same creatures
-heading upper left. Larger grids with both views in one image did not work (first try of sheet
-01): ChatGPT fell back to tilted side views and kept them when asked to redraw.
-
-{len(sheets)} sheets for {len(overview)} species: the {len(species)} in the game and the 14
-planned on sheet 14 (`../species_sheet_14_prompt.md`), which skip the side view. Sheets are grouped
-by body type (fish, eels, sharks, flat, cephalopods, jellyfish, crawlers, upright swimmers, big
-animals), so each creature's hint on how it looks from above stays short.
-
-Workflow per sheet (details in `top_sheet_NN_prompt.md`): a NEW ChatGPT chat with only
-`reference_top_cod.png` and the first prompt, saved as `top_sheet_NN.png`; then in the same chat
-`reference_top_cod_up.png` and the second prompt, saved as `top_sheet_NN_up.png`. Cut both with
-`python tools/extract_top_sheet.py NN` and `... NN --up`, import in Godot and turn mipmaps on for
-the new sprites. ChatGPT's free daily limit allows about two sheets.
-Regenerate the prompts with `python tools/make_top_view_prompts.py`.
-
-| Sheet | Species id | Species |
-|---|---|---|
-{table_rows}
-"""
-    open(os.path.join(OUT, "README.md"), "w", encoding="utf-8", newline="\n").write(readme)
-    print(len(sheets), "sheets,", len(overview), "species")
+{chr(10).join(sections)}"""
+    open(os.path.join(OUT, "prompts.md"), "w", encoding="utf-8", newline="\n").write(doc)
+    print(len(CREATURES), "species")
 
 
 main()

@@ -151,7 +151,7 @@ func _shot_open_sea() -> void:
 	await _capture("04_open_sea")
 
 
-## The species drawn from above (FishArt.top, art_source/fish/top_view) swimming every way,
+## The species drawn from above (FishArt.top, art_source/fish/views) swimming every way,
 ## among the rest (with --no-top: all from the side), to compare the views.
 func _shot_top_view_test() -> void:
 	var state := _state(["north_sea"], 3)

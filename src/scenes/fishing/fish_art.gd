@@ -106,7 +106,7 @@ var species: SpeciesDef
 var body: Texture2D
 var tail: Texture2D
 var motion := Motion.TAIL
-## Views from above (the coming species style, art_source/fish/top_view): <id>_top.png swimming
+## Views from above (the coming species style, art_source/fish/views): <id>_top.png swimming
 ## towards the lower left of the screen and <id>_top_up.png towards the upper left (without it,
 ## the first one is flipped upside down); both mirrored for the right. A species with them is drawn
 ## from above; `--no-top` on the command line draws the side view, for comparisons.
