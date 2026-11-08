@@ -1129,7 +1129,7 @@ func _store_one() -> void:
 	var from := _world_to_scene(wader.stack_top_position())
 	GameState.store_fish(species_id)
 	_action_count += 1
-	Juice.fly_fish(_popups, art, from, _world_to_scene(_tank_node.drop_point()), Wader.STACK_FISH_LENGTH * ZOOM,
+	Juice.fly_fish(_popups, art, from, _world_to_scene(_tank_node.drop_point()), Wader.carried_length(art) * ZOOM,
 			_on_fish_reached_tank)
 	Sfx.play(&"pop", 1.0 + minf(_action_count, 10) * 0.03, -12.0)
 	if live_well.count() == 0:

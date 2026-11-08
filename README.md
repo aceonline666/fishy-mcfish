@@ -254,7 +254,6 @@ Rules of thumb:
 - Add location images for antarctica and jurasic sea
 - Add ice floes to the ice shelf zone. Do we need sprites or can this be drawn via SVG? Ice floes should be on the same layer as the zone barriers (above wader and fish). Wader should become translucent behind/below it (like behind the shop).
 - Add seagulls / seabirds for the various locations which rarely fly over the screen. For jurasic sea this could be a pterodactyl, quezalcoatlus or something like that.
-- Stack on the back can a bit denser. Fish should overlap each other a bit. And their sizes are not relative to their sizes in the sea. A sperm whale is sized down to the same level as a makrel.
 - Black Smokers in the Antarctic deep sea are not visible. They need to glow. Also add glow to the deep sea angler fish.
 - Fine tuning for tank fill-up and tank-is-full-animation. Edges for the tank fill-up are still not matching the sprites correctly. Also the tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too. 
 - Make the species sprites consistent. Some are very comic-style (sheet 5) and some are very realistic. We want a cute-comic style so I fear we have to regenerate a large part of it (side view; the cod is done: `art_source/fish/views/`, prompts per species in `art_source/fish/views/prompts.md`).

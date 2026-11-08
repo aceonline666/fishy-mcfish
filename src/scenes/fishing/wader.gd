@@ -48,8 +48,15 @@ const WALK_FRAMES := 4
 const SUB_FLOAT := 40.0
 ## The catch stack rises from the basket rim.
 const STACK_BASE := Vector2(0.0, -136.0)
-const STACK_STEP := 12.0
-const STACK_FISH_LENGTH := 50.0
+## Each fish on the stack rises this share of its and the one below's mean thickness above it:
+## below 1 they overlap.
+const STACK_OVERLAP := 0.5
+## Carried fish keep their sizes relative to each other: their length in the sea
+## (CatchRules.body_length) times CARRIED_SCALE, within these bounds (a mackerel about 50, a cod
+## about 75, a whale at the top). In the towed bag BAG_SCALE of that.
+const CARRIED_SCALE := 0.42
+const CARRIED_LENGTH := Vector2(30.0, 120.0)
+const BAG_SCALE := 0.8
 ## From this gear on the catch is towed in a bag instead of stacked on the back.
 const TOW_FROM_GEAR := 3
 const CATCH_BAG: Texture2D = preload("res://assets/sprites/wader/catch_bag.png")
@@ -70,7 +77,6 @@ const TOW_BELT := Vector2(0.0, -95.0)
 const TOW_LINE := Color(0.95, 0.78, 0.2)
 ## Fish shown poking out of the bag's mouth, and their length.
 const BAG_SHOWN := 3
-const BAG_FISH_LENGTH := 40.0
 ## Shoulder of the net arm, for side = +1 (net on the right).
 const NET_SHOULDER := Vector2(27.0, -112.0)
 ## Landing nets by net level (assets/sprites/wader/net_N, art_source/characters/net_sprite_prompt.md,
@@ -225,7 +231,24 @@ func hoop_screen_position() -> Vector2:
 func stack_top_position() -> Vector2:
 	if tows_bag():
 		return position + _bag_mouth()
-	return position + STACK_BASE + Vector2(0.0, -STACK_STEP * maxi(carried.size() - 1, 0))
+	var rises := _stack_rises(1.0)
+	return position + STACK_BASE + Vector2(0.0, -rises[-1] if not rises.is_empty() else 0.0)
+
+
+## Screen length of a carried fish on the stack (or, times BAG_SCALE, in the bag).
+static func carried_length(art: FishArt) -> float:
+	return clampf(CatchRules.body_length(art.species) * CARRIED_SCALE, CARRIED_LENGTH.x, CARRIED_LENGTH.y)
+
+
+## How high each fish of the stack lies above the bottom one, squashed by `squash`.
+func _stack_rises(squash: float) -> PackedFloat32Array:
+	var rises := PackedFloat32Array()
+	var below := 0.0
+	for art in carried:
+		var thickness := carried_length(art) * art.species.body_aspect
+		rises.append(0.0 if rises.is_empty() else rises[-1] + (below + thickness) * 0.5 * STACK_OVERLAP * squash)
+		below = thickness
+	return rises
 
 
 ## True when the catch goes into the towed bag rather than onto the back.
@@ -372,13 +395,13 @@ func _texture(sprite: String) -> Texture2D:
 ## walking direction.
 func _draw_stack(canvas: CanvasItem, bob: float) -> void:
 	var lean := -Iso.to_screen(ground_velocity).x * 0.004
-	var squash := 1.0 - 0.08 * sin(_stack_bounce * PI)
+	var rises := _stack_rises(1.0 - 0.08 * sin(_stack_bounce * PI))
 	for i in carried.size():
 		var sway := sin(_walk_phase * 0.5 + i * 0.4) * 0.5 * i if is_walking() else 0.0
 		var offset_x := (3.0 if i % 2 == 0 else -3.0) + sway + lean * i
-		var at := STACK_BASE + Vector2(offset_x, -bob - STACK_STEP * i * squash)
+		var at := STACK_BASE + Vector2(offset_x, -bob - rises[i])
 		var mirror := 1.0 if i % 2 == 0 else -1.0
-		carried[i].draw(canvas, Transform2D(Vector2(mirror, 0.0), Vector2(0.0, 1.0), at), STACK_FISH_LENGTH)
+		carried[i].draw(canvas, Transform2D(Vector2(mirror, 0.0), Vector2(0.0, 1.0), at), carried_length(carried[i]))
 
 
 ## The bag's mouth on screen, relative to the feet: behind the diver on its line, swaying a little.
@@ -406,8 +429,9 @@ func _draw_bag(canvas: CanvasItem) -> void:
 		var art := carried[carried.size() - shown + i]
 		# Head up, tail in the bag, fanned out a little.
 		var tilt := -PI * 0.5 + (i - (shown - 1) * 0.5) * 0.45
-		var at := mouth + Vector2.from_angle(tilt) * BAG_FISH_LENGTH * 0.3
-		art.draw(canvas, Transform2D(tilt, at), BAG_FISH_LENGTH, _time * 4.0 + i, 0.3)
+		var length := carried_length(art) * BAG_SCALE
+		var at := mouth + Vector2.from_angle(tilt) * length * 0.3
+		art.draw(canvas, Transform2D(tilt, at), length, _time * 4.0 + i, 0.3)
 
 
 ## The landing net of the net level, its hoop lying on the water at the catch point and its handle

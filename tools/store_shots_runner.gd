@@ -28,6 +28,12 @@ var _location := "north_sea"
 var _full := false
 ## --tank=N: with --view, the tank's level (5 by default).
 var _tank := 5
+## --gear=N: with --view, the gear level (below 3 the catch is stacked on the back).
+var _gear := 0
+## --carry=id,id,...: with --view, the fish in the backpack, bottom first.
+var _carry := PackedStringArray()
+## --face=x,y: with --view, the ground direction the wader faces (-1,-1 shows its back).
+var _face := Vector2.ZERO
 var _every := 1.0
 var _viewport: SubViewport
 var _main: Node
@@ -44,6 +50,13 @@ func _ready() -> void:
 		elif arg.begins_with("--view="):
 			var parts := arg.trim_prefix("--view=").split(",")
 			_view = Vector2(parts[0].to_float(), parts[1].to_float())
+		elif arg.begins_with("--gear="):
+			_gear = arg.trim_prefix("--gear=").to_int()
+		elif arg.begins_with("--face="):
+			var face := arg.trim_prefix("--face=").split(",")
+			_face = Vector2(face[0].to_float(), face[1].to_float()).normalized()
+		elif arg.begins_with("--carry="):
+			_carry = arg.trim_prefix("--carry=").split(",")
 		elif arg.begins_with("--tank="):
 			_tank = arg.trim_prefix("--tank=").to_int()
 		elif arg == "--full":
@@ -124,8 +137,15 @@ func _shot_view() -> void:
 		# Small fish close the last gaps, so the tank counts as full.
 		_fill_tank(site, ["european_sprat"], RandomNumberGenerator.new(), 1.0)
 	site.backpack.assign(["atlantic_cod", "atlantic_mackerel", "lumpsucker", "atlantic_herring", "european_plaice"])
+	if not _carry.is_empty():
+		site.backpack.assign(_carry)
+	if _gear > 0:
+		site.gear_level = _gear
 	var spot := await _start(state)
 	_place(spot, _view)
+	if _face != Vector2.ZERO:
+		var wader: Wader = spot.wader
+		wader.facing = _face
 	await get_tree().create_timer(3.0).timeout
 	for frame in _frames:
 		if frame > 0:
