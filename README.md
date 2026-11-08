@@ -254,11 +254,12 @@ Rules of thumb:
 - Add location images for antarctica and jurasic sea
 - Make last deep sea zones longer. Increase from 4 units to 8 units, but do not add more fish. The deep sea should feel wast and empty. And this also clarifies that this is the last zone.
 - Black Smokers in the Antarctic deep sea are not visible. They need to glow. Also add glow to the deep sea angler fish.
+- Add seagulls / seabirds for the various locations which rarely fly over the screen. For jurasic sea this could be a pterodactyl, quezalcoatlus or something like that. Needs painted sprites in the isometric perspective (wing poses for flapping and gliding); a version drawn in code was tried and looked worse than none. Maybe also sounds for them to give a more maritim vibe to the game.
+- Replace the ice floes on the Antarctic pack ice (`IceFloes`, drawn in code) with painted sprites.
 - Fine tuning for tank fill-up and tank-is-full-animation. Edges for the tank fill-up are still not matching the sprites correctly. Also the tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too.
 - Do not mark species that you can't catch because your tank is to small as "catched" and do not unlock them in the fishpedia. It should be goal to catch them and to "clean" the location by upgrading the tank.
 - Make currents a tiny bit stronger (maybe 20%). Also make the fish swim faster into the direction of the current and slower against it.
 - Rescale the drone sprites. They look too big. Shrink them maybe to 80%.
-- Make the species sprites consistent. Some are very comic-style (sheet 5) and some are very realistic. We want a cute-comic style so I fear we have to regenerate a large part of it (side view; the cod is done: `art_source/fish/views/`, prompts per species in `art_source/fish/views/prompts.md`).
 - More secrets (need new sprites, postponed):
   - an original deep sea horror in the deepest zones, barely visible at the edge of the dark
   - glowing eyes in the dark that vanish when you come close
@@ -266,11 +267,10 @@ Rules of thumb:
   - secret species per location that only show under a condition (night, charted zone, ...)
 
 ### Later 
-- Species seen from above (isometric) instead of the side view. Tested with the cod and sheet 01 (2026-11-08, see git history): looks better, but turning fish switch hard between the sprites (lower left / upper left, mirrored) and look stuttering; smooth turns would need more views per species (more memory). Drawing code is still in `FishArt.draw_top` (sprites `<id>_top.png` / `<id>_top_up.png`), the views come from one image per species (`tools/extract_species_views.py`).
-- ~~Add new locations. Ideas:~~
-  - ~~Antarctic sea (Orcas, pengiuins? black smokers in the deep zones?)~~ (penguins and everyday fish still to come: `species_sheet_14_prompt.md`)
-  - ~~Jurasic sea (with ichtyosaurs, plesiosaurs, leopleurodon, ammonites etc?)~~ (middle-sized species still to come: `species_sheet_14_prompt.md`)
-- Add more species - mostly the well known ones
+- Make the species sprites consistent. Some are very comic-style (sheet 5) and some are very realistic. We want a cute-comic style so I fear we have to regenerate a large part of it (side view; the cod is done: `art_source/fish/views/`, prompts per species in `art_source/fish/views/prompts.md`). Species seen from above (isometric) instead of the side view. Tested with the cod and sheet 01 (2026-11-08, see git history): looks better, but turning fish switch hard between the sprites (lower left / upper left, mirrored) and look stuttering; smooth turns would need more views per species (more memory). Drawing code is still in `FishArt.draw_top` (sprites `<id>_top.png` / `<id>_top_up.png`), the views come from one image per species (`tools/extract_species_views.py`).
+- Add more species - mostly the well known ones:
+  - penguins and everyday fish still to come: `species_sheet_14_prompt.md`
+  - middle-sized jurasic species still to come: `species_sheet_14_prompt.md`
   - Hammerhead Shark
   - Seasnakes
   - Walrus
