@@ -70,6 +70,11 @@ const EDGE_SPACING := 95.0
 const EDGE_OFFSET := Vector2(15.0, 70.0)
 const SWAY: Array[String] = ["kelp_small", "kelp", "kelp_tall", "sea_lettuce", "seagrass", "reef_anemone", "sea_fan", "sea_whips", "sea_pens"]
 const WRECK_WIDTH := 460.0
+## Props keep this far from a wreck's ground point (ground units), off its hull; the sunken junk
+## (JUNK) much further, so an anchor or a rowboat does not lie next to a ship many times its size.
+const WRECK_CLEARANCE := 320.0
+const JUNK_CLEARANCE := 900.0
+const JUNK: Array[String] = ["anchor", "barrels", "crate", "lobster_pot", "rowboat"]
 ## Props keep at least this far apart (ground units); a zone's own props, which grow in beds,
 ## closer.
 const PROP_SPACING := 150.0
@@ -85,6 +90,8 @@ var water := "temperate"
 
 ## Painted props, nearest last.
 var _props: Array[Prop] = []
+## Sunken ships (add_wreck()): sprite and ground point.
+var _wrecks: Array[Array] = []
 var _time := 0.0
 
 
@@ -106,12 +113,14 @@ func generate(area: PlayArea, seed_value: int = 1) -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = seed_value
 	_props.clear()
+	for wreck in _wrecks:
+		_props.append(_make_prop(wreck[0], wreck[1], WRECK_WIDTH, 0.0))
 	var taken := PackedVector2Array()
 	for entry: Array in PROPS.get(water, PROPS["temperate"]):
 		for i in int(entry[2]):
 			var ground := area.random_point(rng, 80.0)
-			for attempt in 20:
-				if not _crowded(ground, taken):
+			for attempt in 40:
+				if not _crowded(ground, taken) and not _near_wreck(entry[0], ground):
 					break
 				ground = area.random_point(rng, 80.0)
 			taken.append(ground)
@@ -130,8 +139,8 @@ func add_zone(zone_id: String, area: PlayArea, seed_value: int = 3) -> void:
 	for entry: Array in ZONE_PROPS[zone_id]:
 		for i in int(entry[2]):
 			var ground := area.random_point(rng, 80.0)
-			for attempt in 20:
-				if not _crowded(ground, taken, ZONE_PROP_SPACING):
+			for attempt in 40:
+				if not _crowded(ground, taken, ZONE_PROP_SPACING) and not _near_wreck(entry[0], ground):
 					break
 				ground = area.random_point(rng, 80.0)
 			taken.append(ground)
@@ -159,11 +168,21 @@ func add_edges(area: PlayArea, seed_value: int = 2) -> void:
 	queue_redraw()
 
 
-## Places a sunken ship (a prop sprite) on the seabed at a ground position.
+## Places a sunken ship (a prop sprite) on the seabed at a ground position. Props scattered later
+## keep clear of it (WRECK_CLEARANCE, JUNK_CLEARANCE), so add it before generate() and add_zone().
 func add_wreck(prop_name: String, ground: Vector2) -> void:
+	_wrecks.append([prop_name, ground])
 	_props.append(_make_prop(prop_name, ground, WRECK_WIDTH, 0.0))
 	_sort_props()
 	queue_redraw()
+
+
+func _near_wreck(prop_name: String, ground: Vector2) -> bool:
+	var clearance := JUNK_CLEARANCE if JUNK.has(prop_name) else WRECK_CLEARANCE
+	for wreck in _wrecks:
+		if ground.distance_to(wreck[1]) < clearance:
+			return true
+	return false
 
 
 func _crowded(ground: Vector2, taken: PackedVector2Array, spacing: float = PROP_SPACING) -> bool:
