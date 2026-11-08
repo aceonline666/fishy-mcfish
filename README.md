@@ -252,7 +252,6 @@ Rules of thumb:
 
 ## TODOs
 - Add location images for antarctica and jurasic sea
-- Make last deep sea zones longer. Increase from 4 units to 8 units, but do not add more fish. The deep sea should feel wast and empty. And this also clarifies that this is the last zone.
 - Black Smokers in the Antarctic deep sea are not visible. They need to glow. Also add glow to the deep sea angler fish.
 - Add seagulls / seabirds for the various locations which rarely fly over the screen. For jurasic sea this could be a pterodactyl, quezalcoatlus or something like that. Needs painted sprites in the isometric perspective (wing poses for flapping and gliding); a version drawn in code was tried and looked worse than none. Maybe also sounds for them to give a more maritim vibe to the game.
 - Replace the ice floes on the Antarctic pack ice (`IceFloes`, drawn in code) with painted sprites.

@@ -72,7 +72,8 @@ const PLAY_MARGIN_BOTTOM := 330.0
 ## along the pier).
 ##
 ## The sea's zones (data/zones.csv) lie on the grid too, each 4 rows deep: zone 1 rows 0..3,
-## zone 2 rows 4..7, and so on.
+## zone 2 rows 4..7, and so on; the last one is 8 rows deep, with no more fish than the others, so
+## the deep sea feels vast and empty.
 const COLUMNS := 9
 const BEACH_ROWS := 18
 const BEACH_TOP := -BEACH_ROWS * Grid.UNIT
