@@ -3,24 +3,34 @@ extends Node2D
 ## Secrets of the deep: things lurking at the edge of the dark (assets/sprites/props, cut from
 ## art_source/props/dark_things_sheet.png by tools/extract_dark_things.py). They lie just above
 ## the seabed, below the fish, and nothing can catch them.
-## - The deep sea horror: now and then, while the wader is in the last zone, a huge creature
-##   glides slowly past far off, barely visible in the dark; the submarine's spotlight shows it.
+## - The deep sea horror: now and then, while the wader is in the last zone near one of the spot's
+##   side edges, a huge creature glides slowly past along that edge, out where no one can swim,
+##   barely visible in the dark; the submarine's spotlight shows it.
 ## - Glowing eyes: in the dark of the last zones pairs of eyes open somewhere off in the water,
 ##   blink, and are gone as soon as the wader comes close or shines its light on them.
+## Each is reported once it has been on screen (horror_seen, eyes_seen), for the secret goals.
+
+## The horror passing now has come into view.
+signal horror_seen
+## A pair of eyes has opened fully in view.
+signal eyes_seen
 
 const HORROR: Texture2D = preload("res://assets/sprites/props/deep_horror.png")
 const EYES: Array[Texture2D] = [
 	preload("res://assets/sprites/props/eyes_1.png"), preload("res://assets/sprites/props/eyes_2.png"),
 	preload("res://assets/sprites/props/eyes_3.png"), preload("res://assets/sprites/props/eyes_4.png"),
 ]
-## Seconds between two passes of the horror, shortest and longest, and its first pass.
-const HORROR_INTERVAL := Vector2(60.0, 150.0)
-const HORROR_FIRST := Vector2(15.0, 40.0)
-## Screen length of the horror, its speed (ground units per second) and how far from the wader
-## it passes (ground units, deeper down).
+## Seconds between two passes of the horror, shortest and longest, and its first pass. A pass
+## that is due waits until the wader is near a side edge of the last zone.
+const HORROR_INTERVAL := Vector2(120.0, 300.0)
+const HORROR_FIRST := Vector2(30.0, 80.0)
+## Screen length of the horror and its speed (ground units per second). It swims along a side
+## edge of the spot, this far beyond it (ground units, enough that its body stays clear of the
+## walkable water), and only when the wader is at most HORROR_NEAR_EDGE from that edge.
 const HORROR_LENGTH := 820.0
-const HORROR_SPEED := 70.0
-const HORROR_OFFSET := Vector2(350.0, 650.0)
+const HORROR_SPEED := 85.0
+const HORROR_BEYOND := Vector2(270.0, 330.0)
+const HORROR_NEAR_EDGE := 230.0
 ## How much of it shows in the dark, and in the spotlight.
 const HORROR_DARK_ALPHA := 0.5
 const HORROR_LIT_ALPHA := 0.95
@@ -33,7 +43,7 @@ const EYE_PAIRS := 2
 const EYE_DISTANCE := Vector2(420.0, 750.0)
 const EYE_SHY := 330.0
 const EYE_SHY_LIGHT := 0.25
-const EYE_WAIT := Vector2(5.0, 14.0)
+const EYE_WAIT := Vector2(50.0, 140.0)
 const EYE_HEIGHT := 34.0
 ## The eyes show only where the deep sea is at least this dark (SeaDepth.abyss).
 const EYE_MIN_DARK := 0.5
@@ -51,10 +61,11 @@ var light_on := 0.0
 var _rng := RandomNumberGenerator.new()
 var _time := 0.0
 var _horror_wait := 0.0
-## The horror passing now: its ground position and direction on screen (+1 right, -1 left); none
-## while _horror_dir is 0. It glides straight across the screen, as it is drawn from the side.
+## The horror passing now: its ground position and direction along the edge (+1 deeper, -1
+## shallower); none while _horror_dir is 0. Whether it has been reported as seen.
 var _horror_at := Vector2.ZERO
 var _horror_dir := 0.0
+var _horror_reported := false
 var _eyes: Array[Eyes] = []
 ## Draws the horror again additively, so only its bright parts (eye, teeth, lights) shine.
 var _shine := Node2D.new()
@@ -68,7 +79,7 @@ func _ready() -> void:
 	_horror_wait = _rng.randf_range(HORROR_FIRST.x, HORROR_FIRST.y)
 	for i in EYE_PAIRS:
 		var eyes := Eyes.new()
-		eyes.wait = _rng.randf_range(1.0, EYE_WAIT.y)
+		eyes.wait = _rng.randf_range(10.0, EYE_WAIT.y)
 		_eyes.append(eyes)
 
 
@@ -81,32 +92,41 @@ func _process(delta: float) -> void:
 	_shine.queue_redraw()
 
 
-## Starts a pass of the horror right away, `start` ground units off to the side, if the wader is in
-## the last zone (also for screenshots).
+## Starts a pass of the horror right away along the side edge nearest the wader, `start` ground
+## units up or down the edge from it, if the wader is in the last zone (also for screenshots).
 func send_horror(start: float = 1300.0) -> void:
 	if not _in_rows(wader_ground.y, horror_rows):
 		return
+	var beyond := _rng.randf_range(HORROR_BEYOND.x, HORROR_BEYOND.y)
+	var x := -beyond if wader_ground.x < spot_width * 0.5 else spot_width + beyond
 	_horror_dir = 1.0 if _rng.randf() < 0.5 else -1.0
-	var depth := clampf(wader_ground.y + _rng.randf_range(HORROR_OFFSET.x, HORROR_OFFSET.y), horror_rows.x + 200.0, horror_rows.y - 150.0)
-	_horror_at = Vector2(wader_ground.x, depth) - _screen_right() * _horror_dir * start
+	_horror_at = Vector2(x, wader_ground.y - _horror_dir * start)
+	_horror_reported = false
+
+
+## Ground distance from the wader to the nearest side edge of the spot.
+func _edge_distance() -> float:
+	return minf(wader_ground.x, spot_width - wader_ground.x)
 
 
 func _update_horror(delta: float) -> void:
 	if _horror_dir == 0.0:
 		_horror_wait -= delta
-		if _horror_wait <= 0.0:
+		if _horror_wait <= 0.0 and _in_rows(wader_ground.y, horror_rows) and _edge_distance() <= HORROR_NEAR_EDGE:
 			_horror_wait = _rng.randf_range(HORROR_INTERVAL.x, HORROR_INTERVAL.y)
 			send_horror()
 		return
-	_horror_at += _screen_right() * _horror_dir * HORROR_SPEED * delta
-	var ahead := (_horror_at - wader_ground).dot(_screen_right()) * _horror_dir
-	if ahead > 1500.0:
+	_horror_at.y += _horror_dir * HORROR_SPEED * delta
+	if not _horror_reported and _on_screen(Iso.to_screen(_horror_at)):
+		_horror_reported = true
+		horror_seen.emit()
+	if (_horror_at.y - wader_ground.y) * _horror_dir > 1500.0:
 		_horror_dir = 0.0
 
 
-## The ground direction that runs straight to the right on screen.
-static func _screen_right() -> Vector2:
-	return Vector2(1.0, -1.0).normalized()
+## Whether a point of this node (screen coordinates of the world) shows in the viewport.
+func _on_screen(point: Vector2) -> bool:
+	return is_inside_tree() and get_viewport_rect().has_point(get_global_transform_with_canvas() * point)
 
 
 func _update_eyes(eyes: Eyes, delta: float) -> void:
@@ -119,6 +139,9 @@ func _update_eyes(eyes: Eyes, delta: float) -> void:
 		if eyes.closing and eyes.alpha <= 0.0:
 			eyes.shown = false
 			eyes.wait = _rng.randf_range(EYE_WAIT.x, EYE_WAIT.y)
+		elif not eyes.reported and eyes.alpha >= 1.0 and _on_screen(Iso.to_screen(eyes.ground)):
+			eyes.reported = true
+			eyes_seen.emit()
 		return
 	eyes.wait -= delta
 	if eyes.wait > 0.0 or not _in_rows(wader_ground.y, eye_rows):
@@ -135,6 +158,7 @@ func _update_eyes(eyes: Eyes, delta: float) -> void:
 	eyes.shown = true
 	eyes.closing = false
 	eyes.alpha = 0.0
+	eyes.reported = false
 	eyes.blink_phase = _rng.randf() * 10.0
 	# They look a while, then close and open somewhere else.
 	eyes.stay = _rng.randf_range(6.0, 14.0)
@@ -149,8 +173,12 @@ func _draw_horror(canvas: CanvasItem, shine: bool) -> void:
 	var alpha := HORROR_SHINE * (1.0 - lit) if shine else lerpf(HORROR_DARK_ALPHA, HORROR_LIT_ALPHA, lit)
 	var size := HORROR.get_size() * (HORROR_LENGTH / HORROR.get_width())
 	var at := Iso.to_screen(_horror_at) + Vector2(0.0, sin(_time * 0.6) * 10.0)
-	# The sprite faces east; mirrored when it swims west. A slow sway of the body.
-	canvas.draw_set_transform(at, sin(_time * 0.8) * 0.03, Vector2(_horror_dir, 1.0))
+	# The sprite faces east; mirrored when it swims west, and tilted to run along the edge
+	# (diagonal on screen). A slow sway of the body.
+	var heading := Iso.to_screen(Vector2(0.0, _horror_dir))
+	var flip := 1.0 if heading.x >= 0.0 else -1.0
+	var angle := atan2(heading.y * flip, heading.x * flip)
+	canvas.draw_set_transform(at, angle + sin(_time * 0.8) * 0.03, Vector2(flip, 1.0))
 	canvas.draw_texture_rect(HORROR, Rect2(-size * 0.5, size), false, Color(1.0, 1.0, 1.0, alpha))
 	canvas.draw_set_transform_matrix(Transform2D.IDENTITY)
 
@@ -179,6 +207,7 @@ static func _in_rows(y: float, rows: Vector2) -> bool:
 class Eyes extends RefCounted:
 	var shown := false
 	var closing := false
+	var reported := false
 	var ground := Vector2.ZERO
 	var texture: Texture2D
 	var alpha := 0.0

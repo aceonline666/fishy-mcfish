@@ -509,6 +509,18 @@ msgstr "Tiefe Ruhe"
 msgid "Float still for a minute in the deepest zone"
 msgstr "Schwebe eine Minute lang reglos in der tiefsten Zone"
 
+msgid "Watched"
+msgstr "Beobachtet"
+
+msgid "Spot glowing eyes in the dark of the deep"
+msgstr "Entdecke leuchtende Augen im Dunkel der Tiefe"
+
+msgid "Here be monsters"
+msgstr "Hier seien Ungeheuer"
+
+msgid "See the horror of the deep pass by"
+msgstr "Sieh das Grauen der Tiefe vorbeiziehen"
+
 msgid "A secret goal. Keep exploring!"
 msgstr "Ein geheimes Ziel. Erkunde weiter!"
 

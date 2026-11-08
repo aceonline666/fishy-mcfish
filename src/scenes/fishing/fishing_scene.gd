@@ -34,6 +34,8 @@ const ICE_FLOES: Dictionary[String, int] = {"pack_ice": 11}
 ## Screen pixels covered by the HUD bars at the top and bottom.
 const PLAY_MARGIN_TOP := 270.0
 const PLAY_MARGIN_BOTTOM := 330.0
+## Seconds after seeing the deep sea horror or the eyes before their secret goal is counted.
+const SIGHTING_DELAY := 5.0
 
 #region Layout (on the layout grid, Grid: cells counted from the spot's west end at the waterline)
 ## Everything on the beach covers whole cells of the layout grid (Grid): pads, booths, the tank and
@@ -394,6 +396,8 @@ func _ready() -> void:
 	_world.add_child(dark_things)
 	_world.move_child(dark_things, _seabed.get_index() + 1)
 	dark_things.spot_width = _spot_rect.size.x
+	dark_things.horror_seen.connect(_on_dark_thing_seen.bind("horror_sightings"))
+	dark_things.eyes_seen.connect(_on_dark_thing_seen.bind("eyes_sightings"))
 	if _zones.size() >= 2:
 		dark_things.horror_rows = Vector2(_zones[-1].depth_start, _zones[-1].depth_end)
 		dark_things.eye_rows = Vector2(_zones[-2].depth_start, _zones[-1].depth_end)
@@ -997,6 +1001,17 @@ func _update_find() -> void:
 	_find.pick_up()
 	_find = null
 	get_tree().create_timer(1.2).timeout.connect(fishpedia.open_curiosity.bind(find_id))
+
+
+## The deep sea horror or a pair of eyes came into view: counted for their secret goals, but only
+## after SIGHTING_DELAY, so the goal banner does not spoil the moment.
+func _on_dark_thing_seen(stat: String) -> void:
+	get_tree().create_timer(SIGHTING_DELAY).timeout.connect(_record_sighting.bind(stat))
+
+
+func _record_sighting(stat: String) -> void:
+	GameState.state.increment_stat(stat)
+	GameState.check_achievements()
 
 
 ## Keeping still in the location's deepest zone counts for the "Deep calm" goal.

@@ -70,8 +70,11 @@ deepest zone the gear opens, but no further out than the fourth zone (beyond it 
 would hide it), with a glint over its coins (`src/sim/treasure.gd`,
 `src/scenes/world/treasure_chest.gd`). Scooping it up pays the price of 25 grown fish of that zone
 plus five minutes of the location's seller income; it turns up somewhere else 20 hours later.
-Secret goals: finding chests, catching a fish between midnight and 4 a.m., and keeping still for
-a minute in a location's deepest zone. The **Map** travels between five locations: North Sea,
+Secret goals: finding chests, catching a fish between midnight and 4 a.m., keeping still for
+a minute in a location's deepest zone, and seeing the things in the dark
+(`src/scenes/world/dark_things.gd`): glowing eyes in the last zones, and the deep sea horror that
+now and then swims along a side edge of the last zone, outside the water you can swim in. A
+sighting counts five seconds later, so the goal banner does not spoil the moment. The **Map** travels between five locations: North Sea,
 Coral Reef, Australia, Japan and South Africa. Each opens with a goal on the location before it
 (charting its third zone, or the Sandbanks for the Reef) and a one-time fee. Every location has its own beach
 business that starts from scratch (smallest net, first zone only, a small tank and a fish stall); building
