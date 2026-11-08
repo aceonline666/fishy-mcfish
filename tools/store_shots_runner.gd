@@ -36,6 +36,9 @@ var _carry := PackedStringArray()
 var _face := Vector2.ZERO
 ## --horror: with --view, the deep sea horror passes right away (in the last zone).
 var _horror := false
+## --find: with --view, the wader picks up the location's waiting rare find (Curiosities), and
+## its page in the Fishpedia opens.
+var _go_to_find := false
 var _every := 1.0
 var _viewport: SubViewport
 var _main: Node
@@ -54,6 +57,8 @@ func _ready() -> void:
 			_view = Vector2(parts[0].to_float(), parts[1].to_float())
 		elif arg.begins_with("--gear="):
 			_gear = arg.trim_prefix("--gear=").to_int()
+		elif arg == "--find":
+			_go_to_find = true
 		elif arg == "--horror":
 			_horror = true
 		elif arg.begins_with("--face="):
@@ -150,6 +155,13 @@ func _shot_view() -> void:
 	if _face != Vector2.ZERO:
 		var wader: Wader = spot.wader
 		wader.facing = _face
+	if _go_to_find:
+		await get_tree().create_timer(1.5).timeout
+		var find: CurioFind = spot.get("_find")
+		if find != null:
+			# The net lands on it: it is picked up and its page opens.
+			var wader: Wader = spot.wader
+			_place(spot, find.ground - Iso.to_ground(wader.hoop_screen_position() - wader.position))
 	if _horror:
 		var dark: DarkThings = spot.dark_things
 		dark.wader_ground = _view

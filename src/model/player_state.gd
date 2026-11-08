@@ -33,6 +33,8 @@ var sites: Dictionary[String, Site] = {}
 var tutorial_step := 0
 ## When the treasure chest of each location was last found (Unix time), by location id.
 var chest_found_at: Dictionary[String, int] = {}
+## Rare finds picked up (Curiosities), in the order they were found.
+var curiosities: Array[String] = []
 
 
 static func new_game() -> PlayerState:
@@ -126,6 +128,7 @@ func to_dict() -> Dictionary:
 		"sites": site_data,
 		"tutorial_step": tutorial_step,
 		"chest_found_at": chest_found_at.duplicate(),
+		"curiosities": curiosities.duplicate(),
 	}
 
 
@@ -155,6 +158,9 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	var raw_chests: Dictionary = data.get("chest_found_at", {})
 	for key: Variant in raw_chests:
 		state.chest_found_at[str(key)] = int(raw_chests[key])
+	var raw_finds: Array = data.get("curiosities", [])
+	for id: Variant in raw_finds:
+		state.curiosities.append(str(id))
 
 	var raw_sites: Variant = data.get("sites")
 	if raw_sites is Dictionary:

@@ -111,6 +111,9 @@ func _shown_texts() -> Dictionary[String, bool]:
 	for def in DataRegistry.achievements:
 		texts[def.name] = true
 		texts[def.description] = true
+	for find_id in Curiosities.all_ids():
+		texts[Curiosities.find_name(find_id)] = true
+		texts[Curiosities.text(find_id)] = true
 	for levels: Array[LevelDef] in [DataRegistry.tank_levels, DataRegistry.backpack_levels,
 			DataRegistry.gear_levels, DataRegistry.net_levels, DataRegistry.drone_levels, DataRegistry.staff_levels,
 			DataRegistry.shop_levels]:

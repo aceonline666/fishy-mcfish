@@ -286,6 +286,8 @@ var _hire_tip_shown := false
 ## The location's treasure chest on the seabed while it waits to be found, else null.
 var _chest: TreasureChest
 var _chest_timer := 0.0
+## The rare find waiting in the water here (Curiosities), or null.
+var _find: CurioFind
 ## Seconds the wader has kept still in the location's deepest zone.
 var _still_time := 0.0
 
@@ -441,6 +443,7 @@ func _process(delta: float) -> void:
 		fish.simulate(delta, wader.ground_position, THREAT_RADIUS, _fish)
 	_check_catches(delta)
 	_update_chest(delta)
+	_update_find()
 	_update_stillness(delta)
 	_combo_timer = maxf(_combo_timer - delta, 0.0)
 	_update_drones(delta)
@@ -934,6 +937,7 @@ func _update_chest(delta: float) -> void:
 	if _chest_timer <= 0.0:
 		_chest_timer = CHEST_CHECK_S
 		_sync_chest()
+		_sync_find()
 	if _chest != null and wader.in_water \
 			and wader.scoop_center().distance_to(_chest.ground) <= wader.scoop_radius + CHEST_RADIUS:
 		_open_chest()
@@ -957,6 +961,42 @@ func _open_chest() -> void:
 	_chest.open()
 	_chest = null
 	_update_hud()
+
+
+## Puts the location's waiting rare find (Curiosities.waiting) into the water, or takes it away.
+func _sync_find() -> void:
+	var find_id := Curiosities.waiting(GameState.state, location.id)
+	if _find != null and _find.find_id == find_id:
+		return
+	if _find != null:
+		_find.queue_free()
+		_find = null
+	if find_id.is_empty():
+		return
+	var zone := Curiosities.zone(find_id)
+	_find = CurioFind.new()
+	_find.setup(find_id, Curiosities.spot(find_id, _zone_areas[_zones.find(zone)]), _seabed.material)
+	_seabed.add_child(_find)
+
+
+## The net picks up the rare find; its page in the Fishpedia opens (a bottle's letter to read).
+func _update_find() -> void:
+	if _find == null or not wader.in_water 			or wader.scoop_center().distance_to(_find.ground) > wader.scoop_radius + CHEST_RADIUS:
+		return
+	var find_id := _find.find_id
+	var at := _world_to_scene(_find.position + _find.glint_point())
+	Curiosities.record_find(GameState.state, find_id)
+	SaveSystem.save_game()
+	Juice.splash(_effects, _find.position, 12)
+	Juice.ripple(_effects, _find.position, 60.0)
+	_announce(at + Vector2(0.0, -80.0), tr("Found: %s!") % tr(Curiosities.find_name(find_id)), NEW_SPECIES_COLOR, 1.4)
+	Sfx.play(&"ding", 1.26)
+	Sfx.play(&"ding", 1.68, -4.0)
+	Haptics.bump()
+	_bump(_fishpedia_button)
+	_find.pick_up()
+	_find = null
+	get_tree().create_timer(1.2).timeout.connect(fishpedia.open_curiosity.bind(find_id))
 
 
 ## Keeping still in the location's deepest zone counts for the "Deep calm" goal.

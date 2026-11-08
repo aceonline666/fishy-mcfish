@@ -1546,3 +1546,73 @@ msgstr "Liopleurodon"
 
 msgid "The top predator of its sea: a short-necked pliosaur with jaws more than a metre long."
 msgstr "Der größte Räuber seines Meeres: ein kurzhalsiger Pliosaurier mit über einem Meter langen Kiefern."
+
+#. Curiosities (rare finds, letters in the bottles)
+msgid "Found: %s!"
+msgstr "Gefunden: %s!"
+
+msgid "Species"
+msgstr "Arten"
+
+msgid "Curiosities  %d / %d"
+msgstr "Fundstücke  %d / %d"
+
+msgid "Message in a bottle"
+msgstr "Flaschenpost"
+
+msgid "Something drifts into the shallows here once they are charted."
+msgstr "Hier treibt etwas ins flache Wasser, sobald es erkundet ist."
+
+msgid "Something lies on the seabed of the second zone here, once it is charted."
+msgstr "Hier liegt etwas auf dem Meeresgrund der zweiten Zone, sobald sie erkundet ist."
+
+msgid "Ship's bell"
+msgstr "Schiffsglocke"
+
+msgid "Pirate coin"
+msgstr "Piratenmünze"
+
+msgid "Sea glass"
+msgstr "Meerglas"
+
+msgid "Rubber duck"
+msgstr "Quietscheente"
+
+msgid "Old compass"
+msgstr "Alter Kompass"
+
+msgid "A ship's bell, green with age and crusted with barnacles. Somewhere out there lies the ship it once rang for."
+msgstr "Eine Schiffsglocke, grün vom Alter und voller Seepocken. Irgendwo da draußen liegt das Schiff, für das sie einst geläutet hat."
+
+msgid "A worn gold doubloon with a cross stamped on it. Pirates sailed these waters, and not all of their gold made it home."
+msgstr "Eine abgegriffene Golddublone mit einem eingeprägten Kreuz. Hier segelten Piraten, und nicht all ihr Gold kam nach Hause."
+
+msgid "Smooth, frosted pieces of glass in green, blue and white, rolled round by the waves for many years."
+msgstr "Glatte, matte Glasstücke in Grün, Blau und Weiß, von den Wellen über viele Jahre rund geschliffen."
+
+msgid "A faded rubber duck, scuffed from a long journey. Lost bath toys drift across whole oceans with the currents."
+msgstr "Eine verblichene Quietscheente, zerkratzt von einer langen Reise. Verlorenes Badespielzeug treibt mit den Strömungen über ganze Ozeane."
+
+msgid "A brass pocket compass with its lid open. The needle still points north, steady as ever."
+msgstr "Ein Taschenkompass aus Messing mit offenem Deckel. Die Nadel zeigt noch immer nach Norden, so beständig wie eh und je."
+
+msgid "To whoever finds this: please bring it to my family, at the little beach with the pier.\n\nThe storm took my boat. I held on to a crate for two days and nights, and the current carried me away.\n\nI am alive. Tell my kid I am sorry I missed the summer.\n\n- Dad"
+msgstr "An alle, die das finden: Bitte bringt es zu meiner Familie, an den kleinen Strand mit dem Steg.\n\nDer Sturm hat mein Boot geholt. Zwei Tage und Nächte habe ich mich an eine Kiste geklammert, und die Strömung hat mich fortgetragen.\n\nIch lebe. Sagt meinem Kind, dass es mir leidtut, den Sommer verpasst zu haben.\n\n- Papa"
+
+msgid "My dear,\n\nthe sea washed me up on an island no map knows. Palm trees, warm water and fish so bright they look painted.\n\nI catch them with my hands, the way I showed you on the pier. I think of you every time.\n\n- Dad"
+msgstr "Mein Schatz,\n\ndas Meer hat mich an eine Insel gespült, die keine Karte kennt. Palmen, warmes Wasser und Fische so bunt, als wären sie gemalt.\n\nIch fange sie mit den Händen, so wie ich es dir am Steg gezeigt habe. Jedes Mal denke ich an dich.\n\n- Papa"
+
+msgid "My dear,\n\nthree years now. I count the days with notches in my hut's door post.\n\nA big old turtle visits the bay every spring. I talk to her about you.\n\nI throw a bottle into every current I find. One of them has to reach you.\n\n- Dad"
+msgstr "Mein Schatz,\n\njetzt sind es drei Jahre. Ich zähle die Tage mit Kerben im Türpfosten meiner Hütte.\n\nJeden Frühling besucht eine große alte Schildkröte die Bucht. Ich erzähle ihr von dir.\n\nIn jede Strömung, die ich finde, werfe ich eine Flasche. Eine davon muss dich erreichen.\n\n- Papa"
+
+msgid "My dear,\n\nI built a raft and sailed for four days. The sea brought me back to the island, as if it wanted me to stay.\n\nDo you still have my old net? Use it well. You were always better with it than you thought.\n\n- Dad"
+msgstr "Mein Schatz,\n\nich habe ein Floß gebaut und bin vier Tage gesegelt. Das Meer hat mich zur Insel zurückgebracht, als wollte es, dass ich bleibe.\n\nHast du noch meinen alten Kescher? Nutze ihn gut. Du warst immer besser damit, als du dachtest.\n\n- Papa"
+
+msgid "My dear,\n\nlast night I saw the lights of a ship far out. I lit every fire I could, but it sailed on.\n\nI keep a fire burning now, every night.\n\nIf you are reading this, you have gone further out to sea than I ever did. I am so proud of you.\n\n- Dad"
+msgstr "Mein Schatz,\n\nletzte Nacht habe ich weit draußen die Lichter eines Schiffs gesehen. Ich habe jedes Feuer angezündet, das ich konnte, aber es fuhr weiter.\n\nJetzt lasse ich jede Nacht ein Feuer brennen.\n\nWenn du das hier liest, bist du weiter aufs Meer hinausgefahren als ich je. Ich bin so stolz auf dich.\n\n- Papa"
+
+msgid "My dear,\n\nthe island is wrapped in fog all year. Once a year it lifts.\n\nLast night it did, and the sea beyond it was wrong: no lights on the horizon, no ships, no planes. Only huge shadows moving in the water, and the stars in places I did not know.\n\n- Dad"
+msgstr "Mein Schatz,\n\ndie Insel liegt das ganze Jahr im Nebel. Einmal im Jahr lichtet er sich.\n\nLetzte Nacht war es so weit, und das Meer dahinter war falsch: keine Lichter am Horizont, keine Schiffe, keine Flugzeuge. Nur riesige Schatten, die sich im Wasser bewegten, und Sterne an Stellen, die ich nicht kannte.\n\n- Papa"
+
+msgid "My dear,\n\nI know now. It is not where I am, it is when.\n\nThe fog is a door. The creatures in the bay are the ones from your dinosaur books, and they are very much alive.\n\nIf this bottle reached you, you have found the door too. Follow the fog. I will keep the fire burning.\n\n- Dad"
+msgstr "Mein Schatz,\n\njetzt weiß ich es. Es geht nicht darum, wo ich bin, sondern wann.\n\nDer Nebel ist eine Tür. Die Geschöpfe in der Bucht sind die aus deinen Dinosaurierbüchern, und sie sind sehr lebendig.\n\nWenn diese Flasche dich erreicht hat, hast auch du die Tür gefunden. Folge dem Nebel. Ich halte das Feuer am Brennen.\n\n- Papa"

@@ -9,7 +9,7 @@ extends SceneTree
 ## shot of the developed beach with the wader at that ground point, e.g. --view=2040,-360 (the
 ## drone dock). With --view, --tank=N sets the tank level, --gear=N the gear level, --carry=id,id
 ## the fish in the backpack, --face=x,y the wader's ground direction (-1,-1: its back),
-## --horror sends the deep sea horror past, --location=id the place, --full fills the tank.
+## --horror sends the deep sea horror past, --find picks up the waiting rare find, --location=id the place, --full fills the tank.
 
 
 func _initialize() -> void:

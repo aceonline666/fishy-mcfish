@@ -255,11 +255,7 @@ Rules of thumb:
 - Add seagulls / seabirds for the various locations which rarely fly over the screen. For jurasic sea this could be a pterodactyl, quezalcoatlus or something like that. Needs painted sprites in the isometric perspective (wing poses for flapping and gliding); a version drawn in code was tried and looked worse than none. Maybe also sounds for them to give a more maritim vibe to the game.
 - Replace the ice floes on the Antarctic pack ice (`IceFloes`, drawn in code) with painted sprites.
 - Fine tuning for tank fill-up and tank-is-full-animation. Edges for the tank fill-up are still not matching the sprites correctly. Also the tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too.
-- More secrets (need new sprites, postponed):
-  - an original deep sea horror in the deepest zones, barely visible at the edge of the dark
-  - glowing eyes in the dark that vanish when you come close
-  - message in a bottle, rare finds (curiosities page in the Fishpedia)
-  - secret species per location that only show under a condition (night, charted zone, ...)
+- More secrets: secret species per location that only show under a condition (night, charted zone, ...). Need new sprites.
 
 ### Later 
 - Make the species sprites consistent. Some are very comic-style (sheet 5) and some are very realistic. We want a cute-comic style so I fear we have to regenerate a large part of it (side view; the cod is done: `art_source/fish/views/`, prompts per species in `art_source/fish/views/prompts.md`). Species seen from above (isometric) instead of the side view. Tested with the cod and sheet 01 (2026-11-08, see git history): looks better, but turning fish switch hard between the sprites (lower left / upper left, mirrored) and look stuttering; smooth turns would need more views per species (more memory). Drawing code is still in `FishArt.draw_top` (sprites `<id>_top.png` / `<id>_top_up.png`), the views come from one image per species (`tools/extract_species_views.py`).

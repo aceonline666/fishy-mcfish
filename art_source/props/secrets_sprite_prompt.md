@@ -1,14 +1,15 @@
 # Secrets art – generation prompts
 
-Art for the postponed "More secrets" TODO in the README. Generated ahead of the feature, so it
-is not in the game yet.
+Art for the secrets: the rare finds (`Curiosities`, `CurioFind`, the curiosities in the
+Fishpedia) and the things in the dark (`DarkThings`).
 
 ## 1. Curiosities (rare finds) – `curiosities_sheet.png`
 
 Six rare finds for a curiosities page in the Fishpedia, the message in a bottle first. Attach
 `art_source/props/gear_sprite_sheet.png` as the style reference. Cut with
 `python tools/extract_magenta_sheet.py art_source/props/curiosities_sheet.png <out_dir> 3 2
-message_in_a_bottle old_compass pirate_coin ships_bell rubber_duck sea_glass`.
+message_in_a_bottle old_compass pirate_coin ships_bell rubber_duck sea_glass --scale=0.4`
+(writes to `assets/sprites/props`).
 
 ```
 Sprite sheet of six rare finds for a cozy mobile idle game about catching fish at a beach,
@@ -38,7 +39,7 @@ Do not draw: water, sand, hands, text, labels, numbers, a frame. Six finds only,
 ## 2. Things in the dark – `dark_things_sheet.png`
 
 The deep sea horror and the glowing eyes. Both are meant to be drawn faintly at the edge of the
-dark in the deepest zones. Transparent background (the glow needs real alpha). Attach
+dark in the deepest zones. Cut with `python tools/extract_dark_things.py`. Transparent background (the glow needs real alpha). Attach
 `art_source/fish/species_sheet_6.png` as the style reference.
 
 ```
