@@ -136,6 +136,9 @@ var drift := Vector2.ZERO
 var covers: Array[Layers.Cover] = []
 ## True while one of `covers` stands in front of the figure.
 var covered := false
+## Tells whether something on the water's surface above the swimming wader (IceFloes.hides())
+## hides a screen rectangle; then the see-through copy shows above it. Set by the scene, if any.
+var surface_hides: Callable
 
 var _target := Vector2.ZERO
 var _has_target := false
@@ -301,12 +304,13 @@ func simulate(delta: float, area: PlayArea) -> void:
 	_update_cover()
 	queue_redraw()
 	_overlay.queue_redraw()
-	if covered:
+	if _see_through.visible:
 		_see_through_figure.queue_redraw()
 
 
 ## Drawn among the objects, behind the one in front, while one of `covers` hides part of the
-## figure; on its own layer above the pads otherwise.
+## figure; on its own layer above the pads otherwise. Its see-through copy shows above whatever
+## covers it: on the wader's layer above the objects, on the surface layer under ice floes.
 func _update_cover() -> void:
 	var figure := Rect2(position + Vector2(-FIGURE_HALF_WIDTH, -FIGURE_HEIGHT), Vector2(FIGURE_HALF_WIDTH * 2.0, FIGURE_HEIGHT))
 	covered = false
@@ -315,7 +319,9 @@ func _update_cover() -> void:
 			covered = true
 			break
 	z_index = Layers.OBJECTS if covered else Layers.WADER
-	_see_through.visible = covered
+	var under_surface: bool = not covered and swimming and surface_hides.is_valid() and surface_hides.call(figure)
+	_see_through.z_index = Layers.SURFACE if under_surface else Layers.WADER
+	_see_through.visible = covered or under_surface
 
 
 func _hoop_offset() -> Vector2:

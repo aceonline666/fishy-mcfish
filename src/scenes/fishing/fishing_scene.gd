@@ -29,6 +29,8 @@ const BAIT_BALLS: Dictionary[String, Array] = {
 ## it westward, a little under a fifth of its swimming speed there, the Antarctic Circumpolar
 ## Current at the polar front eastward.
 const CURRENTS: Dictionary[String, Vector2] = {"kuroshio": Vector2(-90.0, 0.0), "polar_front": Vector2(90.0, 0.0)}
+## Zones with ice floes on the surface (IceFloes): how many.
+const ICE_FLOES: Dictionary[String, int] = {"pack_ice": 11}
 ## Screen pixels covered by the HUD bars at the top and bottom.
 const PLAY_MARGIN_TOP := 270.0
 const PLAY_MARGIN_BOTTOM := 330.0
@@ -372,6 +374,7 @@ func _ready() -> void:
 	for zone in _zones:
 		var top := maxf(zone.depth_start, SHORE_Y + WATER_MARGIN)
 		_seabed.add_zone(zone.id, PlayArea.new(Rect2(_spot_rect.position.x, top, _spot_rect.size.x, zone.depth_end - top)))
+	_add_ice_floes()
 	_add_bait_balls()
 	EventBus.fish_sold_by_seller.connect(_on_fish_sold_by_seller)
 	_build_squares()
@@ -979,6 +982,20 @@ func _add_bait_balls() -> void:
 			ball.set_water_colors(location.shallow_color, location.deep_color, FLOOR_STRENGTH)
 			_entities.add_child(ball)
 			_decor_covers.append(ball.cover())
+
+
+## Ice floes on the zones listed in ICE_FLOES, between the buoy lines; the wader swims under them.
+func _add_ice_floes() -> void:
+	for zone in _zones:
+		if not ICE_FLOES.has(zone.id):
+			continue
+		var floes := IceFloes.new()
+		Layers.put(floes, Layers.SURFACE)
+		_world.add_child(floes)
+		# After the buoy lines, before the wader, whose see-through copy shows over the floes.
+		_world.move_child(floes, _buoys.get_index() + 1)
+		floes.setup(Rect2(_spot_rect.position.x, zone.depth_start, _spot_rect.size.x, zone.depth_end - zone.depth_start), ICE_FLOES[zone.id])
+		wader.surface_hides = floes.hides
 
 
 func _place_decor() -> void:

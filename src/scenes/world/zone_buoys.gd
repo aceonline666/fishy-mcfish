@@ -24,7 +24,7 @@ const FOAM := Color(1.0, 1.0, 1.0, 0.75)
 const WATER_SHADOW := Color(0.02, 0.12, 0.2, 0.25)
 ## Lines from this index on are drawn on the surface layer, above the wader.
 const SURFACE_FROM := 1
-## The last lines lie in the open sea's swell (src/shaders/water.gdshader): they ride it, rising
+## The last lines lie in the open sea's swell (src/shaders/swell.gdshader): they ride it, rising
 ## and falling slowly and much further, and rocking side to side.
 const ROUGH_LINES := 2
 
