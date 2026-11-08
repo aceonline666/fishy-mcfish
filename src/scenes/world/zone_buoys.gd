@@ -26,7 +26,7 @@ const WATER_SHADOW := Color(0.02, 0.12, 0.2, 0.25)
 const SURFACE_FROM := 1
 ## The last lines lie in the open sea's swell (src/shaders/swell.gdshader): they ride it, rising
 ## and falling slowly and much further, and rocking side to side.
-const ROUGH_LINES := 2
+const ROUGH_LINES := 3
 
 ## Ground y of each buoy line and whether the zone behind it is open.
 var _lines: Array[Vector2] = []

@@ -197,7 +197,7 @@ func _shot_top_view_test() -> void:
 func _shot_deep_sea() -> void:
 	var state := _state(["north_sea"], 6)
 	var spot := await _start(state)
-	var at := Vector2(1000.0, 5150.0)
+	var at := Vector2(1000.0, 6200.0)
 	_place(spot, at)
 	_spawn_around(spot, at, ["humpback_anglerfish", "giant_squid", "atlantic_footballfish", "humpback_anglerfish", "sperm_whale"])
 	await get_tree().create_timer(1.0).timeout

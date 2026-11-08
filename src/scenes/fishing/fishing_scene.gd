@@ -72,8 +72,8 @@ const PLAY_MARGIN_BOTTOM := 330.0
 ## along the pier).
 ##
 ## The sea's zones (data/zones.csv) lie on the grid too, each 4 rows deep: zone 1 rows 0..3,
-## zone 2 rows 4..7, and so on; the last one is 8 rows deep, with no more fish than the others, so
-## the deep sea feels vast and empty.
+## zone 2 rows 4..7, zone 3 rows 8..11; the open sea's zones 4 and 5 are 6 rows deep and the last
+## one 8, with no more fish than the others, so the open and the deep sea feel vast and empty.
 const COLUMNS := 9
 const BEACH_ROWS := 18
 const BEACH_TOP := -BEACH_ROWS * Grid.UNIT
@@ -178,6 +178,9 @@ const SPAWN_INTERVAL_S := 0.8
 const LIGHT_TURN := 4.0
 const LIGHT_FADE := 1.5
 const SWELL_SHADER := preload("res://src/shaders/swell.gdshader")
+## The last zones of a spot (from the fourth on) are the open sea, with a heavy swell
+## (swell.gdshader); the buoy lines in it ride the swell (ZoneBuoys.ROUGH_LINES).
+const OPEN_SEA_ZONES := 3
 ## The swell fades in this far before its start (swell.gdshader), plus the waves at the waterline.
 const SWELL_FADE_IN := 220.0
 ## Fish startle when the wader comes this close (ground units). Smaller than the net's reach
@@ -716,14 +719,14 @@ func _update_spotlight(delta: float) -> void:
 	_seabed.light_on = _light_on
 
 
-## The last two zones are the open sea, with a heavy swell on the surface. The swell rect starts
+## The last OPEN_SEA_ZONES zones are the open sea, with a heavy swell on the surface. The swell rect starts
 ## where the swell's first line (a ground row, rising to the left on screen) meets the screen's
 ## left edge, and covers the screen down from there.
 func _update_swell() -> void:
-	if _zones.size() < 2:
+	if _zones.size() <= OPEN_SEA_ZONES:
 		_swell.visible = false
 		return
-	var swell_start := _zones[_zones.size() - 2].depth_start - SHORE_Y
+	var swell_start := _zones[_zones.size() - OPEN_SEA_ZONES].depth_start - SHORE_Y
 	var first_row := SHORE_Y + swell_start - SWELL_FADE_IN
 	var left_x := -_world.position.x / ZOOM
 	var top := (left_x * 0.5 + first_row * Iso.BASIS.y.y * 2.0) * ZOOM + _world.position.y

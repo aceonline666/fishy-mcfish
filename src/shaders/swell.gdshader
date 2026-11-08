@@ -1,5 +1,5 @@
 shader_type canvas_item;
-// The heavy swell of the open sea (the last two zones of a spot), on the water's surface: drawn
+// The heavy swell of the open sea (the last three zones of a spot), on the water's surface: drawn
 // over the fish, the seabed props and the swimming wader, below the buoy lines (Layers.SURFACE).
 // From swell_start (distance from the waterline) it builds up over SWELL_BUILD and rolls towards
 // the shore: lit slopes, dark troughs and streaks of foam riding along the crests. Premultiplied alpha:

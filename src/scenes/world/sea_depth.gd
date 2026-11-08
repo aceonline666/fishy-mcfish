@@ -3,9 +3,9 @@ extends RefCounted
 ## How the sea looks with depth (ground y below the waterline): the water and everything seen
 ## through it fade from the shallow to the deep colour over DEPTH_RANGE, then into the dark of
 ## the deep sea between ABYSS_START and ABYSS_END. Shared by the water shader, the seabed props
-## and the fish. The zones are 4 cells of the layout grid (Grid) deep, the last one 8: the colour
-## has faded by the end of the third, the dark starts with the fourth and is darkest near the end
-## of the sixth zone's first half; below that the deep sea stays dark and empty.
+## and the fish. The zones are 4 cells of the layout grid (Grid) deep, the fourth and fifth 6 and
+## the last one 8: the colour has faded by the end of the third, the dark starts with the fourth
+## and is darkest near the end of the fifth; below that the deep sea stays dark and empty.
 
 const DEPTH_RANGE := 13 * Grid.UNIT
 const ABYSS_START := 12 * Grid.UNIT
