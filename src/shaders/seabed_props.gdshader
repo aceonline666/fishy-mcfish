@@ -15,7 +15,6 @@ uniform float clarity = 0.8;
 
 // The vertex colour, before the fragment's COLOR is multiplied by the texture.
 varying vec4 depth_data;
-
 void vertex() {
 	depth_data = COLOR;
 }

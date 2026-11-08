@@ -174,6 +174,9 @@ const DECOR: Array[Array] = [
 #endregion
 
 const SPAWN_INTERVAL_S := 0.8
+## How fast the submarine's spotlight turns after the sub (share per second) and fades in or out.
+const LIGHT_TURN := 4.0
+const LIGHT_FADE := 1.5
 const SWELL_SHADER := preload("res://src/shaders/swell.gdshader")
 ## The swell fades in this far before its start (swell.gdshader), plus the waves at the waterline.
 const SWELL_FADE_IN := 220.0
@@ -286,6 +289,10 @@ var _still_time := 0.0
 ## The open sea's swell on the water's surface, over the fish and the wader (swell.gdshader).
 ## Covers only the part of the screen the swell reaches, and hides while it is out of view.
 var _swell := ColorRect.new()
+## The submarine's spotlight (Spotlight): where it points (a ground direction) and how far it is
+## switched on.
+var _light_dir := Vector2(1.0, 1.0).normalized()
+var _light_on := 0.0
 
 @onready var wader: Wader = $World/Entities/Wader
 @onready var _water: ColorRect = $Water
@@ -412,11 +419,13 @@ func _process(delta: float) -> void:
 	wader.speed_multiplier = DataRegistry.gear_levels[GameState.here().gear_level - 1].capacity if wader.in_water else BEACH_SPEED
 	_update_zone()
 	_update_camera(delta)
+	_update_spotlight(delta)
 	_update_wake(delta)
 	_update_hums(delta)
 	var view := Rect2(-_world.position / ZOOM, size / ZOOM).grow(CULL_MARGIN)
 	for fish in _fish:
 		fish.visible = view.has_point(fish.position)
+		fish.light = Spotlight.amount(fish.ground_position, wader.ground_position, _light_dir, _light_on)
 		fish.simulate(delta, wader.ground_position, THREAT_RADIUS, _fish)
 	_check_catches(delta)
 	_update_chest(delta)
@@ -690,6 +699,21 @@ func _apply_world_position() -> void:
 			water.set_shader_parameter("current_band", Vector2(zone.depth_start, zone.depth_end))
 			water.set_shader_parameter("current_flow", CURRENTS[zone.id])
 
+
+
+## The submarine carries a spotlight: it switches on when the wader dives in the sub and follows
+## the way the sub faces; the water, the seabed's props and the fish light up in its cone.
+func _update_spotlight(delta: float) -> void:
+	_light_on = move_toward(_light_on, 1.0 if wader.swimming and wader.in_submarine() else 0.0, LIGHT_FADE * delta)
+	if wader.facing.length_squared() > 0.01:
+		_light_dir = _light_dir.slerp(wader.facing.normalized(), clampf(LIGHT_TURN * delta, 0.0, 1.0)).normalized()
+	var water := _water.material as ShaderMaterial
+	water.set_shader_parameter("light_origin", wader.ground_position)
+	water.set_shader_parameter("light_dir", _light_dir)
+	water.set_shader_parameter("light_on", _light_on)
+	_seabed.light_origin = wader.ground_position
+	_seabed.light_dir = _light_dir
+	_seabed.light_on = _light_on
 
 
 ## The last two zones are the open sea, with a heavy swell on the surface. The swell rect starts

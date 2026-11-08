@@ -40,6 +40,8 @@ uniform vec2 current_band = vec2(0.0, 0.0);
 uniform vec2 current_flow = vec2(0.0, 0.0);
 // How far into the band the current fades in, at both edges.
 const float CURRENT_FADE = 160.0;
+#include "res://src/shaders/spotlight.gdshaderinc"
+
 // The heavy swell of the open sea is drawn on the surface, over the fish: swell.gdshader.
 
 vec2 to_ground(vec2 screen) {
@@ -71,7 +73,8 @@ void fragment() {
 		color = mix(color, dune_color.rgb, smoothstep(dunes_y + 40.0, dunes_y - 40.0, g.y) * (1.0 - sand_strength * 0.5));
 		color *= 1.0 - grid * 0.06 * (1.0 - sand_strength);
 	} else {
-		float depth = clamp(d / depth_range, 0.0, 1.0);
+		float lit = spotlight(g);
+		float depth = clamp(d / depth_range, 0.0, 1.0) * (1.0 - lit * 0.6);
 		color = mix(shallow_color.rgb, deep_color.rgb, pow(depth, 0.7));
 		// The seabed shows through where the water is shallow.
 		vec3 seabed = texture(floor_texture, g / floor_tile).rgb;
@@ -92,7 +95,10 @@ void fragment() {
 			color = mix(color, vec3(0.85, 1.0, 1.0), lane * dash * 0.3 * current * (1.0 - depth * 0.5));
 		}
 		color = mix(color, vec3(0.85, 1.0, 1.0), clamp(caustics * 0.22 * (1.0 - depth * 0.6), 0.0, 1.0));
-		color = mix(color, abyss_color.rgb, smoothstep(abyss_start, abyss_end, d) * 0.92);
+		float dark = smoothstep(abyss_start, abyss_end, d);
+		color = mix(color, abyss_color.rgb, dark * 0.92 * (1.0 - lit * 0.85));
+		// The beam itself shows a little in the dark water.
+		color += vec3(0.05, 0.08, 0.08) * lit * dark;
 		color = mix(color, foam_color.rgb, (1.0 - smoothstep(0.0, 24.0, d)) * 0.85);
 	}
 	COLOR = vec4(color, 1.0);

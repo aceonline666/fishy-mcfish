@@ -107,6 +107,10 @@ var _props: Array[Prop] = []
 ## Draws the glowing props' smoke, then their light over the props, additively (Glow).
 var _smoke := Node2D.new()
 var _glows := Node2D.new()
+## The submarine's spotlight (Spotlight): it lights each prop as a whole, set by the scene.
+var light_origin := Vector2.ZERO
+var light_dir := Vector2.RIGHT
+var light_on := 0.0
 ## Sunken ships (add_wreck()): sprite and ground point.
 var _wrecks: Array[Array] = []
 var _time := 0.0
@@ -218,6 +222,7 @@ func _make_prop(prop_name: String, ground: Vector2, width: float, phase: float) 
 	var prop := Prop.new()
 	prop.name = prop_name
 	prop.texture = load(PROPS_DIR + prop_name + ".png")
+	prop.ground = ground
 	prop.at = Iso.to_screen(ground)
 	prop.size = prop.texture.get_size() * (width / prop.texture.get_width())
 	prop.sways = SWAY.has(prop_name)
@@ -283,12 +288,19 @@ func _draw() -> void:
 		# Swaying props lean from their base.
 		var lean := sin(_time * 1.3 + prop.phase) * 0.12 if prop.sways else 0.0
 		draw_set_transform_matrix(Transform2D(Vector2(1.0, 0.0), Vector2(lean, 1.0), prop.at))
-		draw_texture_rect(prop.texture, Rect2(Vector2(-prop.size.x * 0.5, -prop.size.y * (1.0 - PROP_BASE)), prop.size), false, prop.tint)
+		var tint := prop.tint
+		var lit := Spotlight.amount(prop.ground, light_origin, light_dir, light_on)
+		if lit > 0.0:
+			# In the spotlight the water's tint and the deep sea's dark lift.
+			tint.r *= 1.0 - lit * Spotlight.DEPTH_LIFT
+			tint.g *= 1.0 - lit * Spotlight.DARK_LIFT
+		draw_texture_rect(prop.texture, Rect2(Vector2(-prop.size.x * 0.5, -prop.size.y * (1.0 - PROP_BASE)), prop.size), false, tint)
 	draw_set_transform_matrix(Transform2D.IDENTITY)
 
 
 class Prop extends RefCounted:
 	var name := ""
+	var ground := Vector2.ZERO
 	var texture: Texture2D
 	var at := Vector2.ZERO
 	var size := Vector2.ZERO

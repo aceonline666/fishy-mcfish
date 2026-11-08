@@ -49,6 +49,8 @@ var hold_time := 0.0
 var body_length := 0.0
 ## Side-on body depth.
 var body_height := 0.0
+## How brightly the submarine's spotlight lights the fish (Spotlight), set by the scene.
+var light := 0.0
 ## The current of its zone (ground units per second): it swims faster with it, slower against it.
 var current := Vector2.ZERO
 
@@ -101,6 +103,7 @@ func _update_water_depth() -> void:
 	if shader_material != null:
 		shader_material.set_shader_parameter("depth", SeaDepth.depth(ground_position.y))
 		shader_material.set_shader_parameter("abyss", SeaDepth.abyss(ground_position.y))
+		shader_material.set_shader_parameter("light", light)
 
 
 func is_held() -> bool:
