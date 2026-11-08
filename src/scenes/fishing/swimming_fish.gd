@@ -29,6 +29,9 @@ const FLEE_SPEED_MULT := 1.5
 ## A fish in the net is tangled: it wriggles hard but moves slowly, so holding on is doable.
 const HELD_SPEED_MULT := 0.5
 const HELD_WIGGLE_MULT := 3.0
+## A current carries a fish at most this share of its own cruising speed, so even slow swimmers
+## make headway against it.
+const MAX_CURRENT_SHARE := 0.5
 
 var species: SpeciesDef
 var art: FishArt
@@ -46,6 +49,8 @@ var hold_time := 0.0
 var body_length := 0.0
 ## Side-on body depth.
 var body_height := 0.0
+## The current of its zone (ground units per second): it swims faster with it, slower against it.
+var current := Vector2.ZERO
 
 var _cruise_speed := 0.0
 var _wander := 0.0
@@ -132,6 +137,8 @@ func simulate(delta: float, threat: Vector2, threat_radius: float, school: Array
 		speed *= 0.5 + FishArt.soft_squeeze(_swim_phase * FishArt.JELLY_RATE)
 	velocity = velocity.lerp(steer.normalized() * speed, clampf(TURN_RATE * delta, 0.0, 1.0))
 	ground_position += velocity * delta
+	if not is_held():
+		ground_position += current.limit_length(_cruise_speed * MAX_CURRENT_SHARE) * delta
 	if velocity.length_squared() > 1.0:
 		heading = velocity.angle()
 	position = Iso.to_screen(ground_position)

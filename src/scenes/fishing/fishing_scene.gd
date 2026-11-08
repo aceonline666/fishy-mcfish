@@ -25,10 +25,10 @@ const CAMERA_OVERSCROLL := 120.0
 const BAIT_BALLS: Dictionary[String, Array] = {
 	"sardine_run": ["south_african_sardine", 2, 55], "krill_swarm": ["antarctic_krill", 3, 60],
 }
-## Zones whose current carries the wader along, in ground units per second: the Kuroshio sweeps
-## it westward, a little under a fifth of its swimming speed there, the Antarctic Circumpolar
-## Current at the polar front eastward.
-const CURRENTS: Dictionary[String, Vector2] = {"kuroshio": Vector2(-90.0, 0.0), "polar_front": Vector2(90.0, 0.0)}
+## Zones whose current carries the wader and the fish along, in ground units per second: the
+## Kuroshio sweeps them westward, about a fifth of the wader's swimming speed there, the Antarctic
+## Circumpolar Current at the polar front eastward. Fish swim faster with it and slower against it.
+const CURRENTS: Dictionary[String, Vector2] = {"kuroshio": Vector2(-108.0, 0.0), "polar_front": Vector2(108.0, 0.0)}
 ## Zones with ice floes on the surface (IceFloes): how many.
 const ICE_FLOES: Dictionary[String, int] = {"pack_ice": 11}
 ## Screen pixels covered by the HUD bars at the top and bottom.
@@ -482,6 +482,7 @@ func spawn_fish(species_id: String, at: Vector2, heading: float) -> SwimmingFish
 func _spawn_fish_in(zone_index: int, species_id: String, at: Vector2, heading: float) -> SwimmingFish:
 	var fish := SwimmingFish.new()
 	fish.setup(_art_for(species_id), _zones[zone_index], _zone_areas[zone_index], at, heading)
+	fish.current = CURRENTS.get(_zones[zone_index].id, Vector2.ZERO)
 	fish.set_water_colors(location.shallow_color, location.deep_color, FLOOR_STRENGTH)
 	_entities.add_child(fish)
 	_fish.append(fish)
