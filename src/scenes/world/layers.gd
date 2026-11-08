@@ -25,8 +25,8 @@ const PADS := -6
 const PAD_TEXT := -5
 ## The wader, its see-through copy and its catch ring.
 const WADER := -4
-## The water's surface over the deeper zones, where the wader swims below it: the buoy lines
-## from the second one on.
+## The water's surface over the deeper zones, where the wader swims below it: the open sea's
+## swell (swell.gdshader) and on it the buoy lines from the second one on.
 const SURFACE := -3
 ## Drones.
 const FLYING := -2

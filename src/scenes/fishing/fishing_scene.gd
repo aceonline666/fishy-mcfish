@@ -171,6 +171,9 @@ const DECOR: Array[Array] = [
 #endregion
 
 const SPAWN_INTERVAL_S := 0.8
+const SWELL_SHADER := preload("res://src/shaders/swell.gdshader")
+## The swell fades in this far before its start (swell.gdshader), plus the waves at the waterline.
+const SWELL_FADE_IN := 220.0
 ## Fish startle when the wader comes this close (ground units). Smaller than the net's reach
 ## (Wader.REACH + scoop radius), so walking straight at fish catches them.
 const THREAT_RADIUS := 130.0
@@ -277,6 +280,10 @@ var _chest_timer := 0.0
 ## Seconds the wader has kept still in the location's deepest zone.
 var _still_time := 0.0
 
+## The open sea's swell on the water's surface, over the fish and the wader (swell.gdshader).
+## Covers only the part of the screen the swell reaches, and hides while it is out of view.
+var _swell := ColorRect.new()
+
 @onready var wader: Wader = $World/Entities/Wader
 @onready var _water: ColorRect = $Water
 @onready var _world: Node2D = $World
@@ -310,6 +317,13 @@ func _ready() -> void:
 	rng.randomize()
 	_world.scale = Vector2.ONE * ZOOM
 	Layers.put(_water, Layers.BACKGROUND)
+	var swell_material := ShaderMaterial.new()
+	swell_material.shader = SWELL_SHADER
+	_swell.material = swell_material
+	_swell.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	Layers.put(_swell, Layers.SURFACE)
+	# In the tree before the world, so the buoy lines on the same layer float on it.
+	_water.add_sibling(_swell)
 	Layers.put(_world, Layers.FLOOR)
 	Layers.put(_squares_layer, Layers.PADS)
 	Layers.put(_entities, Layers.OBJECTS)
@@ -665,12 +679,38 @@ func _apply_world_position() -> void:
 	# The water shows the location's current, if one of its zones has one (CURRENTS).
 	water.set_shader_parameter("current_band", Vector2.ZERO)
 	water.set_shader_parameter("current_flow", Vector2.ZERO)
-	# The last two zones are the open sea, with a heavy swell.
-	water.set_shader_parameter("swell_start", _zones[_zones.size() - 2].depth_start - SHORE_Y if _zones.size() >= 2 else 1.0e9)
+	_update_swell()
 	for zone in _zones:
 		if CURRENTS.has(zone.id):
 			water.set_shader_parameter("current_band", Vector2(zone.depth_start, zone.depth_end))
 			water.set_shader_parameter("current_flow", CURRENTS[zone.id])
+
+
+
+## The last two zones are the open sea, with a heavy swell on the surface. The swell rect starts
+## where the swell's first line (a ground row, rising to the left on screen) meets the screen's
+## left edge, and covers the screen down from there.
+func _update_swell() -> void:
+	if _zones.size() < 2:
+		_swell.visible = false
+		return
+	var swell_start := _zones[_zones.size() - 2].depth_start - SHORE_Y
+	var first_row := SHORE_Y + swell_start - SWELL_FADE_IN
+	var left_x := -_world.position.x / ZOOM
+	var top := (left_x * 0.5 + first_row * Iso.BASIS.y.y * 2.0) * ZOOM + _world.position.y
+	top = maxf(top, 0.0)
+	_swell.visible = top < size.y
+	if not _swell.visible:
+		return
+	_swell.position = Vector2(0.0, top)
+	_swell.size = Vector2(size.x, size.y - top)
+	var swell := _swell.material as ShaderMaterial
+	swell.set_shader_parameter("rect_pos", _swell.position)
+	swell.set_shader_parameter("rect_size", _swell.size)
+	swell.set_shader_parameter("world_origin", _world.position)
+	swell.set_shader_parameter("zoom", ZOOM)
+	swell.set_shader_parameter("shore_y", SHORE_Y)
+	swell.set_shader_parameter("swell_start", swell_start)
 
 #endregion
 
