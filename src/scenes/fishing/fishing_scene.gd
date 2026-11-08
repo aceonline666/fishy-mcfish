@@ -296,6 +296,8 @@ var _swell := ColorRect.new()
 ## switched on.
 var _light_dir := Vector2(1.0, 1.0).normalized()
 var _light_on := 0.0
+## Things lurking in the dark of the deepest zones (DarkThings).
+var dark_things := DarkThings.new()
 
 @onready var wader: Wader = $World/Entities/Wader
 @onready var _water: ColorRect = $Water
@@ -386,6 +388,13 @@ func _ready() -> void:
 		var top := maxf(zone.depth_start, SHORE_Y + WATER_MARGIN)
 		_seabed.add_zone(zone.id, PlayArea.new(Rect2(_spot_rect.position.x, top, _spot_rect.size.x, zone.depth_end - top)))
 	_add_ice_floes()
+	# Just above the seabed, below the fish.
+	_world.add_child(dark_things)
+	_world.move_child(dark_things, _seabed.get_index() + 1)
+	dark_things.spot_width = _spot_rect.size.x
+	if _zones.size() >= 2:
+		dark_things.horror_rows = Vector2(_zones[-1].depth_start, _zones[-1].depth_end)
+		dark_things.eye_rows = Vector2(_zones[-2].depth_start, _zones[-1].depth_end)
 	_add_bait_balls()
 	EventBus.fish_sold_by_seller.connect(_on_fish_sold_by_seller)
 	_build_squares()
@@ -717,6 +726,10 @@ func _update_spotlight(delta: float) -> void:
 	_seabed.light_origin = wader.ground_position
 	_seabed.light_dir = _light_dir
 	_seabed.light_on = _light_on
+	dark_things.wader_ground = wader.ground_position
+	dark_things.light_origin = wader.ground_position
+	dark_things.light_dir = _light_dir
+	dark_things.light_on = _light_on
 
 
 ## The last OPEN_SEA_ZONES zones are the open sea, with a heavy swell on the surface. The swell rect starts

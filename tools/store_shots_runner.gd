@@ -34,6 +34,8 @@ var _gear := 0
 var _carry := PackedStringArray()
 ## --face=x,y: with --view, the ground direction the wader faces (-1,-1 shows its back).
 var _face := Vector2.ZERO
+## --horror: with --view, the deep sea horror passes right away (in the last zone).
+var _horror := false
 var _every := 1.0
 var _viewport: SubViewport
 var _main: Node
@@ -52,6 +54,8 @@ func _ready() -> void:
 			_view = Vector2(parts[0].to_float(), parts[1].to_float())
 		elif arg.begins_with("--gear="):
 			_gear = arg.trim_prefix("--gear=").to_int()
+		elif arg == "--horror":
+			_horror = true
 		elif arg.begins_with("--face="):
 			var face := arg.trim_prefix("--face=").split(",")
 			_face = Vector2(face[0].to_float(), face[1].to_float()).normalized()
@@ -146,6 +150,10 @@ func _shot_view() -> void:
 	if _face != Vector2.ZERO:
 		var wader: Wader = spot.wader
 		wader.facing = _face
+	if _horror:
+		var dark: DarkThings = spot.dark_things
+		dark.wader_ground = _view
+		dark.send_horror(500.0)
 	await get_tree().create_timer(3.0).timeout
 	for frame in _frames:
 		if frame > 0:
