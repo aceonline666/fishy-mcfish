@@ -37,7 +37,7 @@ ice_shelf_slope,antarctica,Ice shelf slope,5,4320,5760,5,6,antarctic_toothfish:3
 hydrothermal_vents,antarctica,Hydrothermal vents,6,5760,7680,6,5,giant_sea_spider:40;antarctic_toothfish:15;orca:1
 lime_lagoon,jurassic_sea,Lime lagoon,1,0,960,1,10,ammonite:60;belemnite:20;chambered_nautilus:5;leptolepis:50
 ammonite_reef,jurassic_sea,Ammonite reef,2,960,1920,2,10,ammonite:40;belemnite:40;chambered_nautilus:10;leptolepis:30;dapedium:20
-sponge_reef,jurassic_sea,Sponge reef,3,1920,2880,3,7,belemnite:40;chambered_nautilus:10;ichthyosaurus:8;dapedium:25
-open_tethys,jurassic_sea,Open Tethys,4,2880,4320,4,6,ichthyosaurus:30;plesiosaurus:8;leedsichthys:1
+sponge_reef,jurassic_sea,Sponge reef,3,1920,2880,3,7,belemnite:40;chambered_nautilus:10;ichthyosaurus:8;dapedium:25;pachycormus:20
+open_tethys,jurassic_sea,Open Tethys,4,2880,4320,4,6,ichthyosaurus:30;plesiosaurus:8;leedsichthys:1;pachycormus:30
 deep_basin,jurassic_sea,Deep basin,5,4320,5760,5,6,plesiosaurus:20;leedsichthys:4;west_indian_ocean_coelacanth:3
 pliosaur_deep,jurassic_sea,Pliosaur deep,6,5760,7680,6,5,ichthyosaurus:20;leedsichthys:4;liopleurodon:6

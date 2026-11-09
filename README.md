@@ -271,13 +271,13 @@ Rules of thumb:
 - Replace the ice floes on the Antarctic pack ice (`IceFloes`, drawn in code) with painted sprites.
 - The tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too with better instructions regarding line thickness.
 - The sprite for the ragged-tooth shark is nearly identical to the great white shark. I think this is a species mixup. The sprite should be regenerated.
-- More species for Antarctica and the Jurassic Sea. In the game since 2026-11-08: Antarctic silverfish, emerald rockcod, bald notothen, mackerel icefish, marbled rockcod, Antarctic jonasfish, Leptolepis, Dapedium. Still to generate (one image each, prompts in `art_source/fish/views/prompts.md`; ChatGPT's image limit stopped the batch): Pachycormus, Lepidotes; then the emperor and Adélie penguins, Hybodus and Metriorhynchus from `art_source/fish/species_sheet_14_prompt.md` (they need prompts in the one-image format first).
+- More species for Antarctica and the Jurassic Sea. In the game since 2026-11-08: Antarctic silverfish, emerald rockcod, bald notothen, mackerel icefish, marbled rockcod, Antarctic jonasfish, Leptolepis, Dapedium; since 2026-11-09: Pachycormus. Still to generate (one image each, prompts in `art_source/fish/views/prompts.md`): Lepidotes; then the emperor and Adélie penguins, Hybodus and Metriorhynchus from `art_source/fish/species_sheet_14_prompt.md` (they need prompts in the one-image format first).
 - More secrets: secret species per location that only show under a condition (night, charted zone, ...). Need new sprites.
 
 ### Later 
 - Make the species sprites consistent. Some are very comic-style (sheet 5) and some are very realistic. We want a cute-comic style so I fear we have to regenerate a large part of it (side view; done in the new style: the cod and the eight new Antarctic and Jurassic species, `art_source/fish/views/`; prompts per species in `art_source/fish/views/prompts.md`). Species seen from above (isometric) instead of the side view. Tested with the cod and sheet 01 (2026-11-08, see git history): looks better, but turning fish switch hard between the sprites (lower left / upper left, mirrored) and look stuttering; smooth turns would need more views per species (more memory). Drawing code is still in `FishArt.draw_top` (sprites `<id>_top.png` / `<id>_top_up.png`), the views come from one image per species (`tools/extract_species_views.py`).
 - Add more species - mostly the well known ones:
-  - Antarctica and the Jurassic Sea: see the TODO above (six Antarctic fish and two Jurassic fish are in; penguins, Pachycormus, Lepidotes, Hybodus and Metriorhynchus still to come)
+  - Antarctica and the Jurassic Sea: see the TODO above (six Antarctic fish and three Jurassic fish are in; penguins, Lepidotes, Hybodus and Metriorhynchus still to come)
   - Hammerhead Shark
   - Seasnakes
   - Walrus

@@ -65,7 +65,7 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `antarctic_jonasfish` | Antarctic jonasfish (Neopagetopsis ionah) – in the game (side view) |
 | `leptolepis` | Leptolepis (Leptolepis coryphaenoides) – in the game (side view) |
 | `dapedium` | Dapedium (Dapedium politum) – in the game (side view) |
-| `pachycormus` | Pachycormus (Pachycormus macropterus) – new (sheet 14), add to data/species.csv |
+| `pachycormus` | Pachycormus (Pachycormus macropterus) – in the game (side view) |
 | `lepidotes` | Lepidotes (Lepidotes elvensis) – new (sheet 14), add to data/species.csv |
 | `lesser_sand_eel` | Lesser sand eel (Ammodytes tobianus) |
 | `conger_eel` | European conger (Conger conger) |

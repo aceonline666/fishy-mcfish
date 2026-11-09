@@ -1677,3 +1677,9 @@ msgstr "Dapedium"
 
 msgid "Its body was covered in thick, shiny enamel scales like armour, and it crushed shells with its teeth."
 msgstr "Sein Körper war mit dicken, glänzenden Schmelzschuppen wie mit einer Rüstung bedeckt, und es knackte Muscheln mit seinen Zähnen."
+
+msgid "Pachycormus"
+msgstr "Pachycormus"
+
+msgid "A fast hunter of the Jurassic sea with long, sickle-shaped pectoral fins, shaped much like a modern tuna."
+msgstr "Ein schneller Jäger des Jurameers mit langen, sichelförmigen Brustflossen, ähnlich geformt wie ein heutiger Thunfisch."
