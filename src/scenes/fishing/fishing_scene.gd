@@ -399,7 +399,7 @@ func _ready() -> void:
 	dark_things.horror_seen.connect(_on_dark_thing_seen.bind("horror_sightings"))
 	dark_things.eyes_seen.connect(_on_dark_thing_seen.bind("eyes_sightings"))
 	if _zones.size() >= 2:
-		dark_things.horror_rows = Vector2(_zones[-1].depth_start, _zones[-1].depth_end)
+		dark_things.horror_edge = _zones[-1].depth_end
 		dark_things.eye_rows = Vector2(_zones[-2].depth_start, _zones[-1].depth_end)
 	_add_bait_balls()
 	EventBus.fish_sold_by_seller.connect(_on_fish_sold_by_seller)

@@ -36,4 +36,4 @@ chests_25,Treasure hoarder,Find 25 treasure chests,stat,25,chests_found,250000,1
 night_owl,Night owl,Catch a fish between midnight and 4 a.m.,stat,1,night_catches,2000,1
 deep_calm,Deep calm,Float still for a minute in the deepest zone,stat,60,still_in_deepest_s,50000,1
 eyes_in_dark,Watched,Spot glowing eyes in the dark of the deep,stat,1,eyes_sightings,20000,1
-deep_horror,Here be monsters,See the horror of the deep pass by,stat,1,horror_sightings,100000,1
+deep_horror,Here be monsters,See the horror of the deep pass by,stat,1,horror_sightings,1000000,1

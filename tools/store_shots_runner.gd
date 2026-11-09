@@ -34,7 +34,7 @@ var _gear := 0
 var _carry := PackedStringArray()
 ## --face=x,y: with --view, the ground direction the wader faces (-1,-1 shows its back).
 var _face := Vector2.ZERO
-## --horror: with --view, the deep sea horror passes right away (in the last zone).
+## --horror: with --view, the deep sea horror passes right away (along the far edge).
 var _horror := false
 ## --find: with --view, the wader picks up the location's waiting rare find (Curiosities), and
 ## its page in the Fishpedia opens.

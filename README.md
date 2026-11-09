@@ -75,7 +75,8 @@ would hide it), with a glint over its coins (`src/sim/treasure.gd`,
 Secret goals: finding chests, catching a fish between midnight and 4 a.m., keeping still for
 a minute in a location's deepest zone, and seeing the things in the dark
 (`src/scenes/world/dark_things.gd`): glowing eyes in the last zones, and the deep sea horror that
-now and then swims along a side edge of the last zone, outside the water you can swim in. A
+about every five minutes swims along the far (south) edge of the last zone, outside the water you
+can swim in, whether the wader is there or not. A
 sighting counts five seconds later, so the goal banner does not spoil the moment. The **Map** travels between five locations: North Sea,
 Coral Reef, Australia, Japan and South Africa. Each opens with a goal on the location before it
 (charting its third zone, or the Sandbanks for the Reef) and a one-time fee. Every location has its own beach
@@ -256,7 +257,6 @@ Rules of thumb:
   ([OpenGameArt](https://opengameart.org/content/shop-theme)).
 
 ## TODOs
-- Deep Sea horror monster is very easy to find. It should be very rare so I suggest to remove the "wait for the wader" logic. It should only show up every 5 minutes or so and if you're not there that's just how the game works. And it should only show at the south border of the map. Not at the east/west borders. That would make the achievement much rarer and could receive a higher money value.
 - Wader in the hardhat suit should also get a head lamp. The feature looks very cool and should be shown earlier. But the headlight should be much dimmer than the submarine one. We need new sprites for a hard-hat with headlamp suit.
 - Submarine light looks awesome, but it has a shart triangle below the submarine. That should be softer and the light should look like it's coming from the headlamp (like for the angler fish).
 - Pacing of the game is too fast. You can make it to antarctica in one or two days. In later locations the first few tank and gear upgrades are pretty cheap. For example to enter Japan you pay something like 30 Mio, but the first gear just costs you 10k which is basically nothing at this point. We need to rebalance this. The pace should be steady (maybe logarithmic?) and not exponential.

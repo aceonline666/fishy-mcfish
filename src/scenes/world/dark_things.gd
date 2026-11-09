@@ -3,9 +3,9 @@ extends Node2D
 ## Secrets of the deep: things lurking at the edge of the dark (assets/sprites/props, cut from
 ## art_source/props/dark_things_sheet.png by tools/extract_dark_things.py). They lie just above
 ## the seabed, below the fish, and nothing can catch them.
-## - The deep sea horror: now and then, while the wader is in the last zone near one of the spot's
-##   side edges, a huge creature glides slowly past along that edge, out where no one can swim,
-##   barely visible in the dark; the submarine's spotlight shows it.
+## - The deep sea horror: about every five minutes a huge creature glides slowly along the spot's
+##   far (south) edge, out where no one can swim, barely visible in the dark; the submarine's
+##   spotlight shows it. It does not wait for the wader: whoever is not there misses it.
 ## - Glowing eyes: in the dark of the last zones pairs of eyes open somewhere off in the water,
 ##   blink, and are gone as soon as the wader comes close or shines its light on them.
 ## Each is reported once it has been on screen (horror_seen, eyes_seen), for the secret goals.
@@ -20,17 +20,15 @@ const EYES: Array[Texture2D] = [
 	preload("res://assets/sprites/props/eyes_1.png"), preload("res://assets/sprites/props/eyes_2.png"),
 	preload("res://assets/sprites/props/eyes_3.png"), preload("res://assets/sprites/props/eyes_4.png"),
 ]
-## Seconds between two passes of the horror, shortest and longest, and its first pass. A pass
-## that is due waits until the wader is near a side edge of the last zone.
-const HORROR_INTERVAL := Vector2(120.0, 300.0)
-const HORROR_FIRST := Vector2(30.0, 80.0)
-## Screen length of the horror and its speed (ground units per second). It swims along a side
+## Seconds from the start of one pass of the horror to the next, shortest and longest (also the
+## first pass after the spot opens).
+const HORROR_INTERVAL := Vector2(240.0, 360.0)
+## Screen length of the horror and its speed (ground units per second). It swims along the far
 ## edge of the spot, this far beyond it (ground units, enough that its body stays clear of the
-## walkable water), and only when the wader is at most HORROR_NEAR_EDGE from that edge.
+## walkable water), from beyond one side of the spot to beyond the other.
 const HORROR_LENGTH := 820.0
 const HORROR_SPEED := 85.0
 const HORROR_BEYOND := Vector2(270.0, 330.0)
-const HORROR_NEAR_EDGE := 230.0
 ## How much of it shows in the dark, and in the spotlight.
 const HORROR_DARK_ALPHA := 0.5
 const HORROR_LIT_ALPHA := 0.95
@@ -48,10 +46,10 @@ const EYE_HEIGHT := 34.0
 ## The eyes show only where the deep sea is at least this dark (SeaDepth.abyss).
 const EYE_MIN_DARK := 0.5
 
-## Set by the scene every frame: the wader, the ground rows of the last zone and of the zones
-## with eyes, and the spotlight (Spotlight).
+## Set by the scene: the wader, the far edge of the spot (ground y; INF: no horror), the ground
+## rows of the zones with eyes, and the spotlight (Spotlight).
 var wader_ground := Vector2.ZERO
-var horror_rows := Vector2(INF, INF)
+var horror_edge := INF
 var eye_rows := Vector2(INF, INF)
 var spot_width := 2160.0
 var light_origin := Vector2.ZERO
@@ -61,8 +59,8 @@ var light_on := 0.0
 var _rng := RandomNumberGenerator.new()
 var _time := 0.0
 var _horror_wait := 0.0
-## The horror passing now: its ground position and direction along the edge (+1 deeper, -1
-## shallower); none while _horror_dir is 0. Whether it has been reported as seen.
+## The horror passing now: its ground position and direction along the edge (+1 east, -1 west);
+## none while _horror_dir is 0. Whether it has been reported as seen.
 var _horror_at := Vector2.ZERO
 var _horror_dir := 0.0
 var _horror_reported := false
@@ -76,7 +74,7 @@ func _ready() -> void:
 	_shine.draw.connect(_draw_horror.bind(_shine, true))
 	add_child(_shine)
 	_rng.randomize()
-	_horror_wait = _rng.randf_range(HORROR_FIRST.x, HORROR_FIRST.y)
+	_horror_wait = _rng.randf_range(HORROR_INTERVAL.x, HORROR_INTERVAL.y)
 	for i in EYE_PAIRS:
 		var eyes := Eyes.new()
 		eyes.wait = _rng.randf_range(10.0, EYE_WAIT.y)
@@ -92,35 +90,34 @@ func _process(delta: float) -> void:
 	_shine.queue_redraw()
 
 
-## Starts a pass of the horror right away along the side edge nearest the wader, `start` ground
-## units up or down the edge from it, if the wader is in the last zone (also for screenshots).
-func send_horror(start: float = 1300.0) -> void:
-	if not _in_rows(wader_ground.y, horror_rows):
+## Starts a pass of the horror right away along the far edge, from beyond one side of the spot;
+## with `start`, that many ground units along the edge before the wader instead (screenshots).
+func send_horror(start: float = NAN) -> void:
+	if is_inf(horror_edge):
 		return
-	var beyond := _rng.randf_range(HORROR_BEYOND.x, HORROR_BEYOND.y)
-	var x := -beyond if wader_ground.x < spot_width * 0.5 else spot_width + beyond
 	_horror_dir = 1.0 if _rng.randf() < 0.5 else -1.0
-	_horror_at = Vector2(x, wader_ground.y - _horror_dir * start)
+	var x := wader_ground.x - _horror_dir * start if not is_nan(start) 			else (-HORROR_LENGTH if _horror_dir > 0.0 else spot_width + HORROR_LENGTH)
+	_horror_at = Vector2(x, horror_edge + _rng.randf_range(HORROR_BEYOND.x, HORROR_BEYOND.y))
 	_horror_reported = false
 
 
-## Ground distance from the wader to the nearest side edge of the spot.
-func _edge_distance() -> float:
-	return minf(wader_ground.x, spot_width - wader_ground.x)
+## Whether a pass of the horror is under way.
+func horror_passing() -> bool:
+	return _horror_dir != 0.0
 
 
 func _update_horror(delta: float) -> void:
+	_horror_wait -= delta
+	if _horror_wait <= 0.0:
+		_horror_wait = _rng.randf_range(HORROR_INTERVAL.x, HORROR_INTERVAL.y)
+		send_horror()
 	if _horror_dir == 0.0:
-		_horror_wait -= delta
-		if _horror_wait <= 0.0 and _in_rows(wader_ground.y, horror_rows) and _edge_distance() <= HORROR_NEAR_EDGE:
-			_horror_wait = _rng.randf_range(HORROR_INTERVAL.x, HORROR_INTERVAL.y)
-			send_horror()
 		return
-	_horror_at.y += _horror_dir * HORROR_SPEED * delta
+	_horror_at.x += _horror_dir * HORROR_SPEED * delta
 	if not _horror_reported and _on_screen(Iso.to_screen(_horror_at)):
 		_horror_reported = true
 		horror_seen.emit()
-	if (_horror_at.y - wader_ground.y) * _horror_dir > 1500.0:
+	if (_horror_at.x - spot_width * 0.5) * _horror_dir > spot_width * 0.5 + HORROR_LENGTH:
 		_horror_dir = 0.0
 
 
@@ -175,7 +172,7 @@ func _draw_horror(canvas: CanvasItem, shine: bool) -> void:
 	var at := Iso.to_screen(_horror_at) + Vector2(0.0, sin(_time * 0.6) * 10.0)
 	# The sprite faces east; mirrored when it swims west, and tilted to run along the edge
 	# (diagonal on screen). A slow sway of the body.
-	var heading := Iso.to_screen(Vector2(0.0, _horror_dir))
+	var heading := Iso.to_screen(Vector2(_horror_dir, 0.0))
 	var flip := 1.0 if heading.x >= 0.0 else -1.0
 	var angle := atan2(heading.y * flip, heading.x * flip)
 	canvas.draw_set_transform(at, angle + sin(_time * 0.8) * 0.03, Vector2(flip, 1.0))
