@@ -110,3 +110,8 @@ antarctic_jonasfish,Antarctic jonasfish,Neopagetopsis ionah,rare,60000,50,0.2,12
 leptolepis,Leptolepis,Leptolepis coryphaenoides,common,1500,20,0.25,2,40,0.3,plankton,tropical,45,#b8c0c8,One of the first modern bony fish; its fossils are found in huge numbers in Jurassic rocks.
 dapedium,Dapedium,Dapedium politum,uncommon,8000,40,0.7,15,200,1,shellfish,tropical,600,#8a6a3a,"Its body was covered in thick, shiny enamel scales like armour, and it crushed shells with its teeth."
 pachycormus,Pachycormus,Pachycormus macropterus,uncommon,20000,120,0.22,50,800,1.5,fish,tropical,900,#4a5a70,"A fast hunter of the Jurassic sea with long, sickle-shaped pectoral fins, shaped much like a modern tuna."
+lepidotes,Lepidotes,Lepidotes elvensis,uncommon,50000,150,0.32,150,5000,2,shellfish,tropical,1200,#7a6a30,"Its thick, shiny enamel scales fit together like tiles, and its button-like teeth cracked snails and shells."
+emperor_penguin,Emperor penguin,Aptenodytes forsteri,rare,100000,115,0.3,120,1200,4,fish,polar,1800,#22262c,"The biggest penguin: it dives more than 500 m deep and can hold its breath for over 20 minutes."
+adelie_penguin,Adélie penguin,Pygoscelis adeliae,uncommon,15000,70,0.35,30,400,2,krill,polar,900,#1e2228,"It builds its nest from small stones, and some Adélie penguins steal the best stones from their neighbours."
+hybodus,Hybodus,Hybodus hauffianus,rare,150000,200,0.25,400,5000,4,fish,tropical,2400,#7a6a58,"A Jurassic shark with a sharp spine in front of each dorsal fin, to make it hard to swallow."
+metriorhynchus,Metriorhynchus,Metriorhynchus superciliosus,epic,1000000,300,0.18,400,5000,6,fish,tropical,3600,#6a7a5a,"A crocodile that lived only in the sea: instead of legs it had paddles, and its tail ended in a fin like a shark's."

@@ -66,7 +66,7 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `leptolepis` | Leptolepis (Leptolepis coryphaenoides) – in the game (side view) |
 | `dapedium` | Dapedium (Dapedium politum) – in the game (side view) |
 | `pachycormus` | Pachycormus (Pachycormus macropterus) – in the game (side view) |
-| `lepidotes` | Lepidotes (Lepidotes elvensis) – new (sheet 14), add to data/species.csv |
+| `lepidotes` | Lepidotes (Lepidotes elvensis) – in the game (side view) |
 | `lesser_sand_eel` | Lesser sand eel (Ammodytes tobianus) |
 | `conger_eel` | European conger (Conger conger) |
 | `pink_ling` | Pink ling (Genypterus blacodes) |
@@ -86,7 +86,7 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `ragged_tooth_shark` | Ragged-tooth shark (Carcharias taurus) |
 | `shortfin_mako` | Shortfin mako (Isurus oxyrinchus) |
 | `whale_shark` | Whale shark (Rhincodon typus) |
-| `hybodus` | Hybodus (Hybodus hauffianus) – new (sheet 14), add to data/species.csv |
+| `hybodus` | Hybodus (Hybodus hauffianus) – in the game (side view) |
 | `european_plaice` | European plaice (Pleuronectes platessa) |
 | `reef_manta_ray` | Reef manta ray (Mobula alfredi) |
 | `smooth_stingray` | Smooth stingray (Bathytoshia brevicaudata) |
@@ -126,12 +126,12 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `ichthyosaurus` | Ichthyosaurus (Ichthyosaurus communis) |
 | `plesiosaurus` | Plesiosaurus (Plesiosaurus dolichodeirus) |
 | `liopleurodon` | Liopleurodon (Liopleurodon ferox) |
-| `metriorhynchus` | Metriorhynchus (Metriorhynchus superciliosus) – new (sheet 14), add to data/species.csv |
+| `metriorhynchus` | Metriorhynchus (Metriorhynchus superciliosus) – in the game (side view) |
 | `green_sea_turtle` | Green sea turtle (Chelonia mydas) |
 | `loggerhead_turtle` | Loggerhead turtle (Caretta caretta) |
 | `leatherback_turtle` | Leatherback turtle (Dermochelys coriacea) |
-| `emperor_penguin` | Emperor penguin (Aptenodytes forsteri) – new (sheet 14), add to data/species.csv |
-| `adelie_penguin` | Adélie penguin (Pygoscelis adeliae) – new (sheet 14), add to data/species.csv |
+| `emperor_penguin` | Emperor penguin (Aptenodytes forsteri) – in the game (side view) |
+| `adelie_penguin` | Adélie penguin (Pygoscelis adeliae) – in the game (side view) |
 
 ## European sprat (Sprattus sprattus) – `european_sprat`
 
@@ -2769,7 +2769,7 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Emperor penguin (Aptenodytes forsteri), swimming: from above the black back and head, golden-yellow neck patches, BOTH flippers spread at the sides, the two feet together behind.
+Emperor penguin (Aptenodytes forsteri), swimming: from above the black back and head, golden-yellow neck patches, BOTH flippers spread at the sides, the two feet together behind; in the side view only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2792,7 +2792,7 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Adélie penguin (Pygoscelis adeliae), swimming: smaller and rounder, from above the black back and head, a white eye ring, BOTH flippers at the sides, the two feet together behind.
+Adélie penguin (Pygoscelis adeliae), swimming: smaller and rounder, from above the black back and head, a white eye ring, BOTH flippers at the sides, the two feet together behind; in the side view only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back

@@ -154,8 +154,8 @@ CREATURES = [
     ("green_sea_turtle", "big", "from above: the olive-green shell with its pattern of plates, the head in front, all four flippers spread"),
     ("loggerhead_turtle", "big", "from above: the red-brown shell, the big head in front, all four flippers spread"),
     ("leatherback_turtle", "big", "from above: the dark blue-black leathery shell with long ridges and white spots, very long front flippers spread"),
-    ("emperor_penguin", "big", "Emperor penguin (Aptenodytes forsteri), swimming: from above the black back and head, golden-yellow neck patches, BOTH flippers spread at the sides, the two feet together behind"),
-    ("adelie_penguin", "big", "Adélie penguin (Pygoscelis adeliae), swimming: smaller and rounder, from above the black back and head, a white eye ring, BOTH flippers at the sides, the two feet together behind"),
+    ("emperor_penguin", "big", "Emperor penguin (Aptenodytes forsteri), swimming: from above the black back and head, golden-yellow neck patches, BOTH flippers spread at the sides, the two feet together behind; in the side view only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail"),
+    ("adelie_penguin", "big", "Adélie penguin (Pygoscelis adeliae), swimming: smaller and rounder, from above the black back and head, a white eye ring, BOTH flippers at the sides, the two feet together behind; in the side view only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail"),
 ]
 
 

@@ -35,6 +35,7 @@ const MOTIONS: Dictionary[String, Motion] = {
 	"blue_whale": Motion.WAVE, "humpback_whale": Motion.WAVE, "southern_right_whale": Motion.WAVE,
 	"sperm_whale": Motion.WAVE, "orca": Motion.WAVE, "common_bottlenose_dolphin": Motion.WAVE,
 	"leopard_seal": Motion.WAVE, "southern_elephant_seal": Motion.WAVE,
+	"emperor_penguin": Motion.WAVE, "adelie_penguin": Motion.WAVE,
 	"plesiosaurus": Motion.FLAP, "liopleurodon": Motion.FLAP, "giant_sea_spider": Motion.CRAWL,
 	"ammonite": Motion.JET, "belemnite": Motion.JET,
 	"ocean_sunfish": Motion.WAVE,

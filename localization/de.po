@@ -1683,3 +1683,33 @@ msgstr "Pachycormus"
 
 msgid "A fast hunter of the Jurassic sea with long, sickle-shaped pectoral fins, shaped much like a modern tuna."
 msgstr "Ein schneller Jäger des Jurameers mit langen, sichelförmigen Brustflossen, ähnlich geformt wie ein heutiger Thunfisch."
+
+msgid "Lepidotes"
+msgstr "Lepidotes"
+
+msgid "Its thick, shiny enamel scales fit together like tiles, and its button-like teeth cracked snails and shells."
+msgstr "Seine dicken, glänzenden Schmelzschuppen passten wie Fliesen zusammen, und mit seinen knopfförmigen Zähnen knackte es Schnecken und Muscheln."
+
+msgid "Emperor penguin"
+msgstr "Kaiserpinguin"
+
+msgid "The biggest penguin: it dives more than 500 m deep and can hold its breath for over 20 minutes."
+msgstr "Der größte Pinguin: Er taucht über 500 m tief und kann mehr als 20 Minuten die Luft anhalten."
+
+msgid "Adélie penguin"
+msgstr "Adeliepinguin"
+
+msgid "It builds its nest from small stones, and some Adélie penguins steal the best stones from their neighbours."
+msgstr "Er baut sein Nest aus kleinen Steinen, und manche Adeliepinguine stehlen die besten Steine bei ihren Nachbarn."
+
+msgid "Hybodus"
+msgstr "Hybodus"
+
+msgid "A Jurassic shark with a sharp spine in front of each dorsal fin, to make it hard to swallow."
+msgstr "Ein Hai aus dem Jura mit einem spitzen Stachel vor jeder Rückenflosse, damit ihn niemand so leicht schlucken konnte."
+
+msgid "Metriorhynchus"
+msgstr "Metriorhynchus"
+
+msgid "A crocodile that lived only in the sea: instead of legs it had paddles, and its tail ended in a fin like a shark's."
+msgstr "Ein Krokodil, das nur im Meer lebte: Statt Beinen hatte es Paddel, und sein Schwanz endete in einer Flosse wie bei einem Hai."
