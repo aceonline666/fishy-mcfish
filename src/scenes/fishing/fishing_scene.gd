@@ -737,6 +737,8 @@ func _update_spotlight(delta: float) -> void:
 	dark_things.light_origin = wader.ground_position
 	dark_things.light_dir = _light_dir
 	dark_things.light_on = _light_on
+	wader.light_dir = _light_dir
+	wader.light_on = _light_on
 
 
 ## The last OPEN_SEA_ZONES zones are the open sea, with a heavy swell on the surface. The swell rect starts

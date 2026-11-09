@@ -77,6 +77,20 @@ const TOW_BELT := Vector2(0.0, -95.0)
 const TOW_LINE := Color(0.95, 0.78, 0.2)
 ## Fish shown poking out of the bag's mouth, and their length.
 const BAG_SHOWN := 3
+## The submersible's headlamp in the standing frame of each view (pixels from its top left, as
+## painted looking screen-left), where its spotlight comes from: a glow on the lamp and a soft
+## beam down to the lit seabed (Spotlight). The lamp is hidden in the back view.
+const SUB_LAMPS: Dictionary[String, Vector2] = {
+	"front": Vector2(93.0, 18.0), "towards": Vector2(80.0, 17.0), "side": Vector2(55.0, 28.0),
+	"away": Vector2(70.0, 30.0), "back": Vector2(90.0, 28.0),
+}
+const LAMP_COLOR := Color(1.0, 0.95, 0.8)
+## The beam reaches the seabed this far ahead of the sub (ground units), as wide as the cone
+## (half angle), and starts this bright at the lamp.
+const BEAM_REACH := 400.0
+const BEAM_HALF_ANGLE := 0.66
+const BEAM_ALPHA := 0.2
+const BEAM_STEPS := 10
 ## Shoulder of the net arm, for side = +1 (net on the right).
 const NET_SHOULDER := Vector2(27.0, -112.0)
 ## Landing nets by net level (assets/sprites/wader/net_N, art_source/characters/net_sprite_prompt.md,
@@ -139,6 +153,10 @@ var covered := false
 ## Tells whether something on the water's surface above the swimming wader (IceFloes.hides())
 ## hides a screen rectangle; then the see-through copy shows above it. Set by the scene, if any.
 var surface_hides: Callable
+## The spotlight (Spotlight): the ground direction it shines in and how far it is on (0 to 1).
+## Set by the scene; drawn as the beam from the submersible's headlamp.
+var light_dir := Vector2(1.0, 1.0).normalized()
+var light_on := 0.0
 
 var _target := Vector2.ZERO
 var _has_target := false
@@ -154,6 +172,9 @@ var _see_through := CanvasGroup.new()
 var _see_through_figure := Node2D.new()
 ## Draws what the water does not tint, above the figure.
 var _overlay := Node2D.new()
+## The headlamp's glow and beam, drawn additively; behind the figure while the beam points away
+## from the camera.
+var _beam := Node2D.new()
 
 
 func _ready() -> void:
@@ -168,6 +189,9 @@ func _ready() -> void:
 	_see_through_figure.draw.connect(_draw_figure.bind(_see_through_figure))
 	_see_through.add_child(_see_through_figure)
 	add_child(_see_through)
+	_beam.material = Glow.material()
+	_beam.draw.connect(_draw_beam)
+	add_child(_beam)
 	Layers.put(_overlay, Layers.WADER)
 	_overlay.draw.connect(_draw_overlay)
 	add_child(_overlay)
@@ -304,6 +328,10 @@ func simulate(delta: float, area: PlayArea) -> void:
 	_update_cover()
 	queue_redraw()
 	_overlay.queue_redraw()
+	_beam.visible = light_on > 0.0 and in_submarine()
+	if _beam.visible:
+		_beam.show_behind_parent = Iso.to_screen(light_dir).y < 0.0
+		_beam.queue_redraw()
 	if _see_through.visible:
 		_see_through_figure.queue_redraw()
 
@@ -380,6 +408,41 @@ func _draw_body(canvas: CanvasItem, view: Array, bob: float, gear: int) -> void:
 	canvas.draw_set_transform(Vector2(0.0, lift), 0.0, Vector2(view[1], 1.0))
 	canvas.draw_texture_rect_region(texture, Rect2(Vector2(-frame_size.x * 0.5, -frame_size.y), frame_size), Rect2(Vector2(frame * frame_size.x, 0.0), frame_size))
 	canvas.draw_set_transform(Vector2.ZERO)
+
+
+## The headlamp of the submersible, relative to the node (the feet), and whether it faces the
+## camera.
+func lamp_position() -> Vector2:
+	var view := _view(Iso.to_screen(facing).normalized())
+	var texture := _texture("sub_%s" % view[0])
+	var frame_size := Vector2(texture.get_width() / (WALK_FRAMES + 1.0), texture.get_height())
+	var lamp: Vector2 = SUB_LAMPS[view[0]] - Vector2(frame_size.x * 0.5, frame_size.y)
+	return Vector2(lamp.x * view[1], lamp.y - sin(_time * 2.0) * 4.0 - SUB_FLOAT)
+
+
+## The headlamp's light: a soft fan from the lamp down to where the spotlight meets the seabed,
+## fading out towards it and to its sides, and a glow on the lamp unless it faces away.
+func _draw_beam() -> void:
+	var lamp := lamp_position()
+	var ground_dir := light_dir.normalized()
+	var points := PackedVector2Array()
+	var weights := PackedFloat32Array()
+	for i in BEAM_STEPS + 1:
+		var share := float(i) / BEAM_STEPS * 2.0 - 1.0
+		points.append(Iso.to_screen(ground_dir.rotated(share * BEAM_HALF_ANGLE) * BEAM_REACH))
+		weights.append(1.0 - share * share)
+	var bright := Color(LAMP_COLOR, BEAM_ALPHA * light_on)
+	var clear := Color(LAMP_COLOR, 0.0)
+	for i in BEAM_STEPS:
+		var mid_a := lamp.lerp(points[i], 0.4)
+		var mid_b := lamp.lerp(points[i + 1], 0.4)
+		var color_a := Color(LAMP_COLOR, bright.a * 0.55 * weights[i])
+		var color_b := Color(LAMP_COLOR, bright.a * 0.55 * weights[i + 1])
+		_beam.draw_primitive([lamp, mid_a, mid_b], [bright, color_a, color_b], [])
+		_beam.draw_primitive([mid_a, points[i], points[i + 1], mid_b], [color_a, clear, clear, color_b], [])
+	if _view(Iso.to_screen(facing).normalized())[0] != "back":
+		Glow.draw(_beam, lamp, 34.0, Color(LAMP_COLOR, 0.7 * light_on))
+		Glow.draw(_beam, lamp, 12.0, Color(LAMP_COLOR, light_on))
 
 
 ## The view for a screen direction, as [view name, mirror].

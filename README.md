@@ -258,7 +258,6 @@ Rules of thumb:
 
 ## TODOs
 - Wader in the hardhat suit should also get a head lamp. The feature looks very cool and should be shown earlier. But the headlight should be much dimmer than the submarine one. We need new sprites for a hard-hat with headlamp suit.
-- Submarine light looks awesome, but it has a shart triangle below the submarine. That should be softer and the light should look like it's coming from the headlamp (like for the angler fish).
 - Pacing of the game is too fast. You can make it to antarctica in one or two days. In later locations the first few tank and gear upgrades are pretty cheap. For example to enter Japan you pay something like 30 Mio, but the first gear just costs you 10k which is basically nothing at this point. We need to rebalance this. The pace should be steady (maybe logarithmic?) and not exponential.
 - Add seagulls / seabirds for the various locations which rarely fly over the screen. For jurasic sea this could be a pterodactyl, quezalcoatlus or something like that. Needs painted sprites in the isometric perspective (wing poses for flapping and gliding); a version drawn in code was tried and looked worse than none. Maybe also sounds for them to give a more maritim vibe to the game.
 - Replace the ice floes on the Antarctic pack ice (`IceFloes`, drawn in code) with painted sprites.
