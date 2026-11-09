@@ -266,7 +266,6 @@ Rules of thumb:
 - Wader in the hardhat suit should also get a head lamp. The feature looks very cool and should be shown earlier. But the headlight should be much dimmer than the submarine one. We need new sprites for a hard-hat with headlamp suit.
 - Add seagulls / seabirds for the various locations which rarely fly over the screen. For jurasic sea this could be a pterodactyl, quezalcoatlus or something like that. Needs painted sprites in the isometric perspective (wing poses for flapping and gliding); a version drawn in code was tried and looked worse than none. Maybe also sounds for them to give a more maritim vibe to the game.
 - Replace the ice floes on the Antarctic pack ice (`IceFloes`, drawn in code) with painted sprites.
-- Fine tuning for tank fill-up and tank-is-full-animation. Edges for the tank fill-up are still not matching the sprites correctly. 
 - The tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too with better instructions regarding line thickness.
 - The sprite for the ragged-tooth shark is nearly identical to the great white shark. I think this is a species mixup. The sprite should be regenerated.
 - The ragged-tooth shark takes less tank volume than the giant guitarfish. That feels wrong since the sprite of the giant guitarfish looks smaller. Just because it's an epic catch doesn't mean it needs more volume. The size should be consistent with the volume the fish takes and not with it's rarity. Check for other species as well.

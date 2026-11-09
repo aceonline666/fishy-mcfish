@@ -33,23 +33,25 @@ const BASES: Array[Array] = [
 	[Vector2(4.0, 458.0), Vector2(197.0, 551.0), Vector2(684.0, 314.0)],
 ]
 ## The glass of each sprite, in sprite pixels: the west, south and east corners of the glass floor
-## (at the corner posts), the glass height and half the width of a corner post. tools/cut_tank_fronts.py
+## (at the corner posts), the glass height, half the width of a corner post, and the rim: how high
+## the water stands when the tank is full, the underside of the top rails (measured in the
+## sprite), so the water never rises over the frame. tools/cut_tank_fronts.py
 ## cuts the fronts with the same corners: keep the two in step.
 const GLASS: Array[Dictionary] = [
 	{"left": Vector2(30.0, 344.0), "front": Vector2(231.0, 445.0), "right": Vector2(415.0, 353.0),
-			"height": 245.0, "post": 16.0},
+			"height": 245.0, "post": 16.0, "rim": 222.0},
 	{"left": Vector2(25.0, 252.0), "front": Vector2(400.0, 440.0), "right": Vector2(515.0, 382.0),
-			"height": 205.0, "post": 14.0},
+			"height": 205.0, "post": 14.0, "rim": 184.0},
 	{"left": Vector2(30.0, 356.0), "front": Vector2(234.0, 458.0), "right": Vector2(422.0, 364.0),
-			"height": 245.0, "post": 20.0},
+			"height": 245.0, "post": 20.0, "rim": 219.0},
 	{"left": Vector2(20.0, 313.0), "front": Vector2(201.0, 415.0), "right": Vector2(522.0, 253.0),
-			"height": 148.0, "post": 12.0},
+			"height": 148.0, "post": 12.0, "rim": 133.0},
 	{"left": Vector2(20.0, 288.0), "front": Vector2(310.0, 433.0), "right": Vector2(595.0, 290.0),
-			"height": 140.0, "post": 15.0},
+			"height": 140.0, "post": 15.0, "rim": 117.0},
 	{"left": Vector2(14.0, 321.0), "front": Vector2(245.0, 437.0), "right": Vector2(594.0, 262.0),
-			"height": 143.0, "post": 10.0},
+			"height": 143.0, "post": 10.0, "rim": 131.0},
 	{"left": Vector2(22.0, 402.0), "front": Vector2(200.0, 495.0), "right": Vector2(662.0, 263.0),
-			"height": 124.0, "post": 16.0},
+			"height": 124.0, "post": 16.0, "rim": 122.0},
 ]
 ## The water drawn in the glass: its sides and its surface.
 const WATER_SIDE_COLOR := Color(0.25, 0.62, 0.92, 0.42)
@@ -185,14 +187,14 @@ func _sprite_rect() -> Rect2:
 
 
 ## The glass floor's corners (west, south, east, north on screen) relative to the node, and the
-## glass height, for a sprite drawn in `rect`.
+## height of the water when full (the rim), for a sprite drawn in `rect`.
 func _glass_box(rect: Rect2) -> Array:
 	var glass := _glass()
 	var s := rect.size.x / _texture().get_width()
 	var left: Vector2 = rect.position + glass.left * s
 	var front: Vector2 = rect.position + glass.front * s
 	var right: Vector2 = rect.position + glass.right * s
-	return [left, front, right, left + right - front, glass.height * s]
+	return [left, front, right, left + right - front, glass.rim * s]
 
 
 func _draw() -> void:
