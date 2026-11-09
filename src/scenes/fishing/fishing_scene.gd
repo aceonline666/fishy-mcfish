@@ -304,6 +304,8 @@ var _light_dir := Vector2(1.0, 1.0).normalized()
 var _light_on := 0.0
 ## Things lurking in the dark of the deepest zones (DarkThings).
 var dark_things := DarkThings.new()
+## Seabirds flying over now and then (Seabirds).
+var seabirds := Seabirds.new()
 
 @onready var wader: Wader = $World/Entities/Wader
 @onready var _water: ColorRect = $Water
@@ -403,6 +405,9 @@ func _ready() -> void:
 	if _zones.size() >= 2:
 		dark_things.horror_edge = _zones[-1].depth_end
 		dark_things.eye_rows = Vector2(_zones[-2].depth_start, _zones[-1].depth_end)
+	seabirds.location_id = location.id
+	Layers.put(seabirds, Layers.FLYING)
+	_world.add_child(seabirds)
 	_add_bait_balls()
 	EventBus.fish_sold_by_seller.connect(_on_fish_sold_by_seller)
 	_build_squares()
@@ -442,6 +447,7 @@ func _process(delta: float) -> void:
 	_update_spotlight(delta)
 	_update_wake(delta)
 	_update_hums(delta)
+	seabirds.view = Rect2(-_world.position / ZOOM, size / ZOOM)
 	var view := Rect2(-_world.position / ZOOM, size / ZOOM).grow(CULL_MARGIN)
 	for fish in _fish:
 		fish.visible = view.has_point(fish.position)

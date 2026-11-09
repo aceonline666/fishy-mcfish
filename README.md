@@ -266,10 +266,11 @@ Rules of thumb:
   ([OpenGameArt](https://opengameart.org/content/shop-theme)).
 
 ## TODOs
-- Add seagulls / seabirds for the various locations which rarely fly over the screen. For jurasic sea this could be a pterodactyl, quezalcoatlus or something like that. Needs painted sprites in the isometric perspective (wing poses for flapping and gliding); a version drawn in code was tried and looked worse than none. Maybe also sounds for them to give a more maritim vibe to the game.
+- Sounds for the seabirds (`Seabirds`): calls now and then while they fly over, to give the game a more maritime vibe.
 - Replace the ice floes on the Antarctic pack ice (`IceFloes`, drawn in code) with painted sprites.
 - The tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too with better instructions regarding line thickness.
 - The sprite for the ragged-tooth shark is nearly identical to the great white shark. I think this is a species mixup. The sprite should be regenerated.
+- Fact check the sizes and times of the jurassic sea. All species should have lived in one timeline together. Also plesiosaurus seems too small compared to the overly huge leedsichthys
 - More secrets: secret species per location that only show under a condition (night, charted zone, ...). Need new sprites.
 
 ### Later 

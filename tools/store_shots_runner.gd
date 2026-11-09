@@ -36,6 +36,8 @@ var _carry := PackedStringArray()
 var _face := Vector2.ZERO
 ## --horror: with --view, the deep sea horror passes right away (along the far edge).
 var _horror := false
+## --birds: with --view, a flight of the location's seabirds sets off right away.
+var _birds := false
 ## --find: with --view, the wader picks up the location's waiting rare find (Curiosities), and
 ## its page in the Fishpedia opens.
 var _go_to_find := false
@@ -61,6 +63,8 @@ func _ready() -> void:
 			_go_to_find = true
 		elif arg == "--horror":
 			_horror = true
+		elif arg == "--birds":
+			_birds = true
 		elif arg.begins_with("--face="):
 			var face := arg.trim_prefix("--face=").split(",")
 			_face = Vector2(face[0].to_float(), face[1].to_float()).normalized()
@@ -166,6 +170,11 @@ func _shot_view() -> void:
 		var dark: DarkThings = spot.dark_things
 		dark.wader_ground = _view
 		dark.send_horror(500.0)
+	if _birds:
+		var birds: Seabirds = spot.seabirds
+		# Once the camera has come to the wader.
+		await get_tree().create_timer(1.0).timeout
+		birds.send_flock()
 	await get_tree().create_timer(3.0).timeout
 	for frame in _frames:
 		if frame > 0:
