@@ -315,6 +315,12 @@ lights, valves or panels on the casing.
 
 ## Zone 5 – hard-hat suit
 
+The headlamp was added later (2026-11-09) by attaching the old sheet and asking for the same sheet
+with only the lamp added. ChatGPT painted a checkerboard instead of transparency and a few red
+smudges along the outlines; both were removed before cutting, and the bottom rows were moved
+apart where boots touched the heads below. The lamp's position per view is in
+`Wader.HARDHAT_LAMPS`.
+
 ```
 OUTFIT, ZONE 5 (only these parts):
 1. The character's body in the same yellow suit, but thicker and rounder (heavy canvas).
@@ -323,14 +329,19 @@ OUTFIT, ZONE 5 (only these parts):
    showing the character's face (beanie off, no mask, no mouthpiece) and two small ones, one on
    each side of the helmet. NO porthole on top, NO porthole at the back.
 3. Thick black gloves and big heavy black boots with metal toe caps.
-4. NO backpack, NO tank, NO air hose, NO lights, NO basket.
+4. A small headlamp: a short round brass lamp housing with a glass lens, on top of the helmet
+   just above the front porthole, pointing forward; about a quarter of the helmet's width.
+5. NO backpack, NO tank, NO air hose, NO other lights, NO basket.
 Visible per view:
-FRONT: the front porthole with the face, both side portholes as narrow ovals at the edges.
-TOWARDS: the front porthole at an angle, one side porthole.
-SIDE: one side porthole, the front porthole as a narrow oval at the front.
-AWAY: the round back of the helmet and one side porthole at the edge.
+FRONT: the front porthole with the face, both side portholes as narrow ovals at the edges, the
+lamp's round lens above the front porthole.
+TOWARDS: the front porthole at an angle, one side porthole, the lamp at an angle.
+SIDE: one side porthole, the front porthole as a narrow oval at the front, the lamp in profile.
+AWAY: the round back of the helmet and one side porthole at the edge, the back of the lamp
+housing peeking over the top.
 BACK: the plain, smooth, round back of the helmet with its bolt ring at the neck, the breastplate,
-the plain back of the suit. Nothing on the back: no box, pack, tank, hose or valve.
+the plain back of the suit, at most the top of the lamp housing. Nothing on the back: no box,
+pack, tank, hose or valve.
 ```
 
 ## Zone 6 – mini-submarine

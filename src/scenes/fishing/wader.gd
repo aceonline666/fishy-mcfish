@@ -84,6 +84,13 @@ const SUB_LAMPS: Dictionary[String, Vector2] = {
 	"front": Vector2(93.0, 18.0), "towards": Vector2(80.0, 17.0), "side": Vector2(55.0, 28.0),
 	"away": Vector2(70.0, 30.0), "back": Vector2(90.0, 28.0),
 }
+## The hard-hat helmet's headlamp in the standing frame of each view, as SUB_LAMPS. It shines
+## more dimly (fishing_scene's HEADLAMP_LIGHT), and its lens faces away in the away and back
+## views, so those show no glow.
+const HARDHAT_LAMPS: Dictionary[String, Vector2] = {
+	"front": Vector2(84.0, 24.0), "towards": Vector2(56.0, 35.0), "side": Vector2(55.0, 28.0),
+	"away": Vector2(68.0, 27.0), "back": Vector2(81.0, 30.0),
+}
 const LAMP_COLOR := Color(1.0, 0.95, 0.8)
 ## The beam reaches the seabed this far ahead of the sub (ground units), as wide as the cone
 ## (half angle), and starts this bright at the lamp.
@@ -230,6 +237,11 @@ func in_submarine() -> bool:
 	return _gear() >= OUTFITS.size()
 
 
+## True when the outfit has a headlamp: the hard-hat helmet and the submersible.
+func has_headlamp() -> bool:
+	return _gear() >= OUTFITS.find("hardhat") + 1
+
+
 ## The gear worn: each zone calls for its gear (snorkel in the second, scuba in the third, and so
 ## on), up to the gear bought.
 func _gear() -> int:
@@ -328,7 +340,7 @@ func simulate(delta: float, area: PlayArea) -> void:
 	_update_cover()
 	queue_redraw()
 	_overlay.queue_redraw()
-	_beam.visible = light_on > 0.0 and in_submarine()
+	_beam.visible = light_on > 0.0 and has_headlamp()
 	if _beam.visible:
 		_beam.show_behind_parent = Iso.to_screen(light_dir).y < 0.0
 		_beam.queue_redraw()
@@ -410,14 +422,16 @@ func _draw_body(canvas: CanvasItem, view: Array, bob: float, gear: int) -> void:
 	canvas.draw_set_transform(Vector2.ZERO)
 
 
-## The headlamp of the submersible, relative to the node (the feet), and whether it faces the
-## camera.
+## The headlamp of the submersible or the hard-hat helmet, relative to the node (the feet).
 func lamp_position() -> Vector2:
 	var view := _view(Iso.to_screen(facing).normalized())
-	var texture := _texture("sub_%s" % view[0])
+	var sub := in_submarine()
+	var texture := _texture("%s_%s" % ["sub" if sub else "hardhat", view[0]])
 	var frame_size := Vector2(texture.get_width() / (WALK_FRAMES + 1.0), texture.get_height())
-	var lamp: Vector2 = SUB_LAMPS[view[0]] - Vector2(frame_size.x * 0.5, frame_size.y)
-	return Vector2(lamp.x * view[1], lamp.y - sin(_time * 2.0) * 4.0 - SUB_FLOAT)
+	var lamps := SUB_LAMPS if sub else HARDHAT_LAMPS
+	var lamp: Vector2 = lamps[view[0]] - Vector2(frame_size.x * 0.5, frame_size.y)
+	var lift := sin(_time * 2.0) * 4.0 + SUB_FLOAT if sub else 0.0
+	return Vector2(lamp.x * view[1], lamp.y - lift)
 
 
 ## The headlamp's light: a soft fan from the lamp down to where the spotlight meets the seabed,
@@ -440,7 +454,8 @@ func _draw_beam() -> void:
 		var color_b := Color(LAMP_COLOR, bright.a * 0.55 * weights[i + 1])
 		_beam.draw_primitive([lamp, mid_a, mid_b], [bright, color_a, color_b], [])
 		_beam.draw_primitive([mid_a, points[i], points[i + 1], mid_b], [color_a, clear, clear, color_b], [])
-	if _view(Iso.to_screen(facing).normalized())[0] != "back":
+	var view: String = _view(Iso.to_screen(facing).normalized())[0]
+	if view != "back" and (in_submarine() or view != "away"):
 		Glow.draw(_beam, lamp, 34.0, Color(LAMP_COLOR, 0.7 * light_on))
 		Glow.draw(_beam, lamp, 12.0, Color(LAMP_COLOR, light_on))
 

@@ -176,9 +176,11 @@ const DECOR: Array[Array] = [
 #endregion
 
 const SPAWN_INTERVAL_S := 0.8
-## How fast the submarine's spotlight turns after the sub (share per second) and fades in or out.
+## How fast the headlamp's spotlight turns after the wader (share per second) and fades in or out.
 const LIGHT_TURN := 4.0
 const LIGHT_FADE := 1.5
+## The hard-hat helmet's headlamp lights this share of the submarine's spotlight.
+const HEADLAMP_LIGHT := 0.35
 const SWELL_SHADER := preload("res://src/shaders/swell.gdshader")
 ## The last zones of a spot (from the fourth on) are the open sea, with a heavy swell
 ## (swell.gdshader); the buoy lines in it ride the swell (ZoneBuoys.ROUGH_LINES).
@@ -720,10 +722,14 @@ func _apply_world_position() -> void:
 
 
 
-## The submarine carries a spotlight: it switches on when the wader dives in the sub and follows
-## the way the sub faces; the water, the seabed's props and the fish light up in its cone.
+## The submarine and the hard-hat helmet carry a headlamp (the helmet's much dimmer): it switches
+## on when the wader dives with one and follows the way the wader faces; the water, the seabed's
+## props and the fish light up in its cone.
 func _update_spotlight(delta: float) -> void:
-	_light_on = move_toward(_light_on, 1.0 if wader.swimming and wader.in_submarine() else 0.0, LIGHT_FADE * delta)
+	var target := 0.0
+	if wader.swimming and wader.has_headlamp():
+		target = 1.0 if wader.in_submarine() else HEADLAMP_LIGHT
+	_light_on = move_toward(_light_on, target, LIGHT_FADE * delta)
 	if wader.facing.length_squared() > 0.01:
 		_light_dir = _light_dir.slerp(wader.facing.normalized(), clampf(LIGHT_TURN * delta, 0.0, 1.0)).normalized()
 	var water := _water.material as ShaderMaterial
