@@ -80,8 +80,11 @@ can swim in, whether the wader is there or not. A
 sighting counts five seconds later, so the goal banner does not spoil the moment. The **Map** travels between five locations: North Sea,
 Coral Reef, Australia, Japan and South Africa. Each opens with a goal on the location before it
 (charting its third zone, or the Sandbanks for the Reef) and a one-time fee. Every location has its own beach
-business that starts from scratch (smallest net, first zone only, a small tank and a fish stall); building
-at the Reef costs 2.5 times as much (`price_factor` in `data/locations.csv`). Coins, the
+business that starts from scratch (smallest net, first zone only, a small tank and a fish stall). Building
+further on costs more (`data/locations.csv`): the data prices times `price_factor` (6.5 at the
+Reef, 600 in the Jurassic Sea), but never less than a floor that starts at `price_floor` for the
+cheapest upgrade and rises slowly with the price, so a new beach's first upgrades still matter next
+to the income the beaches before bring in. Coins, the
 Fishpedia, charted zones and goals are shared, and sellers and drones keep working at the
 locations you are not at.
 
@@ -219,8 +222,11 @@ Tests can also be run from the GUT panel in the editor. CI runs them on every pu
 **Balance:** `tools/balance_sim.gd` plays the game headless with a greedy bot using the real
 rules and prints a timeline of purchases, charted zones, goals and income. `tests/unit/test_pacing.gd`
 runs the same bot and checks the pacing targets (first tank upgrade after 5–20 min, snorkel 5–25 min,
-Coral Reef 25–70 min, open sea charted after 55–120 min). The bot reaches the North Sea's
-deep sea after about 3 h and opens Japan, the fourth location, after about 5 h. Its report
+Coral Reef 25–70 min, open sea charted after 55–120 min). The bot moves on once a location's
+gear is maxed and every species there is found: after about 3.5 h at the North Sea, then 3.5 h at
+the Reef, 4 h in Australia, 4.5–5 h in Japan and 6 h each in South Africa and Antarctica (each
+location takes a little longer than the one before); it reaches Antarctica after about 22 h and
+the Jurassic Sea after about 28 h. Its report
 every 10 minutes shows how busy each beach's sellers were. Run it after
 changing prices or income:
 
@@ -258,7 +264,6 @@ Rules of thumb:
 
 ## TODOs
 - Wader in the hardhat suit should also get a head lamp. The feature looks very cool and should be shown earlier. But the headlight should be much dimmer than the submarine one. We need new sprites for a hard-hat with headlamp suit.
-- Pacing of the game is too fast. You can make it to antarctica in one or two days. In later locations the first few tank and gear upgrades are pretty cheap. For example to enter Japan you pay something like 30 Mio, but the first gear just costs you 10k which is basically nothing at this point. We need to rebalance this. The pace should be steady (maybe logarithmic?) and not exponential.
 - Add seagulls / seabirds for the various locations which rarely fly over the screen. For jurasic sea this could be a pterodactyl, quezalcoatlus or something like that. Needs painted sprites in the isometric perspective (wing poses for flapping and gliding); a version drawn in code was tried and looked worse than none. Maybe also sounds for them to give a more maritim vibe to the game.
 - Replace the ice floes on the Antarctic pack ice (`IceFloes`, drawn in code) with painted sprites.
 - Fine tuning for tank fill-up and tank-is-full-animation. Edges for the tank fill-up are still not matching the sprites correctly. 

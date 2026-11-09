@@ -12,7 +12,7 @@ const OFFLINE_DRONE_FISH_PER_SECOND := 0.02
 ## Price of the site's next drone, or -1 if all are bought.
 static func next_drone_cost(site: Site) -> float:
 	var levels := DataRegistry.drone_levels
-	return levels[site.drone_count].cost * site.price_factor() if site.drone_count < levels.size() else -1.0
+	return site.price(levels[site.drone_count].cost) if site.drone_count < levels.size() else -1.0
 
 
 ## True if the site's next drone can be bought: its zone must be charted first.

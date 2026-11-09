@@ -153,8 +153,8 @@ func test_sellers_that_no_longer_fit_are_paid_back() -> void:
 	var state := PlayerState.from_dict(data)
 	assert_eq(state.site("north_sea").seller_count, 4)
 	assert_eq(state.site("coral_reef").seller_count, 4)
-	var reef_factor := DataRegistry.location("coral_reef").price_factor
-	assert_eq(state.money, 10.0 + 25000.0 + 40000.0 + 65000.0 + 25000.0 * reef_factor, "sellers 5 to 7, and the reef's fifth")
+	var reef := DataRegistry.location("coral_reef")
+	assert_eq(state.money, 10.0 + 25000.0 + 40000.0 + 65000.0 + reef.price(25000.0), "sellers 5 to 7, and the reef's fifth")
 	assert_eq(state.total_earned, PlayerState.new_game().total_earned, "a refund is not earnings")
 
 

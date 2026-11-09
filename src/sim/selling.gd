@@ -67,11 +67,11 @@ static func seller_slots(site: Site) -> int:
 ## Price of the next shop level, or -1 at the top level.
 static func shop_upgrade_cost(site: Site) -> float:
 	var levels := DataRegistry.shop_levels
-	return levels[site.shop_level].cost * site.price_factor() if site.shop_level < levels.size() else -1.0
+	return site.price(levels[site.shop_level].cost) if site.shop_level < levels.size() else -1.0
 
 
 ## Price of the next seller, or -1 if the shop has as many as its level allows (or all are hired).
 static func next_seller_cost(site: Site) -> float:
 	if site.seller_count >= seller_slots(site) or site.seller_count >= DataRegistry.staff_levels.size():
 		return -1.0
-	return DataRegistry.staff_levels[site.seller_count].cost * site.price_factor()
+	return site.price(DataRegistry.staff_levels[site.seller_count].cost)

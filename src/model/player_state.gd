@@ -9,7 +9,7 @@ extends RefCounted
 const LEGACY_SLOTS_PER_LOCATION := 4
 const LEGACY_TROPICAL_LOCATION := "coral_reef"
 ## Shops used to have booths for up to ten sellers, now four. Saves with more get the sellers that
-## no longer fit paid back at what they cost (sellers 5 to 10, before the location's price factor).
+## no longer fit paid back at what they cost (sellers 5 to 10, before the location's prices).
 const LEGACY_SELLER_COSTS: Array[float] = [25000.0, 40000.0, 65000.0, 100000.0, 160000.0, 250000.0]
 const LEGACY_FIRST_SELLER := 4
 
@@ -196,7 +196,7 @@ static func _seller_refund(site: Site, saved_count: int) -> float:
 	var refund := 0.0
 	for index in range(maxi(site.seller_count, LEGACY_FIRST_SELLER), saved_count):
 		if index - LEGACY_FIRST_SELLER < LEGACY_SELLER_COSTS.size():
-			refund += LEGACY_SELLER_COSTS[index - LEGACY_FIRST_SELLER] * site.price_factor()
+			refund += site.price(LEGACY_SELLER_COSTS[index - LEGACY_FIRST_SELLER])
 	return refund
 
 

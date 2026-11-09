@@ -5,8 +5,8 @@ extends RefCounted
 ## The player model: fish the most useful open zone of the current location until the backpack
 ## is full, walk up the beach, store what fits (the rest stays in the backpack, which waits for
 ## room in the tank once it is full), sell the grown fish at the shop, buy the cheapest
-## affordable upgrade there (or the travel fee; a bigger tank once the tank is 70 % full or the
-## backpack is blocked), walk back. Once every species of a location is found and its gear is maxed, travel on to the
+## affordable upgrade there (or the travel fee; a bigger tank once the tank is 70 % full, the
+## backpack is blocked or an open zone needs a species for charting that is too big for the tank), walk back. Once every species of a location is found and its gear is maxed, travel on to the
 ## next open location and build its business from scratch. Drones and sellers of every
 ## location work in the background.
 
@@ -19,6 +19,8 @@ const SELL_SECONDS := 2.0
 ## Fish per second a drone brings in where the player is (elsewhere: the offline rate).
 const DRONE_FISH_PER_SECOND := 0.2
 const REPORT_EVERY_S := 600.0
+## See _tank_too_small().
+const NOTICE_CATCHES := 4
 
 ## Game time in seconds when each milestone first happened: purchases by id ("tank", "gear",
 ## "unlock_coral_reef", ...), "travel_<location id>", "charted_<zone id>" and "all_species".
@@ -38,7 +40,6 @@ var _seller_earned := 0.0
 ## Per location id since the last report: fish the sellers sold, and how many they could have.
 var _seller_sold: Dictionary[String, float] = {}
 var _seller_could: Dictionary[String, float] = {}
-var _backpack: Array[String] = []
 var _quiet := false
 
 
@@ -48,7 +49,7 @@ func run(hours: float, seed_value: int, quiet: bool = false) -> Dictionary[Strin
 	_quiet = quiet
 	_print("time   event")
 	while _time < hours * 3600.0:
-		if _backpack.size() < Aquarium.backpack_capacity(_state.here()):
+		if _state.here().backpack.size() < Aquarium.backpack_capacity(_state.here()):
 			_fish_one()
 		else:
 			_trip()
@@ -72,11 +73,11 @@ func _fish_one() -> void:
 	if not was_charted and Charting.is_charted(_state, zone):
 		_event("charted %s" % zone.name)
 		milestones.get_or_add("charted_" + zone.id, _time)
-	_backpack.append(species_id)
+	_state.here().backpack.append(species_id)
 
 
 ## Explore first: the shallowest open zone here that is uncharted or still hides an unknown
-## species; otherwise the zone worth the most (counting only fish the tank can hold).
+## species (and has fish the tank can hold); otherwise the zone worth the most (counting only fish the tank can hold).
 func _choose_zone() -> ZoneDef:
 	var site := _state.here()
 	var best: ZoneDef = null
@@ -84,7 +85,7 @@ func _choose_zone() -> ZoneDef:
 	for zone in DataRegistry.zones_in(site.location_id):
 		if zone.gear_level > site.gear_level:
 			continue
-		if not Charting.is_charted(_state, zone) or _has_unknown_species(zone):
+		if (not Charting.is_charted(_state, zone) or _has_unknown_species(zone)) and _holds_any(site, zone):
 			return zone
 		# Only what the tank here can hold is worth anything: the rest swims back.
 		var value := 0.0
@@ -95,6 +96,24 @@ func _choose_zone() -> ZoneDef:
 			best = zone
 			best_value = value
 	return best
+
+
+## True if the tank here can hold any of the zone's species (else fishing there fills nothing).
+func _holds_any(site: Site, zone: ZoneDef) -> bool:
+	return zone.spawns.keys().any(func(id: String) -> bool: return Aquarium.can_ever_hold(site, DataRegistry.species[id]))
+
+
+## True if an open zone here has been fished a long while (NOTICE_CATCHES times the catches it
+## needs for charting) but cannot be charted because a species it needs (Charting) is too big for
+## the tank: then the player notices and buys a bigger tank.
+func _tank_too_small(site: Site) -> bool:
+	for zone in DataRegistry.zones_in(site.location_id):
+		if zone.gear_level > site.gear_level or int(_state.zone_catches.get(zone.id, 0)) < NOTICE_CATCHES * Charting.catches_needed(zone):
+			continue
+		for id: String in Charting.required_species(zone):
+			if not _state.species_caught.has(id) and not Aquarium.can_ever_hold(site, DataRegistry.species[id]):
+				return true
+	return false
 
 
 ## Only species the tank here can hold can be caught; the rest wait for a bigger tank.
@@ -111,8 +130,9 @@ func _trip() -> void:
 	var site := _state.here()
 	_pass_time(TRIP_OVERHEAD_S)
 	var sold := 0
-	_backpack = _backpack.filter(func(id: String) -> bool:
-		return Aquarium.store(site, id, Aquarium.catch_growth(_rng)) == null)
+	# The backpack stays at its beach (Site.backpack), as in the game.
+	site.backpack.assign(site.backpack.filter(func(id: String) -> bool:
+		return Aquarium.store(site, id, Aquarium.catch_growth(_rng)) == null))
 	# Selling by hand ends once the first seller takes over the player's booth.
 	while site.seller_count == 0 and not Selling.sell_next(_state, site).is_empty():
 		sold += 1
@@ -142,7 +162,7 @@ func _maybe_travel() -> void:
 func _buy_cheapest() -> bool:
 	var site := _state.here()
 	var options: Array[Dictionary] = []
-	if not _backpack.is_empty() or Aquarium.used_space(site.tank) >= Aquarium.capacity(site.tank) * 0.7:
+	if not site.backpack.is_empty() or Aquarium.used_space(site.tank) >= Aquarium.capacity(site.tank) * 0.7 			or _tank_too_small(site):
 		_add_option(options, "tank", Aquarium.tank_upgrade_cost(site))
 	_add_option(options, "backpack", Aquarium.backpack_upgrade_cost(site))
 	var deepest := Charting.deepest_open_zone(site.location_id, site.gear_level)

@@ -165,12 +165,24 @@ func test_upgrade_prices_run_out_at_the_top_level() -> void:
 func test_building_at_the_reef_costs_more() -> void:
 	var home := _site_with_tank()
 	var reef := _site_with_tank(1, "coral_reef")
-	var factor := DataRegistry.location("coral_reef").price_factor
-	assert_gt(factor, 1.0)
-	assert_eq(Aquarium.tank_upgrade_cost(reef), Aquarium.tank_upgrade_cost(home) * factor)
-	assert_eq(Aquarium.net_upgrade_cost(reef), Aquarium.net_upgrade_cost(home) * factor)
-	assert_eq(Selling.shop_upgrade_cost(reef), Selling.shop_upgrade_cost(home) * factor)
-	assert_eq(Automation.next_drone_cost(reef), Automation.next_drone_cost(home) * factor)
+	var location := DataRegistry.location("coral_reef")
+	assert_gt(Aquarium.tank_upgrade_cost(reef), Aquarium.tank_upgrade_cost(home))
+	assert_eq(Aquarium.tank_upgrade_cost(reef), location.price(Aquarium.tank_upgrade_cost(home)))
+	assert_eq(Aquarium.net_upgrade_cost(reef), location.price(Aquarium.net_upgrade_cost(home)))
+	assert_eq(Selling.shop_upgrade_cost(reef), location.price(Selling.shop_upgrade_cost(home)))
+	assert_eq(Automation.next_drone_cost(reef), location.price(Automation.next_drone_cost(home)))
+
+
+func test_later_locations_have_a_floor_for_their_cheapest_prices() -> void:
+	var home := DataRegistry.home()
+	assert_eq(home.price(250.0), 250.0, "home pays the data prices")
+	assert_eq(home.price(1500000.0), 1500000.0)
+	var previous_floor := 0.0
+	for location in DataRegistry.locations:
+		assert_gt(location.price(500.0), location.price(300.0), location.id)
+		assert_eq(location.price(10000000.0), location.price_factor * 10000000.0, "the dearest follow the factor: " + location.id)
+		assert_true(location.price(LocationDef.FLOOR_BASE) >= previous_floor, "floors rise: " + location.id)
+		previous_floor = location.price(LocationDef.FLOOR_BASE)
 
 
 func test_sellers_sell_every_grown_fish_first_grown_first() -> void:

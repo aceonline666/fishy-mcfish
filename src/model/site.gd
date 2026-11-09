@@ -36,10 +36,10 @@ func location() -> LocationDef:
 	return DataRegistry.location(location_id)
 
 
-## Prices here are the data prices times this.
-func price_factor() -> float:
+## What something with the data price `base` costs here (LocationDef.price).
+func price(base: float) -> float:
 	var def := location()
-	return def.price_factor if def != null else 1.0
+	return def.price(base) if def != null else base
 
 
 func to_dict() -> Dictionary:

@@ -12,14 +12,33 @@ var env: String
 ## Achievement id that must be reached first; empty for home.
 var unlock: String
 var travel_cost: float
-## Buildings and upgrades here cost the data prices times this.
+## What buildings and upgrades cost here (price()): the data prices times price_factor, but
+## never less than a floor that starts at price_floor for the cheapest data price (FLOOR_BASE) and
+## rises slowly with it (FLOOR_GROWTH). Later locations have a high floor, so their first upgrades
+## still matter next to the income of the beaches before; the dearer upgrades follow the factor.
 var price_factor := 1.0
+var price_floor := 0.0
 ## Coins in the location's treasure chest.
 var treasure := 0.0
 var shallow_color: Color
 var deep_color: Color
 var sand_color: Color
 var description: String
+
+
+## The cheapest data price (data/*.csv `cost`), which costs price_floor, and how fast the floor
+## rises with the data price (ten times the data price: 2.5 times the floor).
+const FLOOR_BASE := 100.0
+const FLOOR_GROWTH := 0.4
+
+
+## What something with the data price `base` costs here, rounded to two significant digits.
+func price(base: float) -> float:
+	if base <= 0.0:
+		return 0.0
+	var raw := maxf(base * price_factor, price_floor * pow(base / FLOOR_BASE, FLOOR_GROWTH))
+	var unit := pow(10.0, floorf(log(raw) / log(10.0)) - 1.0)
+	return maxf(roundf(raw / unit), 1.0) * unit
 
 
 static func from_row(row: Dictionary, errors: PackedStringArray, where: String) -> LocationDef:
@@ -41,6 +60,11 @@ static func from_row(row: Dictionary, errors: PackedStringArray, where: String) 
 		def.price_factor = factor_text.to_float()
 	else:
 		errors.append("%s: price_factor must be a number > 0, got '%s'" % [where, factor_text])
+	var floor_text := str(row.get("price_floor", "0"))
+	if floor_text.is_valid_float() and floor_text.to_float() >= 0.0:
+		def.price_floor = floor_text.to_float()
+	else:
+		errors.append("%s: price_floor must be a number >= 0, got '%s'" % [where, floor_text])
 	var treasure_text := str(row.get("treasure", "0"))
 	if treasure_text.is_valid_float() and treasure_text.to_float() >= 0.0:
 		def.treasure = treasure_text.to_float()

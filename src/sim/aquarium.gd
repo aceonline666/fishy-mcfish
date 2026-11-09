@@ -184,4 +184,4 @@ static func backpack_upgrade_cost(site: Site) -> float:
 
 ## Price of the level after `level` (1-based) at this site, or -1 if there is none.
 static func _next_level_cost(site: Site, levels: Array[LevelDef], level: int) -> float:
-	return levels[level].cost * site.price_factor() if level < levels.size() else -1.0
+	return site.price(levels[level].cost) if level < levels.size() else -1.0
