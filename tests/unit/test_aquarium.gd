@@ -100,10 +100,10 @@ func test_the_tank_is_full_when_not_even_the_smallest_fish_fits() -> void:
 	var site := _site_with_tank()
 	assert_eq(Aquarium.smallest_space("temperate"), 2.0, "the sprat")
 	assert_false(Aquarium.is_full(site))
-	_fill(site.tank, "atlantic_herring", 23)
-	assert_eq(Aquarium.used_space(site.tank), 115.0)
+	_fill(site.tank, "atlantic_herring", 13)
+	assert_eq(Aquarium.used_space(site.tank), 104.0)
 	assert_false(Aquarium.is_full(site), "a sprat still fits")
-	_fill(site.tank, "european_sprat", 2)
+	_fill(site.tank, "lumpsucker", 1)
 	assert_true(Aquarium.is_full(site))
 	assert_eq(Aquarium.fill_share(site.tank), 119.0 / 120.0)
 

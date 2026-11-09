@@ -6,7 +6,7 @@ extends RefCounted
 ## is full, walk up the beach, store what fits (the rest stays in the backpack, which waits for
 ## room in the tank once it is full), sell the grown fish at the shop, buy the cheapest
 ## affordable upgrade there (or the travel fee; a bigger tank once the tank is 70 % full, the
-## backpack is blocked or an open zone needs a species for charting that is too big for the tank), walk back. Once every species of a location is found and its gear is maxed, travel on to the
+## backpack is blocked or an open zone cannot be charted with this tank, and then nothing else), walk back. Once every species of a location is found and its gear is maxed, travel on to the
 ## next open location and build its business from scratch. Drones and sellers of every
 ## location work in the background.
 
@@ -103,12 +103,16 @@ func _holds_any(site: Site, zone: ZoneDef) -> bool:
 	return zone.spawns.keys().any(func(id: String) -> bool: return Aquarium.can_ever_hold(site, DataRegistry.species[id]))
 
 
-## True if an open zone here has been fished a long while (NOTICE_CATCHES times the catches it
-## needs for charting) but cannot be charted because a species it needs (Charting) is too big for
-## the tank: then the player notices and buys a bigger tank.
+## True if an open zone here cannot be charted because of the tank: none of its fish fit, or it
+## has been fished a long while (NOTICE_CATCHES times the catches it needs for charting) and a
+## species it needs (Charting) is too big. Then the player notices and saves for a bigger tank.
 func _tank_too_small(site: Site) -> bool:
 	for zone in DataRegistry.zones_in(site.location_id):
-		if zone.gear_level > site.gear_level or int(_state.zone_catches.get(zone.id, 0)) < NOTICE_CATCHES * Charting.catches_needed(zone):
+		if zone.gear_level > site.gear_level:
+			continue
+		if not Charting.is_charted(_state, zone) and not _holds_any(site, zone):
+			return true
+		if int(_state.zone_catches.get(zone.id, 0)) < NOTICE_CATCHES * Charting.catches_needed(zone):
 			continue
 		for id: String in Charting.required_species(zone):
 			if not _state.species_caught.has(id) and not Aquarium.can_ever_hold(site, DataRegistry.species[id]):
@@ -176,6 +180,9 @@ func _buy_cheapest() -> bool:
 	for location: LocationDef in DataRegistry.locations:
 		if Travel.can_unlock(_state, location):
 			_add_option(options, "unlock_" + location.id, location.travel_cost)
+	# Saving for the tank that stands between the player and the next zone.
+	if _tank_too_small(site) and Aquarium.tank_upgrade_cost(site) >= 0.0:
+		options = options.filter(func(option: Dictionary) -> bool: return option["id"] == "tank")
 	options.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["cost"] < b["cost"])
 	if options.is_empty() or options[0]["cost"] > _state.money:
 		return false

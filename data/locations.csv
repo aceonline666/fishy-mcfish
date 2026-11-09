@@ -2,7 +2,7 @@ id,name,order,env,unlock,travel_cost,price_factor,price_floor,treasure,shallow_c
 north_sea,North Sea,1,temperate,,0,1,0,10000,#52c7cc,#12548c,#f2d999,Your home beach with the aquarium. Cool water full of herring and cod.
 coral_reef,Coral Reef,2,tropical,chart_sandbanks,10000,6.5,1500,30000,#45e0cf,#0b5fa3,#fff0cc,Warm clear water over colourful corals of the Indo-Pacific. Start a second beach business from scratch; building here costs more.
 australia,Australia,3,temperate,chart_drop_off,300000,12,30000,80000,#4fd0c4,#0f4f86,#f0d8a8,"The Great Southern Reef: cool kelp forests full of seadragons, rays and great white sharks."
-japan,Japan,4,temperate,chart_rocky_reef,2000000,32,100000,220000,#56c0d6,#0b3f7a,#e6d6b8,"Rocky shores, the warm Kuroshio current and some of the deepest trenches on Earth."
-south_africa,South Africa,5,temperate,chart_kuroshio,15000000,120,400000,630000,#4ec2b8,#0a466e,#f2e2bc,"Where two oceans meet: kelp forests, the sardine run, sharks and southern right whales."
-antarctica,Antarctica,6,polar,chart_shark_alley,100000000,240,2000000,1800000,#6fd0dc,#0b3a66,#9a948c,"The icy Southern Ocean: krill swarms, seals and orcas, and hot black smokers in the deep."
+japan,Japan,4,temperate,chart_rocky_reef,2000000,28,100000,220000,#56c0d6,#0b3f7a,#e6d6b8,"Rocky shores, the warm Kuroshio current and some of the deepest trenches on Earth."
+south_africa,South Africa,5,temperate,chart_kuroshio,15000000,100,400000,630000,#4ec2b8,#0a466e,#f2e2bc,"Where two oceans meet: kelp forests, the sardine run, sharks and southern right whales."
+antarctica,Antarctica,6,polar,chart_shark_alley,100000000,300,2000000,1800000,#6fd0dc,#0b3a66,#9a948c,"The icy Southern Ocean: krill swarms, seals and orcas, and hot black smokers in the deep."
 jurassic_sea,Jurassic Sea,7,tropical,chart_pack_ice,800000000,600,10000000,5000000,#5fd8c0,#0d4f7a,#e8cf96,"150 million years ago: a warm sea of ammonites, ichthyosaurs, plesiosaurs and the mighty Liopleurodon."

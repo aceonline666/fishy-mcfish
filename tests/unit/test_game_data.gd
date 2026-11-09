@@ -41,6 +41,23 @@ func test_shipped_species_are_parsed() -> void:
 	assert_eq(sprat.base_value, 5.0)
 
 
+## A species' room in the tank and the tank it needs follow its size (length cubed times its
+## body aspect squared), not its rarity: a bigger animal never takes less room or a smaller tank.
+func test_bigger_species_never_take_less_room_or_a_smaller_tank() -> void:
+	var species := DataRegistry.species.values()
+	for a: SpeciesDef in species:
+		for b: SpeciesDef in species:
+			if _size(a) <= _size(b):
+				continue
+			assert_true(a.space_l >= b.space_l, "%s is bigger than %s but takes %s L, not %s" % [a.id, b.id, a.space_l, b.space_l])
+			assert_true(Aquarium.tank_needed(a) >= Aquarium.tank_needed(b),
+					"%s is bigger than %s but needs a smaller tank" % [a.id, b.id])
+
+
+func _size(def: SpeciesDef) -> float:
+	return pow(def.length_cm, 3.0) * def.body_aspect * def.body_aspect
+
+
 func test_invalid_rows_are_reported_and_skipped() -> void:
 	DirAccess.make_dir_recursive_absolute(BAD_DIR)
 	var file := FileAccess.open(BAD_DIR.path_join("species.csv"), FileAccess.WRITE)

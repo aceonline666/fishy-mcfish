@@ -89,6 +89,9 @@ Fishpedia, charted zones and goals are shared, and sellers and drones keep worki
 locations you are not at.
 
 Locations, zones, species, tanks, gear, drones, staff and goals are all data in `data/*.csv`.
+A species' room in the tank (`space_l`) and the tank it needs (`min_tank_l`) follow its size
+(length cubed times `body_aspect` squared), not its rarity: a bigger animal never takes less room
+or a smaller tank (`tests/unit/test_game_data.gd` checks it).
 
 **Game menu** (cog button): save, load (back to the last save) or start a new game after a
 confirmation; sound effects and music each with an on/off switch and a volume slider; language. Settings are kept in
@@ -223,10 +226,10 @@ Tests can also be run from the GUT panel in the editor. CI runs them on every pu
 rules and prints a timeline of purchases, charted zones, goals and income. `tests/unit/test_pacing.gd`
 runs the same bot and checks the pacing targets (first tank upgrade after 5–20 min, snorkel 5–25 min,
 Coral Reef 25–70 min, open sea charted after 55–120 min). The bot moves on once a location's
-gear is maxed and every species there is found: after about 3.5 h at the North Sea, then 3.5 h at
-the Reef, 4 h in Australia, 4.5–5 h in Japan and 6 h each in South Africa and Antarctica (each
-location takes a little longer than the one before); it reaches Antarctica after about 22 h and
-the Jurassic Sea after about 28 h. Its report
+gear is maxed and every species there is found: after about 3 h at the North Sea, then 3.5 h at
+the Reef, 4 h in Australia, 5 h in Japan and 6 h each in South Africa and Antarctica (each
+location takes a little longer than the one before); it reaches Antarctica after about 21 h and
+the Jurassic Sea after about 27 h. A tank too small for a zone's fish makes it save for the tank. Its report
 every 10 minutes shows how busy each beach's sellers were. Run it after
 changing prices or income:
 
@@ -268,7 +271,6 @@ Rules of thumb:
 - Replace the ice floes on the Antarctic pack ice (`IceFloes`, drawn in code) with painted sprites.
 - The tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too with better instructions regarding line thickness.
 - The sprite for the ragged-tooth shark is nearly identical to the great white shark. I think this is a species mixup. The sprite should be regenerated.
-- The ragged-tooth shark takes less tank volume than the giant guitarfish. That feels wrong since the sprite of the giant guitarfish looks smaller. Just because it's an epic catch doesn't mean it needs more volume. The size should be consistent with the volume the fish takes and not with it's rarity. Check for other species as well.
 - More species for Antarctica and the Jurassic Sea. In the game since 2026-11-08: Antarctic silverfish, emerald rockcod, bald notothen, mackerel icefish, marbled rockcod, Antarctic jonasfish, Leptolepis, Dapedium. Still to generate (one image each, prompts in `art_source/fish/views/prompts.md`; ChatGPT's image limit stopped the batch): Pachycormus, Lepidotes; then the emperor and Adélie penguins, Hybodus and Metriorhynchus from `art_source/fish/species_sheet_14_prompt.md` (they need prompts in the one-image format first).
 - More secrets: secret species per location that only show under a condition (night, charted zone, ...). Need new sprites.
 
