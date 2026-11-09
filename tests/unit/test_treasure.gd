@@ -63,19 +63,20 @@ func test_the_chest_keeps_its_spot_until_it_is_found() -> void:
 	assert_ne(Treasure.spot(state, "north_sea", zone, area), first, "found chests turn up elsewhere")
 
 
-func test_deeper_chests_and_more_sellers_pay_more() -> void:
-	var site := GameState.here()
-	var shallow := Treasure.reward(site, _zone("pier_shallows"))
-	assert_gt(shallow, 0.0)
-	assert_gt(Treasure.reward(site, _zone("open_sea")), shallow)
-	site.seller_count = 3
-	assert_gt(Treasure.reward(site, _zone("pier_shallows")), shallow)
+func test_every_location_further_on_has_a_bigger_fixed_treasure() -> void:
+	assert_eq(Treasure.reward("north_sea"), 10000.0)
+	GameState.here().seller_count = 3
+	assert_eq(Treasure.reward("north_sea"), 10000.0, "sellers do not change it")
+	var previous := 0.0
+	for location in DataRegistry.locations:
+		assert_gt(Treasure.reward(location.id), previous, location.id)
+		previous = Treasure.reward(location.id)
+	assert_eq(previous, 5000000.0, "the last location's chest")
 
 
 func test_finding_the_chest_pays_and_reaches_the_secret_goal() -> void:
-	var zone := _zone("pier_shallows")
-	var reward := Treasure.reward(GameState.here(), zone)
-	assert_eq(GameState.find_treasure(zone), reward)
+	var reward := Treasure.reward("north_sea")
+	assert_eq(GameState.find_treasure(), reward)
 	assert_has(GameState.state.achievements, "first_chest")
 	assert_eq(GameState.state.money, reward + _def("first_chest").reward)
 	assert_eq(GameState.state.chest_found_at.keys(), ["north_sea"])
@@ -115,7 +116,7 @@ func test_secret_goals_stay_secret_until_reached() -> void:
 	var texts := _label_texts(panel.content)
 	assert_does_not_have(texts, "Treasure hunter")
 	assert_has(texts, "???")
-	GameState.find_treasure(_zone("pier_shallows"))
+	GameState.find_treasure()
 	panel.open()
 	await wait_process_frames(1)
 	assert_has(_label_texts(panel.content), "Treasure hunter")

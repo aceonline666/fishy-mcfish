@@ -949,8 +949,7 @@ func _update_chest(delta: float) -> void:
 
 ## The chest pays out: coins burst from it to the counter, and it empties and fades.
 func _open_chest() -> void:
-	var zone := Charting.zone_at(location.id, _chest.ground.y)
-	var reward := GameState.find_treasure(zone)
+	var reward := GameState.find_treasure()
 	var at := _world_to_scene(_chest.position + TreasureChest.GLINT_OFFSET)
 	for i in CHEST_COINS:
 		Juice.fly_coin(_popups, at + Vector2(rng.randf_range(-40.0, 40.0), rng.randf_range(-30.0, 20.0)), _wallet_position(), 12.0 * ZOOM)

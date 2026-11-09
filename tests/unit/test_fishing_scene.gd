@@ -77,7 +77,7 @@ func test_the_treasure_chest_lies_in_the_deepest_open_zone_and_pays_when_scooped
 	await wait_process_frames(2)
 	assert_null(_scene._chest, "the chest is taken")
 	assert_true(chest.opening)
-	assert_eq(GameState.state.money, money + Treasure.reward(GameState.here(), DataRegistry.zones[0]))
+	assert_eq(GameState.state.money, money + Treasure.reward(GameState.here().location_id))
 	assert_eq(GameState.state.stats.get("chests_found"), 1)
 	_scene._sync_chest()
 	assert_null(_scene._chest, "it stays away for a while")

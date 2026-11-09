@@ -2,16 +2,13 @@ class_name Treasure
 extends RefCounted
 ## The secret treasure chest: one per location, lying on the seabed of the deepest zone the gear
 ## opens, at most MAX_ZONE_ORDER (further out the dark water hides it). The wader scoops it up
-## like a fish; it pays a fortune and is gone until COOLDOWN_S later, when it turns up somewhere
+## like a fish; it pays the location's fixed treasure (`treasure` in data/locations.csv), more at
+## every location further on, and is gone until COOLDOWN_S later, when it turns up somewhere
 ## else. Not shown during the tutorial.
 
 ## Seconds until a found chest turns up again: a little less than a day, so a daily visit finds
 ## it.
 const COOLDOWN_S := 20 * 3600
-## A chest holds the price of this many grown fish of its zone...
-const CHEST_FISH := 25.0
-## ...plus what the location's sellers make in this many seconds, so it stays worth finding later.
-const INCOME_S := 300.0
 ## The deepest zone the chest lies in: beyond it the water is too dark to see it.
 const MAX_ZONE_ORDER := 4
 ## The chest keeps this far from the zone's edges (ground units).
@@ -42,15 +39,9 @@ static func spot(state: PlayerState, location_id: String, zone: ZoneDef, area: P
 	return area.random_point(rng, EDGE_MARGIN)
 
 
-## Coins in a chest found in the zone, at the site's beach.
-static func reward(site: Site, zone: ZoneDef) -> float:
-	var weight := 0.0
-	var value := 0.0
-	for id in zone.spawns:
-		weight += zone.spawns[id]
-		value += zone.spawns[id] * Selling.sale_price(site, DataRegistry.species[id], 1.0)
-	var price := value / weight if weight > 0.0 else 0.0
-	return roundf(price * (CHEST_FISH + Selling.seller_rate(site) * INCOME_S))
+## Coins in the chest of a location: the same every time, whatever the zone or the business.
+static func reward(location_id: String) -> float:
+	return DataRegistry.location(location_id).treasure
 
 
 ## Records the chest of a location as found now.

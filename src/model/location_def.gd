@@ -14,6 +14,8 @@ var unlock: String
 var travel_cost: float
 ## Buildings and upgrades here cost the data prices times this.
 var price_factor := 1.0
+## Coins in the location's treasure chest.
+var treasure := 0.0
 var shallow_color: Color
 var deep_color: Color
 var sand_color: Color
@@ -39,6 +41,11 @@ static func from_row(row: Dictionary, errors: PackedStringArray, where: String) 
 		def.price_factor = factor_text.to_float()
 	else:
 		errors.append("%s: price_factor must be a number > 0, got '%s'" % [where, factor_text])
+	var treasure_text := str(row.get("treasure", "0"))
+	if treasure_text.is_valid_float() and treasure_text.to_float() >= 0.0:
+		def.treasure = treasure_text.to_float()
+	else:
+		errors.append("%s: treasure must be a number >= 0, got '%s'" % [where, treasure_text])
 	for column: String in ["shallow_color", "deep_color", "sand_color"]:
 		var text := str(row.get(column, ""))
 		if not Color.html_is_valid(text):

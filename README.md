@@ -70,8 +70,8 @@ named in `param`).
 **Secrets:** after the tutorial, every location hides a treasure chest on the seabed of the
 deepest zone the gear opens, but no further out than the fourth zone (beyond it the dark water
 would hide it), with a glint over its coins (`src/sim/treasure.gd`,
-`src/scenes/world/treasure_chest.gd`). Scooping it up pays the price of 25 grown fish of that zone
-plus five minutes of the location's seller income; it turns up somewhere else 20 hours later.
+`src/scenes/world/treasure_chest.gd`). Scooping it up pays the location's fixed treasure (`treasure` in `data/locations.csv`:
+10k at the North Sea, growing to 5M in the Jurassic Sea); it turns up somewhere else 20 hours later.
 Secret goals: finding chests, catching a fish between midnight and 4 a.m., keeping still for
 a minute in a location's deepest zone, and seeing the things in the dark
 (`src/scenes/world/dark_things.gd`): glowing eyes in the last zones, and the deep sea horror that
@@ -256,7 +256,6 @@ Rules of thumb:
   ([OpenGameArt](https://opengameart.org/content/shop-theme)).
 
 ## TODOs
-- Treasure value is drastically fluctuating. Sometimes you only get 50k and later you get astronomical amounts like 5B. They should be more consistent and grow for each location statically. So for first location 10k would be a big boost, while on the last location maybe 5M would be sufficient.
 - Deep Sea horror monster is very easy to find. It should be very rare so I suggest to remove the "wait for the wader" logic. It should only show up every 5 minutes or so and if you're not there that's just how the game works. And it should only show at the south border of the map. Not at the east/west borders. That would make the achievement much rarer and could receive a higher money value.
 - Wader in the hardhat suit should also get a head lamp. The feature looks very cool and should be shown earlier. But the headlight should be much dimmer than the submarine one. We need new sprites for a hard-hat with headlamp suit.
 - Submarine light looks awesome, but it has a shart triangle below the submarine. That should be softer and the light should look like it's coming from the headlamp (like for the angler fish).

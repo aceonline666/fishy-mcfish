@@ -168,10 +168,10 @@ func hire_seller() -> void:
 	here().seller_count = mini(here().seller_count + 1, Selling.seller_slots(here()))
 
 
-## The treasure chest where the player is was found in the zone: pays its coins (returned) and
-## hides it for a while.
-func find_treasure(zone: ZoneDef) -> float:
-	var reward := Treasure.reward(here(), zone)
+## The treasure chest where the player is was found: pays its coins (returned) and hides it for
+## a while.
+func find_treasure() -> float:
+	var reward := Treasure.reward(here().location_id)
 	Treasure.record_find(state, here().location_id, TimeService.now_unix())
 	add_money(reward)
 	check_achievements()
