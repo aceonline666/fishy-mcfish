@@ -19,8 +19,8 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `european_sprat` | European sprat (Sprattus sprattus) |
 | `atlantic_herring` | Atlantic herring (Clupea harengus) |
 | `atlantic_mackerel` | Atlantic mackerel (Scomber scombrus) |
-| `lumpsucker` | Lumpsucker (Cyclopterus lumpus) |
-| `atlantic_cod` | Atlantic cod (Gadus morhua) |
+| `lumpsucker` | Lumpsucker (Cyclopterus lumpus) – in the game (side view) |
+| `atlantic_cod` | Atlantic cod (Gadus morhua) – in the game (side view) |
 | `atlantic_wolffish` | Atlantic wolffish (Anarhichas lupus) |
 | `roundnose_grenadier` | Roundnose grenadier (Coryphaenoides rupestris) |
 | `rabbit_fish` | Rabbit fish (Chimaera monstrosa) |
@@ -63,10 +63,10 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `mackerel_icefish` | Mackerel icefish (Champsocephalus gunnari) – in the game (side view) |
 | `marbled_rockcod` | Marbled rockcod (Notothenia rossii) – in the game (side view) |
 | `antarctic_jonasfish` | Antarctic jonasfish (Neopagetopsis ionah) – in the game (side view) |
-| `leptolepis` | Leptolepis (Leptolepis coryphaenoides) – in the game (side view) |
-| `dapedium` | Dapedium (Dapedium politum) – in the game (side view) |
-| `pachycormus` | Pachycormus (Pachycormus macropterus) – in the game (side view) |
-| `lepidotes` | Lepidotes (Lepidotes elvensis) – in the game (side view) |
+| `leptolepis` | Pholidophorus (Pholidophorus sp.) – in the game (side view) |
+| `dapedium` | Mesturus (Mesturus leedsi) – in the game (side view) |
+| `pachycormus` | Hypsocormus (Hypsocormus leedsi) – in the game (side view) |
+| `lepidotes` | Lepidotes (Lepidotes macrocheirus) – in the game (side view) |
 | `lesser_sand_eel` | Lesser sand eel (Ammodytes tobianus) |
 | `conger_eel` | European conger (Conger conger) |
 | `pink_ling` | Pink ling (Genypterus blacodes) |
@@ -83,26 +83,26 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `frilled_shark` | Frilled shark (Chlamydoselachus anguineus) |
 | `goblin_shark` | Goblin shark (Mitsukurina owstoni) |
 | `copper_shark` | Copper shark (Carcharhinus brachyurus) |
-| `ragged_tooth_shark` | Ragged-tooth shark (Carcharias taurus) |
+| `ragged_tooth_shark` | Ragged-tooth shark (Carcharias taurus) – in the game (side view) |
 | `shortfin_mako` | Shortfin mako (Isurus oxyrinchus) |
 | `whale_shark` | Whale shark (Rhincodon typus) |
-| `hybodus` | Hybodus (Hybodus hauffianus) – in the game (side view) |
-| `european_plaice` | European plaice (Pleuronectes platessa) |
+| `hybodus` | Hybodus (Hybodus obtusus) – in the game (side view) |
+| `european_plaice` | European plaice (Pleuronectes platessa) – in the game (side view) |
 | `reef_manta_ray` | Reef manta ray (Mobula alfredi) |
 | `smooth_stingray` | Smooth stingray (Bathytoshia brevicaudata) |
 | `giant_guitarfish` | Giant guitarfish (Rhynchobatus djiddensis) |
 | `ocean_sunfish` | Ocean sunfish (Mola mola) |
-| `curled_octopus` | Curled octopus (Eledone cirrhosa) |
+| `curled_octopus` | Curled octopus (Eledone cirrhosa) – in the game (side view) |
 | `giant_squid` | Giant squid (Architeuthis dux) |
 | `chambered_nautilus` | Chambered nautilus (Nautilus pompilius) |
 | `vampire_squid` | Vampire squid (Vampyroteuthis infernalis) |
 | `southern_blue_ringed_octopus` | Southern blue-ringed octopus (Hapalochlaena maculosa) |
-| `japanese_flying_squid` | Japanese flying squid (Todarodes pacificus) |
-| `giant_pacific_octopus` | Giant Pacific octopus (Enteroctopus dofleini) |
-| `common_octopus` | Common octopus (Octopus vulgaris) |
-| `colossal_squid` | Colossal squid (Mesonychoteuthis hamiltoni) |
-| `ammonite` | Ammonite (Dactylioceras commune) |
-| `belemnite` | Belemnite (Passaloteuthis bisulcata) |
+| `japanese_flying_squid` | Japanese flying squid (Todarodes pacificus) – in the game (side view) |
+| `giant_pacific_octopus` | Giant Pacific octopus (Enteroctopus dofleini) – in the game (side view) |
+| `common_octopus` | Common octopus (Octopus vulgaris) – in the game (side view) |
+| `colossal_squid` | Colossal squid (Mesonychoteuthis hamiltoni) – in the game (side view) |
+| `ammonite` | Ammonite (Kosmoceras jason) |
+| `belemnite` | Belemnite (Cylindroteuthis puzosiana) |
 | `lions_mane_jellyfish` | Lion's mane jellyfish (Cyanea capillata) |
 | `moon_jellyfish` | Moon jellyfish (Aurelia aurita) |
 | `blubber_jellyfish` | Blubber jellyfish (Catostylus mosaicus) |
@@ -123,11 +123,11 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `common_bottlenose_dolphin` | Common bottlenose dolphin (Tursiops truncatus) |
 | `leopard_seal` | Leopard seal (Hydrurga leptonyx) |
 | `southern_elephant_seal` | Southern elephant seal (Mirounga leonina) |
-| `ichthyosaurus` | Ichthyosaurus (Ichthyosaurus communis) |
-| `plesiosaurus` | Plesiosaurus (Plesiosaurus dolichodeirus) |
+| `ichthyosaurus` | Ophthalmosaurus (Ophthalmosaurus icenicus) |
+| `plesiosaurus` | Muraenosaurus (Muraenosaurus leedsii) |
 | `liopleurodon` | Liopleurodon (Liopleurodon ferox) |
 | `metriorhynchus` | Metriorhynchus (Metriorhynchus superciliosus) – in the game (side view) |
-| `green_sea_turtle` | Green sea turtle (Chelonia mydas) |
+| `green_sea_turtle` | Green sea turtle (Chelonia mydas) – in the game (side view) |
 | `loggerhead_turtle` | Loggerhead turtle (Caretta caretta) |
 | `leatherback_turtle` | Leatherback turtle (Dermochelys coriacea) |
 | `emperor_penguin` | Emperor penguin (Aptenodytes forsteri) – in the game (side view) |
@@ -152,8 +152,9 @@ European sprat (Sprattus sprattus): small, slim, silvery with a blue-green back 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Atlantic herring (Clupea harengus) – `atlantic_herring`
@@ -175,8 +176,9 @@ Atlantic herring (Clupea harengus): slim, silvery with a blue-green back, a sing
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Atlantic mackerel (Scomber scombrus) – `atlantic_mackerel`
@@ -198,8 +200,9 @@ Atlantic mackerel (Scomber scombrus): streamlined, a green-blue back with black 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Lumpsucker (Cyclopterus lumpus) – `lumpsucker`
@@ -216,13 +219,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Lumpsucker (Cyclopterus lumpus): round and lumpy, grey-green with rows of bony bumps, a short tail.
+Lumpsucker (Cyclopterus lumpus): round and lumpy like a ball, grey-green with three rows of bony bumps along its side, a high rounded hump on its back, a small mouth, small round pectoral fins and a short rounded tail fin.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Atlantic cod (Gadus morhua) – `atlantic_cod`
@@ -244,8 +248,9 @@ Atlantic cod (Gadus morhua): olive-brown back with dark spots, pale lateral line
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Atlantic wolffish (Anarhichas lupus) – `atlantic_wolffish`
@@ -267,8 +272,9 @@ Atlantic wolffish (Anarhichas lupus): long and heavy, blue-grey with dark bands,
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Roundnose grenadier (Coryphaenoides rupestris) – `roundnose_grenadier`
@@ -290,8 +296,9 @@ Roundnose grenadier (Coryphaenoides rupestris): a big head with a rounded snout 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Rabbit fish (Chimaera monstrosa) – `rabbit_fish`
@@ -313,8 +320,9 @@ Rabbit fish (Chimaera monstrosa): a chimaera: a big head with huge green eyes, l
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Ocellaris clownfish (Amphiprion ocellaris) – `ocellaris_clownfish`
@@ -336,8 +344,9 @@ Ocellaris clownfish (Amphiprion ocellaris): small, bright orange with three whit
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Blue-green chromis (Chromis viridis) – `blue_green_chromis`
@@ -359,8 +368,9 @@ Blue-green chromis (Chromis viridis): small, iridescent blue-green, a forked tai
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Blue tang (Paracanthurus hepatus) – `blue_tang`
@@ -382,8 +392,9 @@ Blue tang (Paracanthurus hepatus): an oval royal-blue body with a black palette 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Mandarinfish (Synchiropus splendidus) – `mandarinfish`
@@ -405,8 +416,9 @@ Mandarinfish (Synchiropus splendidus): tiny, orange and electric blue wavy patte
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Red lionfish (Pterois volitans) – `red_lionfish`
@@ -428,8 +440,9 @@ Red lionfish (Pterois volitans): red and white stripes, long fan-like pectoral f
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Humphead wrasse (Cheilinus undulatus) – `humphead_wrasse`
@@ -451,8 +464,9 @@ Humphead wrasse (Cheilinus undulatus): huge, green-blue, a big hump on the foreh
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Atlantic bluefin tuna (Thunnus thynnus) – `atlantic_bluefin_tuna`
@@ -474,8 +488,9 @@ Atlantic bluefin tuna (Thunnus thynnus): big and torpedo-shaped, a dark blue bac
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Yellowfin tuna (Thunnus albacares) – `yellowfin_tuna`
@@ -497,8 +512,9 @@ Yellowfin tuna (Thunnus albacares): torpedo-shaped, dark blue back, a yellow sid
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Humpback anglerfish (Melanocetus johnsonii) – `humpback_anglerfish`
@@ -520,8 +536,9 @@ Humpback anglerfish (Melanocetus johnsonii): a small black deep-sea fish, a huge
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Atlantic footballfish (Himantolophus groenlandicus) – `atlantic_footballfish`
@@ -543,8 +560,9 @@ Atlantic footballfish (Himantolophus groenlandicus): round like a ball, dark bro
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Skinnycheek lanternfish (Benthosema pterotum) – `skinnycheek_lanternfish`
@@ -566,8 +584,9 @@ Skinnycheek lanternfish (Benthosema pterotum): tiny, dark with big eyes and rows
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## West Indian Ocean coelacanth (Latimeria chalumnae) – `west_indian_ocean_coelacanth`
@@ -589,8 +608,9 @@ West Indian Ocean coelacanth (Latimeria chalumnae): steel blue with white blotch
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Australian salmon (Arripis trutta) – `australian_salmon`
@@ -612,8 +632,9 @@ Australian salmon (Arripis trutta): streamlined, a green-blue back with dark spo
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Blue groper (Achoerodus viridis) – `blue_groper`
@@ -635,8 +656,9 @@ Blue groper (Achoerodus viridis): a big wrasse, bright blue, thick lips, a round
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Old wife (Enoplosus armatus) – `old_wife`
@@ -658,8 +680,9 @@ Old wife (Enoplosus armatus): a tall, flat, silver-white body with bold black di
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Orange roughy (Hoplostethus atlanticus) – `orange_roughy`
@@ -681,8 +704,9 @@ Orange roughy (Hoplostethus atlanticus): deep-bodied, bright orange-red, a big b
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Blobfish (Psychrolutes marcidus) – `blobfish`
@@ -704,8 +728,9 @@ Blobfish (Psychrolutes marcidus): a soft, droopy pink body, a big sad face with 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Common fangtooth (Anoplogaster cornuta) – `common_fangtooth`
@@ -727,8 +752,9 @@ Common fangtooth (Anoplogaster cornuta): small and dark, a huge head with enormo
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Red sea bream (Pagrus major) – `red_sea_bream`
@@ -750,8 +776,9 @@ Red sea bream (Pagrus major): a tall oval body, pink-red with tiny blue spots, a
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Japanese horse mackerel (Trachurus japonicus) – `japanese_horse_mackerel`
@@ -773,8 +800,9 @@ Japanese horse mackerel (Trachurus japonicus): slim, silvery green-blue, a row o
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Tiger puffer (Takifugu rubripes) – `tiger_puffer`
@@ -796,8 +824,9 @@ Tiger puffer (Takifugu rubripes): a round fugu, grey-brown back with a big black
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Japanese amberjack (Seriola quinqueradiata) – `japanese_amberjack`
@@ -819,8 +848,9 @@ Japanese amberjack (Seriola quinqueradiata): streamlined, blue-green back, a yel
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Opah (Lampris guttatus) – `opah`
@@ -842,8 +872,9 @@ Opah (Lampris guttatus): a round disc-shaped fish, red-pink with white spots, br
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Mariana snailfish (Pseudoliparis swirei) – `mariana_snailfish`
@@ -865,8 +896,9 @@ Mariana snailfish (Pseudoliparis swirei): small, soft, pale pink and almost see-
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Hottentot seabream (Pachymetopon blochii) – `hottentot_seabream`
@@ -888,8 +920,9 @@ Hottentot seabream (Pachymetopon blochii): an oval bronze-grey seabream with a b
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## South African sardine (Sardinops sagax) – `south_african_sardine`
@@ -911,8 +944,9 @@ South African sardine (Sardinops sagax): small, slim, silvery with a blue back a
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Galjoen (Dichistius capensis) – `galjoen`
@@ -934,8 +968,9 @@ Galjoen (Dichistius capensis): an oval body, dark bronze-black with faint bands,
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Cape hake (Merluccius capensis) – `cape_hake`
@@ -957,8 +992,9 @@ Cape hake (Merluccius capensis): slim, silver-grey with a long head, big eyes, a
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Sloane's viperfish (Chauliodus sloani) – `sloanes_viperfish`
@@ -980,8 +1016,9 @@ Sloane's viperfish (Chauliodus sloani): a slim black deep-sea fish, huge needle 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Great barracuda (Sphyraena barracuda) – `great_barracuda`
@@ -1003,8 +1040,9 @@ Great barracuda (Sphyraena barracuda): long and slim, silver-grey with dark bars
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Crocodile icefish (Chionodraco hamatus) – `crocodile_icefish`
@@ -1026,8 +1064,9 @@ Crocodile icefish (Chionodraco hamatus): pale and almost see-through, a long fla
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Antarctic toothfish (Dissostichus mawsoni) – `antarctic_toothfish`
@@ -1049,8 +1088,9 @@ Antarctic toothfish (Dissostichus mawsoni): large and heavy, dark grey-brown, a 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Leedsichthys (Leedsichthys problematicus) – `leedsichthys`
@@ -1072,8 +1112,9 @@ Leedsichthys (Leedsichthys problematicus): Jurassic giant filter feeder: an enor
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Antarctic silverfish (Pleuragramma antarctica) – `antarctic_silverfish`
@@ -1090,13 +1131,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Antarctic silverfish (Pleuragramma antarctica): small, slim, silvery, almost see-through, a big eye, a forked tail.
+Antarctic silverfish (Pleuragramma antarctica): Antarctic silverfish (Pleuragramma antarctica): small, slim, silvery, almost see-through, a big eye, a forked tail.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Emerald rockcod (Trematomus bernacchii) – `emerald_rockcod`
@@ -1113,13 +1155,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Emerald rockcod (Trematomus bernacchii): stocky, mottled green-brown with dark bands, a big head, wide pectoral fins.
+Emerald rockcod (Trematomus bernacchii): Emerald rockcod (Trematomus bernacchii): stocky, mottled green-brown with dark bands, a big head, wide pectoral fins.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Bald notothen (Pagothenia borchgrevinki) – `bald_notothen`
@@ -1136,13 +1179,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Bald notothen (Pagothenia borchgrevinki): slim, silvery-grey with dark spots, a pointed head, a long second dorsal fin.
+Bald notothen (Pagothenia borchgrevinki): Bald notothen (Pagothenia borchgrevinki): slim, silvery-grey with dark spots, a pointed head, a long second dorsal fin.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Mackerel icefish (Champsocephalus gunnari) – `mackerel_icefish`
@@ -1159,13 +1203,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Mackerel icefish (Champsocephalus gunnari): long, pale see-through grey-white with dark bands on the back, a long flat snout.
+Mackerel icefish (Champsocephalus gunnari): Mackerel icefish (Champsocephalus gunnari): long, pale see-through grey-white with dark bands on the back, a long flat snout.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Marbled rockcod (Notothenia rossii) – `marbled_rockcod`
@@ -1182,13 +1227,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Marbled rockcod (Notothenia rossii): heavy, a big head, olive-brown with darker marbled patches.
+Marbled rockcod (Notothenia rossii): Marbled rockcod (Notothenia rossii): heavy, a big head, olive-brown with darker marbled patches.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Antarctic jonasfish (Neopagetopsis ionah) – `antarctic_jonasfish`
@@ -1205,16 +1251,17 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Antarctic jonasfish (Neopagetopsis ionah): a large pale icefish with a long duck-billed snout, faint dark bands, a tall spiny first dorsal fin.
+Antarctic jonasfish (Neopagetopsis ionah): Antarctic jonasfish (Neopagetopsis ionah): a large pale icefish with a long duck-billed snout, faint dark bands, a tall spiny first dorsal fin.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
-## Leptolepis (Leptolepis coryphaenoides) – `leptolepis`
+## Pholidophorus (Pholidophorus sp.) – `leptolepis`
 
 Save as `art_source/fish/views/leptolepis.png`, then `python tools/extract_species_views.py leptolepis`.
 
@@ -1228,16 +1275,17 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Leptolepis (Leptolepis coryphaenoides), Jurassic: small, slender, herring-like, silver with thin round scales.
+Pholidophorus (Pholidophorus sp.): Leptolepis (Leptolepis coryphaenoides), Jurassic: small, slender, herring-like, silver with thin round scales.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
-## Dapedium (Dapedium politum) – `dapedium`
+## Mesturus (Mesturus leedsi) – `dapedium`
 
 Save as `art_source/fish/views/dapedium.png`, then `python tools/extract_species_views.py dapedium`.
 
@@ -1251,16 +1299,17 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Dapedium (Dapedium politum), Jurassic: a deep, almost round body covered in thick shiny diamond-shaped bronze scales, a small mouth.
+Mesturus (Mesturus leedsi): Dapedium (Dapedium politum), Jurassic: a deep, almost round body covered in thick shiny diamond-shaped bronze scales, a small mouth.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
-## Pachycormus (Pachycormus macropterus) – `pachycormus`
+## Hypsocormus (Hypsocormus leedsi) – `pachycormus`
 
 Save as `art_source/fish/views/pachycormus.png`, then `python tools/extract_species_views.py pachycormus`.
 
@@ -1274,16 +1323,17 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Pachycormus (Pachycormus macropterus), Jurassic: streamlined and tuna-like, blue-grey, long sickle-shaped pectoral fins, a pointed snout.
+Hypsocormus (Hypsocormus leedsi): Pachycormus (Pachycormus macropterus), Jurassic: streamlined and tuna-like, blue-grey, long sickle-shaped pectoral fins, a pointed snout.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
-## Lepidotes (Lepidotes elvensis) – `lepidotes`
+## Lepidotes (Lepidotes macrocheirus) – `lepidotes`
 
 Save as `art_source/fish/views/lepidotes.png`, then `python tools/extract_species_views.py lepidotes`.
 
@@ -1297,13 +1347,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Lepidotes (Lepidotes elvensis), Jurassic: large and thick-bodied, heavy shiny square enamel scales, olive-bronze, a blunt head.
+Lepidotes (Lepidotes macrocheirus): Lepidotes (Lepidotes elvensis), Jurassic: large and thick-bodied, heavy shiny square enamel scales, olive-bronze, a blunt head.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Lesser sand eel (Ammodytes tobianus) – `lesser_sand_eel`
@@ -1325,8 +1376,9 @@ Lesser sand eel (Ammodytes tobianus): a thin silvery eel-like fish with a pointe
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## European conger (Conger conger) – `conger_eel`
@@ -1348,8 +1400,9 @@ European conger (Conger conger): a big grey-black eel with a long dorsal fin run
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Pink ling (Genypterus blacodes) – `pink_ling`
@@ -1371,8 +1424,9 @@ Pink ling (Genypterus blacodes): an eel-like fish, pink-orange with brown mottli
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Kingklip (Genypterus capensis) – `kingklip`
@@ -1394,8 +1448,9 @@ Kingklip (Genypterus capensis): an eel-like fish, pinkish with brown blotches, a
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Pacific blackdragon (Idiacanthus antrostomus) – `pacific_blackdragon`
@@ -1417,8 +1472,9 @@ Pacific blackdragon (Idiacanthus antrostomus): a long, thin black deep-sea fish 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Giant oarfish (Regalecus glesne) – `giant_oarfish`
@@ -1440,8 +1496,9 @@ Giant oarfish (Regalecus glesne): a very long ribbon-like silver fish with a red
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Pelican eel (Eurypharynx pelecanoides) – `pelican_eel`
@@ -1463,8 +1520,9 @@ Pelican eel (Eurypharynx pelecanoides): a black deep-sea eel with an enormous pe
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Blacktip reef shark (Carcharhinus melanopterus) – `blacktip_reef_shark`
@@ -1486,8 +1544,9 @@ Blacktip reef shark (Carcharhinus melanopterus): grey-brown with black tips on a
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Basking shark (Cetorhinus maximus) – `basking_shark`
@@ -1509,8 +1568,9 @@ Basking shark (Cetorhinus maximus): huge, grey-brown, an enormous wide open mout
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Greenland shark (Somniosus microcephalus) – `greenland_shark`
@@ -1532,8 +1592,9 @@ Greenland shark (Somniosus microcephalus): heavy, grey-brown, a short rounded sn
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Bluntnose sixgill shark (Hexanchus griseus) – `bluntnose_sixgill_shark`
@@ -1555,8 +1616,9 @@ Bluntnose sixgill shark (Hexanchus griseus): dark brown-grey, a blunt snout, gre
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Port Jackson shark (Heterodontus portusjacksoni) – `port_jackson_shark`
@@ -1578,8 +1640,9 @@ Port Jackson shark (Heterodontus portusjacksoni): small, a blunt bulldog head wi
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Great white shark (Carcharodon carcharias) – `great_white_shark`
@@ -1601,8 +1664,9 @@ Great white shark (Carcharodon carcharias): big, grey back, white belly, a point
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Frilled shark (Chlamydoselachus anguineus) – `frilled_shark`
@@ -1624,8 +1688,9 @@ Frilled shark (Chlamydoselachus anguineus): eel-like, dark brown, a frilly colla
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Goblin shark (Mitsukurina owstoni) – `goblin_shark`
@@ -1647,8 +1712,9 @@ Goblin shark (Mitsukurina owstoni): pink-grey, a long flat blade-like snout, pro
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Copper shark (Carcharhinus brachyurus) – `copper_shark`
@@ -1670,8 +1736,9 @@ Copper shark (Carcharhinus brachyurus): bronze-grey back with a coppery sheen, w
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Ragged-tooth shark (Carcharias taurus) – `ragged_tooth_shark`
@@ -1688,13 +1755,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Ragged-tooth shark (Carcharias taurus): light brown with darker spots, ragged teeth sticking out of its mouth. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
+Ragged-tooth shark (Carcharias taurus): also called sand tiger shark; it must not look like a great white: a bulky, hump-backed body, a flattened, pointed conical snout, small eyes, two big dorsal fins of nearly the same size set far back, a long upper tail lobe with a short lower one, a sandy bronze-brown back with scattered reddish-brown spots, a pale cream belly, crooked needle teeth sticking out of its open mouth. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Shortfin mako (Isurus oxyrinchus) – `shortfin_mako`
@@ -1716,8 +1784,9 @@ Shortfin mako (Isurus oxyrinchus): slim and fast, metallic blue back, white bell
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Whale shark (Rhincodon typus) – `whale_shark`
@@ -1739,11 +1808,12 @@ Whale shark (Rhincodon typus): huge, dark blue-grey with white spots and pale st
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
-## Hybodus (Hybodus hauffianus) – `hybodus`
+## Hybodus (Hybodus obtusus) – `hybodus`
 
 Save as `art_source/fish/views/hybodus.png`, then `python tools/extract_species_views.py hybodus`.
 
@@ -1757,13 +1827,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Hybodus (Hybodus hauffianus), Jurassic: grey-brown with a pale belly, a blunt snout, a long sharp spine at the front of each of its two dorsal fins. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
+Hybodus (Hybodus obtusus): Hybodus (Hybodus hauffianus), Jurassic: grey-brown with a pale belly, a blunt snout, a long sharp spine at the front of each of its two dorsal fins. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## European plaice (Pleuronectes platessa) – `european_plaice`
@@ -1780,13 +1851,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-European plaice (Pleuronectes platessa): a flatfish lying flat: from above we see its whole brown upper side with bright orange spots, both eyes on top, the fins as a fringe all around.
+European plaice (Pleuronectes platessa): a flatfish lying flat: from above we see its whole brown upper side with bright orange spots, both eyes on top, the fins as a fringe all around. In the side view it glides along showing its eyed upper side: an oval flat body, both eyes on the head, the fin fringe all around and a short fan-shaped tail fin.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Reef manta ray (Mobula alfredi) – `reef_manta_ray`
@@ -1808,8 +1880,9 @@ Reef manta ray (Mobula alfredi): from above: the whole diamond-shaped black disc
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Smooth stingray (Bathytoshia brevicaudata) – `smooth_stingray`
@@ -1831,8 +1904,9 @@ Smooth stingray (Bathytoshia brevicaudata): from above: the whole round grey-bro
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Giant guitarfish (Rhynchobatus djiddensis) – `giant_guitarfish`
@@ -1854,8 +1928,9 @@ Giant guitarfish (Rhynchobatus djiddensis): from above: a flat, wide shark-like 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Ocean sunfish (Mola mola) – `ocean_sunfish`
@@ -1877,8 +1952,9 @@ Ocean sunfish (Mola mola): a huge, flat, round fish with a tall dorsal and anal 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Curled octopus (Eledone cirrhosa) – `curled_octopus`
@@ -1895,13 +1971,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Curled octopus (Eledone cirrhosa): an orange-red octopus with a single row of suckers; from above: the head (mantle) leads, the eight arms trail behind, their tips curled. In the side view it swims head first, the arms trailing behind.
+Curled octopus (Eledone cirrhosa): an orange-red octopus with a single row of suckers on each arm; from above the mantle leads, the eight arms trail behind, only their tips curled. An octopus has no fins and no face at the front: in the side view it swims to the left, mantle first, like a jet: the rounded, bag-like mantle (no eyes, no mouth on it) leads at the left, the head with the two eyes sits behind it on the right where the arms begin, and the eight arms, a row of pale suckers along each, trail straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops. It must not look like a fish. From above likewise: the mantle leads, the eyes sit behind it at the base of the arms.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Giant squid (Architeuthis dux) – `giant_squid`
@@ -1918,13 +1995,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Giant squid (Architeuthis dux): a huge red squid: from above, the long mantle with its fins leads, the eight arms and two very long tentacles trail behind. In the side view it swims head first, the arms trailing behind.
+Giant squid (Architeuthis dux): a huge red squid: from above, the long mantle with its fins leads, the eight arms and two very long tentacles trail behind. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Chambered nautilus (Nautilus pompilius) – `chambered_nautilus`
@@ -1941,13 +2019,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Chambered nautilus (Nautilus pompilius): a coiled shell with brown-orange tiger stripes; from above the shell's back, the many short tentacles poking out at the opening. In the side view it swims head first, the arms trailing behind.
+Chambered nautilus (Nautilus pompilius): a coiled shell with brown-orange tiger stripes; from above the shell's back, the many short tentacles poking out at the opening. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Vampire squid (Vampyroteuthis infernalis) – `vampire_squid`
@@ -1964,13 +2043,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Vampire squid (Vampyroteuthis infernalis): dark red-black, big blue eyes, a cloak-like web between the arms, two ear-like fins; from above, fins first, the cloak trailing. In the side view it swims head first, the arms trailing behind.
+Vampire squid (Vampyroteuthis infernalis): dark red-black, big blue eyes, a cloak-like web between the arms, two ear-like fins; from above, fins first, the cloak trailing. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Southern blue-ringed octopus (Hapalochlaena maculosa) – `southern_blue_ringed_octopus`
@@ -1987,13 +2067,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Southern blue-ringed octopus (Hapalochlaena maculosa): a small yellow-brown octopus covered in bright blue rings; from above the mantle leads, the arms trail. In the side view it swims head first, the arms trailing behind.
+Southern blue-ringed octopus (Hapalochlaena maculosa): a small yellow-brown octopus covered in bright blue rings; from above the mantle leads, the arms trail. An octopus has no fins and no face at the front: in the side view it swims to the left, mantle first, like a jet: the rounded, bag-like mantle (no eyes, no mouth on it) leads at the left, the head with the two eyes sits behind it on the right where the arms begin, and the eight arms, a row of pale suckers along each, trail straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops. It must not look like a fish. From above likewise: the mantle leads, the eyes sit behind it at the base of the arms.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Japanese flying squid (Todarodes pacificus) – `japanese_flying_squid`
@@ -2010,13 +2091,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Japanese flying squid (Todarodes pacificus): a slim red-brown squid with a triangular fin at the mantle tip; from above mantle first, the arms trailing. In the side view it swims head first, the arms trailing behind.
+Japanese flying squid (Todarodes pacificus): a slim red-brown squid with a triangular fin at the mantle tip, eight arms and two longer tentacles; from above mantle first, the arms trailing. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Giant Pacific octopus (Enteroctopus dofleini) – `giant_pacific_octopus`
@@ -2033,13 +2115,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Giant Pacific octopus (Enteroctopus dofleini): a huge red-brown octopus with wrinkly skin; from above the mantle leads, the long arms trail behind. In the side view it swims head first, the arms trailing behind.
+Giant Pacific octopus (Enteroctopus dofleini): a huge red-brown octopus with wrinkly skin and pale suckers; from above the mantle leads, the long arms trail behind. An octopus has no fins and no face at the front: in the side view it swims to the left, mantle first, like a jet: the rounded, bag-like mantle (no eyes, no mouth on it) leads at the left, the head with the two eyes sits behind it on the right where the arms begin, and the eight arms, a row of pale suckers along each, trail straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops. It must not look like a fish. From above likewise: the mantle leads, the eyes sit behind it at the base of the arms.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Common octopus (Octopus vulgaris) – `common_octopus`
@@ -2056,13 +2139,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Common octopus (Octopus vulgaris): a brown-orange octopus with mottled skin; from above the mantle leads, the arms trail behind. In the side view it swims head first, the arms trailing behind.
+Common octopus (Octopus vulgaris): a brown-orange octopus with mottled skin; from above the mantle leads, the arms trail behind. An octopus has no fins and no face at the front: in the side view it swims to the left, mantle first, like a jet: the rounded, bag-like mantle (no eyes, no mouth on it) leads at the left, the head with the two eyes sits behind it on the right where the arms begin, and the eight arms, a row of pale suckers along each, trail straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops. It must not look like a fish. From above likewise: the mantle leads, the eyes sit behind it at the base of the arms.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Colossal squid (Mesonychoteuthis hamiltoni) – `colossal_squid`
@@ -2079,16 +2163,17 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Colossal squid (Mesonychoteuthis hamiltoni): a huge, heavy red squid with a wide mantle, big eyes and hooked arms; from above mantle first, the arms trailing. In the side view it swims head first, the arms trailing behind.
+Colossal squid (Mesonychoteuthis hamiltoni): a huge, heavy red squid with a wide mantle, big fins at its tip, big eyes and short, thick arms with hooks plus two longer tentacles; from above mantle first, the arms trailing. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
-## Ammonite (Dactylioceras commune) – `ammonite`
+## Ammonite (Kosmoceras jason) – `ammonite`
 
 Save as `art_source/fish/views/ammonite.png`, then `python tools/extract_species_views.py ammonite`.
 
@@ -2102,16 +2187,17 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Ammonite (Dactylioceras commune): Jurassic: a ribbed, coiled shell, cream-brown; from above the shell's back, short tentacles at the opening. In the side view it swims head first, the arms trailing behind.
+Ammonite (Kosmoceras jason): Jurassic: a ribbed, coiled shell, cream-brown; from above the shell's back, short tentacles at the opening. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
-## Belemnite (Passaloteuthis bisulcata) – `belemnite`
+## Belemnite (Cylindroteuthis puzosiana) – `belemnite`
 
 Save as `art_source/fish/views/belemnite.png`, then `python tools/extract_species_views.py belemnite`.
 
@@ -2125,13 +2211,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Belemnite (Passaloteuthis bisulcata): Jurassic: a squid-like body with a pointed tail end, ten short hooked arms, red-brown; from above body first, arms trailing. In the side view it swims head first, the arms trailing behind.
+Belemnite (Cylindroteuthis puzosiana): Jurassic: a squid-like body with a pointed tail end, ten short hooked arms, red-brown; from above body first, arms trailing. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Lion's mane jellyfish (Cyanea capillata) – `lions_mane_jellyfish`
@@ -2153,8 +2240,9 @@ Lion's mane jellyfish (Cyanea capillata): a big orange-red bell, masses of long 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Moon jellyfish (Aurelia aurita) – `moon_jellyfish`
@@ -2176,8 +2264,9 @@ Moon jellyfish (Aurelia aurita): a clear pale-blue bell with four violet rings (
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Blubber jellyfish (Catostylus mosaicus) – `blubber_jellyfish`
@@ -2199,8 +2288,9 @@ Blubber jellyfish (Catostylus mosaicus): a pale violet-blue bell, frilly mouth a
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Nomura's jellyfish (Nemopilema nomurai) – `nomuras_jellyfish`
@@ -2222,8 +2312,9 @@ Nomura's jellyfish (Nemopilema nomurai): an enormous cream-brown bell, thick fri
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Portuguese man o' war (Physalia physalis) – `portuguese_man_o_war`
@@ -2245,8 +2336,9 @@ Portuguese man o' war (Physalia physalis): a blue-violet gas float like a sail w
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Japanese spider crab (Macrocheira kaempferi) – `japanese_spider_crab`
@@ -2268,8 +2360,9 @@ Japanese spider crab (Macrocheira kaempferi): from above: an orange-red carapace
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Giant isopod (Bathynomus giganteus) – `giant_isopod`
@@ -2291,8 +2384,9 @@ Giant isopod (Bathynomus giganteus): from above: a big armoured pale lilac woodl
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Antarctic krill (Euphausia superba) – `antarctic_krill`
@@ -2314,8 +2408,9 @@ Antarctic krill (Euphausia superba): from above: a tiny see-through pink shrimp 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Giant sea spider (Colossendeis megalonyx) – `giant_sea_spider`
@@ -2337,8 +2432,9 @@ Giant sea spider (Colossendeis megalonyx): from above: a tiny body with eight ve
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Weedy seadragon (Phyllopteryx taeniolatus) – `weedy_seadragon`
@@ -2360,8 +2456,9 @@ Weedy seadragon (Phyllopteryx taeniolatus): a red-orange seadragon with yellow s
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Leafy seadragon (Phycodurus eques) – `leafy_seadragon`
@@ -2383,8 +2480,9 @@ Leafy seadragon (Phycodurus eques): a yellow-green seadragon covered in big leaf
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Knysna seahorse (Hippocampus capensis) – `knysna_seahorse`
@@ -2406,8 +2504,9 @@ Knysna seahorse (Hippocampus capensis): a small brown-green seahorse with a curl
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Sperm whale (Physeter macrocephalus) – `sperm_whale`
@@ -2429,8 +2528,9 @@ Sperm whale (Physeter macrocephalus): huge, dark grey, an enormous square head, 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Blue whale (Balaenoptera musculus) – `blue_whale`
@@ -2452,8 +2552,9 @@ Blue whale (Balaenoptera musculus): huge, slim, mottled blue-grey; from above th
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Humpback whale (Megaptera novaeangliae) – `humpback_whale`
@@ -2475,8 +2576,9 @@ Humpback whale (Megaptera novaeangliae): dark grey with a white belly, very long
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Southern right whale (Eubalaena australis) – `southern_right_whale`
@@ -2498,8 +2600,9 @@ Southern right whale (Eubalaena australis): black, a big arched head with white 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Orca (Orcinus orca) – `orca`
@@ -2521,8 +2624,9 @@ Orca (Orcinus orca): black with a white eye patch, a grey saddle patch behind th
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Common bottlenose dolphin (Tursiops truncatus) – `common_bottlenose_dolphin`
@@ -2544,8 +2648,9 @@ Common bottlenose dolphin (Tursiops truncatus): grey, a short beak, a friendly s
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Leopard seal (Hydrurga leptonyx) – `leopard_seal`
@@ -2567,8 +2672,9 @@ Leopard seal (Hydrurga leptonyx): long, grey with dark spots, a big reptile-like
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Southern elephant seal (Mirounga leonina) – `southern_elephant_seal`
@@ -2590,11 +2696,12 @@ Southern elephant seal (Mirounga leonina): huge, brown-grey, a big floppy nose (
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
-## Ichthyosaurus (Ichthyosaurus communis) – `ichthyosaurus`
+## Ophthalmosaurus (Ophthalmosaurus icenicus) – `ichthyosaurus`
 
 Save as `art_source/fish/views/ichthyosaurus.png`, then `python tools/extract_species_views.py ichthyosaurus`.
 
@@ -2608,16 +2715,17 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Ichthyosaurus (Ichthyosaurus communis): Jurassic marine reptile shaped like a dolphin, grey-blue, a long toothy snout, big eyes, four flippers, a crescent tail.
+Ophthalmosaurus (Ophthalmosaurus icenicus): Jurassic marine reptile shaped like a dolphin, grey-blue, a long toothy snout, big eyes, four flippers, a crescent tail.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
-## Plesiosaurus (Plesiosaurus dolichodeirus) – `plesiosaurus`
+## Muraenosaurus (Muraenosaurus leedsii) – `plesiosaurus`
 
 Save as `art_source/fish/views/plesiosaurus.png`, then `python tools/extract_species_views.py plesiosaurus`.
 
@@ -2631,13 +2739,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Plesiosaurus (Plesiosaurus dolichodeirus): Jurassic marine reptile: a small head on a very long neck, a broad body with four big flippers, a short tail, green-brown.
+Muraenosaurus (Muraenosaurus leedsii): Jurassic marine reptile: a small head on a very long neck, a broad body with four big flippers, a short tail, green-brown.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Liopleurodon (Liopleurodon ferox) – `liopleurodon`
@@ -2659,8 +2768,9 @@ Liopleurodon (Liopleurodon ferox): Jurassic marine reptile: a huge crocodile-lik
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Metriorhynchus (Metriorhynchus superciliosus) – `metriorhynchus`
@@ -2677,13 +2787,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Metriorhynchus (Metriorhynchus superciliosus), Jurassic: a sea crocodile with smooth grey-green skin, a long narrow toothy snout, four small paddle flippers, a shark-like tail fin.
+Metriorhynchus (Metriorhynchus superciliosus): Metriorhynchus (Metriorhynchus superciliosus), Jurassic: a sea crocodile with smooth grey-green skin, a long narrow toothy snout, four small paddle flippers, a shark-like tail fin.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Green sea turtle (Chelonia mydas) – `green_sea_turtle`
@@ -2700,13 +2811,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Green sea turtle (Chelonia mydas): from above: the olive-green shell with its pattern of plates, the head in front, all four flippers spread.
+Green sea turtle (Chelonia mydas): from above: the olive-green shell with its pattern of plates, the head in front, all four flippers spread. In the side view: the shell in profile, the head stretched forward, the long near front flipper held down and back and the small near rear flipper at the back, both clearly apart from each other with open space around them, the far flippers only peeking out.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Loggerhead turtle (Caretta caretta) – `loggerhead_turtle`
@@ -2728,8 +2840,9 @@ Loggerhead turtle (Caretta caretta): from above: the red-brown shell, the big he
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Leatherback turtle (Dermochelys coriacea) – `leatherback_turtle`
@@ -2751,8 +2864,9 @@ Leatherback turtle (Dermochelys coriacea): from above: the dark blue-black leath
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Emperor penguin (Aptenodytes forsteri) – `emperor_penguin`
@@ -2769,13 +2883,14 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Emperor penguin (Aptenodytes forsteri), swimming: from above the black back and head, golden-yellow neck patches, BOTH flippers spread at the sides, the two feet together behind; in the side view only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail.
+Emperor penguin (Aptenodytes forsteri): Emperor penguin (Aptenodytes forsteri), swimming: from above the black back and head, golden-yellow neck patches, BOTH flippers spread at the sides, the two feet together behind; in the side view only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```
 
 ## Adélie penguin (Pygoscelis adeliae) – `adelie_penguin`
@@ -2792,11 +2907,12 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Adélie penguin (Pygoscelis adeliae), swimming: smaller and rounder, from above the black back and head, a white eye ring, BOTH flippers at the sides, the two feet together behind; in the side view only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail.
+Adélie penguin (Pygoscelis adeliae): Adélie penguin (Pygoscelis adeliae), swimming: smaller and rounder, from above the black back and head, a white eye ring, BOTH flippers at the sides, the two feet together behind; in the side view only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
 always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, fully transparent background, no
-glow, no shadow, no water, no text.
+shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
+(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
+no shadow, no water, no text.
 ```

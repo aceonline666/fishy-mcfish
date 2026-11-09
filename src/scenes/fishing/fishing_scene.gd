@@ -167,6 +167,13 @@ const CASHIER_LOOKS := 3
 const CUSTOMER_INTERVAL_S := 2.0
 ## A flying drone is heard within this many screen pixels of the wader, louder the closer.
 const DRONE_HEARING := 900.0
+## The sea's ambience (Sfx loops): the waves on the shore, loudest at the waterline and softer up
+## the beach and out at sea, and the open sea's wind and swell, which takes over between these two
+## depths (ground units from the waterline). Levels in dB.
+const SHORE_FADE_BEACH := 2400.0
+const OPEN_SEA_DEPTH := Vector2(600.0, 2600.0)
+const SHORE_DB := -14.0
+const OPEN_SEA_DB := -16.0
 ## Painted decoration on the beach: sprite (assets/sprites/props), the cell it stands in the
 ## middle of, screen height, and where it shows ("" everywhere, else only at locations with that
 ## water).
@@ -1666,10 +1673,15 @@ func _update_wake(delta: float) -> void:
 		Juice.ripple(_effects, wader.position + Vector2(0.0, waterline), 60.0)
 
 
-## The submarine's motor while the wader rides it (louder when moving), and the drones' rotors,
-## louder the closer the nearest flying drone is to the wader. Silent while in the gear shop.
+## The submarine's motor while the wader rides it (louder when moving), the drones' rotors,
+## louder the closer the nearest flying drone is to the wader, and the sea's ambience. Silent
+## while in the gear shop, and so are the seabirds' calls.
 func _update_hums(delta: float) -> void:
 	var here := not GameState.in_store and is_visible_in_tree()
+	seabirds.heard = here
+	var sea := sea_ambience(wader.ground_position.y) if here else Vector2.ZERO
+	Sfx.hum(&"shore", sea.x, delta, 1.0, SHORE_DB)
+	Sfx.hum(&"open_sea", sea.y, delta, 1.0, OPEN_SEA_DB)
 	var motor := 0.0
 	if here and wader.in_submarine():
 		motor = 1.0 if wader.is_walking() else 0.55
@@ -1680,6 +1692,14 @@ func _update_hums(delta: float) -> void:
 			var distance := drone.position.distance_to(wader.position)
 			rotors = maxf(rotors, drone.flight() * clampf(1.0 - distance / DRONE_HEARING, 0.0, 1.0))
 	Sfx.hum(&"rotors", rotors, delta, 1.0, -18.0)
+
+
+## Levels (0 to 1) of the shore's waves (x) and the open sea (y) heard at the ground depth `y`
+## (negative on the beach).
+static func sea_ambience(y: float) -> Vector2:
+	var open := smoothstep(OPEN_SEA_DEPTH.x, OPEN_SEA_DEPTH.y, y)
+	var beach := clampf(-y / SHORE_FADE_BEACH, 0.0, 0.6)
+	return Vector2((1.0 - beach) * (1.0 - 0.8 * open), open)
 
 
 func _update_shake(delta: float) -> void:

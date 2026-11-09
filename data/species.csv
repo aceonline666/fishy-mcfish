@@ -95,11 +95,11 @@ southern_elephant_seal,Southern elephant seal,Mirounga leonina,epic,1500000,500,
 antarctic_toothfish,Antarctic toothfish,Dissostichus mawsoni,common,300000,170,0.25,150,5000,3,fish,polar,2400,#7a7468,Antifreeze proteins in its blood keep it from freezing in water below zero degrees.
 giant_sea_spider,Giant sea spider,Colossendeis megalonyx,uncommon,600000,70,0.4,40,300,0.3,anemones,polar,2400,#e07a30,Its body is so thin that its gut and organs reach out into its long legs.
 orca,Orca,Orcinus orca,legendary,30000000,800,0.3,10000,50000,25,seals,polar,7200,#1e2228,"Orcas hunt in families, each with its own calls and tricks, such as washing seals off the ice."
-ammonite,Ammonite,Dactylioceras commune,common,2000,25,0.6,12,400,0.3,plankton,tropical,60,#c8a878,Its coiled shell was full of chambers it filled with gas or water to rise and sink.
-belemnite,Belemnite,Passaloteuthis bisulcata,common,5000,40,0.2,8,120,0.5,shrimp,tropical,300,#a0583a,A squid-like animal with ten hooked arms; its bullet-shaped fossils are called thunderbolts.
-ichthyosaurus,Ichthyosaurus,Ichthyosaurus communis,rare,400000,300,0.25,800,5000,6,squid,tropical,2400,#6a7e94,A marine reptile shaped like a dolphin; it gave birth to live young in the sea.
-plesiosaurus,Plesiosaurus,Plesiosaurus dolichodeirus,epic,2000000,350,0.3,1500,16000,8,fish,tropical,3600,#7a7a50,It rowed through the sea with four long flippers and snapped up fish with its long neck.
-leedsichthys,Leedsichthys,Leedsichthys problematicus,legendary,20000000,1600,0.3,15000,50000,25,plankton,tropical,7200,#7a7468,"One of the largest fish that ever lived, and a gentle giant: it filtered plankton from the water."
+ammonite,Ammonite,Kosmoceras jason,common,2000,25,0.6,12,400,0.3,plankton,tropical,60,#c8a878,Its coiled shell was full of chambers it filled with gas or water to rise and sink.
+belemnite,Belemnite,Cylindroteuthis puzosiana,common,5000,40,0.2,8,120,0.5,shrimp,tropical,300,#a0583a,A squid-like animal with ten hooked arms; its bullet-shaped fossils are called thunderbolts.
+ichthyosaurus,Ophthalmosaurus,Ophthalmosaurus icenicus,rare,400000,300,0.25,800,5000,6,squid,tropical,2400,#6a7e94,"An ichthyosaur with eyes as big as grapefruits, the largest for its size of any animal; it hunted squid deep in the dark."
+plesiosaurus,Muraenosaurus,Muraenosaurus leedsii,epic,2000000,500,0.25,1500,16000,8,fish,tropical,3600,#7a7a50,Its neck was as long as the rest of its body; it rowed with four long flippers and snapped up fish.
+leedsichthys,Leedsichthys,Leedsichthys problematicus,legendary,20000000,1100,0.3,12000,50000,25,plankton,tropical,7200,#7a7468,"One of the largest fish that ever lived, and a gentle giant: it filtered plankton from the water."
 liopleurodon,Liopleurodon,Liopleurodon ferox,legendary,60000000,700,0.3,6000,16000,20,reptiles,tropical,7200,#4a463e,The top predator of its sea: a short-necked pliosaur with jaws more than a metre long.
 antarctic_silverfish,Antarctic silverfish,Pleuragramma antarctica,common,1000,20,0.2,2,40,0.3,plankton,polar,45,#c8d0d8,"The most common fish of the open Antarctic sea: penguins, seals and whales all feed on it."
 emerald_rockcod,Emerald rockcod,Trematomus bernacchii,common,2000,25,0.3,4,80,0.5,shrimp,polar,120,#7a7a4a,"It rests on the seabed under the sea ice, propped up on its big pectoral fins."
@@ -107,11 +107,11 @@ bald_notothen,Bald notothen,Pagothenia borchgrevinki,uncommon,3000,25,0.22,4,80,
 mackerel_icefish,Mackerel icefish,Champsocephalus gunnari,uncommon,6000,50,0.18,12,300,0.8,krill,polar,600,#d8d8d0,Like all icefish it has clear blood without red blood cells; it hunts krill in big schools.
 marbled_rockcod,Marbled rockcod,Notothenia rossii,rare,30000,80,0.3,40,400,3,fish,polar,1800,#7a6a3a,It can live for more than 20 years and was once fished so much that it nearly disappeared.
 antarctic_jonasfish,Antarctic jonasfish,Neopagetopsis ionah,rare,60000,50,0.2,12,400,1,krill,polar,2400,#d0ccc8,In 2021 scientists found a breeding colony of about 60 million jonasfish nests under the Antarctic ice.
-leptolepis,Leptolepis,Leptolepis coryphaenoides,common,1500,20,0.25,2,40,0.3,plankton,tropical,45,#b8c0c8,One of the first modern bony fish; its fossils are found in huge numbers in Jurassic rocks.
-dapedium,Dapedium,Dapedium politum,uncommon,8000,40,0.7,15,200,1,shellfish,tropical,600,#8a6a3a,"Its body was covered in thick, shiny enamel scales like armour, and it crushed shells with its teeth."
-pachycormus,Pachycormus,Pachycormus macropterus,uncommon,20000,120,0.22,50,800,1.5,fish,tropical,900,#4a5a70,"A fast hunter of the Jurassic sea with long, sickle-shaped pectoral fins, shaped much like a modern tuna."
-lepidotes,Lepidotes,Lepidotes elvensis,uncommon,50000,150,0.32,150,5000,2,shellfish,tropical,1200,#7a6a30,"Its thick, shiny enamel scales fit together like tiles, and its button-like teeth cracked snails and shells."
+leptolepis,Pholidophorus,Pholidophorus sp.,common,1500,20,0.25,2,40,0.3,plankton,tropical,45,#b8c0c8,"A small, early bony fish; it swam in huge shoals and fed many of the sea's hunters."
+dapedium,Mesturus,Mesturus leedsi,uncommon,8000,40,0.7,15,200,1,shellfish,tropical,600,#8a6a3a,"A round, flat-bodied fish with rows of button-like teeth that crushed shells and sea urchins."
+pachycormus,Hypsocormus,Hypsocormus leedsi,uncommon,20000,120,0.22,50,800,1.5,fish,tropical,900,#4a5a70,"A fast hunter of the Jurassic sea with long, sickle-shaped pectoral fins, shaped much like a modern tuna."
+lepidotes,Lepidotes,Lepidotes macrocheirus,uncommon,50000,150,0.32,150,5000,2,shellfish,tropical,1200,#7a6a30,"Its thick, shiny enamel scales fit together like tiles, and its button-like teeth cracked snails and shells."
 emperor_penguin,Emperor penguin,Aptenodytes forsteri,rare,100000,115,0.3,120,1200,4,fish,polar,1800,#22262c,"The biggest penguin: it dives more than 500 m deep and can hold its breath for over 20 minutes."
 adelie_penguin,Adélie penguin,Pygoscelis adeliae,uncommon,15000,70,0.35,30,400,2,krill,polar,900,#1e2228,"It builds its nest from small stones, and some Adélie penguins steal the best stones from their neighbours."
-hybodus,Hybodus,Hybodus hauffianus,rare,150000,200,0.25,400,5000,4,fish,tropical,2400,#7a6a58,"A Jurassic shark with a sharp spine in front of each dorsal fin, to make it hard to swallow."
+hybodus,Hybodus,Hybodus obtusus,rare,150000,200,0.25,400,5000,4,fish,tropical,2400,#7a6a58,"A Jurassic shark with a sharp spine in front of each dorsal fin, to make it hard to swallow."
 metriorhynchus,Metriorhynchus,Metriorhynchus superciliosus,epic,1000000,300,0.18,400,5000,6,fish,tropical,3600,#6a7a5a,"A crocodile that lived only in the sea: instead of legs it had paddles, and its tail ended in a fin like a shark's."

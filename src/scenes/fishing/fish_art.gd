@@ -10,10 +10,10 @@ extends RefCounted
 ##
 ## How a species swims (MOTIONS): most fish beat their tail fin ("tail"). Creatures without a
 ## cut tail are drawn as a bent mesh instead: eels, whales and slow swimmers send a wave down the
-## body ("wave"), jellyfish and octopuses squeeze their bell or head and let the arms trail
-## ("pulse"), squids squeeze the mantle and pull their arms together ("jet"), rays beat their wings
-## up and down ("flap"), turtles row with their flippers ("paddle"), and crabs swing their legs
-## ("crawl").
+## body ("wave"), jellyfish squeeze their bell and let the tentacles trail ("pulse"), squids,
+## octopuses, ammonites and the nautilus keep shell and mantle still and wiggle their arms
+## ("tentacles"), rays beat their wings up and down ("flap"), turtles and marine reptiles row with
+## their flippers ("paddle"), and crabs swing their legs ("crawl").
 
 const PAINTED_DIR := "res://assets/sprites/fish_painted/"
 ## Share of the total length taken by the body; the rest is tail fin.
@@ -25,7 +25,7 @@ const TAIL_CANVAS_WIDTH := 70.0
 const TAIL_ROOT_X := 62.0
 const OUTLINE_COLOR := Color(0.07, 0.09, 0.15)
 
-enum Motion { TAIL, WAVE, PULSE, JET, FLAP, CRAWL, PADDLE }
+enum Motion { TAIL, WAVE, PULSE, JET, FLAP, CRAWL, PADDLE, TENTACLES }
 ## Species that do not beat a tail fin; all others do. Waves: height of the wave at the tail
 ## (share of the length) and the number of waves along the body.
 const MOTIONS: Dictionary[String, Motion] = {
@@ -36,18 +36,18 @@ const MOTIONS: Dictionary[String, Motion] = {
 	"sperm_whale": Motion.WAVE, "orca": Motion.WAVE, "common_bottlenose_dolphin": Motion.WAVE,
 	"leopard_seal": Motion.WAVE, "southern_elephant_seal": Motion.WAVE,
 	"emperor_penguin": Motion.WAVE, "adelie_penguin": Motion.WAVE,
-	"plesiosaurus": Motion.FLAP, "liopleurodon": Motion.FLAP, "giant_sea_spider": Motion.CRAWL,
-	"ammonite": Motion.JET, "belemnite": Motion.JET,
+	"plesiosaurus": Motion.PADDLE, "liopleurodon": Motion.PADDLE, "metriorhynchus": Motion.PADDLE,
+	"giant_sea_spider": Motion.CRAWL, "ammonite": Motion.TENTACLES, "belemnite": Motion.TENTACLES,
 	"ocean_sunfish": Motion.WAVE,
 	"reef_manta_ray": Motion.FLAP, "smooth_stingray": Motion.FLAP,
 	"green_sea_turtle": Motion.PADDLE, "leatherback_turtle": Motion.PADDLE, "loggerhead_turtle": Motion.PADDLE,
 	"knysna_seahorse": Motion.WAVE, "leafy_seadragon": Motion.WAVE, "weedy_seadragon": Motion.WAVE,
-	"giant_isopod": Motion.WAVE, "japanese_spider_crab": Motion.CRAWL, "chambered_nautilus": Motion.WAVE,
+	"giant_isopod": Motion.WAVE, "japanese_spider_crab": Motion.CRAWL, "chambered_nautilus": Motion.TENTACLES,
 	"moon_jellyfish": Motion.PULSE, "lions_mane_jellyfish": Motion.PULSE, "blubber_jellyfish": Motion.PULSE,
-	"nomuras_jellyfish": Motion.PULSE, "portuguese_man_o_war": Motion.PULSE, "vampire_squid": Motion.PULSE,
-	"common_octopus": Motion.PULSE, "curled_octopus": Motion.PULSE, "giant_pacific_octopus": Motion.PULSE,
+	"nomuras_jellyfish": Motion.PULSE, "portuguese_man_o_war": Motion.TENTACLES, "vampire_squid": Motion.TENTACLES,
+	"common_octopus": Motion.TENTACLES, "curled_octopus": Motion.TENTACLES, "giant_pacific_octopus": Motion.TENTACLES,
 	"southern_blue_ringed_octopus": Motion.PULSE,
-	"giant_squid": Motion.JET, "colossal_squid": Motion.JET, "japanese_flying_squid": Motion.JET,
+	"giant_squid": Motion.TENTACLES, "colossal_squid": Motion.TENTACLES, "japanese_flying_squid": Motion.TENTACLES,
 }
 const WAVES: Dictionary[String, Vector2] = {
 	"conger_eel": Vector2(0.07, 1.2), "frilled_shark": Vector2(0.06, 1.0), "giant_oarfish": Vector2(0.05, 1.6),
@@ -64,13 +64,20 @@ const GENTLE_WAVE := Vector2(0.025, 0.6)
 const FLAP_CORE := 0.18
 const FLAP_DEPTH := 0.35
 ## Paddling, per species: the front and rear flippers' shoulders (shares of the sprite's width
-## and height, from its back end and top) and the line between the two flippers (share of the
-## width). Then how far each flipper swings around its shoulder (radians, the rear one a little
-## behind the front one), how fast, and how much the body bobs with each stroke.
+## and height, from its back end and top), the line between the two flippers (share of the
+## width) and, if the head or tail reach below the shoulders, how far back the rear flipper and
+## how far forward the front flipper reach (shares of the width), and a smaller swing for long
+## flippers (share of the usual); optionally the stretch of the width each flipper hangs from
+## (rear from, rear to, front from, front to), outside which the body keeps still. Then how far
+## each flipper swings around its shoulder (radians, the rear one a little behind the front one), how fast, and how
+## much the body bobs with each stroke.
 const PADDLE_SHAPES: Dictionary[String, Array] = {
-	"green_sea_turtle": [Vector2(0.55, 0.6), Vector2(0.17, 0.62), 0.29],
+	"green_sea_turtle": [Vector2(0.6, 0.57), Vector2(0.27, 0.5), 0.38, Vector2(0.0, 1.0), 0.75, Vector4(0.0, 0.32, 0.42, 0.78)],
 	"loggerhead_turtle": [Vector2(0.62, 0.55), Vector2(0.18, 0.5), 0.38],
-	"leatherback_turtle": [Vector2(0.6, 0.5), Vector2(0.2, 0.55), 0.35],
+	"leatherback_turtle": [Vector2(0.58, 0.56), Vector2(0.17, 0.54), 0.33, Vector2(0.0, 0.85)],
+	"plesiosaurus": [Vector2(0.52, 0.5), Vector2(0.27, 0.47), 0.38, Vector2(0.0, 0.64), 0.6],
+	"liopleurodon": [Vector2(0.52, 0.56), Vector2(0.28, 0.5), 0.4, Vector2(0.0, 0.7), 0.7],
+	"metriorhynchus": [Vector2(0.6, 0.72), Vector2(0.3, 0.68), 0.45, Vector2(0.15, 0.72), 0.8],
 }
 const PADDLE_DEFAULT_SHAPE: Array = [Vector2(0.62, 0.55), Vector2(0.2, 0.55), 0.38]
 const PADDLE_FRONT_SWING := 0.38
@@ -84,8 +91,6 @@ const CRAWL_BOB := 0.02
 ## Waves, squeezes and jets go slower than a tail beat.
 const WAVE_RATE := 0.7
 const PULSE_RATE := 0.35
-## Jellyfish pulse slower and softer than octopuses: rate, how much the bell narrows and lifts,
-## and how far the tentacles sway (shares of the sprite).
 ## Species with a glowing lure (anglerfish): where it sits on the body sprite, as a share of its
 ## size. SwimmingFish draws its light (Glow).
 const LURES: Dictionary[String, Vector2] = {
@@ -93,16 +98,46 @@ const LURES: Dictionary[String, Vector2] = {
 	"atlantic_footballfish": Vector2(0.877, 0.106),
 }
 const JELLYFISH: Array[String] = [
-	"moon_jellyfish", "lions_mane_jellyfish", "blubber_jellyfish", "nomuras_jellyfish", "portuguese_man_o_war",
+	"moon_jellyfish", "lions_mane_jellyfish", "blubber_jellyfish", "nomuras_jellyfish",
 ]
-const JELLY_RATE := 0.22
+## Jellyfish pulse slower and softer than octopuses, all the time: rate, how much the bell narrows
+## at its rim and grows taller (shares of its size), and how far the tentacles sway (share of the
+## sprite's width). Per species, the middle of the bell and its rim (shares of the sprite).
+const JELLY_RATE := 0.15
 const JELLY_NARROW := 0.12
-const JELLY_LIFT := 0.04
-const JELLY_SWAY := 0.02
+const JELLY_STRETCH := 0.07
+const JELLY_SWAY := 0.025
+const JELLY_BELLS: Dictionary[String, Vector2] = {
+	"moon_jellyfish": Vector2(0.42, 0.45), "lions_mane_jellyfish": Vector2(0.5, 0.42),
+	"blubber_jellyfish": Vector2(0.38, 0.47), "nomuras_jellyfish": Vector2(0.45, 0.37),
+}
+## Arms that wiggle while the shell, mantle or float keeps still, per species: where the arms start
+## and the farthest arm tip (shares of the sprite), a point in the shell, mantle or float (only
+## what lies away from it moves), the share of the arms' reach near their root that keeps still,
+## how far the arms sway (share of the reach), how far they close up and spread again (share of
+## their angle to the arms' middle), and how fast.
+const TENTACLES: Dictionary[String, Array] = {
+	"ammonite": [Vector2(0.42, 0.5), Vector2(0.08, 0.5), Vector2(0.7, 0.5), 0.1, 0.06, 0.25, 0.6],
+	"belemnite": [Vector2(0.35, 0.4), Vector2(0.07, 0.4), Vector2(0.7, 0.42), 0.05, 0.05, 0.3, 0.6],
+	"chambered_nautilus": [Vector2(0.55, 0.5), Vector2(0.92, 0.6), Vector2(0.3, 0.5), 0.2, 0.05, 0.2, 0.5],
+	"vampire_squid": [Vector2(0.38, 0.35), Vector2(0.95, 0.95), Vector2(0.2, 0.0), 0.3, 0.05, 0.0, 0.4],
+	"giant_squid": [Vector2(0.5, 0.42), Vector2(0.03, 0.5), Vector2(0.8, 0.4), 0.03, 0.03, 0.2, 0.6],
+	"colossal_squid": [Vector2(0.5, 0.45), Vector2(0.06, 0.42), Vector2(0.8, 0.45), 0.03, 0.035, 0.25, 0.5],
+	"japanese_flying_squid": [Vector2(0.5, 0.42), Vector2(0.05, 0.4), Vector2(0.8, 0.42), 0.03, 0.035, 0.25, 0.6],
+	"curled_octopus": [Vector2(0.55, 0.45), Vector2(0.05, 0.5), Vector2(0.85, 0.45), 0.03, 0.045, 0.25, 0.5],
+	"giant_pacific_octopus": [Vector2(0.66, 0.5), Vector2(0.07, 0.5), Vector2(0.9, 0.45), 0.03, 0.04, 0.25, 0.5],
+	"common_octopus": [Vector2(0.6, 0.45), Vector2(0.08, 0.45), Vector2(0.85, 0.45), 0.03, 0.04, 0.25, 0.5],
+	"portuguese_man_o_war": [Vector2(0.62, 0.4), Vector2(0.6, 1.0), Vector2(0.5, 0.15), 0.05, 0.04, 0.0, 0.25],
+}
+const TENTACLES_DEFAULT: Array = [Vector2(0.4, 0.5), Vector2(0.05, 0.5), Vector2(0.8, 0.5), 0.1, 0.05, 0.2, 0.5]
+## Waves along the arms, and how much neighbouring arms sway out of step (waves around the root).
+const TENTACLE_WAVES := 0.8
+const TENTACLE_SPREAD := 5.0
 ## Grid the bent sprites are drawn as; paddling flippers bend on a finer one.
 const MESH_COLUMNS := 10
 const MESH_ROWS := 5
-const PADDLE_MESH := Vector2i(16, 12)
+const PADDLE_MESH := Vector2i(24, 14)
+const TENTACLE_MESH := Vector2i(24, 16)
 ## Views from above bend on this grid: how far the tail swings (share of the length) and how many
 ## waves run along the body.
 const TOP_MESH := Vector2i(12, 12)
@@ -180,40 +215,64 @@ func draw(canvas: CanvasItem, view: Transform2D, length: float, phase: float = 0
 		tail_rect = Rect2(Vector2(root_x - TAIL_ROOT_X * units, -tail_size.y * 0.5), tail_size)
 
 	if motion == Motion.TAIL or swim <= 0.0:
-		# The tail fin beats by shortening towards the camera and back.
-		var tail_beat := 1.0 - swim * 0.25 * (1.0 - sin(phase))
-		if tail != null:
-			var beat := Transform2D(Vector2(tail_beat, 0.0), Vector2(0.0, 1.0), Vector2(root_x * (1.0 - tail_beat), 0.0))
-			canvas.draw_set_transform_matrix(view * beat)
-			canvas.draw_texture_rect(tail, tail_rect, false, tint)
+		_draw_tail(canvas, view, tail_rect, root_x, phase, swim, tint)
 		canvas.draw_set_transform_matrix(view)
 		canvas.draw_texture_rect(body, body_rect, false, tint)
 		canvas.draw_set_transform_matrix(Transform2D.IDENTITY)
 		return
 
+	var cycle := phase * cycle_rate()
 	var warp: Callable
+	var grid := Vector2i(MESH_COLUMNS, MESH_ROWS)
 	match motion:
 		Motion.WAVE:
-			warp = _wave.bind(length, phase * WAVE_RATE, swim)
+			warp = _wave.bind(length, cycle, swim)
 		Motion.PULSE:
-			if is_jellyfish:
-				warp = _jelly_pulse.bind(body_rect, phase * JELLY_RATE, swim)
-			else:
-				warp = _pulse.bind(body_rect, phase * PULSE_RATE, swim)
+			warp = (_jelly_pulse if is_jellyfish else _pulse).bind(body_rect, cycle, swim)
 		Motion.JET:
-			warp = _jet.bind(body_rect, phase * PULSE_RATE, swim)
+			warp = _jet.bind(body_rect, cycle, swim)
 		Motion.FLAP:
-			warp = _flap.bind(body_rect, length, phase * WAVE_RATE, swim)
+			warp = _flap.bind(body_rect, length, cycle, swim)
 		Motion.CRAWL:
-			warp = _crawl.bind(body_rect, phase * WAVE_RATE, swim)
+			warp = _crawl.bind(body_rect, cycle, swim)
 		Motion.PADDLE:
-			warp = _paddle.bind(body_rect, phase * PADDLE_RATE, swim)
-	var grid := PADDLE_MESH if motion == Motion.PADDLE else Vector2i(MESH_COLUMNS, MESH_ROWS)
+			warp = _paddle.bind(body_rect, cycle, swim)
+			grid = PADDLE_MESH
+		Motion.TENTACLES:
+			warp = _tentacles.bind(body_rect, cycle, swim)
+			grid = TENTACLE_MESH
+	# A paddling sea crocodile still beats its tail fin.
+	if motion == Motion.PADDLE:
+		_draw_tail(canvas, view, tail_rect, root_x, phase, swim, tint)
 	canvas.draw_set_transform_matrix(view)
-	if tail != null:
+	if tail != null and motion != Motion.PADDLE:
 		_draw_mesh(canvas, tail, tail_rect, warp, tint, grid)
 	_draw_mesh(canvas, body, body_rect, warp, tint, grid)
 	canvas.draw_set_transform_matrix(Transform2D.IDENTITY)
+
+
+## How fast the species' swimming cycle runs, as a share of a tail beat's.
+func cycle_rate() -> float:
+	match motion:
+		Motion.TAIL:
+			return 1.0
+		Motion.WAVE, Motion.FLAP, Motion.CRAWL:
+			return WAVE_RATE
+		Motion.PADDLE:
+			return PADDLE_RATE
+		Motion.TENTACLES:
+			return TENTACLES.get(species.id, TENTACLES_DEFAULT)[6]
+	return JELLY_RATE if is_jellyfish else PULSE_RATE
+
+
+## The tail fin beats by shortening towards the camera and back.
+func _draw_tail(canvas: CanvasItem, view: Transform2D, rect: Rect2, root_x: float, phase: float, swim: float, tint: Color) -> void:
+	if tail == null:
+		return
+	var tail_beat := 1.0 - swim * 0.25 * (1.0 - sin(phase))
+	var beat := Transform2D(Vector2(tail_beat, 0.0), Vector2(0.0, 1.0), Vector2(root_x * (1.0 - tail_beat), 0.0))
+	canvas.draw_set_transform_matrix(view * beat)
+	canvas.draw_texture_rect(tail, rect, false, tint)
 
 
 func has_top_view() -> bool:
@@ -263,16 +322,41 @@ func _pulse(point: Vector2, rect: Rect2, phase: float, swim: float) -> Vector2:
 	return Vector2(x, point.y - squeeze * rect.size.y * 0.08 * top)
 
 
-## A jellyfish's bell narrows and lifts softly, then opens again slowly; the tentacles below
-## follow in a slow sway.
+## A jellyfish's bell contracts softly, its rim drawn in most while the bell grows a little taller,
+## then slowly opens again; the tentacles below hang on, swaying slowly, more towards their ends.
 func _jelly_pulse(point: Vector2, rect: Rect2, phase: float, swim: float) -> Vector2:
+	var bell: Vector2 = JELLY_BELLS.get(species.id, Vector2(0.5, 0.4))
 	var squeeze := soft_squeeze(phase) * swim
-	var center := rect.get_center()
-	var top := clampf((rect.end.y - point.y) / rect.size.y, 0.0, 1.0)
-	var bell := top * top
-	var x := center.x + (point.x - center.x) * (1.0 - JELLY_NARROW * squeeze * bell)
-	x += sin(phase - top * 3.0) * rect.size.x * JELLY_SWAY * swim * (1.0 - top)
-	return Vector2(x, point.y - squeeze * rect.size.y * JELLY_LIFT * top)
+	var middle := rect.position.x + bell.x * rect.size.x
+	var bell_height := bell.y * rect.size.y
+	# 0 at the top of the bell, 1 at its rim.
+	var down := (point.y - rect.position.y) / bell_height
+	var narrow := smoothstep(0.0, 1.0, down) if down <= 1.0 else 1.0 - smoothstep(1.0, 1.6, down)
+	var x := middle + (point.x - middle) * (1.0 - JELLY_NARROW * squeeze * narrow)
+	var y := point.y + clampf(down, 0.0, 1.0) * bell_height * JELLY_STRETCH * squeeze
+	var hang := clampf((down - 1.0) * bell_height / (rect.size.y - bell_height), 0.0, 1.0)
+	x += sin(phase - hang * 3.0) * rect.size.x * JELLY_SWAY * swim * hang
+	return Vector2(x, y)
+
+
+## Wiggles the arms (TENTACLES): waves run down each arm, growing towards its tip, out of step
+## from arm to arm, and the arms close up and spread again. Shell, mantle or float keep still.
+func _tentacles(point: Vector2, rect: Rect2, phase: float, swim: float) -> Vector2:
+	var shape: Array = TENTACLES.get(species.id, TENTACLES_DEFAULT)
+	var root: Vector2 = rect.position + shape[0] * rect.size
+	var arms: Vector2 = rect.position + shape[1] * rect.size - root
+	var body_side: Vector2 = (rect.position + shape[2] * rect.size - root).normalized()
+	var core: float = shape[3]
+	var relative := point - root
+	var away := 1.0 - smoothstep(-0.3, 0.3, relative.normalized().dot(body_side))
+	var reach := arms.length()
+	var t := clampf((relative.length() / reach - core) / (1.0 - core), 0.0, 1.0) * away
+	if t <= 0.0:
+		return point
+	var angle := arms.angle_to(relative)
+	relative = relative.rotated(-angle * shape[5] * t * soft_squeeze(phase * 0.5) * swim)
+	var sway: float = sin(phase - t * TAU * TENTACLE_WAVES + angle * TENTACLE_SPREAD) * reach * shape[4] * t * sqrt(t) * swim
+	return root + relative + Vector2(-relative.y, relative.x).normalized() * sway
 
 
 ## Squeezes the mantle (head end, right) and pulls the arms (left) together and back.
@@ -304,17 +388,28 @@ func _flap(point: Vector2, rect: Rect2, length: float, phase: float, swim: float
 func _paddle(point: Vector2, rect: Rect2, phase: float, swim: float) -> Vector2:
 	var shape: Array = PADDLE_SHAPES.get(species.id, PADDLE_DEFAULT_SHAPE)
 	var split: float = shape[2]
+	var reach: Vector2 = shape[3] if shape.size() > 3 else Vector2(0.0, 1.0)
+	var swing: float = shape[4] if shape.size() > 4 else 1.0
 	var along := (point.x - rect.position.x) / rect.size.x
 	var down := (point.y - rect.position.y) / rect.size.y
 	var front_share := smoothstep(split - 0.03, split + 0.03, along)
+	# Head and tail beyond the flippers' reach keep still.
+	var reached := smoothstep(reach.x - 0.04, reach.x + 0.04, along) * (1.0 - smoothstep(reach.y - 0.04, reach.y + 0.04, along))
 	var moved := point
 	for flipper in 2:
 		var shoulder: Vector2 = shape[flipper]
 		var share := front_share if flipper == 0 else 1.0 - front_share
-		var hang := smoothstep(shoulder.y - 0.04, shoulder.y + 0.08, down)
+		if shape.size() > 5:
+			# Each flipper only within its own stretch of the body, so the belly between them keeps still.
+			var window: Vector4 = shape[5]
+			var from := window.z if flipper == 0 else window.x
+			var to := window.w if flipper == 0 else window.y
+			share = smoothstep(from - 0.03, from + 0.03, along) * (1.0 - smoothstep(to - 0.03, to + 0.03, along))
+		var hang := smoothstep(shoulder.y - 0.04, shoulder.y + 0.08, down) * reached
 		if share * hang <= 0.0:
 			continue
 		var angle := PADDLE_FRONT_SWING * sin(phase) if flipper == 0 else PADDLE_REAR_SWING * sin(phase - PADDLE_REAR_LAG)
+		angle *= swing
 		var pivot := rect.position + shoulder * rect.size
 		moved += ((point - pivot).rotated(angle * swim) - (point - pivot)) * share * hang
 	moved.y -= sin(phase) * rect.size.y * PADDLE_BOB * swim

@@ -1412,8 +1412,8 @@ msgstr "Das eisige Südpolarmeer: Krillschwärme, Robben und Orcas, und heiße S
 msgid "Jurassic Sea"
 msgstr "Jurameer"
 
-msgid "150 million years ago: a warm sea of ammonites, ichthyosaurs, plesiosaurs and the mighty Liopleurodon."
-msgstr "Vor 150 Millionen Jahren: ein warmes Meer voller Ammoniten, Ichthyosaurier, Plesiosaurier und dem gewaltigen Liopleurodon."
+msgid "165 million years ago: a warm sea of ammonites, ichthyosaurs, plesiosaurs and the mighty Liopleurodon."
+msgstr "Vor 165 Millionen Jahren: ein warmes Meer voller Ammoniten, Ichthyosaurier, Plesiosaurier und dem gewaltigen Liopleurodon."
 
 msgid "Ice shore"
 msgstr "Eisküste"
@@ -1535,17 +1535,17 @@ msgstr "Belemnit"
 msgid "A squid-like animal with ten hooked arms; its bullet-shaped fossils are called thunderbolts."
 msgstr "Ein tintenfischartiges Tier mit zehn Hakenarmen; seine geschossförmigen Fossilien heißen Donnerkeile."
 
-msgid "Ichthyosaurus"
-msgstr "Ichthyosaurus"
+msgid "Ophthalmosaurus"
+msgstr "Ophthalmosaurus"
 
-msgid "A marine reptile shaped like a dolphin; it gave birth to live young in the sea."
-msgstr "Ein Meeresreptil in Delfingestalt; es brachte seine Jungen lebend im Meer zur Welt."
+msgid "An ichthyosaur with eyes as big as grapefruits, the largest for its size of any animal; it hunted squid deep in the dark."
+msgstr "Ein Ichthyosaurier mit Augen so groß wie Grapefruits, für seine Größe die größten aller Tiere; er jagte Tintenfische tief im Dunkeln."
 
-msgid "Plesiosaurus"
-msgstr "Plesiosaurus"
+msgid "Muraenosaurus"
+msgstr "Muraenosaurus"
 
-msgid "It rowed through the sea with four long flippers and snapped up fish with its long neck."
-msgstr "Er ruderte mit vier langen Flossen durchs Meer und schnappte mit dem langen Hals nach Fischen."
+msgid "Its neck was as long as the rest of its body; it rowed with four long flippers and snapped up fish."
+msgstr "Sein Hals war so lang wie der ganze restliche Körper; er ruderte mit vier langen Flossen und schnappte nach Fischen."
 
 msgid "Leedsichthys"
 msgstr "Leedsichthys"
@@ -1666,20 +1666,20 @@ msgstr "Jonasfisch"
 msgid "In 2021 scientists found a breeding colony of about 60 million jonasfish nests under the Antarctic ice."
 msgstr "2021 fanden Forscher unter dem antarktischen Eis eine Brutkolonie mit rund 60 Millionen Nestern dieses Fisches."
 
-msgid "Leptolepis"
-msgstr "Leptolepis"
+msgid "Pholidophorus"
+msgstr "Pholidophorus"
 
-msgid "One of the first modern bony fish; its fossils are found in huge numbers in Jurassic rocks."
-msgstr "Einer der ersten modernen Knochenfische; seine Fossilien findet man in großer Zahl in Gesteinen aus dem Jura."
+msgid "A small, early bony fish; it swam in huge shoals and fed many of the sea's hunters."
+msgstr "Ein kleiner, früher Knochenfisch; er zog in riesigen Schwärmen umher und war Futter für viele Jäger des Meeres."
 
-msgid "Dapedium"
-msgstr "Dapedium"
+msgid "Mesturus"
+msgstr "Mesturus"
 
-msgid "Its body was covered in thick, shiny enamel scales like armour, and it crushed shells with its teeth."
-msgstr "Sein Körper war mit dicken, glänzenden Schmelzschuppen wie mit einer Rüstung bedeckt, und es knackte Muscheln mit seinen Zähnen."
+msgid "A round, flat-bodied fish with rows of button-like teeth that crushed shells and sea urchins."
+msgstr "Ein runder, flacher Fisch mit Reihen knopfförmiger Zähne, die Muscheln und Seeigel knackten."
 
-msgid "Pachycormus"
-msgstr "Pachycormus"
+msgid "Hypsocormus"
+msgstr "Hypsocormus"
 
 msgid "A fast hunter of the Jurassic sea with long, sickle-shaped pectoral fins, shaped much like a modern tuna."
 msgstr "Ein schneller Jäger des Jurameers mit langen, sichelförmigen Brustflossen, ähnlich geformt wie ein heutiger Thunfisch."

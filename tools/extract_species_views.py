@@ -48,10 +48,22 @@ def alpha_of(image: np.ndarray) -> np.ndarray:
     if (alpha < 250).mean() > 0.2:
         return alpha
     rgb = image[:, :, :3].astype(np.int32)
-    light = (rgb.min(axis=2) > 185) & (rgb.max(axis=2) - rgb.min(axis=2) < 25)
-    labels, _ = ndimage.label(light)
-    border = np.unique(np.concatenate([labels[0], labels[-1], labels[:, 0], labels[:, -1]]))
-    return np.where(np.isin(labels, border[border > 0]), 0, 255)
+    # White, or the light and mid grey squares of a painted checkerboard.
+    light = (rgb.min(axis=2) > 120) & (rgb.max(axis=2) - rgb.min(axis=2) < 20)
+    labels, count = ndimage.label(light)
+    background = set(np.unique(np.concatenate([labels[0], labels[-1], labels[:, 0], labels[:, -1]]))) - {0}
+    # Checkerboard caught between fins or arms: an enclosed patch of both light and darker grey
+    # squares (an eye's white is light only).
+    value = rgb.min(axis=2)
+    darker = ndimage.sum(light & (value < 175), labels, range(1, count + 1))
+    lighter = ndimage.sum(light & (value >= 190), labels, range(1, count + 1))
+    checkered = np.zeros(light.shape, bool)
+    for label in range(1, count + 1):
+        if label not in background and darker[label - 1] > 6 and lighter[label - 1] > 6:
+            checkered |= labels == label
+    # The whole gap up to the outlines around it: a see-through web may tint part of it.
+    checkered = ndimage.binary_dilation(checkered, iterations=0, mask=value > 90)
+    return np.where(np.isin(labels, list(background)) | checkered, 0, 255)
 
 
 def cut(species_id: str, scale: float, no_split: set[str]) -> None:

@@ -45,3 +45,32 @@ func test_nothing_flies_where_there_are_no_birds() -> void:
 	_birds.location_id = "nowhere"
 	_birds.send_flock()
 	assert_eq(_birds.flying(), 0)
+
+
+func test_every_call_is_a_known_sound_of_a_flying_kind() -> void:
+	var kinds: Array[String] = []
+	for location_kinds: Array in Seabirds.KINDS.values():
+		for kind: Array in location_kinds:
+			kinds.append(kind[0])
+	for id: String in Seabirds.CALLS:
+		assert_has(kinds, id, "%s flies somewhere" % id)
+		for sound: StringName in Seabirds.CALLS[id][0]:
+			assert_true(Sfx.has(sound), "%s is a sound" % sound)
+
+
+func test_a_calling_flight_calls_once_or_twice_while_it_flies_over() -> void:
+	_birds._wait = 1000.0
+	_birds.send_flock()
+	var calls := _birds.calls_left()
+	assert_between(calls, 1, mini(Seabirds.CALLS_PER_FLIGHT, _birds.flying()))
+	for i in 200:
+		_birds.update(0.1)
+	assert_eq(_birds.calls_left(), 0, "all calls made")
+
+
+func test_silent_kinds_do_not_call() -> void:
+	_birds.location_id = "antarctica"
+	_birds._wait = 1000.0
+	_birds.send_flock()
+	assert_gt(_birds.flying(), 0)
+	assert_eq(_birds.calls_left(), 0)

@@ -654,3 +654,14 @@ func test_a_finished_tutorial_shows_nothing() -> void:
 	assert_false(_scene.tutorial.has_arrow())
 
 #endregion
+
+
+func test_the_shore_is_heard_at_the_waterline_and_the_open_sea_far_out() -> void:
+	var waterline := Scene.sea_ambience(0.0)
+	var beach := Scene.sea_ambience(-3000.0)
+	var far_out := Scene.sea_ambience(5000.0)
+	assert_almost_eq(waterline.x, 1.0, 0.001)
+	assert_almost_eq(waterline.y, 0.0, 0.001)
+	assert_between(beach.x, 0.3, 0.6, "softer up the beach, but still heard")
+	assert_almost_eq(far_out.y, 1.0, 0.001)
+	assert_lt(far_out.x, 0.3, "the shore fades out at sea")

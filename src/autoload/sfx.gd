@@ -1,6 +1,7 @@
 extends Node
-## Placeholder sound effects, synthesized at startup and kept soft. They play on the sound bus,
-## whose volume and mute the Settings control.
+## Sound effects on the sound bus, whose volume and mute the Settings control: placeholder effects
+## synthesized at startup and kept soft, and recorded ones (seabird calls, the sea's ambience) from
+## assets/audio, cut by tools/cut_sounds.py.
 
 const MIX_RATE := 22050
 const VOICES := 10
@@ -13,8 +14,16 @@ const REPEAT_GAP_S := 0.055
 const HUM_FADE := 2.5
 ## Seconds over which a looping sound's end blends into its start.
 const LOOP_BLEND := 0.08
+## Recorded sounds in assets/audio (name = file name); the LOOPS among them repeat endlessly.
+const RECORDED: Array[StringName] = [
+	&"herring_gull_1", &"herring_gull_2", &"herring_gull_3", &"herring_gull_4",
+	&"black_headed_gull_1", &"black_headed_gull_2", &"black_headed_gull_3",
+	&"gannet_1", &"gannet_2", &"pterosaur_1", &"pterosaur_2", &"pterosaur_3",
+	&"shore", &"open_sea",
+]
+const LOOPS: Array[StringName] = [&"shore", &"open_sea"]
 
-var _sounds: Dictionary[StringName, AudioStreamWAV] = {}
+var _sounds: Dictionary[StringName, AudioStream] = {}
 var _players: Array[AudioStreamPlayer] = []
 var _next_voice := 0
 ## Sound name -> Time.get_ticks_msec() and process frame when it last started.
@@ -42,6 +51,17 @@ func _ready() -> void:
 	_sounds[&"fanfare"] = _fanfare()
 	_sounds[&"motor"] = _motor()
 	_sounds[&"rotors"] = _rotors()
+	for sound in RECORDED:
+		var stream := load("res://assets/audio/%s.ogg" % sound) as AudioStreamOggVorbis
+		if sound in LOOPS:
+			stream = stream.duplicate() as AudioStreamOggVorbis
+			stream.loop = true
+		_sounds[sound] = stream
+
+
+## True when `sound` is known.
+func has(sound: StringName) -> bool:
+	return _sounds.has(sound)
 
 
 func play(sound: StringName, pitch: float = 1.0, volume_db: float = 0.0) -> void:

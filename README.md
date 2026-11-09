@@ -249,7 +249,7 @@ changing prices or income:
 | `src/scenes/fishing/` | The fishing screen, swimming fish and the wader |
 | `src/scenes/world/` | Isometric projection, layout grid (`Grid`), drawing layers (`Layers`), play area and seabed decoration |
 | `src/scenes/fx/` | Reusable feedback effects (`Juice`, `Ripple`) |
-| `tools/` | Developer tools (screenshots) |
+| `tools/` | Developer tools (screenshots, sprite and sound cutters) |
 | `src/scenes/` | Scenes and their scripts |
 | `tests/unit/` | GUT tests |
 
@@ -264,17 +264,27 @@ Rules of thumb:
   ([OpenGameArt](https://opengameart.org/content/feel-good-island-loop)).
 - Gear shop music: "Buy Something!" ("Shop Theme") by CleytonKauffman, CC0
   ([OpenGameArt](https://opengameart.org/content/shop-theme)).
+- Sounds (cut by `tools/cut_sounds.py` from the recordings in `art_source/audio/`):
+  - Herring gull calls: "Herring Gull passing over roof" by genghisattenborough and "Herring Gull 2"
+    by Canardo55, CC0 ([Freesound 744592](https://freesound.org/people/genghisattenborough/sounds/744592/),
+    [538015](https://freesound.org/people/Canardo55/sounds/538015/)).
+  - Black-tailed gull (a stand-in): "Very angry black-headed gull at the baltic sea" by Fania_Katz, CC0
+    ([Freesound 848876](https://freesound.org/people/Fania_Katz/sounds/848876/)).
+  - Cape gannet (a stand-in): "Northern Gannet (Morus bassanus)", Grassholm 1965, recorded by Lawrence
+    Shove, © The British Library Board, CC BY-SA 4.0
+    ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Northern_Gannet_(Morus_bassanus)_(W1CDR0001422_BD11).ogg)).
+  - Pterosaurs: "High Pitch Pterosaur Sound Effect" by Mastersoundboy2005, CC0
+    ([Freesound 733530](https://freesound.org/people/Mastersoundboy2005/sounds/733530/)).
+  - Shore: "Small Caribbean Ocean Waves" by fran_marenco, CC0
+    ([Freesound 796618](https://freesound.org/people/fran_marenco/sounds/796618/)).
+  - Open sea: "Ocean_Waves_Wind_MidRange" by hdmcgehee, CC0
+    ([Freesound 457213](https://freesound.org/people/hdmcgehee/sounds/457213/)).
 
 ## TODOs
-- Sounds for the seabirds (`Seabirds`): calls now and then while they fly over, to give the game a more maritime vibe.
-- Replace the ice floes on the Antarctic pack ice (`IceFloes`, drawn in code) with painted sprites.
-- The tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too with better instructions regarding line thickness.
-- The sprite for the ragged-tooth shark is nearly identical to the great white shark. I think this is a species mixup. The sprite should be regenerated.
-- Fact check the sizes and times of the jurassic sea. All species should have lived in one timeline together. Also plesiosaurus seems too small compared to the overly huge leedsichthys
-- More secrets: secret species per location that only show under a condition (night, charted zone, ...). Need new sprites.
-
 ### Later 
-- Make the species sprites consistent. Some are very comic-style (sheet 5) and some are very realistic. We want a cute-comic style so I fear we have to regenerate a large part of it (side view; done in the new style: the cod and the 14 new Antarctic and Jurassic species, `art_source/fish/views/`; prompts per species in `art_source/fish/views/prompts.md`). Species seen from above (isometric) instead of the side view. Tested with the cod and sheet 01 (2026-11-08, see git history): looks better, but turning fish switch hard between the sprites (lower left / upper left, mirrored) and look stuttering; smooth turns would need more views per species (more memory). Drawing code is still in `FishArt.draw_top` (sprites `<id>_top.png` / `<id>_top_up.png`), the views come from one image per species (`tools/extract_species_views.py`).
+- The tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too with better instructions regarding line thickness.
+- More secrets: secret species per location that only show under a condition (night, charted zone, ...). Need new sprites.
+- Make the species sprites consistent. Some are very comic-style (sheet 5) and some are very realistic (e.g. jurassic species). We want a cute-comic style so I fear we have to regenerate a large part of it (side view; done in the new style: the cod, the 14 new Antarctic and Jurassic species, the ragged-tooth shark, European plaice, lumpsucker, green sea turtle, the curled, common and giant Pacific octopus, the Japanese flying squid and the colossal squid, `art_source/fish/views/`; prompts per species in `art_source/fish/views/prompts.md`). Species seen from above (isometric) instead of the side view. Tested with the cod and sheet 01 (2026-11-08, see git history): looks better, but turning fish switch hard between the sprites (lower left / upper left, mirrored) and look stuttering; smooth turns would need more views per species (more memory). Drawing code is still in `FishArt.draw_top` (sprites `<id>_top.png` / `<id>_top_up.png`), the views come from one image per species (`tools/extract_species_views.py`).
 - Add more species - mostly the well known ones:
   - Hammerhead Shark
   - Seasnakes

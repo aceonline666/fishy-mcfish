@@ -4,7 +4,8 @@ extends Node2D
 ## one kind per location, flying reptiles in the Jurassic Sea. Painted seen from above, flying
 ## screen-left (assets/sprites/birds, cut from art_source/props/seabirds_N.png by
 ## tools/extract_seabirds.py); mirrored to fly right. They beat their wings for a while, then
-## glide. Nothing can catch them.
+## glide. Nothing can catch them. Gulls, gannets and the flying reptiles call once or twice while
+## they fly over (recorded calls, Sfx); frigatebirds, pelicans and albatrosses are silent in flight.
 
 ## Per location the kinds that fly there: [sprite id, size (the gliding sprite's longest side,
 ## ground pixels), wing beats per second, share of the time spent gliding].
@@ -17,6 +18,20 @@ const KINDS: Dictionary[String, Array] = {
 	"antarctica": [["wandering_albatross", 230.0, 1.4, 0.85]],
 	"jurassic_sea": [["rhamphorhynchus", 150.0, 2.4, 0.5], ["pterodactylus", 115.0, 2.8, 0.4]],
 }
+## Per kind its calls (Sfx sounds, one picked at random), their pitch and volume (dB). The
+## black-tailed gull has no recording of its own: a black-headed gull's calls, a little lower.
+const CALLS: Dictionary[String, Array] = {
+	"herring_gull": [[&"herring_gull_1", &"herring_gull_2", &"herring_gull_3", &"herring_gull_4"], 1.0, -10.0],
+	"black_tailed_gull": [[&"black_headed_gull_1", &"black_headed_gull_2", &"black_headed_gull_3"], 0.85, -11.0],
+	"cape_gannet": [[&"gannet_1", &"gannet_2"], 1.0, -12.0],
+	"rhamphorhynchus": [[&"pterosaur_1", &"pterosaur_2", &"pterosaur_3"], 1.0, -14.0],
+	"pterodactylus": [[&"pterosaur_1", &"pterosaur_2", &"pterosaur_3"], 1.25, -15.0],
+}
+## Seconds after a flight sets off until its first call, and between two calls; a flight calls
+## at most once per bird and never more than CALLS_PER_FLIGHT times.
+const CALL_DELAY := Vector2(1.5, 4.0)
+const CALL_GAP := Vector2(1.2, 3.0)
+const CALLS_PER_FLIGHT := 2
 const POSES: Array[String] = ["glide", "up", "mid", "down"]
 ## The wing beat: up, level, down, level.
 const BEAT: Array[int] = [1, 2, 3, 2]
@@ -41,11 +56,17 @@ const SHADOW := Color(0.0, 0.06, 0.14, 0.12)
 ## Set by the scene: the location and the part of the world on screen.
 var location_id := "north_sea"
 var view := Rect2(0.0, 0.0, 720.0, 1280.0)
+## Set by the scene: false while the beach is not on screen (in the gear shop), so no calls play.
+var heard := true
 
 var _rng := RandomNumberGenerator.new()
 var _wait := 0.0
 var _birds: Array[Bird] = []
 var _textures: Dictionary[String, Texture2D] = {}
+## The calls still to come from the current flight: its kind's id, how many, and when the next.
+var _caller := ""
+var _calls_left := 0
+var _call_in := 0.0
 
 
 class Bird:
@@ -81,6 +102,25 @@ func update(delta: float) -> void:
 		if not bird.gliding:
 			bird.beat += delta * bird.kind[2]
 	_birds = _birds.filter(func(b: Bird) -> bool: return not _gone(b))
+	_update_calls(delta)
+
+
+## Plays the current flight's next call when it is due (while birds are still flying).
+func _update_calls(delta: float) -> void:
+	if _calls_left <= 0:
+		return
+	if _birds.is_empty():
+		_calls_left = 0
+		return
+	_call_in -= delta
+	if _call_in > 0.0:
+		return
+	_calls_left -= 1
+	_call_in = _rng.randf_range(CALL_GAP.x, CALL_GAP.y)
+	var call: Array = CALLS[_caller]
+	var sounds: Array = call[0]
+	if heard:
+		Sfx.play(sounds[_rng.randi_range(0, sounds.size() - 1)], call[1] * _rng.randf_range(0.95, 1.05), call[2])
 
 
 ## Sends a bird or a small flock across the view, from beyond one side to beyond the other.
@@ -104,6 +144,14 @@ func send_flock() -> void:
 		bird.phase_left = _rng.randf_range(0.0, 1.5)
 		bird.beat = _rng.randf()
 		_birds.append(bird)
+	_caller = kind[0]
+	_calls_left = mini(_rng.randi_range(1, CALLS_PER_FLIGHT), _birds.size()) if CALLS.has(_caller) else 0
+	_call_in = _rng.randf_range(CALL_DELAY.x, CALL_DELAY.y)
+
+
+## How many calls the current flight still makes.
+func calls_left() -> int:
+	return _calls_left
 
 
 func flying() -> int:
