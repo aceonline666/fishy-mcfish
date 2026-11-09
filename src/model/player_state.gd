@@ -19,6 +19,8 @@ var total_earned := 0.0
 var stats: Dictionary[String, int] = {}
 ## How many of each species the player has ever caught. Feeds the Fishpedia.
 var species_caught: Dictionary[String, int] = {}
+## Species ids in the order they were first caught (the Fishpedia lists them this way).
+var species_order: Array[String] = []
 ## Fish caught per depth zone id, for charting.
 var zone_catches: Dictionary[String, int] = {}
 ## Where the player is fishing; empty means home.
@@ -81,6 +83,8 @@ func record_best(key: String, value: int) -> void:
 ## Returns true if this is the first catch of the species.
 func record_catch(species_id: String, zone_id: String = "") -> bool:
 	var is_new := not species_caught.has(species_id)
+	if is_new:
+		species_order.append(species_id)
 	species_caught[species_id] = int(species_caught.get(species_id, 0)) + 1
 	if not zone_id.is_empty():
 		zone_catches[zone_id] = int(zone_catches.get(zone_id, 0)) + 1
@@ -121,6 +125,7 @@ func to_dict() -> Dictionary:
 		"total_earned": total_earned,
 		"stats": stats.duplicate(),
 		"species_caught": species_caught.duplicate(),
+		"species_order": species_order.duplicate(),
 		"zone_catches": zone_catches.duplicate(),
 		"achievements": achievements.duplicate(),
 		"current_location": current_location,
@@ -143,6 +148,17 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	var raw_caught: Dictionary = data.get("species_caught", {})
 	for key: Variant in raw_caught:
 		state.species_caught[str(key)] = int(raw_caught[key])
+	var raw_order: Array = data.get("species_order", [])
+	for id: Variant in raw_order:
+		if state.species_caught.has(str(id)) and not state.species_order.has(str(id)):
+			state.species_order.append(str(id))
+	# Saves from before the order was kept: the rest in the order of the species list.
+	for id: String in DataRegistry.species:
+		if state.species_caught.has(id) and not state.species_order.has(id):
+			state.species_order.append(id)
+	for id: String in state.species_caught:
+		if not state.species_order.has(id):
+			state.species_order.append(id)
 	var raw_achievements: Array = data.get("achievements", [])
 	for id: Variant in raw_achievements:
 		state.achievements.append(str(id))

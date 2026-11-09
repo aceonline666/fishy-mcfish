@@ -65,6 +65,20 @@ func test_species_caught_survives_json_round_trip() -> void:
 	assert_typeof(restored.species_caught["lumpsucker"], TYPE_INT)
 
 
+func test_discovery_order_survives_json_round_trip() -> void:
+	var state := PlayerState.new()
+	state.record_catch("lumpsucker")
+	state.record_catch("european_sprat")
+	state.record_catch("lumpsucker")
+	var restored := PlayerState.from_dict(JSON.parse_string(JSON.stringify(state.to_dict())))
+	assert_eq(restored.species_order, ["lumpsucker", "european_sprat"] as Array[String])
+
+
+func test_saves_without_discovery_order_list_caught_species_in_data_order() -> void:
+	var restored := PlayerState.from_dict({"species_caught": {"lumpsucker": 1, "european_sprat": 2}})
+	assert_eq(restored.species_order, ["european_sprat", "lumpsucker"] as Array[String])
+
+
 func test_every_business_survives_json_round_trip() -> void:
 	var state := PlayerState.new_game()
 	var home := state.here()

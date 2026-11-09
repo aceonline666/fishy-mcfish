@@ -60,7 +60,9 @@ The shop is not a building: its level gives every booth its look:
   location), takes only species you have caught yourself and brings them to the tanks, also
   while the game is closed. Later drones are bigger and carry more.
 
-The **Fishpedia** button lists every species, with facts for the ones you have caught. **Goals**
+The **Fishpedia** button lists every species: the ones you have caught first, in the order you
+found them, with their facts; the others stay a question mark that only tells the location and
+zones where to look. **Goals**
 lists achievements with coin rewards. Goals marked `hidden` in `data/achievements.csv` are
 secrets: they show as "???" until reached (a `stat` goal counts a value in the player's stats,
 named in `param`).
@@ -254,10 +256,18 @@ Rules of thumb:
   ([OpenGameArt](https://opengameart.org/content/shop-theme)).
 
 ## TODOs
-- More species for Antarctica and the Jurassic Sea. In the game since 2026-11-08: Antarctic silverfish, emerald rockcod, bald notothen, mackerel icefish, marbled rockcod, Antarctic jonasfish, Leptolepis, Dapedium. Still to generate (one image each, prompts in `art_source/fish/views/prompts.md`; ChatGPT's image limit stopped the batch): Pachycormus, Lepidotes; then the emperor and Adélie penguins, Hybodus and Metriorhynchus from `art_source/fish/species_sheet_14_prompt.md` (they need prompts in the one-image format first).
+- Treasure value is drastically fluctuating. Sometimes you only get 50k and later you get astronomical amounts like 5B. They should be more consistent and grow for each location statically. So for first location 10k would be a big boost, while on the last location maybe 5M would be sufficient.
+- Deep Sea horror monster is very easy to find. It should be very rare so I suggest to remove the "wait for the wader" logic. It should only show up every 5 minutes or so and if you're not there that's just how the game works. And it should only show at the south border of the map. Not at the east/west borders. That would make the achievement much rarer and could receive a higher money value.
+- Wader in the hardhat suit should also get a head lamp. The feature looks very cool and should be shown earlier. But the headlight should be much dimmer than the submarine one. We need new sprites for a hard-hat with headlamp suit.
+- Submarine light looks awesome, but it has a shart triangle below the submarine. That should be softer and the light should look like it's coming from the headlamp (like for the angler fish).
+- Pacing of the game is too fast. You can make it to antarctica in one or two days. In later locations the first few tank and gear upgrades are pretty cheap. For example to enter Japan you pay something like 30 Mio, but the first gear just costs you 10k which is basically nothing at this point. We need to rebalance this. The pace should be steady (maybe logarithmic?) and not exponential.
 - Add seagulls / seabirds for the various locations which rarely fly over the screen. For jurasic sea this could be a pterodactyl, quezalcoatlus or something like that. Needs painted sprites in the isometric perspective (wing poses for flapping and gliding); a version drawn in code was tried and looked worse than none. Maybe also sounds for them to give a more maritim vibe to the game.
 - Replace the ice floes on the Antarctic pack ice (`IceFloes`, drawn in code) with painted sprites.
-- Fine tuning for tank fill-up and tank-is-full-animation. Edges for the tank fill-up are still not matching the sprites correctly. Also the tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too.
+- Fine tuning for tank fill-up and tank-is-full-animation. Edges for the tank fill-up are still not matching the sprites correctly. 
+- The tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too with better instructions regarding line thickness.
+- The sprite for the ragged-tooth shark is nearly identical to the great white shark. I think this is a species mixup. The sprite should be regenerated.
+- The ragged-tooth shark takes less tank volume than the giant guitarfish. That feels wrong since the sprite of the giant guitarfish looks smaller. Just because it's an epic catch doesn't mean it needs more volume. The size should be consistent with the volume the fish takes and not with it's rarity. Check for other species as well.
+- More species for Antarctica and the Jurassic Sea. In the game since 2026-11-08: Antarctic silverfish, emerald rockcod, bald notothen, mackerel icefish, marbled rockcod, Antarctic jonasfish, Leptolepis, Dapedium. Still to generate (one image each, prompts in `art_source/fish/views/prompts.md`; ChatGPT's image limit stopped the batch): Pachycormus, Lepidotes; then the emperor and Adélie penguins, Hybodus and Metriorhynchus from `art_source/fish/species_sheet_14_prompt.md` (they need prompts in the one-image format first).
 - More secrets: secret species per location that only show under a condition (night, charted zone, ...). Need new sprites.
 
 ### Later 
@@ -270,4 +280,7 @@ Rules of thumb:
   - Otter (with special swim and lay on the the back sprites and animation)
 - Add weather and day cycle: Storms, Lightning, Night. Day and Night could sync with real time.
 - Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console - which requires a Google Cloud Project - which would cause costs)
+- Cavemen instead of cashiers / buyers for the Jura location.
+- Secret "pineapple" and starfish hidden somewhere? Maybe with an achievement?
+- Secret level entry somewhere in the depth on the east border. We could make a tiny hole into the rock barrier, which makes you enter a secret area.
   

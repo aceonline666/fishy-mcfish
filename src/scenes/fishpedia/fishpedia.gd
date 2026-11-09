@@ -1,7 +1,8 @@
 class_name Fishpedia
 extends OverlayPanel
-## The collection book: a card for every species. Caught species show their sprite and how
-## many were caught; undiscovered ones show a silhouette and where to look. Tapping a card
+## The collection book: a card for every species. Caught species come first, in the order they
+## were found, with their sprite and how many were caught; undiscovered ones stay a question
+## mark and only tell where to look. Tapping a card
 ## opens its details with real facts. Above them, the curiosities: the rare finds (Curiosities),
 ## where the letters from the bottles can be read again.
 
@@ -18,6 +19,7 @@ var _curio_grid: GridContainer
 var _species_title: Label
 var _detail: PanelContainer
 var _detail_picture: FishPicture
+var _detail_unknown: Label
 var _detail_texture: TextureRect
 var _detail_name: Label
 var _detail_scientific: Label
@@ -61,8 +63,12 @@ func _refresh() -> void:
 	_curio_title.text = tr("Curiosities  %d / %d") % [finds.filter(func(id: String) -> bool: return found.has(id)).size(), finds.size()]
 	for find_id in finds:
 		_curio_grid.add_child(_make_curio_card(find_id, found.has(find_id)))
+	for id in GameState.state.species_order:
+		if DataRegistry.species.has(id):
+			_grid.add_child(_make_card(DataRegistry.species[id], true))
 	for def: SpeciesDef in species_list:
-		_grid.add_child(_make_card(def, caught.has(def.id)))
+		if not caught.has(def.id):
+			_grid.add_child(_make_card(def, false))
 
 
 ## Opens the Fishpedia at a rare find's page (right after it was picked up).
@@ -119,6 +125,7 @@ func _location_name(find_id: String) -> String:
 func _show_curio_detail(find_id: String) -> void:
 	var known := GameState.state.curiosities.has(find_id)
 	_detail_picture.hide()
+	_detail_unknown.hide()
 	_detail_texture.texture = Curiosities.texture(find_id)
 	_detail_texture.modulate = Color.WHITE if known else Color(0.0, 0.0, 0.0, 0.55)
 	_detail_texture.show()
@@ -154,13 +161,18 @@ func _make_card(def: SpeciesDef, known: bool) -> Button:
 	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	card.add_child(column)
 
-	var picture := FishPicture.new()
-	picture.art = art_for.call(def.id)
-	picture.known = known
-	picture.custom_minimum_size = Vector2(0.0, 160.0)
-	picture.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	column.add_child(picture)
+	if known:
+		var picture := FishPicture.new()
+		picture.art = art_for.call(def.id)
+		picture.custom_minimum_size = Vector2(0.0, 160.0)
+		picture.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		column.add_child(picture)
+	else:
+		var mark := _question_mark(110)
+		mark.custom_minimum_size = Vector2(0.0, 160.0)
+		mark.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		column.add_child(mark)
 	column.add_child(make_label(tr(def.common_name) if known else "???", 32))
 	var subtitle := make_label("", 26)
 	if known:
@@ -190,6 +202,10 @@ func _build_detail() -> void:
 	_detail_picture.custom_minimum_size = Vector2(0.0, 300.0)
 	_detail_picture.fill = 0.9
 	column.add_child(_detail_picture)
+	_detail_unknown = _question_mark(200)
+	_detail_unknown.custom_minimum_size = Vector2(0.0, 300.0)
+	_detail_unknown.hide()
+	column.add_child(_detail_unknown)
 	_detail_texture = TextureRect.new()
 	_detail_texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_detail_texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -214,12 +230,13 @@ func _build_detail() -> void:
 func _show_detail(def: SpeciesDef) -> void:
 	var known := GameState.state.species_caught.has(def.id)
 	_detail_texture.hide()
-	_detail_picture.show()
+	_detail_picture.visible = known
+	_detail_unknown.visible = not known
 	_detail_picture.art = art_for.call(def.id)
 	_detail_picture.known = known
 	_detail_name.text = tr(def.common_name) if known else tr("Not discovered yet")
 	_detail_scientific.text = def.scientific_name if known else ""
-	_detail_rarity.text = _rarity_name(def.rarity)
+	_detail_rarity.text = _rarity_name(def.rarity) if known else ""
 	_detail_rarity.add_theme_color_override("font_color", RARITY_COLORS[def.rarity])
 	if known:
 		_detail_facts.text = tr("Up to %d cm · needs a tank of %d L or more\nTakes %s L · worth %s to %s coins\n%s") % [
@@ -233,13 +250,29 @@ func _show_detail(def: SpeciesDef) -> void:
 	_detail.show()
 
 
-## Lists the zones where the species lives, e.g. "Found in: Sandbanks, Wreck".
+## Lists the locations and zones where the species lives, e.g.
+## "Found in: North Sea: Sandbanks, Wreck".
 func _where_found(def: SpeciesDef) -> String:
-	var zones: Array[String] = []
-	for zone in DataRegistry.zones:
-		if zone.spawns.has(def.id):
-			zones.append(tr(zone.name))
-	return tr("Found in: %s") % ", ".join(zones) if not zones.is_empty() else tr("Not found here")
+	var places: Array[String] = []
+	for location in DataRegistry.locations:
+		var zones: Array[String] = []
+		for zone in DataRegistry.zones:
+			if zone.location == location.id and zone.spawns.has(def.id):
+				zones.append(tr(zone.name))
+		if not zones.is_empty():
+			places.append("%s: %s" % [tr(location.name), ", ".join(zones)])
+	return tr("Found in: %s") % "; ".join(places) if not places.is_empty() else tr("Not found here")
+
+
+## A big question mark standing in for a species not caught yet.
+func _question_mark(font_size: int) -> Label:
+	var mark := make_label("?", font_size)
+	mark.theme_type_variation = &"TitleLabel"
+	mark.add_theme_color_override("font_color", MUTED)
+	mark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	mark.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	mark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return mark
 
 
 func _rarity_name(rarity: SpeciesDef.Rarity) -> String:
