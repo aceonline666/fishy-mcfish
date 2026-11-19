@@ -18,7 +18,7 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 |---|---|
 | `european_sprat` | European sprat (Sprattus sprattus) – in the game (side view) |
 | `atlantic_herring` | Atlantic herring (Clupea harengus) – in the game (side view) |
-| `atlantic_mackerel` | Atlantic mackerel (Scomber scombrus) |
+| `atlantic_mackerel` | Atlantic mackerel (Scomber scombrus) – in the game (side view) |
 | `lumpsucker` | Lumpsucker (Cyclopterus lumpus) – in the game (side view) |
 | `atlantic_cod` | Atlantic cod (Gadus morhua) – in the game (side view) |
 | `atlantic_wolffish` | Atlantic wolffish (Anarhichas lupus) |

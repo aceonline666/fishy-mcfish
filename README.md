@@ -282,7 +282,6 @@ Rules of thumb:
 
 ## TODOs
 - Regenerate the species sprites that are not yet in the new cute-comic format (one image per species in `art_source/fish/views/`, prompts in `art_source/fish/views/prompts.md`, cut with `tools/extract_species_views.py`):
-  - Atlantic mackerel (Scomber scombrus)
   - Atlantic wolffish (Anarhichas lupus)
   - European conger (Conger conger)
   - Ocellaris clownfish (Amphiprion ocellaris)
