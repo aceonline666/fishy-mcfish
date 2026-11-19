@@ -16,7 +16,7 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 
 | Species id | Species |
 |---|---|
-| `european_sprat` | European sprat (Sprattus sprattus) |
+| `european_sprat` | European sprat (Sprattus sprattus) – in the game (side view) |
 | `atlantic_herring` | Atlantic herring (Clupea harengus) |
 | `atlantic_mackerel` | Atlantic mackerel (Scomber scombrus) |
 | `lumpsucker` | Lumpsucker (Cyclopterus lumpus) – in the game (side view) |
