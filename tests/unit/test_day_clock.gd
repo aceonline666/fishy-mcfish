@@ -64,3 +64,41 @@ func test_tint_has_no_jumps() -> void:
 		largest = maxf(largest, absf(current.r - previous.r) + absf(current.g - previous.g) + absf(current.b - previous.b))
 		previous = current
 	assert_lt(largest, 0.05, "largest change from one minute to the next")
+
+
+func test_sun_glitters_over_the_sea_at_noon() -> void:
+	var glint := DayClock.glint(12.0 + 1.0)
+	assert_gt(glint.color.a, 0.0)
+	assert_gt(glint.height, 0.9)
+	# Out over the sea (ground +y), not along the beach.
+	assert_gt(glint.direction.y, 0.9)
+
+
+func test_low_sun_glitters_in_a_long_warm_path() -> void:
+	var noon := DayClock.glint(13.0)
+	var evening := DayClock.glint(19.5)
+	assert_lt(evening.height, 0.4)
+	assert_gt(evening.color.a, noon.color.a)
+	# Gold: less blue than the noon sun's glints.
+	assert_lt(evening.color.b, noon.color.b - 0.2)
+
+
+func test_sun_rises_and_sets_on_opposite_sides() -> void:
+	var morning := DayClock.glint(7.0).direction
+	var evening := DayClock.glint(19.0).direction
+	# Out over the sea both times, from opposite ends of the beach.
+	assert_gt(morning.y, 0.0)
+	assert_gt(evening.y, 0.0)
+	assert_lt(morning.x * evening.x, 0.0)
+
+
+func test_moon_glitters_at_night() -> void:
+	var glint := DayClock.glint(1.0)
+	assert_almost_eq(glint.color.b, DayClock.MOON_GLINT.b, 0.001)
+	assert_gt(glint.color.a, 0.5)
+	assert_gt(glint.height, 0.5)
+
+
+func test_glint_direction_is_a_unit_vector() -> void:
+	for hour in range(24):
+		assert_almost_eq(DayClock.glint(float(hour)).direction.length(), 1.0, 0.001)

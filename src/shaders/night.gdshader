@@ -3,7 +3,7 @@ render_mode blend_mul, unshaded;
 // The time of day over the whole world (DayClock, src/scenes/world/night.gd): multiplied over
 // everything below the HUD. White by day, gold at dusk, moonlit blue at night. The deep sea is
 // dark already, so the tint fades out with the abyss (SeaDepth). Lamps light pools on the ground,
-// in warm light, the wader carries a soft pale one, and the submarine's spotlight lights its cone.
+// in warm light, the sun or the moon on the water shines through, the wader carries a soft pale one, and the submarine's spotlight lights its cone.
 // Works in ground coordinates like water.gdshader: keep to_ground in step with Iso.
 
 uniform vec2 rect_size = vec2(1080.0, 1920.0);
@@ -12,6 +12,11 @@ uniform float zoom = 1.0;
 uniform vec4 tint : source_color = vec4(1.0);
 // 0 by day to 1 at night: how bright the lamps' pools are.
 uniform float darkness = 0.0;
+// Ground y of the waterline: the sun or the moon mirrored on the water beyond it shines through
+// the tint (reflection.gdshaderinc, Mirror), except where the wading wader stands in front of it
+// (a screen rect: position, size).
+uniform float shore_y = 0.0;
+uniform vec4 mirror_hole = vec4(0.0);
 uniform float abyss_start = 3000.0;
 uniform float abyss_end = 6600.0;
 // How much of the night tint is left at the abyss's darkest.
@@ -29,6 +34,8 @@ vec2 to_ground(vec2 screen) {
 	return vec2(a + b, b - a) * 0.5;
 }
 
+#include "res://src/shaders/reflection.gdshaderinc"
+
 void fragment() {
 	vec2 g = to_ground((UV * rect_size - world_origin) / zoom);
 	float deep = smoothstep(abyss_start, abyss_end, g.y);
@@ -42,5 +49,11 @@ void fragment() {
 	}
 	float beam = spotlight(g) * darkness;
 	lit = max(lit, mix(shade, vec3(1.0), beam * 0.8));
+	vec2 screen = UV * rect_size;
+	vec2 in_hole = step(mirror_hole.xy, screen) * step(screen, mirror_hole.xy + mirror_hole.zw);
+	if (glint_color.a > 0.0 && g.y > shore_y + 60.0 && in_hole.x * in_hole.y == 0.0) {
+		float mirrored = mirrored_light((screen - world_origin) / zoom, g, TIME).x * (1.0 - deep);
+		lit = max(lit, mix(shade, vec3(1.0), mirrored));
+	}
 	COLOR = vec4(lit, 1.0);
 }

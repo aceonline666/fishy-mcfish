@@ -340,8 +340,11 @@ func test_buoy_lines_beyond_the_first_float_above_the_swimming_wader() -> void:
 	var buoys: ZoneBuoys = _scene._buoys
 	var shallow: Node2D = buoys._buoys[0][0]
 	var deep: Node2D = buoys._buoys[1][0]
-	assert_eq(shallow.get_parent(), buoys, "the first line stays on the floor")
-	assert_true(buoys.z_as_relative and buoys.z_index == 0, "on the world's floor layer")
+	assert_eq(shallow.get_parent(), buoys, "the first line has a layer of its own")
+	# While the wader wades: below it, above the sun or the moon mirrored on the water.
+	assert_false(_wader.swimming)
+	assert_lt(buoys.z_index, Layers.WADER)
+	assert_gt(buoys.z_index, _scene._mirror.z_index)
 	assert_gt(deep.get_parent().z_index, Layers.WADER)
 	assert_lt(deep.get_parent().z_index, Layers.FLYING)
 

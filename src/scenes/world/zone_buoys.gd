@@ -5,9 +5,10 @@ extends Node2D
 ## of foam where the ball meets the water.
 ## Each buoy is its own node, drawn once and only moved as it bobs (redrawing every ball every
 ## frame cost most of the frame); only the ropes and the foam rings are drawn anew each frame.
-## The first line lies in shallow water, where the wader wades: it stays on the floor. Further out
-## the wader swims under water, so the lines from the second one on float above it, on the
-## surface layer (Layers.SURFACE).
+## The first line lies in shallow water, where the wader wades: it stays below the wader, but above
+## the sun or the moon mirrored on the water (Mirror; first_line_on()). Further out the wader swims
+## under water, so the lines from the second one on float above it, on the surface layer
+## (Layers.SURFACE).
 
 const SPACING := 130.0
 const RADIUS := 16.0
@@ -44,6 +45,13 @@ func _ready() -> void:
 	Layers.put(_surface, Layers.SURFACE)
 	_surface.draw.connect(_draw_lines.bind(_surface, SURFACE_FROM, -1))
 	add_child(_surface)
+
+
+## Draws the first line on `layer`: just above the mirrored light, which lies above the fish and
+## below the wading wader, or above the wader while it swims.
+func first_line_on(layer: int) -> void:
+	if z_as_relative or z_index != layer:
+		Layers.put(self, layer)
 
 
 ## `lines`: x = ground y of the line, y = 1 if the zone beyond is open, else 0.

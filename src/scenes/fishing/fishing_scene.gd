@@ -331,6 +331,8 @@ var _light_on := 0.0
 var dark_things := DarkThings.new()
 ## Seabirds flying over now and then (Seabirds).
 var seabirds := Seabirds.new()
+## The sun or the moon mirrored on the water's surface.
+var _mirror := Mirror.new()
 ## The time of day: its tint over the world and the lamps at night.
 var night := Night.new()
 
@@ -377,6 +379,7 @@ func _ready() -> void:
 	Layers.put(_swell, Layers.SURFACE)
 	# In the tree before the world, so the buoy lines on the same layer float on it.
 	_water.add_sibling(_swell)
+	_water.add_sibling(_mirror)
 	Layers.put(_world, Layers.FLOOR)
 	Layers.put(_squares_layer, Layers.PADS)
 	Layers.put(_entities, Layers.OBJECTS)
@@ -824,7 +827,7 @@ func _update_spotlight(delta: float) -> void:
 
 ## The time of day (DayCycle): the world's tint, and at night the painted lanterns of the pier and
 ## the gear shop, its windows, the booths' display tanks and the tank shine, and the wader carries
-## a soft light.
+## a soft light. The sun or the moon is mirrored on the water (Mirror).
 func _update_night() -> void:
 	var lamps: Array[Night.Lamp] = []
 	var dark := DayCycle.darkness()
@@ -839,6 +842,20 @@ func _update_night() -> void:
 		for window in GearShopNode.WINDOWS:
 			lamps.append(Night.Lamp.new(Vector2.ZERO, 0.0, 0.0, Night.LAMP_COLOR, _gear_shop.painted(window), NIGHT_WINDOW_GLOW))
 	night.show_time(DayCycle.tint(), dark, lamps, size, _world.position, zoom)
+	var glint := DayClock.glint(DayCycle.hour())
+	var view := Iso.to_ground((size * 0.5 - _world.position) / zoom)
+	var at := Mirror.place(glint, SPOT_WIDTH, SHORE_Y, view)
+	var shade := night.shade.material as ShaderMaterial
+	_mirror.show_light(glint, at, SHORE_Y, size, _world.position, zoom, wader.swimming, shade)
+	_buoys.first_line_on(Layers.SURFACE if wader.swimming else Layers.PAD_TEXT)
+	# The night lets the mirrored light through, but not over the wading wader in front of it.
+	var hole := Vector4.ZERO
+	if not wader.swimming:
+		var figure := Rect2(wader.position + Vector2(-Wader.FIGURE_HALF_WIDTH, -Wader.FIGURE_HEIGHT), Vector2(Wader.FIGURE_HALF_WIDTH * 2.0, Wader.FIGURE_HEIGHT))
+		var on_screen := Rect2(_world.position + figure.position * zoom, figure.size * zoom)
+		hole = Vector4(on_screen.position.x, on_screen.position.y, on_screen.size.x, on_screen.size.y)
+	shade.set_shader_parameter("mirror_hole", hole)
+	shade.set_shader_parameter("shore_y", SHORE_Y)
 
 
 ## The last OPEN_SEA_ZONES zones are the open sea, with a heavy swell on the surface. The swell rect starts

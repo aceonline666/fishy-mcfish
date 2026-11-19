@@ -72,7 +72,7 @@ svg text { font-family: var(--mono); }
     <div><b>Tank</b> starts as 1 × 1 at 2,−3, two rows off the waterline, and grows west, then up the beach: 1×1, 2×1, 2×2, 2×3, 3×3, 3×4, 3×5 (cols 0–2, rows −7…−3 at the last level). It is solid. "Put in tank" is at 3,−3, on the pier.</div>
     <div><b>Conveyor belt</b> runs in column 2 from the tank's back to the last booth's row: a bigger tank makes it shorter, every hired seller one cell longer. The next fish to be sold is at its north end.</div>
     <div><b>Gear shop</b> covers 3 × 2 cells, columns 6–8, rows −4…−3, south of the booth line so it does not hide the first booths. The drones' dock lies in front of the tank at 2,−1.5, half a cell off the tank and off the water, and only shows once the beach has a drone.</div>
-    <div><b>Sea zones</b> sit on the grid: each is 4 rows (960 units) deep, so zone 1 covers rows 0–3, zone 2 rows 4–7, down to zone 6 at rows 20–23.</div>
+    <div><b>Sea zones</b> sit on the grid: the first three are 4 rows (960 units) deep, the outer ones wider. Pier shallows rows 0–3, Sandbanks 4–7, Wreck 8–11, Open sea 12–17 and Norwegian Trench 18–23 (6 rows each), Deep sea 24–31 (8 rows). The bounds come from <code>data/zones.csv</code>.</div>
   </div>
   <h1>Inside the gear shop</h1>
   <p>The room behind the gear shop's door (UpgradeStore), on its own grid with the same 240-unit cells: 7 columns by 7 rows, rows −7…−1, the doormat at the front (south) leads out. The same in every location; it does not change with upgrades.</p>
@@ -95,12 +95,12 @@ svg text { font-family: var(--mono); }
 <script>
 const C = 40;                 // pixels per cell
 const COLS = 9, TOP = -18;   // the beach: rows -18..-1
-const SEA_END = 24;           // deepest zone end, in cells
+const SEA_END = 32;           // deepest zone end, in cells
 const LEFT = 34, HEAD = 24;   // room for row and column numbers
 const ZONES = [
   ["Pier shallows", 0, 960, 1], ["Sandbanks", 960, 1920, 2], ["Wreck", 1920, 2880, 3],
-  ["Open sea", 2880, 3840, 4], ["Norwegian Trench", 3840, 4800, 5], ["Deep sea", 4800, 5760, 6],
-];
+  ["Open sea", 2880, 4320, 4], ["Norwegian Trench", 4320, 5760, 5], ["Deep sea", 5760, 7680, 6],
+];  // as in data/zones.csv
 // [label, col, row, width, depth, state]  state: start | full | both | fixed
 const ITEMS = [
   ["pier", 3, -6, 1, 6, "fixed"],

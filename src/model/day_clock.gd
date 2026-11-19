@@ -60,3 +60,68 @@ static func tint(hour: float) -> Color:
 static func _through(from: Color, middle: Color, to: Color, t: float) -> Color:
 	var s := smoothstep(0.0, 1.0, t)
 	return from.lerp(middle, s * 2.0) if s < 0.5 else middle.lerp(to, s * 2.0 - 1.0)
+
+
+## The sun or the moon mirrored on the water (reflection.gdshaderinc): a disc out on the sea towards
+## the light, rippled by the waves, with glints flashing around it. Far out and drawn long with
+## the light low, close and round with it high.
+class Glint:
+	## The glints' colour; its alpha is how strongly they show (0: none).
+	var color: Color
+	## Towards the light along the ground (a unit vector).
+	var direction: Vector2
+	## How high the light stands, 0 on the horizon to 1 overhead.
+	var height: float
+
+	func _init(glint_color: Color, glint_direction: Vector2, glint_height: float) -> void:
+		color = glint_color
+		direction = glint_direction
+		height = glint_height
+
+
+## The sun is up from half an hour into dawn to half an hour before the end of dusk; the moon from
+## the second hour of dusk to the end of the first hour of dawn.
+const SUN_UP := Vector2(5.5, 20.5)
+const MOON_UP := Vector2(20.0, 30.0)
+## The mirrored sun high in the sky, low in the morning and low in the evening, and the moon.
+const SUN_GLINT := Color(1.0, 0.97, 0.86)
+const MORNING_GLINT := Color(1.0, 0.82, 0.74)
+const EVENING_GLINT := Color(1.0, 0.7, 0.36)
+const MOON_GLINT := Color(0.9, 0.95, 1.0)
+## How far from straight out to sea the light rises and sets (radians).
+const LIGHT_SWING := PI * 0.3
+
+
+## The glints on the water at `hour`: the sun's by day, the moon's at night.
+static func glint(hour: float) -> Glint:
+	var h := fposmod(hour, 24.0)
+	var sun := _arc(h, SUN_UP)
+	var moon := _arc(h if h >= MOON_UP.x else h + 24.0, MOON_UP)
+	# The low sun is mirrored the most brightly; the moon is pale, but bright against the night.
+	var sun_strength := smoothstep(0.0, 0.12, sun.y) * lerpf(1.0, 0.85, sun.y)
+	var moon_strength := smoothstep(0.0, 0.12, moon.y) * darkness(h)
+	if moon_strength > sun_strength:
+		var moon_color := MOON_GLINT
+		moon_color.a = moon_strength
+		return Glint.new(moon_color, _towards(moon.x), moon.y)
+	var low := MORNING_GLINT if sun.x < 0.5 else EVENING_GLINT
+	var color := low.lerp(SUN_GLINT, smoothstep(0.1, 0.5, sun.y))
+	color.a = sun_strength
+	return Glint.new(color, _towards(sun.x), sun.y)
+
+
+## How far a light up during `up` (first hour, last hour) has come at `hour`, 0 to 1 (x), and how
+## high it stands (y, 0 on the horizon or below it).
+static func _arc(hour: float, up: Vector2) -> Vector2:
+	var along := inverse_lerp(up.x, up.y, hour)
+	if along <= 0.0 or along >= 1.0:
+		return Vector2(clampf(along, 0.0, 1.0), 0.0)
+	return Vector2(along, sin(along * PI))
+
+
+## Towards a light `along` its way across the sky: it rises out over the sea on one side (towards
+## ground +x), stands straight out over the sea (+y) at its highest and sets on the other side.
+## Always over the sea, so that it is mirrored on the water and not up the beach.
+static func _towards(along: float) -> Vector2:
+	var angle := lerpf(-LIGHT_SWING, LIGHT_SWING, along)
+	return Vector2(-sin(angle), cos(angle))
