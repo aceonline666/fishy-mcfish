@@ -9,6 +9,8 @@ const OUTLINE_COLOR := Color(0.07, 0.09, 0.15)
 const OUTLINE_WIDTH := 3.0
 const SHADOW_COLOR := Color(0.0, 0.06, 0.14, 0.22)
 const WATER_SHADER := preload("res://src/shaders/fish_water.gdshader")
+## Share of the seabed's tint a fish in the water takes on (the shader's `strength`).
+const WATER_TINT := 0.5
 ## How far below the fish its shadow falls on the seabed, in screen pixels.
 const SHADOW_DROP := 24.0
 const SPARKLE_COLOR := Color(1.0, 0.95, 0.55, 0.9)
@@ -121,8 +123,10 @@ func _update_water_depth() -> void:
 		shader_material.set_shader_parameter("depth", SeaDepth.depth(ground_position.y))
 		shader_material.set_shader_parameter("abyss", SeaDepth.abyss(ground_position.y))
 		shader_material.set_shader_parameter("light", light)
-		# Above the surface (local y 0) a leaping fish is out of the water: untinted.
-		shader_material.set_shader_parameter("waterline", 0.0 if is_leaping() else -100000.0)
+		# A leaping fish sheds the water's tint as it rises out of it (a cut at a waterline would
+		# run straight across the tilted body).
+		var out_of_water := clampf(leap_lift() / maxf(body_length * LEAP_HEIGHT * 0.3, 1.0), 0.0, 1.0)
+		shader_material.set_shader_parameter("strength", WATER_TINT * (1.0 - out_of_water))
 
 
 func is_held() -> bool:
@@ -159,7 +163,7 @@ func simulate(delta: float, threat: Vector2, threat_radius: float, school: Array
 	if not area.contains(ground_position, EDGE_MARGIN):
 		steer += ground_position.direction_to(area.center()) * 2.0
 	# Off screen (hidden by the scene) fish skip schooling and drawing.
-	if visible and species.length_cm < CatchRules.SCHOOLING_BELOW_CM:
+	if visible and (species.length_cm < CatchRules.SCHOOLING_BELOW_CM or CatchRules.swims_in_pods(species)):
 		steer += _schooling(school)
 
 	var speed := _cruise_speed
@@ -231,12 +235,14 @@ func _schooling(school: Array[SwimmingFish]) -> Vector2:
 	var separation := Vector2.ZERO
 	var count := 0
 	var personal_space := body_length * 1.3
+	# Big pod animals keep together over a few body lengths.
+	var school_radius := maxf(SCHOOL_RADIUS, body_length * 3.0)
 	for other in school:
 		if other == self or other.species != species:
 			continue
 		var offset := other.ground_position - ground_position
 		var distance := offset.length()
-		if distance > SCHOOL_RADIUS or distance < 0.001:
+		if distance > school_radius or distance < 0.001:
 			continue
 		count += 1
 		center += other.ground_position

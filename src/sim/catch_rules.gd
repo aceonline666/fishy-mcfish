@@ -12,6 +12,8 @@ const RARITY_STRUGGLE_BONUS := 0.15
 ## Extra swim speed per rarity tier.
 const RARITY_SPEED_BONUS := 0.12
 const SCHOOLING_BELOW_CM := 25.0
+## Big species that still come in groups (pods) and keep together.
+const POD_SPECIES: Array[String] = ["common_bottlenose_dolphin"]
 ## Ground units. The wader is about 190 px tall; only whales and giant squid get much longer.
 const MAX_BODY_LENGTH := 760.0
 ## Giants cruise rather than dart.
@@ -47,7 +49,11 @@ static func cruise_speed(def: SpeciesDef) -> float:
 
 ## Small fish arrive in schools, bigger ones alone.
 static func school_size(def: SpeciesDef, rng: RandomNumberGenerator) -> int:
-	return rng.randi_range(3, 5) if def.length_cm < SCHOOLING_BELOW_CM else 1
+	return rng.randi_range(3, 5) if def.length_cm < SCHOOLING_BELOW_CM or swims_in_pods(def) else 1
+
+
+static func swims_in_pods(def: SpeciesDef) -> bool:
+	return def.id in POD_SPECIES
 
 
 ## Name shown when several fish are caught in quick succession. Empty for a single fish.

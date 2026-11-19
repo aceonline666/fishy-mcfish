@@ -60,3 +60,10 @@ func test_combo_names() -> void:
 	assert_eq(CatchRules.combo_name(2), "Double!")
 	assert_eq(CatchRules.combo_name(4), "Quad!")
 	assert_eq(CatchRules.combo_name(9), "Mega haul!")
+
+
+func test_dolphins_come_in_pods_of_at_least_three() -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 3
+	for i in 20:
+		assert_between(CatchRules.school_size(DataRegistry.species["common_bottlenose_dolphin"], rng), 3, 5)
