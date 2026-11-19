@@ -43,6 +43,31 @@ def tail_beaters_excluded() -> set[str]:
     return set(re.findall(r'"([a-z0-9_]+)": Motion\.', block))
 
 
+CHECKER = 8
+
+
+def checker_like(value: np.ndarray, light: np.ndarray, labels: np.ndarray, background: set) -> np.ndarray:
+    """Pixels of a painted checkerboard: one of its two greys, with the other grey CHECKER (+-1)
+    px away to the left, right, top or bottom. The two greys are read off the border background."""
+    outside = light & np.isin(labels, list(background))
+    if not outside.any():
+        return np.zeros(value.shape, bool)
+    shades = value[outside]
+    low, high = np.percentile(shades, 25), np.percentile(shades, 75)
+    if high - low < 25:
+        return np.zeros(value.shape, bool)  # a plain white background
+    dark = light & (np.abs(value - low) < 14)
+    bright = light & (np.abs(value - high) < 14)
+    near_bright = np.zeros(value.shape, bool)
+    near_dark = np.zeros(value.shape, bool)
+    for shift in (CHECKER - 1, CHECKER, CHECKER + 1):
+        for axis in (0, 1):
+            for sign in (1, -1):
+                near_bright |= np.roll(bright, sign * shift, axis=axis)
+                near_dark |= np.roll(dark, sign * shift, axis=axis)
+    return (dark & near_bright) | (bright & near_dark)
+
+
 def alpha_of(image: np.ndarray) -> np.ndarray:
     alpha = image[:, :, 3].astype(np.int32)
     if (alpha < 250).mean() > 0.2:
@@ -52,17 +77,22 @@ def alpha_of(image: np.ndarray) -> np.ndarray:
     light = (rgb.min(axis=2) > 120) & (rgb.max(axis=2) - rgb.min(axis=2) < 20)
     labels, count = ndimage.label(light)
     background = set(np.unique(np.concatenate([labels[0], labels[-1], labels[:, 0], labels[:, -1]]))) - {0}
-    # Checkerboard caught between fins or arms: an enclosed patch of both light and darker grey
-    # squares (an eye's white is light only).
+    # Checkerboard caught between fins or arms: an enclosed patch mostly made of checker squares,
+    # each grey square next to one of the other grey CHECKER px away (an eye's white is one
+    # shade only; a silvery belly or a pale fin has the shades but not the pattern).
     value = rgb.min(axis=2)
-    darker = ndimage.sum(light & (value < 175), labels, range(1, count + 1))
-    lighter = ndimage.sum(light & (value >= 190), labels, range(1, count + 1))
+    like = checker_like(value, light, labels, background)
+    sizes = ndimage.sum(light, labels, range(1, count + 1))
+    matched = ndimage.sum(like, labels, range(1, count + 1))
     checkered = np.zeros(light.shape, bool)
     for label in range(1, count + 1):
-        if label not in background and darker[label - 1] > 6 and lighter[label - 1] > 6:
+        if label not in background and matched[label - 1] > max(6, 0.5 * sizes[label - 1]):
             checkered |= labels == label
-    # The whole gap up to the outlines around it: a see-through web may tint part of it.
-    checkered = ndimage.binary_dilation(checkered, iterations=0, mask=value > 90)
+    # The whole gap up to the outlines around it: a see-through web may tint part of it. The
+    # flood stays out of light patches kept as part of the creature (a silvery belly or a pale
+    # fin touching the gap would be eaten whole).
+    kept_light = light & ~checkered & ~np.isin(labels, list(background))
+    checkered = ndimage.binary_dilation(checkered, iterations=0, mask=(value > 90) & ~kept_light)
     return np.where(np.isin(labels, list(background)) | checkered, 0, 255)
 
 
