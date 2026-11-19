@@ -67,7 +67,7 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `dapedium` | Mesturus (Mesturus leedsi) – in the game (side view) |
 | `pachycormus` | Hypsocormus (Hypsocormus leedsi) – in the game (side view) |
 | `lepidotes` | Lepidotes (Lepidotes macrocheirus) – in the game (side view) |
-| `lesser_sand_eel` | Lesser sand eel (Ammodytes tobianus) |
+| `lesser_sand_eel` | Lesser sand eel (Ammodytes tobianus) – in the game (side view) |
 | `conger_eel` | European conger (Conger conger) |
 | `pink_ling` | Pink ling (Genypterus blacodes) |
 | `kingklip` | Kingklip (Genypterus capensis) |
