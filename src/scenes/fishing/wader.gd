@@ -52,7 +52,7 @@ const STACK_BASE := Vector2(0.0, -136.0)
 ## below 1 they overlap.
 const STACK_OVERLAP := 0.5
 ## Carried fish keep their sizes relative to each other: their length in the sea
-## (CatchRules.body_length) times CARRIED_SCALE, within these bounds (a mackerel about 50, a cod
+## (CatchRules.compact_length) times CARRIED_SCALE, within these bounds (a mackerel about 50, a cod
 ## about 75, a whale at the top). In the towed bag BAG_SCALE of that.
 const CARRIED_SCALE := 0.42
 const CARRIED_LENGTH := Vector2(30.0, 120.0)
@@ -276,7 +276,7 @@ func stack_top_position() -> Vector2:
 
 ## Screen length of a carried fish on the stack (or, times BAG_SCALE, in the bag).
 static func carried_length(art: FishArt) -> float:
-	return clampf(CatchRules.body_length(art.species) * CARRIED_SCALE, CARRIED_LENGTH.x, CARRIED_LENGTH.y)
+	return clampf(CatchRules.compact_length(art.species) * CARRIED_SCALE, CARRIED_LENGTH.x, CARRIED_LENGTH.y)
 
 
 ## How high each fish of the stack lies above the bottom one, squashed by `squash`.

@@ -197,6 +197,17 @@ func lure_point(length: float) -> Vector2:
 	return corner + LURES[species.id] * body_size
 
 
+## How tall draw() makes a fish `length` long (sprite canvases include some empty margin).
+func drawn_height(length: float) -> float:
+	if not has_sprite():
+		return length * species.body_aspect
+	var units := length * BODY_SHARE / BODY_SPAN
+	var height := body.get_height() * (BODY_CANVAS_WIDTH / body.get_width()) * units
+	if tail != null:
+		height = maxf(height, tail.get_height() * (TAIL_CANVAS_WIDTH / tail.get_width()) * units)
+	return height
+
+
 ## Draws the fish centred on the origin of `view` (fish space: head towards +x, back towards -y)
 ## with the given total length. `phase` runs through the swimming cycle (radians) and `swim`
 ## says how strongly it swims (0 = at rest, 1 = full speed); `tint` multiplies the colours

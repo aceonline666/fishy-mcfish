@@ -25,4 +25,4 @@ func test_every_species_fits_in_the_smallest_tank_that_can_hold_it() -> void:
 
 func test_fish_are_as_big_in_every_tank() -> void:
 	var def: SpeciesDef = DataRegistry.species["atlantic_mackerel"]
-	assert_eq(TankNode.fish_length(def, 1.0), CatchRules.body_length(def) * TankNode.TANK_FISH_SCALE)
+	assert_eq(TankNode.fish_length(def, 1.0), CatchRules.compact_length(def) * TankNode.TANK_FISH_SCALE)

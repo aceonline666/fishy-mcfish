@@ -68,3 +68,15 @@ static func _tier_word(tier: int) -> String:
 		4: return Lang.text("trillion")
 		5: return Lang.text("quadrillion")
 		_: return Lang.text("quintillion")
+
+
+## A body length: 45 cm up to one meter, then meters with one decimal: 1.5 m, 2 m, 12 m
+## (1,5 m in German).
+static func length(cm: float) -> String:
+	if cm <= 100.0:
+		return "%d cm" % int(cm)
+	var meters := roundf(cm / 10.0) / 10.0
+	var text := str(int(meters)) if meters == floorf(meters) else "%.1f" % meters
+	if Lang.uses_decimal_comma():
+		text = text.replace(".", ",")
+	return text + " m"

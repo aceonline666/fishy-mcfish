@@ -58,7 +58,7 @@ const WATER_SIDE_COLOR := Color(0.25, 0.62, 0.92, 0.42)
 const WATER_SURFACE_COLOR := Color(0.6, 0.86, 1.0, 0.55)
 ## Fish drawn at most; the label shows the space used.
 const MAX_DRAWN_FISH := 14
-## Fish in the tank are drawn at this share of their size in the ocean (CatchRules.body_length).
+## Fish in the tank are drawn at this share of their size in the ocean (CatchRules.compact_length).
 const TANK_FISH_SCALE := 0.8
 ## Room kept free between a fish and the water surface or the floor (pixels).
 const FISH_CLEARANCE := 4.0
@@ -336,7 +336,7 @@ func _draw_fish(box: Array, depth: float) -> void:
 
 ## A fish's drawn length in the tank: a share of its size in the ocean, smaller while young.
 static func fish_length(species: SpeciesDef, growth: float) -> float:
-	return CatchRules.body_length(species) * TANK_FISH_SCALE * (0.65 + 0.35 * growth)
+	return CatchRules.compact_length(species) * TANK_FISH_SCALE * (0.65 + 0.35 * growth)
 
 
 ## A number from 0 to 1 that stays the same for a fish as long as it lives in the tank.

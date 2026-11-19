@@ -62,6 +62,16 @@ func test_combo_names() -> void:
 	assert_eq(CatchRules.combo_name(9), "Mega haul!")
 
 
+func test_giants_grow_in_a_straight_line_past_two_meters() -> void:
+	var at_two := CatchRules.body_length(_species(CatchRules.GIANT_FROM_CM))
+	assert_almost_eq(CatchRules.body_length(_species(CatchRules.GIANT_FROM_CM + 1.0)), at_two, 1.0, "no jump at the bend")
+	var great_white := CatchRules.body_length(_species(450.0))
+	var blue_whale := CatchRules.body_length(_species(2500.0))
+	assert_gt(blue_whale, great_white * 3.5, "a blue whale dwarfs a great white")
+	assert_eq(CatchRules.compact_length(_species(50.0)), CatchRules.body_length(_species(50.0)), "small fish unchanged")
+	assert_lte(CatchRules.compact_length(_species(2500.0)), CatchRules.MAX_COMPACT_LENGTH, "tanks keep the gentle curve")
+
+
 func test_dolphins_come_in_pods_of_at_least_three() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 3

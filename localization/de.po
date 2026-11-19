@@ -216,8 +216,11 @@ msgstr "Zurück"
 msgid "Not discovered yet"
 msgstr "Noch nicht entdeckt"
 
-msgid "Up to %d cm · needs a tank of %d L or more\nTakes %s L · worth %s to %s coins\n%s"
-msgstr "Bis zu %d cm · braucht ein Becken ab %d L\nBelegt %s L · wert %s bis %s Münzen\n%s"
+msgid "Up to %s · needs a tank of %d L or more\nTakes %s L · worth %s to %s coins\n%s"
+msgstr "Bis zu %s · braucht ein Becken ab %d L\nBelegt %s L · wert %s bis %s Münzen\n%s"
+
+msgid "Size next to a person"
+msgstr "Größe im Vergleich zu einem Menschen"
 
 msgid "Catch one to learn more."
 msgstr "Fang einen, um mehr zu erfahren."

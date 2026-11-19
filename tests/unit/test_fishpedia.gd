@@ -23,8 +23,37 @@ func test_lists_every_species_and_counts_the_caught_ones() -> void:
 	await wait_process_frames(2)
 
 	assert_true(_book.visible)
-	assert_eq(_book._grid.get_child_count(), DataRegistry.species.size())
 	assert_string_contains(_book._title.text, "2 / %d" % DataRegistry.species.size())
+	var listed := {}
+	for index in DataRegistry.locations.size():
+		for card: Button in _grid(index).get_children():
+			listed[card] = true
+	assert_eq(_book._sections.get_child_count(), DataRegistry.locations.size() * 2, "a title and a grid per location")
+	assert_gte(listed.size(), DataRegistry.species.size(), "every species has a card at least once")
+
+
+func test_has_a_section_per_location_in_location_order() -> void:
+	GameState.record_catch("european_sprat")
+	_book.open()
+	await wait_process_frames(2)
+
+	var north_sea_total := _grid(0).get_child_count()
+	assert_eq(_title(0), "North Sea  1 / %d" % north_sea_total)
+	assert_string_starts_with(_title(1), "Coral Reef  0 / ")
+	var missing: Button = _grid(1).get_child(0)
+	assert_eq(_card_name(missing), "???")
+
+
+func test_species_of_several_locations_show_in_each() -> void:
+	GameState.record_catch("ocean_sunfish")
+	_book.open()
+	await wait_process_frames(2)
+
+	for index in DataRegistry.locations.size():
+		var location := DataRegistry.locations[index]
+		var names: Array = _grid(index).get_children().map(_card_name)
+		var lives_here := ["north_sea", "australia", "japan"].has(location.id)
+		assert_eq(names.has("Ocean sunfish"), lives_here, location.id)
 
 
 func test_details_hide_facts_of_undiscovered_species() -> void:
@@ -42,20 +71,26 @@ func test_details_hide_facts_of_undiscovered_species() -> void:
 	assert_string_contains(_book._detail_fun_fact.text, "three metres")
 
 
-func test_lists_caught_species_first_in_the_order_they_were_found() -> void:
-	GameState.record_catch("atlantic_cod")
-	GameState.record_catch("european_sprat")
-	GameState.record_catch("atlantic_cod")
+func test_orders_species_by_first_zone_then_smallest_first() -> void:
+	for id: String in ["european_plaice", "atlantic_mackerel", "lumpsucker", "european_sprat"]:
+		GameState.record_catch(id)
 	_book.open()
 	await wait_process_frames(2)
 
-	var first: Button = _book._grid.get_child(0)
-	var second: Button = _book._grid.get_child(1)
-	var third: Button = _book._grid.get_child(2)
-	assert_eq(_card_name(first), "Atlantic cod")
-	assert_eq(_card_name(second), "European sprat")
-	assert_eq(_card_name(third), "???")
-	assert_eq(third.find_children("*", "FishPicture", true, false).size(), 0, "no silhouette of an unknown species")
+	# Pier shallows: sprat 12 cm, sand eel 20, herring 30, mackerel 40; then sandbanks:
+	# lumpsucker 40, plaice 50. Mackerel already lives in the shallows, so it stays there.
+	var names: Array = _grid(0).get_children().slice(0, 6).map(_card_name)
+	assert_eq(names, ["European sprat", "???", "???", "Atlantic mackerel", "Lumpsucker", "European plaice"])
+	var unknown: Button = _grid(0).get_child(1)
+	assert_eq(unknown.find_children("*", "FishPicture", true, false).size(), 0, "no silhouette of an unknown species")
+
+
+func _title(section: int) -> String:
+	return (_book._sections.get_child(section * 2) as Label).text
+
+
+func _grid(section: int) -> GridContainer:
+	return _book._sections.get_child(section * 2 + 1)
 
 
 func _card_name(card: Button) -> String:

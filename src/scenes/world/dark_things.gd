@@ -36,8 +36,10 @@ const HORROR_LIT_ALPHA := 0.95
 const HORROR_SHINE := 0.45
 ## Eyes: how many pairs at most, where they open (ground distance from the wader), how close the
 ## wader may come before they vanish, how much spotlight they bear, and the seconds until a pair
-## opens somewhere else.
+## opens somewhere else. When that wait is over, the pair opens only with EYE_CHANCE; otherwise
+## it waits again.
 const EYE_PAIRS := 2
+const EYE_CHANCE := 0.25
 const EYE_DISTANCE := Vector2(420.0, 750.0)
 const EYE_SHY := 330.0
 const EYE_SHY_LIGHT := 0.25
@@ -143,6 +145,12 @@ func _update_eyes(eyes: Eyes, delta: float) -> void:
 	eyes.wait -= delta
 	if eyes.wait > 0.0 or not _in_rows(wader_ground.y, eye_rows):
 		return
+	# Roll once per wait (not again while looking for a place to open).
+	if not eyes.due:
+		if _rng.randf() >= EYE_CHANCE:
+			eyes.wait = _rng.randf_range(EYE_WAIT.x, EYE_WAIT.y)
+			return
+		eyes.due = true
 	var angle := _rng.randf() * TAU
 	var ground := wader_ground + Vector2.from_angle(angle) * _rng.randf_range(EYE_DISTANCE.x, EYE_DISTANCE.y)
 	ground.x = clampf(ground.x, 60.0, spot_width - 60.0)
@@ -153,6 +161,7 @@ func _update_eyes(eyes: Eyes, delta: float) -> void:
 	eyes.ground = ground
 	eyes.texture = EYES[_rng.randi() % EYES.size()]
 	eyes.shown = true
+	eyes.due = false
 	eyes.closing = false
 	eyes.alpha = 0.0
 	eyes.reported = false
@@ -209,6 +218,8 @@ class Eyes extends RefCounted:
 	var texture: Texture2D
 	var alpha := 0.0
 	var wait := 0.0
+	## The chance roll has passed: open as soon as a place is found.
+	var due := false
 	var blink_phase := 0.0
 	var stay := 0.0
 	var since := 0.0

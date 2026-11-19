@@ -160,7 +160,8 @@ func simulate(delta: float, threat: Vector2, threat_radius: float, school: Array
 	_age += delta
 	_wander = clampf(_wander + randf_range(-1.0, 1.0) * WANDER_JITTER * delta, -1.0, 1.0)
 	var steer := Vector2.from_angle(heading).rotated(_wander * WANDER_ANGLE)
-	if not area.contains(ground_position, EDGE_MARGIN):
+	# Giants turn back earlier, so their head and tail do not reach far past the zone.
+	if not area.contains(ground_position, maxf(EDGE_MARGIN, body_length * 0.25)):
 		steer += ground_position.direction_to(area.center()) * 2.0
 	# Off screen (hidden by the scene) fish skip schooling and drawing.
 	if visible and (species.length_cm < CatchRules.SCHOOLING_BELOW_CM or CatchRules.swims_in_pods(species)):

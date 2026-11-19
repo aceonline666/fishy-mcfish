@@ -15,7 +15,11 @@ const SCHOOLING_BELOW_CM := 25.0
 ## Big species that still come in groups (pods) and keep together.
 const POD_SPECIES: Array[String] = ["common_bottlenose_dolphin"]
 ## Ground units. The wader is about 190 px tall; only whales and giant squid get much longer.
-const MAX_BODY_LENGTH := 760.0
+const MAX_BODY_LENGTH := 1500.0
+## Above this real length the sea's giants grow in a straight line instead of the square root.
+const GIANT_FROM_CM := 200.0
+## Cap of compact_length(): tanks, the wader's back and the cruise speed use the gentle curve.
+const MAX_COMPACT_LENGTH := 760.0
 ## Giants cruise rather than dart.
 const MAX_CRUISE_SPEED := 280.0
 ## Drifters and crawlers move slower than their size suggests: share of the usual cruise speed.
@@ -35,15 +39,27 @@ static func struggle_seconds(def: SpeciesDef, net_speed: float = 1.0) -> float:
 	return lerpf(MIN_STRUGGLE_S, MAX_STRUGGLE_S, size_t) * (1.0 + RARITY_STRUGGLE_BONUS * def.rarity) / net_speed
 
 
-## Body length in ground units. Grows with the square root of the real length, so a cod is
-## clearly bigger than a sprat but still fits next to the wader.
+## Body length in the sea, in ground units. Up to GIANT_FROM_CM like compact_length(); beyond it
+## the curve goes on in a straight line (as steep as the square root is there), so a blue whale
+## (25 m, about 1380) dwarfs a great white (4.5 m, about 360) and a sperm whale (16 m, about 930).
 static func body_length(def: SpeciesDef) -> float:
-	return minf(35.0 + 14.0 * sqrt(def.length_cm), MAX_BODY_LENGTH)
+	if def.length_cm <= GIANT_FROM_CM:
+		return compact_length(def)
+	var at_giant := 35.0 + 14.0 * sqrt(GIANT_FROM_CM)
+	var slope := 7.0 / sqrt(GIANT_FROM_CM)
+	return minf(at_giant + slope * (def.length_cm - GIANT_FROM_CM), MAX_BODY_LENGTH)
+
+
+## Body length in ground units growing with the square root of the real length, so a cod is
+## clearly bigger than a sprat but still fits next to the wader. For tanks and the wader's back,
+## where a whale must not outgrow the glass.
+static func compact_length(def: SpeciesDef) -> float:
+	return minf(35.0 + 14.0 * sqrt(def.length_cm), MAX_COMPACT_LENGTH)
 
 
 ## Ground units per second.
 static func cruise_speed(def: SpeciesDef) -> float:
-	var speed := minf((70.0 + body_length(def) * 0.5) * (1.0 + RARITY_SPEED_BONUS * def.rarity), MAX_CRUISE_SPEED)
+	var speed := minf((70.0 + compact_length(def) * 0.5) * (1.0 + RARITY_SPEED_BONUS * def.rarity), MAX_CRUISE_SPEED)
 	return speed * SPEED_FACTORS.get(def.id, 1.0)
 
 

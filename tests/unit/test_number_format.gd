@@ -43,3 +43,11 @@ func test_words_name_the_millions_and_up() -> void:
 	assert_eq(NumberFormat.words(123_400_000.0), "123 million")
 	assert_eq(NumberFormat.words(4.2e9), "4.2 billion")
 	assert_eq(NumberFormat.words(3e12), "3 trillion")
+
+
+func test_lengths_switch_to_meters_above_one_meter() -> void:
+	assert_eq(NumberFormat.length(45.0), "45 cm")
+	assert_eq(NumberFormat.length(100.0), "100 cm")
+	assert_eq(NumberFormat.length(150.0), "1.5 m")
+	assert_eq(NumberFormat.length(200.0), "2 m")
+	assert_eq(NumberFormat.length(1240.0), "12.4 m")

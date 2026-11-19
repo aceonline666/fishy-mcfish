@@ -1,8 +1,11 @@
 class_name Fishpedia
 extends OverlayPanel
-## The collection book: a card for every species. Caught species come first, in the order they
-## were found, with their sprite and how many were caught; undiscovered ones stay a question
-## mark and only tell where to look. Tapping a card
+## The collection book: a section per location with a card for every species living there, so
+## it shows what is still missing at each place. Within a section, species are ordered by the first
+## zone they appear in, from the shore outwards, then by size, smallest first. Caught ones show
+## their sprite and how many were caught; undiscovered ones stay a question mark and only tell in
+## which zones to look. A species living at several locations
+## appears in each of their sections. Tapping a card
 ## opens its details with real facts. Above them, the curiosities: the rare finds (Curiosities),
 ## where the letters from the bottles can be read again.
 
@@ -13,7 +16,8 @@ const RARITY_COLORS: Array[Color] = [
 ## Returns the FishArt for a species id.
 var art_for: Callable
 
-var _grid: GridContainer
+## One title + card grid per location, in location order.
+var _sections: VBoxContainer
 var _curio_title: Label
 var _curio_grid: GridContainer
 var _species_title: Label
@@ -25,6 +29,8 @@ var _detail_name: Label
 var _detail_scientific: Label
 var _detail_rarity: Label
 var _detail_facts: Label
+var _detail_size: SizeComparison
+var _detail_size_caption: Label
 var _detail_fun_fact: Label
 
 
@@ -39,18 +45,16 @@ func _build() -> void:
 	content.add_child(_curio_grid)
 	_species_title = make_label("", 44)
 	content.add_child(_species_title)
-	_grid = GridContainer.new()
-	_grid.columns = 2
-	_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_grid.add_theme_constant_override("h_separation", 20)
-	_grid.add_theme_constant_override("v_separation", 20)
-	content.add_child(_grid)
+	_sections = VBoxContainer.new()
+	_sections.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_sections.add_theme_constant_override("separation", 20)
+	content.add_child(_sections)
 	_build_detail()
 
 
 func _refresh() -> void:
 	_detail.hide()
-	for child in _grid.get_children():
+	for child in _sections.get_children():
 		child.queue_free()
 	for child in _curio_grid.get_children():
 		child.queue_free()
@@ -63,12 +67,42 @@ func _refresh() -> void:
 	_curio_title.text = tr("Curiosities  %d / %d") % [finds.filter(func(id: String) -> bool: return found.has(id)).size(), finds.size()]
 	for find_id in finds:
 		_curio_grid.add_child(_make_curio_card(find_id, found.has(find_id)))
-	for id in GameState.state.species_order:
-		if DataRegistry.species.has(id):
-			_grid.add_child(_make_card(DataRegistry.species[id], true))
-	for def: SpeciesDef in species_list:
-		if not caught.has(def.id):
-			_grid.add_child(_make_card(def, false))
+	for location in DataRegistry.locations:
+		_add_location_section(location)
+
+
+## A location's title with how many of its species were caught, then a card for each species
+## living there: by the first zone they appear in (from the shore outwards), then smallest first.
+func _add_location_section(location: LocationDef) -> void:
+	var zones := DataRegistry.zones_in(location.id)
+	var first_zone := {}
+	for index in zones.size():
+		for species_id: String in zones[index].spawns:
+			if not first_zone.has(species_id):
+				first_zone[species_id] = index
+	if first_zone.is_empty():
+		return
+	var living: Array[SpeciesDef] = []
+	for species_id: String in first_zone:
+		if DataRegistry.species.has(species_id):
+			living.append(DataRegistry.species[species_id])
+	living.sort_custom(func(a: SpeciesDef, b: SpeciesDef) -> bool:
+		if first_zone[a.id] != first_zone[b.id]:
+			return first_zone[a.id] < first_zone[b.id]
+		if a.length_cm != b.length_cm:
+			return a.length_cm < b.length_cm
+		return a.id < b.id)
+	var caught := GameState.state.species_caught
+	var known := living.filter(func(def: SpeciesDef) -> bool: return caught.has(def.id)).size()
+	_sections.add_child(make_label("%s  %d / %d" % [tr(location.name), known, living.size()], 36))
+	var grid := GridContainer.new()
+	grid.columns = 2
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.add_theme_constant_override("h_separation", 20)
+	grid.add_theme_constant_override("v_separation", 20)
+	_sections.add_child(grid)
+	for def in living:
+		grid.add_child(_make_card(def, caught.has(def.id), location.id))
 
 
 ## Opens the Fishpedia at a rare find's page (right after it was picked up).
@@ -126,6 +160,8 @@ func _show_curio_detail(find_id: String) -> void:
 	var known := GameState.state.curiosities.has(find_id)
 	_detail_picture.hide()
 	_detail_unknown.hide()
+	_detail_size.hide()
+	_detail_size_caption.hide()
 	_detail_texture.texture = Curiosities.texture(find_id)
 	_detail_texture.modulate = Color.WHITE if known else Color(0.0, 0.0, 0.0, 0.55)
 	_detail_texture.show()
@@ -144,7 +180,9 @@ func _show_curio_detail(find_id: String) -> void:
 	_detail.show()
 
 
-func _make_card(def: SpeciesDef, known: bool) -> Button:
+## [param location_id] is the section the card sits in; a missing species' card names only the
+## zones of that location.
+func _make_card(def: SpeciesDef, known: bool, location_id: String) -> Button:
 	var card := Button.new()
 	card.custom_minimum_size = Vector2(0.0, 300.0)
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -221,6 +259,12 @@ func _build_detail() -> void:
 	column.add_child(_detail_rarity)
 	_detail_facts = make_label("", 32)
 	column.add_child(_detail_facts)
+	_detail_size = SizeComparison.new()
+	_detail_size.custom_minimum_size = Vector2(0.0, 190.0)
+	column.add_child(_detail_size)
+	_detail_size_caption = make_label(tr("Size next to a person"), 26)
+	_detail_size_caption.add_theme_color_override("font_color", MUTED)
+	column.add_child(_detail_size_caption)
 	_detail_fun_fact = make_label("", 34)
 	_detail_fun_fact.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	column.add_child(_detail_fun_fact)
@@ -234,13 +278,16 @@ func _show_detail(def: SpeciesDef) -> void:
 	_detail_unknown.visible = not known
 	_detail_picture.art = art_for.call(def.id)
 	_detail_picture.known = known
+	_detail_size.art = _detail_picture.art
+	_detail_size.visible = known
+	_detail_size_caption.visible = known
 	_detail_name.text = tr(def.common_name) if known else tr("Not discovered yet")
 	_detail_scientific.text = def.scientific_name if known else ""
 	_detail_rarity.text = _rarity_name(def.rarity) if known else ""
 	_detail_rarity.add_theme_color_override("font_color", RARITY_COLORS[def.rarity])
 	if known:
-		_detail_facts.text = tr("Up to %d cm · needs a tank of %d L or more\nTakes %s L · worth %s to %s coins\n%s") % [
-			int(def.length_cm), int(def.min_tank_l), NumberFormat.compact(def.space_l),
+		_detail_facts.text = tr("Up to %s · needs a tank of %d L or more\nTakes %s L · worth %s to %s coins\n%s") % [
+			NumberFormat.length(def.length_cm), int(def.min_tank_l), NumberFormat.compact(def.space_l),
 			NumberFormat.compact(Economy.sale_price(def, 0.0)), NumberFormat.compact(Economy.sale_price(def, 1.0)),
 			_where_found(def)]
 		_detail_fun_fact.text = tr(def.fun_fact)
@@ -255,13 +302,19 @@ func _show_detail(def: SpeciesDef) -> void:
 func _where_found(def: SpeciesDef) -> String:
 	var places: Array[String] = []
 	for location in DataRegistry.locations:
-		var zones: Array[String] = []
-		for zone in DataRegistry.zones:
-			if zone.location == location.id and zone.spawns.has(def.id):
-				zones.append(tr(zone.name))
+		var zones := _zones_in(def, location.id)
 		if not zones.is_empty():
 			places.append("%s: %s" % [tr(location.name), ", ".join(zones)])
 	return tr("Found in: %s") % "; ".join(places) if not places.is_empty() else tr("Not found here")
+
+
+## The (translated) names of the zones at a location where the species lives.
+func _zones_in(def: SpeciesDef, location_id: String) -> Array[String]:
+	var zones: Array[String] = []
+	for zone in DataRegistry.zones:
+		if zone.location == location_id and zone.spawns.has(def.id):
+			zones.append(tr(zone.name))
+	return zones
 
 
 ## A big question mark standing in for a species not caught yet.

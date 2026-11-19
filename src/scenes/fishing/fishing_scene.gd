@@ -457,7 +457,8 @@ func _process(delta: float) -> void:
 	seabirds.view = Rect2(-_world.position / ZOOM, size / ZOOM)
 	var view := Rect2(-_world.position / ZOOM, size / ZOOM).grow(CULL_MARGIN)
 	for fish in _fish:
-		fish.visible = view.has_point(fish.position)
+		# Whales stick out far past their centre.
+		fish.visible = view.grow(fish.body_length * 0.5).has_point(fish.position)
 		fish.light = Spotlight.amount(fish.ground_position, wader.ground_position, _light_dir, _light_on)
 		fish.simulate(delta, wader.ground_position, THREAT_RADIUS, _fish)
 	_check_catches(delta)
@@ -841,7 +842,9 @@ func _spawn_group(zone_index: int, inside: bool) -> void:
 		heading = rng.randf() * TAU
 	else:
 		var from_left := rng.randf() < 0.5
-		origin = Vector2(rect.position.x - 150.0 if from_left else rect.end.x + 150.0,
+		# Giants start further out, so they do not pop up half in view.
+		var offstage := 150.0 + CatchRules.body_length(def) * 0.5
+		origin = Vector2(rect.position.x - offstage if from_left else rect.end.x + offstage,
 				rng.randf_range(rect.position.y + 40.0, rect.end.y - 40.0))
 		heading = origin.direction_to(area.center()).angle()
 	var spread := CatchRules.body_length(def)
