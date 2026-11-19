@@ -36,7 +36,7 @@ Greenfield project (`d:\WORKSPACE\Games\Fishy McFish` is an empty git repo). Goa
 - **Long loop (hours or days):** chart a depth layer, automate it, meet an achievement, then travel to a new location.
 
 ## A3. Fishing mechanic (the "feel" core)
-- **View:** a 2:1 isometric fishing spot (like Diablo II), one portrait screen. Fish swim with simple steering: wander, school together and startle when the character comes close.
+- **View:** a 2:1 isometric fishing spot (like Diablo II), on one screen in portrait or landscape (it turns with the device, or the player holds it in one orientation from the menu). Fish swim with simple steering: wander, school together and startle when the character comes close.
 - **Character:** a **wader** with a hand net at shallow spots. Gear upgrades turn the character into a snorkeler, then a scuba diver, then a submersible for deeper layers.
 - **Walk and scoop:** touch the screen and the character walks towards the finger; drag to steer, lift to stop. Fish that come within reach of the net are scooped up automatically. Larger fish start a **struggle meter**: they must stay in the net for 0.3 to 2 s while they wriggle. That gives a little skill moment.
 - **Capacity and combos:** catches stack up visibly in the wader's **backpack** (the boat's **live-well** at deeper layers), which is the trip capacity. Catches in quick succession build a **combo** with rising feedback.
@@ -105,7 +105,9 @@ Each location has three or four **depth layers**. Every layer starts **uncharted
 ## A8. Offline progress
 On resume, the game simulates the elapsed time with the same sim code, using large time steps (staff sells, drones catch, fish grow and food is consumed). Offline time is capped at 8 h, and upgrades raise the cap to 24 h. A "While you were away…" summary card plays a satisfying coin count-up.
 
-## A9. Screens & UI (portrait 1080×1920, one-handed)
+## A9. Screens & UI (portrait 1080×1920, one-handed; landscape 1920×1080)
+In landscape the HUD buttons share the top bar's row, the basket and tank bar takes the bottom left only, the world is zoomed out a little (1.25 instead of 1.5), and full-screen panels stay a centred column at most 1200 px wide.
+
 A bottom nav bar holds **Hall · Fishing · Map · Staff · Shop**. Fishpedia and Settings sit in the top-right menu. The top bar shows money, current trip capacity and a notification bell.
 
 ```
@@ -154,7 +156,7 @@ Use short splash and pop sounds with pitch variation, a combo "ding" ladder, a c
 
 ## B1. Stack
 - **Godot 4.x stable**, pinned in `project.godot` and the README. Use **statically typed GDScript** with warnings treated as errors where practical.
-- **Compatibility renderer** (GLES3) for the widest Android device support. The stretch mode is `canvas_items` with aspect `expand` and a portrait base of 1080×1920.
+- **Compatibility renderer** (GLES3) for the widest Android device support. The stretch mode is `canvas_items` with aspect `expand` and a portrait base of 1080×1920. The screen turns with the sensor (`window/handheld/orientation` = sensor); `Platform` swaps the base to 1920×1080 in landscape, so the short side is always 1080 pixels and the UI keeps its size.
 - **Testing:** GUT (Godot Unit Test) for logic.
 - **CI:** GitHub Actions with a headless Godot container, running tests and building a debug APK.
 - **Android export:** Gradle build, AAB for Play, `targetSdk` at the current Play requirement.

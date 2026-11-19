@@ -131,3 +131,20 @@ func test_choosing_a_language_rebuilds_the_menu_in_it() -> void:
 	assert_eq(Settings.current_language(), "de")
 	assert_eq(_menu._sound_toggle.text, "An")
 	assert_true(_menu._language_buttons["de"].button_pressed)
+
+
+func test_the_screen_rotation_choice_is_remembered() -> void:
+	assert_true(_menu._orientation_buttons[Settings.ORIENTATION_AUTO].button_pressed, "turns with the device by default")
+	_menu._orientation_buttons[Settings.ORIENTATION_LANDSCAPE].pressed.emit()
+	assert_eq(Settings.orientation, Settings.ORIENTATION_LANDSCAPE)
+	assert_true(_menu._orientation_buttons[Settings.ORIENTATION_LANDSCAPE].button_pressed)
+	assert_false(_menu._orientation_buttons[Settings.ORIENTATION_AUTO].button_pressed)
+
+	Settings.orientation = Settings.ORIENTATION_AUTO
+	Settings._load()
+	assert_eq(Settings.orientation, Settings.ORIENTATION_LANDSCAPE)
+
+
+func test_an_unknown_screen_rotation_turns_with_the_device() -> void:
+	Settings.set_orientation("upside_down")
+	assert_eq(Settings.orientation, Settings.ORIENTATION_AUTO)

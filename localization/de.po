@@ -336,6 +336,18 @@ msgstr "Immer Tag"
 msgid "Always night"
 msgstr "Immer Nacht"
 
+msgid "Screen rotation"
+msgstr "Bildschirmdrehung"
+
+msgid "Automatic"
+msgstr "Automatisch"
+
+msgid "Portrait"
+msgstr "Hochformat"
+
+msgid "Landscape"
+msgstr "Querformat"
+
 msgid "On"
 msgstr "An"
 

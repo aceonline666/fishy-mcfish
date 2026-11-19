@@ -15,6 +15,8 @@ const CARD_GREY := 0.8
 const MUTED := Color(0.65, 0.75, 0.85)
 ## A press that moves further than this (pixels) before release is a drag, not a tap.
 const TAP_DISTANCE := 24.0
+## The widest the panel's column gets (pixels): on a landscape screen it stays a centred column.
+const MAX_WIDTH := 1200.0
 
 var content: VBoxContainer
 
@@ -59,6 +61,7 @@ func _build_all() -> void:
 
 	var margin := SafeAreaContainer.new()
 	margin.edge_padding = 32
+	margin.max_content_width = MAX_WIDTH
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(margin)
 	var column := VBoxContainer.new()

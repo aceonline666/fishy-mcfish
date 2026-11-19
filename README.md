@@ -282,7 +282,7 @@ Rules of thumb:
 
 ## TODOs
 - Add weather: Storms, Lightning. (Day and night are in: a 20-minute cycle, real time, always day or always night, chosen in the menu; `DayClock`, `DayCycle`, `Night`. In debug builds N moves the time on by an hour, Shift+N lets it run; `tools/screenshot.gd -- --hour=23`.) Still to do for the night: night-only species, bioluminescent wake, no seagulls at night.
-- Tablet / horizontal mode
+- Sun / Moon reflecting on the water animation?
 - Regenerate the species sprites that are not yet in the new cute-comic format (one image per species in `art_source/fish/views/`, prompts in `art_source/fish/views/prompts.md`, cut with `tools/extract_species_views.py`):
   - Blue tang (Paracanthurus hepatus)
   - Mandarinfish (Synchiropus splendidus)

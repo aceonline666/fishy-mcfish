@@ -16,8 +16,10 @@ signal rebuild_requested
 ## The wader walked through the gear shop's door: show the upgrade store.
 signal store_requested
 
-## How much the world is magnified on screen.
+## How much the world is magnified on screen: in portrait, and in landscape, where less of the
+## sea would fit between the HUD bars.
 const ZOOM := 1.5
+const LANDSCAPE_ZOOM := 1.25
 const CAMERA_SMOOTHING := 6.0
 ## The camera may show this much (world pixels) beyond the spot's edges.
 const CAMERA_OVERSCROLL := 120.0
@@ -31,9 +33,14 @@ const BAIT_BALLS: Dictionary[String, Array] = {
 const CURRENTS: Dictionary[String, Vector2] = {"kuroshio": Vector2(-108.0, 0.0), "polar_front": Vector2(108.0, 0.0)}
 ## Zones with ice floes on the surface (IceFloes): how many.
 const ICE_FLOES: Dictionary[String, int] = {"pack_ice": 11}
-## Screen pixels covered by the HUD bars at the top and bottom.
+## Screen pixels covered by the HUD bars at the top and bottom. In landscape the buttons share
+## the top bar's row, and the bottom bar takes only the left part of the screen
+## (LANDSCAPE_BOTTOM_BAR_SHARE), so the play area reaches further down.
 const PLAY_MARGIN_TOP := 270.0
 const PLAY_MARGIN_BOTTOM := 330.0
+const LANDSCAPE_MARGIN_TOP := 160.0
+const LANDSCAPE_MARGIN_BOTTOM := 180.0
+const LANDSCAPE_BOTTOM_BAR_SHARE := 0.5
 ## Seconds after seeing the deep sea horror or the eyes before their secret goal is counted.
 const SIGHTING_DELAY := 5.0
 
@@ -297,6 +304,10 @@ var _wake_timer := 0.0
 var _wake_step := 0
 var _shake := 0.0
 var _camera := Vector2.ZERO
+## The magnification and HUD margins for the screen's current shape (_apply_layout).
+var zoom := ZOOM
+var _margin_top := PLAY_MARGIN_TOP
+var _margin_bottom := PLAY_MARGIN_BOTTOM
 var _shown_money := 0.0
 var _money_tween: Tween
 ## The player came back to the "Sell fish" pad during Tutorial.Step.HIRE: the hire tip shows.
@@ -332,6 +343,10 @@ var night := Night.new()
 @onready var _entities: Node2D = $World/Entities
 @onready var _effects: Node2D = $World/Effects
 @onready var _popups: Control = $Popups
+@onready var _hud_layout: VBoxContainer = $Hud/Layout
+@onready var _top_row: HBoxContainer = $Hud/Layout/TopBar/Row
+@onready var _hud_buttons: HBoxContainer = $Hud/Layout/Buttons
+@onready var _bottom_bar: PanelContainer = $Hud/Layout/BottomBar
 @onready var _money_label: Label = %MoneyLabel
 @onready var _coin_icon: TextureRect = %CoinIcon
 @onready var _location_label: Label = %LocationLabel
@@ -354,7 +369,6 @@ var tutorial := TutorialGuide.new()
 
 func _ready() -> void:
 	rng.randomize()
-	_world.scale = Vector2.ONE * ZOOM
 	Layers.put(_water, Layers.BACKGROUND)
 	var swell_material := ShaderMaterial.new()
 	swell_material.shader = SWELL_SHADER
@@ -371,15 +385,13 @@ func _ready() -> void:
 	_world.add_sibling(night.shade)
 	EventBus.money_changed.connect(_on_money_changed)
 	EventBus.state_replaced.connect(_rebuild_from_state)
-	resized.connect(_update_camera.bind(0.0, true))
+	resized.connect(_on_resized)
 	fishpedia.art_for = _art_for
-	goal_banner.top_offset = PLAY_MARGIN_TOP + 260.0
 	goal_banner.wallet = _coin_icon
-	goal_banner.coin_radius = 12.0 * ZOOM
 	# Above the HUD, below the full-screen panels; the tutorial below the goal banner.
 	_popups.add_sibling(goal_banner)
-	tutorial.top_offset = PLAY_MARGIN_TOP + 10.0
 	_popups.add_sibling(tutorial)
+	_apply_layout()
 	add_child(fishpedia)
 	_fishpedia_button.pressed.connect(fishpedia.open)
 	add_child(goals)
@@ -466,8 +478,8 @@ func _process(delta: float) -> void:
 	_update_night()
 	_update_wake(delta)
 	_update_hums(delta)
-	seabirds.view = Rect2(-_world.position / ZOOM, size / ZOOM)
-	var view := Rect2(-_world.position / ZOOM, size / ZOOM).grow(CULL_MARGIN)
+	seabirds.view = Rect2(-_world.position / zoom, size / zoom)
+	var view := Rect2(-_world.position / zoom, size / zoom).grow(CULL_MARGIN)
 	for fish in _fish:
 		# Whales stick out far past their centre.
 		fish.visible = view.grow(fish.body_length * 0.5).has_point(fish.position)
@@ -518,7 +530,7 @@ func _walk_to(target: Vector2) -> void:
 		_gate_warned = true
 		var next_gear := GameState.here().gear_level
 		if next_gear < DataRegistry.gear_levels.size():
-			_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 330.0),
+			_announce(Vector2(size.x * 0.5, _margin_top + 330.0),
 					tr("Buy at the gear shop: %s\nto swim further out!") % tr(DataRegistry.gear_levels[next_gear].name), WARNING_COLOR, 1.2)
 			Haptics.bump()
 
@@ -683,7 +695,7 @@ func _update_zone() -> void:
 	_wader_zone = zone
 	_update_location_label()
 	if zone != null:
-		_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 120.0),
+		_announce(Vector2(size.x * 0.5, _margin_top + 120.0),
 				"%s\n%s" % [tr(zone.name), Charting.progress_text(GameState.state, zone)], STORED_COLOR, 0.8)
 
 
@@ -701,20 +713,45 @@ func _show_offline_earnings() -> void:
 
 #region Camera
 
+func _on_resized() -> void:
+	_apply_layout()
+	_update_camera(0.0, true)
+
+
+## Fits the view to the screen's shape: the magnification, the HUD margins, and in landscape the
+## HUD buttons beside the money in the top bar, and the bottom bar on the left only.
+func _apply_layout() -> void:
+	var wide := Platform.is_landscape(size)
+	zoom = LANDSCAPE_ZOOM if wide else ZOOM
+	_margin_top = LANDSCAPE_MARGIN_TOP if wide else PLAY_MARGIN_TOP
+	_margin_bottom = LANDSCAPE_MARGIN_BOTTOM if wide else PLAY_MARGIN_BOTTOM
+	_world.scale = Vector2.ONE * zoom
+	goal_banner.top_offset = _margin_top + 260.0
+	goal_banner.coin_radius = 12.0 * zoom
+	tutorial.top_offset = _margin_top + 10.0
+	var buttons_home: Container = _top_row if wide else _hud_layout
+	if _hud_buttons.get_parent() != buttons_home:
+		_hud_buttons.reparent(buttons_home, false)
+		if not wide:
+			_hud_layout.move_child(_hud_buttons, _top_row.get_parent().get_index() + 1)
+	_bottom_bar.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN if wide else Control.SIZE_FILL
+	_bottom_bar.custom_minimum_size.x = size.x * LANDSCAPE_BOTTOM_BAR_SHARE if wide else 0.0
+
+
 ## Follows the wader, keeping the view over the spot.
 func _update_camera(delta: float, snap: bool = false) -> void:
 	if size.x <= 0.0:
 		return
 	var focus := Iso.to_screen(wader.ground_position) + Vector2(0.0, -60.0)
-	var view_center := Vector2(size.x * 0.5, (PLAY_MARGIN_TOP + size.y - PLAY_MARGIN_BOTTOM) * 0.5)
-	var target := view_center - focus * ZOOM
+	var view_center := Vector2(size.x * 0.5, (_margin_top + size.y - _margin_bottom) * 0.5)
+	var target := view_center - focus * zoom
 
 	var bounds := Rect2(Iso.to_screen(_spot_rect.position), Vector2.ZERO)
 	for corner: Vector2 in [Vector2(_spot_rect.end.x, _spot_rect.position.y), _spot_rect.end, Vector2(_spot_rect.position.x, _spot_rect.end.y)]:
 		bounds = bounds.expand(Iso.to_screen(corner))
 	bounds = bounds.grow(CAMERA_OVERSCROLL)
-	target.x = _clamp_axis(target.x, size.x - bounds.end.x * ZOOM, -bounds.position.x * ZOOM)
-	target.y = _clamp_axis(target.y, size.y - PLAY_MARGIN_BOTTOM - bounds.end.y * ZOOM, PLAY_MARGIN_TOP - bounds.position.y * ZOOM)
+	target.x = _clamp_axis(target.x, size.x - bounds.end.x * zoom, -bounds.position.x * zoom)
+	target.y = _clamp_axis(target.y, size.y - _margin_bottom - bounds.end.y * zoom, _margin_top - bounds.position.y * zoom)
 
 	_camera = target if snap else _camera.lerp(target, 1.0 - exp(-CAMERA_SMOOTHING * delta))
 	_apply_world_position()
@@ -731,7 +768,7 @@ func _apply_world_position() -> void:
 	var water := _water.material as ShaderMaterial
 	water.set_shader_parameter("rect_size", size)
 	water.set_shader_parameter("world_origin", _world.position)
-	water.set_shader_parameter("zoom", ZOOM)
+	water.set_shader_parameter("zoom", zoom)
 	water.set_shader_parameter("shore_y", SHORE_Y)
 	water.set_shader_parameter("depth_range", SeaDepth.DEPTH_RANGE)
 	water.set_shader_parameter("abyss_start", SeaDepth.ABYSS_START)
@@ -801,7 +838,7 @@ func _update_night() -> void:
 		lamps.append(Night.Lamp.new(Iso.to_ground(_gear_shop.painted(GearShopNode.LANTERN_FOOT)), NIGHT_LAMP_RADIUS * 1.2, 0.9, Night.LAMP_COLOR, _gear_shop.painted(GearShopNode.LANTERN), NIGHT_GLOW_RADIUS))
 		for window in GearShopNode.WINDOWS:
 			lamps.append(Night.Lamp.new(Vector2.ZERO, 0.0, 0.0, Night.LAMP_COLOR, _gear_shop.painted(window), NIGHT_WINDOW_GLOW))
-	night.show_time(DayCycle.tint(), dark, lamps, size, _world.position, ZOOM)
+	night.show_time(DayCycle.tint(), dark, lamps, size, _world.position, zoom)
 
 
 ## The last OPEN_SEA_ZONES zones are the open sea, with a heavy swell on the surface. The swell rect starts
@@ -813,8 +850,8 @@ func _update_swell() -> void:
 		return
 	var swell_start := _zones[_zones.size() - OPEN_SEA_ZONES].depth_start - SHORE_Y
 	var first_row := SHORE_Y + swell_start - SWELL_FADE_IN
-	var left_x := -_world.position.x / ZOOM
-	var top := (left_x * 0.5 + first_row * Iso.BASIS.y.y * 2.0) * ZOOM + _world.position.y
+	var left_x := -_world.position.x / zoom
+	var top := (left_x * 0.5 + first_row * Iso.BASIS.y.y * 2.0) * zoom + _world.position.y
 	top = maxf(top, 0.0)
 	_swell.visible = top < size.y
 	if not _swell.visible:
@@ -825,7 +862,7 @@ func _update_swell() -> void:
 	swell.set_shader_parameter("rect_pos", _swell.position)
 	swell.set_shader_parameter("rect_size", _swell.size)
 	swell.set_shader_parameter("world_origin", _world.position)
-	swell.set_shader_parameter("zoom", ZOOM)
+	swell.set_shader_parameter("zoom", zoom)
 	swell.set_shader_parameter("shore_y", SHORE_Y)
 	swell.set_shader_parameter("swell_start", swell_start)
 
@@ -969,7 +1006,7 @@ func _record_catch(fish: SwimmingFish) -> void:
 		Haptics.bump()
 		_bump(_fishpedia_button)
 	if not was_charted and Charting.is_charted(GameState.state, fish.zone):
-		_announce(Vector2(size.x * 0.5, PLAY_MARGIN_TOP + 220.0),
+		_announce(Vector2(size.x * 0.5, _margin_top + 220.0),
 				tr("%s charted!\nDrones can fish here now") % tr(fish.zone.name), COMBO_COLOR, 1.6)
 		Sfx.play(&"ding", 1.0)
 		Sfx.play(&"ding", 1.26, -4.0)
@@ -1020,7 +1057,7 @@ func _open_chest() -> void:
 	var reward := GameState.find_treasure()
 	var at := _world_to_scene(_chest.position + TreasureChest.GLINT_OFFSET)
 	for i in CHEST_COINS:
-		Juice.fly_coin(_popups, at + Vector2(rng.randf_range(-40.0, 40.0), rng.randf_range(-30.0, 20.0)), _wallet_position(), 12.0 * ZOOM)
+		Juice.fly_coin(_popups, at + Vector2(rng.randf_range(-40.0, 40.0), rng.randf_range(-30.0, 20.0)), _wallet_position(), 12.0 * zoom)
 	Juice.splash(_effects, _chest.position, 20)
 	Juice.ripple(_effects, _chest.position, 90.0)
 	_announce(at + Vector2(0.0, -80.0), tr("Treasure!\n+%s coins") % NumberFormat.compact(reward), COIN_COLOR, 1.6)
@@ -1310,7 +1347,7 @@ func _store_one() -> void:
 	var from := _world_to_scene(wader.stack_top_position())
 	GameState.store_fish(species_id)
 	_action_count += 1
-	Juice.fly_fish(_popups, art, from, _world_to_scene(_tank_node.drop_point()), Wader.carried_length(art) * ZOOM,
+	Juice.fly_fish(_popups, art, from, _world_to_scene(_tank_node.drop_point()), Wader.carried_length(art) * zoom,
 			_on_fish_reached_tank)
 	Sfx.play(&"pop", 1.0 + minf(_action_count, 10) * 0.03, -12.0)
 	if live_well.count() == 0:
@@ -1344,7 +1381,7 @@ func _sell_one(target: ActionSquare) -> bool:
 	var sale := GameState.sell_from_tank()
 	_action_count += 1
 	_action_total += sale[1]
-	Juice.fly_coin(_popups, _world_to_scene(_tank_node.drop_point()), _wallet_position(), 12.0 * ZOOM)
+	Juice.fly_coin(_popups, _world_to_scene(_tank_node.drop_point()), _wallet_position(), 12.0 * zoom)
 	Sfx.play(&"coin", 1.0 + minf(_action_count, 20) * 0.04, -4.0)
 	_tank_node.bounce()
 	_booth_nodes[0].bounce()
@@ -1368,7 +1405,7 @@ func _pay_into(target: ActionSquare) -> void:
 	var before := GameState.state.money
 	var done := GameState.pay_into(target.id, maxf(target.price * PAY_SHARE, 1.0), target.price)
 	if GameState.state.money < before:
-		Juice.fly_coin(_popups, _world_to_scene(wader.position + Vector2(0.0, -120.0)), _world_to_scene(target.position), 10.0 * ZOOM)
+		Juice.fly_coin(_popups, _world_to_scene(wader.position + Vector2(0.0, -120.0)), _world_to_scene(target.position), 10.0 * zoom)
 		_action_count += 1
 		Sfx.play(&"coin", 0.9 + minf(_action_count, 25) * 0.02, -10.0)
 	target.paid = GameState.here().build_progress.get(target.id, 0.0)
@@ -1441,7 +1478,7 @@ func _on_fish_sold_by_seller(_species_id: String, price: float) -> void:
 			break
 	var at := _world_to_scene(_booth_nodes[mini(at_booth, _booth_nodes.size() - 1)].position + Vector2(0.0, -60.0))
 	Juice.popup_text(_popups, at + Vector2(0.0, -40.0), "+" + NumberFormat.compact(price), 36, COIN_COLOR, 0.2)
-	Juice.fly_coin(_popups, at, _wallet_position(), 9.0 * ZOOM)
+	Juice.fly_coin(_popups, at, _wallet_position(), 9.0 * zoom)
 	Sfx.play(&"coin", 1.3, -10.0)
 	if at_booth < _booths.size() and _booths[at_booth] != null and _booths[at_booth].is_waiting():
 		_serve_at(at_booth)
@@ -1601,11 +1638,11 @@ func _on_drone_delivered(drone: Drone, species_ids: Array[String]) -> void:
 	var from := _world_to_scene(drone.net_position())
 	for id in species_ids:
 		if GameState.store_fish(id) != null:
-			Juice.fly_fish(_popups, _art_for(id), from, _world_to_scene(_tank_node.drop_point()), Drone.ICON_LENGTH * ZOOM,
+			Juice.fly_fish(_popups, _art_for(id), from, _world_to_scene(_tank_node.drop_point()), Drone.ICON_LENGTH * zoom,
 					_on_fish_reached_tank)
 		else:
 			GameState.sell_fish(id)
-			Juice.fly_coin(_popups, from, _wallet_position(), 9.0 * ZOOM)
+			Juice.fly_coin(_popups, from, _wallet_position(), 9.0 * zoom)
 	Sfx.play(&"pop", 1.4, -10.0)
 	_update_hud()
 
@@ -1769,7 +1806,7 @@ func _update_tutorial() -> void:
 	if state.tutorial_step == Tutorial.Step.CATCH and live_well.is_full():
 		Tutorial.complete(state, Tutorial.Step.CATCH)
 	tutorial.allow_card(not goal_banner.is_showing())
-	tutorial.view_rect = Rect2(0.0, PLAY_MARGIN_TOP, size.x, size.y - PLAY_MARGIN_TOP - PLAY_MARGIN_BOTTOM)
+	tutorial.view_rect = Rect2(0.0, _margin_top, size.x, size.y - _margin_top - _margin_bottom)
 	match state.tutorial_step:
 		Tutorial.Step.CATCH:
 			tutorial.show_message(tr("Welcome to Fishy McFish!"),

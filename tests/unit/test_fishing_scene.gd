@@ -665,3 +665,23 @@ func test_the_shore_is_heard_at_the_waterline_and_the_open_sea_far_out() -> void
 	assert_between(beach.x, 0.3, 0.6, "softer up the beach, but still heard")
 	assert_almost_eq(far_out.y, 1.0, 0.001)
 	assert_lt(far_out.x, 0.3, "the shore fades out at sea")
+
+
+#region Screen layout
+
+func test_landscape_moves_the_buttons_into_the_top_bar_and_shows_more_sea() -> void:
+	var portrait_size: Vector2 = _scene.size
+	_scene.size = Vector2(1920.0, 1080.0)
+	assert_eq(_scene._hud_buttons.get_parent(), _scene._top_row)
+	assert_eq(_scene.zoom, Scene.LANDSCAPE_ZOOM)
+	assert_eq(_scene._world.scale, Vector2.ONE * Scene.LANDSCAPE_ZOOM)
+	assert_eq(_scene._margin_top, Scene.LANDSCAPE_MARGIN_TOP)
+
+	_scene.size = Vector2(1080.0, 1920.0)
+	assert_eq(_scene._hud_buttons.get_parent(), _scene._hud_layout)
+	assert_eq(_scene._hud_buttons.get_index(), 1, "back below the top bar")
+	assert_eq(_scene.zoom, Scene.ZOOM)
+	assert_eq(_scene._margin_bottom, Scene.PLAY_MARGIN_BOTTOM)
+	_scene.size = portrait_size
+
+#endregion

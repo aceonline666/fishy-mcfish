@@ -13,7 +13,9 @@ signal left
 ## The wader travelled to the next beach (GameState already points there).
 signal travelled
 
+## How much the room is magnified: in portrait, and in landscape, where it must fit a lower screen.
 const ZOOM := 1.5
+const LANDSCAPE_ZOOM := 1.2
 const CAMERA_SMOOTHING := 6.0
 const CAMERA_OVERSCROLL := 160.0
 ## Screen pixels covered by the HUD bars at the top and bottom.
@@ -85,6 +87,8 @@ const COINS_ICON: Texture2D = preload("res://assets/ui/icon_coins.png")
 var wader := Wader.new()
 var walk_area: PlayArea
 
+## The magnification for the screen's current shape (_on_resized).
+var zoom := ZOOM
 var _world := Node2D.new()
 var _floor := StoreRoom.new()
 var _squares_layer := Node2D.new()
@@ -125,7 +129,7 @@ func _ready() -> void:
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	Layers.put(background, Layers.BACKGROUND)
 	add_child(background)
-	_world.scale = Vector2.ONE * ZOOM
+	_world.scale = Vector2.ONE * zoom
 	_world.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	add_child(_world)
 	_floor.setup(Grid.rect(ROOM_CELL, ROOM_SIZE))
@@ -149,12 +153,12 @@ func _ready() -> void:
 	add_child(tutorial)
 	_goal_banner.top_offset = PLAY_MARGIN_TOP + 260.0
 	_goal_banner.wallet = _coin_icon
-	_goal_banner.coin_radius = 12.0 * ZOOM
+	_goal_banner.coin_radius = 12.0 * zoom
 	add_child(_goal_banner)
 	EventBus.money_changed.connect(_on_money_changed)
 	EventBus.achievement_reached.connect(_on_achievement_reached)
 	left.connect(func() -> void: Tutorial.complete(GameState.state, Tutorial.Step.SHOP))
-	resized.connect(_update_camera.bind(0.0, true))
+	resized.connect(_on_resized)
 
 	walk_area = PlayArea.new(Grid.rect(ROOM_CELL + Vector2i.ONE, ROOM_SIZE - Vector2i.ONE))
 	if SHOW_GRID:
@@ -314,16 +318,23 @@ func _place_fixtures() -> void:
 
 #region Camera
 
+func _on_resized() -> void:
+	zoom = LANDSCAPE_ZOOM if Platform.is_landscape(size) else ZOOM
+	_world.scale = Vector2.ONE * zoom
+	_goal_banner.coin_radius = 12.0 * zoom
+	_update_camera(0.0, true)
+
+
 ## Follows the wader, keeping the view over the room.
 func _update_camera(delta: float, snap: bool = false) -> void:
 	if size.x <= 0.0:
 		return
 	var focus := Iso.to_screen(wader.ground_position) + Vector2(0.0, -60.0)
 	var view_center := Vector2(size.x * 0.5, (PLAY_MARGIN_TOP + size.y - PLAY_MARGIN_BOTTOM) * 0.5)
-	var target := view_center - focus * ZOOM
+	var target := view_center - focus * zoom
 	var bounds := _floor.screen_bounds().grow(CAMERA_OVERSCROLL)
-	target.x = _clamp_axis(target.x, size.x - bounds.end.x * ZOOM, -bounds.position.x * ZOOM)
-	target.y = _clamp_axis(target.y, size.y - PLAY_MARGIN_BOTTOM - bounds.end.y * ZOOM, PLAY_MARGIN_TOP - bounds.position.y * ZOOM)
+	target.x = _clamp_axis(target.x, size.x - bounds.end.x * zoom, -bounds.position.x * zoom)
+	target.y = _clamp_axis(target.y, size.y - PLAY_MARGIN_BOTTOM - bounds.end.y * zoom, PLAY_MARGIN_TOP - bounds.position.y * zoom)
 	_camera = target if snap else _camera.lerp(target, 1.0 - exp(-CAMERA_SMOOTHING * delta))
 	_world.position = _camera
 
@@ -467,13 +478,13 @@ func _pay_into(target: ActionSquare) -> void:
 	if GameState.state.money < 0.01:
 		if not _warned:
 			_warned = true
-			_announce(ground_to_scene(target.ground_center) + Vector2(0.0, -110.0 * ZOOM), tr("Not enough coins"), WARNING_COLOR, 0.6)
+			_announce(ground_to_scene(target.ground_center) + Vector2(0.0, -110.0 * zoom), tr("Not enough coins"), WARNING_COLOR, 0.6)
 		return
 	var before := GameState.state.money
 	var done := GameState.pay_into(target.id, maxf(target.price * PAY_SHARE, 1.0), target.price)
 	if GameState.state.money < before:
-		Juice.fly_coin(_popups, ground_to_scene(wader.ground_position) + Vector2(0.0, -120.0 * ZOOM),
-				ground_to_scene(target.ground_center), 10.0 * ZOOM)
+		Juice.fly_coin(_popups, ground_to_scene(wader.ground_position) + Vector2(0.0, -120.0 * zoom),
+				ground_to_scene(target.ground_center), 10.0 * zoom)
 		_action_count += 1
 		Sfx.play(&"coin", 0.9 + minf(_action_count, 25) * 0.02, -10.0)
 	target.paid = GameState.here().build_progress.get(target.id, 0.0)
@@ -517,7 +528,7 @@ func _complete_purchase(target: ActionSquare) -> void:
 			wader.gear_level = site.gear_level
 			var zone := Charting.deepest_open_zone(site.location_id, site.gear_level)
 			message = tr("%s!\nNow you can reach: %s") % [tr(DataRegistry.gear_levels[site.gear_level - 1].name), tr(zone.name)]
-	_announce(ground_to_scene(target.ground_center) + Vector2(0.0, -130.0 * ZOOM), message, COMBO_COLOR, 1.0)
+	_announce(ground_to_scene(target.ground_center) + Vector2(0.0, -130.0 * zoom), message, COMBO_COLOR, 1.0)
 	Sfx.play(&"ding", 1.0)
 	Sfx.play(&"ding", 1.5, -6.0)
 	Juice.splash(_effects, target.position, 18)

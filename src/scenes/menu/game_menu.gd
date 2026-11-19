@@ -1,7 +1,8 @@
 class_name GameMenu
 extends OverlayPanel
 ## The game menu: save, load or start a new game (after a confirmation), sound and music with
-## on/off switches and volume sliders, the language, and how day and night run.
+## on/off switches and volume sliders, the language, how day and night run, and how the screen
+## turns.
 
 ## The game state was loaded or started over: the spot must be rebuilt.
 signal game_replaced
@@ -31,6 +32,7 @@ var _music_toggle: Button
 var _music_slider: HSlider
 var _language_buttons: Dictionary[String, Button] = {}
 var _day_cycle_buttons: Dictionary[String, Button] = {}
+var _orientation_buttons: Dictionary[String, Button] = {}
 
 
 func _build() -> void:
@@ -83,6 +85,21 @@ func _build() -> void:
 		cycles.add_child(button)
 		_day_cycle_buttons[cycle] = button
 
+	content.add_child(_section(tr("Screen rotation")))
+	var orientations := HBoxContainer.new()
+	orientations.add_theme_constant_override("separation", 20)
+	content.add_child(orientations)
+	var orientation_names := {
+		Settings.ORIENTATION_AUTO: tr("Automatic"), Settings.ORIENTATION_PORTRAIT: tr("Portrait"),
+		Settings.ORIENTATION_LANDSCAPE: tr("Landscape"),
+	}
+	for choice: String in Settings.ORIENTATIONS:
+		var button := make_button(orientation_names[choice], _on_orientation_chosen.bind(choice))
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_make_choice(button)
+		orientations.add_child(button)
+		_orientation_buttons[choice] = button
+
 
 ## Makes `button` one of a group of choices: the others stand out as usual, the chosen one
 ## (pressed) is pressed in deep (CHOSEN_FRAME), its text sunk with it.
@@ -108,6 +125,12 @@ func _on_day_cycle_chosen(cycle: String) -> void:
 		_day_cycle_buttons[each].set_pressed_no_signal(each == Settings.day_cycle)
 
 
+func _on_orientation_chosen(choice: String) -> void:
+	Settings.set_orientation(choice)
+	for each in _orientation_buttons:
+		_orientation_buttons[each].set_pressed_no_signal(each == Settings.orientation)
+
+
 func _refresh() -> void:
 	set_title(tr("Menu"))
 	_refresh_slots()
@@ -122,6 +145,8 @@ func _refresh() -> void:
 		_language_buttons[code].set_pressed_no_signal(code == Settings.current_language())
 	for cycle in _day_cycle_buttons:
 		_day_cycle_buttons[cycle].set_pressed_no_signal(cycle == Settings.day_cycle)
+	for choice in _orientation_buttons:
+		_orientation_buttons[choice].set_pressed_no_signal(choice == Settings.orientation)
 
 
 #region Game
