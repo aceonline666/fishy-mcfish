@@ -528,9 +528,20 @@ func _spawn_fish_in(zone_index: int, species_id: String, at: Vector2, heading: f
 	fish.setup(_art_for(species_id), _zones[zone_index], _zone_areas[zone_index], at, heading)
 	fish.current = CURRENTS.get(_zones[zone_index].id, Vector2.ZERO)
 	fish.set_water_colors(location.shallow_color, location.deep_color, FLOOR_STRENGTH)
+	if fish.can_leap():
+		fish.splashed.connect(_on_fish_splashed)
 	_entities.add_child(fish)
 	_fish.append(fish)
 	return fish
+
+
+## A dolphin leaving the water or diving back in.
+func _on_fish_splashed(fish: SwimmingFish) -> void:
+	if not fish.visible:
+		return
+	Juice.splash(_effects, fish.position, 14)
+	Juice.ripple(_effects, fish.position, fish.body_length * 0.4)
+	Sfx.play(&"splash", rng.randf_range(0.85, 1.0), -6.0)
 
 
 func fish_count() -> int:
@@ -850,8 +861,9 @@ func _check_catches(delta: float) -> void:
 	var candidates: Array[SwimmingFish] = _fish.duplicate()
 	var gear := GameState.here().gear_level
 	for fish in candidates:
-		# The net reaches past the buoy line, but fish behind a closed line stay out of reach.
-		if fish.zone.gear_level > gear \
+		# The net reaches past the buoy line, but fish behind a closed line stay out of reach, and
+		# so do fish in the air.
+		if fish.zone.gear_level > gear or fish.is_leaping() \
 				or fish.ground_position.distance_to(scoop) > wader.scoop_radius + fish.catch_radius():
 			fish.hold_time = maxf(fish.hold_time - delta * HOLD_DECAY, 0.0)
 			continue

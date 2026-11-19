@@ -377,7 +377,6 @@ Rules of thumb:
   - Seasnakes
   - Walrus
   - Otter (with special swim and lay on the the back sprites and animation)
-- Add jump out of water animation for dolphins
 - Add weather and day cycle: Storms, Lightning, Night. Day and Night could sync with real time.
 - Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console - which requires a Google Cloud Project - which would cause costs)
 - Cavemen or Dinosaur people instead of cashiers / buyers for the Jura location.

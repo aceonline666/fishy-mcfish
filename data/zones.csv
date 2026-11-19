@@ -5,7 +5,7 @@ wreck,north_sea,Wreck,3,1920,2880,3,6,atlantic_cod:30;atlantic_mackerel:20;lumps
 lagoon,coral_reef,Lagoon,1,0,960,1,11,ocellaris_clownfish:40;blue_green_chromis:40;blue_tang:15;mandarinfish:3
 reef_crest,coral_reef,Reef crest,2,960,1920,2,9,blue_green_chromis:25;blue_tang:30;red_lionfish:12;mandarinfish:6;ocellaris_clownfish:10
 drop_off,coral_reef,Drop-off,3,1920,2880,3,6,red_lionfish:20;blue_tang:20;blacktip_reef_shark:6;humphead_wrasse:2;great_barracuda:8
-open_sea,north_sea,Open sea,4,2880,4320,4,7,atlantic_mackerel:30;lions_mane_jellyfish:30;atlantic_bluefin_tuna:12;ocean_sunfish:4;basking_shark:1;common_bottlenose_dolphin:3
+open_sea,north_sea,Open sea,4,2880,4320,4,7,atlantic_mackerel:30;lions_mane_jellyfish:30;atlantic_bluefin_tuna:12;ocean_sunfish:4;basking_shark:1;common_bottlenose_dolphin:8
 norwegian_trench,north_sea,Norwegian Trench,5,4320,5760,5,6,roundnose_grenadier:40;rabbit_fish:25;curled_octopus:8;atlantic_wolffish:5;greenland_shark:2
 deep_sea,north_sea,Deep sea,6,5760,7680,6,5,humpback_anglerfish:40;atlantic_footballfish:12;giant_squid:2;sperm_whale:1
 open_ocean,coral_reef,Open ocean,4,2880,4320,4,7,moon_jellyfish:35;yellowfin_tuna:30;green_sea_turtle:10;reef_manta_ray:4;blue_whale:1;whale_shark:1
