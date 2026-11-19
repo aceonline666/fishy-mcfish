@@ -21,7 +21,7 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `atlantic_mackerel` | Atlantic mackerel (Scomber scombrus) – in the game (side view) |
 | `lumpsucker` | Lumpsucker (Cyclopterus lumpus) – in the game (side view) |
 | `atlantic_cod` | Atlantic cod (Gadus morhua) – in the game (side view) |
-| `atlantic_wolffish` | Atlantic wolffish (Anarhichas lupus) |
+| `atlantic_wolffish` | Atlantic wolffish (Anarhichas lupus) – in the game (side view) |
 | `roundnose_grenadier` | Roundnose grenadier (Coryphaenoides rupestris) |
 | `rabbit_fish` | Rabbit fish (Chimaera monstrosa) |
 | `ocellaris_clownfish` | Ocellaris clownfish (Amphiprion ocellaris) |
