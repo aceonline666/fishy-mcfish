@@ -1,0 +1,62 @@
+class_name DayClock
+extends RefCounted
+## The time of day and how the world looks at it. An hour is 0 to 24 (local clock time). Dusk and
+## dawn take two hours each; between them it is night. The fast cycle (the default) runs a whole
+## day in FAST_CYCLE_S, the night shorter than the day; the real cycle follows the device clock.
+
+## Dawn and dusk, from their first hour to their last.
+const DAWN := Vector2(5.0, 7.0)
+const DUSK := Vector2(19.0, 21.0)
+## The fast cycle: its length in seconds and the seconds it spends in day, dusk, night and dawn
+## (in that order, from DAWN.y on).
+const FAST_CYCLE_S := 1200.0
+const FAST_PARTS: Array[float] = [780.0, 90.0, 240.0, 90.0]
+## The tint of the world at night (multiplied in): a cool moonlit blue at about a third of the
+## day's brightness.
+const NIGHT_TINT := Color(0.28, 0.34, 0.58)
+## The middle of dusk (a warm sunset gold) and of dawn (a pale pink).
+const DUSK_TINT := Color(1.0, 0.76, 0.6)
+const DAWN_TINT := Color(0.96, 0.8, 0.8)
+
+
+## The clock hour of the fast cycle at `unix_seconds`. Every device shows the same time of day at
+## the same moment, and the cycle runs on while the game is closed.
+static func fast_hour(unix_seconds: float) -> float:
+	var t := fposmod(unix_seconds, FAST_CYCLE_S)
+	# Day, dusk, night and dawn, each from its first hour to its last.
+	var spans: Array[Vector2] = [Vector2(DAWN.y, DUSK.x), DUSK, Vector2(DUSK.y, DAWN.x + 24.0), DAWN]
+	for i in FAST_PARTS.size():
+		if t < FAST_PARTS[i] or i == FAST_PARTS.size() - 1:
+			var share := clampf(t / FAST_PARTS[i], 0.0, 1.0)
+			return fposmod(lerpf(spans[i].x, spans[i].y, share), 24.0)
+		t -= FAST_PARTS[i]
+	return DAWN.y
+
+
+## The clock hour of a time dictionary (Time.get_time_dict_from_system()).
+static func clock_hour(time: Dictionary) -> float:
+	return float(time.get("hour", 12)) + float(time.get("minute", 0)) / 60.0 + float(time.get("second", 0)) / 3600.0
+
+
+## 0 in daylight to 1 at night: the lamps' strength. Lamps come on in the second half of dusk and
+## go out in the first half of dawn.
+static func darkness(hour: float) -> float:
+	var h := fposmod(hour, 24.0)
+	return maxf(1.0 - smoothstep(DAWN.x, lerpf(DAWN.x, DAWN.y, 0.6), h), smoothstep(lerpf(DUSK.x, DUSK.y, 0.4), DUSK.y, h))
+
+
+## The colour the world is multiplied with: white by day, gold through dusk, moonlit blue at night
+## and pink through dawn.
+static func tint(hour: float) -> Color:
+	var h := fposmod(hour, 24.0)
+	if h >= DUSK.x and h < DUSK.y:
+		return _through(Color.WHITE, DUSK_TINT, NIGHT_TINT, inverse_lerp(DUSK.x, DUSK.y, h))
+	if h >= DAWN.x and h < DAWN.y:
+		return _through(NIGHT_TINT, DAWN_TINT, Color.WHITE, inverse_lerp(DAWN.x, DAWN.y, h))
+	return Color.WHITE if h >= DAWN.y and h < DUSK.x else NIGHT_TINT
+
+
+## From `from` over `middle` to `to` as `t` runs from 0 to 1.
+static func _through(from: Color, middle: Color, to: Color, t: float) -> Color:
+	var s := smoothstep(0.0, 1.0, t)
+	return from.lerp(middle, s * 2.0) if s < 0.5 else middle.lerp(to, s * 2.0 - 1.0)

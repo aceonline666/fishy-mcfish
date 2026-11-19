@@ -1,5 +1,5 @@
 extends Node
-## Device settings that are not game progress: language, sound and music. Kept apart from the
+## Device settings that are not game progress: language, sound, music and the day cycle. Kept apart from the
 ## save file, so starting a new game keeps them.
 
 ## Sound or music were switched on or off, or their volume changed.
@@ -11,6 +11,13 @@ const LANGUAGES: Array[String] = ["en", "de"]
 ## Audio buses for sound effects and music, created at startup.
 const SOUND_BUS := &"Sfx"
 const MUSIC_BUS := &"Music"
+## A whole day in 20 minutes, day and night as on the device's clock, always day, or always night
+## (e.g. to look for night-only species).
+const DAY_CYCLE_FAST := "fast"
+const DAY_CYCLE_REAL := "real"
+const DAY_CYCLE_DAY := "day"
+const DAY_CYCLE_NIGHT := "night"
+const DAY_CYCLES: Array[String] = [DAY_CYCLE_FAST, DAY_CYCLE_REAL, DAY_CYCLE_DAY, DAY_CYCLE_NIGHT]
 
 ## Changed by use_sandbox() so tests and tools never touch the player's settings.
 var settings_path := SETTINGS_PATH
@@ -22,6 +29,8 @@ var sound_volume := 1.0
 var music_on := true
 ## 0..1
 var music_volume := 0.7
+## How the time of day runs (DayCycle): one of DAY_CYCLES.
+var day_cycle := DAY_CYCLE_FAST
 
 
 func _ready() -> void:
@@ -43,6 +52,7 @@ func use_sandbox(path: String) -> void:
 	sound_volume = 1.0
 	music_on = true
 	music_volume = 0.7
+	day_cycle = DAY_CYCLE_FAST
 	_apply_audio()
 
 
@@ -73,6 +83,11 @@ func set_music(on: bool, volume: float) -> void:
 	_save()
 
 
+func set_day_cycle(cycle: String) -> void:
+	day_cycle = cycle if DAY_CYCLES.has(cycle) else DAY_CYCLE_FAST
+	_save()
+
+
 func _apply_audio() -> void:
 	_apply_bus(SOUND_BUS, sound_on, sound_volume)
 	_apply_bus(MUSIC_BUS, music_on, music_volume)
@@ -100,11 +115,15 @@ func _load() -> void:
 	sound_volume = clampf(float(file.get_value("audio", "sound_volume", 1.0)), 0.0, 1.0)
 	music_on = bool(file.get_value("audio", "music_on", true))
 	music_volume = clampf(float(file.get_value("audio", "music_volume", 0.7)), 0.0, 1.0)
+	day_cycle = str(file.get_value("general", "day_cycle", DAY_CYCLE_FAST))
+	if not DAY_CYCLES.has(day_cycle):
+		day_cycle = DAY_CYCLE_FAST
 
 
 func _save() -> void:
 	var file := ConfigFile.new()
 	file.set_value("general", "language", language)
+	file.set_value("general", "day_cycle", day_cycle)
 	file.set_value("audio", "sound_on", sound_on)
 	file.set_value("audio", "sound_volume", sound_volume)
 	file.set_value("audio", "music_on", music_on)

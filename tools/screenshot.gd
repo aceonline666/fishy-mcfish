@@ -4,8 +4,10 @@ extends SceneTree
 ##
 ## Usage (not headless, it needs to render):
 ##   godot --path . -s res://tools/screenshot.gd -- --out=C:/temp/shots [--drag] [--tap=0.65,0.22]
+##     [--hour=22.5] [--at=900,-1000]
 ## --tap taps once at the given fraction of the window after the drag and captures twice while
-## the game reacts (e.g. walking onto the store square).
+## the game reacts (e.g. walking onto the store square). --hour holds the time of day (DayCycle)
+## at that clock hour; --at puts the wader on that ground point before the first capture.
 
 const SETTLE_SECONDS := 1.5
 const DRAG_FRAMES := 150
@@ -13,6 +15,8 @@ const DRAG_FRAMES := 150
 var _out_dir := "user://screenshots"
 var _drag := false
 var _tap := Vector2(-1.0, -1.0)
+var _hour := -1.0
+var _at := Vector2.INF
 
 
 func _initialize() -> void:
@@ -24,6 +28,11 @@ func _initialize() -> void:
 		elif arg.begins_with("--tap="):
 			var parts := arg.trim_prefix("--tap=").split(",")
 			_tap = Vector2(parts[0].to_float(), parts[1].to_float())
+		elif arg.begins_with("--hour="):
+			_hour = arg.trim_prefix("--hour=").to_float()
+		elif arg.begins_with("--at="):
+			var at := arg.trim_prefix("--at=").split(",")
+			_at = Vector2(at[0].to_float(), at[1].to_float())
 	DirAccess.make_dir_recursive_absolute(_out_dir)
 	_run.call_deferred()
 
@@ -32,8 +41,14 @@ func _run() -> void:
 	# Start from a fresh game in a separate save, never the player's. Deferred so the
 	# autoloads are ready.
 	root.get_node("SaveSystem").use_sandbox("user://screenshots/save.json")
+	root.get_node("DayCycle").override_hour = _hour
 	change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
 	await create_timer(SETTLE_SECONDS).timeout
+	if _at != Vector2.INF:
+		var wader: Node2D = root.find_children("Wader", "", true, false)[0]
+		wader.set("ground_position", _at)
+		wader.position = Iso.to_screen(_at)
+		await create_timer(SETTLE_SECONDS).timeout
 	await _capture("01_idle")
 	if _drag:
 		await _scripted_drag()

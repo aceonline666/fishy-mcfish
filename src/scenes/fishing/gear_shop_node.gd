@@ -21,6 +21,11 @@ const SIGN_ANGLE := deg_to_rad(8.7)
 const SIGN_TEXT_WIDTH := 390.0
 const SIGN_TEXT_SIZE := 72
 const SIGN_TEXT_COLOR := Color(0.25, 0.14, 0.05)
+## At night (Night): the lantern by the door and the foot of the wall below it, and the lit door
+## and shop windows (pixels in the sprite).
+const LANTERN := Vector2(48.0, 632.0)
+const LANTERN_FOOT := Vector2(60.0, 830.0)
+const WINDOWS: Array[Vector2] = [Vector2(160.0, 760.0), Vector2(365.0, 775.0), Vector2(615.0, 880.0)]
 
 var _scale := 1.0
 ## Where the sprite's top left corner is drawn, relative to the node.
@@ -33,6 +38,11 @@ func setup(area: Rect2) -> void:
 	_scale = Grid.fit_scale(LEFT, BOTTOM, RIGHT, Vector2i((area.size / Grid.UNIT).round()))
 	_origin = Iso.to_screen(area.end - area.get_center()) - BOTTOM * _scale
 	queue_redraw()
+
+
+## A point of the sprite (pixels), relative to the node's parent.
+func painted(pixel: Vector2) -> Vector2:
+	return position + _origin + pixel * _scale
 
 
 ## Where the sprite is drawn, relative to the node.

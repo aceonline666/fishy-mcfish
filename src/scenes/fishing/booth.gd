@@ -27,6 +27,8 @@ const SOUTH_END_ANCHOR := Vector2(239.0, 530.0)
 const NORTH_END_ANCHOR := Vector2(172.0, 531.0)
 ## One segment in the sprites (pixels): from its south join to its north join.
 const SEGMENT_STEP := Vector2(373.0, -186.0)
+## The middle of the segment's display tank (pixels), which glows at night (Night).
+const DISPLAY_TANK := Vector2(305.0, 415.0)
 const CASHIERS: Array[Texture2D] = [
 	preload("res://assets/sprites/cashier/cashier_1.png"),
 	preload("res://assets/sprites/cashier/cashier_2.png"),
@@ -123,6 +125,11 @@ func _show(frame: int) -> void:
 	if frame != _frame:
 		_frame = frame
 		_figure.queue_redraw()
+
+
+## The middle of the display tank, relative to the node's parent.
+func display_tank() -> Vector2:
+	return position + _piece_rect(SEGMENT, SEGMENT_ANCHOR, _south_join()).position + DISPLAY_TANK * _scale()
 
 
 ## Where the sprite is drawn, relative to the node.

@@ -1,7 +1,7 @@
 class_name GameMenu
 extends OverlayPanel
 ## The game menu: save, load or start a new game (after a confirmation), sound and music with
-## on/off switches and volume sliders, and the language.
+## on/off switches and volume sliders, the language, and how day and night run.
 
 ## The game state was loaded or started over: the spot must be rebuilt.
 signal game_replaced
@@ -10,6 +10,8 @@ const SECTION_COLOR := Color(1.0, 0.86, 0.3)
 const ON_COLOR := Color(0.55, 1.0, 0.65)
 const OFF_COLOR := Color(1.0, 0.6, 0.5)
 const DANGER := Color(0.85, 0.25, 0.2)
+## The chosen one of a group of choices (language, day cycle): the button pressed in deep.
+const CHOSEN_FRAME := preload("res://assets/ui/frames/button_selected.svg")
 const KNOB := preload("res://assets/ui/knob.svg")
 const FLAGS: Dictionary[String, Texture2D] = {
 	"en": preload("res://assets/ui/flag_us.svg"),
@@ -28,6 +30,7 @@ var _sound_slider: HSlider
 var _music_toggle: Button
 var _music_slider: HSlider
 var _language_buttons: Dictionary[String, Button] = {}
+var _day_cycle_buttons: Dictionary[String, Button] = {}
 
 
 func _build() -> void:
@@ -59,9 +62,50 @@ func _build() -> void:
 		button.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 		button.add_theme_constant_override("icon_max_width", 64)
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		button.toggle_mode = true
+		_make_choice(button)
 		languages.add_child(button)
 		_language_buttons[code] = button
+
+	content.add_child(_section(tr("Day and night")))
+	var cycles := GridContainer.new()
+	cycles.columns = 2
+	cycles.add_theme_constant_override("h_separation", 20)
+	cycles.add_theme_constant_override("v_separation", 20)
+	content.add_child(cycles)
+	var cycle_names := {
+		Settings.DAY_CYCLE_FAST: tr("20 minutes"), Settings.DAY_CYCLE_REAL: tr("Real time"),
+		Settings.DAY_CYCLE_DAY: tr("Always day"), Settings.DAY_CYCLE_NIGHT: tr("Always night"),
+	}
+	for cycle: String in Settings.DAY_CYCLES:
+		var button := make_button(cycle_names[cycle], _on_day_cycle_chosen.bind(cycle))
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_make_choice(button)
+		cycles.add_child(button)
+		_day_cycle_buttons[cycle] = button
+
+
+## Makes `button` one of a group of choices: the others stand out as usual, the chosen one
+## (pressed) is pressed in deep (CHOSEN_FRAME), its text sunk with it.
+func _make_choice(button: Button) -> void:
+	button.toggle_mode = true
+	var chosen := StyleBoxTexture.new()
+	chosen.texture = CHOSEN_FRAME
+	chosen.texture_margin_left = 32.0
+	chosen.texture_margin_right = 32.0
+	chosen.texture_margin_top = 40.0
+	chosen.texture_margin_bottom = 30.0
+	chosen.content_margin_left = 32.0
+	chosen.content_margin_right = 32.0
+	chosen.content_margin_top = 30.0
+	chosen.content_margin_bottom = 6.0
+	button.add_theme_stylebox_override("pressed", chosen)
+	button.add_theme_stylebox_override("hover_pressed", chosen)
+
+
+func _on_day_cycle_chosen(cycle: String) -> void:
+	Settings.set_day_cycle(cycle)
+	for each in _day_cycle_buttons:
+		_day_cycle_buttons[each].set_pressed_no_signal(each == Settings.day_cycle)
 
 
 func _refresh() -> void:
@@ -76,6 +120,8 @@ func _refresh() -> void:
 	_show_toggle(_music_toggle, Settings.music_on)
 	for code in _language_buttons:
 		_language_buttons[code].set_pressed_no_signal(code == Settings.current_language())
+	for cycle in _day_cycle_buttons:
+		_day_cycle_buttons[cycle].set_pressed_no_signal(cycle == Settings.day_cycle)
 
 
 #region Game

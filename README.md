@@ -281,6 +281,8 @@ Rules of thumb:
     ([Freesound 457213](https://freesound.org/people/hdmcgehee/sounds/457213/)).
 
 ## TODOs
+- Add weather: Storms, Lightning. (Day and night are in: a 20-minute cycle, real time, always day or always night, chosen in the menu; `DayClock`, `DayCycle`, `Night`. In debug builds N moves the time on by an hour, Shift+N lets it run; `tools/screenshot.gd -- --hour=23`.) Still to do for the night: night-only species, bioluminescent wake, no seagulls at night.
+- Tablet / horizontal mode
 - Regenerate the species sprites that are not yet in the new cute-comic format (one image per species in `art_source/fish/views/`, prompts in `art_source/fish/views/prompts.md`, cut with `tools/extract_species_views.py`):
   - Blue tang (Paracanthurus hepatus)
   - Mandarinfish (Synchiropus splendidus)
@@ -377,9 +379,11 @@ Rules of thumb:
   - Seasnakes
   - Walrus
   - Otter (with special swim and lay on the the back sprites and animation)
-- Add weather and day cycle: Storms, Lightning, Night. Day and Night could sync with real time.
+- Better plant animations - e.g. really long and wavy kelp forests
 - Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console - which requires a Google Cloud Project - which would cause costs)
-- Cavemen or Dinosaur people instead of cashiers / buyers for the Jura location.
+- Cavemen or Dinosaur people instead of cashiers / buyers for the Jura location. Also adjust buyers for other locations - Antarctica buyers should wear warmer stuff than shorts.
+- Pick up the story of the bottles and continue / finish the story. The last message says you'll find me by a fire - so the last level could contain a fire and a dad? Or a skeleton? Maybe with achievement "Is that you Dad?"
 - Secret "pineapple" and starfish hidden somewhere? Maybe with an achievement?
 - Secret level entry somewhere in the depth on the east border. We could make a tiny hole into the rock barrier, which makes you enter a secret area.
+- More languages for internationalization - select the device/playstore language by default.
   

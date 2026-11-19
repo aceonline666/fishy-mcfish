@@ -321,6 +321,21 @@ msgstr "Musik"
 msgid "Language"
 msgstr "Sprache"
 
+msgid "Day and night"
+msgstr "Tag und Nacht"
+
+msgid "20 minutes"
+msgstr "20 Minuten"
+
+msgid "Real time"
+msgstr "Echtzeit"
+
+msgid "Always day"
+msgstr "Immer Tag"
+
+msgid "Always night"
+msgstr "Immer Nacht"
+
 msgid "On"
 msgstr "An"
 

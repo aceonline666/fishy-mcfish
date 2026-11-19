@@ -188,6 +188,12 @@ const LIGHT_TURN := 4.0
 const LIGHT_FADE := 1.5
 ## The hard-hat helmet's headlamp lights this share of the submarine's spotlight.
 const HEADLAMP_LIGHT := 0.35
+## At night (Night): the radius of a lantern's pool of light and of the one the wader carries
+## (ground units), and of a lantern's and a lit window's glow (screen units).
+const NIGHT_LAMP_RADIUS := 320.0
+const NIGHT_CARRIED_RADIUS := 230.0
+const NIGHT_GLOW_RADIUS := 34.0
+const NIGHT_WINDOW_GLOW := 46.0
 const SWELL_SHADER := preload("res://src/shaders/swell.gdshader")
 ## The last zones of a spot (from the fourth on) are the open sea, with a heavy swell
 ## (swell.gdshader); the buoy lines in it ride the swell (ZoneBuoys.ROUGH_LINES).
@@ -261,6 +267,7 @@ var _sand_texture: Texture2D
 var _tank_node: TankNode
 var _belt: SalesBelt
 var _boardwalk: Boardwalk
+var _gear_shop: GearShopNode
 ## Buyers in the queue, first in line first; served ones are not in it.
 var _queue: Array[Customer] = []
 ## The buyer at each booth, or null: booth 0 is the player's, booth 1 + n the n-th seller's.
@@ -313,6 +320,8 @@ var _light_on := 0.0
 var dark_things := DarkThings.new()
 ## Seabirds flying over now and then (Seabirds).
 var seabirds := Seabirds.new()
+## The time of day: its tint over the world and the lamps at night.
+var night := Night.new()
 
 @onready var wader: Wader = $World/Entities/Wader
 @onready var _water: ColorRect = $Water
@@ -358,6 +367,8 @@ func _ready() -> void:
 	Layers.put(_squares_layer, Layers.PADS)
 	Layers.put(_entities, Layers.OBJECTS)
 	Layers.put(_effects, Layers.EFFECTS)
+	_world.add_child(night)
+	_world.add_sibling(night.shade)
 	EventBus.money_changed.connect(_on_money_changed)
 	EventBus.state_replaced.connect(_rebuild_from_state)
 	resized.connect(_update_camera.bind(0.0, true))
@@ -452,6 +463,7 @@ func _process(delta: float) -> void:
 	_update_zone()
 	_update_camera(delta)
 	_update_spotlight(delta)
+	_update_night()
 	_update_wake(delta)
 	_update_hums(delta)
 	seabirds.view = Rect2(-_world.position / ZOOM, size / ZOOM)
@@ -770,6 +782,26 @@ func _update_spotlight(delta: float) -> void:
 	dark_things.light_on = _light_on
 	wader.light_dir = _light_dir
 	wader.light_on = _light_on
+	night.show_spotlight(wader.ground_position, _light_dir, _light_on)
+
+
+## The time of day (DayCycle): the world's tint, and at night the painted lanterns of the pier and
+## the gear shop, its windows, the booths' display tanks and the tank shine, and the wader carries
+## a soft light.
+func _update_night() -> void:
+	var lamps: Array[Night.Lamp] = []
+	var dark := DayCycle.darkness()
+	if dark > 0.0:
+		lamps.append(Night.Lamp.new(wader.ground_position, NIGHT_CARRIED_RADIUS, 0.6, Night.CARRIED_COLOR))
+		for booth in _booth_nodes:
+			lamps.append(Night.Lamp.new(booth.ground_position, NIGHT_LAMP_RADIUS * 0.8, 0.7, Night.TANK_COLOR, booth.display_tank(), NIGHT_WINDOW_GLOW))
+		var tank := _tank_area()
+		lamps.append(Night.Lamp.new(tank.get_center(), tank.size.length() * 0.6 + Grid.UNIT, 0.7, Night.TANK_COLOR))
+		lamps.append(Night.Lamp.new(_boardwalk.lantern_ground(), NIGHT_LAMP_RADIUS, 0.85, Night.LAMP_COLOR, _boardwalk.lantern_light(), NIGHT_GLOW_RADIUS))
+		lamps.append(Night.Lamp.new(Iso.to_ground(_gear_shop.painted(GearShopNode.LANTERN_FOOT)), NIGHT_LAMP_RADIUS * 1.2, 0.9, Night.LAMP_COLOR, _gear_shop.painted(GearShopNode.LANTERN), NIGHT_GLOW_RADIUS))
+		for window in GearShopNode.WINDOWS:
+			lamps.append(Night.Lamp.new(Vector2.ZERO, 0.0, 0.0, Night.LAMP_COLOR, _gear_shop.painted(window), NIGHT_WINDOW_GLOW))
+	night.show_time(DayCycle.tint(), dark, lamps, size, _world.position, ZOOM)
 
 
 ## The last OPEN_SEA_ZONES zones are the open sea, with a heavy swell on the surface. The swell rect starts
@@ -1143,10 +1175,10 @@ func _place_decor() -> void:
 		sprite.position = Iso.to_screen(Grid.center(entry[1]))
 		_entities.add_child(sprite)
 		_decor_covers.append(Layers.sprite_cover(sprite))
-	var gear_shop := GearShopNode.new()
-	gear_shop.setup(Grid.rect(GEAR_SHOP_CELL, GEAR_SHOP_SIZE))
-	_entities.add_child(gear_shop)
-	_decor_covers.append(Layers.cover(gear_shop, gear_shop.sprite_bounds()))
+	_gear_shop = GearShopNode.new()
+	_gear_shop.setup(Grid.rect(GEAR_SHOP_CELL, GEAR_SHOP_SIZE))
+	_entities.add_child(_gear_shop)
+	_decor_covers.append(Layers.cover(_gear_shop, _gear_shop.sprite_bounds()))
 
 
 ## Titles and prices are set by _refresh_squares().

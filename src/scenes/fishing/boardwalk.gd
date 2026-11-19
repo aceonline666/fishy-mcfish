@@ -22,6 +22,10 @@ const SHORE_END := Vector2(1134.0, 202.0)
 ## The painting is this many sections long; one of them is SECTION.
 const SECTIONS := 4
 const SECTION_STEP := (SHORE_END - WATER_END) / SECTIONS
+## The lantern's light and the foot of its post in the lantern piece (pixels): it shines at night
+## (Night).
+const LANTERN_LIGHT := Vector2(448.0, 82.0)
+const LANTERN_FOOT := Vector2(478.0, 132.0)
 
 ## Ground rectangle covered by the walk.
 var area := Rect2()
@@ -32,16 +36,38 @@ func setup(ground_area: Rect2) -> void:
 	queue_redraw()
 
 
-func _draw() -> void:
+## The lantern's light, relative to the node's parent.
+func lantern_light() -> Vector2:
+	return position + _painting() * (_lantern_at() + LANTERN_LIGHT)
+
+
+## The ground point below the lantern.
+func lantern_ground() -> Vector2:
+	return Iso.to_ground(position + _painting() * (_lantern_at() + LANTERN_FOOT))
+
+
+func _sections() -> int:
+	return maxi(roundi(area.size.y / Grid.UNIT), SECTIONS - 1)
+
+
+## From painting pixels (relative to WATER_END) to the node.
+func _painting() -> Transform2D:
 	var water := Iso.to_screen(Vector2(area.get_center().x, area.end.y))
 	var shore := Iso.to_screen(Vector2(area.get_center().x, area.position.y))
-	var sections := maxi(roundi(area.size.y / Grid.UNIT), SECTIONS - 1)
-	var scale_factor := water.distance_to(shore) / (SECTION_STEP.length() * sections)
+	var scale_factor := water.distance_to(shore) / (SECTION_STEP.length() * _sections())
 	var turn := (shore - water).angle() - SECTION_STEP.angle()
-	draw_set_transform(water, turn, Vector2.ONE * scale_factor)
+	return Transform2D(turn, Vector2.ONE * scale_factor, 0.0, water)
+
+
+func _lantern_at() -> Vector2:
+	return LANTERN_AT - WATER_END + SECTION_STEP * (_sections() - SECTIONS)
+
+
+func _draw() -> void:
+	draw_set_transform_matrix(_painting())
 	# From the shore end down, so the nearer piece covers the overlap.
-	var extra := sections - SECTIONS
-	draw_texture(LANTERN, LANTERN_AT - WATER_END + SECTION_STEP * extra)
+	var extra := _sections() - SECTIONS
+	draw_texture(LANTERN, _lantern_at())
 	for i in range(extra, -1, -1):
 		draw_texture(SECTION, SECTION_AT - WATER_END + SECTION_STEP * i)
 	draw_texture(STEPS, STEPS_AT - WATER_END)

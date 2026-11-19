@@ -8,30 +8,34 @@ extends RefCounted
 ## stay in front of the world.
 
 ## The scene's background behind the world: the water colour, the store's wall colour.
-const BACKGROUND := -11
+const BACKGROUND := -13
 ## Sand, sea, seabed, the first buoy line and the drones' dock.
-const FLOOR := -10
+const FLOOR := -12
 ## What stands west of the pier, which runs in front of it: the tank and the sales belt. Nothing
 ## can walk behind them.
-const BEHIND_PIER := -9
+const BEHIND_PIER := -11
 ## The pier, from the water up the beach.
-const PIER := -8
+const PIER := -10
 ## The sprites standing on the ground: buildings, the market's backdrop, booths, props, buyers
 ## and sellers, and the fish in the sea.
-const OBJECTS := -7
+const OBJECTS := -9
 ## The pads' slabs.
-const PADS := -6
+const PADS := -8
 ## The pads' pictures and texts.
-const PAD_TEXT := -5
+const PAD_TEXT := -7
 ## The wader, its see-through copy and its catch ring.
-const WADER := -4
+const WADER := -6
 ## The water's surface over the deeper zones, where the wader swims below it: the open sea's
 ## swell (swell.gdshader) and on it the buoy lines from the second one on.
-const SURFACE := -3
+const SURFACE := -5
 ## Drones.
-const FLYING := -2
+const FLYING := -4
 ## Splashes, ripples and other effects.
-const EFFECTS := -1
+const EFFECTS := -3
+## The time of day's tint over the whole world (night.gdshader), with the lamps' pools of light.
+const NIGHT := -2
+## The lamps' glow, which shines through the night.
+const NIGHT_LIGHTS := -1
 
 
 ## Something on the ground the wader can walk behind: the screen rectangle its sprite covers and
