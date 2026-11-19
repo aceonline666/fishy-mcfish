@@ -24,7 +24,7 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `atlantic_wolffish` | Atlantic wolffish (Anarhichas lupus) – in the game (side view) |
 | `roundnose_grenadier` | Roundnose grenadier (Coryphaenoides rupestris) |
 | `rabbit_fish` | Rabbit fish (Chimaera monstrosa) |
-| `ocellaris_clownfish` | Ocellaris clownfish (Amphiprion ocellaris) |
+| `ocellaris_clownfish` | Ocellaris clownfish (Amphiprion ocellaris) – in the game (side view) |
 | `blue_green_chromis` | Blue-green chromis (Chromis viridis) |
 | `blue_tang` | Blue tang (Paracanthurus hepatus) |
 | `mandarinfish` | Mandarinfish (Synchiropus splendidus) |
