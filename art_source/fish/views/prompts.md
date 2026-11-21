@@ -143,13 +143,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-European sprat (Sprattus sprattus): small, slim, silvery with a blue-green back and a forked tail.
+European sprat (Sprattus sprattus): small, slim, silvery with a blue-green back and a forked tail. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -169,13 +171,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Atlantic herring (Clupea harengus): slim, silvery with a blue-green back, a single dorsal fin and a forked tail.
+Atlantic herring (Clupea harengus): slim, silvery with a blue-green back, a single dorsal fin and a forked tail. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -195,13 +199,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Atlantic mackerel (Scomber scombrus): streamlined, a green-blue back with black wavy stripes, silver sides, small finlets before the forked tail.
+Atlantic mackerel (Scomber scombrus): streamlined, a green-blue back with black wavy stripes, silver sides, small finlets before the forked tail. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -221,13 +227,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Lumpsucker (Cyclopterus lumpus): round and lumpy like a ball, grey-green with three rows of bony bumps along its side, a high rounded hump on its back, a small mouth, small round pectoral fins and a short rounded tail fin.
+Lumpsucker (Cyclopterus lumpus): round and lumpy like a ball, grey-green with three rows of bony bumps along its side, a high rounded hump on its back, a small mouth, small round pectoral fins and a short rounded tail fin. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -247,11 +255,13 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Atlantic cod (Gadus morhua): olive-brown back with dark spots, pale lateral line, a chin barbel, three dorsal fins (exactly as in the reference image).
+Atlantic cod (Gadus morhua): olive-brown back with dark spots, pale lateral line, a chin barbel, three dorsal fins (exactly as in the reference image). In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -271,13 +281,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Atlantic wolffish (Anarhichas lupus): long and heavy, blue-grey with dark bands, a big blunt head with strong teeth, one long dorsal fin.
+Atlantic wolffish (Anarhichas lupus): long and heavy, blue-grey with dark bands, a big blunt head with strong teeth, one long dorsal fin. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -297,13 +309,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Roundnose grenadier (Coryphaenoides rupestris): a big head with a rounded snout and big eyes, the body tapering into a long rat-like tail, grey-brown.
+Roundnose grenadier (Coryphaenoides rupestris): a big head with a rounded snout and big eyes, the body tapering into a long rat-like tail, grey-brown. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -323,13 +337,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Rabbit fish (Chimaera monstrosa): a chimaera: a big head with huge green eyes, large wing-like pectoral fins, a tall spine on the first dorsal fin, a long whip tail, bronze with white spots.
+Rabbit fish (Chimaera monstrosa): a chimaera: a big head with huge green eyes, large wing-like pectoral fins, a tall spine on the first dorsal fin, a long whip tail, bronze with white spots. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -349,13 +365,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Ocellaris clownfish (Amphiprion ocellaris): small, bright orange with three white bands edged in black.
+Ocellaris clownfish (Amphiprion ocellaris): small, bright orange with three white bands edged in black. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -375,13 +393,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Blue-green chromis (Chromis viridis): small, iridescent blue-green, a forked tail.
+Blue-green chromis (Chromis viridis): small, iridescent blue-green, a forked tail. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -401,13 +421,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Blue tang (Paracanthurus hepatus): a surgeonfish, not slim: a deep, flat, almost disc-shaped oval body (nearly as tall as it is long without the tail), a steep rounded forehead, a small pointed mouth, a big eye, royal blue with a black palette pattern, black edges on the long dorsal and anal fins, a yellow pectoral fin and a yellow tail.
+Blue tang (Paracanthurus hepatus): a surgeonfish, not slim: a deep, flat, almost disc-shaped oval body (nearly as tall as it is long without the tail), a steep rounded forehead, a small pointed mouth, a big eye, royal blue with a black palette pattern, black edges on the long dorsal and anal fins, a yellow pectoral fin and a yellow tail. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -427,13 +449,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Mandarinfish (Synchiropus splendidus): tiny, a dragonet, not a goby: a broad, blunt, rounded head with big bulging eyes set high on top of it (they bulge out above the head outline), a small mouth, a short stout body, orange and electric blue wavy patterns, a green-yellow tint on the head, big fan-like blue pectoral and pelvic fins with orange edges.
+Mandarinfish (Synchiropus splendidus): tiny, a dragonet, not a goby: a broad, blunt, rounded head with big bulging eyes set high on top of it (they bulge out above the head outline), a small mouth, a short stout body, orange and electric blue wavy patterns, a green-yellow tint on the head, big fan-like blue pectoral and pelvic fins with orange edges. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -453,13 +477,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Red lionfish (Pterois volitans): red and white stripes, long fan-like pectoral fins and long venomous spines spread around it.
+Red lionfish (Pterois volitans): red and white stripes, long fan-like pectoral fins and long venomous spines spread around it. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -479,13 +505,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Humphead wrasse (Cheilinus undulatus): huge, green-blue, a big hump on the forehead, thick lips, fine wavy lines on the face.
+Humphead wrasse (Cheilinus undulatus): huge, green-blue, a big hump on the forehead, thick lips, fine wavy lines on the face. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.3 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -505,13 +533,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Atlantic bluefin tuna (Thunnus thynnus): big and torpedo-shaped, a dark blue back, silver belly, yellow finlets, a sickle-shaped tail.
+Atlantic bluefin tuna (Thunnus thynnus): big and torpedo-shaped, a dark blue back, silver belly, yellow finlets, a sickle-shaped tail. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.5 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -531,13 +561,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Yellowfin tuna (Thunnus albacares): torpedo-shaped, dark blue back, a yellow side stripe, long yellow second dorsal and anal fins.
+Yellowfin tuna (Thunnus albacares): torpedo-shaped, dark blue back, a yellow side stripe, long yellow second dorsal and anal fins. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.3 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -557,13 +589,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Humpback anglerfish (Melanocetus johnsonii): a small black deep-sea fish, a huge mouth full of needle teeth, a glowing lure on a rod over its head.
+Humpback anglerfish (Melanocetus johnsonii): a small black deep-sea fish, a huge mouth full of needle teeth, a glowing lure on a rod over its head. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -583,13 +617,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Atlantic footballfish (Himantolophus groenlandicus): round like a ball, dark brown with bony plates, a lure with glowing tassels on its head.
+Atlantic footballfish (Himantolophus groenlandicus): round like a ball, dark brown with bony plates, a lure with glowing tassels on its head. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -609,13 +645,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Skinnycheek lanternfish (Benthosema pterotum): tiny, dark with big eyes and rows of glowing blue light dots along the belly.
+Skinnycheek lanternfish (Benthosema pterotum): tiny, dark with big eyes and rows of glowing blue light dots along the belly. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -635,13 +673,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-West Indian Ocean coelacanth (Latimeria chalumnae): steel blue with white blotches, thick scales, fleshy lobed fins like little legs, a three-lobed tail.
+West Indian Ocean coelacanth (Latimeria chalumnae): steel blue with white blotches, thick scales, fleshy lobed fins like little legs, a three-lobed tail. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.3 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -661,13 +701,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Australian salmon (Arripis trutta): streamlined, a green-blue back with dark spots, silver sides, a forked tail.
+Australian salmon (Arripis trutta): streamlined, a green-blue back with dark spots, silver sides, a forked tail. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -687,13 +729,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Blue groper (Achoerodus viridis): a big wrasse, bright blue, thick lips, a rounded tail.
+Blue groper (Achoerodus viridis): a big wrasse, bright blue, thick lips, a rounded tail. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -713,13 +757,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Old wife (Enoplosus armatus): a tall, flat, silver-white body with bold black diagonal bands, a tall spiny dorsal fin.
+Old wife (Enoplosus armatus): a tall, flat, silver-white body with bold black diagonal bands, a tall spiny dorsal fin. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -739,13 +785,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Orange roughy (Hoplostethus atlanticus): deep-bodied, bright orange-red, a big bony head with big eyes.
+Orange roughy (Hoplostethus atlanticus): deep-bodied, bright orange-red, a big bony head with big eyes. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -765,13 +813,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Blobfish (Psychrolutes marcidus): a soft, droopy pink body, a big sad face with a fleshy nose, a small tail (alive in the deep sea, a little less droopy).
+Blobfish (Psychrolutes marcidus): a soft, droopy pink body, a big sad face with a fleshy nose, a small tail (alive in the deep sea, a little less droopy). In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -791,13 +841,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Common fangtooth (Anoplogaster cornuta): small and dark, a huge head with enormous fang teeth, small eyes.
+Common fangtooth (Anoplogaster cornuta): small and dark, a huge head with enormous fang teeth, small eyes. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -817,13 +869,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Red sea bream (Pagrus major): a tall oval body, pink-red with tiny blue spots, a forked tail.
+Red sea bream (Pagrus major): a tall oval body, pink-red with tiny blue spots, a forked tail. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -843,13 +897,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Japanese horse mackerel (Trachurus japonicus): slim, silvery green-blue, a row of bony scutes along the side, a forked tail.
+Japanese horse mackerel (Trachurus japonicus): slim, silvery green-blue, a row of bony scutes along the side, a forked tail. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -869,13 +925,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Tiger puffer (Takifugu rubripes): a round fugu, grey-brown back with a big black spot ringed in white behind each pectoral fin, a white belly.
+Tiger puffer (Takifugu rubripes): a round fugu, grey-brown back with a big black spot ringed in white behind each pectoral fin, a white belly. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -895,13 +953,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Japanese amberjack (Seriola quinqueradiata): streamlined, blue-green back, a yellow stripe along the side, silver belly, a forked yellow tail.
+Japanese amberjack (Seriola quinqueradiata): streamlined, blue-green back, a yellow stripe along the side, silver belly, a forked yellow tail. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -921,13 +981,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Opah (Lampris guttatus): a round disc-shaped fish, red-pink with white spots, bright red fins.
+Opah (Lampris guttatus): a round disc-shaped fish, red-pink with white spots, bright red fins. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -947,13 +1009,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Mariana snailfish (Pseudoliparis swirei): small, soft, pale pink and almost see-through, a tadpole shape with a big head.
+Mariana snailfish (Pseudoliparis swirei): small, soft, pale pink and almost see-through, a tadpole shape with a big head. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -973,13 +1037,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Hottentot seabream (Pachymetopon blochii): an oval bronze-grey seabream with a blunt head and a forked tail.
+Hottentot seabream (Pachymetopon blochii): an oval bronze-grey seabream with a blunt head and a forked tail. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -999,13 +1065,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-South African sardine (Sardinops sagax): small, slim, silvery with a blue back and a row of dark spots along the side.
+South African sardine (Sardinops sagax): small, slim, silvery with a blue back and a row of dark spots along the side. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1025,13 +1093,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Galjoen (Dichistius capensis): an oval body, dark bronze-black with faint bands, a small mouth, a spiny dorsal fin.
+Galjoen (Dichistius capensis): an oval body, dark bronze-black with faint bands, a small mouth, a spiny dorsal fin. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1051,13 +1121,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Cape hake (Merluccius capensis): slim, silver-grey with a long head, big eyes, a long second dorsal fin.
+Cape hake (Merluccius capensis): slim, silver-grey with a long head, big eyes, a long second dorsal fin. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1077,13 +1149,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Sloane's viperfish (Chauliodus sloani): a slim black deep-sea fish, huge needle fangs sticking out of its mouth, glowing dots along the belly.
+Sloane's viperfish (Chauliodus sloani): a slim black deep-sea fish, huge needle fangs sticking out of its mouth, glowing dots along the belly. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1103,13 +1177,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Great barracuda (Sphyraena barracuda): long and slim, silver-grey with dark bars, a long pointed jaw full of sharp teeth.
+Great barracuda (Sphyraena barracuda): long and slim, silver-grey with dark bars, a long pointed jaw full of sharp teeth. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1129,13 +1205,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Crocodile icefish (Chionodraco hamatus): pale and almost see-through, a long flat crocodile-like snout, large fins.
+Crocodile icefish (Chionodraco hamatus): pale and almost see-through, a long flat crocodile-like snout, large fins. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1155,13 +1233,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Antarctic toothfish (Dissostichus mawsoni): large and heavy, dark grey-brown, a big head with a wide mouth, two dorsal fins.
+Antarctic toothfish (Dissostichus mawsoni): large and heavy, dark grey-brown, a big head with a wide mouth, two dorsal fins. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1181,13 +1261,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Leedsichthys (Leedsichthys problematicus): Jurassic giant filter feeder: an enormous, long, grey-brown fish with a huge wide gaping mouth, long pectoral fins and a big forked tail.
+Leedsichthys (Leedsichthys problematicus): Jurassic giant filter feeder: an enormous, long, grey-brown fish with a huge wide gaping mouth, long pectoral fins and a big forked tail. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: thin, only about a quarter as thick as in Image 1, because the game shows this creature about 3.9 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1207,13 +1289,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Antarctic silverfish (Pleuragramma antarctica): Antarctic silverfish (Pleuragramma antarctica): small, slim, silvery, almost see-through, a big eye, a forked tail.
+Antarctic silverfish (Pleuragramma antarctica): Antarctic silverfish (Pleuragramma antarctica): small, slim, silvery, almost see-through, a big eye, a forked tail. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1233,13 +1317,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Emerald rockcod (Trematomus bernacchii): Emerald rockcod (Trematomus bernacchii): stocky, mottled green-brown with dark bands, a big head, wide pectoral fins.
+Emerald rockcod (Trematomus bernacchii): Emerald rockcod (Trematomus bernacchii): stocky, mottled green-brown with dark bands, a big head, wide pectoral fins. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1259,13 +1345,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Bald notothen (Pagothenia borchgrevinki): Bald notothen (Pagothenia borchgrevinki): slim, silvery-grey with dark spots, a pointed head, a long second dorsal fin.
+Bald notothen (Pagothenia borchgrevinki): Bald notothen (Pagothenia borchgrevinki): slim, silvery-grey with dark spots, a pointed head, a long second dorsal fin. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1285,13 +1373,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Mackerel icefish (Champsocephalus gunnari): Mackerel icefish (Champsocephalus gunnari): long, pale see-through grey-white with dark bands on the back, a long flat snout.
+Mackerel icefish (Champsocephalus gunnari): Mackerel icefish (Champsocephalus gunnari): long, pale see-through grey-white with dark bands on the back, a long flat snout. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1311,13 +1401,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Marbled rockcod (Notothenia rossii): Marbled rockcod (Notothenia rossii): heavy, a big head, olive-brown with darker marbled patches.
+Marbled rockcod (Notothenia rossii): Marbled rockcod (Notothenia rossii): heavy, a big head, olive-brown with darker marbled patches. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1337,13 +1429,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Antarctic jonasfish (Neopagetopsis ionah): Antarctic jonasfish (Neopagetopsis ionah): a large pale icefish with a long duck-billed snout, faint dark bands, a tall spiny first dorsal fin.
+Antarctic jonasfish (Neopagetopsis ionah): Antarctic jonasfish (Neopagetopsis ionah): a large pale icefish with a long duck-billed snout, faint dark bands, a tall spiny first dorsal fin. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1363,13 +1457,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Pholidophorus (Pholidophorus sp.): Leptolepis (Leptolepis coryphaenoides), Jurassic: small, slender, herring-like, silver with thin round scales.
+Pholidophorus (Pholidophorus sp.): Leptolepis (Leptolepis coryphaenoides), Jurassic: small, slender, herring-like, silver with thin round scales. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1389,13 +1485,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Mesturus (Mesturus leedsi): Dapedium (Dapedium politum), Jurassic: a deep, almost round body covered in thick shiny diamond-shaped bronze scales, a small mouth.
+Mesturus (Mesturus leedsi): Dapedium (Dapedium politum), Jurassic: a deep, almost round body covered in thick shiny diamond-shaped bronze scales, a small mouth. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1415,13 +1513,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Hypsocormus (Hypsocormus leedsi): Pachycormus (Pachycormus macropterus), Jurassic: streamlined and tuna-like, blue-grey, long sickle-shaped pectoral fins, a pointed snout.
+Hypsocormus (Hypsocormus leedsi): Pachycormus (Pachycormus macropterus), Jurassic: streamlined and tuna-like, blue-grey, long sickle-shaped pectoral fins, a pointed snout. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1441,13 +1541,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Lepidotes (Lepidotes macrocheirus): Lepidotes (Lepidotes elvensis), Jurassic: large and thick-bodied, heavy shiny square enamel scales, olive-bronze, a blunt head.
+Lepidotes (Lepidotes macrocheirus): Lepidotes (Lepidotes elvensis), Jurassic: large and thick-bodied, heavy shiny square enamel scales, olive-bronze, a blunt head. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1467,13 +1569,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Lesser sand eel (Ammodytes tobianus): a thin silvery eel-like fish with a pointed lower jaw. From above it is a long, slim body in a gentle S-curve.
+Lesser sand eel (Ammodytes tobianus): a thin silvery eel-like fish with a pointed lower jaw. From above it is a long, slim body in a gentle S-curve. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1493,13 +1597,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-European conger (Conger conger): a big grey-black eel with a long dorsal fin running down the whole back, a thick head. From above it is a long, slim body in a gentle S-curve.
+European conger (Conger conger): a big grey-black eel with a long dorsal fin running down the whole back, a thick head. From above it is a long, slim body in a gentle S-curve. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.3 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1519,13 +1625,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Pink ling (Genypterus blacodes): an eel-like fish, pink-orange with brown mottling, a long fin around the tail. From above it is a long, slim body in a gentle S-curve.
+Pink ling (Genypterus blacodes): an eel-like fish, pink-orange with brown mottling, a long fin around the tail. From above it is a long, slim body in a gentle S-curve. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1545,13 +1653,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Kingklip (Genypterus capensis): an eel-like fish, pinkish with brown blotches, a long fin around the tail, a chin barbel-like feeler. From above it is a long, slim body in a gentle S-curve.
+Kingklip (Genypterus capensis): an eel-like fish, pinkish with brown blotches, a long fin around the tail, a chin barbel-like feeler. From above it is a long, slim body in a gentle S-curve. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1571,13 +1681,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Pacific blackdragon (Idiacanthus antrostomus): a long, thin black deep-sea fish with fangs, a long chin barbel with a glowing tip. From above it is a long, slim body in a gentle S-curve.
+Pacific blackdragon (Idiacanthus antrostomus): a long, thin black deep-sea fish with fangs, a long chin barbel with a glowing tip. From above it is a long, slim body in a gentle S-curve. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1597,13 +1709,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Giant oarfish (Regalecus glesne): a very long ribbon-like silver fish with a red crest on its head and a red fin running along the whole back. From above it is a long, slim body in a gentle S-curve.
+Giant oarfish (Regalecus glesne): a very long ribbon-like silver fish with a red crest on its head and a red fin running along the whole back. From above it is a long, slim body in a gentle S-curve. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: thin, only about a third as thick as in Image 1, because the game shows this creature about 3.0 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1623,13 +1737,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Pelican eel (Eurypharynx pelecanoides): a black deep-sea eel with an enormous pelican-like mouth pouch and a long whip tail with a glowing tip. From above it is a long, slim body in a gentle S-curve.
+Pelican eel (Eurypharynx pelecanoides): a black deep-sea eel with an enormous pelican-like mouth pouch and a long whip tail with a glowing tip. From above it is a long, slim body in a gentle S-curve. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1649,13 +1765,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Blacktip reef shark (Carcharhinus melanopterus): grey-brown with black tips on all fins. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
+Blacktip reef shark (Carcharhinus melanopterus): grey-brown with black tips on all fins. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1675,13 +1793,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Basking shark (Cetorhinus maximus): huge, grey-brown with pale mottling, a long pointed conical snout (a big nose) sticking far out over the mouth, below it an enormous, wide-open, ring-shaped mouth with the gill rakers visible inside, very long gill slits that almost encircle the head. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
+Basking shark (Cetorhinus maximus): huge, grey-brown with pale mottling, a long pointed conical snout (a big nose) sticking far out over the mouth, below it an enormous, wide-open, ring-shaped mouth with the gill rakers visible inside, very long gill slits that almost encircle the head. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: thin, only about a third as thick as in Image 1, because the game shows this creature about 3.0 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1701,13 +1821,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Greenland shark (Somniosus microcephalus): heavy, grey-brown, a short rounded snout, small fins, small eyes. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
+Greenland shark (Somniosus microcephalus): heavy, grey-brown, a short rounded snout, small fins, small eyes. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: thin, only about half as thick as in Image 1, because the game shows this creature about 2.2 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1727,13 +1849,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Bluntnose sixgill shark (Hexanchus griseus): dark brown-grey, a blunt snout, green eyes, one dorsal fin far back. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
+Bluntnose sixgill shark (Hexanchus griseus): dark brown-grey, a blunt snout, green eyes, one dorsal fin far back. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: thin, only about half as thick as in Image 1, because the game shows this creature about 2.1 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1753,13 +1877,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Port Jackson shark (Heterodontus portusjacksoni): small, a blunt bulldog head with ridges over the eyes, a dark harness-like pattern on a light brown body. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
+Port Jackson shark (Heterodontus portusjacksoni): small, a blunt bulldog head with ridges over the eyes, a dark harness-like pattern on a light brown body. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1779,13 +1905,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Great white shark (Carcharodon carcharias): big, grey back, white belly, a pointed snout, black eyes. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
+Great white shark (Carcharodon carcharias): big, grey back, white belly, a pointed snout, black eyes. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: thin, only about half as thick as in Image 1, because the game shows this creature about 2.0 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1805,13 +1933,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Frilled shark (Chlamydoselachus anguineus): eel-like, dark brown, a frilly collar of gill slits, a wide mouth with needle teeth. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
+Frilled shark (Chlamydoselachus anguineus): eel-like, dark brown, a frilly collar of gill slits, a wide mouth with needle teeth. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.3 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1831,13 +1961,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Goblin shark (Mitsukurina owstoni): pink-grey, a long flat blade-like snout, protruding jaws with thin teeth. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
+Goblin shark (Mitsukurina owstoni): pink-grey, a long flat blade-like snout, protruding jaws with thin teeth. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: thin, only about half as thick as in Image 1, because the game shows this creature about 1.8 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1857,13 +1989,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Copper shark (Carcharhinus brachyurus): bronze-grey back with a coppery sheen, white belly, a pointed snout. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
+Copper shark (Carcharhinus brachyurus): bronze-grey back with a coppery sheen, white belly, a pointed snout. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.6 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1883,13 +2017,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Ragged-tooth shark (Carcharias taurus): also called sand tiger shark; it must not look like a great white: a bulky, hump-backed body, a flattened, pointed conical snout, small eyes, two big dorsal fins of nearly the same size set far back, a long upper tail lobe with a short lower one, a sandy bronze-brown back with scattered reddish-brown spots, a pale cream belly, crooked needle teeth sticking out of its open mouth. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
+Ragged-tooth shark (Carcharias taurus): also called sand tiger shark; it must not look like a great white: a bulky, hump-backed body, a flattened, pointed conical snout, small eyes, two big dorsal fins of nearly the same size set far back, a long upper tail lobe with a short lower one, a sandy bronze-brown back with scattered reddish-brown spots, a pale cream belly, crooked needle teeth sticking out of its open mouth. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.6 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1909,13 +2045,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Shortfin mako (Isurus oxyrinchus): slim and fast, metallic blue back, white belly, a pointed snout, a crescent tail. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
+Shortfin mako (Isurus oxyrinchus): slim and fast, metallic blue back, white belly, a pointed snout, a crescent tail. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.7 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1935,13 +2073,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Whale shark (Rhincodon typus): huge, dark blue-grey with white spots and pale stripes, a wide flat head with a wide mouth at the front. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
+Whale shark (Rhincodon typus): huge, dark blue-grey with white spots and pale stripes, a wide flat head with a wide mouth at the front. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: thin, only about a quarter as thick as in Image 1, because the game shows this creature about 4.2 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1961,13 +2101,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Hybodus (Hybodus obtusus): Hybodus (Hybodus hauffianus), Jurassic: grey-brown with a pale belly, a blunt snout, a long sharp spine at the front of each of its two dorsal fins. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
+Hybodus (Hybodus obtusus): Hybodus (Hybodus hauffianus), Jurassic: grey-brown with a pale belly, a blunt snout, a long sharp spine at the front of each of its two dorsal fins. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.3 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1987,13 +2129,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-European plaice (Pleuronectes platessa): a flatfish lying flat: from above we see its whole brown upper side with bright orange spots, both eyes on top, the fins as a fringe all around. In the side view it glides along showing its eyed upper side: an oval flat body, both eyes on the head, the fin fringe all around and a short fan-shaped tail fin.
+European plaice (Pleuronectes platessa): a flatfish lying flat: from above we see its whole brown upper side with bright orange spots, both eyes on top, the fins as a fringe all around. In the side view it glides along showing its eyed upper side: an oval flat body, both eyes on the head, the fin fringe all around and a short fan-shaped tail fin. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2013,13 +2157,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Reef manta ray (Mobula alfredi): from above: the whole diamond-shaped black disc with white shoulder patches, wide wing tips, the two head fins in front, a short tail.
+Reef manta ray (Mobula alfredi): from above: the whole diamond-shaped black disc with white shoulder patches, wide wing tips, the two head fins in front, a short tail. Its wings are spread out flat, not bent up or down (the game flaps them).
+
+Outlines: thin, only about half as thick as in Image 1, because the game shows this creature about 2.0 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2039,13 +2185,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Smooth stingray (Bathytoshia brevicaudata): from above: the whole round grey-brown disc, the eyes on top, a long whip-like tail with a spine.
+Smooth stingray (Bathytoshia brevicaudata): from above: the whole round grey-brown disc, the eyes on top, a long whip-like tail with a spine. Its wings are spread out flat, not bent up or down (the game flaps them).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.3 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2065,13 +2213,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Giant guitarfish (Rhynchobatus djiddensis): from above: a flat, wide shark-like body with a pointed wedge-shaped snout, white spots on a sandy back, shark-like dorsal fins and tail.
+Giant guitarfish (Rhynchobatus djiddensis): from above: a flat, wide shark-like body with a pointed wedge-shaped snout, white spots on a sandy back, shark-like dorsal fins and tail. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.6 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2091,13 +2241,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Ocean sunfish (Mola mola): a huge, flat, round fish, the body itself taller than long, with a tall pointed dorsal fin and anal fin and a scalloped, frilly round back end (the clavus) instead of a tail, blue-grey with pale speckles fading into a white belly, a big round eye, a small round pouting mouth, a small pectoral fin; very cute and chubby. From above it is very narrow (a disc standing upright): a slim back, the tall fins seen edge-on as thin blades along it, the short frilly back end, no tail fin.
+Ocean sunfish (Mola mola): a huge, flat, round fish, the body itself taller than long, with a tall pointed dorsal fin and anal fin and a scalloped, frilly round back end (the clavus) instead of a tail, blue-grey with pale speckles fading into a white belly, a big round eye, a small round pouting mouth, a small pectoral fin; very cute and chubby. From above it is very narrow (a disc standing upright): a slim back, the tall fins seen edge-on as thin blades along it, the short frilly back end, no tail fin. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.5 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2117,13 +2269,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
 Curled octopus (Eledone cirrhosa): an orange-red octopus with a single row of suckers on each arm; from above the mantle leads, the eight arms trail behind, only their tips curled. An octopus has no fins and no face at the front: in the side view it swims to the left, mantle first, like a jet: the rounded, bag-like mantle (no eyes, no mouth on it) leads at the left, the head with the two eyes sits behind it on the right where the arms begin, and the eight arms, a row of pale suckers along each, trail straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops. It must not look like a fish. From above likewise: the mantle leads, the eyes sit behind it at the base of the arms.
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2143,13 +2297,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
 Giant squid (Architeuthis dux): a huge red squid: from above, the long mantle with its fins leads, the eight arms and two very long tentacles trail behind. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
+
+Outlines: thin, only about a quarter as thick as in Image 1, because the game shows this creature about 4.2 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2169,13 +2325,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
 Chambered nautilus (Nautilus pompilius): a coiled shell with brown-orange tiger stripes; from above the shell's back, the many short tentacles poking out at the opening. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2195,13 +2353,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
 Vampire squid (Vampyroteuthis infernalis): dark red-black, big blue eyes, a cloak-like web between the arms, two ear-like fins; from above, fins first, the cloak trailing. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2221,13 +2381,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
 Southern blue-ringed octopus (Hapalochlaena maculosa): a small yellow-brown octopus covered in bright blue rings; from above the mantle leads, the arms trail. An octopus has no fins and no face at the front: in the side view it swims to the left, mantle first, like a jet: the rounded, bag-like mantle (no eyes, no mouth on it) leads at the left, the head with the two eyes sits behind it on the right where the arms begin, and the eight arms, a row of pale suckers along each, trail straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops. It must not look like a fish. From above likewise: the mantle leads, the eyes sit behind it at the base of the arms.
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2247,13 +2409,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
 Japanese flying squid (Todarodes pacificus): a slim red-brown squid with a triangular fin at the mantle tip, eight arms and two longer tentacles; from above mantle first, the arms trailing. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2273,13 +2437,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
 Giant Pacific octopus (Enteroctopus dofleini): a huge red-brown octopus with wrinkly skin and pale suckers; from above the mantle leads, the long arms trail behind. An octopus has no fins and no face at the front: in the side view it swims to the left, mantle first, like a jet: the rounded, bag-like mantle (no eyes, no mouth on it) leads at the left, the head with the two eyes sits behind it on the right where the arms begin, and the eight arms, a row of pale suckers along each, trail straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops. It must not look like a fish. From above likewise: the mantle leads, the eyes sit behind it at the base of the arms.
+
+Outlines: thin, only about half as thick as in Image 1, because the game shows this creature about 1.9 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2299,13 +2465,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
 Common octopus (Octopus vulgaris): a brown-orange octopus with mottled skin; from above the mantle leads, the arms trail behind. An octopus has no fins and no face at the front: in the side view it swims to the left, mantle first, like a jet: the rounded, bag-like mantle (no eyes, no mouth on it) leads at the left, the head with the two eyes sits behind it on the right where the arms begin, and the eight arms, a row of pale suckers along each, trail straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops. It must not look like a fish. From above likewise: the mantle leads, the eyes sit behind it at the base of the arms.
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2325,13 +2493,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
 Colossal squid (Mesonychoteuthis hamiltoni): a huge, heavy red squid with a wide mantle, big fins at its tip, big eyes and short, thick arms with hooks plus two longer tentacles; from above mantle first, the arms trailing. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
+
+Outlines: thin, only about a quarter as thick as in Image 1, because the game shows this creature about 3.6 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2351,13 +2521,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
 Ammonite (Kosmoceras jason): Jurassic: a ribbed, coiled shell, cream-brown; from above the shell's back, short tentacles at the opening. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2377,13 +2549,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
 Belemnite (Cylindroteuthis puzosiana): Jurassic: a squid-like body with a pointed tail end, ten short hooked arms, red-brown; from above body first, arms trailing. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2403,13 +2577,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Lion's mane jellyfish (Cyanea capillata): a big orange-red bell, masses of long hair-like tentacles. A jellyfish does not swim head first like a fish: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it hangs upright and symmetric, like a bell: the bell (or float) at the top, its middle straight above the middle of the tentacles, which hang straight down below it (not trailing to one side, not diagonal), loose and slightly apart so they can sway, none curling back up over the bell; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
+Lion's mane jellyfish (Cyanea capillata): a big orange-red bell, masses of long hair-like tentacles. A jellyfish does not swim head first like a fish and has no tail: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2429,13 +2605,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Moon jellyfish (Aurelia aurita): a clear pale-blue bell with four violet rings (a flower pattern), short fringe tentacles. A jellyfish does not swim head first like a fish: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it hangs upright and symmetric, like a bell: the bell (or float) at the top, its middle straight above the middle of the tentacles, which hang straight down below it (not trailing to one side, not diagonal), loose and slightly apart so they can sway, none curling back up over the bell; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
+Moon jellyfish (Aurelia aurita): a clear pale-blue bell with four violet rings (a flower pattern), short fringe tentacles. A jellyfish does not swim head first like a fish and has no tail: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2455,13 +2633,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Blubber jellyfish (Catostylus mosaicus): a pale violet-blue bell, frilly mouth arms, no long tentacles. A jellyfish does not swim head first like a fish: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it hangs upright and symmetric, like a bell: the bell (or float) at the top, its middle straight above the middle of the tentacles, which hang straight down below it (not trailing to one side, not diagonal), loose and slightly apart so they can sway, none curling back up over the bell; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
+Blubber jellyfish (Catostylus mosaicus): a pale violet-blue bell, frilly mouth arms, no long tentacles. A jellyfish does not swim head first like a fish and has no tail: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2481,13 +2661,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Nomura's jellyfish (Nemopilema nomurai): an enormous cream-brown bell, thick frilly mouth arms. A jellyfish does not swim head first like a fish: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it hangs upright and symmetric, like a bell: the bell (or float) at the top, its middle straight above the middle of the tentacles, which hang straight down below it (not trailing to one side, not diagonal), loose and slightly apart so they can sway, none curling back up over the bell; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
+Nomura's jellyfish (Nemopilema nomurai): an enormous cream-brown bell, thick frilly mouth arms. A jellyfish does not swim head first like a fish and has no tail: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.3 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2507,13 +2689,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Portuguese man o' war (Physalia physalis): a blue-violet gas float like a sail with a pink crest on top, long blue stinging tentacles below; from above mostly the float. A jellyfish does not swim head first like a fish: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it hangs upright and symmetric, like a bell: the bell (or float) at the top, its middle straight above the middle of the tentacles, which hang straight down below it (not trailing to one side, not diagonal), loose and slightly apart so they can sway, none curling back up over the bell; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
+Portuguese man o' war (Physalia physalis): a blue-violet gas float like a sail with a pink crest on top, long blue stinging tentacles below; from above mostly the float. A jellyfish does not swim head first like a fish and has no tail: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2533,13 +2717,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Japanese spider crab (Macrocheira kaempferi): from above: an orange-red carapace with white spots, very long thin spidery legs spread wide, two claws in front. In the side view it walks to the left on its legs.
+Japanese spider crab (Macrocheira kaempferi): from above: an orange-red carapace with white spots, very long thin spidery legs spread wide, two claws in front. In the side view it walks to the left on its legs. Its legs are spread apart, none crossing another (the game swings them).
+
+Outlines: thin, only about half as thick as in Image 1, because the game shows this creature about 1.8 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2559,13 +2745,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Giant isopod (Bathynomus giganteus): from above: a big armoured pale lilac woodlouse with overlapping plates, small legs at the sides, two short antennae. In the side view it walks to the left on its legs.
+Giant isopod (Bathynomus giganteus): from above: a big armoured pale lilac woodlouse with overlapping plates, small legs at the sides, two short antennae. In the side view it walks to the left on its legs. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2585,13 +2773,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Antarctic krill (Euphausia superba): from above: a tiny see-through pink shrimp with big black eyes, red dots, long antennae. In the side view it walks to the left on its legs.
+Antarctic krill (Euphausia superba): from above: a tiny see-through pink shrimp with big black eyes, red dots, long antennae. In the side view it walks to the left on its legs. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2611,13 +2801,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Giant sea spider (Colossendeis megalonyx): from above: a tiny body with eight very long thin orange-red legs spread wide. In the side view it walks to the left on its legs.
+Giant sea spider (Colossendeis megalonyx): from above: a tiny body with eight very long thin orange-red legs spread wide. In the side view it walks to the left on its legs. Its legs are spread apart, none crossing another (the game swings them).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2637,13 +2829,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
 Weedy seadragon (Phyllopteryx taeniolatus): a red-orange seadragon with yellow spots and purple bands, small leaf-like appendages, a long pipe snout. It swims upright: in the views from above draw it seen from above at an angle, so its snout, back and curled tail stay recognisable; the side view shows it upright, snout pointing left.
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2663,13 +2857,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
 Leafy seadragon (Phycodurus eques): a yellow-green seadragon covered in big leaf-like appendages, a long pipe snout. It swims upright: in the views from above draw it seen from above at an angle, so its snout, back and curled tail stay recognisable; the side view shows it upright, snout pointing left.
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2689,13 +2885,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
 Knysna seahorse (Hippocampus capensis): a small brown-green seahorse with a curled tail. It swims upright: in the views from above draw it seen from above at an angle, so its snout, back and curled tail stay recognisable; the side view shows it upright, snout pointing left.
+
+Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2715,13 +2913,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Sperm whale (Physeter macrocephalus): huge, dark grey, an enormous square head, wrinkled skin; from above the long back, the blowhole on the left front of the head, the flippers and the wide horizontal tail flukes.
+Sperm whale (Physeter macrocephalus): huge, dark grey, an enormous square head, wrinkled skin; from above the long back, the blowhole on the left front of the head, the flippers and the wide horizontal tail flukes. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: thin, only about a fifth as thick as in Image 1, because the game shows this creature about 5.3 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2741,13 +2941,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Blue whale (Balaenoptera musculus): huge, slim, mottled blue-grey; from above the long back, the twin blowholes, the long flippers and the wide horizontal tail flukes.
+Blue whale (Balaenoptera musculus): huge, slim, mottled blue-grey; from above the long back, the twin blowholes, the long flippers and the wide horizontal tail flukes. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: thin, only about an eighth as thick as in Image 1, because the game shows this creature about 7.8 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2767,13 +2969,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Humpback whale (Megaptera novaeangliae): dark grey with a white belly, very long white-edged flippers, knobs on the head; from above the back, both long flippers spread, the wide flukes.
+Humpback whale (Megaptera novaeangliae): dark grey with a white belly, very long white-edged flippers, knobs on the head; from above the back, both long flippers spread, the wide flukes. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: thin, only about a fifth as thick as in Image 1, because the game shows this creature about 5.0 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2793,13 +2997,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Southern right whale (Eubalaena australis): black, a big arched head with white rough patches, no dorsal fin; from above the broad back, short wide flippers, the wide flukes.
+Southern right whale (Eubalaena australis): black, a big arched head with white rough patches, no dorsal fin; from above the broad back, short wide flippers, the wide flukes. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: thin, only about a fifth as thick as in Image 1, because the game shows this creature about 5.0 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2819,13 +3025,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Orca (Orcinus orca): black with a white eye patch, a grey saddle patch behind the tall dorsal fin; from above the back, the fin, both flippers and the flukes.
+Orca (Orcinus orca): black with a white eye patch, a grey saddle patch behind the tall dorsal fin; from above the back, the fin, both flippers and the flukes. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: thin, only about a third as thick as in Image 1, because the game shows this creature about 3.0 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2845,13 +3053,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Common bottlenose dolphin (Tursiops truncatus): grey, a short beak, a friendly smile; from above the back, the curved dorsal fin, both flippers and the flukes.
+Common bottlenose dolphin (Tursiops truncatus): grey, a short beak, a friendly smile; from above the back, the curved dorsal fin, both flippers and the flukes. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.6 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2871,13 +3081,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Leopard seal (Hydrurga leptonyx): long, grey with dark spots, a big reptile-like head; from above the back, both front flippers spread, the hind flippers together behind.
+Leopard seal (Hydrurga leptonyx): long, grey with dark spots, a big reptile-like head; from above the back, both front flippers spread, the hind flippers together behind. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.7 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2897,13 +3109,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Southern elephant seal (Mirounga leonina): huge, brown-grey, a big floppy nose (a male); from above the bulky back, the front flippers, the hind flippers behind.
+Southern elephant seal (Mirounga leonina): huge, brown-grey, a big floppy nose (a male); from above the bulky back, the front flippers, the hind flippers behind. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: thin, only about half as thick as in Image 1, because the game shows this creature about 2.2 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2923,13 +3137,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Ophthalmosaurus (Ophthalmosaurus icenicus): Jurassic marine reptile shaped like a dolphin, grey-blue, a long toothy snout, big eyes, four flippers, a crescent tail.
+Ophthalmosaurus (Ophthalmosaurus icenicus): Jurassic marine reptile shaped like a dolphin, grey-blue, a long toothy snout, big eyes, four flippers, a crescent tail. In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.6 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2949,13 +3165,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Muraenosaurus (Muraenosaurus leedsii): Jurassic marine reptile: a small head on a very long neck, a broad body with four big flippers, a short tail, green-brown.
+Muraenosaurus (Muraenosaurus leedsii): Jurassic marine reptile: a small head on a very long neck, a broad body with four big flippers, a short tail, green-brown. Its flippers stand clearly apart from the body with open space around them (the game rows them).
+
+Outlines: thin, only about half as thick as in Image 1, because the game shows this creature about 2.2 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2975,13 +3193,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Liopleurodon (Liopleurodon ferox): Jurassic marine reptile: a huge crocodile-like head, a short neck, a broad body with four big flippers, dark grey-brown.
+Liopleurodon (Liopleurodon ferox): Jurassic marine reptile: a huge crocodile-like head, a short neck, a broad body with four big flippers, dark grey-brown. Its flippers stand clearly apart from the body with open space around them (the game rows them).
+
+Outlines: thin, only about a third as thick as in Image 1, because the game shows this creature about 2.7 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -3001,13 +3221,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Metriorhynchus (Metriorhynchus superciliosus): Metriorhynchus (Metriorhynchus superciliosus), Jurassic: a sea crocodile with smooth grey-green skin, a long narrow toothy snout, four small paddle flippers, a shark-like tail fin.
+Metriorhynchus (Metriorhynchus superciliosus): Metriorhynchus (Metriorhynchus superciliosus), Jurassic: a sea crocodile with smooth grey-green skin, a long narrow toothy snout, four small paddle flippers, a shark-like tail fin. Its flippers stand clearly apart from the body with open space around them (the game rows them).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.6 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -3027,13 +3249,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Green sea turtle (Chelonia mydas): from above: the olive-green shell with its pattern of plates, the head in front, all four flippers spread. In the side view: the shell in profile, the head stretched forward, the long near front flipper held down and back and the small near rear flipper at the back, both clearly apart from each other with open space around them, the far flippers only peeking out.
+Green sea turtle (Chelonia mydas): from above: the olive-green shell with its pattern of plates, the head in front, all four flippers spread. In the side view: the shell in profile, the head stretched forward, the long near front flipper held down and back and the small near rear flipper at the back, both clearly apart from each other with open space around them, the far flippers only peeking out. Its flippers stand clearly apart from the body with open space around them (the game rows them).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -3053,13 +3277,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Loggerhead turtle (Caretta caretta): from above: the red-brown shell, the big head in front, all four flippers spread.
+Loggerhead turtle (Caretta caretta): from above: the red-brown shell, the big head in front, all four flippers spread. Its flippers stand clearly apart from the body with open space around them (the game rows them).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -3079,13 +3305,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Leatherback turtle (Dermochelys coriacea): from above: the dark blue-black leathery shell with long ridges and white spots, very long front flippers spread.
+Leatherback turtle (Dermochelys coriacea): from above: the dark blue-black leathery shell with long ridges and white spots, very long front flippers spread. Its flippers stand clearly apart from the body with open space around them (the game rows them).
+
+Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.3 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -3105,13 +3333,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Emperor penguin (Aptenodytes forsteri): Emperor penguin (Aptenodytes forsteri), swimming: from above the black back and head, golden-yellow neck patches, BOTH flippers spread at the sides, the two feet together behind; in the side view only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail.
+Emperor penguin (Aptenodytes forsteri): Emperor penguin (Aptenodytes forsteri), swimming: from above the black back and head, golden-yellow neck patches, BOTH flippers spread at the sides, the two feet together behind; in the side view only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -3131,13 +3361,15 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Adélie penguin (Pygoscelis adeliae): Adélie penguin (Pygoscelis adeliae), swimming: smaller and rounder, from above the black back and head, a white eye ring, BOTH flippers at the sides, the two feet together behind; in the side view only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail.
+Adélie penguin (Pygoscelis adeliae): Adélie penguin (Pygoscelis adeliae), swimming: smaller and rounder, from above the black back and head, a white eye ring, BOTH flippers at the sides, the two feet together behind; in the side view only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail. In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).
+
+Outlines: as thick as in Image 1.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back

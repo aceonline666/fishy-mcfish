@@ -51,7 +51,11 @@ with `info`, `take`, `commit`, `discard` (see its docstring).
      no direction: side view upright with the bell centred over tentacles hanging straight down
      (the game pulses the bell and sways the tentacles), top views the round bell from straight
      above with the tentacles all around;
-   - the style matches the cod (bold dark outlines, cel shading, big eyes);
+   - the style matches the cod (dark outlines, cel shading, big eyes), with the outline thickness
+     the prompt's "Outlines:" line asks for: the bigger the game shows the species, the thinner
+     (a whale about an eighth of the cod's), small fish bolder;
+   - the side view suits the animation: a tail fin behind a narrow tail root, a straight body for
+     wave swimmers, flat wings for rays, free flippers and legs;
    - all three drawings are the same animal; the anatomy is right for the species (band count,
      body shape, fins) and it has not drifted towards the cod: the characteristic features are
      clearly there (the basking shark's long snout, a wrasse's hump); compare with the old

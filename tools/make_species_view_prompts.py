@@ -9,7 +9,9 @@ again:
 Cut each image with tools/extract_species_views.py.
 """
 import csv
+import math
 import os
+import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "art_source", "fish", "views")
@@ -22,9 +24,9 @@ KIND = {
     "shark": " From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.",
     "flat": "",
     "ceph": " In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.",
-    # The game pulses the bell around its middle and sways the tentacles below it (FishArt's
-    # jelly pulse), so jellyfish have no swimming direction: upright, tentacles straight down.
-    "jelly": " A jellyfish does not swim head first like a fish: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it hangs upright and symmetric, like a bell: the bell (or float) at the top, its middle straight above the middle of the tentacles, which hang straight down below it (not trailing to one side, not diagonal), loose and slightly apart so they can sway, none curling back up over the bell; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.",
+    # The game does not beat a tail for jellyfish: it squeezes the bell around its middle and
+    # sways the tentacles below it (FishArt's jelly pulse), so they are drawn straight upright.
+    "jelly": " A jellyfish does not swim head first like a fish and has no tail: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.",
     "octopus": " An octopus has no fins and no face at the front: in the side view it swims to the left, mantle first, like a jet: the rounded, bag-like mantle (no eyes, no mouth on it) leads at the left, the head with the two eyes sits behind it on the right where the arms begin, and the eight arms, a row of pale suckers along each, trail straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops. It must not look like a fish. From above likewise: the mantle leads, the eyes sit behind it at the base of the arms.",
     "crust": " In the side view it walks to the left on its legs.",
     "upright": " It swims upright: in the views from above draw it seen from above at an angle, so its snout, back and curled tail stay recognisable; the side view shows it upright, snout pointing left.",
@@ -167,11 +169,13 @@ one canvas. Top left: seen steeply from above, swimming towards the lower left (
 left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
 further from the camera). Bottom: a plain side view, head pointing left.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
+Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species{not_cod}:
 
 {description}
+
+{outline}
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -186,6 +190,52 @@ NOT_COD = """. Take only the layout, views and style from Image 1, never the
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod"""
 
+# Every species is drawn on the same canvas but shown in the sea at its own size
+# (CatchRules.body_length: a blue whale about 8 times as long as the cod, a clownfish less than
+# half), so the outlines are drawn thinner the bigger it is shown, to look alike on screen.
+REFERENCE_ID = "atlantic_cod"
+
+
+def sea_length(length_cm: float) -> float:
+    """CatchRules.body_length() in ground units (keep in step with src/sim/catch_rules.gd)."""
+    if length_cm <= 200.0:
+        return min(35.0 + 14.0 * math.sqrt(length_cm), 760.0)
+    return min(35.0 + 14.0 * math.sqrt(200.0) + 7.0 / math.sqrt(200.0) * (length_cm - 200.0), 1500.0)
+
+
+def outline_text(scale: float) -> str:
+    """The outline rule for a creature shown `scale` times as long as the cod in the game."""
+    why = f"the game shows this creature about {scale:.1f} times as long as the cod"
+    if scale <= 0.75:
+        return ("Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this "
+                "creature much smaller than the cod.")
+    if scale < 1.3:
+        return "Outlines: as thick as in Image 1."
+    if scale < 1.75:
+        fraction = "two thirds"
+    else:
+        fraction = {2: "half", 3: "a third", 4: "a quarter", 5: "a fifth", 6: "a sixth", 7: "a seventh"}.get(
+            round(scale), "an eighth")
+    return (f"Outlines: thin, only about {fraction} as thick as in Image 1, because {why}; thick lines "
+            "would look clumsy at that size. Fine details may be drawn with even thinner lines.")
+
+
+# What the game's animation (FishArt.MOTIONS) needs from the side view.
+MOTION_HINTS = {
+    "TAIL": " In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).",
+    "WAVE": " In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).",
+    "FLAP": " Its wings are spread out flat, not bent up or down (the game flaps them).",
+    "PADDLE": " Its flippers stand clearly apart from the body with open space around them (the game rows them).",
+    "CRAWL": " Its legs are spread apart, none crossing another (the game swings them).",
+}
+
+
+def motions() -> dict[str, str]:
+    """Species id -> motion name from FishArt.MOTIONS; species not listed beat their tail."""
+    text = open(os.path.join(ROOT, "src", "scenes", "fishing", "fish_art.gd"), encoding="utf-8").read()
+    block = text[text.index("const MOTIONS"):text.index("const WAVES")]
+    return dict(re.findall(r'"([a-z0-9_]+)": Motion\.([A-Z]+)', block))
+
 
 def main() -> None:
     species = {r["id"]: r for r in csv.DictReader(open(os.path.join(ROOT, "data", "species.csv"), encoding="utf-8"))}
@@ -194,16 +244,23 @@ def main() -> None:
     missing = [s for s in species if s not in ids]
     assert not missing, missing
     os.makedirs(OUT, exist_ok=True)
+    motion = motions()
+    reference = sea_length(float(species[REFERENCE_ID]["length_cm"]))
     sections = []
     table = []
     for cid, kind, text in CREATURES:
         if cid in species:
             name = f"{species[cid]['common_name']} ({species[cid]['scientific_name']})"
             description = f"{name}: {text}."
+            scale = sea_length(float(species[cid]["length_cm"])) / reference
         else:
             name = text.split(")")[0] + ")"
             description = f"{text}."
+            scale = 1.0
         description += KIND[kind]
+        # Upright swimmers and the kinds with arms or bells say in KIND what their animation needs.
+        if kind not in ("upright", "jelly", "ceph", "octopus"):
+            description += MOTION_HINTS.get(motion.get(cid, "TAIL"), "")
         new = "" if cid in species else " – new (sheet 14), add to data/species.csv"
         if cid in species and os.path.exists(os.path.join(OUT, f"{cid}.png")):
             new = " – in the game (side view)"
@@ -213,7 +270,7 @@ def main() -> None:
 Save as `art_source/fish/views/{cid}.png`, then `python tools/extract_species_views.py {cid}`.
 
 ```
-{PROMPT.format(description=description, not_cod="" if cid == "atlantic_cod" else NOT_COD)}
+{PROMPT.format(description=description, not_cod="" if cid == REFERENCE_ID else NOT_COD, outline=outline_text(scale))}
 ```
 """)
     doc = f"""# Species views – generation prompts
