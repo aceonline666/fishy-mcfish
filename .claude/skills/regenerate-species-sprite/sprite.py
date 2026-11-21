@@ -35,6 +35,8 @@ SPRITES = ROOT / "assets" / "sprites" / "fish_painted"
 CHECK = ROOT / "build" / "sprite_check"
 DOWNLOADS = Path.home() / "Downloads"
 TODO_HEAD = "- Regenerate the species sprites"
+# A TODO entry may say why after the species: "  - Blue whale (Balaenoptera musculus) — reason".
+REASON = " — "
 CO_AUTHOR = "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 
 
@@ -43,14 +45,15 @@ def rows() -> list[dict]:
 
 
 def todo_lines() -> list[str]:
-    """The species lines of the README's regeneration TODO, e.g. "Blue tang (Paracanthurus hepatus)"."""
+    """The species of the README's regeneration TODO, e.g. "Blue tang (Paracanthurus hepatus)" (the
+    reason after " — " left off)."""
     lines = README.read_text(encoding="utf-8").splitlines()
     start = next(i for i, line in enumerate(lines) if line.startswith(TODO_HEAD))
     out = []
     for line in lines[start + 1:]:
         if not line.startswith("  - "):
             break
-        out.append(line[4:].strip())
+        out.append(line[4:].split(REASON)[0].strip())
     return out
 
 
@@ -137,7 +140,7 @@ def commit(species_id: str) -> None:
     row = find(species_id)
 
     def drop_entry(text: str) -> str:
-        return re.sub(r"^  - %s *\r?\n" % re.escape(label(row)), "", text, count=1, flags=re.M)
+        return re.sub(r"^  - %s(%s[^\r\n]*)? *\r?\n" % (re.escape(label(row)), re.escape(REASON)), "", text, count=1, flags=re.M)
 
     def mark_in_game(text: str) -> str:
         return re.sub(r"^(\| `%s` \| [^|\n]*?) \|(?=\r?$)" % re.escape(species_id),

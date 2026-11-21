@@ -284,85 +284,85 @@ Rules of thumb:
 - Add weather: Storms, Lightning. (Day and night are in: a 20-minute cycle, real time, always day or always night, chosen in the menu, with the sun or the moon mirrored on the water; `DayClock`, `DayCycle`, `Night`, `reflection.gdshaderinc`. In debug builds N moves the time on by an hour, Shift+N lets it run; `tools/screenshot.gd -- --hour=23`.) Still to do for the night: night-only species, bioluminescent wake, no seagulls at night.
 - Add splash sound to dolphin water jump. Currently it uses a kind of "bang" sound.
 - Regenerate the species sprites that are not yet in the new cute-comic format (one image per species in `art_source/fish/views/`, prompts in `art_source/fish/views/prompts.md`, cut with `tools/extract_species_views.py`):
-  - Common bottlenose dolphin (Tursiops truncatus)
-  - Atlantic footballfish (Himantolophus groenlandicus)
-  - Great barracuda (Sphyraena barracuda)
-  - Lion's mane jellyfish (Cyanea capillata)
-  - Moon jellyfish (Aurelia aurita)
-  - Blubber jellyfish (Catostylus mosaicus)
-  - Nomura's jellyfish (Nemopilema nomurai)
-  - Yellowfin tuna (Thunnus albacares)
-  - Reef manta ray (Mobula alfredi)
-  - Blue whale (Balaenoptera musculus)
-  - Humpback whale (Megaptera novaeangliae)
-  - Southern right whale (Eubalaena australis)
-  - Vampire squid (Vampyroteuthis infernalis)
-  - Smooth stingray (Bathytoshia brevicaudata)
-  - Great white shark (Carcharodon carcharias)
-  - Blobfish (Psychrolutes marcidus)
-  - Common fangtooth (Anoplogaster cornuta)
-  - Giant guitarfish (Rhynchobatus djiddensis)
-  - Copper shark (Carcharhinus brachyurus)
-  - Shortfin mako (Isurus oxyrinchus)
-  - Roundnose grenadier (Coryphaenoides rupestris)
-  - Rabbit fish (Chimaera monstrosa)
-  - Greenland shark (Somniosus microcephalus)
-  - Giant squid (Architeuthis dux)
-  - Sperm whale (Physeter macrocephalus)
-  - Skinnycheek lanternfish (Benthosema pterotum)
-  - Chambered nautilus (Nautilus pompilius)
-  - Australian salmon (Arripis trutta)
-  - Southern blue-ringed octopus (Hapalochlaena maculosa)
-  - Weedy seadragon (Phyllopteryx taeniolatus)
-  - Blue groper (Achoerodus viridis)
-  - Loggerhead turtle (Caretta caretta)
-  - Leafy seadragon (Phycodurus eques)
-  - Orange roughy (Hoplostethus atlanticus)
-  - Pink ling (Genypterus blacodes)
-  - Red sea bream (Pagrus major)
-  - Japanese horse mackerel (Trachurus japonicus)
-  - Japanese amberjack (Seriola quinqueradiata)
-  - Opah (Lampris guttatus)
-  - Japanese spider crab (Macrocheira kaempferi)
-  - Giant isopod (Bathynomus giganteus)
-  - Frilled shark (Chlamydoselachus anguineus)
-  - Goblin shark (Mitsukurina owstoni)
-  - Mariana snailfish (Pseudoliparis swirei)
-  - Giant oarfish (Regalecus glesne)
-  - Hottentot seabream (Pachymetopon blochii)
-  - Knysna seahorse (Hippocampus capensis)
-  - South African sardine (Sardinops sagax)
-  - Galjoen (Dichistius capensis)
-  - Portuguese man o' war (Physalia physalis)
-  - Leatherback turtle (Dermochelys coriacea)
-  - Cape hake (Merluccius capensis)
-  - Kingklip (Genypterus capensis)
-  - Sloane's viperfish (Chauliodus sloani)
-  - Pelican eel (Eurypharynx pelecanoides)
-  - Whale shark (Rhincodon typus)
-  - Antarctic krill (Euphausia superba)
-  - Crocodile icefish (Chionodraco hamatus)
-  - Leopard seal (Hydrurga leptonyx)
-  - Southern elephant seal (Mirounga leonina)
-  - Antarctic toothfish (Dissostichus mawsoni)
-  - Giant sea spider (Colossendeis megalonyx)
-  - Orca (Orcinus orca)
-  - Ammonite (Kosmoceras jason)
-  - Belemnite (Cylindroteuthis puzosiana)
-  - Ophthalmosaurus (Ophthalmosaurus icenicus)
-  - Muraenosaurus (Muraenosaurus leedsii)
-  - Leedsichthys (Leedsichthys problematicus)
-  - Liopleurodon (Liopleurodon ferox)
-  - Ocean sunfish (Mola mola)
-  - Basking shark (Cetorhinus maximus)
-  - Blue-green chromis (Chromis viridis)
-  - European sprat (Sprattus sprattus)
-  - Lesser sand eel (Ammodytes tobianus)
-  - Pholidophorus (Pholidophorus sp.)
-  - Antarctic silverfish (Pleuragramma antarctica)
-  - Bald notothen (Pagothenia borchgrevinki)
-  - Japanese flying squid (Todarodes pacificus)
-  - Red lionfish (Pterois volitans)
+  - Common bottlenose dolphin (Tursiops truncatus) — realistic style, thin outline
+  - Atlantic footballfish (Himantolophus groenlandicus) — painterly, realistic style
+  - Great barracuda (Sphyraena barracuda) — realistic style, thin outline
+  - Lion's mane jellyfish (Cyanea capillata) — too low resolution (stretched 1.2x in the game), no outline
+  - Moon jellyfish (Aurelia aurita) — soft glowing style, no outline
+  - Blubber jellyfish (Catostylus mosaicus) — soft glowing style, no outline
+  - Nomura's jellyfish (Nemopilema nomurai) — soft glowing style, no outline
+  - Yellowfin tuna (Thunnus albacares) — outline too thin at its size (0.35x the cod's on screen)
+  - Reef manta ray (Mobula alfredi) — odd pose (banking, tilted up)
+  - Blue whale (Balaenoptera musculus) — too low resolution (stretched 3.3x), outline far too thick at its size (7.7x the cod's)
+  - Humpback whale (Megaptera novaeangliae) — realistic style, too low resolution (stretched 1.9x)
+  - Southern right whale (Eubalaena australis) — too low resolution (stretched 2x), outline too thick at its size (3.1x the cod's)
+  - Vampire squid (Vampyroteuthis infernalis) — odd pose (upright, facing the viewer)
+  - Smooth stingray (Bathytoshia brevicaudata) — realistic style, thin outline
+  - Great white shark (Carcharodon carcharias) — semi-realistic shading, thin outline
+  - Blobfish (Psychrolutes marcidus) — odd pose (face turned to the front)
+  - Common fangtooth (Anoplogaster cornuta) — realistic style, thin outline
+  - Giant guitarfish (Rhynchobatus djiddensis) — realistic style, no outline
+  - Copper shark (Carcharhinus brachyurus) — realistic style, thin outline
+  - Shortfin mako (Isurus oxyrinchus) — realistic style, thin outline
+  - Roundnose grenadier (Coryphaenoides rupestris) — outline too thin at its size (0.3x the cod's)
+  - Rabbit fish (Chimaera monstrosa) — semi-realistic texture, thin outline
+  - Greenland shark (Somniosus microcephalus) — outline too thick at its size (2x the cod's)
+  - Giant squid (Architeuthis dux) — realistic style, thin outline
+  - Sperm whale (Physeter macrocephalus) — too low resolution (stretched 1.4x), outline far too thick at its size (4.4x the cod's)
+  - Skinnycheek lanternfish (Benthosema pterotum) — outline too thin at its size (0.16x the cod's)
+  - Chambered nautilus (Nautilus pompilius) — realistic style, no outline
+  - Australian salmon (Arripis trutta) — realistic style, no outline
+  - Southern blue-ringed octopus (Hapalochlaena maculosa) — outline too thin at its size (0.19x the cod's)
+  - Weedy seadragon (Phyllopteryx taeniolatus) — realistic style, no outline
+  - Blue groper (Achoerodus viridis) — realistic style, thin outline
+  - Loggerhead turtle (Caretta caretta) — realistic style, no outline
+  - Leafy seadragon (Phycodurus eques) — realistic style, no outline
+  - Orange roughy (Hoplostethus atlanticus) — realistic style, no outline
+  - Pink ling (Genypterus blacodes) — outline too thin at its size (0.34x the cod's)
+  - Red sea bream (Pagrus major) — realistic style, no outline
+  - Japanese horse mackerel (Trachurus japonicus) — realistic style, no outline
+  - Japanese amberjack (Seriola quinqueradiata) — realistic style, thin outline
+  - Opah (Lampris guttatus) — realistic style, thin outline
+  - Japanese spider crab (Macrocheira kaempferi) — realistic style, no outline
+  - Giant isopod (Bathynomus giganteus) — realistic style, no outline
+  - Frilled shark (Chlamydoselachus anguineus) — realistic style, thin outline
+  - Goblin shark (Mitsukurina owstoni) — realistic style, no outline
+  - Mariana snailfish (Pseudoliparis swirei) — realistic style, no outline
+  - Giant oarfish (Regalecus glesne) — realistic style, no outline
+  - Hottentot seabream (Pachymetopon blochii) — realistic style, thin outline
+  - Knysna seahorse (Hippocampus capensis) — realistic style, thin outline
+  - South African sardine (Sardinops sagax) — outline too thin at its size (0.41x the cod's)
+  - Galjoen (Dichistius capensis) — realistic style, thin outline
+  - Portuguese man o' war (Physalia physalis) — soft glowing style, no outline
+  - Leatherback turtle (Dermochelys coriacea) — realistic style, thin outline
+  - Cape hake (Merluccius capensis) — realistic style, thin outline
+  - Kingklip (Genypterus capensis) — realistic style, thin outline
+  - Sloane's viperfish (Chauliodus sloani) — realistic style, thin outline
+  - Pelican eel (Eurypharynx pelecanoides) — realistic style, thin outline
+  - Whale shark (Rhincodon typus) — realistic texture, thin outline
+  - Antarctic krill (Euphausia superba) — realistic style, no outline
+  - Crocodile icefish (Chionodraco hamatus) — realistic style, no outline
+  - Leopard seal (Hydrurga leptonyx) — realistic style, thin outline
+  - Southern elephant seal (Mirounga leonina) — realistic style, thin outline
+  - Antarctic toothfish (Dissostichus mawsoni) — realistic style, thin outline
+  - Giant sea spider (Colossendeis megalonyx) — realistic style, no outline
+  - Orca (Orcinus orca) — realistic style, thin outline
+  - Ammonite (Kosmoceras jason) — realistic style, thin outline
+  - Belemnite (Cylindroteuthis puzosiana) — realistic style, thin outline
+  - Ophthalmosaurus (Ophthalmosaurus icenicus) — realistic style, thin outline
+  - Muraenosaurus (Muraenosaurus leedsii) — realistic style, thin outline
+  - Leedsichthys (Leedsichthys problematicus) — realistic style, thin outline
+  - Liopleurodon (Liopleurodon ferox) — realistic style, thin outline
+  - Ocean sunfish (Mola mola) — outline too thick at its size (2.5x the cod's)
+  - Basking shark (Cetorhinus maximus) — too low resolution (stretched 1.15x), outline too thick at its size (2.6x the cod's)
+  - Blue-green chromis (Chromis viridis) — cute-comic, but outline too thin at its small size (0.36x the cod's)
+  - European sprat (Sprattus sprattus) — cute-comic, but outline too thin at its small size (0.36x the cod's)
+  - Lesser sand eel (Ammodytes tobianus) — cute-comic, but outline too thin at its small size (0.24x the cod's)
+  - Pholidophorus (Pholidophorus sp.) — cute-comic, but outline too thin at its small size (0.38x the cod's)
+  - Antarctic silverfish (Pleuragramma antarctica) — cute-comic, but outline too thin at its small size (0.42x the cod's)
+  - Bald notothen (Pagothenia borchgrevinki) — cute-comic, but outline too thin at its small size (0.43x the cod's)
+  - Japanese flying squid (Todarodes pacificus) — cute-comic, but outline too thin at its small size (0.22x the cod's)
+  - Red lionfish (Pterois volitans) — cute-comic, but outline too thin at its small size (0.38x the cod's)
 
 ### Later 
 - Think about adjusting the map and the number of cashiers again. Currently one cashier would be enough to finish the game in every level. More cashiers don't add much speed. We need to rebalance this. If four cashiers are enough we could again display them in a row instead of a column. That would mean regeneration of all sprites (booths, cashiers, buyers, belt?)
