@@ -74,6 +74,19 @@ func test_drones_only_take_species_the_player_discovered() -> void:
 	assert_false(Automation.drone_can_catch(state, "atlantic_herring"))
 
 
+func test_drones_leave_legendary_species_to_the_player() -> void:
+	var state := PlayerState.new_game()
+	for id: String in ["orca", "blue_whale", "common_bottlenose_dolphin"]:
+		state.record_catch(id)
+	assert_false(Automation.drone_can_catch(state, "orca"), "too heavy")
+	assert_false(Automation.drone_can_catch(state, "blue_whale"), "too heavy")
+	assert_true(Automation.drone_can_catch(state, "common_bottlenose_dolphin"), "epic is fine")
+	for zone in DataRegistry.zones:
+		var light := zone.spawns.keys().filter(func(id: String) -> bool:
+			return not Automation.too_heavy_for_drones(DataRegistry.species[id]))
+		assert_false(light.is_empty(), "drones in %s still find something to catch" % zone.id)
+
+
 func test_offline_drones_fill_tanks_up_to_their_space() -> void:
 	var state := _charted_state()
 	var tank := state.here().tank

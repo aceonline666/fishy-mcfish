@@ -2,7 +2,8 @@ class_name Automation
 extends RefCounted
 ## Drones: prices, where they work, and what they achieve while the player is elsewhere. Each
 ## location has its own drones; drone N fishes zone N there (the first drone the shallowest
-## zone, ...) once the player has charted it, and only takes species the player has caught.
+## zone, ...) once the player has charted it, and only takes species the player has caught and
+## that are not too heavy for it (legendary ones the player has to catch by hand).
 
 ## Fish one drone brings in per second while the player is not watching it (game closed, or at
 ## another location). Lower than when playing (about one fish every 12 s), so being there pays.
@@ -25,9 +26,16 @@ static func drone_capacity(index: int) -> int:
 	return int(DataRegistry.drone_levels[mini(index, DataRegistry.drone_levels.size() - 1)].capacity)
 
 
-## True if drones may take this species: only ones the player has caught themselves.
+## True if drones may take this species: only ones the player has caught themselves, and none
+## that are too heavy for them.
 static func drone_can_catch(state: PlayerState, species_id: String) -> bool:
-	return state.species_caught.has(species_id)
+	return state.species_caught.has(species_id) and not too_heavy_for_drones(DataRegistry.species[species_id])
+
+
+## Legendary species are too heavy for the drones: whales, giant squid and the like are caught
+## by hand only.
+static func too_heavy_for_drones(def: SpeciesDef) -> bool:
+	return def.rarity == SpeciesDef.Rarity.LEGENDARY
 
 
 ## The zone the site's drone number `index` works in: the zone with order index + 1 of the

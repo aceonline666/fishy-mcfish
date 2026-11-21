@@ -231,6 +231,12 @@ msgstr "Vorkommen: %s"
 msgid "Not found here"
 msgstr "Hier nicht zu finden"
 
+msgid "Too heavy for drones"
+msgstr "Zu schwer für Drohnen"
+
+msgid "Too heavy for drones: catch it by hand"
+msgstr "Zu schwer für Drohnen: nur von Hand zu fangen"
+
 msgid "Common"
 msgstr "Häufig"
 

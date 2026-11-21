@@ -58,7 +58,8 @@ The shop is not a building: its level gives every booth its look:
   every common/uncommon species of it.
 - **Buy drone**: drone N fishes zone N once it is charted (where you are, else at another
   location), takes only species you have caught yourself and brings them to the tanks, also
-  while the game is closed. Later drones are bigger and carry more.
+  while the game is closed. Later drones are bigger and carry more. Legendary species are too
+  heavy for drones (the Fishpedia says so): those you catch by hand only.
 
 The **Fishpedia** button lists every species: the ones you have caught first, in the order you
 found them, with their facts; the others stay a question mark that only tells the location and

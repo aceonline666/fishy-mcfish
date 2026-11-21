@@ -220,6 +220,10 @@ func _make_card(def: SpeciesDef, known: bool, location_id: String) -> Button:
 		subtitle.text = _where_found(def)
 		subtitle.add_theme_color_override("font_color", MUTED)
 	column.add_child(subtitle)
+	if known and Automation.too_heavy_for_drones(def):
+		var heavy := make_label(tr("Too heavy for drones"), 22)
+		heavy.add_theme_color_override("font_color", MUTED)
+		column.add_child(heavy)
 	return card
 
 
@@ -290,6 +294,8 @@ func _show_detail(def: SpeciesDef) -> void:
 			NumberFormat.length(def.length_cm), int(def.min_tank_l), NumberFormat.compact(def.space_l),
 			NumberFormat.compact(Economy.sale_price(def, 0.0)), NumberFormat.compact(Economy.sale_price(def, 1.0)),
 			_where_found(def)]
+		if Automation.too_heavy_for_drones(def):
+			_detail_facts.text += "\n" + tr("Too heavy for drones: catch it by hand")
 		_detail_fun_fact.text = tr(def.fun_fact)
 	else:
 		_detail_facts.text = _where_found(def)
