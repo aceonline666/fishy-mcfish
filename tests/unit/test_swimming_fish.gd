@@ -55,6 +55,21 @@ func test_dolphins_leap_out_of_the_water_and_dive_back_in() -> void:
 	assert_true(seen.air_layer, "drawn over the surface while in the air")
 
 
+func test_orca_and_whales_breach_higher_but_not_by_their_whole_size() -> void:
+	var dolphin: SwimmingFish = autofree(SwimmingFish.new())
+	dolphin.setup(FishArt.for_species(DataRegistry.species["common_bottlenose_dolphin"]), DataRegistry.zones[0], PlayArea.new(AREA), Vector2(0.0, 1000.0), 0.0)
+	assert_almost_eq(dolphin.leap_size(), 1.0, 0.001, "the dolphin leaps as before")
+	for id: String in ["orca", "humpback_whale", "southern_right_whale", "sperm_whale", "blue_whale"]:
+		var fish: SwimmingFish = autofree(SwimmingFish.new())
+		fish.setup(FishArt.for_species(DataRegistry.species[id]), DataRegistry.zones[0], PlayArea.new(AREA), Vector2(0.0, 1000.0), 0.0)
+		assert_true(fish.can_leap(), id)
+		var seen := _leaps(fish, SwimmingFish.LEAP_PAUSE_MAX * fish.leap_size() + fish.leap_seconds() + 0.5)
+		assert_gte(seen.splashes, 2, "%s leaves the water and crashes back in" % id)
+		assert_gt(seen.peak, dolphin.leap_height(), "%s jumps higher than a dolphin" % id)
+		assert_lt(seen.peak, fish.body_length * 0.6, "%s stays partly in the water's reach" % id)
+		assert_gt(fish.leap_seconds(), SwimmingFish.LEAP_SECONDS, "%s hangs in the air longer" % id)
+
+
 func test_fish_stay_in_the_water() -> void:
 	var seen := _leaps(_fish(0.0, Vector2.ZERO), SwimmingFish.LEAP_PAUSE_MAX * 2.0)
 	assert_eq(seen.peak, 0.0)

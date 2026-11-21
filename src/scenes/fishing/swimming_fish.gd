@@ -34,11 +34,20 @@ const HELD_WIGGLE_MULT := 3.0
 ## A current carries a fish at most this share of its own cruising speed, so even slow swimmers
 ## make headway against it.
 const MAX_CURRENT_SHARE := 0.5
-## Species that leap out of the water now and then, in an arc over the surface.
-const LEAPERS: Array[String] = ["common_bottlenose_dolphin"]
+## Species that leap out of the water now and then, in an arc over the surface: the dolphin, and
+## the orca and great whales breaching.
+const LEAPERS: Array[String] = [
+	"common_bottlenose_dolphin", "orca", "humpback_whale", "southern_right_whale", "sperm_whale",
+	"blue_whale",
+]
+## Seconds a dolphin's leap takes; bigger leapers jump higher and so stay up longer.
 const LEAP_SECONDS := 1.3
-## Peak height of a leap over the water, as a share of the body length (screen pixels).
+## Peak height of a dolphin's leap over the water, as a share of its body length (screen pixels).
 const LEAP_HEIGHT := 0.75
+## Body length (ground units) of the leapers that jump like a dolphin. Longer ones jump higher with
+## the square root of their size (a blue whale twice as high, not five times), take longer and
+## leap more rarely.
+const LEAP_REFERENCE_LENGTH := 285.0
 ## Nose up when leaving the water, nose down when diving back in (radians).
 const LEAP_PITCH := 0.8
 ## Seconds in the water between two leaps.
@@ -97,7 +106,7 @@ func setup(fish_art: FishArt, home_zone: ZoneDef, home_area: PlayArea, start: Ve
 	velocity = Vector2.from_angle(heading) * _cruise_speed
 	_swim_phase = randf() * TAU
 	_wander = randf_range(-1.0, 1.0)
-	_leap_pause = randf_range(LEAP_PAUSE_MIN, LEAP_PAUSE_MAX)
+	_leap_pause = randf_range(LEAP_PAUSE_MIN, LEAP_PAUSE_MAX) * leap_size()
 	if art.has_lure():
 		_glow = Node2D.new()
 		_glow.material = Glow.material()
@@ -125,7 +134,7 @@ func _update_water_depth() -> void:
 		shader_material.set_shader_parameter("light", light)
 		# A leaping fish sheds the water's tint as it rises out of it (a cut at a waterline would
 		# run straight across the tilted body).
-		var out_of_water := clampf(leap_lift() / maxf(body_length * LEAP_HEIGHT * 0.3, 1.0), 0.0, 1.0)
+		var out_of_water := clampf(leap_lift() / maxf(leap_height() * 0.3, 1.0), 0.0, 1.0)
 		shader_material.set_shader_parameter("strength", WATER_TINT * (1.0 - out_of_water))
 
 
@@ -141,11 +150,28 @@ func is_leaping() -> bool:
 	return _leap >= 0.0
 
 
+## How much bigger the fish's leap is than a dolphin's: 1 for a dolphin, about 2.2 for a blue whale.
+## Its height, its splash and its sound grow with it.
+func leap_size() -> float:
+	return sqrt(maxf(body_length / LEAP_REFERENCE_LENGTH, 1.0))
+
+
+## Peak height of the fish's leap over the water (screen pixels).
+func leap_height() -> float:
+	return body_length * LEAP_HEIGHT / leap_size()
+
+
+## Seconds one leap takes: a higher jump stays up longer (with the square root of its height, which
+## is leap_size() times a dolphin's).
+func leap_seconds() -> float:
+	return LEAP_SECONDS * sqrt(leap_size())
+
+
 ## How high over the water the fish is (screen pixels), 0 while swimming.
 func leap_lift() -> float:
 	if not is_leaping():
 		return 0.0
-	return sin(PI * _leap / LEAP_SECONDS) * body_length * LEAP_HEIGHT
+	return sin(PI * _leap / leap_seconds()) * leap_height()
 
 
 ## How far outside the scoop circle the fish can be and still be caught.
@@ -203,12 +229,13 @@ func simulate(delta: float, threat: Vector2, threat_radius: float, school: Array
 
 
 ## Leaps now and then while in view and free; drawn over the water's surface while in the air.
+## `splashed` fires on the way out (is_leaping() true) and on diving back in (false).
 func _update_leap(delta: float) -> void:
 	if is_leaping():
 		_leap += delta
-		if _leap >= LEAP_SECONDS or is_held():
+		if _leap >= leap_seconds() or is_held():
 			_leap = -1.0
-			_leap_pause = randf_range(LEAP_PAUSE_MIN, LEAP_PAUSE_MAX)
+			_leap_pause = randf_range(LEAP_PAUSE_MIN, LEAP_PAUSE_MAX) * leap_size()
 			z_as_relative = true
 			z_index = 0
 			splashed.emit(self)
@@ -264,7 +291,7 @@ func _schooling(school: Array[SwimmingFish]) -> Vector2:
 func _draw() -> void:
 	var to_screen := _view_transform()
 	# The shadow stays on the seabed, smaller under a leaping fish.
-	var shadow_size := 1.0 - 0.4 * leap_lift() / maxf(body_length * LEAP_HEIGHT, 1.0)
+	var shadow_size := 1.0 - 0.4 * leap_lift() / maxf(leap_height(), 1.0)
 	draw_colored_polygon(Iso.ellipse(Vector2(0.0, SHADOW_DROP), body_length * 0.36 * shadow_size, 16), SHADOW_COLOR)
 	if art.has_sprite():
 		art.draw(self, to_screen, body_length, _swim_phase, 1.0)
@@ -308,7 +335,7 @@ func _view_transform() -> Transform2D:
 	if is_held():
 		tilt += sin(_swim_phase * 2.0) * 0.2
 	if is_leaping():
-		tilt -= LEAP_PITCH * cos(PI * _leap / LEAP_SECONDS)
+		tilt -= LEAP_PITCH * cos(PI * _leap / leap_seconds())
 	var foreshorten := lerpf(MIN_FORESHORTEN, 1.0, facing_right.x)
 	var view := Transform2D(tilt, Vector2.ZERO) * Transform2D(Vector2(foreshorten, 0.0), Vector2(0.0, 1.0), Vector2.ZERO)
 	if screen_direction.x < 0.0:

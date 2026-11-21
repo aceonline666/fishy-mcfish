@@ -42,6 +42,8 @@ func _ready() -> void:
 		_players.append(player)
 	_sounds[&"pop"] = _pop()
 	_sounds[&"splash"] = _splash()
+	_sounds[&"leap_splash"] = _water_splash(13, 0.75, 0.0)
+	_sounds[&"breach"] = _water_splash(17, 1.6, 1.0)
 	_sounds[&"slosh"] = _slosh()
 	_sounds[&"sand"] = _sand()
 	_sounds[&"wood"] = _wood()
@@ -123,6 +125,65 @@ static func _splash() -> AudioStreamWAV:
 		var t := float(i) / MIX_RATE
 		filtered += (rng.randf_range(-1.0, 1.0) - filtered) * lerpf(0.5, 0.05, t / duration)
 		samples.append(filtered * exp(-t * 9.0) * minf(t * 200.0, 1.0) * 1.4)
+	return _to_wav(samples)
+
+
+## A body hitting the water: a soft-edged "sploosh" (noise through a filter that opens and closes,
+## eased in so it is no bang), the hiss of spray and droplets pattering back as little rising
+## bubble chirps. `heavy` (0 to 1) adds a deep "whump" under it, for whales.
+static func _water_splash(noise_seed: int, duration: float, heavy: float) -> AudioStreamWAV:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = noise_seed
+	var count := int(duration * MIX_RATE)
+	var samples := PackedFloat32Array()
+	samples.resize(count)
+	var first := 0.0
+	var second := 0.0
+	var hiss_low := 0.0
+	var whump := 0.0
+	var body_s := duration * 0.35
+	for i in count:
+		var t := float(i) / MIX_RATE
+		var noise := rng.randf_range(-1.0, 1.0)
+		# The sploosh: two-pole low-pass whose cutoff rises over the first 60 ms, then falls.
+		var cutoff := lerpf(0.04, 0.3, minf(t / 0.06, 1.0)) * exp(-maxf(t - 0.06, 0.0) * 3.0 / body_s) + 0.02
+		first += (noise - first) * cutoff
+		second += (first - second) * cutoff
+		var swell := sin(PI * minf(t / 0.035, 1.0) * 0.5) * exp(-maxf(t - 0.035, 0.0) * 2.2 / body_s)
+		# Spray: high-passed noise that crackles and lingers a little longer.
+		hiss_low += (noise - hiss_low) * 0.3
+		var crackle := 1.0 if rng.randf() < 0.5 else 0.4
+		var spray := (noise - hiss_low) * crackle * sin(PI * minf(t / 0.05, 1.0) * 0.5) * exp(-t * 3.2 / duration)
+		var value := second * 2.6 * swell + spray * 0.22
+		if heavy > 0.0:
+			whump += TAU * (48.0 + 40.0 * exp(-t * 6.0)) / MIX_RATE
+			value += sin(whump) * heavy * 0.5 * sin(PI * minf(t / 0.05, 1.0) * 0.5) * exp(-t * 5.0)
+		samples[i] = value
+	# Droplets falling back: short chirps rising in pitch, thinning out towards the end.
+	var drops := int(18 * duration)
+	for d in drops:
+		var start := duration * (0.12 + 0.75 * pow(rng.randf(), 1.6))
+		var length := rng.randf_range(0.015, 0.04)
+		var pitch := rng.randf_range(700.0, 2200.0) * (1.0 - 0.35 * heavy)
+		var level := rng.randf_range(0.05, 0.14) * (1.0 - 0.6 * (start / duration))
+		var phase := 0.0
+		var from := int(start * MIX_RATE)
+		for j in int(length * MIX_RATE):
+			if from + j >= count:
+				break
+			var u := float(j) / MIX_RATE
+			phase += TAU * pitch * (1.0 + 1.5 * u / length) / MIX_RATE
+			samples[from + j] += sin(phase) * level * sin(PI * minf(u / 0.003, 1.0) * 0.5) * exp(-u * 4.0 / length)
+	# A short fade at the end, so nothing is cut off with a click, and no clipping at the peak.
+	var fade := int(0.05 * MIX_RATE)
+	for i in fade:
+		samples[count - 1 - i] *= float(i) / fade
+	var peak := 0.0
+	for value in samples:
+		peak = maxf(peak, absf(value))
+	if peak > 0.9:
+		for i in count:
+			samples[i] *= 0.9 / peak
 	return _to_wav(samples)
 
 

@@ -563,13 +563,29 @@ func _spawn_fish_in(zone_index: int, species_id: String, at: Vector2, heading: f
 	return fish
 
 
-## A dolphin leaving the water or diving back in.
+## A dolphin or whale leaving the water (a lighter splash) or crashing back in. Whales throw up
+## more and bigger spray along their body, a wider ripple and a deeper, longer splash.
 func _on_fish_splashed(fish: SwimmingFish) -> void:
 	if not fish.visible:
 		return
-	Juice.splash(_effects, fish.position, 14)
-	Juice.ripple(_effects, fish.position, fish.body_length * 0.4)
-	Sfx.play(&"splash", rng.randf_range(0.85, 1.0), -6.0)
+	var size := fish.leap_size()
+	var diving_in := not fish.is_leaping()
+	var spray := size if diving_in else size * 0.75
+	# One burst per few dozen pixels of body, spread along it on screen.
+	var along := Iso.to_screen(Vector2.from_angle(fish.heading)).normalized() * fish.body_length * 0.3
+	var bursts := clampi(roundi(size * 1.5), 1, 4)
+	for k in bursts:
+		var offset := along * (0.0 if bursts == 1 else lerpf(-1.0, 1.0, float(k) / (bursts - 1)))
+		Juice.splash(_effects, fish.position + offset, roundi(14 * spray), spray)
+	Juice.ripple(_effects, fish.position, fish.body_length * (0.4 if diving_in else 0.3))
+	if diving_in:
+		Juice.ripple(_effects, fish.position, fish.body_length * 0.6)
+	# Whales sound deeper; leaving the water is the softer of the two splashes.
+	var pitch := rng.randf_range(0.9, 1.05) / sqrt(size)
+	if size > 1.2:
+		Sfx.play(&"breach", pitch, 2.0 if diving_in else -4.0)
+	else:
+		Sfx.play(&"leap_splash", pitch, -1.0 if diving_in else -6.0)
 
 
 func fish_count() -> int:

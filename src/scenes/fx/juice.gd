@@ -14,23 +14,24 @@ static func ripple(parent: Node, at: Vector2, radius: float, color: Color = Colo
 	parent.add_child(ring)
 
 
-## A burst of droplets that frees itself when done.
-static func splash(parent: Node, at: Vector2, amount: int) -> void:
+## A burst of droplets that frees itself when done. A `size` over 1 throws bigger drops further
+## and keeps them in the air longer (a whale crashing back in).
+static func splash(parent: Node, at: Vector2, amount: int, size: float = 1.0) -> void:
 	var particles := CPUParticles2D.new()
 	particles.position = at
 	particles.texture = DROPLET_TEXTURE
 	particles.one_shot = true
 	particles.explosiveness = 0.9
 	particles.amount = amount
-	particles.lifetime = 0.5
+	particles.lifetime = 0.5 * sqrt(size)
 	particles.spread = 180.0
 	particles.gravity = Vector2.ZERO
-	particles.initial_velocity_min = 140.0
-	particles.initial_velocity_max = 380.0
-	particles.damping_min = 250.0
-	particles.damping_max = 400.0
-	particles.scale_amount_min = 0.35
-	particles.scale_amount_max = 0.8
+	particles.initial_velocity_min = 140.0 * size
+	particles.initial_velocity_max = 380.0 * size
+	particles.damping_min = 250.0 * size
+	particles.damping_max = 400.0 * size
+	particles.scale_amount_min = 0.35 * sqrt(size)
+	particles.scale_amount_max = 0.8 * sqrt(size)
 	var fade := Gradient.new()
 	fade.set_color(0, Color(1.0, 1.0, 1.0, 0.95))
 	fade.set_color(1, Color(1.0, 1.0, 1.0, 0.0))
