@@ -113,7 +113,7 @@ CREATURES = [
     ("reef_manta_ray", "flat", "from above: the whole diamond-shaped black disc with white shoulder patches, wide wing tips, the two head fins in front, a short tail"),
     ("smooth_stingray", "flat", "from above: the whole round grey-brown disc, the eyes on top, a long whip-like tail with a spine"),
     ("giant_guitarfish", "flat", "from above: a flat, wide shark-like body with a pointed wedge-shaped snout, white spots on a sandy back, shark-like dorsal fins and tail"),
-    ("ocean_sunfish", "flat", "a huge, flat, round fish with a tall dorsal and anal fin and a frilly round back end instead of a tail, silver-grey; from above we see its narrow back, both fins and the edge of the round body"),
+    ("ocean_sunfish", "flat", "a huge, flat, round fish, the body itself taller than long, with a tall pointed dorsal fin and anal fin and a scalloped, frilly round back end (the clavus) instead of a tail, blue-grey with pale speckles fading into a white belly, a big round eye, a small round pouting mouth, a small pectoral fin; very cute and chubby. From above it is very narrow (a disc standing upright): a slim back, the tall fins seen edge-on as thin blades along it, the short frilly back end, no tail fin"),
     # Cephalopods
     ("curled_octopus", "octopus", "an orange-red octopus with a single row of suckers on each arm; from above the mantle leads, the eight arms trail behind, only their tips curled"),
     ("giant_squid", "ceph", "a huge red squid: from above, the long mantle with its fins leads, the eight arms and two very long tentacles trail behind"),

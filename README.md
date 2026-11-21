@@ -286,6 +286,7 @@ Rules of thumb:
   - Blue tang (Paracanthurus hepatus)
   - Mandarinfish (Synchiropus splendidus)
   - Lion's mane jellyfish (Cyanea capillata)
+  - Ocean sunfish (Mola mola)
   - Basking shark (Cetorhinus maximus)
   - Roundnose grenadier (Coryphaenoides rupestris)
   - Rabbit fish (Chimaera monstrosa)

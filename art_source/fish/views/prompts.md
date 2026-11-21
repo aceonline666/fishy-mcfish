@@ -91,7 +91,7 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `reef_manta_ray` | Reef manta ray (Mobula alfredi) |
 | `smooth_stingray` | Smooth stingray (Bathytoshia brevicaudata) |
 | `giant_guitarfish` | Giant guitarfish (Rhynchobatus djiddensis) |
-| `ocean_sunfish` | Ocean sunfish (Mola mola) – in the game (side view) |
+| `ocean_sunfish` | Ocean sunfish (Mola mola) |
 | `curled_octopus` | Curled octopus (Eledone cirrhosa) – in the game (side view) |
 | `giant_squid` | Giant squid (Architeuthis dux) |
 | `chambered_nautilus` | Chambered nautilus (Nautilus pompilius) |
@@ -2097,7 +2097,7 @@ biologist), for a different species. Take only the layout, views and style from 
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Ocean sunfish (Mola mola): a huge, flat, round fish with a tall dorsal and anal fin and a frilly round back end instead of a tail, silver-grey; from above we see its narrow back, both fins and the edge of the round body.
+Ocean sunfish (Mola mola): a huge, flat, round fish, the body itself taller than long, with a tall pointed dorsal fin and anal fin and a scalloped, frilly round back end (the clavus) instead of a tail, blue-grey with pale speckles fading into a white belly, a big round eye, a small round pouting mouth, a small pectoral fin; very cute and chubby. From above it is very narrow (a disc standing upright): a slim back, the tall fins seen edge-on as thin blades along it, the short frilly back end, no tail fin.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
