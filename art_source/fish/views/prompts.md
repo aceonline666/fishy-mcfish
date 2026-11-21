@@ -27,7 +27,7 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `ocellaris_clownfish` | Ocellaris clownfish (Amphiprion ocellaris) – in the game (side view) |
 | `blue_green_chromis` | Blue-green chromis (Chromis viridis) – in the game (side view) |
 | `blue_tang` | Blue tang (Paracanthurus hepatus) – in the game (side view) |
-| `mandarinfish` | Mandarinfish (Synchiropus splendidus) |
+| `mandarinfish` | Mandarinfish (Synchiropus splendidus) – in the game (side view) |
 | `red_lionfish` | Red lionfish (Pterois volitans) |
 | `humphead_wrasse` | Humphead wrasse (Cheilinus undulatus) |
 | `atlantic_bluefin_tuna` | Atlantic bluefin tuna (Thunnus thynnus) |
