@@ -45,7 +45,7 @@ CREATURES = [
     ("rabbit_fish", "fish", "a chimaera: a big head with huge green eyes, large wing-like pectoral fins, a tall spine on the first dorsal fin, a long whip tail, bronze with white spots"),
     ("ocellaris_clownfish", "fish", "small, bright orange with three white bands edged in black"),
     ("blue_green_chromis", "fish", "small, iridescent blue-green, a forked tail"),
-    ("blue_tang", "fish", "an oval royal-blue body with a black palette pattern and a yellow tail"),
+    ("blue_tang", "fish", "a surgeonfish, not slim: a deep, flat, almost disc-shaped oval body (nearly as tall as it is long without the tail), a steep rounded forehead, a small pointed mouth, a big eye, royal blue with a black palette pattern, black edges on the long dorsal and anal fins, a yellow pectoral fin and a yellow tail"),
     ("mandarinfish", "fish", "tiny, a dragonet, not a goby: a broad, blunt, rounded head with big bulging eyes set high on top of it (they bulge out above the head outline), a small mouth, a short stout body, orange and electric blue wavy patterns, a green-yellow tint on the head, big fan-like blue pectoral and pelvic fins with orange edges"),
     ("red_lionfish", "fish", "red and white stripes, long fan-like pectoral fins and long venomous spines spread around it"),
     ("humphead_wrasse", "fish", "huge, green-blue, a big hump on the forehead, thick lips, fine wavy lines on the face"),

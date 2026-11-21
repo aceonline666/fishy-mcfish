@@ -26,7 +26,7 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `rabbit_fish` | Rabbit fish (Chimaera monstrosa) |
 | `ocellaris_clownfish` | Ocellaris clownfish (Amphiprion ocellaris) – in the game (side view) |
 | `blue_green_chromis` | Blue-green chromis (Chromis viridis) – in the game (side view) |
-| `blue_tang` | Blue tang (Paracanthurus hepatus) – in the game (side view) |
+| `blue_tang` | Blue tang (Paracanthurus hepatus) |
 | `mandarinfish` | Mandarinfish (Synchiropus splendidus) |
 | `red_lionfish` | Red lionfish (Pterois volitans) – in the game (side view) |
 | `humphead_wrasse` | Humphead wrasse (Cheilinus undulatus) – in the game (side view) |
@@ -407,7 +407,7 @@ biologist), for a different species. Take only the layout, views and style from 
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Blue tang (Paracanthurus hepatus): an oval royal-blue body with a black palette pattern and a yellow tail.
+Blue tang (Paracanthurus hepatus): a surgeonfish, not slim: a deep, flat, almost disc-shaped oval body (nearly as tall as it is long without the tail), a steep rounded forehead, a small pointed mouth, a big eye, royal blue with a black palette pattern, black edges on the long dorsal and anal fins, a yellow pectoral fin and a yellow tail.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
