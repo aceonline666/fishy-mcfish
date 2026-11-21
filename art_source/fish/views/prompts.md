@@ -27,7 +27,7 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `ocellaris_clownfish` | Ocellaris clownfish (Amphiprion ocellaris) – in the game (side view) |
 | `blue_green_chromis` | Blue-green chromis (Chromis viridis) – in the game (side view) |
 | `blue_tang` | Blue tang (Paracanthurus hepatus) – in the game (side view) |
-| `mandarinfish` | Mandarinfish (Synchiropus splendidus) – in the game (side view) |
+| `mandarinfish` | Mandarinfish (Synchiropus splendidus) |
 | `red_lionfish` | Red lionfish (Pterois volitans) – in the game (side view) |
 | `humphead_wrasse` | Humphead wrasse (Cheilinus undulatus) – in the game (side view) |
 | `atlantic_bluefin_tuna` | Atlantic bluefin tuna (Thunnus thynnus) – in the game (side view) |
@@ -433,7 +433,7 @@ biologist), for a different species. Take only the layout, views and style from 
 cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
 species, with its characteristic features clearly shown; it must not look like a cod:
 
-Mandarinfish (Synchiropus splendidus): tiny, orange and electric blue wavy patterns, big fan-like fins.
+Mandarinfish (Synchiropus splendidus): tiny, a dragonet, not a goby: a broad, blunt, rounded head with big bulging eyes set high on top of it (they bulge out above the head outline), a small mouth, a short stout body, orange and electric blue wavy patterns, a green-yellow tint on the head, big fan-like blue pectoral and pelvic fins with orange edges.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back

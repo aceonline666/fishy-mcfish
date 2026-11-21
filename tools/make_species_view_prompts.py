@@ -46,7 +46,7 @@ CREATURES = [
     ("ocellaris_clownfish", "fish", "small, bright orange with three white bands edged in black"),
     ("blue_green_chromis", "fish", "small, iridescent blue-green, a forked tail"),
     ("blue_tang", "fish", "an oval royal-blue body with a black palette pattern and a yellow tail"),
-    ("mandarinfish", "fish", "tiny, orange and electric blue wavy patterns, big fan-like fins"),
+    ("mandarinfish", "fish", "tiny, a dragonet, not a goby: a broad, blunt, rounded head with big bulging eyes set high on top of it (they bulge out above the head outline), a small mouth, a short stout body, orange and electric blue wavy patterns, a green-yellow tint on the head, big fan-like blue pectoral and pelvic fins with orange edges"),
     ("red_lionfish", "fish", "red and white stripes, long fan-like pectoral fins and long venomous spines spread around it"),
     ("humphead_wrasse", "fish", "huge, green-blue, a big hump on the forehead, thick lips, fine wavy lines on the face"),
     ("atlantic_bluefin_tuna", "fish", "big and torpedo-shaped, a dark blue back, silver belly, yellow finlets, a sickle-shaped tail"),
