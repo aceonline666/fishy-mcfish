@@ -2235,7 +2235,7 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Lion's mane jellyfish (Cyanea capillata): a big orange-red bell, masses of long hair-like tentacles. From above: the round bell seen from above (its pattern visible), the tentacles trailing behind it, away from the swimming direction. In the side view: the bell at the top, the tentacles hanging down and trailing.
+Lion's mane jellyfish (Cyanea capillata): a big orange-red bell, masses of long hair-like tentacles. A jellyfish does not swim head first like a fish: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it hangs upright and symmetric, like a bell: the bell (or float) at the top, its middle straight above the middle of the tentacles, which hang straight down below it (not trailing to one side, not diagonal), loose and slightly apart so they can sway, none curling back up over the bell; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2259,7 +2259,7 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Moon jellyfish (Aurelia aurita): a clear pale-blue bell with four violet rings (a flower pattern), short fringe tentacles. From above: the round bell seen from above (its pattern visible), the tentacles trailing behind it, away from the swimming direction. In the side view: the bell at the top, the tentacles hanging down and trailing.
+Moon jellyfish (Aurelia aurita): a clear pale-blue bell with four violet rings (a flower pattern), short fringe tentacles. A jellyfish does not swim head first like a fish: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it hangs upright and symmetric, like a bell: the bell (or float) at the top, its middle straight above the middle of the tentacles, which hang straight down below it (not trailing to one side, not diagonal), loose and slightly apart so they can sway, none curling back up over the bell; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2283,7 +2283,7 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Blubber jellyfish (Catostylus mosaicus): a pale violet-blue bell, frilly mouth arms, no long tentacles. From above: the round bell seen from above (its pattern visible), the tentacles trailing behind it, away from the swimming direction. In the side view: the bell at the top, the tentacles hanging down and trailing.
+Blubber jellyfish (Catostylus mosaicus): a pale violet-blue bell, frilly mouth arms, no long tentacles. A jellyfish does not swim head first like a fish: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it hangs upright and symmetric, like a bell: the bell (or float) at the top, its middle straight above the middle of the tentacles, which hang straight down below it (not trailing to one side, not diagonal), loose and slightly apart so they can sway, none curling back up over the bell; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2307,7 +2307,7 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Nomura's jellyfish (Nemopilema nomurai): an enormous cream-brown bell, thick frilly mouth arms. From above: the round bell seen from above (its pattern visible), the tentacles trailing behind it, away from the swimming direction. In the side view: the bell at the top, the tentacles hanging down and trailing.
+Nomura's jellyfish (Nemopilema nomurai): an enormous cream-brown bell, thick frilly mouth arms. A jellyfish does not swim head first like a fish: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it hangs upright and symmetric, like a bell: the bell (or float) at the top, its middle straight above the middle of the tentacles, which hang straight down below it (not trailing to one side, not diagonal), loose and slightly apart so they can sway, none curling back up over the bell; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -2331,7 +2331,7 @@ Redraw this sheet with exactly the same layout, views, sizes and style (cute com
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
 biologist), for a different species:
 
-Portuguese man o' war (Physalia physalis): a blue-violet gas float like a sail with a pink crest on top, long blue stinging tentacles below; from above mostly the float. From above: the round bell seen from above (its pattern visible), the tentacles trailing behind it, away from the swimming direction. In the side view: the bell at the top, the tentacles hanging down and trailing.
+Portuguese man o' war (Physalia physalis): a blue-violet gas float like a sail with a pink crest on top, long blue stinging tentacles below; from above mostly the float. A jellyfish does not swim head first like a fish: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it hangs upright and symmetric, like a bell: the bell (or float) at the top, its middle straight above the middle of the tentacles, which hang straight down below it (not trailing to one side, not diagonal), loose and slightly apart so they can sway, none curling back up over the bell; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back

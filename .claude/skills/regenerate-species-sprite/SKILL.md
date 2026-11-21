@@ -47,7 +47,10 @@ with `info`, `take`, `commit`, `discard` (see its docstring).
    them (the icon in the address bar), do not change browser settings yourself.
 8. **Check** `build/sprite_check/preview.jpg` and `check.png` (Read both):
    - the layout: top left heads lower left, top right heads upper left, bottom side view heads left;
-     in both top views the back is up with both eyes on top;
+     in both top views the back is up with both eyes on top; jellyfish (and the man o' war) have
+     no direction: side view upright with the bell centred over tentacles hanging straight down
+     (the game pulses the bell and sways the tentacles), top views the round bell from straight
+     above with the tentacles all around;
    - the style matches the cod (bold dark outlines, cel shading, big eyes);
    - all three drawings are the same animal; the anatomy is right for the species (band count,
      body shape, fins);
