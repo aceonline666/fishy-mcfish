@@ -283,7 +283,6 @@ Rules of thumb:
 ## TODOs
 - Add weather: Storms, Lightning. (Day and night are in: a 20-minute cycle, real time, always day or always night, chosen in the menu, with the sun or the moon mirrored on the water; `DayClock`, `DayCycle`, `Night`, `reflection.gdshaderinc`. In debug builds N moves the time on by an hour, Shift+N lets it run; `tools/screenshot.gd -- --hour=23`.) Still to do for the night: night-only species, bioluminescent wake, no seagulls at night.
 - Regenerate the species sprites that are not yet in the new cute-comic format (one image per species in `art_source/fish/views/`, prompts in `art_source/fish/views/prompts.md`, cut with `tools/extract_species_views.py`):
-  - Atlantic bluefin tuna (Thunnus thynnus)
   - Ocean sunfish (Mola mola)
   - Basking shark (Cetorhinus maximus)
   - Roundnose grenadier (Coryphaenoides rupestris)
@@ -372,6 +371,7 @@ Rules of thumb:
   - Seasnakes
   - Walrus
   - Otter (with special swim and lay on the the back sprites and animation)
+  - Megalodon (fact check if it lived in the Jura age)
 - Better plant animations - e.g. really long and wavy kelp forests. Maybe even pushed away by passing fish.
 - Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console - which requires a Google Cloud Project - which would cause costs)
 - Cavemen or Dinosaur people instead of cashiers / buyers for the Jura location. Also adjust buyers for other locations - Antarctica buyers should wear warmer stuff than shorts.

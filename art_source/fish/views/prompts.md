@@ -30,7 +30,7 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `mandarinfish` | Mandarinfish (Synchiropus splendidus) – in the game (side view) |
 | `red_lionfish` | Red lionfish (Pterois volitans) – in the game (side view) |
 | `humphead_wrasse` | Humphead wrasse (Cheilinus undulatus) – in the game (side view) |
-| `atlantic_bluefin_tuna` | Atlantic bluefin tuna (Thunnus thynnus) |
+| `atlantic_bluefin_tuna` | Atlantic bluefin tuna (Thunnus thynnus) – in the game (side view) |
 | `yellowfin_tuna` | Yellowfin tuna (Thunnus albacares) |
 | `humpback_anglerfish` | Humpback anglerfish (Melanocetus johnsonii) |
 | `atlantic_footballfish` | Atlantic footballfish (Himantolophus groenlandicus) |
