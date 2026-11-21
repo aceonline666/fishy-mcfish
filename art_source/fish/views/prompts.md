@@ -91,7 +91,7 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `reef_manta_ray` | Reef manta ray (Mobula alfredi) |
 | `smooth_stingray` | Smooth stingray (Bathytoshia brevicaudata) |
 | `giant_guitarfish` | Giant guitarfish (Rhynchobatus djiddensis) |
-| `ocean_sunfish` | Ocean sunfish (Mola mola) |
+| `ocean_sunfish` | Ocean sunfish (Mola mola) – in the game (side view) |
 | `curled_octopus` | Curled octopus (Eledone cirrhosa) – in the game (side view) |
 | `giant_squid` | Giant squid (Architeuthis dux) |
 | `chambered_nautilus` | Chambered nautilus (Nautilus pompilius) |
