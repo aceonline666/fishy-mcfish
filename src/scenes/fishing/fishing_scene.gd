@@ -195,10 +195,9 @@ const LIGHT_TURN := 4.0
 const LIGHT_FADE := 1.5
 ## The hard-hat helmet's headlamp lights this share of the submarine's spotlight.
 const HEADLAMP_LIGHT := 0.35
-## At night (Night): the radius of a lantern's pool of light and of the one the wader carries
-## (ground units), and of a lantern's and a lit window's glow (screen units).
+## At night (Night): the radius of a lantern's pool of light (ground units), and of a lantern's
+## and a lit window's glow (screen units).
 const NIGHT_LAMP_RADIUS := 320.0
-const NIGHT_CARRIED_RADIUS := 230.0
 const NIGHT_GLOW_RADIUS := 34.0
 const NIGHT_WINDOW_GLOW := 46.0
 const SWELL_SHADER := preload("res://src/shaders/swell.gdshader")
@@ -842,13 +841,11 @@ func _update_spotlight(delta: float) -> void:
 
 
 ## The time of day (DayCycle): the world's tint, and at night the painted lanterns of the pier and
-## the gear shop, its windows, the booths' display tanks and the tank shine, and the wader carries
-## a soft light. The sun or the moon is mirrored on the water (Mirror).
+## the gear shop, its windows, the booths' display tanks and the tank shine. The sun or the moon is mirrored on the water (Mirror).
 func _update_night() -> void:
 	var lamps: Array[Night.Lamp] = []
 	var dark := DayCycle.darkness()
 	if dark > 0.0:
-		lamps.append(Night.Lamp.new(wader.ground_position, NIGHT_CARRIED_RADIUS, 0.6, Night.CARRIED_COLOR))
 		for booth in _booth_nodes:
 			lamps.append(Night.Lamp.new(booth.ground_position, NIGHT_LAMP_RADIUS * 0.8, 0.7, Night.TANK_COLOR, booth.display_tank(), NIGHT_WINDOW_GLOW))
 		var tank := _tank_area()

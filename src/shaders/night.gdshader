@@ -3,7 +3,7 @@ render_mode blend_mul, unshaded;
 // The time of day over the whole world (DayClock, src/scenes/world/night.gd): multiplied over
 // everything below the HUD. White by day, gold at dusk, moonlit blue at night. The deep sea is
 // dark already, so the tint fades out with the abyss (SeaDepth). Lamps light pools on the ground,
-// in warm light, the sun or the moon on the water shines through, the wader carries a soft pale one, and the submarine's spotlight lights its cone.
+// in warm light, the sun or the moon on the water shines through, and the submarine's spotlight lights its cone.
 // Works in ground coordinates like water.gdshader: keep to_ground in step with Iso.
 
 uniform vec2 rect_size = vec2(1080.0, 1920.0);

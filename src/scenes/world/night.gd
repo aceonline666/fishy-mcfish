@@ -8,10 +8,9 @@ extends Node2D
 const SHADER := preload("res://src/shaders/night.gdshader")
 ## As many pools as night.gdshader takes.
 const MAX_LIGHTS := 16
-## Warm lamplight, the tank's water lit from inside, and the pale light the wader carries.
+## Warm lamplight and the tank's water lit from inside.
 const LAMP_COLOR := Color(1.0, 0.86, 0.62)
 const TANK_COLOR := Color(0.62, 0.95, 1.0)
-const CARRIED_COLOR := Color(0.88, 0.94, 1.0)
 ## How strongly a lamp's glow shines through the night (its alpha).
 const GLOW_STRENGTH := 0.55
 
