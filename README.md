@@ -366,21 +366,27 @@ Rules of thumb:
 
 ### Later 
 - Think about adjusting the map and the number of cashiers again. Currently one cashier would be enough to finish the game in every level. More cashiers don't add much speed. We need to rebalance this. If four cashiers are enough we could again display them in a row instead of a column. That would mean regeneration of all sprites (booths, cashiers, buyers, belt?)
-- The tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too with better instructions regarding line thickness.
+- The tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too with better instructions regarding line thickness. When regenerating the tank sprites consider line thickness in comparison to tank size and the water filling animation and transparency of the tank. You should be able to see the beach behind it. And the water filling should have clear corners where to draw the water lines. Also the poles need to be in front of the fish inside so maybe two sprites are necessary per tank.
 - More secrets: secret species per location that only show under a condition (night, charted zone, ...). Need new sprites.
-- Make the species sprites consistent. Some are very comic-style (sheet 5) and some are very realistic (e.g. jurassic species). We want a cute-comic style so I fear we have to regenerate a large part of it (side view; done in the new style: the cod, the 14 new Antarctic and Jurassic species, the ragged-tooth shark, European plaice, lumpsucker, green sea turtle, the curled, common and giant Pacific octopus, the Japanese flying squid and the colossal squid, `art_source/fish/views/`; prompts per species in `art_source/fish/views/prompts.md`). Species seen from above (isometric) instead of the side view was tried twice (2026-11-08 and 2026-11-21, see git history) and dropped: turning fish switch hard between the views, and a roll or cross-fade between side view and view from above does not look reliable; the code and sprites are removed, new images show the side view only.
 - Add more species - mostly the well known ones:
+  - Seals (North Sea)
   - Hammerhead Shark
   - Seasnakes
+  - Flying Fish
   - Walrus
   - Otter (with special swim and lay on the the back sprites and animation)
-  - Megalodon (fact check if it lived in the Jura age)
+  - Narwhal
+  - Manatee / Dugong
+  - Nightglowing Jellyfish / Squids?
+  - Horseshoe Crabs (Jura)
+  - Temnodontosaurus (Jura)
+  - Pliosaurus funkei (Jura)
+  - Jura Squids
 - Better plant animations - e.g. really long and wavy kelp forests. Maybe even pushed away by passing fish.
-- Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console - which requires a Google Cloud Project - which would cause costs)
 - Cavemen or Dinosaur people instead of cashiers / buyers for the Jura location. Also adjust buyers for other locations - Antarctica buyers should wear warmer stuff than shorts.
 - Pick up the story of the bottles and continue / finish the story. The last message says you'll find me by a fire - so the last level could contain a fire and a dad? Or a skeleton? Maybe with achievement "Is that you Dad?"
 - Secret "pineapple" and starfish hidden somewhere? Maybe with an achievement?
 - Secret level entry somewhere in the depth on the east border. We could make a tiny hole into the rock barrier, which makes you enter a secret area.
 - Hand- or Headlamp for "night wader". Requires special night-sprites for the wader.
 - More languages for internationalization - select the device/playstore language by default.
-  
+- Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console - which requires a Google Cloud Project - which would cause costs)
