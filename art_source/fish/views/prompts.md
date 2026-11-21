@@ -75,7 +75,7 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `giant_oarfish` | Giant oarfish (Regalecus glesne) |
 | `pelican_eel` | Pelican eel (Eurypharynx pelecanoides) |
 | `blacktip_reef_shark` | Blacktip reef shark (Carcharhinus melanopterus) – in the game (side view) |
-| `basking_shark` | Basking shark (Cetorhinus maximus) |
+| `basking_shark` | Basking shark (Cetorhinus maximus) – in the game (side view) |
 | `greenland_shark` | Greenland shark (Somniosus microcephalus) |
 | `bluntnose_sixgill_shark` | Bluntnose sixgill shark (Hexanchus griseus) |
 | `port_jackson_shark` | Port Jackson shark (Heterodontus portusjacksoni) |
