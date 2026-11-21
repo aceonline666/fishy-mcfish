@@ -98,7 +98,7 @@ func setup(fish_art: FishArt, home_zone: ZoneDef, home_area: PlayArea, start: Ve
 	_swim_phase = randf() * TAU
 	_wander = randf_range(-1.0, 1.0)
 	_leap_pause = randf_range(LEAP_PAUSE_MIN, LEAP_PAUSE_MAX)
-	if art.has_lure() and not art.has_top_view():
+	if art.has_lure():
 		_glow = Node2D.new()
 		_glow.material = Glow.material()
 		_glow.draw.connect(_draw_lure)
@@ -266,9 +266,7 @@ func _draw() -> void:
 	# The shadow stays on the seabed, smaller under a leaping fish.
 	var shadow_size := 1.0 - 0.4 * leap_lift() / maxf(body_length * LEAP_HEIGHT, 1.0)
 	draw_colored_polygon(Iso.ellipse(Vector2(0.0, SHADOW_DROP), body_length * 0.36 * shadow_size, 16), SHADOW_COLOR)
-	if art.has_top_view():
-		art.draw_top(self, Iso.to_screen(Vector2.from_angle(heading)), body_length, _swim_phase, 1.0)
-	elif art.has_sprite():
+	if art.has_sprite():
 		art.draw(self, to_screen, body_length, _swim_phase, 1.0)
 	else:
 		_draw_shapes(to_screen)

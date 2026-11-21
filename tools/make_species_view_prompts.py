@@ -1,6 +1,6 @@
 """Writes the prompts for the species views into art_source/fish/views/prompts.md: one image per
-species, in the layout of the cod in art_source/fish/species_style_test.png (top left seen from
-above heading lower left, top right seen from above heading upper left, bottom the side view).
+species, the creature seen from the side, head left, in the style of the cod in
+art_source/fish/species_style_side.png (the game draws every creature side-on).
 The species, their order and their descriptions live in CREATURES below; edit them there and run
 again:
 
@@ -15,21 +15,22 @@ import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "art_source", "fish", "views")
-REFERENCE = "art_source/fish/species_style_test.png"
+REFERENCE = "art_source/fish/species_style_side.png"
 
-# How each kind of creature looks in the three views (added to its description).
+# How each kind of creature is drawn (added to its description).
 KIND = {
     "fish": "",
-    "eel": " From above it is a long, slim body in a gentle S-curve.",
-    "shark": " From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.",
-    "flat": "",
-    "ceph": " In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.",
+    "eel": "",
+    "shark": "",
+    # Rays and flatfish: the game shows them gliding along, seen from the side and a little above.
+    "flat": " Seen from the side and a little from above (a three-quarter view), gliding to the left, so its flat shape shows.",
+    "ceph": " It swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops; arms and tentacles only at that one end.",
     # The game does not beat a tail for jellyfish: it squeezes the bell around its middle and
     # sways the tentacles below it (FishArt's jelly pulse), so they are drawn straight upright.
-    "jelly": " A jellyfish does not swim head first like a fish and has no tail: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.",
-    "octopus": " An octopus has no fins and no face at the front: in the side view it swims to the left, mantle first, like a jet: the rounded, bag-like mantle (no eyes, no mouth on it) leads at the left, the head with the two eyes sits behind it on the right where the arms begin, and the eight arms, a row of pale suckers along each, trail straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops. It must not look like a fish. From above likewise: the mantle leads, the eyes sit behind it at the base of the arms.",
-    "crust": " In the side view it walks to the left on its legs.",
-    "upright": " It swims upright: in the views from above draw it seen from above at an angle, so its snout, back and curled tail stay recognisable; the side view shows it upright, snout pointing left.",
+    "jelly": " A jellyfish does not swim head first like a fish and has no tail: it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles; if it has eyes, both sit side by side on the front of the bell, looking at the viewer.",
+    "octopus": " An octopus has no fins and no face at the front: it swims to the left, mantle first, like a jet: the rounded, bag-like mantle (no eyes, no mouth on it) leads at the left, the head with the two eyes sits behind it on the right where the arms begin, and the eight arms, a row of pale suckers along each, trail straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops. It must not look like a fish.",
+    "crust": " It walks to the left on its legs.",
+    "upright": " It swims upright, snout pointing left.",
     "big": "",
 }
 
@@ -111,84 +112,79 @@ CREATURES = [
     ("whale_shark", "shark", "huge, dark blue-grey with white spots and pale stripes, a wide flat head with a wide mouth at the front"),
     ("hybodus", "shark", "Hybodus (Hybodus hauffianus), Jurassic: grey-brown with a pale belly, a blunt snout, a long sharp spine at the front of each of its two dorsal fins"),
     # Flat creatures
-    ("european_plaice", "flat", "a flatfish lying flat: from above we see its whole brown upper side with bright orange spots, both eyes on top, the fins as a fringe all around. In the side view it glides along showing its eyed upper side: an oval flat body, both eyes on the head, the fin fringe all around and a short fan-shaped tail fin"),
-    ("reef_manta_ray", "flat", "from above: the whole diamond-shaped black disc with white shoulder patches, wide wing tips, the two head fins in front, a short tail"),
-    ("smooth_stingray", "flat", "from above: the whole round grey-brown disc, the eyes on top, a long whip-like tail with a spine"),
-    ("giant_guitarfish", "flat", "from above: a flat, wide shark-like body with a pointed wedge-shaped snout, white spots on a sandy back, shark-like dorsal fins and tail"),
-    ("ocean_sunfish", "flat", "a huge, flat, round fish, the body itself taller than long, with a tall pointed dorsal fin and anal fin and a scalloped, frilly round back end (the clavus) instead of a tail, blue-grey with pale speckles fading into a white belly, a big round eye, a small round pouting mouth, a small pectoral fin; very cute and chubby. From above it is very narrow (a disc standing upright): a slim back, the tall fins seen edge-on as thin blades along it, the short frilly back end, no tail fin"),
+    ("european_plaice", "fish", "a flatfish gliding along, showing its eyed brown upper side with bright orange spots: an oval flat body, both eyes on the head, the fins as a fringe all around and a short fan-shaped tail fin"),
+    ("reef_manta_ray", "flat", "the whole diamond-shaped black disc with white shoulder patches, wide wing tips, the two head fins in front, a short tail"),
+    ("smooth_stingray", "flat", "the whole round grey-brown disc, the eyes on top, a long whip-like tail with a spine"),
+    ("giant_guitarfish", "shark", "a flat, wide shark-like body with a pointed wedge-shaped snout, white spots on a sandy back, shark-like dorsal fins and tail"),
+    ("ocean_sunfish", "fish", "a huge, flat, round fish, the body itself taller than long, with a tall pointed dorsal fin and anal fin and a scalloped, frilly round back end (the clavus) instead of a tail, blue-grey with pale speckles fading into a white belly, a big round eye, a small round pouting mouth, a small pectoral fin; very cute and chubby"),
     # Cephalopods
-    ("curled_octopus", "octopus", "an orange-red octopus with a single row of suckers on each arm; from above the mantle leads, the eight arms trail behind, only their tips curled"),
-    ("giant_squid", "ceph", "a huge red squid: from above, the long mantle with its fins leads, the eight arms and two very long tentacles trail behind"),
-    ("chambered_nautilus", "ceph", "a coiled shell with brown-orange tiger stripes; from above the shell's back, the many short tentacles poking out at the opening"),
-    ("vampire_squid", "ceph", "dark red-black, big blue eyes, a cloak-like web between the arms, two ear-like fins; from above, fins first, the cloak trailing"),
-    ("southern_blue_ringed_octopus", "octopus", "a small yellow-brown octopus covered in bright blue rings; from above the mantle leads, the arms trail"),
-    ("japanese_flying_squid", "ceph", "a slim red-brown squid with a triangular fin at the mantle tip, eight arms and two longer tentacles; from above mantle first, the arms trailing"),
-    ("giant_pacific_octopus", "octopus", "a huge red-brown octopus with wrinkly skin and pale suckers; from above the mantle leads, the long arms trail behind"),
-    ("common_octopus", "octopus", "a brown-orange octopus with mottled skin; from above the mantle leads, the arms trail behind"),
-    ("colossal_squid", "ceph", "a huge, heavy red squid with a wide mantle, big fins at its tip, big eyes and short, thick arms with hooks plus two longer tentacles; from above mantle first, the arms trailing"),
-    ("ammonite", "ceph", "Jurassic: a ribbed, coiled shell, cream-brown; from above the shell's back, short tentacles at the opening"),
-    ("belemnite", "ceph", "Jurassic: a squid-like body with a pointed tail end, ten short hooked arms, red-brown; from above body first, arms trailing"),
+    ("curled_octopus", "octopus", "an orange-red octopus with a single row of suckers on each arm, only the arm tips curled"),
+    ("giant_squid", "ceph", "a huge red squid: the long mantle with its fins leads, the eight arms and two very long tentacles trail behind"),
+    ("chambered_nautilus", "ceph", "a coiled shell with brown-orange tiger stripes, the many short tentacles poking out at the opening"),
+    ("vampire_squid", "ceph", "dark red-black, big blue eyes, a cloak-like web between the arms, two ear-like fins; fins first, the cloak trailing"),
+    ("southern_blue_ringed_octopus", "octopus", "a small yellow-brown octopus covered in bright blue rings"),
+    ("japanese_flying_squid", "ceph", "a slim red-brown squid with a triangular fin at the mantle tip, eight arms and two longer tentacles"),
+    ("giant_pacific_octopus", "octopus", "a huge red-brown octopus with wrinkly skin and pale suckers, long arms"),
+    ("common_octopus", "octopus", "a brown-orange octopus with mottled skin"),
+    ("colossal_squid", "ceph", "a huge, heavy red squid with a wide mantle, big fins at its tip, big eyes and short, thick arms with hooks plus two longer tentacles"),
+    ("ammonite", "ceph", "Jurassic: a ribbed, coiled shell, cream-brown, short tentacles at the opening"),
+    ("belemnite", "ceph", "Jurassic: a squid-like body with a pointed tail end, ten short hooked arms, red-brown"),
     # Jellyfish
     ("lions_mane_jellyfish", "jelly", "a big orange-red bell, masses of long hair-like tentacles"),
     ("moon_jellyfish", "jelly", "a clear pale-blue bell with four violet rings (a flower pattern), short fringe tentacles"),
     ("blubber_jellyfish", "jelly", "a pale violet-blue bell, frilly mouth arms, no long tentacles"),
     ("nomuras_jellyfish", "jelly", "an enormous cream-brown bell, thick frilly mouth arms"),
-    ("portuguese_man_o_war", "jelly", "a blue-violet gas float like a sail with a pink crest on top, long blue stinging tentacles below; from above mostly the float"),
+    ("portuguese_man_o_war", "jelly", "a blue-violet gas float like a sail with a pink crest on top, long blue stinging tentacles below"),
     # Crustaceans and other crawlers
-    ("japanese_spider_crab", "crust", "from above: an orange-red carapace with white spots, very long thin spidery legs spread wide, two claws in front"),
-    ("giant_isopod", "crust", "from above: a big armoured pale lilac woodlouse with overlapping plates, small legs at the sides, two short antennae"),
-    ("antarctic_krill", "crust", "from above: a tiny see-through pink shrimp with big black eyes, red dots, long antennae"),
-    ("giant_sea_spider", "crust", "from above: a tiny body with eight very long thin orange-red legs spread wide"),
+    ("japanese_spider_crab", "crust", "an orange-red carapace with white spots, very long thin spidery legs spread wide, two claws in front"),
+    ("giant_isopod", "crust", "a big armoured pale lilac woodlouse with overlapping plates, small legs below, two short antennae"),
+    ("antarctic_krill", "crust", "a tiny see-through pink shrimp with big black eyes, red dots, long antennae"),
+    ("giant_sea_spider", "crust", "a tiny body with eight very long thin orange-red legs spread wide"),
     # Upright swimmers
     ("weedy_seadragon", "upright", "a red-orange seadragon with yellow spots and purple bands, small leaf-like appendages, a long pipe snout"),
     ("leafy_seadragon", "upright", "a yellow-green seadragon covered in big leaf-like appendages, a long pipe snout"),
     ("knysna_seahorse", "upright", "a small brown-green seahorse with a curled tail"),
     # Big animals
-    ("sperm_whale", "big", "huge, dark grey, an enormous square head, wrinkled skin; from above the long back, the blowhole on the left front of the head, the flippers and the wide horizontal tail flukes"),
-    ("blue_whale", "big", "huge, slim, mottled blue-grey; from above the long back, the twin blowholes, the long flippers and the wide horizontal tail flukes"),
-    ("humpback_whale", "big", "dark grey with a white belly, very long white-edged flippers, knobs on the head; from above the back, both long flippers spread, the wide flukes"),
-    ("southern_right_whale", "big", "black, a big arched head with white rough patches, no dorsal fin; from above the broad back, short wide flippers, the wide flukes"),
-    ("orca", "big", "black with a white eye patch, a grey saddle patch behind the tall dorsal fin; from above the back, the fin, both flippers and the flukes"),
-    ("common_bottlenose_dolphin", "big", "grey, a short beak, a friendly smile; from above the back, the curved dorsal fin, both flippers and the flukes"),
-    ("leopard_seal", "big", "long, grey with dark spots, a big reptile-like head; from above the back, both front flippers spread, the hind flippers together behind"),
-    ("southern_elephant_seal", "big", "huge, brown-grey, a big floppy nose (a male); from above the bulky back, the front flippers, the hind flippers behind"),
+    ("sperm_whale", "big", "huge, dark grey, an enormous square head, wrinkled skin, the flippers and the wide horizontal tail flukes"),
+    ("blue_whale", "big", "huge, slim, mottled blue-grey, the long flippers and the wide horizontal tail flukes"),
+    ("humpback_whale", "big", "dark grey with a white belly, very long white-edged flippers, knobs on the head, the wide flukes"),
+    ("southern_right_whale", "big", "black, a big arched head with white rough patches, no dorsal fin, short wide flippers, the wide flukes"),
+    ("orca", "big", "black with a white eye patch, a grey saddle patch behind the tall dorsal fin"),
+    ("common_bottlenose_dolphin", "big", "grey, a short beak, a friendly smile, a curved dorsal fin"),
+    ("leopard_seal", "big", "long, grey with dark spots, a big reptile-like head, the front flippers at its sides, the hind flippers together behind"),
+    ("southern_elephant_seal", "big", "huge, brown-grey, a big floppy nose (a male), the front flippers, the hind flippers together behind"),
     ("ichthyosaurus", "big", "Jurassic marine reptile shaped like a dolphin, grey-blue, a long toothy snout, big eyes, four flippers, a crescent tail"),
     ("plesiosaurus", "big", "Jurassic marine reptile: a small head on a very long neck, a broad body with four big flippers, a short tail, green-brown"),
     ("liopleurodon", "big", "Jurassic marine reptile: a huge crocodile-like head, a short neck, a broad body with four big flippers, dark grey-brown"),
     ("metriorhynchus", "big", "Metriorhynchus (Metriorhynchus superciliosus), Jurassic: a sea crocodile with smooth grey-green skin, a long narrow toothy snout, four small paddle flippers, a shark-like tail fin"),
-    ("green_sea_turtle", "big", "from above: the olive-green shell with its pattern of plates, the head in front, all four flippers spread. In the side view: the shell in profile, the head stretched forward, the long near front flipper held down and back and the small near rear flipper at the back, both clearly apart from each other with open space around them, the far flippers only peeking out"),
-    ("loggerhead_turtle", "big", "from above: the red-brown shell, the big head in front, all four flippers spread"),
-    ("leatherback_turtle", "big", "from above: the dark blue-black leathery shell with long ridges and white spots, very long front flippers spread"),
-    ("emperor_penguin", "big", "Emperor penguin (Aptenodytes forsteri), swimming: from above the black back and head, golden-yellow neck patches, BOTH flippers spread at the sides, the two feet together behind; in the side view only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail"),
-    ("adelie_penguin", "big", "Adélie penguin (Pygoscelis adeliae), swimming: smaller and rounder, from above the black back and head, a white eye ring, BOTH flippers at the sides, the two feet together behind; in the side view only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail"),
+    ("green_sea_turtle", "big", "a turtle, not a fish: no tail fin at all, only a short stubby tail barely peeking out behind the shell. The olive-green shell in profile with its pattern of plates, the head stretched forward, the long near front flipper held down and back and the small near rear flipper at the back, both clearly apart from each other with open space around them, the far flippers only peeking out"),
+    ("loggerhead_turtle", "big", "the red-brown shell in profile, the big head in front, the near front and rear flippers clearly apart"),
+    ("leatherback_turtle", "big", "the dark blue-black leathery shell with long ridges and white spots, very long front flippers"),
+    ("emperor_penguin", "big", "Emperor penguin (Aptenodytes forsteri), swimming: the black back and head, golden-yellow neck patches, a white belly, only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail"),
+    ("adelie_penguin", "big", "Adélie penguin (Pygoscelis adeliae), swimming: smaller and rounder, the black back and head, a white eye ring, a white belly, only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail"),
 ]
 
 
-PROMPT = """Image 1 shows the exact layout, views and art style I need: one creature drawn three times on
-one canvas. Top left: seen steeply from above, swimming towards the lower left (head at the lower
-left). Top right: seen steeply from above, swimming towards the upper left (head at the upper left,
-further from the camera). Bottom: a plain side view, head pointing left.
+PROMPT = """Image 1 shows the view and art style I need: one creature, a plain side view, head pointing
+left, filling most of the canvas width.
 
-Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, dark
-outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species{not_cod}:
+Draw it in exactly the same view and style (cute comic style, dark outlines, flat colours with soft
+cel shading, big friendly eyes, but accurate enough for a marine biologist), for a different
+species{not_cod}:
 
 {description}
 
 {outline}
 
-In both views from above we look steeply down on its back: the whole width of the back, both eyes
-on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
-always facing up (never belly up). All three drawings are the same individual: identical body
-shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
-(PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
-no shadow, no water, no text."""
+One single drawing, centred. Canvas 1536 x 1024 px, a real transparent background (PNG alpha, not
+a white or checkered background, also in the gaps between fins, legs or arms), no glow, no shadow,
+no water, no text."""
 
 # The cod in the reference pulls other species towards its shape (a basking shark lost its big
-# snout), so every other species is told to take only layout and style from it.
-NOT_COD = """. Take only the layout, views and style from Image 1, never the
-cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
-species, with its characteristic features clearly shown; it must not look like a cod"""
+# snout), so every other species is told to take only view and style from it.
+NOT_COD = """. Take only the view and style from Image 1, never the cod's shape: the
+head, snout, mouth, body outline, proportions and fins must be those of this species, with its
+characteristic features clearly shown; it must not look like a cod"""
 
 # Every species is drawn on the same canvas but shown in the sea at its own size
 # (CatchRules.body_length: a blue whale about 8 times as long as the cod, a clownfish less than
@@ -222,8 +218,8 @@ def outline_text(scale: float) -> str:
 
 # What the game's animation (FishArt.MOTIONS) needs from the side view.
 MOTION_HINTS = {
-    "TAIL": " In the side view the tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).",
-    "WAVE": " In the side view the body is held straight, not curved or bent (the game bends it in a wave as it swims).",
+    "TAIL": " The tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).",
+    "WAVE": " The body is held straight, not curved or bent (the game bends it in a wave as it swims).",
     "FLAP": " Its wings are spread out flat, not bent up or down (the game flaps them).",
     "PADDLE": " Its flippers stand clearly apart from the body with open space around them (the game rows them).",
     "CRAWL": " Its legs are spread apart, none crossing another (the game swings them).",
@@ -275,19 +271,14 @@ Save as `art_source/fish/views/{cid}.png`, then `python tools/extract_species_vi
 """)
     doc = f"""# Species views – generation prompts
 
-One image per species, in a NEW ChatGPT chat each: attach only `{REFERENCE}` (the cod in
-the three views) and paste the species' prompt. Save the result here as `<id>.png` and cut it with
-`python tools/extract_species_views.py <id>` into the two views from above (`<id>_top.png`,
-`<id>_top_up.png`) and the side view (`<id>_body.png`, `<id>_tail.png`) in
-`assets/sprites/fish_painted/`. Then import in Godot and turn mipmaps on for new sprites.
+One image per species, in a NEW ChatGPT chat each: attach only `{REFERENCE}` (the cod from
+the side) and paste the species' prompt. Save the result here as `<id>.png` and cut it with
+`python tools/extract_species_views.py <id>` into the side-view sprites (`<id>_body.png`,
+`<id>_tail.png`) in `assets/sprites/fish_painted/`. Then import in Godot and turn mipmaps on for
+new sprites. Older images here also show two views from above; the game no longer uses them and
+the cutter takes only the side view.
 
-Check before cutting: both views from above show the back (both eyes on top), the three drawings
-are the same animal (same shape and markings), heads point lower left, upper left and left. If one
-view is wrong, ask in the same chat to redraw only that one.
-
-Generated by `tools/make_species_view_prompts.py` (edit the descriptions there). Why one image per
-species: on shared sheets ChatGPT drew the same species differently in the two views (the
-lumpsucker round in one, slim in the other) or fell back to tilted side views.
+Generated by `tools/make_species_view_prompts.py` (edit the descriptions there).
 
 | Species id | Species |
 |---|---|

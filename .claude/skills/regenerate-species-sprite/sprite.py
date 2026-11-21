@@ -11,7 +11,7 @@ take    moves ~/Downloads/fishy_<id>.png to art_source/fish/views/<id>.png, cuts
         tools/extract_species_views.py and writes two images to look at: the source (preview.jpg)
         and the cut sprites on red (check.png) in build/sprite_check/.
 commit  removes the species from the README TODO list, marks it "in the game" in the prompts
-        table, drops the untracked top-view sprites and commits the view image, the body and tail
+        table and commits the view image, the body and tail
         sprites (one commit per species). Of README and prompts.md only those two edits are
         committed; the user's other changes there stay unstaged.
 discard restores the committed body and tail sprites and the committed view image (or deletes
@@ -111,7 +111,7 @@ def take(species_id: str) -> None:
     subprocess.run([sys.executable, "tools/extract_species_views.py", species_id], check=True)
     CHECK.mkdir(parents=True, exist_ok=True)
     Image.open(dest).convert("RGB").resize((768, 512)).save(CHECK / "preview.jpg")
-    parts = [Image.open(SPRITES / f"{species_id}_{n}.png").convert("RGBA") for n in ("body", "tail", "top", "top_up")]
+    parts = [Image.open(SPRITES / f"{species_id}_{n}.png").convert("RGBA") for n in ("body", "tail")]
     sheet = Image.new("RGBA", (sum(p.width for p in parts) + 30, max(p.height for p in parts)), (200, 40, 40, 255))
     x = 0
     for part in parts:
@@ -119,13 +119,6 @@ def take(species_id: str) -> None:
         x += part.width + 10
     sheet.save(CHECK / "check.png")
     print(f"Look at {CHECK / 'preview.jpg'} and {CHECK / 'check.png'}")
-
-
-def drop_top_views(species_id: str) -> None:
-    for path in SPRITES.glob(f"{species_id}_top*"):
-        tracked = subprocess.run(["git", "ls-files", "--error-unmatch", str(path)], capture_output=True).returncode == 0
-        if not tracked:
-            path.unlink()
 
 
 def stage_edit(path: Path, edit) -> None:
@@ -155,7 +148,6 @@ def commit(species_id: str) -> None:
         print("Note: the species was not on the README TODO list.")
     stage_edit(README, drop_entry)
     stage_edit(PROMPTS, mark_in_game)
-    drop_top_views(species_id)
     files = [VIEWS / f"{species_id}.png"]
     for part in ("body", "tail"):
         for suffix in (".png", ".png.import"):
@@ -178,7 +170,6 @@ def discard(species_id: str) -> None:
         subprocess.run(["git", "checkout", "HEAD", "--", str(view)], check=True)
     else:
         view.unlink(missing_ok=True)
-    drop_top_views(species_id)
     print(f"Discarded the new drawing of {species_id}.")
 
 

@@ -1,20 +1,18 @@
-"""Cuts a species image (art_source/fish/views/<id>.png) into its three sprites.
+"""Cuts a species image (art_source/fish/views/<id>.png) into its side-view sprites.
 
-The image shows one creature three times, in the layout of the cod in
-art_source/fish/species_style_test.png (prompts: tools/make_species_view_prompts.py):
-- top left, seen from above heading lower left  -> assets/sprites/fish_painted/<id>_top.png
-- top right, seen from above heading upper left -> <id>_top_up.png
-- bottom, the side view, head left              -> <id>_body.png and <id>_tail.png (FishArt's
-  side layout, cut by tools/extract_painted.py's _write: the tail fin split off for species that
-  beat it, see FishArt.MOTIONS)
+The image shows the creature from the side, head left, in the style of the cod in
+art_source/fish/species_style_side.png (prompts: tools/make_species_view_prompts.py). It becomes
+assets/sprites/fish_painted/<id>_body.png and <id>_tail.png (FishArt's side layout, cut by
+tools/extract_painted.py's _write: the tail fin split off for species that beat it, see
+FishArt.MOTIONS). Older images also show two views from above above the side view; those are
+ignored (the lowest big drawing is the side view).
 
 Usage:
     python tools/extract_species_views.py <id> [<id> ...] [--scale=0.5]
 
-The three biggest drawings are taken; the lowest is the side view, of the other two the left one
-heads lower left. Real transparency is cut by its alpha (a faint glow is dropped), an opaque light
-background (white or a painted checkerboard) by removing the light pixels connected to the border.
-After cutting, import in Godot and turn mipmaps on for new sprites (see the README).
+Real transparency is cut by its alpha (a faint glow is dropped), an opaque light background (white
+or a painted checkerboard) by removing the light pixels connected to the border. After cutting,
+import in Godot and turn mipmaps on for new sprites (see the README).
 """
 import re
 import sys
@@ -102,26 +100,20 @@ def cut(species_id: str, scale: float, no_split: set[str]) -> None:
     solid = ndimage.binary_fill_holes(alpha >= SOLID_ALPHA)
     labels, count = ndimage.label(ndimage.binary_dilation(solid, iterations=3))
     sizes = ndimage.sum(solid, labels, range(1, count + 1))
-    biggest = [int(i) + 1 for i in np.argsort(sizes)[::-1][:3]]
-    if len(biggest) < 3:
-        print(f"{species_id}: only {len(biggest)} drawings found")
+    if count == 0:
+        print(f"{species_id}: no drawing found")
         return
-    centres = {label: ndimage.center_of_mass(solid, labels, label) for label in biggest}
-    side = max(biggest, key=lambda label: centres[label][0])
-    top = sorted((label for label in biggest if label != side), key=lambda label: centres[label][1])
-    sprites = {}
-    for label in biggest:
-        out = image.copy()
-        out[:, :, 3] = np.where((labels == label) & (alpha >= KEEP_ALPHA), alpha, 0).astype(np.uint8)
-        ys, xs = np.nonzero(out[:, :, 3])
-        sprite = Image.fromarray(out[ys.min():ys.max() + 1, xs.min():xs.max() + 1])
-        sprite = sprite.resize((max(1, round(sprite.width * scale)), max(1, round(sprite.height * scale))), Image.LANCZOS)
-        sprites[label] = sprite
-    for label, suffix in ((top[0], ""), (top[1], "_up")):
-        sprites[label].save(OUT / f"{species_id}_top{suffix}.png")
-        print(f"{species_id}_top{suffix}: {sprites[label].width} x {sprites[label].height}")
+    # The drawings: the side view alone, or (older three-view images) the side view below two
+    # views from above, which are not used. Loose bits (a detached fin ray) are left out.
+    drawings = [int(i) + 1 for i in np.argsort(sizes)[::-1][:3] if sizes[i] >= 0.25 * sizes.max()]
+    side = max(drawings, key=lambda label: ndimage.center_of_mass(solid, labels, label)[0])
+    out = image.copy()
+    out[:, :, 3] = np.where((labels == side) & (alpha >= KEEP_ALPHA), alpha, 0).astype(np.uint8)
+    ys, xs = np.nonzero(out[:, :, 3])
+    sprite = Image.fromarray(out[ys.min():ys.max() + 1, xs.min():xs.max() + 1])
+    sprite = sprite.resize((max(1, round(sprite.width * scale)), max(1, round(sprite.height * scale))), Image.LANCZOS)
     # The side view heads left; FishArt's side sprites face right.
-    side_view = np.array(sprites[side])[:, ::-1]
+    side_view = np.array(sprite)[:, ::-1]
     _write(species_id, side_view, species_id not in no_split, OUT)
 
 

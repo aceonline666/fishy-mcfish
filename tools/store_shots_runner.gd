@@ -98,7 +98,7 @@ func _run() -> void:
 		get_tree().quit()
 		return
 	var shots: Array[Callable] = [_shot_catch, _shot_business, _shot_gear_shop, _shot_open_sea,
-			_shot_deep_sea, _shot_reef, _shot_fishpedia, _shot_map, _shot_top_view_test]
+			_shot_deep_sea, _shot_reef, _shot_fishpedia, _shot_map]
 	for shot in shots:
 		if _only.is_empty() or shot.get_method().ends_with(_only):
 			await shot.call()
@@ -202,24 +202,6 @@ func _shot_open_sea() -> void:
 			"atlantic_bluefin_tuna", "lions_mane_jellyfish"])
 	await get_tree().create_timer(1.0).timeout
 	await _capture("04_open_sea")
-
-
-## The species drawn from above (FishArt.top, art_source/fish/views) swimming every way,
-## among the rest (with --no-top: all from the side), to compare the views.
-func _shot_top_view_test() -> void:
-	var state := _state(["north_sea"], 3)
-	var spot := await _start(state)
-	var at := Vector2(1000.0, 1500.0)
-	_place(spot, at)
-	var species: Array[String] = ["european_sprat", "atlantic_herring", "atlantic_mackerel", "lumpsucker",
-			"atlantic_cod", "atlantic_wolffish", "roundnose_grenadier", "rabbit_fish"]
-	for i in species.size():
-		var angle := TAU * i / species.size() + 0.3
-		spot.spawn_fish(species[i], at + Vector2(cos(angle), sin(angle)) * (300.0 + 90.0 * (i % 2)), angle * 1.7)
-	# Three shots a fraction of a beat apart, to see the tails move.
-	for frame in 3:
-		await get_tree().create_timer(0.6 if frame == 0 else 0.12).timeout
-		await _capture("top_view_test_%d" % frame)
 
 
 ## Submersible in the deep sea.

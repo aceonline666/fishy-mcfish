@@ -35,8 +35,9 @@ with `info`, `take`, `commit`, `discard` (see its docstring).
    The two numbers it returns must be equal, or clear and paste again.
 5. **Reference image**: `find` "Dateien anhängen / attach files file input", take the one with the
    highest ref number, and `file_upload` the absolute path of
-   `art_source/fish/species_style_test.png` to it (never click it). Zoom on the composer to see
-   the cod thumbnail. Without it the style drifts (thin outlines, realistic): do not send.
+   `art_source/fish/species_style_side.png` (the cod from the side) to it (never click it). Zoom on
+   the composer to see the cod thumbnail. Without it the style drifts (thin outlines, realistic):
+   do not send.
 6. **Send** with `window.__send()` (a click on the arrow misses when the window size changed),
    then wait in a batch of 10 s waits (about 60 s) and check `window.__st()`: done when the stop
    button is gone and the list shows `Benutzeranhang` (the reference) and a generated image.
@@ -46,18 +47,17 @@ with `info`, `take`, `commit`, `discard` (see its docstring).
    does not arrive, Chrome blocks automatic downloads from chatgpt.com: ask the user to allow
    them (the icon in the address bar), do not change browser settings yourself.
 8. **Check** `build/sprite_check/preview.jpg` and `check.png` (Read both):
-   - the layout: top left heads lower left, top right heads upper left, bottom side view heads left;
-     in both top views the back is up with both eyes on top; jellyfish (and the man o' war) have
-     no direction: side view upright with the bell centred over tentacles hanging straight down
-     (the game pulses the bell and sways the tentacles), top views the round bell from straight
-     above with the tentacles all around;
+   - one side view, head left (a squid or octopus mantle first, arms and tentacles only at the
+     trailing end; rays in a three-quarter view from a little above); jellyfish (and the man o'
+     war) have no direction: upright, the bell centred over tentacles hanging straight down
+     (the game pulses the bell and sways the tentacles);
    - the style matches the cod (dark outlines, cel shading, big eyes), with the outline thickness
      the prompt's "Outlines:" line asks for: the bigger the game shows the species, the thinner
      (a whale about an eighth of the cod's), small fish bolder;
    - the side view suits the animation: a tail fin behind a narrow tail root, a straight body for
      wave swimmers, flat wings for rays, free flippers and legs;
-   - all three drawings are the same animal; the anatomy is right for the species (band count,
-     body shape, fins) and it has not drifted towards the cod: the characteristic features are
+   - the anatomy is right for the species (band count, eye count, body shape, fins) and it has
+     not drifted towards the cod: the characteristic features are
      clearly there (the basking shark's long snout, a wrasse's hump); compare with the old
      sprite in `assets/sprites/fish_painted/<id>_body.png` (`git show HEAD:...`), it must not
      look worse;

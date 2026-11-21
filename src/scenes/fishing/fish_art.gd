@@ -138,22 +138,11 @@ const MESH_COLUMNS := 10
 const MESH_ROWS := 5
 const PADDLE_MESH := Vector2i(24, 14)
 const TENTACLE_MESH := Vector2i(24, 16)
-## Views from above bend on this grid: how far the tail swings (share of the length) and how many
-## waves run along the body.
-const TOP_MESH := Vector2i(12, 12)
-const TOP_BEAT := 0.07
-const TOP_BEAT_WAVES := 0.6
 
 var species: SpeciesDef
 var body: Texture2D
 var tail: Texture2D
 var motion := Motion.TAIL
-## Views from above (the coming species style, art_source/fish/views): <id>_top.png swimming
-## towards the lower left of the screen and <id>_top_up.png towards the upper left (without it,
-## the first one is flipped upside down); both mirrored for the right. A species with them is drawn
-## from above; `--no-top` on the command line draws the side view, for comparisons.
-var top: Texture2D
-var top_up: Texture2D
 var is_jellyfish := false
 
 
@@ -164,12 +153,6 @@ static func for_species(def: SpeciesDef) -> FishArt:
 	art.is_jellyfish = def.id in JELLYFISH
 	var body_path := PAINTED_DIR + def.id + "_body.png"
 	var tail_path := PAINTED_DIR + def.id + "_tail.png"
-	var top_path := PAINTED_DIR + def.id + "_top.png"
-	if ResourceLoader.exists(top_path) and not "--no-top" in OS.get_cmdline_user_args():
-		art.top = load(top_path)
-		var up_path := PAINTED_DIR + def.id + "_top_up.png"
-		if ResourceLoader.exists(up_path):
-			art.top_up = load(up_path)
 	if ResourceLoader.exists(body_path) and ResourceLoader.exists(tail_path):
 		art.body = load(body_path)
 		art.tail = load(tail_path)
@@ -284,35 +267,6 @@ func _draw_tail(canvas: CanvasItem, view: Transform2D, rect: Rect2, root_x: floa
 	var beat := Transform2D(Vector2(tail_beat, 0.0), Vector2(0.0, 1.0), Vector2(root_x * (1.0 - tail_beat), 0.0))
 	canvas.draw_set_transform_matrix(view * beat)
 	canvas.draw_texture_rect(tail, rect, false, tint)
-
-
-func has_top_view() -> bool:
-	return top != null
-
-
-## Draws the view from above for a swimming direction on screen, centred on the origin, the fish
-## (lying along the sprite's diagonal, the head in its lower left corner, or upper left in the
-## upwards sprite) `length` long. Swimming bends the body sideways in a wave that runs from the
-## head to the tail and grows towards it, so the tail beats.
-func draw_top(canvas: CanvasItem, screen_direction: Vector2, length: float, phase: float, swim: float) -> void:
-	var upwards := screen_direction.y < 0.0
-	var texture := top_up if upwards and top_up != null else top
-	var size := texture.get_size() * (length / texture.get_size().length())
-	var rect := Rect2(-size * 0.5, size)
-	var flip := Vector2(-1.0 if screen_direction.x > 0.0 else 1.0, -1.0 if upwards and top_up == null else 1.0)
-	var head := Vector2(rect.position.x, rect.position.y if upwards and top_up != null else rect.end.y)
-	canvas.draw_set_transform_matrix(Transform2D(Vector2(flip.x, 0.0), Vector2(0.0, flip.y), Vector2.ZERO))
-	_draw_mesh(canvas, texture, rect, _top_beat.bind(head, -head, phase, swim), Color.WHITE, TOP_MESH)
-	canvas.draw_set_transform_matrix(Transform2D.IDENTITY)
-
-
-## Bends a point of the view from above sideways: nothing at the head, most at the tail.
-static func _top_beat(point: Vector2, head: Vector2, tail: Vector2, phase: float, swim: float) -> Vector2:
-	var axis := tail - head
-	var along := clampf((point - head).dot(axis) / axis.length_squared(), 0.0, 1.0)
-	var side := Vector2(-axis.y, axis.x).normalized()
-	var bend := sin(phase - along * TAU * TOP_BEAT_WAVES) * along * along
-	return point + side * bend * axis.length() * TOP_BEAT * swim
 
 
 ## A wave running from the head down to the tail, growing towards the tail.
