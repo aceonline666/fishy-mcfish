@@ -692,7 +692,7 @@ species. Take only the view and style from Image 1, never the cod's shape: the
 head, snout, mouth, body outline, proportions and fins must be those of this species, with its
 characteristic features clearly shown; it must not look like a cod:
 
-Blobfish (Psychrolutes marcidus): a soft, droopy pink body, a big sad face with a fleshy nose, a small tail (alive in the deep sea, a little less droopy). The tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
+Blobfish (Psychrolutes marcidus): swimming level to the left in a plain side view, its face in profile (not turned towards the viewer): a soft, droopy pink body, a big sad face with a fleshy nose, a small tail (alive in the deep sea, a little less droopy). The tail fin sits clearly behind a narrow tail root (the game cuts it off there and beats it).
 
 Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
@@ -1796,7 +1796,7 @@ species. Take only the view and style from Image 1, never the cod's shape: the
 head, snout, mouth, body outline, proportions and fins must be those of this species, with its
 characteristic features clearly shown; it must not look like a cod:
 
-Reef manta ray (Mobula alfredi): the whole diamond-shaped black disc with white shoulder patches, wide wing tips, the two head fins in front, a short tail. Seen from the side and a little from above (a three-quarter view), gliding to the left, so its flat shape shows. Its wings are spread out flat, not bent up or down (the game flaps them).
+Reef manta ray (Mobula alfredi): gliding level to the left, the disc held horizontal (not banking, not tilted up or down): the whole diamond-shaped black disc with white shoulder patches, wide wing tips, the two head fins in front, a short tail. Seen from the side and a little from above (a three-quarter view), gliding to the left, so its flat shape shows. Its wings are spread out flat, not bent up or down (the game flaps them).
 
 Outlines: thin, only about half as thick as in Image 1, because the game shows this creature about 2.0 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
@@ -1957,7 +1957,7 @@ species. Take only the view and style from Image 1, never the cod's shape: the
 head, snout, mouth, body outline, proportions and fins must be those of this species, with its
 characteristic features clearly shown; it must not look like a cod:
 
-Vampire squid (Vampyroteuthis infernalis): dark red-black, big blue eyes, a cloak-like web between the arms, two ear-like fins; fins first, the cloak trailing. It swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops; arms and tentacles only at that one end.
+Vampire squid (Vampyroteuthis infernalis): swimming level to the left in a plain side view (not upright, not facing the viewer): dark red-black, big blue eyes, a cloak-like web between the arms, two ear-like fins; fins first, the cloak trailing. It swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops; arms and tentacles only at that one end.
 
 Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
