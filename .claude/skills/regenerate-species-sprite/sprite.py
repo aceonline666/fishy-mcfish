@@ -12,9 +12,10 @@ take    moves ~/Downloads/fishy_<id>.png to art_source/fish/views/<id>.png, cuts
         and the cut sprites on red (check.png) in build/sprite_check/.
 commit  removes the species from the README TODO list, marks it "in the game" in the prompts
         table, drops the untracked top-view sprites and commits the view image, the body and tail
-        sprites (one commit per species).
-discard restores the committed body and tail sprites and deletes the new view image (after a
-        rejected drawing).
+        sprites (one commit per species). Of README and prompts.md only those two edits are
+        committed; the user's other changes there stay unstaged.
+discard restores the committed body and tail sprites and the committed view image (or deletes
+        a new one) after a rejected drawing.
 """
 import csv
 import json
@@ -127,22 +128,35 @@ def drop_top_views(species_id: str) -> None:
             path.unlink()
 
 
+def stage_edit(path: Path, edit) -> None:
+    """Applies `edit` (text -> text) to the file and, separately, to its staged version, and stages
+    only that: the user's other uncommitted changes in the file stay unstaged."""
+    path.write_text(edit(path.read_text(encoding="utf-8")), encoding="utf-8", newline="")
+    rel = path.relative_to(ROOT).as_posix()
+    staged = subprocess.run(["git", "show", f":{rel}"], capture_output=True, check=True).stdout.decode("utf-8")
+    blob = subprocess.run(["git", "hash-object", "-w", "--stdin"], input=edit(staged).encode("utf-8"),
+                          capture_output=True, check=True).stdout.decode().strip()
+    mode = subprocess.run(["git", "ls-files", "-s", "--", rel], capture_output=True, check=True).stdout.decode().split()[0]
+    subprocess.run(["git", "update-index", "--cacheinfo", f"{mode},{blob},{rel}"], check=True)
+
+
 def commit(species_id: str) -> None:
     row = find(species_id)
-    text = README.read_text(encoding="utf-8")
-    newline = "\r\n" if "\r\n" in text else "\n"
-    entry = f"  - {label(row)}{newline}"
-    if entry in text:
-        README.write_text(text.replace(entry, "", 1), encoding="utf-8", newline="")
-    else:
+
+    def drop_entry(text: str) -> str:
+        return re.sub(r"^  - %s *\r?\n" % re.escape(label(row)), "", text, count=1, flags=re.M)
+
+    def mark_in_game(text: str) -> str:
+        return re.sub(r"^(\| `%s` \| [^|\n]*?) \|(?=\r?$)" % re.escape(species_id),
+                      lambda m: m.group(0) if "in the game" in m.group(1) else m.group(1) + " – in the game (side view) |",
+                      text, count=1, flags=re.M)
+
+    if label(row) not in todo_lines():
         print("Note: the species was not on the README TODO list.")
-    table = PROMPTS.read_text(encoding="utf-8")
-    table = re.sub(r"^(\| `%s` \| [^|\n]*?) \|$" % re.escape(species_id),
-                   lambda m: m.group(0) if "in the game" in m.group(1) else m.group(1) + " – in the game (side view) |",
-                   table, count=1, flags=re.M)
-    PROMPTS.write_text(table, encoding="utf-8", newline="")
+    stage_edit(README, drop_entry)
+    stage_edit(PROMPTS, mark_in_game)
     drop_top_views(species_id)
-    files = [README, PROMPTS, VIEWS / f"{species_id}.png"]
+    files = [VIEWS / f"{species_id}.png"]
     for part in ("body", "tail"):
         for suffix in (".png", ".png.import"):
             path = SPRITES / f"{species_id}_{part}{suffix}"
@@ -158,7 +172,12 @@ def commit(species_id: str) -> None:
 def discard(species_id: str) -> None:
     sprites = [f"assets/sprites/fish_painted/{species_id}_{p}.png" for p in ("body", "tail")]
     subprocess.run(["git", "checkout", "--", *sprites], check=False)
-    (VIEWS / f"{species_id}.png").unlink(missing_ok=True)
+    # A species drawn again (e.g. for thinner outlines) gets its committed view image back.
+    view = VIEWS / f"{species_id}.png"
+    if subprocess.run(["git", "ls-files", "--error-unmatch", str(view)], capture_output=True).returncode == 0:
+        subprocess.run(["git", "checkout", "HEAD", "--", str(view)], check=True)
+    else:
+        view.unlink(missing_ok=True)
     drop_top_views(species_id)
     print(f"Discarded the new drawing of {species_id}.")
 
