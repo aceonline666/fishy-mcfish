@@ -297,8 +297,11 @@ func _draw_shapes(to_screen: Transform2D) -> void:
 	_draw_face(to_screen)
 
 
-## Maps fish space to screen space for the current swimming direction (and leap).
+## Maps fish space to screen space for the current swimming direction (and leap). Upright drifters
+## (FishArt.is_upright) keep the same angle whichever way they go.
 func _view_transform() -> Transform2D:
+	if art.is_upright:
+		return Transform2D(0.0, Vector2(0.0, -leap_lift()))
 	var screen_direction := Iso.to_screen(Vector2.from_angle(heading)).normalized()
 	var facing_right := Vector2(absf(screen_direction.x), screen_direction.y)
 	var tilt := clampf(facing_right.angle(), -MAX_TILT, MAX_TILT)

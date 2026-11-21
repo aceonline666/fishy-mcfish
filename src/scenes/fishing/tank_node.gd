@@ -331,6 +331,9 @@ func _draw_fish(box: Array, depth: float) -> void:
 		var height := lerpf(low, high, fmod(seed * 5.3, 1.0)) + sin(_time * 0.8 + seed * 9.0) * 4.0
 		var at := west + heading * along - Vector2(0.0, clampf(height, low, high))
 		var view := Transform2D(heading.angle(), at) * Transform2D(Vector2(direction, 0.0), Vector2(0.0, 1.0), Vector2.ZERO)
+		if art.is_upright:
+			# Jellyfish drift along their lane without turning.
+			view = Transform2D(0.0, at)
 		art.draw(self, view, length, _time * 8.0 + seed * 9.0, 0.8, GLASS_TINT)
 
 
@@ -418,6 +421,8 @@ func _draw_jumpers(water: Rect2) -> void:
 			var velocity := Vector2(direction * reach, -4.0 * height * (1.0 - 2.0 * u))
 			var tilt := velocity.angle() if direction > 0.0 else velocity.angle() - PI
 			var view := Transform2D(tilt, at) * Transform2D(Vector2(direction, 0.0), Vector2(0.0, 1.0), Vector2.ZERO)
+			if art.is_upright:
+				view = Transform2D(0.0, at)
 			art.draw(self, view, length, _time * 14.0 + j, 1.0)
 			_draw_ring(Vector2(start_x, surface), u * 0.5)
 		elif t < JUMP_AIR_SHARE + 0.18:

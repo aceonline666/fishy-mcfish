@@ -96,9 +96,16 @@ const PULSE_RATE := 0.35
 const LURES: Dictionary[String, Vector2] = {
 	"humpback_anglerfish": Vector2(0.821, 0.165),
 	"atlantic_footballfish": Vector2(0.877, 0.106),
+	# The glowing tip of its chin barbel, curled up over the head.
+	"pacific_blackdragon": Vector2(0.888, 0.254),
 }
 const JELLYFISH: Array[String] = [
 	"moon_jellyfish", "lions_mane_jellyfish", "blubber_jellyfish", "nomuras_jellyfish",
+]
+## Drifters that hang upright whichever way they move (the jellyfish and the man o' war's float
+## over its tentacles): never turned, tilted or mirrored, only their bell or tentacles move.
+const UPRIGHT: Array[String] = [
+	"moon_jellyfish", "lions_mane_jellyfish", "blubber_jellyfish", "nomuras_jellyfish", "portuguese_man_o_war",
 ]
 ## Jellyfish pulse slower and softer than octopuses, all the time: rate, how much the bell narrows
 ## at its rim and grows taller (shares of its size), and how far the tentacles sway (share of the
@@ -144,6 +151,8 @@ var body: Texture2D
 var tail: Texture2D
 var motion := Motion.TAIL
 var is_jellyfish := false
+## Always drawn upright and unmirrored (UPRIGHT), whatever its swimming direction.
+var is_upright := false
 
 
 static func for_species(def: SpeciesDef) -> FishArt:
@@ -151,6 +160,7 @@ static func for_species(def: SpeciesDef) -> FishArt:
 	art.species = def
 	art.motion = MOTIONS.get(def.id, Motion.TAIL)
 	art.is_jellyfish = def.id in JELLYFISH
+	art.is_upright = def.id in UPRIGHT
 	var body_path := PAINTED_DIR + def.id + "_body.png"
 	var tail_path := PAINTED_DIR + def.id + "_tail.png"
 	if ResourceLoader.exists(body_path) and ResourceLoader.exists(tail_path):

@@ -59,3 +59,20 @@ func test_fish_stay_in_the_water() -> void:
 	var seen := _leaps(_fish(0.0, Vector2.ZERO), SwimmingFish.LEAP_PAUSE_MAX * 2.0)
 	assert_eq(seen.peak, 0.0)
 	assert_eq(seen.splashes, 0)
+
+
+func test_jellyfish_keep_their_angle_whichever_way_they_drift() -> void:
+	for id: String in ["moon_jellyfish", "portuguese_man_o_war"]:
+		var fish: SwimmingFish = autofree(SwimmingFish.new())
+		fish.setup(FishArt.for_species(DataRegistry.species[id]), DataRegistry.zones[0], PlayArea.new(AREA), Vector2(0.0, 1000.0), 0.0)
+		for k in 8:
+			fish.heading = TAU * k / 8.0
+			var view := fish._view_transform()
+			assert_eq(view.x, Vector2.RIGHT, "%s not turned, tilted or mirrored at heading %d/8" % [id, k])
+			assert_eq(view.y, Vector2.DOWN, "%s upright at heading %d/8" % [id, k])
+
+
+func test_fish_turn_with_their_heading() -> void:
+	var fish := _fish(0.0, Vector2.ZERO)
+	fish.heading = PI
+	assert_lt(fish._view_transform().x.x, 0.0, "mirrored when swimming left")
