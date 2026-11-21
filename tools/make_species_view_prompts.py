@@ -96,7 +96,7 @@ CREATURES = [
     ("pelican_eel", "eel", "a black deep-sea eel with an enormous pelican-like mouth pouch and a long whip tail with a glowing tip"),
     # Sharks
     ("blacktip_reef_shark", "shark", "grey-brown with black tips on all fins"),
-    ("basking_shark", "shark", "huge, grey-brown, an enormous wide open mouth, long gill slits around the head"),
+    ("basking_shark", "shark", "huge, grey-brown with pale mottling, a long pointed conical snout (a big nose) sticking far out over the mouth, below it an enormous, wide-open, ring-shaped mouth with the gill rakers visible inside, very long gill slits that almost encircle the head"),
     ("greenland_shark", "shark", "heavy, grey-brown, a short rounded snout, small fins, small eyes"),
     ("bluntnose_sixgill_shark", "shark", "dark brown-grey, a blunt snout, green eyes, one dorsal fin far back"),
     ("port_jackson_shark", "shark", "small, a blunt bulldog head with ridges over the eyes, a dark harness-like pattern on a light brown body"),
@@ -169,7 +169,7 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species{not_cod}:
 
 {description}
 
@@ -179,6 +179,12 @@ always facing up (never belly up). All three drawings are the same individual: i
 shape, proportions, colours and markings. Canvas 1536 x 1024 px, a real transparent background
 (PNG alpha, not a white or checkered background, also in the gaps between fins or arms), no glow,
 no shadow, no water, no text."""
+
+# The cod in the reference pulls other species towards its shape (a basking shark lost its big
+# snout), so every other species is told to take only layout and style from it.
+NOT_COD = """. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod"""
 
 
 def main() -> None:
@@ -207,7 +213,7 @@ def main() -> None:
 Save as `art_source/fish/views/{cid}.png`, then `python tools/extract_species_views.py {cid}`.
 
 ```
-{PROMPT.format(description=description)}
+{PROMPT.format(description=description, not_cod="" if cid == "atlantic_cod" else NOT_COD)}
 ```
 """)
     doc = f"""# Species views – generation prompts

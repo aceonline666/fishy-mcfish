@@ -145,7 +145,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 European sprat (Sprattus sprattus): small, slim, silvery with a blue-green back and a forked tail.
 
@@ -169,7 +171,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Atlantic herring (Clupea harengus): slim, silvery with a blue-green back, a single dorsal fin and a forked tail.
 
@@ -193,7 +197,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Atlantic mackerel (Scomber scombrus): streamlined, a green-blue back with black wavy stripes, silver sides, small finlets before the forked tail.
 
@@ -217,7 +223,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Lumpsucker (Cyclopterus lumpus): round and lumpy like a ball, grey-green with three rows of bony bumps along its side, a high rounded hump on its back, a small mouth, small round pectoral fins and a short rounded tail fin.
 
@@ -265,7 +273,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Atlantic wolffish (Anarhichas lupus): long and heavy, blue-grey with dark bands, a big blunt head with strong teeth, one long dorsal fin.
 
@@ -289,7 +299,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Roundnose grenadier (Coryphaenoides rupestris): a big head with a rounded snout and big eyes, the body tapering into a long rat-like tail, grey-brown.
 
@@ -313,7 +325,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Rabbit fish (Chimaera monstrosa): a chimaera: a big head with huge green eyes, large wing-like pectoral fins, a tall spine on the first dorsal fin, a long whip tail, bronze with white spots.
 
@@ -337,7 +351,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Ocellaris clownfish (Amphiprion ocellaris): small, bright orange with three white bands edged in black.
 
@@ -361,7 +377,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Blue-green chromis (Chromis viridis): small, iridescent blue-green, a forked tail.
 
@@ -385,7 +403,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Blue tang (Paracanthurus hepatus): an oval royal-blue body with a black palette pattern and a yellow tail.
 
@@ -409,7 +429,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Mandarinfish (Synchiropus splendidus): tiny, orange and electric blue wavy patterns, big fan-like fins.
 
@@ -433,7 +455,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Red lionfish (Pterois volitans): red and white stripes, long fan-like pectoral fins and long venomous spines spread around it.
 
@@ -457,7 +481,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Humphead wrasse (Cheilinus undulatus): huge, green-blue, a big hump on the forehead, thick lips, fine wavy lines on the face.
 
@@ -481,7 +507,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Atlantic bluefin tuna (Thunnus thynnus): big and torpedo-shaped, a dark blue back, silver belly, yellow finlets, a sickle-shaped tail.
 
@@ -505,7 +533,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Yellowfin tuna (Thunnus albacares): torpedo-shaped, dark blue back, a yellow side stripe, long yellow second dorsal and anal fins.
 
@@ -529,7 +559,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Humpback anglerfish (Melanocetus johnsonii): a small black deep-sea fish, a huge mouth full of needle teeth, a glowing lure on a rod over its head.
 
@@ -553,7 +585,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Atlantic footballfish (Himantolophus groenlandicus): round like a ball, dark brown with bony plates, a lure with glowing tassels on its head.
 
@@ -577,7 +611,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Skinnycheek lanternfish (Benthosema pterotum): tiny, dark with big eyes and rows of glowing blue light dots along the belly.
 
@@ -601,7 +637,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 West Indian Ocean coelacanth (Latimeria chalumnae): steel blue with white blotches, thick scales, fleshy lobed fins like little legs, a three-lobed tail.
 
@@ -625,7 +663,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Australian salmon (Arripis trutta): streamlined, a green-blue back with dark spots, silver sides, a forked tail.
 
@@ -649,7 +689,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Blue groper (Achoerodus viridis): a big wrasse, bright blue, thick lips, a rounded tail.
 
@@ -673,7 +715,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Old wife (Enoplosus armatus): a tall, flat, silver-white body with bold black diagonal bands, a tall spiny dorsal fin.
 
@@ -697,7 +741,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Orange roughy (Hoplostethus atlanticus): deep-bodied, bright orange-red, a big bony head with big eyes.
 
@@ -721,7 +767,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Blobfish (Psychrolutes marcidus): a soft, droopy pink body, a big sad face with a fleshy nose, a small tail (alive in the deep sea, a little less droopy).
 
@@ -745,7 +793,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Common fangtooth (Anoplogaster cornuta): small and dark, a huge head with enormous fang teeth, small eyes.
 
@@ -769,7 +819,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Red sea bream (Pagrus major): a tall oval body, pink-red with tiny blue spots, a forked tail.
 
@@ -793,7 +845,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Japanese horse mackerel (Trachurus japonicus): slim, silvery green-blue, a row of bony scutes along the side, a forked tail.
 
@@ -817,7 +871,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Tiger puffer (Takifugu rubripes): a round fugu, grey-brown back with a big black spot ringed in white behind each pectoral fin, a white belly.
 
@@ -841,7 +897,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Japanese amberjack (Seriola quinqueradiata): streamlined, blue-green back, a yellow stripe along the side, silver belly, a forked yellow tail.
 
@@ -865,7 +923,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Opah (Lampris guttatus): a round disc-shaped fish, red-pink with white spots, bright red fins.
 
@@ -889,7 +949,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Mariana snailfish (Pseudoliparis swirei): small, soft, pale pink and almost see-through, a tadpole shape with a big head.
 
@@ -913,7 +975,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Hottentot seabream (Pachymetopon blochii): an oval bronze-grey seabream with a blunt head and a forked tail.
 
@@ -937,7 +1001,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 South African sardine (Sardinops sagax): small, slim, silvery with a blue back and a row of dark spots along the side.
 
@@ -961,7 +1027,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Galjoen (Dichistius capensis): an oval body, dark bronze-black with faint bands, a small mouth, a spiny dorsal fin.
 
@@ -985,7 +1053,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Cape hake (Merluccius capensis): slim, silver-grey with a long head, big eyes, a long second dorsal fin.
 
@@ -1009,7 +1079,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Sloane's viperfish (Chauliodus sloani): a slim black deep-sea fish, huge needle fangs sticking out of its mouth, glowing dots along the belly.
 
@@ -1033,7 +1105,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Great barracuda (Sphyraena barracuda): long and slim, silver-grey with dark bars, a long pointed jaw full of sharp teeth.
 
@@ -1057,7 +1131,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Crocodile icefish (Chionodraco hamatus): pale and almost see-through, a long flat crocodile-like snout, large fins.
 
@@ -1081,7 +1157,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Antarctic toothfish (Dissostichus mawsoni): large and heavy, dark grey-brown, a big head with a wide mouth, two dorsal fins.
 
@@ -1105,7 +1183,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Leedsichthys (Leedsichthys problematicus): Jurassic giant filter feeder: an enormous, long, grey-brown fish with a huge wide gaping mouth, long pectoral fins and a big forked tail.
 
@@ -1129,7 +1209,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Antarctic silverfish (Pleuragramma antarctica): Antarctic silverfish (Pleuragramma antarctica): small, slim, silvery, almost see-through, a big eye, a forked tail.
 
@@ -1153,7 +1235,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Emerald rockcod (Trematomus bernacchii): Emerald rockcod (Trematomus bernacchii): stocky, mottled green-brown with dark bands, a big head, wide pectoral fins.
 
@@ -1177,7 +1261,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Bald notothen (Pagothenia borchgrevinki): Bald notothen (Pagothenia borchgrevinki): slim, silvery-grey with dark spots, a pointed head, a long second dorsal fin.
 
@@ -1201,7 +1287,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Mackerel icefish (Champsocephalus gunnari): Mackerel icefish (Champsocephalus gunnari): long, pale see-through grey-white with dark bands on the back, a long flat snout.
 
@@ -1225,7 +1313,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Marbled rockcod (Notothenia rossii): Marbled rockcod (Notothenia rossii): heavy, a big head, olive-brown with darker marbled patches.
 
@@ -1249,7 +1339,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Antarctic jonasfish (Neopagetopsis ionah): Antarctic jonasfish (Neopagetopsis ionah): a large pale icefish with a long duck-billed snout, faint dark bands, a tall spiny first dorsal fin.
 
@@ -1273,7 +1365,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Pholidophorus (Pholidophorus sp.): Leptolepis (Leptolepis coryphaenoides), Jurassic: small, slender, herring-like, silver with thin round scales.
 
@@ -1297,7 +1391,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Mesturus (Mesturus leedsi): Dapedium (Dapedium politum), Jurassic: a deep, almost round body covered in thick shiny diamond-shaped bronze scales, a small mouth.
 
@@ -1321,7 +1417,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Hypsocormus (Hypsocormus leedsi): Pachycormus (Pachycormus macropterus), Jurassic: streamlined and tuna-like, blue-grey, long sickle-shaped pectoral fins, a pointed snout.
 
@@ -1345,7 +1443,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Lepidotes (Lepidotes macrocheirus): Lepidotes (Lepidotes elvensis), Jurassic: large and thick-bodied, heavy shiny square enamel scales, olive-bronze, a blunt head.
 
@@ -1369,7 +1469,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Lesser sand eel (Ammodytes tobianus): a thin silvery eel-like fish with a pointed lower jaw. From above it is a long, slim body in a gentle S-curve.
 
@@ -1393,7 +1495,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 European conger (Conger conger): a big grey-black eel with a long dorsal fin running down the whole back, a thick head. From above it is a long, slim body in a gentle S-curve.
 
@@ -1417,7 +1521,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Pink ling (Genypterus blacodes): an eel-like fish, pink-orange with brown mottling, a long fin around the tail. From above it is a long, slim body in a gentle S-curve.
 
@@ -1441,7 +1547,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Kingklip (Genypterus capensis): an eel-like fish, pinkish with brown blotches, a long fin around the tail, a chin barbel-like feeler. From above it is a long, slim body in a gentle S-curve.
 
@@ -1465,7 +1573,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Pacific blackdragon (Idiacanthus antrostomus): a long, thin black deep-sea fish with fangs, a long chin barbel with a glowing tip. From above it is a long, slim body in a gentle S-curve.
 
@@ -1489,7 +1599,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Giant oarfish (Regalecus glesne): a very long ribbon-like silver fish with a red crest on its head and a red fin running along the whole back. From above it is a long, slim body in a gentle S-curve.
 
@@ -1513,7 +1625,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Pelican eel (Eurypharynx pelecanoides): a black deep-sea eel with an enormous pelican-like mouth pouch and a long whip tail with a glowing tip. From above it is a long, slim body in a gentle S-curve.
 
@@ -1537,7 +1651,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Blacktip reef shark (Carcharhinus melanopterus): grey-brown with black tips on all fins. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
 
@@ -1561,9 +1677,11 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
-Basking shark (Cetorhinus maximus): huge, grey-brown, an enormous wide open mouth, long gill slits around the head. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
+Basking shark (Cetorhinus maximus): huge, grey-brown with pale mottling, a long pointed conical snout (a big nose) sticking far out over the mouth, below it an enormous, wide-open, ring-shaped mouth with the gill rakers visible inside, very long gill slits that almost encircle the head. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
 
 In both views from above we look steeply down on its back: the whole width of the back, both eyes
 on top of the head, fins spreading to both sides, only a thin strip of the flank, and the back
@@ -1585,7 +1703,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Greenland shark (Somniosus microcephalus): heavy, grey-brown, a short rounded snout, small fins, small eyes. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
 
@@ -1609,7 +1729,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Bluntnose sixgill shark (Hexanchus griseus): dark brown-grey, a blunt snout, green eyes, one dorsal fin far back. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
 
@@ -1633,7 +1755,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Port Jackson shark (Heterodontus portusjacksoni): small, a blunt bulldog head with ridges over the eyes, a dark harness-like pattern on a light brown body. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
 
@@ -1657,7 +1781,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Great white shark (Carcharodon carcharias): big, grey back, white belly, a pointed snout, black eyes. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
 
@@ -1681,7 +1807,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Frilled shark (Chlamydoselachus anguineus): eel-like, dark brown, a frilly collar of gill slits, a wide mouth with needle teeth. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
 
@@ -1705,7 +1833,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Goblin shark (Mitsukurina owstoni): pink-grey, a long flat blade-like snout, protruding jaws with thin teeth. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
 
@@ -1729,7 +1859,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Copper shark (Carcharhinus brachyurus): bronze-grey back with a coppery sheen, white belly, a pointed snout. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
 
@@ -1753,7 +1885,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Ragged-tooth shark (Carcharias taurus): also called sand tiger shark; it must not look like a great white: a bulky, hump-backed body, a flattened, pointed conical snout, small eyes, two big dorsal fins of nearly the same size set far back, a long upper tail lobe with a short lower one, a sandy bronze-brown back with scattered reddish-brown spots, a pale cream belly, crooked needle teeth sticking out of its open mouth. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
 
@@ -1777,7 +1911,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Shortfin mako (Isurus oxyrinchus): slim and fast, metallic blue back, white belly, a pointed snout, a crescent tail. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
 
@@ -1801,7 +1937,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Whale shark (Rhincodon typus): huge, dark blue-grey with white spots and pale stripes, a wide flat head with a wide mouth at the front. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
 
@@ -1825,7 +1963,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Hybodus (Hybodus obtusus): Hybodus (Hybodus hauffianus), Jurassic: grey-brown with a pale belly, a blunt snout, a long sharp spine at the front of each of its two dorsal fins. From above: the wide flat head and snout, both pectoral fins spread like wings, the first dorsal fin seen from above along the back.
 
@@ -1849,7 +1989,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 European plaice (Pleuronectes platessa): a flatfish lying flat: from above we see its whole brown upper side with bright orange spots, both eyes on top, the fins as a fringe all around. In the side view it glides along showing its eyed upper side: an oval flat body, both eyes on the head, the fin fringe all around and a short fan-shaped tail fin.
 
@@ -1873,7 +2015,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Reef manta ray (Mobula alfredi): from above: the whole diamond-shaped black disc with white shoulder patches, wide wing tips, the two head fins in front, a short tail.
 
@@ -1897,7 +2041,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Smooth stingray (Bathytoshia brevicaudata): from above: the whole round grey-brown disc, the eyes on top, a long whip-like tail with a spine.
 
@@ -1921,7 +2067,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Giant guitarfish (Rhynchobatus djiddensis): from above: a flat, wide shark-like body with a pointed wedge-shaped snout, white spots on a sandy back, shark-like dorsal fins and tail.
 
@@ -1945,7 +2093,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Ocean sunfish (Mola mola): a huge, flat, round fish with a tall dorsal and anal fin and a frilly round back end instead of a tail, silver-grey; from above we see its narrow back, both fins and the edge of the round body.
 
@@ -1969,7 +2119,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Curled octopus (Eledone cirrhosa): an orange-red octopus with a single row of suckers on each arm; from above the mantle leads, the eight arms trail behind, only their tips curled. An octopus has no fins and no face at the front: in the side view it swims to the left, mantle first, like a jet: the rounded, bag-like mantle (no eyes, no mouth on it) leads at the left, the head with the two eyes sits behind it on the right where the arms begin, and the eight arms, a row of pale suckers along each, trail straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops. It must not look like a fish. From above likewise: the mantle leads, the eyes sit behind it at the base of the arms.
 
@@ -1993,7 +2145,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Giant squid (Architeuthis dux): a huge red squid: from above, the long mantle with its fins leads, the eight arms and two very long tentacles trail behind. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
 
@@ -2017,7 +2171,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Chambered nautilus (Nautilus pompilius): a coiled shell with brown-orange tiger stripes; from above the shell's back, the many short tentacles poking out at the opening. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
 
@@ -2041,7 +2197,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Vampire squid (Vampyroteuthis infernalis): dark red-black, big blue eyes, a cloak-like web between the arms, two ear-like fins; from above, fins first, the cloak trailing. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
 
@@ -2065,7 +2223,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Southern blue-ringed octopus (Hapalochlaena maculosa): a small yellow-brown octopus covered in bright blue rings; from above the mantle leads, the arms trail. An octopus has no fins and no face at the front: in the side view it swims to the left, mantle first, like a jet: the rounded, bag-like mantle (no eyes, no mouth on it) leads at the left, the head with the two eyes sits behind it on the right where the arms begin, and the eight arms, a row of pale suckers along each, trail straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops. It must not look like a fish. From above likewise: the mantle leads, the eyes sit behind it at the base of the arms.
 
@@ -2089,7 +2249,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Japanese flying squid (Todarodes pacificus): a slim red-brown squid with a triangular fin at the mantle tip, eight arms and two longer tentacles; from above mantle first, the arms trailing. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
 
@@ -2113,7 +2275,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Giant Pacific octopus (Enteroctopus dofleini): a huge red-brown octopus with wrinkly skin and pale suckers; from above the mantle leads, the long arms trail behind. An octopus has no fins and no face at the front: in the side view it swims to the left, mantle first, like a jet: the rounded, bag-like mantle (no eyes, no mouth on it) leads at the left, the head with the two eyes sits behind it on the right where the arms begin, and the eight arms, a row of pale suckers along each, trail straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops. It must not look like a fish. From above likewise: the mantle leads, the eyes sit behind it at the base of the arms.
 
@@ -2137,7 +2301,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Common octopus (Octopus vulgaris): a brown-orange octopus with mottled skin; from above the mantle leads, the arms trail behind. An octopus has no fins and no face at the front: in the side view it swims to the left, mantle first, like a jet: the rounded, bag-like mantle (no eyes, no mouth on it) leads at the left, the head with the two eyes sits behind it on the right where the arms begin, and the eight arms, a row of pale suckers along each, trail straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops. It must not look like a fish. From above likewise: the mantle leads, the eyes sit behind it at the base of the arms.
 
@@ -2161,7 +2327,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Colossal squid (Mesonychoteuthis hamiltoni): a huge, heavy red squid with a wide mantle, big fins at its tip, big eyes and short, thick arms with hooks plus two longer tentacles; from above mantle first, the arms trailing. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
 
@@ -2185,7 +2353,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Ammonite (Kosmoceras jason): Jurassic: a ribbed, coiled shell, cream-brown; from above the shell's back, short tentacles at the opening. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
 
@@ -2209,7 +2379,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Belemnite (Cylindroteuthis puzosiana): Jurassic: a squid-like body with a pointed tail end, ten short hooked arms, red-brown; from above body first, arms trailing. In the side view it swims to the left, mantle first: the mantle at the left, the eyes behind it, and the arms trailing straight back to the right in a loose, slightly spread bundle (so the arms can be animated): no arm curls back over or under the body, the arms do not cross each other or the mantle, and they form no closed loops.
 
@@ -2233,7 +2405,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Lion's mane jellyfish (Cyanea capillata): a big orange-red bell, masses of long hair-like tentacles. A jellyfish does not swim head first like a fish: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it hangs upright and symmetric, like a bell: the bell (or float) at the top, its middle straight above the middle of the tentacles, which hang straight down below it (not trailing to one side, not diagonal), loose and slightly apart so they can sway, none curling back up over the bell; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
 
@@ -2257,7 +2431,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Moon jellyfish (Aurelia aurita): a clear pale-blue bell with four violet rings (a flower pattern), short fringe tentacles. A jellyfish does not swim head first like a fish: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it hangs upright and symmetric, like a bell: the bell (or float) at the top, its middle straight above the middle of the tentacles, which hang straight down below it (not trailing to one side, not diagonal), loose and slightly apart so they can sway, none curling back up over the bell; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
 
@@ -2281,7 +2457,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Blubber jellyfish (Catostylus mosaicus): a pale violet-blue bell, frilly mouth arms, no long tentacles. A jellyfish does not swim head first like a fish: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it hangs upright and symmetric, like a bell: the bell (or float) at the top, its middle straight above the middle of the tentacles, which hang straight down below it (not trailing to one side, not diagonal), loose and slightly apart so they can sway, none curling back up over the bell; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
 
@@ -2305,7 +2483,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Nomura's jellyfish (Nemopilema nomurai): an enormous cream-brown bell, thick frilly mouth arms. A jellyfish does not swim head first like a fish: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it hangs upright and symmetric, like a bell: the bell (or float) at the top, its middle straight above the middle of the tentacles, which hang straight down below it (not trailing to one side, not diagonal), loose and slightly apart so they can sway, none curling back up over the bell; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
 
@@ -2329,7 +2509,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Portuguese man o' war (Physalia physalis): a blue-violet gas float like a sail with a pink crest on top, long blue stinging tentacles below; from above mostly the float. A jellyfish does not swim head first like a fish: ignore the swimming directions and head positions of Image 1 for it and keep only the three places on the canvas. In the side view (bottom) it hangs upright and symmetric, like a bell: the bell (or float) at the top, its middle straight above the middle of the tentacles, which hang straight down below it (not trailing to one side, not diagonal), loose and slightly apart so they can sway, none curling back up over the bell; if it has eyes, both sit side by side on the front of the bell, looking at the viewer. In both views from above we look straight down onto the top of the bell: round, in the middle of its place, its pattern visible, the tentacles spreading evenly all around beyond its rim (not trailing to one side); both views from above are the same drawing.
 
@@ -2353,7 +2535,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Japanese spider crab (Macrocheira kaempferi): from above: an orange-red carapace with white spots, very long thin spidery legs spread wide, two claws in front. In the side view it walks to the left on its legs.
 
@@ -2377,7 +2561,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Giant isopod (Bathynomus giganteus): from above: a big armoured pale lilac woodlouse with overlapping plates, small legs at the sides, two short antennae. In the side view it walks to the left on its legs.
 
@@ -2401,7 +2587,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Antarctic krill (Euphausia superba): from above: a tiny see-through pink shrimp with big black eyes, red dots, long antennae. In the side view it walks to the left on its legs.
 
@@ -2425,7 +2613,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Giant sea spider (Colossendeis megalonyx): from above: a tiny body with eight very long thin orange-red legs spread wide. In the side view it walks to the left on its legs.
 
@@ -2449,7 +2639,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Weedy seadragon (Phyllopteryx taeniolatus): a red-orange seadragon with yellow spots and purple bands, small leaf-like appendages, a long pipe snout. It swims upright: in the views from above draw it seen from above at an angle, so its snout, back and curled tail stay recognisable; the side view shows it upright, snout pointing left.
 
@@ -2473,7 +2665,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Leafy seadragon (Phycodurus eques): a yellow-green seadragon covered in big leaf-like appendages, a long pipe snout. It swims upright: in the views from above draw it seen from above at an angle, so its snout, back and curled tail stay recognisable; the side view shows it upright, snout pointing left.
 
@@ -2497,7 +2691,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Knysna seahorse (Hippocampus capensis): a small brown-green seahorse with a curled tail. It swims upright: in the views from above draw it seen from above at an angle, so its snout, back and curled tail stay recognisable; the side view shows it upright, snout pointing left.
 
@@ -2521,7 +2717,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Sperm whale (Physeter macrocephalus): huge, dark grey, an enormous square head, wrinkled skin; from above the long back, the blowhole on the left front of the head, the flippers and the wide horizontal tail flukes.
 
@@ -2545,7 +2743,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Blue whale (Balaenoptera musculus): huge, slim, mottled blue-grey; from above the long back, the twin blowholes, the long flippers and the wide horizontal tail flukes.
 
@@ -2569,7 +2769,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Humpback whale (Megaptera novaeangliae): dark grey with a white belly, very long white-edged flippers, knobs on the head; from above the back, both long flippers spread, the wide flukes.
 
@@ -2593,7 +2795,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Southern right whale (Eubalaena australis): black, a big arched head with white rough patches, no dorsal fin; from above the broad back, short wide flippers, the wide flukes.
 
@@ -2617,7 +2821,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Orca (Orcinus orca): black with a white eye patch, a grey saddle patch behind the tall dorsal fin; from above the back, the fin, both flippers and the flukes.
 
@@ -2641,7 +2847,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Common bottlenose dolphin (Tursiops truncatus): grey, a short beak, a friendly smile; from above the back, the curved dorsal fin, both flippers and the flukes.
 
@@ -2665,7 +2873,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Leopard seal (Hydrurga leptonyx): long, grey with dark spots, a big reptile-like head; from above the back, both front flippers spread, the hind flippers together behind.
 
@@ -2689,7 +2899,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Southern elephant seal (Mirounga leonina): huge, brown-grey, a big floppy nose (a male); from above the bulky back, the front flippers, the hind flippers behind.
 
@@ -2713,7 +2925,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Ophthalmosaurus (Ophthalmosaurus icenicus): Jurassic marine reptile shaped like a dolphin, grey-blue, a long toothy snout, big eyes, four flippers, a crescent tail.
 
@@ -2737,7 +2951,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Muraenosaurus (Muraenosaurus leedsii): Jurassic marine reptile: a small head on a very long neck, a broad body with four big flippers, a short tail, green-brown.
 
@@ -2761,7 +2977,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Liopleurodon (Liopleurodon ferox): Jurassic marine reptile: a huge crocodile-like head, a short neck, a broad body with four big flippers, dark grey-brown.
 
@@ -2785,7 +3003,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Metriorhynchus (Metriorhynchus superciliosus): Metriorhynchus (Metriorhynchus superciliosus), Jurassic: a sea crocodile with smooth grey-green skin, a long narrow toothy snout, four small paddle flippers, a shark-like tail fin.
 
@@ -2809,7 +3029,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Green sea turtle (Chelonia mydas): from above: the olive-green shell with its pattern of plates, the head in front, all four flippers spread. In the side view: the shell in profile, the head stretched forward, the long near front flipper held down and back and the small near rear flipper at the back, both clearly apart from each other with open space around them, the far flippers only peeking out.
 
@@ -2833,7 +3055,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Loggerhead turtle (Caretta caretta): from above: the red-brown shell, the big head in front, all four flippers spread.
 
@@ -2857,7 +3081,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Leatherback turtle (Dermochelys coriacea): from above: the dark blue-black leathery shell with long ridges and white spots, very long front flippers spread.
 
@@ -2881,7 +3107,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Emperor penguin (Aptenodytes forsteri): Emperor penguin (Aptenodytes forsteri), swimming: from above the black back and head, golden-yellow neck patches, BOTH flippers spread at the sides, the two feet together behind; in the side view only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail.
 
@@ -2905,7 +3133,9 @@ further from the camera). Bottom: a plain side view, head pointing left.
 
 Redraw this sheet with exactly the same layout, views, sizes and style (cute comic style, bold dark
 outlines, flat colours with soft cel shading, big friendly eyes, but accurate enough for a marine
-biologist), for a different species:
+biologist), for a different species. Take only the layout, views and style from Image 1, never the
+cod's shape: the head, snout, mouth, body outline, proportions and fins must be those of this
+species, with its characteristic features clearly shown; it must not look like a cod:
 
 Adélie penguin (Pygoscelis adeliae): Adélie penguin (Pygoscelis adeliae), swimming: smaller and rounder, from above the black back and head, a white eye ring, BOTH flippers at the sides, the two feet together behind; in the side view only ONE flipper (the near one, held back along the side) and exactly TWO feet together at the tail.
 

@@ -53,7 +53,10 @@ with `info`, `take`, `commit`, `discard` (see its docstring).
      above with the tentacles all around;
    - the style matches the cod (bold dark outlines, cel shading, big eyes);
    - all three drawings are the same animal; the anatomy is right for the species (band count,
-     body shape, fins);
+     body shape, fins) and it has not drifted towards the cod: the characteristic features are
+     clearly there (the basking shark's long snout, a wrasse's hump); compare with the old
+     sprite in `assets/sprites/fish_painted/<id>_body.png` (`git show HEAD:...`), it must not
+     look worse;
    - the cut sprites on red: nothing missing (belly, fins), no background left (checkerboard
      between fins), the tail split looks right.
    A clear error: `sprite.py discard <id>`, then ask in the same chat for a redraw naming the
