@@ -103,7 +103,7 @@ lumpsucker round in one, slim in the other) or fell back to tilted side views.
 | `colossal_squid` | Colossal squid (Mesonychoteuthis hamiltoni) – in the game (side view) |
 | `ammonite` | Ammonite (Kosmoceras jason) |
 | `belemnite` | Belemnite (Cylindroteuthis puzosiana) |
-| `lions_mane_jellyfish` | Lion's mane jellyfish (Cyanea capillata) |
+| `lions_mane_jellyfish` | Lion's mane jellyfish (Cyanea capillata) – in the game (side view) |
 | `moon_jellyfish` | Moon jellyfish (Aurelia aurita) |
 | `blubber_jellyfish` | Blubber jellyfish (Catostylus mosaicus) |
 | `nomuras_jellyfish` | Nomura's jellyfish (Nemopilema nomurai) |
