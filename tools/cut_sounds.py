@@ -1,4 +1,5 @@
-"""Cuts the recorded sounds (seabird calls, shore and open sea ambience) out of their sources.
+"""Cuts the recorded sounds (seabird calls, thunder, the shore, open sea, rain and storm ambience)
+out of their sources.
 
 The sources lie in art_source/audio/ (where they come from and their licences: see the README's
 credits). Each clip is a stretch of a source: mixed to mono (the ambience stays stereo), the
@@ -37,10 +38,19 @@ CALLS = {
     "pterosaur_2": ("pterosaur_733530.mp3", 14.2, 16.3),
     "pterosaur_3": ("pterosaur_733530.mp3", 30.5, 32.8),
 }
+# Thunder (WeatherCycle.lightning): like the calls, but the rumble fades out over THUNDER_FADE_S.
+THUNDER = {
+    "thunder_1": ("thunder_522025.mp3", 28.4, 36.5),
+    "thunder_2": ("thunder_522025.mp3", 60.9, 70.5),
+    "thunder_3": ("thunder_522025.mp3", 94.9, 104.0),
+}
+THUNDER_FADE_S = 1.5
 # Ambience loops: output name -> (source, start s, length s).
 LOOPS = {
     "shore": ("small_caribbean_waves_796618.mp3", 60.0, 40.0),
     "open_sea": ("ocean_waves_wind_457213.mp3", 10.0, 40.0),
+    "rain": ("rain_572429.mp3", 184.0, 40.0),
+    "storm": ("storm_518600.mp3", 1.0, 40.0),
 }
 LOOP_BLEND_S = 3.0
 
@@ -71,13 +81,14 @@ def write(name: str, clip: np.ndarray) -> None:
 
 
 def main() -> None:
-    for name, (source, start, end) in CALLS.items():
-        clip = read(source, start, end, True)
-        fade = int(FADE_S * RATE)
-        ramp = np.linspace(0.0, 1.0, fade)[:, None]
-        clip[:fade] *= ramp
-        clip[-fade:] *= ramp[::-1]
-        write(name, level(clip))
+    for clips, fade_out_s in ((CALLS, FADE_S), (THUNDER, THUNDER_FADE_S)):
+        for name, (source, start, end) in clips.items():
+            clip = read(source, start, end, True)
+            fade = int(FADE_S * RATE)
+            clip[:fade] *= np.linspace(0.0, 1.0, fade)[:, None]
+            fade = int(fade_out_s * RATE)
+            clip[-fade:] *= np.linspace(1.0, 0.0, fade)[:, None]
+            write(name, level(clip))
     for name, (source, start, length) in LOOPS.items():
         blend = int(LOOP_BLEND_S * RATE)
         clip = read(source, start, start + length + LOOP_BLEND_S, False)

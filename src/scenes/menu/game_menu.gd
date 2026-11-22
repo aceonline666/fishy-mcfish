@@ -32,6 +32,7 @@ var _music_toggle: Button
 var _music_slider: HSlider
 var _language_buttons: Dictionary[String, Button] = {}
 var _day_cycle_buttons: Dictionary[String, Button] = {}
+var _weather_buttons: Dictionary[String, Button] = {}
 var _orientation_buttons: Dictionary[String, Button] = {}
 
 
@@ -85,6 +86,23 @@ func _build() -> void:
 		cycles.add_child(button)
 		_day_cycle_buttons[cycle] = button
 
+	content.add_child(_section(tr("Weather")))
+	var weathers := GridContainer.new()
+	weathers.columns = 2
+	weathers.add_theme_constant_override("h_separation", 20)
+	weathers.add_theme_constant_override("v_separation", 20)
+	content.add_child(weathers)
+	var weather_names := {
+		Settings.WEATHER_RANDOM: tr("Random"), Settings.WEATHER_SUNNY: tr("Always sunny"),
+		Settings.WEATHER_RAIN: tr("Always rainy"), Settings.WEATHER_STORM: tr("Always stormy"),
+	}
+	for choice: String in Settings.WEATHERS:
+		var button := make_button(weather_names[choice], _on_weather_chosen.bind(choice))
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_make_choice(button)
+		weathers.add_child(button)
+		_weather_buttons[choice] = button
+
 	content.add_child(_section(tr("Screen rotation")))
 	var orientations := HBoxContainer.new()
 	orientations.add_theme_constant_override("separation", 20)
@@ -125,6 +143,12 @@ func _on_day_cycle_chosen(cycle: String) -> void:
 		_day_cycle_buttons[each].set_pressed_no_signal(each == Settings.day_cycle)
 
 
+func _on_weather_chosen(choice: String) -> void:
+	Settings.set_weather(choice)
+	for each in _weather_buttons:
+		_weather_buttons[each].set_pressed_no_signal(each == Settings.weather)
+
+
 func _on_orientation_chosen(choice: String) -> void:
 	Settings.set_orientation(choice)
 	for each in _orientation_buttons:
@@ -145,6 +169,8 @@ func _refresh() -> void:
 		_language_buttons[code].set_pressed_no_signal(code == Settings.current_language())
 	for cycle in _day_cycle_buttons:
 		_day_cycle_buttons[cycle].set_pressed_no_signal(cycle == Settings.day_cycle)
+	for choice in _weather_buttons:
+		_weather_buttons[choice].set_pressed_no_signal(choice == Settings.weather)
 	for choice in _orientation_buttons:
 		_orientation_buttons[choice].set_pressed_no_signal(choice == Settings.orientation)
 

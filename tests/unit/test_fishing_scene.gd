@@ -22,6 +22,9 @@ func before_each() -> void:
 	for def in DataRegistry.locations:
 		state.chest_found_at[def.id] = TimeService.now_unix()
 	GameState.replace_state(state)
+	# Sunny, whatever the random weather has come to by now.
+	WeatherCycle.override_kind = Weather.Kind.SUNNY
+	WeatherCycle.snap()
 	_scene = FishingSceneFile.instantiate()
 	_scene.auto_spawn = false
 	add_child_autofree(_scene)
@@ -31,6 +34,8 @@ func before_each() -> void:
 
 func after_each() -> void:
 	GameState.replace_state(_original_state)
+	WeatherCycle.override_kind = -1
+	DayCycle.override_hour = -1.0
 
 
 func _touch(at: Vector2, pressed: bool) -> void:
@@ -688,3 +693,19 @@ func test_landscape_moves_the_buttons_into_the_top_bar_and_shows_more_sea() -> v
 	_scene.size = portrait_size
 
 #endregion
+
+
+func test_rain_greys_the_world_hides_the_mirrored_sun_and_rings_the_water() -> void:
+	DayCycle.override_hour = DayCycle.DAY_HOUR
+	WeatherCycle.override_kind = Weather.Kind.RAIN
+	WeatherCycle.snap()
+	await wait_process_frames(2)
+	var tint: Color = (_scene.night.shade.material as ShaderMaterial).get_shader_parameter("tint")
+	assert_lt(tint.v, 1.0)
+	assert_false(_scene._mirror.visible)
+	assert_true(_scene._rain.visible)
+	assert_true(_scene._rain_rings.visible)
+	WeatherCycle.override_kind = Weather.Kind.SUNNY
+	WeatherCycle.snap()
+	await wait_process_frames(2)
+	assert_false(_scene._rain.visible)

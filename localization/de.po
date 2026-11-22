@@ -342,6 +342,21 @@ msgstr "Immer Tag"
 msgid "Always night"
 msgstr "Immer Nacht"
 
+msgid "Weather"
+msgstr "Wetter"
+
+msgid "Random"
+msgstr "Zufällig"
+
+msgid "Always sunny"
+msgstr "Immer sonnig"
+
+msgid "Always rainy"
+msgstr "Immer regnerisch"
+
+msgid "Always stormy"
+msgstr "Immer stürmisch"
+
 msgid "Screen rotation"
 msgstr "Bildschirmdrehung"
 

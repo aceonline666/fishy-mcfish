@@ -58,6 +58,8 @@ var location_id := "north_sea"
 var view := Rect2(0.0, 0.0, 720.0, 1280.0)
 ## Set by the scene: false while the beach is not on screen (in the gear shop), so no calls play.
 var heard := true
+## Set by the scene: true while the wind is too strong for birds (a storm); no new flights start.
+var grounded := false
 
 var _rng := RandomNumberGenerator.new()
 var _wait := 0.0
@@ -93,7 +95,8 @@ func update(delta: float) -> void:
 	_wait -= delta
 	if _wait <= 0.0:
 		_wait = _rng.randf_range(INTERVAL.x, INTERVAL.y)
-		send_flock()
+		if not grounded:
+			send_flock()
 	for bird in _birds:
 		bird.position += bird.velocity * delta
 		bird.phase_left -= delta

@@ -29,6 +29,9 @@ const SURFACE_FROM := 1
 ## and falling slowly and much further, and rocking side to side.
 const ROUGH_LINES := 3
 
+## Set by the scene from the weather (Weather.State.storm): in a storm every line rides the swell.
+var roughness := 0.0
+
 ## Ground y of each buoy line and whether the zone behind it is open.
 var _lines: Array[Vector2] = []
 var _width := 0.0
@@ -123,10 +126,12 @@ func _draw_lines(canvas: CanvasItem, first: int, end: int) -> void:
 ## Each buoy bobs on its own beat; in the swell of the last lines, the swell's crests run along
 ## the line.
 func _bob(line: int, index: int) -> Vector2:
-	if line >= _rests.size() - ROUGH_LINES:
-		var roll := _time * 1.2 + index * 0.45 + line * 1.3
-		return Vector2(cos(roll) * 3.0, sin(roll) * 8.0)
-	return Vector2(0.0, sin(_time * 2.0 + index * 1.7) * 2.0)
+	var calm := Vector2(0.0, sin(_time * 2.0 + index * 1.7) * 2.0)
+	var rough := 1.0 if line >= _rests.size() - ROUGH_LINES else roughness
+	if rough <= 0.0:
+		return calm
+	var roll := _time * 1.2 + index * 0.45 + line * 1.3
+	return calm.lerp(Vector2(cos(roll) * 3.0, sin(roll) * 8.0), rough)
 
 
 func _draw_rope(canvas: CanvasItem, from: Vector2, to: Vector2) -> void:

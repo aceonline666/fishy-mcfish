@@ -22,13 +22,13 @@ vec2 to_ground(vec2 screen) {
 }
 
 #include "res://src/shaders/reflection.gdshaderinc"
+#include "res://src/shaders/waves.gdshaderinc"
 
 void fragment() {
 	vec2 world = (rect_pos + UV * rect_size - world_origin) / zoom;
 	vec2 g = to_ground(world);
 	// The waterline laps like water.gdshader's.
-	float wave = sin(g.x * 0.02 + TIME * 1.5) * 10.0 + sin(g.x * 0.05 - TIME) * 5.0;
-	float d = g.y - shore_y + wave;
+	float d = g.y - shore_y + shore_wave(g);
 	vec2 light = mirrored_light(world, g, TIME) * smoothstep(0.0, 60.0, d) * (1.0 - smoothstep(abyss_start, abyss_end, d));
 	// result = mix(mix(below, colour, halo), colour, light)
 	float alpha = 1.0 - (1.0 - light.x) * (1.0 - light.y);

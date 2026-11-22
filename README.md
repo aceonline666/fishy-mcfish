@@ -280,9 +280,16 @@ Rules of thumb:
     ([Freesound 796618](https://freesound.org/people/fran_marenco/sounds/796618/)).
   - Open sea: "Ocean_Waves_Wind_MidRange" by hdmcgehee, CC0
     ([Freesound 457213](https://freesound.org/people/hdmcgehee/sounds/457213/)).
+  - Rain: "180723 Rain, on water lake, modulating light to med, cottage ONTARIO" by TRP, CC0
+    ([Freesound 572429](https://freesound.org/people/TRP/sounds/572429/)).
+  - Storm: "massive wind_rain 321" by leo153, CC0
+    ([Freesound 518600](https://freesound.org/people/leo153/sounds/518600/)).
+  - Thunder: "THREE MIGHTY THUNDERS IN ROW" by Nimlos, CC0
+    ([Freesound 522025](https://freesound.org/people/Nimlos/sounds/522025/)).
 
 ## TODOs
-- Add weather: Storms, Lightning. (Day and night are in: a 20-minute cycle, real time, always day or always night, chosen in the menu, with the sun or the moon mirrored on the water; `DayClock`, `DayCycle`, `Night`, `reflection.gdshaderinc`. In debug builds N moves the time on by an hour, Shift+N lets it run; `tools/screenshot.gd -- --hour=23`.) Still to do for the night: night-only species, bioluminescent wake, no seagulls at night.
+- Night: night-only species, bioluminescent wake, no seagulls at night. (Day and night are in: a 20-minute cycle, real time, always day or always night, chosen in the menu, with the sun or the moon mirrored on the water; `DayClock`, `DayCycle`, `Night`, `reflection.gdshaderinc`. In debug builds N moves the time on by an hour, Shift+N lets it run; `tools/screenshot.gd -- --hour=23`.) Weather is in too: sunny, rain and storm with lightning (snow and blizzard in Antarctica), random spells or always one kind, chosen in the menu; `Weather`, `WeatherCycle`, `Rain`, `RainRings`, `Lightning`, `waves.gdshaderinc`. In debug builds W holds the next kind of weather, Shift+W lets it change at random again; `tools/screenshot.gd -- --weather=storm`.
+- Fact check where the "glowing beaches at night" exist and at which location this fits best. If we have a match we should add this to the game since it would look beautiful.
 - Regenerate the species sprites that are not yet in the new cute-comic format (one image per species in `art_source/fish/views/`, prompts in `art_source/fish/views/prompts.md`, cut with `tools/extract_species_views.py`):
   - Blue whale (Balaenoptera musculus) — too low resolution (stretched 3.3x), outline far too thick at its size (7.7x the cod's)
   - Humpback whale (Megaptera novaeangliae) — realistic style, too low resolution (stretched 1.9x)

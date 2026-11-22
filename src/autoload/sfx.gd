@@ -1,6 +1,7 @@
 extends Node
 ## Sound effects on the sound bus, whose volume and mute the Settings control: placeholder effects
-## synthesized at startup and kept soft, and recorded ones (seabird calls, the sea's ambience) from
+## synthesized at startup and kept soft, and recorded ones (seabird calls, thunder, the sea's and
+## the weather's ambience) from
 ## assets/audio, cut by tools/cut_sounds.py.
 
 const MIX_RATE := 22050
@@ -19,9 +20,10 @@ const RECORDED: Array[StringName] = [
 	&"herring_gull_1", &"herring_gull_2", &"herring_gull_3", &"herring_gull_4",
 	&"black_headed_gull_1", &"black_headed_gull_2", &"black_headed_gull_3",
 	&"gannet_1", &"gannet_2", &"pterosaur_1", &"pterosaur_2", &"pterosaur_3",
-	&"shore", &"open_sea",
+	&"thunder_1", &"thunder_2", &"thunder_3",
+	&"shore", &"open_sea", &"rain", &"storm",
 ]
-const LOOPS: Array[StringName] = [&"shore", &"open_sea"]
+const LOOPS: Array[StringName] = [&"shore", &"open_sea", &"rain", &"storm"]
 
 var _sounds: Dictionary[StringName, AudioStream] = {}
 var _players: Array[AudioStreamPlayer] = []

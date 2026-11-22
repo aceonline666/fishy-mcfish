@@ -4,6 +4,9 @@ shader_type canvas_item;
 // From swell_start (distance from the waterline) it builds up over SWELL_BUILD and rolls towards
 // the shore: lit slopes, dark troughs and streaks of foam riding along the crests. Premultiplied alpha:
 // what lies below is darkened in the troughs and covered by the light and the foam.
+// The weather (Weather) roughens it: `rough` deepens the troughs and spreads the foam, and the
+// scene moves `swell_start` in towards the shore in a storm. `swell_time` runs faster in the wind
+// (accumulated, so a change of speed never makes the swell jump).
 // Must match Iso (src/scenes/world/iso.gd) and water.gdshader.
 render_mode blend_premul_alpha;
 
@@ -16,7 +19,10 @@ uniform float zoom = 1.0;
 uniform float shore_y = 0.0;
 uniform float swell_start = 1.0e9;
 uniform vec4 foam_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform float rough = 0.0;
+uniform float swell_time = 0.0;
 const float SWELL_BUILD = 1400.0;
+#include "res://src/shaders/waves.gdshaderinc"
 
 // The main train of rolling swell at ground point g, -1 to 1: long crests coming in towards the
 // shore, bent by a slow sideways wobble.
@@ -38,24 +44,25 @@ vec2 to_ground(vec2 screen) {
 
 void fragment() {
 	vec2 g = to_ground((rect_pos + UV * rect_size - world_origin) / zoom);
-	float wave = sin(g.x * 0.02 + TIME * 1.5) * 10.0 + sin(g.x * 0.05 - TIME) * 5.0;
-	float d = g.y - shore_y + wave;
+	float t = swell_time;
+	float d = g.y - shore_y + shore_wave(g);
 	float swell = smoothstep(swell_start - 200.0, swell_start + SWELL_BUILD, d);
-	float main = main_train(g, TIME);
-	float h = swell_height(g, TIME, main);
-	vec3 light = vec3(0.04, 0.09, 0.13) * smoothstep(0.4, 1.0, h) * swell;
-	float dark = swell * (1.0 - h) * 0.3;
+	float main = main_train(g, t);
+	float h = swell_height(g, t, main);
+	vec3 light = vec3(0.04, 0.09, 0.13) * smoothstep(0.4, 1.0, h) * swell * (1.0 + rough * 0.5);
+	float dark = swell * (1.0 - h) * 0.3 * (1.0 + rough * 0.8);
 	// Foam lies along the crests in long streaks, broken up slowly along the crest (low
 	// frequencies only, so it reads as foam on the waves and not as specks on the floor), with a
 	// faint lace trailing down the back of each wave.
-	float along = sin(g.x * 0.0045 + sin(g.y * 0.003 + TIME * 0.1) * 2.0 + TIME * 0.25)
-			* 0.6 + sin(g.x * 0.011 - g.y * 0.002 - TIME * 0.35) * 0.4;
-	float streaks = smoothstep(-0.1, 0.5, along);
+	float along = sin(g.x * 0.0045 + sin(g.y * 0.003 + t * 0.1) * 2.0 + t * 0.25)
+			* 0.6 + sin(g.x * 0.011 - g.y * 0.002 - t * 0.35) * 0.4;
+	float streaks = smoothstep(mix(-0.1, -0.5, rough), 0.5, along);
 	// The line along the main train's crests, where the crossing train lifts it high enough.
-	float crest = smoothstep(0.975, 0.997, main) * smoothstep(0.6, 0.85, h);
+	// Rough water breaks on lower, wider crests.
+	float crest = smoothstep(mix(0.975, 0.92, rough), 0.997, main) * smoothstep(mix(0.6, 0.45, rough), 0.85, h);
 	float lace = smoothstep(0.4, 0.8, main) * (1.0 - smoothstep(0.8, 0.95, main)) * smoothstep(0.55, 0.8, h)
 			* smoothstep(0.2, 0.8, along);
-	float foam = (crest * streaks * 0.6 + lace * 0.06) * swell;
+	float foam = (crest * streaks * mix(0.6, 0.85, rough) + lace * mix(0.06, 0.2, rough)) * swell;
 	// result = mix(below * (1 - dark) + light, foam_color, foam)
 	COLOR = vec4(light * (1.0 - foam) + foam_color.rgb * foam, 1.0 - (1.0 - dark) * (1.0 - foam));
 }

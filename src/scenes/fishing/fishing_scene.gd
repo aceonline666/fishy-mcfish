@@ -181,6 +181,11 @@ const SHORE_FADE_BEACH := 2400.0
 const OPEN_SEA_DEPTH := Vector2(600.0, 2600.0)
 const SHORE_DB := -14.0
 const OPEN_SEA_DB := -16.0
+## The weather's ambience: rain, and a storm's heavy rain and wind (dB), heard muffled inside the
+## gear shop. In snow only the wind is heard (the open sea's ambience, louder).
+const RAIN_DB := -12.0
+const STORM_DB := -10.0
+const INDOORS_DB := -12.0
 ## Painted decoration on the beach: sprite (assets/sprites/props), the cell it stands in the
 ## middle of, screen height, and where it shows ("" everywhere, else only at locations with that
 ## water).
@@ -206,6 +211,15 @@ const SWELL_SHADER := preload("res://src/shaders/swell.gdshader")
 const OPEN_SEA_ZONES := 3
 ## The swell fades in this far before its start (swell.gdshader), plus the waves at the waterline.
 const SWELL_FADE_IN := 220.0
+## The weather (WeatherCycle): how much higher and faster the waves at the waterline run, and how
+## fast the open sea's swell rolls, in a storm (in rain a share of it, by the wind). In a storm
+## the swell rolls in from the start of this zone (index), not just over the open sea.
+const STORM_WAVES := 1.2
+const STORM_WAVE_SPEED := 0.8
+const STORM_SWELL_SPEED := 0.9
+const STORM_SWELL_ZONE := 1
+## Thunder follows a stroke of lightning after this many seconds (shortest, longest).
+const THUNDER_DELAY := Vector2(0.4, 2.2)
 ## Fish startle when the wader comes this close (ground units). Smaller than the net's reach
 ## (Wader.REACH + scoop radius), so walking straight at fish catches them.
 const THREAT_RADIUS := 130.0
@@ -334,6 +348,12 @@ var seabirds := Seabirds.new()
 var _mirror := Mirror.new()
 ## The time of day: its tint over the world and the lamps at night.
 var night := Night.new()
+## The weather: rain or snow over the screen and raindrops' rings on the water.
+var _rain := Rain.new()
+var _rain_rings := RainRings.new()
+## How far the waves at the waterline and the open sea's swell have run (seconds at calm speed).
+var _wave_time := 0.0
+var _swell_time := 0.0
 
 @onready var wader: Wader = $World/Entities/Wader
 @onready var _water: ColorRect = $Water
@@ -385,6 +405,11 @@ func _ready() -> void:
 	Layers.put(_effects, Layers.EFFECTS)
 	_world.add_child(night)
 	_world.add_sibling(night.shade)
+	# Rain falls over the world and under the time of day's tint; its rings lie on the surface.
+	Layers.put(_rain, Layers.EFFECTS)
+	_world.add_sibling(_rain)
+	_world.add_child(_rain_rings)
+	WeatherCycle.lightning.connect(_on_lightning)
 	EventBus.money_changed.connect(_on_money_changed)
 	EventBus.state_replaced.connect(_rebuild_from_state)
 	resized.connect(_on_resized)
@@ -407,6 +432,7 @@ func _ready() -> void:
 	EventBus.achievement_reached.connect(_on_achievement_reached)
 
 	location = Travel.current(GameState.state)
+	WeatherCycle.polar = location.env == "polar"
 	_zones = DataRegistry.zones_in(location.id)
 	_spot_rect = Rect2(0.0, BEACH_TOP, SPOT_WIDTH, _zones[-1].depth_end - BEACH_TOP)
 	water_area = PlayArea.new(Rect2(_spot_rect.position.x, SHORE_Y + WATER_MARGIN, _spot_rect.size.x, _spot_rect.end.y - SHORE_Y - WATER_MARGIN))
@@ -477,6 +503,7 @@ func _process(delta: float) -> void:
 	_update_zone()
 	_update_camera(delta)
 	_update_spotlight(delta)
+	_update_weather(delta)
 	_update_night()
 	_update_wake(delta)
 	_update_hums(delta)
@@ -854,8 +881,11 @@ func _update_night() -> void:
 		lamps.append(Night.Lamp.new(Iso.to_ground(_gear_shop.painted(GearShopNode.LANTERN_FOOT)), NIGHT_LAMP_RADIUS * 1.2, 0.9, Night.LAMP_COLOR, _gear_shop.painted(GearShopNode.LANTERN), NIGHT_GLOW_RADIUS))
 		for window in GearShopNode.WINDOWS:
 			lamps.append(Night.Lamp.new(Vector2.ZERO, 0.0, 0.0, Night.LAMP_COLOR, _gear_shop.painted(window), NIGHT_WINDOW_GLOW))
-	night.show_time(DayCycle.tint(), dark, lamps, size, _world.position, zoom)
+	var weather := WeatherCycle.state
+	night.show_time(DayCycle.tint() * Weather.tint(weather), dark, lamps, size, _world.position, zoom)
+	# Clouds hide the sun and the moon: no light mirrored on the water once they cover half the sky.
 	var glint := DayClock.glint(DayCycle.hour())
+	glint.color.a *= clampf(1.0 - weather.overcast * 2.0, 0.0, 1.0)
 	var view := Iso.to_ground((size * 0.5 - _world.position) / zoom)
 	var at := Mirror.place(glint, SPOT_WIDTH, SHORE_Y, view)
 	var shade := night.shade.material as ShaderMaterial
@@ -875,10 +905,13 @@ func _update_night() -> void:
 ## where the swell's first line (a ground row, rising to the left on screen) meets the screen's
 ## left edge, and covers the screen down from there.
 func _update_swell() -> void:
-	if _zones.size() <= OPEN_SEA_ZONES:
+	var storm := WeatherCycle.state.storm
+	if _zones.size() <= OPEN_SEA_ZONES and storm <= 0.0:
 		_swell.visible = false
 		return
-	var swell_start := _zones[_zones.size() - OPEN_SEA_ZONES].depth_start - SHORE_Y
+	var calm_start := _zones[_zones.size() - OPEN_SEA_ZONES].depth_start if _zones.size() > OPEN_SEA_ZONES else _zones[-1].depth_end
+	var storm_start := _zones[mini(STORM_SWELL_ZONE, _zones.size() - 1)].depth_start
+	var swell_start := lerpf(calm_start, storm_start, storm) - SHORE_Y
 	var first_row := SHORE_Y + swell_start - SWELL_FADE_IN
 	var left_x := -_world.position.x / zoom
 	var top := (left_x * 0.5 + first_row * Iso.BASIS.y.y * 2.0) * zoom + _world.position.y
@@ -895,6 +928,45 @@ func _update_swell() -> void:
 	swell.set_shader_parameter("zoom", zoom)
 	swell.set_shader_parameter("shore_y", SHORE_Y)
 	swell.set_shader_parameter("swell_start", swell_start)
+	swell.set_shader_parameter("swell_time", _swell_time)
+	# Rain only ruffles the swell a little; a storm makes it rough.
+	swell.set_shader_parameter("rough", maxf(storm, WeatherCycle.state.rain * 0.3))
+
+
+## The weather (WeatherCycle): the waves grow and run faster in the wind, the sunlit caustics fade
+## under the clouds, rain falls and rings the water, the buoy lines ride a storm's swell and the
+## seabirds stay away from it. No rain in the gear shop.
+func _update_weather(delta: float) -> void:
+	var weather := WeatherCycle.state
+	_wave_time += delta * (1.0 + STORM_WAVE_SPEED * weather.wind)
+	_swell_time += delta * (1.0 + STORM_SWELL_SPEED * weather.wind)
+	var amp := 1.0 + STORM_WAVES * weather.wind
+	for item: CanvasItem in [_water, _swell, _mirror]:
+		var params := item.material as ShaderMaterial
+		params.set_shader_parameter("wave_time", _wave_time)
+		params.set_shader_parameter("wave_amp", amp)
+	(_water.material as ShaderMaterial).set_shader_parameter("sun", 1.0 - weather.overcast * 0.8)
+	_buoys.roughness = weather.storm
+	seabirds.grounded = weather.wind > 0.6
+	var here := not GameState.in_store
+	_rain.show_weather(weather if here else Weather.State.new(), size, _world.position)
+	_rain_rings.show_weather(weather, Rect2(-_world.position / zoom, size / zoom), SHORE_Y)
+
+
+## A stroke of lightning: the screen flashes and a bolt strikes the sea in the upper half of the
+## view (none if only the beach is there); thunder follows.
+func _on_lightning(strength: float) -> void:
+	if GameState.in_store or not is_visible_in_tree():
+		return
+	var target := Vector2(rng.randf_range(0.15, 0.85) * size.x, rng.randf_range(0.2, 0.5) * size.y)
+	if Iso.to_ground((target - _world.position) / zoom).y < SHORE_Y + 300.0:
+		target = Vector2.INF
+	add_child(Lightning.new(size, target, strength, DayCycle.darkness(), rng))
+	Haptics.bump()
+	var thunder := StringName("thunder_%d" % rng.randi_range(1, 3))
+	var volume := lerpf(-12.0, -3.0, strength)
+	get_tree().create_timer(rng.randf_range(THUNDER_DELAY.x, THUNDER_DELAY.y)).timeout.connect(
+			Sfx.play.bind(thunder, rng.randf_range(0.85, 1.05), volume))
 
 #endregion
 
@@ -1795,7 +1867,14 @@ func _update_hums(delta: float) -> void:
 	seabirds.heard = here
 	var sea := sea_ambience(wader.ground_position.y) if here else Vector2.ZERO
 	Sfx.hum(&"shore", sea.x, delta, 1.0, SHORE_DB)
-	Sfx.hum(&"open_sea", sea.y, delta, 1.0, OPEN_SEA_DB)
+	var weather := WeatherCycle.state
+	var wet := 0.0 if weather.snow > 0.5 else 1.0
+	var muffled := 0.0 if here else INDOORS_DB
+	# Rain and storm are heard in the gear shop too, muffled.
+	var heard := is_visible_in_tree() or GameState.in_store
+	Sfx.hum(&"open_sea", maxf(sea.y, weather.wind * (1.0 - wet) * 0.8 if here else 0.0), delta, 1.0, OPEN_SEA_DB)
+	Sfx.hum(&"rain", weather.rain * (1.0 - weather.storm) * wet if heard else 0.0, delta, 1.0, RAIN_DB + muffled)
+	Sfx.hum(&"storm", weather.storm * wet if heard else 0.0, delta, 1.0, STORM_DB + muffled)
 	var motor := 0.0
 	if here and wader.in_submarine():
 		motor = 1.0 if wader.is_walking() else 0.55

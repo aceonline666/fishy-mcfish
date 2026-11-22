@@ -1,6 +1,6 @@
 extends Node
-## Device settings that are not game progress: language, sound, music, the day cycle and how the
-## screen turns. Kept apart from the
+## Device settings that are not game progress: language, sound, music, the day cycle, the
+## weather and how the screen turns. Kept apart from the
 ## save file, so starting a new game keeps them.
 
 ## Sound or music were switched on or off, or their volume changed.
@@ -19,6 +19,12 @@ const DAY_CYCLE_REAL := "real"
 const DAY_CYCLE_DAY := "day"
 const DAY_CYCLE_NIGHT := "night"
 const DAY_CYCLES: Array[String] = [DAY_CYCLE_FAST, DAY_CYCLE_REAL, DAY_CYCLE_DAY, DAY_CYCLE_NIGHT]
+## The weather changes at random (WeatherCycle), or it is always sunny, rainy or stormy.
+const WEATHER_RANDOM := "random"
+const WEATHER_SUNNY := "sunny"
+const WEATHER_RAIN := "rain"
+const WEATHER_STORM := "storm"
+const WEATHERS: Array[String] = [WEATHER_RANDOM, WEATHER_SUNNY, WEATHER_RAIN, WEATHER_STORM]
 ## The screen turns with the device, or stays in portrait or landscape (Platform.set_orientation).
 const ORIENTATION_AUTO := "auto"
 const ORIENTATION_PORTRAIT := "portrait"
@@ -37,6 +43,8 @@ var music_on := true
 var music_volume := 0.7
 ## How the time of day runs (DayCycle): one of DAY_CYCLES.
 var day_cycle := DAY_CYCLE_FAST
+## The weather (WeatherCycle): one of WEATHERS.
+var weather := WEATHER_RANDOM
 ## How the screen turns: one of ORIENTATIONS. Platform applies it at startup.
 var orientation := ORIENTATION_AUTO
 
@@ -61,6 +69,7 @@ func use_sandbox(path: String) -> void:
 	music_on = true
 	music_volume = 0.7
 	day_cycle = DAY_CYCLE_FAST
+	weather = WEATHER_RANDOM
 	orientation = ORIENTATION_AUTO
 	_apply_audio()
 
@@ -94,6 +103,11 @@ func set_music(on: bool, volume: float) -> void:
 
 func set_day_cycle(cycle: String) -> void:
 	day_cycle = cycle if DAY_CYCLES.has(cycle) else DAY_CYCLE_FAST
+	_save()
+
+
+func set_weather(choice: String) -> void:
+	weather = choice if WEATHERS.has(choice) else WEATHER_RANDOM
 	_save()
 
 
@@ -133,6 +147,9 @@ func _load() -> void:
 	day_cycle = str(file.get_value("general", "day_cycle", DAY_CYCLE_FAST))
 	if not DAY_CYCLES.has(day_cycle):
 		day_cycle = DAY_CYCLE_FAST
+	weather = str(file.get_value("general", "weather", WEATHER_RANDOM))
+	if not WEATHERS.has(weather):
+		weather = WEATHER_RANDOM
 	orientation = str(file.get_value("general", "orientation", ORIENTATION_AUTO))
 	if not ORIENTATIONS.has(orientation):
 		orientation = ORIENTATION_AUTO
@@ -142,6 +159,7 @@ func _save() -> void:
 	var file := ConfigFile.new()
 	file.set_value("general", "language", language)
 	file.set_value("general", "day_cycle", day_cycle)
+	file.set_value("general", "weather", weather)
 	file.set_value("general", "orientation", orientation)
 	file.set_value("audio", "sound_on", sound_on)
 	file.set_value("audio", "sound_volume", sound_volume)

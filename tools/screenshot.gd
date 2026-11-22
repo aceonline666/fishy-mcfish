@@ -4,10 +4,10 @@ extends SceneTree
 ##
 ## Usage (not headless, it needs to render):
 ##   godot --path . -s res://tools/screenshot.gd -- --out=C:/temp/shots [--drag] [--tap=0.65,0.22]
-##     [--hour=22.5] [--at=900,-1000]
+##     [--hour=22.5] [--weather=storm] [--at=900,-1000]
 ## --tap taps once at the given fraction of the window after the drag and captures twice while
 ## the game reacts (e.g. walking onto the store square). --hour holds the time of day (DayCycle)
-## at that clock hour; --at puts the wader on that ground point before the first capture.
+## at that clock hour; --weather holds the weather (WeatherCycle: sunny, rain or storm); --at puts the wader on that ground point before the first capture.
 
 const SETTLE_SECONDS := 1.5
 const DRAG_FRAMES := 150
@@ -16,6 +16,7 @@ var _out_dir := "user://screenshots"
 var _drag := false
 var _tap := Vector2(-1.0, -1.0)
 var _hour := -1.0
+var _weather := -1
 var _at := Vector2.INF
 
 
@@ -30,6 +31,8 @@ func _initialize() -> void:
 			_tap = Vector2(parts[0].to_float(), parts[1].to_float())
 		elif arg.begins_with("--hour="):
 			_hour = arg.trim_prefix("--hour=").to_float()
+		elif arg.begins_with("--weather="):
+			_weather = ["sunny", "rain", "storm"].find(arg.trim_prefix("--weather="))
 		elif arg.begins_with("--at="):
 			var at := arg.trim_prefix("--at=").split(",")
 			_at = Vector2(at[0].to_float(), at[1].to_float())
@@ -42,6 +45,9 @@ func _run() -> void:
 	# autoloads are ready.
 	root.get_node("SaveSystem").use_sandbox("user://screenshots/save.json")
 	root.get_node("DayCycle").override_hour = _hour
+	var weather := root.get_node("WeatherCycle")
+	weather.override_kind = _weather
+	weather.snap()
 	change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
 	await create_timer(SETTLE_SECONDS).timeout
 	if _at != Vector2.INF:

@@ -40,7 +40,10 @@ uniform vec2 current_band = vec2(0.0, 0.0);
 uniform vec2 current_flow = vec2(0.0, 0.0);
 // How far into the band the current fades in, at both edges.
 const float CURRENT_FADE = 160.0;
+// How much sunlight gets through the clouds (Weather): the caustics fade under them.
+uniform float sun = 1.0;
 #include "res://src/shaders/spotlight.gdshaderinc"
+#include "res://src/shaders/waves.gdshaderinc"
 
 // The heavy swell of the open sea is drawn on the surface, over the fish: swell.gdshader.
 
@@ -59,8 +62,7 @@ float caustic_lines(vec2 p, float t) {
 void fragment() {
 	vec2 g = to_ground((UV * rect_size - world_origin) / zoom);
 	// Distance from the waterline into the water, with gently lapping waves.
-	float wave = sin(g.x * 0.02 + TIME * 1.5) * 10.0 + sin(g.x * 0.05 - TIME) * 5.0;
-	float d = g.y - shore_y + wave;
+	float d = g.y - shore_y + shore_wave(g);
 
 	vec2 cell = abs(fract(g / tile_size) - 0.5);
 	float grid = smoothstep(0.46, 0.5, max(cell.x, cell.y));
@@ -94,7 +96,7 @@ void fragment() {
 			float dash = smoothstep(0.2, 0.9, sin(p.x * 0.012 + floor(p.y * 0.045 / 3.14159) * 2.1));
 			color = mix(color, vec3(0.85, 1.0, 1.0), lane * dash * 0.3 * current * (1.0 - depth * 0.5));
 		}
-		color = mix(color, vec3(0.85, 1.0, 1.0), clamp(caustics * 0.22 * (1.0 - depth * 0.6), 0.0, 1.0));
+		color = mix(color, vec3(0.85, 1.0, 1.0), clamp(caustics * 0.22 * sun * (1.0 - depth * 0.6), 0.0, 1.0));
 		float dark = smoothstep(abyss_start, abyss_end, d);
 		color = mix(color, abyss_color.rgb, dark * 0.92 * (1.0 - lit * 0.85));
 		// The beam itself shows a little in the dark water.
