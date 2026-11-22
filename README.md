@@ -284,7 +284,6 @@ Rules of thumb:
 ## TODOs
 - Add weather: Storms, Lightning. (Day and night are in: a 20-minute cycle, real time, always day or always night, chosen in the menu, with the sun or the moon mirrored on the water; `DayClock`, `DayCycle`, `Night`, `reflection.gdshaderinc`. In debug builds N moves the time on by an hour, Shift+N lets it run; `tools/screenshot.gd -- --hour=23`.) Still to do for the night: night-only species, bioluminescent wake, no seagulls at night.
 - Regenerate the species sprites that are not yet in the new cute-comic format (one image per species in `art_source/fish/views/`, prompts in `art_source/fish/views/prompts.md`, cut with `tools/extract_species_views.py`):
-  - Reef manta ray (Mobula alfredi) — odd pose (banking, tilted up)
   - Blue whale (Balaenoptera musculus) — too low resolution (stretched 3.3x), outline far too thick at its size (7.7x the cod's)
   - Humpback whale (Megaptera novaeangliae) — realistic style, too low resolution (stretched 1.9x)
   - Southern right whale (Eubalaena australis) — too low resolution (stretched 2x), outline too thick at its size (3.1x the cod's)
