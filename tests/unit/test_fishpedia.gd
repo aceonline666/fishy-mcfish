@@ -95,3 +95,15 @@ func _grid(section: int) -> GridContainer:
 
 func _card_name(card: Button) -> String:
 	return (card.get_child(0).get_child(1) as Label).text
+
+
+## A card's picture is wide and low: tall animals (jellyfish, seahorses) must fit by their height.
+func test_every_species_fits_inside_its_card_picture() -> void:
+	var picture := FishPicture.new()
+	picture.size = Vector2(300.0, 160.0)
+	autofree(picture)
+	for id: String in DataRegistry.species:
+		picture.art = FishArt.for_species(DataRegistry.species[id])
+		var length := picture.drawn_length()
+		assert_true(length <= picture.size.x, "%s is wider than its picture" % id)
+		assert_true(picture.art.drawn_height(length) <= picture.size.y + 0.01, "%s is taller than its picture" % id)

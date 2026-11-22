@@ -12,15 +12,26 @@ var known := true:
 	set(value):
 		known = value
 		queue_redraw()
-## Fraction of the width a large fish fills; small fish are drawn smaller.
+## Fraction of the width a large fish fills; small fish are drawn smaller. Never taller than the
+## picture.
 var fill := 0.85
 
 
 func _draw() -> void:
 	if art == null:
 		return
-	# Size relative to the biggest fish, so a sprat looks small next to a conger.
-	var relative := clampf(CatchRules.body_length(art.species) / 240.0, 0.55, 1.0)
-	var length := minf(size.x * fill * relative, size.y * 2.2)
 	var view := Transform2D(Vector2(1.0, 0.0), Vector2(0.0, 1.0), size * 0.5)
-	art.draw(self, view, length, 0.0, 0.0, Color.WHITE if known else SILHOUETTE)
+	art.draw(self, view, drawn_length(), 0.0, 0.0, Color.WHITE if known else SILHOUETTE)
+
+
+## How long the animal is drawn: by its size relative to the biggest fish, so a sprat looks small
+## next to a conger, but never taller than the picture. Tall animals (jellyfish, seahorses) are
+## sized by their height (the sprite's canvas has some empty margin, so the full height may be
+## used).
+func drawn_length() -> float:
+	var relative := clampf(CatchRules.body_length(art.species) / 240.0, 0.55, 1.0)
+	var length := size.x * fill * relative
+	var height_per_length := art.drawn_height(1.0)
+	if height_per_length > 0.0:
+		length = minf(length, size.y / height_per_length)
+	return length
