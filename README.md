@@ -377,6 +377,8 @@ Rules of thumb:
   - Red lionfish (Pterois volitans) — cute-comic, but outline too thin at its small size (0.38x the cod's)
 
 ### Later 
+- Hints / Achievementtexts are too long and visible too shortly to read it. Shorten the texts and display them longer.
+- Charting-mechanism is unclear to new players. Explain it maybe in the tutorial?
 - Think about adjusting the map and the number of cashiers again. Currently one cashier would be enough to finish the game in every level. More cashiers don't add much speed. We need to rebalance this. If four cashiers are enough we could again display them in a row instead of a column. That would mean regeneration of all sprites (booths, cashiers, buyers, belt?)
 - The tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too with better instructions regarding line thickness. When regenerating the tank sprites consider line thickness in comparison to tank size and the water filling animation and transparency of the tank. You should be able to see the beach behind it. And the water filling should have clear corners where to draw the water lines. Also the poles need to be in front of the fish inside so maybe two sprites are necessary per tank.
 - More secrets: secret species per location that only show under a condition (night, charted zone, ...). Need new sprites.

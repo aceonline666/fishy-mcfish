@@ -119,12 +119,18 @@ const UPRIGHT: Array[String] = [
 	"moon_jellyfish", "lions_mane_jellyfish", "blubber_jellyfish", "nomuras_jellyfish", "portuguese_man_o_war",
 ]
 ## Jellyfish pulse slower and softer than octopuses, all the time: rate, how much the bell narrows
-## at its rim and grows taller (shares of its size), and how far the tentacles sway (share of the
-## sprite's width). Per species, the middle of the bell and its rim (shares of the sprite).
+## at its rim and grows taller (shares of its size). Their tentacles wave like an octopus's arms:
+## how far (share of the sprite's width), how many waves run down them per squeeze of the bell (a
+## whole number, so the cycle repeats), how many waves are on a tentacle at once, and how far out
+## of step neighbouring tentacles are (per sprite width; more folds the mesh over). Per species, the middle of the bell and
+## its rim (shares of the sprite).
 const JELLY_RATE := 0.15
 const JELLY_NARROW := 0.12
 const JELLY_STRETCH := 0.07
-const JELLY_SWAY := 0.025
+const JELLY_SWAY := 0.07
+const JELLY_TENTACLE_BEATS := 3.0
+const JELLY_TENTACLE_WAVES := 1.2
+const JELLY_TENTACLE_SPREAD := 7.0
 const JELLY_BELLS: Dictionary[String, Vector2] = {
 	"moon_jellyfish": Vector2(0.42, 0.45), "lions_mane_jellyfish": Vector2(0.5, 0.42),
 	"blubber_jellyfish": Vector2(0.38, 0.47), "nomuras_jellyfish": Vector2(0.45, 0.37),
@@ -258,6 +264,8 @@ func draw(canvas: CanvasItem, view: Transform2D, length: float, phase: float = 0
 			warp = _wave.bind(length, cycle, swim)
 		Motion.PULSE:
 			warp = (_jelly_pulse if is_jellyfish else _pulse).bind(body_rect, cycle, swim)
+			if is_jellyfish:
+				grid = TENTACLE_MESH
 		Motion.JET:
 			warp = _jet.bind(body_rect, cycle, swim)
 		Motion.FLAP:
@@ -323,7 +331,8 @@ func _pulse(point: Vector2, rect: Rect2, phase: float, swim: float) -> Vector2:
 
 
 ## A jellyfish's bell contracts softly, its rim drawn in most while the bell grows a little taller,
-## then slowly opens again; the tentacles below hang on, swaying slowly, more towards their ends.
+## then slowly opens again; waves run down the tentacles below, growing towards their ends, out of
+## step from tentacle to tentacle, with a slower curl over them.
 func _jelly_pulse(point: Vector2, rect: Rect2, phase: float, swim: float) -> Vector2:
 	var bell: Vector2 = JELLY_BELLS.get(species.id, Vector2(0.5, 0.4))
 	var squeeze := soft_squeeze(phase) * swim
@@ -335,7 +344,14 @@ func _jelly_pulse(point: Vector2, rect: Rect2, phase: float, swim: float) -> Vec
 	var x := middle + (point.x - middle) * (1.0 - JELLY_NARROW * squeeze * narrow)
 	var y := point.y + clampf(down, 0.0, 1.0) * bell_height * JELLY_STRETCH * squeeze
 	var hang := clampf((down - 1.0) * bell_height / (rect.size.y - bell_height), 0.0, 1.0)
-	x += sin(phase - hang * 3.0) * rect.size.x * JELLY_SWAY * swim * hang
+	if hang <= 0.0:
+		return Vector2(x, y)
+	var across := (point.x - middle) / rect.size.x * JELLY_TENTACLE_SPREAD
+	var wave := phase * JELLY_TENTACLE_BEATS - hang * TAU * JELLY_TENTACLE_WAVES + across
+	var reach := rect.size.x * JELLY_SWAY * hang * sqrt(hang) * swim
+	x += (sin(wave) + 0.5 * sin(phase + across * 0.5 - hang * 2.0)) * reach
+	# A tentacle swung out is lifted a little, as if it bent rather than stretched.
+	y -= absf(sin(wave)) * reach * 0.25
 	return Vector2(x, y)
 
 
