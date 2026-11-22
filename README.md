@@ -284,7 +284,6 @@ Rules of thumb:
 ## TODOs
 - Add weather: Storms, Lightning. (Day and night are in: a 20-minute cycle, real time, always day or always night, chosen in the menu, with the sun or the moon mirrored on the water; `DayClock`, `DayCycle`, `Night`, `reflection.gdshaderinc`. In debug builds N moves the time on by an hour, Shift+N lets it run; `tools/screenshot.gd -- --hour=23`.) Still to do for the night: night-only species, bioluminescent wake, no seagulls at night.
 - Regenerate the species sprites that are not yet in the new cute-comic format (one image per species in `art_source/fish/views/`, prompts in `art_source/fish/views/prompts.md`, cut with `tools/extract_species_views.py`):
-  - Blubber jellyfish (Catostylus mosaicus) — soft glowing style, no outline
   - Nomura's jellyfish (Nemopilema nomurai) — soft glowing style, no outline
   - Yellowfin tuna (Thunnus albacares) — outline too thin at its size (0.35x the cod's on screen)
   - Reef manta ray (Mobula alfredi) — odd pose (banking, tilted up)
