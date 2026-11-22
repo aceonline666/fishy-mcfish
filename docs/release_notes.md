@@ -12,7 +12,7 @@ Newest first. The "What's new" block of each version is pasted into Play Console
 • Orcas and great whales now leap out of the water too, with bigger splashes.
 • Leaps sound like water instead of a bang.
 • Whales, giant squid and other legendary species are too heavy for drones – catch them yourself! The Fishpedia marks them.
-• Jellyfish drift upright, and the Pacific blackdragon's lure glows.
+• Jellyfish drift upright. The blackdragon's and viperfish's lures glow, the pelican eel's tail light flashes red.
 • Darker nights: no more glow around the wader.
 • 4 fish freshly drawn: bluefin tuna, humphead wrasse, blacktip reef shark, red lionfish.
 </en-US>
@@ -20,8 +20,8 @@ Newest first. The "What's new" block of each version is pasted into Play Console
 • Orcas und Großwale springen jetzt auch aus dem Wasser, mit größeren Spritzern.
 • Sprünge klingen nach Wasser statt nach einem Knall.
 • Wale, Riesenkalmare und andere legendäre Arten sind zu schwer für Drohnen – fang sie selbst! Die Fischpedia markiert sie.
-• Quallen treiben aufrecht, der Köder des Schwarzen Drachenfischs leuchtet.
-• Dunklere Nächte: kein Lichtschein mehr um den Angler.
+• Quallen treiben aufrecht. Drachen- und Viperfisch leuchten, der Pelikanaal blinkt rot.
+• Dunklere Nächte: kein Lichtschein um den Angler.
 • 4 Fische neu gezeichnet: Roter Thun, Napoleon-Lippfisch, Schwarzspitzen-Riffhai, Rotfeuerfisch.
 </de-DE>
 ```
@@ -36,6 +36,9 @@ Newest first. The "What's new" block of each version is pasted into Play Console
   Fishpedia marks them "Too heavy for drones". Every zone keeps species the drones can take.
 - Jellyfish and the Portuguese man o' war keep their upright angle whichever way they drift, in
   the sea and in the tanks; the Pacific blackdragon's lure glows.
+- **More lights in the deep**: Sloane's viperfish carries a small blue-white light at the tip of
+  its long dorsal ray, and the pelican eel's tail organ glows pink and flashes red twice every few
+  seconds. Lures on eel-like bodies follow the swimming wave.
 - Fish are drawn side-on only; the views from above, which switched hard on turning, are gone.
 - At night the wader no longer carries a pool of light; lanterns, windows, tanks and the headlamp
   light the night.

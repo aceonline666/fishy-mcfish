@@ -87,6 +87,18 @@ func test_jellyfish_keep_their_angle_whichever_way_they_drift() -> void:
 			assert_eq(view.y, Vector2.DOWN, "%s upright at heading %d/8" % [id, k])
 
 
+func test_a_lure_on_a_waving_body_moves_with_the_wave() -> void:
+	for id: String in ["pelican_eel", "sloanes_viperfish"]:
+		var art := FishArt.for_species(DataRegistry.species[id])
+		assert_true(art.has_lure(), "%s has a light" % id)
+		var resting := art.lure_point(300.0)
+		var waved := art.lure_point(300.0, 1.0, 1.0)
+		assert_eq(waved.x, resting.x, "%s's light stays along the body" % id)
+		assert_ne(waved.y, resting.y, "%s's light moves with the wave" % id)
+	assert_true(FishArt.for_species(DataRegistry.species["pelican_eel"]).lure_flashes(), "the pelican eel flashes")
+	assert_false(FishArt.for_species(DataRegistry.species["humpback_anglerfish"]).lure_flashes(), "anglerfish glow steadily")
+
+
 func test_fish_turn_with_their_heading() -> void:
 	var fish := _fish(0.0, Vector2.ZERO)
 	fish.heading = PI

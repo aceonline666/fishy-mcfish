@@ -91,14 +91,25 @@ const CRAWL_BOB := 0.02
 ## Waves, squeezes and jets go slower than a tail beat.
 const WAVE_RATE := 0.7
 const PULSE_RATE := 0.35
-## Species with a glowing lure (anglerfish): where it sits on the body sprite, as a share of its
-## size. SwimmingFish draws its light (Glow).
+## Species with a glowing lure (anglerfish) or light organ: where it sits on the body sprite, as a
+## share of its size. SwimmingFish draws its light (Glow).
 const LURES: Dictionary[String, Vector2] = {
 	"humpback_anglerfish": Vector2(0.821, 0.165),
 	"atlantic_footballfish": Vector2(0.877, 0.106),
 	# The glowing tip of its chin barbel, curled up over the head.
 	"pacific_blackdragon": Vector2(0.888, 0.254),
+	# The light organ at the tip of its whip-like tail.
+	"pelican_eel": Vector2(0.101, 0.091),
+	# The glowing tip of the long first ray of its dorsal fin.
+	"sloanes_viperfish": Vector2(0.417, 0.01),
 }
+## How big a lure's light is drawn next to the anglerfish's (1.0): a slender fish's lure is a
+## small bead at the end of a long body.
+const LURE_SIZES: Dictionary[String, float] = {
+	"sloanes_viperfish": 0.3,
+}
+## Lights that glow pink and flash red now and then instead of the anglerfish's steady blue-white.
+const FLASHING_LURES: Array[String] = ["pelican_eel"]
 const JELLYFISH: Array[String] = [
 	"moon_jellyfish", "lions_mane_jellyfish", "blubber_jellyfish", "nomuras_jellyfish",
 ]
@@ -181,13 +192,27 @@ func has_lure() -> bool:
 	return body != null and LURES.has(species.id)
 
 
-## The lure in fish space (as in draw()) for a fish `length` long.
-func lure_point(length: float) -> Vector2:
+## True if the species' light glows pink with red flashes (FLASHING_LURES).
+func lure_flashes() -> bool:
+	return species.id in FLASHING_LURES
+
+
+## How big the lure's light is drawn (LURE_SIZES).
+func lure_size() -> float:
+	return LURE_SIZES.get(species.id, 1.0)
+
+
+## The lure in fish space (as in draw()) for a fish `length` long, moved by the body's wave like
+## the sprite when drawn with the same `phase` and `swim`.
+func lure_point(length: float, phase: float = 0.0, swim: float = 0.0) -> Vector2:
 	var units := length * BODY_SHARE / BODY_SPAN
 	var root_x := length * (0.5 - BODY_SHARE)
 	var body_size := body.get_size() * (BODY_CANVAS_WIDTH / body.get_width()) * units
 	var corner := Vector2(root_x - BODY_ROOT_X * units, -body_size.y * 0.5)
-	return corner + LURES[species.id] * body_size
+	var point := corner + LURES[species.id] * body_size
+	if motion == Motion.WAVE and swim > 0.0:
+		point = _wave(point, length, phase * cycle_rate(), swim)
+	return point
 
 
 ## How tall draw() makes a fish `length` long (sprite canvases include some empty margin).

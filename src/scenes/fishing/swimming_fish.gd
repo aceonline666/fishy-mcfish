@@ -53,6 +53,8 @@ const LEAP_PITCH := 0.8
 ## Seconds in the water between two leaps.
 const LEAP_PAUSE_MIN := 4.0
 const LEAP_PAUSE_MAX := 10.0
+## The pelican eel's tail light flashes red twice once per cycle (seconds).
+const FLASH_CYCLE := 3.2
 
 ## The fish broke through the surface, leaving the water or diving back in.
 signal splashed(fish: SwimmingFish)
@@ -87,8 +89,11 @@ var _age := 0.0
 ## Seconds into the current leap out of the water; negative while in the water.
 var _leap := -1.0
 var _leap_pause := 0.0
-## The lure's light of anglerfish, drawn additively over the fish (Glow), or null.
+## The lure's light of anglerfish (or the pelican eel's light organ), drawn additively over the
+## fish (Glow), or null.
 var _glow: Node2D
+## Seconds into the flashing light's cycle at the start, so neighbours flash out of step.
+var _flash_offset := 0.0
 
 
 func setup(fish_art: FishArt, home_zone: ZoneDef, home_area: PlayArea, start: Vector2, start_heading: float) -> void:
@@ -112,6 +117,7 @@ func setup(fish_art: FishArt, home_zone: ZoneDef, home_area: PlayArea, start: Ve
 		_glow.material = Glow.material()
 		_glow.draw.connect(_draw_lure)
 		add_child(_glow)
+		_flash_offset = randf() * FLASH_CYCLE
 
 
 ## Fish are seen through the water: they take on half of the seabed's tint for their depth
@@ -301,13 +307,30 @@ func _draw() -> void:
 		_draw_sparkles()
 
 
-## The anglerfish's lure: a bright point and a soft light around it, lighting the head a little,
+## The anglerfish's (and viperfish's) lure: a bright point and a soft light around it, lighting the head a little,
 ## pulsing slowly.
 func _draw_lure() -> void:
-	var at := _view_transform() * art.lure_point(body_length)
+	var at := _view_transform() * art.lure_point(body_length, _swim_phase, 1.0)
+	if art.lure_flashes():
+		_draw_flashing_lure(at)
+		return
 	var pulse := 0.8 + 0.2 * sin(_age * 2.2 + _swim_phase * 0.1)
-	Glow.draw(_glow, at, body_length * 0.55, Color(0.55, 0.9, 1.0, 0.3 * pulse))
-	Glow.draw(_glow, at, body_length * 0.12, Color(0.85, 1.0, 0.95, 0.95 * pulse))
+	var size := body_length * art.lure_size()
+	Glow.draw(_glow, at, size * 0.55, Color(0.55, 0.9, 1.0, 0.3 * pulse))
+	Glow.draw(_glow, at, size * 0.12, Color(0.85, 1.0, 0.95, 0.95 * pulse))
+
+
+## The pelican eel's tail light: a soft pink glow, pulsing slowly, that flashes red twice in a
+## row every few seconds (FLASH_CYCLE). Small: the organ is a bead at the end of a long fish.
+func _draw_flashing_lure(at: Vector2) -> void:
+	var pulse := 0.75 + 0.25 * sin(_age * 1.8 + _flash_offset)
+	var t := fposmod(_age + _flash_offset, FLASH_CYCLE)
+	var flash := maxf(0.0, 1.0 - absf(t - 0.12) / 0.12) + 0.7 * maxf(0.0, 1.0 - absf(t - 0.5) / 0.12)
+	Glow.draw(_glow, at, body_length * 0.14, Color(1.0, 0.45, 0.7, 0.4 * pulse))
+	Glow.draw(_glow, at, body_length * 0.035, Color(1.0, 0.7, 0.85, 0.9 * pulse))
+	if flash > 0.0:
+		Glow.draw(_glow, at, body_length * 0.2, Color(1.0, 0.1, 0.15, 0.55 * flash))
+		Glow.draw(_glow, at, body_length * 0.045, Color(1.0, 0.25, 0.2, flash))
 
 
 ## Code-drawn fallback for species without sprites.
