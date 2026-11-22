@@ -3,6 +3,45 @@
 Newest first. The "What's new" block of each version is pasted into Play Console as it stands
 (at most 500 characters per language).
 
+## 0.7.0 (version code 7)
+
+### What's new (Play Console)
+
+```
+<en-US>
+• Orcas and great whales now leap out of the water too, with bigger splashes.
+• Leaps sound like water instead of a bang.
+• Whales, giant squid and other legendary species are too heavy for drones – catch them yourself! The Fishpedia marks them.
+• Jellyfish drift upright, and the Pacific blackdragon's lure glows.
+• Darker nights: no more glow around the wader.
+• 4 fish freshly drawn: bluefin tuna, humphead wrasse, blacktip reef shark, red lionfish.
+</en-US>
+<de-DE>
+• Orcas und Großwale springen jetzt auch aus dem Wasser, mit größeren Spritzern.
+• Sprünge klingen nach Wasser statt nach einem Knall.
+• Wale, Riesenkalmare und andere legendäre Arten sind zu schwer für Drohnen – fang sie selbst! Die Fischpedia markiert sie.
+• Quallen treiben aufrecht, der Köder des Schwarzen Drachenfischs leuchtet.
+• Dunklere Nächte: kein Lichtschein mehr um den Angler.
+• 4 Fische neu gezeichnet: Roter Thun, Napoleon-Lippfisch, Schwarzspitzen-Riffhai, Rotfeuerfisch.
+</de-DE>
+```
+
+### Changes
+
+- **Breaching whales**: the orca, humpback, southern right, sperm and blue whale leap like the
+  dolphins, higher with their size, staying up longer and leaping more rarely; crashing back in
+  throws more spray and a second, wider ripple.
+- **Leap sounds** are a soft splash with spray hiss; whales get a longer one with a deep whump.
+- **Legendary species are caught by hand only**: drones leave them to the player, and the
+  Fishpedia marks them "Too heavy for drones". Every zone keeps species the drones can take.
+- Jellyfish and the Portuguese man o' war keep their upright angle whichever way they drift, in
+  the sea and in the tanks; the Pacific blackdragon's lure glows.
+- Fish are drawn side-on only; the views from above, which switched hard on turning, are gone.
+- At night the wader no longer carries a pool of light; lanterns, windows, tanks and the headlamp
+  light the night.
+- **New cute-comic sprites** for Atlantic bluefin tuna, humphead wrasse, blacktip reef shark and
+  red lionfish.
+
 ## 0.5.0 (version code 6)
 
 ### What's new (Play Console)
