@@ -2141,7 +2141,7 @@ species. Take only the view and style from Image 1, never the cod's shape: the
 head, snout, mouth, body outline, proportions and fins must be those of this species, with its
 characteristic features clearly shown; it must not look like a cod:
 
-Lion's mane jellyfish (Cyanea capillata): a big orange-red bell, masses of long hair-like tentacles. A jellyfish does not swim head first like a fish and has no tail: it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles; if it has eyes, both sit side by side on the front of the bell, looking at the viewer.
+Lion's mane jellyfish (Cyanea capillata): a big orange-red bell, masses of long hair-like tentacles. A jellyfish does not swim head first like a fish and has no tail: it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles. A jellyfish has no eyes and no face: draw no eyes, no mouth and no smile on it (the big friendly eyes of the style are only for animals that have eyes).
 
 Outlines: as thick as in Image 1.
 
@@ -2164,7 +2164,7 @@ species. Take only the view and style from Image 1, never the cod's shape: the
 head, snout, mouth, body outline, proportions and fins must be those of this species, with its
 characteristic features clearly shown; it must not look like a cod:
 
-Moon jellyfish (Aurelia aurita): a clear pale-blue bell with four violet rings (a flower pattern), short fringe tentacles. A jellyfish does not swim head first like a fish and has no tail: it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles; if it has eyes, both sit side by side on the front of the bell, looking at the viewer.
+Moon jellyfish (Aurelia aurita): a clear pale-blue bell with four violet rings (a flower pattern), short fringe tentacles. A jellyfish does not swim head first like a fish and has no tail: it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles. A jellyfish has no eyes and no face: draw no eyes, no mouth and no smile on it (the big friendly eyes of the style are only for animals that have eyes).
 
 Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
@@ -2187,7 +2187,7 @@ species. Take only the view and style from Image 1, never the cod's shape: the
 head, snout, mouth, body outline, proportions and fins must be those of this species, with its
 characteristic features clearly shown; it must not look like a cod:
 
-Blubber jellyfish (Catostylus mosaicus): a pale violet-blue bell, frilly mouth arms, no long tentacles. A jellyfish does not swim head first like a fish and has no tail: it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles; if it has eyes, both sit side by side on the front of the bell, looking at the viewer.
+Blubber jellyfish (Catostylus mosaicus): a pale violet-blue bell, frilly mouth arms, no long tentacles. A jellyfish does not swim head first like a fish and has no tail: it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles. A jellyfish has no eyes and no face: draw no eyes, no mouth and no smile on it (the big friendly eyes of the style are only for animals that have eyes).
 
 Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
@@ -2210,7 +2210,7 @@ species. Take only the view and style from Image 1, never the cod's shape: the
 head, snout, mouth, body outline, proportions and fins must be those of this species, with its
 characteristic features clearly shown; it must not look like a cod:
 
-Nomura's jellyfish (Nemopilema nomurai): an enormous cream-brown bell, thick frilly mouth arms. A jellyfish does not swim head first like a fish and has no tail: it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles; if it has eyes, both sit side by side on the front of the bell, looking at the viewer.
+Nomura's jellyfish (Nemopilema nomurai): an enormous cream-brown bell, thick frilly mouth arms. A jellyfish does not swim head first like a fish and has no tail: it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles. A jellyfish has no eyes and no face: draw no eyes, no mouth and no smile on it (the big friendly eyes of the style are only for animals that have eyes).
 
 Outlines: thin, only about two thirds as thick as in Image 1, because the game shows this creature about 1.3 times as long as the cod; thick lines would look clumsy at that size. Fine details may be drawn with even thinner lines.
 
@@ -2233,7 +2233,7 @@ species. Take only the view and style from Image 1, never the cod's shape: the
 head, snout, mouth, body outline, proportions and fins must be those of this species, with its
 characteristic features clearly shown; it must not look like a cod:
 
-Portuguese man o' war (Physalia physalis): a blue-violet gas float like a sail with a pink crest on top, long blue stinging tentacles below. A jellyfish does not swim head first like a fish and has no tail: it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles; if it has eyes, both sit side by side on the front of the bell, looking at the viewer.
+Portuguese man o' war (Physalia physalis): a blue-violet gas float like a sail with a pink crest on top, long blue stinging tentacles below. A jellyfish does not swim head first like a fish and has no tail: it is painted straight along a vertical line, upright and symmetric: the bell (or float) at the top, centred on that line, and the tentacles below it, hanging down along the same line, a little tangled, spreading out slightly towards the bottom (not trailing to one side, not diagonal, none curling back up over the bell), so the game can squeeze the bell and sway the tentacles. A jellyfish has no eyes and no face: draw no eyes, no mouth and no smile on it (the big friendly eyes of the style are only for animals that have eyes).
 
 Outlines: bolder than in Image 1, about 1.5 times as thick, because the game shows this creature much smaller than the cod.
 
