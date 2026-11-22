@@ -14,7 +14,7 @@ const TANK_COLOR := Color(0.62, 0.95, 1.0)
 ## The blue-green glow of the sea where it is stirred at night (bioluminescent plankton): the
 ## wake and the splashes (Juice.glow_ripple), and the breaking waves of GlowingShore.
 const SEA_SPARKLE := Color(0.3, 0.85, 1.0)
-const SPARKLE_STRENGTH := 0.8
+const SPARKLE_STRENGTH := 0.12
 ## How strongly a lamp's glow shines through the night (its alpha).
 const GLOW_STRENGTH := 0.55
 

@@ -101,7 +101,7 @@ confirmation; sound effects and music each with an on/off switch and a volume sl
 **Day, night and weather:** a whole day passes in 20 minutes (or follows the device clock, or
 it is always day or always night, chosen in the game menu), with the sun or the moon mirrored on
 the water and the lamps lit at night (`DayClock`, `DayCycle`, `Night`). At night the seabirds
-sleep, the sea sparkles where it is stirred (ripples of the wader and the fish glow blue) and
+sleep, the shallows (the first zone) sparkle faintly where they are stirred (ripples of the wader and the fish glow blue) and
 some species come up from the deep or out of hiding into shallower zones (`night_spawns` in
 `data/zones.csv`; the Fishpedia lists such zones as "(at night)"; they are not needed for
 charting). At the Coral Reef the waves breaking on the beach glow blue at night, like the "Sea
