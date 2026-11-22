@@ -21,12 +21,13 @@ func test_a_storm_is_darker_and_wetter_than_rain() -> void:
 	assert_lt(Weather.tint(storm).v, Weather.tint(rain).v)
 
 
-func test_lightning_only_in_a_storm_and_never_in_snow() -> void:
+func test_lightning_only_in_a_storm_or_a_blizzard() -> void:
 	assert_false(Weather.lightning(Weather.target(Weather.Kind.RAIN, false)))
 	assert_true(Weather.lightning(Weather.target(Weather.Kind.STORM, false)))
 	var blizzard := Weather.target(Weather.Kind.STORM, true)
 	assert_eq(blizzard.snow, 1.0)
-	assert_false(Weather.lightning(blizzard))
+	assert_true(Weather.lightning(blizzard))
+	assert_false(Weather.lightning(Weather.target(Weather.Kind.RAIN, true)))
 
 
 func test_approach_eases_without_overshooting() -> void:

@@ -709,3 +709,16 @@ func test_rain_greys_the_world_hides_the_mirrored_sun_and_rings_the_water() -> v
 	WeatherCycle.snap()
 	await wait_process_frames(2)
 	assert_false(_scene._rain.visible)
+
+
+func test_at_night_the_birds_sleep_and_ripples_glow() -> void:
+	DayCycle.override_hour = DayCycle.NIGHT_HOUR
+	await wait_process_frames(2)
+	assert_true(_scene.seabirds.grounded)
+	_scene._ripple(Vector2(0.0, 400.0), 60.0)
+	var glowing: Array = _scene._effects.get_children().filter(func(node: Node) -> bool:
+		return node is Ripple and (node as Ripple).glow)
+	assert_eq(glowing.size(), 1)
+	DayCycle.override_hour = DayCycle.DAY_HOUR
+	await wait_process_frames(2)
+	assert_false(_scene.seabirds.grounded)

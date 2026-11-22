@@ -98,6 +98,21 @@ or a smaller tank (`tests/unit/test_game_data.gd` checks it).
 confirmation; sound effects and music each with an on/off switch and a volume slider; language. Settings are kept in
 `user://settings.cfg`, apart from the save.
 
+**Day, night and weather:** a whole day passes in 20 minutes (or follows the device clock, or
+it is always day or always night, chosen in the game menu), with the sun or the moon mirrored on
+the water and the lamps lit at night (`DayClock`, `DayCycle`, `Night`). At night the seabirds
+sleep, the sea sparkles where it is stirred (ripples of the wader and the fish glow blue) and
+some species come up from the deep or out of hiding into shallower zones (`night_spawns` in
+`data/zones.csv`; the Fishpedia lists such zones as "(at night)"; they are not needed for
+charting). At the Coral Reef the waves breaking on the beach glow blue at night, like the "Sea
+of Stars" on Vaadhoo in the Maldives (`GlowingShore`). The weather comes in random spells of sun,
+rain and storm, or is always one of them, chosen in the menu (`Weather`, `WeatherCycle`): rain
+greys the world, falls in streaks and rings the water, hides the sun and the moon on the water; a
+storm brings lightning with thunder, higher waves and the open sea's swell close in, and keeps
+the birds away. Antarctica gets snow and a blizzard instead, with lightning too. In debug builds N
+moves the time on by an hour (Shift+N lets it run) and W holds the next kind of weather
+(Shift+W lets it change at random again).
+
 **Languages:** English and German. The game follows the device language; the game menu switches it. Texts are written in English and
 wrapped in `tr("...")` (or `Lang.text("...")` in static code); data texts are translated where
 they are shown. Translations live in `localization/de.po` (gettext, the English text is the
@@ -156,7 +171,8 @@ The view is 2:1 isometric (like Diablo II). Game logic runs in flat ground coord
 drawing projects to the screen, see `src/scenes/world/iso.gd`.
 
 **Screenshots:** `tools/screenshot.gd` runs the game in a window, optionally performs a scripted
-net drag through the real input path, and saves PNGs:
+net drag through the real input path, and saves PNGs (`--hour=23`, `--weather=storm` and
+`--location=antarctica` set the time, the weather and the location):
 
 ```powershell
 & "C:\Program Files\Godot\Godot_v4.7.2-stable_win64_console.exe" --path . -s res://tools/screenshot.gd -- --out=C:/temp/shots --drag
@@ -288,8 +304,6 @@ Rules of thumb:
     ([Freesound 522025](https://freesound.org/people/Nimlos/sounds/522025/)).
 
 ## TODOs
-- Night: night-only species, bioluminescent wake, no seagulls at night. (Day and night are in: a 20-minute cycle, real time, always day or always night, chosen in the menu, with the sun or the moon mirrored on the water; `DayClock`, `DayCycle`, `Night`, `reflection.gdshaderinc`. In debug builds N moves the time on by an hour, Shift+N lets it run; `tools/screenshot.gd -- --hour=23`.) Weather is in too: sunny, rain and storm with lightning (snow and blizzard in Antarctica), random spells or always one kind, chosen in the menu; `Weather`, `WeatherCycle`, `Rain`, `RainRings`, `Lightning`, `waves.gdshaderinc`. In debug builds W holds the next kind of weather, Shift+W lets it change at random again; `tools/screenshot.gd -- --weather=storm`.
-- Fact check where the "glowing beaches at night" exist and at which location this fits best. If we have a match we should add this to the game since it would look beautiful.
 - Regenerate the species sprites that are not yet in the new cute-comic format (one image per species in `art_source/fish/views/`, prompts in `art_source/fish/views/prompts.md`, cut with `tools/extract_species_views.py`):
   - Blue whale (Balaenoptera musculus) — too low resolution (stretched 3.3x), outline far too thick at its size (7.7x the cod's)
   - Humpback whale (Megaptera novaeangliae) — realistic style, too low resolution (stretched 1.9x)

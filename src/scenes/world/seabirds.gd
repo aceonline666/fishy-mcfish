@@ -58,7 +58,8 @@ var location_id := "north_sea"
 var view := Rect2(0.0, 0.0, 720.0, 1280.0)
 ## Set by the scene: false while the beach is not on screen (in the gear shop), so no calls play.
 var heard := true
-## Set by the scene: true while the wind is too strong for birds (a storm); no new flights start.
+## Set by the scene: true while the wind is too strong for birds (a storm) and at night; no new
+## flights start.
 var grounded := false
 
 var _rng := RandomNumberGenerator.new()

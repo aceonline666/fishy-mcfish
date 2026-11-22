@@ -7,11 +7,11 @@ extends MultiMeshInstance2D
 const SHADER := preload("res://src/shaders/rain.gdshader")
 ## Drops in a storm (all of them) and flakes in a blizzard.
 const MAX_DROPS := 320
-const MAX_FLAKES := 240
+const MAX_FLAKES := 600
 
 
 func _init() -> void:
-	multimesh = quads(MAX_DROPS)
+	multimesh = quads(maxi(MAX_DROPS, MAX_FLAKES))
 	var shader_material := ShaderMaterial.new()
 	shader_material.shader = SHADER
 	material = shader_material
@@ -42,7 +42,10 @@ static func quads(count: int) -> MultiMesh:
 
 ## Shows the rain of `weather` over a view of `view_size` with the world at `world_origin`.
 func show_weather(weather: Weather.State, view_size: Vector2, world_origin: Vector2) -> void:
-	var count := roundi((MAX_FLAKES if weather.snow > 0.5 else MAX_DROPS) * weather.rain)
+	var count := roundi(MAX_DROPS * weather.rain)
+	if weather.snow > 0.5:
+		# Gentle snow is sparse, a blizzard thick.
+		count = roundi(MAX_FLAKES * weather.rain * weather.rain)
 	visible = count > 0
 	if not visible:
 		return

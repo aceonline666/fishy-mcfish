@@ -78,3 +78,23 @@ func test_invalid_rows_are_reported_and_skipped() -> void:
 	# The fixture folder has no level tables; only count the species errors.
 	var species_errors := Array(registry.errors).filter(func(e: String) -> bool: return e.contains("species.csv"))
 	assert_eq(species_errors.size(), 4, "\n".join(species_errors))
+
+
+## Night spawns bring species into a zone they don't live in by day, from the same location.
+func test_night_spawns_bring_other_species_of_the_location() -> void:
+	var with_night := 0
+	for zone: ZoneDef in DataRegistry.zones:
+		if zone.night_spawns.is_empty():
+			continue
+		with_night += 1
+		var at_location: Array[String] = []
+		for other: ZoneDef in DataRegistry.zones_in(zone.location):
+			at_location.append_array(other.spawns.keys())
+		var night := zone.spawns_at_night()
+		for id: String in zone.night_spawns:
+			assert_false(zone.spawns.has(id), "%s comes to %s by day already" % [id, zone.id])
+			assert_true(at_location.has(id), "%s does not live at %s" % [id, zone.location])
+			assert_eq(night[id], zone.night_spawns[id])
+		for id: String in zone.spawns:
+			assert_eq(night[id], zone.spawns[id])
+	assert_gt(with_night, 0)

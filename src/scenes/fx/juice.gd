@@ -14,6 +14,19 @@ static func ripple(parent: Node, at: Vector2, radius: float, color: Color = Colo
 	parent.add_child(ring)
 
 
+## A ripple that shines through the night (additive, over the time of day's tint).
+static func glow_ripple(parent: Node, at: Vector2, radius: float, color: Color) -> void:
+	var ring := Ripple.new()
+	ring.position = at
+	ring.max_radius = radius
+	ring.color = color
+	ring.duration = 0.9
+	ring.glow = true
+	ring.material = Glow.material()
+	Layers.put(ring, Layers.NIGHT_LIGHTS)
+	parent.add_child(ring)
+
+
 ## A burst of droplets that frees itself when done. A `size` over 1 throws bigger drops further
 ## and keeps them in the air longer (a whale crashing back in).
 static func splash(parent: Node, at: Vector2, amount: int, size: float = 1.0) -> void:

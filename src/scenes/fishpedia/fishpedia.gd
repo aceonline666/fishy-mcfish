@@ -314,12 +314,17 @@ func _where_found(def: SpeciesDef) -> String:
 	return tr("Found in: %s") % "; ".join(places) if not places.is_empty() else tr("Not found here")
 
 
-## The (translated) names of the zones at a location where the species lives.
+## The (translated) names of the zones at a location where the species lives, those where it
+## only comes at night marked so.
 func _zones_in(def: SpeciesDef, location_id: String) -> Array[String]:
 	var zones: Array[String] = []
 	for zone in DataRegistry.zones:
-		if zone.location == location_id and zone.spawns.has(def.id):
+		if zone.location != location_id:
+			continue
+		if zone.spawns.has(def.id):
 			zones.append(tr(zone.name))
+		elif zone.night_spawns.has(def.id):
+			zones.append(tr("%s (at night)") % tr(zone.name))
 	return zones
 
 

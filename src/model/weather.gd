@@ -34,7 +34,7 @@ class State:
 	var wind := 0.0
 	## How stormy: lightning, the open sea's swell rolls in towards the shore.
 	var storm := 0.0
-	## 1 where it snows instead of raining (no rings on the water, no lightning).
+	## 1 where it snows instead of raining (no rings on the water).
 	var snow := 0.0
 
 	func _init(cloud: float = 0.0, rain_share: float = 0.0, wind_share: float = 0.0, storm_share: float = 0.0, snow_share: float = 0.0) -> void:
@@ -76,9 +76,9 @@ static func tint(state: State) -> Color:
 	return Color.WHITE.lerp(RAIN_TINT, cloudy).lerp(STORM_TINT, state.storm)
 
 
-## True when lightning can strike in `state`: in a storm, but not in a blizzard.
+## True when lightning can strike in `state`: in a storm, and in a blizzard too (thundersnow).
 static func lightning(state: State) -> bool:
-	return state.storm > 0.5 and state.snow < 0.5
+	return state.storm > 0.5
 
 
 ## The spell after one of `kind`: [its kind, its length in seconds]. Sun is followed by rain,

@@ -182,7 +182,8 @@ const OPEN_SEA_DEPTH := Vector2(600.0, 2600.0)
 const SHORE_DB := -14.0
 const OPEN_SEA_DB := -16.0
 ## The weather's ambience: rain, and a storm's heavy rain and wind (dB), heard muffled inside the
-## gear shop. In snow only the wind is heard (the open sea's ambience, louder).
+## gear shop. In snow the wind is heard (the open sea's ambience, louder), and in a blizzard the
+## storm's roar too.
 const RAIN_DB := -12.0
 const STORM_DB := -10.0
 const INDOORS_DB := -12.0
@@ -277,6 +278,8 @@ var _art: Dictionary[String, FishArt] = {}
 var _zones: Array[ZoneDef] = []
 var _zone_areas: Array[PlayArea] = []
 var _zone_spawns: Array[SpawnTable] = []
+## Per zone the spawns at night: more species come up from the deep or out of hiding.
+var _zone_night_spawns: Array[SpawnTable] = []
 var _spawn_timer := 0.0
 var _wader_zone: ZoneDef
 var _gate_warned := false
@@ -351,6 +354,8 @@ var night := Night.new()
 ## The weather: rain or snow over the screen and raindrops' rings on the water.
 var _rain := Rain.new()
 var _rain_rings := RainRings.new()
+## At night where the sea sparkles: the waves breaking on the beach glow blue.
+var _glowing_shore := GlowingShore.new()
 ## How far the waves at the waterline and the open sea's swell have run (seconds at calm speed).
 var _wave_time := 0.0
 var _swell_time := 0.0
@@ -409,6 +414,7 @@ func _ready() -> void:
 	Layers.put(_rain, Layers.EFFECTS)
 	_world.add_sibling(_rain)
 	_world.add_child(_rain_rings)
+	_world.add_child(_glowing_shore)
 	WeatherCycle.lightning.connect(_on_lightning)
 	EventBus.money_changed.connect(_on_money_changed)
 	EventBus.state_replaced.connect(_rebuild_from_state)
@@ -441,6 +447,7 @@ func _ready() -> void:
 		var top := maxf(zone.depth_start + (ZONE_GAP if zone.order > 1 else 0.0), SHORE_Y + FISH_FREE_STRIP)
 		_zone_areas.append(PlayArea.new(Rect2(_spot_rect.position.x, top, _spot_rect.size.x, zone.depth_end - top)))
 		_zone_spawns.append(SpawnTable.new(zone.spawns))
+		_zone_night_spawns.append(SpawnTable.new(zone.spawns_at_night()))
 	var floor_path := "res://assets/sprites/seafloor/%s.png" % location.id
 	_floor_texture = load(floor_path) if ResourceLoader.exists(floor_path) else null
 	var sand_path := "res://assets/sprites/beach/%s.png" % location.id
@@ -603,9 +610,9 @@ func _on_fish_splashed(fish: SwimmingFish) -> void:
 	for k in bursts:
 		var offset := along * (0.0 if bursts == 1 else lerpf(-1.0, 1.0, float(k) / (bursts - 1)))
 		Juice.splash(_effects, fish.position + offset, roundi(14 * spray), spray)
-	Juice.ripple(_effects, fish.position, fish.body_length * (0.4 if diving_in else 0.3))
+	_ripple(fish.position, fish.body_length * (0.4 if diving_in else 0.3))
 	if diving_in:
-		Juice.ripple(_effects, fish.position, fish.body_length * 0.6)
+		_ripple(fish.position, fish.body_length * 0.6)
 	# Whales sound deeper; leaving the water is the softer of the two splashes.
 	var pitch := rng.randf_range(0.9, 1.05) / sqrt(size)
 	if size > 1.2:
@@ -881,6 +888,8 @@ func _update_night() -> void:
 		lamps.append(Night.Lamp.new(Iso.to_ground(_gear_shop.painted(GearShopNode.LANTERN_FOOT)), NIGHT_LAMP_RADIUS * 1.2, 0.9, Night.LAMP_COLOR, _gear_shop.painted(GearShopNode.LANTERN), NIGHT_GLOW_RADIUS))
 		for window in GearShopNode.WINDOWS:
 			lamps.append(Night.Lamp.new(Vector2.ZERO, 0.0, 0.0, Night.LAMP_COLOR, _gear_shop.painted(window), NIGHT_WINDOW_GLOW))
+	var figure := Rect2(wader.position + Vector2(-Wader.FIGURE_HALF_WIDTH, -Wader.FIGURE_HEIGHT), Vector2(Wader.FIGURE_HALF_WIDTH * 2.0, Wader.FIGURE_HEIGHT))
+	_glowing_shore.show_night(dark if GlowingShore.LOCATIONS.has(location.id) else 0.0, Rect2(-_world.position / zoom, size / zoom), SHORE_Y, _pier_area(), figure)
 	var weather := WeatherCycle.state
 	night.show_time(DayCycle.tint() * Weather.tint(weather), dark, lamps, size, _world.position, zoom)
 	# Clouds hide the sun and the moon: no light mirrored on the water once they cover half the sky.
@@ -894,7 +903,6 @@ func _update_night() -> void:
 	# The night lets the mirrored light through, but not over the wading wader in front of it.
 	var hole := Vector4.ZERO
 	if not wader.swimming:
-		var figure := Rect2(wader.position + Vector2(-Wader.FIGURE_HALF_WIDTH, -Wader.FIGURE_HEIGHT), Vector2(Wader.FIGURE_HALF_WIDTH * 2.0, Wader.FIGURE_HEIGHT))
 		var on_screen := Rect2(_world.position + figure.position * zoom, figure.size * zoom)
 		hole = Vector4(on_screen.position.x, on_screen.position.y, on_screen.size.x, on_screen.size.y)
 	shade.set_shader_parameter("mirror_hole", hole)
@@ -941,13 +949,14 @@ func _update_weather(delta: float) -> void:
 	_wave_time += delta * (1.0 + STORM_WAVE_SPEED * weather.wind)
 	_swell_time += delta * (1.0 + STORM_SWELL_SPEED * weather.wind)
 	var amp := 1.0 + STORM_WAVES * weather.wind
-	for item: CanvasItem in [_water, _swell, _mirror]:
+	for item: CanvasItem in [_water, _swell, _mirror, _glowing_shore]:
 		var params := item.material as ShaderMaterial
 		params.set_shader_parameter("wave_time", _wave_time)
 		params.set_shader_parameter("wave_amp", amp)
 	(_water.material as ShaderMaterial).set_shader_parameter("sun", 1.0 - weather.overcast * 0.8)
 	_buoys.roughness = weather.storm
-	seabirds.grounded = weather.wind > 0.6
+	# Seabirds stay away from a storm, and sleep at night.
+	seabirds.grounded = weather.wind > 0.6 or DayCycle.darkness() > 0.5
 	var here := not GameState.in_store
 	_rain.show_weather(weather if here else Weather.State.new(), size, _world.position)
 	_rain_rings.show_weather(weather, Rect2(-_world.position / zoom, size / zoom), SHORE_Y)
@@ -1003,7 +1012,8 @@ func _zone_fish_count(zone_index: int) -> int:
 ## zone unless `inside` is set, so new fish swim in.
 func _spawn_group(zone_index: int, inside: bool) -> void:
 	var area := _zone_areas[zone_index]
-	var id := _zone_spawns[zone_index].pick(rng)
+	var spawns := _zone_night_spawns if DayCycle.darkness() > 0.5 else _zone_spawns
+	var id := spawns[zone_index].pick(rng)
 	var def := DataRegistry.species[id]
 	var rect := area.rect
 	var origin: Vector2
@@ -1066,7 +1076,7 @@ func _catch(fish: SwimmingFish) -> void:
 	live_well.add(fish.species.id)
 	wader.add_to_stack(fish.art)
 	var hoop := wader.hoop_screen_position()
-	Juice.ripple(_effects, fish.position, fish.body_length * 0.5)
+	_ripple(fish.position, fish.body_length * 0.5)
 	Juice.splash(_effects, hoop, 8)
 	fish.play_caught(hoop)
 	# Bigger fish make a deeper sound.
@@ -1093,7 +1103,7 @@ func _catch(fish: SwimmingFish) -> void:
 ## which tank it needs. It does not count as caught (Fishpedia, charting, goals) until a big enough
 ## tank stands on this beach.
 func _warn_too_big(fish: SwimmingFish) -> void:
-	Juice.ripple(_effects, fish.position, fish.body_length * 0.5)
+	_ripple(fish.position, fish.body_length * 0.5)
 	_announce(_world_to_scene(fish.position + Vector2(0.0, -80.0)),
 			tr("Needs a %s L tank") % NumberFormat.compact(Aquarium.tank_needed(fish.species)), WARNING_COLOR, 1.0)
 
@@ -1161,7 +1171,7 @@ func _open_chest() -> void:
 	for i in CHEST_COINS:
 		Juice.fly_coin(_popups, at + Vector2(rng.randf_range(-40.0, 40.0), rng.randf_range(-30.0, 20.0)), _wallet_position(), 12.0 * zoom)
 	Juice.splash(_effects, _chest.position, 20)
-	Juice.ripple(_effects, _chest.position, 90.0)
+	_ripple(_chest.position, 90.0)
 	_announce(at + Vector2(0.0, -80.0), tr("Treasure!\n+%s coins") % NumberFormat.compact(reward), COIN_COLOR, 1.6)
 	Sfx.play(&"coin", 1.0, -2.0)
 	Sfx.play(&"ding", 1.26)
@@ -1198,7 +1208,7 @@ func _update_find() -> void:
 	Curiosities.record_find(GameState.state, find_id)
 	SaveSystem.save_game()
 	Juice.splash(_effects, _find.position, 12)
-	Juice.ripple(_effects, _find.position, 60.0)
+	_ripple(_find.position, 60.0)
 	_announce(at + Vector2(0.0, -80.0), tr("Found: %s!") % tr(Curiosities.find_name(find_id)), NEW_SPECIES_COLOR, 1.4)
 	Sfx.play(&"ding", 1.26)
 	Sfx.play(&"ding", 1.68, -4.0)
@@ -1856,7 +1866,16 @@ func _update_wake(delta: float) -> void:
 	_wake_timer -= delta
 	if _wake_timer <= 0.0:
 		_wake_timer = WAKE_INTERVAL_S
-		Juice.ripple(_effects, wader.position + Vector2(0.0, waterline), 60.0)
+		_ripple(wader.position + Vector2(0.0, waterline), 60.0)
+
+
+## A ring spreading on the water at `at`; at night it glows, as the sea sparkles where it is
+## stirred (bioluminescent plankton, Night.SEA_SPARKLE).
+func _ripple(at: Vector2, radius: float) -> void:
+	Juice.ripple(_effects, at, radius)
+	var dark := DayCycle.darkness()
+	if dark > 0.0:
+		Juice.glow_ripple(_effects, at, radius * 1.15, Color(Night.SEA_SPARKLE, Night.SPARKLE_STRENGTH * dark))
 
 
 ## The submarine's motor while the wader rides it (louder when moving), the drones' rotors,
@@ -1874,7 +1893,7 @@ func _update_hums(delta: float) -> void:
 	var heard := is_visible_in_tree() or GameState.in_store
 	Sfx.hum(&"open_sea", maxf(sea.y, weather.wind * (1.0 - wet) * 0.8 if here else 0.0), delta, 1.0, OPEN_SEA_DB)
 	Sfx.hum(&"rain", weather.rain * (1.0 - weather.storm) * wet if heard else 0.0, delta, 1.0, RAIN_DB + muffled)
-	Sfx.hum(&"storm", weather.storm * wet if heard else 0.0, delta, 1.0, STORM_DB + muffled)
+	Sfx.hum(&"storm", weather.storm if heard else 0.0, delta, 1.0, STORM_DB + muffled)
 	var motor := 0.0
 	if here and wader.in_submarine():
 		motor = 1.0 if wader.is_walking() else 0.55

@@ -228,6 +228,9 @@ msgstr "Fang einen, um mehr zu erfahren."
 msgid "Found in: %s"
 msgstr "Vorkommen: %s"
 
+msgid "%s (at night)"
+msgstr "%s (nachts)"
+
 msgid "Not found here"
 msgstr "Hier nicht zu finden"
 
