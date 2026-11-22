@@ -246,6 +246,8 @@ const NET_RADIUS_STEP := 0.12
 const PAY_INTERVAL_S := 0.05
 const PAY_SHARE := 0.04
 const WAKE_INTERVAL_S := 0.22
+## How strongly the wading wake glows at night, of a splash's glow: just a faint shimmer.
+const WAKE_GLOW := 0.15
 ## The net picks up the treasure chest within this distance of its rim (ground units).
 const CHEST_RADIUS := 45.0
 ## Seconds between looks whether the treasure chest has come back.
@@ -1866,16 +1868,16 @@ func _update_wake(delta: float) -> void:
 	_wake_timer -= delta
 	if _wake_timer <= 0.0:
 		_wake_timer = WAKE_INTERVAL_S
-		_ripple(wader.position + Vector2(0.0, waterline), 60.0)
+		_ripple(wader.position + Vector2(0.0, waterline), 60.0, WAKE_GLOW)
 
 
 ## A ring spreading on the water at `at`; at night it glows, as the sea sparkles where it is
-## stirred (bioluminescent plankton, Night.SEA_SPARKLE).
-func _ripple(at: Vector2, radius: float) -> void:
+## stirred (bioluminescent plankton, Night.SEA_SPARKLE), `glow` as strongly as a splash's.
+func _ripple(at: Vector2, radius: float, glow: float = 1.0) -> void:
 	Juice.ripple(_effects, at, radius)
 	var dark := DayCycle.darkness()
 	if dark > 0.0:
-		Juice.glow_ripple(_effects, at, radius * 1.15, Color(Night.SEA_SPARKLE, Night.SPARKLE_STRENGTH * dark))
+		Juice.glow_ripple(_effects, at, radius * 1.15, Color(Night.SEA_SPARKLE, Night.SPARKLE_STRENGTH * dark * glow))
 
 
 ## The submarine's motor while the wader rides it (louder when moving), the drones' rotors,
