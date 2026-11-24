@@ -19,7 +19,7 @@ const SHADOW := Color(0.0, 0.0, 0.0, 0.22)
 const SIZE := 0.9
 ## Screen height of the slab's edge, and the width of its dark outline.
 const THICKNESS := 13.0
-const OUTLINE_WIDTH := 4.5
+const OUTLINE_WIDTH := 2.7
 ## Corner radius in ground units.
 const CORNER_RADIUS := 50.0
 const DEFAULT_HALF := Vector2.ONE * Grid.UNIT * 0.5 * SIZE
