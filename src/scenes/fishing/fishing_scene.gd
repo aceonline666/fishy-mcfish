@@ -33,14 +33,16 @@ const BAIT_BALLS: Dictionary[String, Array] = {
 const CURRENTS: Dictionary[String, Vector2] = {"kuroshio": Vector2(-108.0, 0.0), "polar_front": Vector2(108.0, 0.0)}
 ## Zones with ice floes on the surface (IceFloes): how many.
 const ICE_FLOES: Dictionary[String, int] = {"pack_ice": 11}
-## Screen pixels covered by the HUD bars at the top and bottom. In landscape the buttons share
-## the top bar's row, and the bottom bar takes only the left part of the screen
-## (LANDSCAPE_BOTTOM_BAR_SHARE), so the play area reaches further down.
+## Screen pixels covered by the HUD at the top (in landscape the buttons share the top bar's
+## row) and kept free at the bottom, under the charting line (_chart_label).
 const PLAY_MARGIN_TOP := 270.0
-const PLAY_MARGIN_BOTTOM := 330.0
+const PLAY_MARGIN_BOTTOM := 40.0
 const LANDSCAPE_MARGIN_TOP := 160.0
-const LANDSCAPE_MARGIN_BOTTOM := 180.0
-const LANDSCAPE_BOTTOM_BAR_SHARE := 0.5
+const LANDSCAPE_MARGIN_BOTTOM := 40.0
+## The charting line at the bottom of the screen: its font size, and how far its lower edge
+## stays above the bottom.
+const CHART_FONT_SIZE := 44
+const CHART_LABEL_BOTTOM := 60.0
 ## Seconds after seeing the deep sea horror or the eyes before their secret goal is counted.
 const SIGHTING_DELAY := 5.0
 
@@ -372,17 +374,14 @@ var _swell_time := 0.0
 @onready var _entities: Node2D = $World/Entities
 @onready var _effects: Node2D = $World/Effects
 @onready var _popups: Control = $Popups
+## The charting line at the bottom of the screen (_update_hud).
+var _chart_label := Label.new()
 @onready var _hud_layout: VBoxContainer = $Hud/Layout
 @onready var _top_row: HBoxContainer = $Hud/Layout/TopBar/Row
 @onready var _hud_buttons: HBoxContainer = $Hud/Layout/Buttons
-@onready var _bottom_bar: PanelContainer = $Hud/Layout/BottomBar
 @onready var _money_label: Label = %MoneyLabel
 @onready var _coin_icon: TextureRect = %CoinIcon
 @onready var _location_label: Label = %LocationLabel
-@onready var _backpack_label: Label = %BackpackLabel
-@onready var _backpack_bar: ProgressBar = %BackpackBar
-@onready var _tank_label: Label = %TankLabel
-@onready var _hint_label: Label = %HintLabel
 @onready var _fishpedia_button: Button = %FishpediaButton
 @onready var _goals_button: Button = %GoalsButton
 @onready var _map_button: Button = %MapButton
@@ -427,6 +426,7 @@ func _ready() -> void:
 	# Above the HUD, below the full-screen panels; the tutorial below the goal banner.
 	_popups.add_sibling(goal_banner)
 	_popups.add_sibling(tutorial)
+	_build_chart_label()
 	_apply_layout()
 	add_child(fishpedia)
 	_fishpedia_button.pressed.connect(fishpedia.open)
@@ -749,9 +749,22 @@ func _update_zone() -> void:
 		return
 	_wader_zone = zone
 	_update_location_label()
+	_update_hud()
 	if zone != null:
 		_announce(Vector2(size.x * 0.5, _margin_top + 120.0),
 				"%s\n%s" % [tr(zone.name), Charting.progress_text(GameState.state, zone)], STORED_COLOR, 0.8)
+
+
+## The charting line, outlined like the announcements, under them.
+func _build_chart_label() -> void:
+	_chart_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_chart_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_chart_label.add_theme_font_size_override("font_size", CHART_FONT_SIZE)
+	_chart_label.add_theme_color_override("font_color", STORED_COLOR)
+	_chart_label.add_theme_color_override("font_outline_color", Juice.OUTLINE_COLOR)
+	_chart_label.add_theme_constant_override("outline_size", maxi(CHART_FONT_SIZE / 5, 6))
+	_chart_label.hide()
+	_popups.add_sibling(_chart_label)
 
 
 func _update_location_label() -> void:
@@ -771,10 +784,11 @@ func _show_offline_earnings() -> void:
 func _on_resized() -> void:
 	_apply_layout()
 	_update_camera(0.0, true)
+	_place_chart_label()
 
 
 ## Fits the view to the screen's shape: the magnification, the HUD margins, and in landscape the
-## HUD buttons beside the money in the top bar, and the bottom bar on the left only.
+## HUD buttons beside the money in the top bar.
 func _apply_layout() -> void:
 	var wide := Platform.is_landscape(size)
 	zoom = LANDSCAPE_ZOOM if wide else ZOOM
@@ -789,8 +803,6 @@ func _apply_layout() -> void:
 		_hud_buttons.reparent(buttons_home, false)
 		if not wide:
 			_hud_layout.move_child(_hud_buttons, _top_row.get_parent().get_index() + 1)
-	_bottom_bar.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN if wide else Control.SIZE_FILL
-	_bottom_bar.custom_minimum_size.x = size.x * LANDSCAPE_BOTTOM_BAR_SHARE if wide else 0.0
 
 
 ## Follows the wader, keeping the view over the spot.
@@ -1086,7 +1098,6 @@ func _catch(fish: SwimmingFish) -> void:
 	var pitch := clampf(1.6 - fish.species.length_cm / 60.0, 0.6, 1.5)
 	Sfx.play(&"pop", pitch * rng.randf_range(0.95, 1.05))
 	Haptics.tick()
-	_bump(_backpack_bar)
 
 	_combo = _combo + 1 if _combo_timer > 0.0 else 1
 	_combo_timer = COMBO_WINDOW_S
@@ -1938,8 +1949,6 @@ func _update_tutorial() -> void:
 	var state := GameState.state
 	if state.tutorial_step == Tutorial.Step.CATCH and live_well.is_full():
 		Tutorial.complete(state, Tutorial.Step.CATCH)
-	if state.tutorial_step == Tutorial.Step.CHART and _any_zone_charted():
-		Tutorial.complete(state, Tutorial.Step.CHART)
 	tutorial.allow_card(not goal_banner.is_showing())
 	tutorial.view_rect = Rect2(0.0, _margin_top, size.x, size.y - _margin_top - _margin_bottom)
 	match state.tutorial_step:
@@ -1974,15 +1983,6 @@ func _update_tutorial() -> void:
 						tr("Sells fish for you")]] as Array[Array])
 			else:
 				tutorial.clear_tips()
-		Tutorial.Step.CHART:
-			tutorial.clear_tips()
-			tutorial.clear_arrow()
-			# The zone the wader is in, else the first one off this beach.
-			var zone := _wader_zone if _wader_zone != null else DataRegistry.zones_in(location.id)[0]
-			tutorial.show_message(tr("Chart the sea"),
-					tr("Catch fish and all common species of a zone to chart it. Drones fish only in charted zones.")
-					+ "
-" + tr("%s: %s") % [tr(zone.name), Charting.progress_text(state, zone)])
 		_:
 			tutorial.hide_message()
 			tutorial.clear_arrow()
@@ -2006,23 +2006,25 @@ func _point_tutorial_at(ground: Vector2) -> void:
 
 #region HUD
 
+## The charting line at the bottom: the zone the wader is in and how far it is charted, in the
+## look of the zone's announcement (_update_wader_zone). Until a zone is charted, it also says
+## what charting is for. Nothing on the beach.
 func _update_hud() -> void:
-	var site := GameState.here()
-	_backpack_label.text = tr("Basket  %d / %d") % [live_well.count(), live_well.capacity]
-	_backpack_bar.max_value = live_well.capacity
-	_backpack_bar.value = live_well.count()
-	var adults := Aquarium.adult_count(site)
-	_tank_label.text = tr("Tank  %s / %s L  ·  %d grown  ·  worth %s") % [
-		NumberFormat.compact(Aquarium.used_space(site.tank)), NumberFormat.compact(Aquarium.capacity(site.tank)), adults,
-		NumberFormat.compact(Aquarium.tank_value(site))]
-	if live_well.is_full():
-		_hint_label.text = tr("Basket full! Bring the fish to the tank.")
-	elif live_well.count() > 0:
-		_hint_label.text = tr("Let your catch grow in the tank.")
-	elif adults > 0 and site.seller_count == 0:
-		_hint_label.text = tr("Sell grown fish at the shop!")
-	else:
-		_hint_label.text = tr("Touch and hold to wade and fish.")
+	if _wader_zone == null:
+		_chart_label.hide()
+		return
+	var lines := [tr(_wader_zone.name), Charting.progress_text(GameState.state, _wader_zone)]
+	if not _any_zone_charted():
+		lines.append(tr("Chart it, then drones fish here"))
+	_chart_label.text = "
+".join(lines)
+	_chart_label.show()
+	_place_chart_label()
+
+
+func _place_chart_label() -> void:
+	_chart_label.size = _chart_label.get_minimum_size()
+	_chart_label.position = Vector2((size.x - _chart_label.size.x) * 0.5, size.y - CHART_LABEL_BOTTOM - _chart_label.size.y)
 
 
 func _on_money_changed(money: float) -> void:

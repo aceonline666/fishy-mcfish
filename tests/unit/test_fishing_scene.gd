@@ -638,30 +638,23 @@ func test_back_at_the_booth_a_tip_explains_the_hire_seller_pad() -> void:
 	_stand_on("hire_seller")
 	await wait_seconds(2.0)
 	assert_eq(GameState.here().seller_count, 1)
-	assert_eq(GameState.state.tutorial_step, Tutorial.Step.CHART, "hiring leads on to charting")
+	assert_eq(GameState.state.tutorial_step, Tutorial.Step.DONE, "hiring ends the tutorial")
 	assert_eq(guide.tip_texts(), [] as Array[String])
 
 
-func test_the_last_step_explains_charting_with_the_zones_progress_until_a_zone_is_charted() -> void:
-	var guide: TutorialGuide = _scene.tutorial
-	var state := GameState.state
-	state.tutorial_step = Tutorial.Step.CHART
-	await wait_process_frames(2)
-	assert_eq(guide.message_title(), "Chart the sea")
+func test_a_line_at_the_bottom_shows_how_far_the_zone_the_wader_is_in_is_charted() -> void:
 	var zone: ZoneDef = DataRegistry.zones_in(_scene.location.id)[0]
-	assert_string_contains(guide.message_body(), "%s: 0/%d fish" % [zone.name, Charting.catches_needed(zone)])
-
-	await _catch(["european_sprat"] as Array[String])
+	_wader.ground_position = Vector2(100.0, -300.0)
 	await wait_process_frames(2)
-	assert_eq(state.tutorial_step, Tutorial.Step.CHART)
-	assert_string_contains(guide.message_body(), "1/%d fish" % Charting.catches_needed(zone), "the progress counts along")
+	assert_false(_scene._chart_label.visible, "nothing on the beach")
 
-	state.zone_catches[zone.id] = Charting.catches_needed(zone)
-	for id in Charting.required_species(zone):
-		state.species_caught[id] = 1
+	_wader.ground_position = Vector2(100.0, (zone.depth_start + zone.depth_end) * 0.5)
 	await wait_process_frames(2)
-	assert_eq(state.tutorial_step, Tutorial.Step.DONE, "a charted zone ends the tutorial")
-	assert_eq(guide.message_title(), "")
+	assert_true(_scene._chart_label.visible)
+	var lines: PackedStringArray = _scene._chart_label.text.split("
+")
+	assert_eq(lines[0], zone.name)
+	assert_eq(lines[1], Charting.progress_text(GameState.state, zone))
 
 
 func test_the_tutorial_arrow_waits_at_the_edge_pointing_to_a_place_out_of_view() -> void:

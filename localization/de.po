@@ -107,15 +107,6 @@ msgstr "Becken voll!"
 msgid "Upgrade it in the gear shop."
 msgstr "Vergrößere es im Angelladen."
 
-msgid "Tank  %s / %s L  ·  %d grown  ·  worth %s"
-msgstr "Becken  %s / %s L  ·  %d ausgewachsen  ·  Wert %s"
-
-msgid "Basket full! Bring the fish to the tank."
-msgstr "Korb voll! Bring die Fische ins Becken."
-
-msgid "Sell grown fish at the shop!"
-msgstr "Verkaufe große Fische im Laden!"
-
 msgid "Upgrade your tank"
 msgstr "Vergrößere dein Becken"
 
@@ -160,15 +151,6 @@ msgstr "Ziel erreicht!"
 
 msgid "+%s coins"
 msgstr "+%s Münzen"
-
-msgid "Basket  %d / %d"
-msgstr "Korb  %d / %d"
-
-msgid "Let your catch grow in the tank."
-msgstr "Lass deinen Fang im Becken wachsen."
-
-msgid "Touch and hold to wade and fish."
-msgstr "Tippe und halte zum Waten und Fischen."
 
 msgid "Basket full!"
 msgstr "Korb voll!"
@@ -1768,11 +1750,5 @@ msgstr "Metriorhynchus"
 msgid "A crocodile that lived only in the sea: instead of legs it had paddles, and its tail ended in a fin like a shark's."
 msgstr "Ein Krokodil, das nur im Meer lebte: Statt Beinen hatte es Paddel, und sein Schwanz endete in einer Flosse wie bei einem Hai."
 
-msgid "Chart the sea"
-msgstr "Kartiere das Meer"
-
-msgid "Catch fish and all common species of a zone to chart it. Drones fish only in charted zones."
-msgstr "Fange Fische und alle häufigen Arten einer Zone, um sie zu kartieren. Drohnen fischen nur in kartierten Zonen."
-
-msgid "%s: %s"
-msgstr "%s: %s"
+msgid "Chart it, then drones fish here"
+msgstr "Kartiere sie, dann fischen hier Drohnen"

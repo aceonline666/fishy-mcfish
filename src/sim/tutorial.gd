@@ -4,11 +4,8 @@ extends RefCounted
 ## arrow on the beach shows where to walk: fetch fish until the basket is full, put them into the
 ## tank, sell a grown fish at the booth, then go into the gear shop, where a tip over each pad
 ## says what it is for until the player buys something or leaves. Back at the booth, a last tip
-## shows what the "Hire seller" pad, hidden until then, is for. Last, a card explains charting
-## with the progress of the zone at hand, until the first zone is charted. The step is saved in
-## PlayerState.tutorial_step. Saves from before the tutorial existed start with it done; saves
-## that finished it before the charting step existed get that step (done at once if they
-## charted a zone already).
+## shows what the "Hire seller" pad, hidden until then, is for. The step is saved in
+## PlayerState.tutorial_step. Saves from before the tutorial existed start with it done.
 
 enum Step {
 	## Welcome: wade into the sea and fill the basket.
@@ -23,8 +20,6 @@ enum Step {
 	SHOP,
 	## Back on the "Sell fish" pad: what the "Hire seller" pad is for, until a seller is hired.
 	HIRE,
-	## How charting works, with the progress of the zone at hand, until a zone is charted.
-	CHART,
 	DONE,
 }
 
