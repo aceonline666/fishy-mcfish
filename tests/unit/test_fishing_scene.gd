@@ -554,7 +554,7 @@ func test_the_drone_dock_lies_in_front_of_the_tank_once_there_is_a_drone() -> vo
 	var tank_front := Grid.rect(Scene.TANK_CELL).end.y
 	assert_almost_eq(Scene.DRONE_PAD.y - Grid.UNIT * 0.5, tank_front + Grid.UNIT * 0.5, 0.01, "half a cell off the tank")
 	assert_almost_eq(Scene.DRONE_PAD.y + Grid.UNIT * 0.5, Scene.SHORE_Y - Grid.UNIT * 0.5, 0.01, "and off the water")
-	assert_eq(Scene.DRONE_PAD.x, Grid.center(Scene.TANK_CELL).x, "in front of the tank")
+	assert_eq(Scene.DRONE_PAD.x, Grid.center(Scene.TANK_CELL).x - Grid.UNIT * 0.5, "in front of the tank, half a cell west")
 	GameState.buy_drone()
 	_scene.return_from_store()
 	assert_true(dock.visible)

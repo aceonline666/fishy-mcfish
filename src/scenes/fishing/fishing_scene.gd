@@ -120,9 +120,10 @@ const GEAR_SHOP_DOOR_HALF_WIDTH := 95.0
 ## How close the wader comes to the shop's walls.
 const GEAR_SHOP_MARGIN := 40.0
 ## The drones start from and deliver to their dock, in front of the tank: a cell centred between
-## the tank's front and the water, half a cell off each. It shows once the beach has a drone. The
+## the tank's front and the water, half a cell off each, and half a cell west of the tank's
+## middle. It shows once the beach has a drone. The
 ## wader walks over it.
-const DRONE_PAD := Vector2(TANK_CELL.x + 0.5, TANK_CELL.y + 2.0) * Grid.UNIT
+const DRONE_PAD := Vector2(TANK_CELL.x, TANK_CELL.y + 2.0) * Grid.UNIT
 ## The painted landing pad (art_source/props/drone_dock_sprite_prompt.md, cropped by
 ## tools/import_store_art.py), flat on the ground: the wader walks over it.
 const DRONE_DOCK_TEXTURE: Texture2D = preload("res://assets/sprites/props/drone_dock.png")
