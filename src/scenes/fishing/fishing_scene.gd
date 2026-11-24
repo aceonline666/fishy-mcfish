@@ -41,7 +41,7 @@ const LANDSCAPE_MARGIN_TOP := 160.0
 const LANDSCAPE_MARGIN_BOTTOM := 40.0
 ## The charting line at the top of the play area (_update_hud): its font size, and how far its
 ## top stays below the HUD.
-const CHART_FONT_SIZE := 44
+const CHART_FONT_SIZE := 52
 const CHART_LABEL_TOP := 30.0
 ## Seconds after seeing the deep sea horror or the eyes before their secret goal is counted.
 const SIGHTING_DELAY := 5.0
