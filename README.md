@@ -307,6 +307,8 @@ Rules of thumb:
 - Regenerate the species sprites that are not yet in the new cute-comic format (one image per species in `art_source/fish/views/`, prompts in `art_source/fish/views/prompts.md`, cut with `tools/extract_species_views.py`):
   - Humpback whale (Megaptera novaeangliae) — realistic style, too low resolution (stretched 1.9x)
   - Southern right whale (Eubalaena australis) — too low resolution (stretched 2x), outline too thick at its size (3.1x the cod's)
+  - Orca (Orcinus orca) — realistic style, thin outline
+  - Sperm whale (Physeter macrocephalus) — too low resolution (stretched 1.4x), outline far too thick at its size (4.4x the cod's)
   - Vampire squid (Vampyroteuthis infernalis) — odd pose (upright, facing the viewer)
   - Copper shark (Carcharhinus brachyurus) — realistic style, thin outline
   - Shortfin mako (Isurus oxyrinchus) — realistic style, thin outline
@@ -314,7 +316,6 @@ Rules of thumb:
   - Rabbit fish (Chimaera monstrosa) — semi-realistic texture, thin outline
   - Greenland shark (Somniosus microcephalus) — outline too thick at its size (2x the cod's)
   - Giant squid (Architeuthis dux) — realistic style, thin outline
-  - Sperm whale (Physeter macrocephalus) — too low resolution (stretched 1.4x), outline far too thick at its size (4.4x the cod's)
   - Skinnycheek lanternfish (Benthosema pterotum) — outline too thin at its size (0.16x the cod's)
   - Chambered nautilus (Nautilus pompilius) — realistic style, no outline
   - Australian salmon (Arripis trutta) — realistic style, no outline
@@ -352,7 +353,6 @@ Rules of thumb:
   - Southern elephant seal (Mirounga leonina) — realistic style, thin outline
   - Antarctic toothfish (Dissostichus mawsoni) — realistic style, thin outline
   - Giant sea spider (Colossendeis megalonyx) — realistic style, no outline
-  - Orca (Orcinus orca) — realistic style, thin outline
   - Ammonite (Kosmoceras jason) — realistic style, thin outline
   - Belemnite (Cylindroteuthis puzosiana) — realistic style, thin outline
   - Ophthalmosaurus (Ophthalmosaurus icenicus) — realistic style, thin outline

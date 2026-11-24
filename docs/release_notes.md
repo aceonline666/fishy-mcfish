@@ -41,6 +41,8 @@ Newest first. The "What's new" block of each version is pasted into Play Console
   progress (fish and species), in place of the zone announcement. The bottom info box is gone.
 - **Locked zones**: walking into the barrier makes the zones beyond it glow red with a lock,
   instead of a text.
+- Pads are 10% smaller with thinner outlines, closer to the painted style and further apart;
+  the drones' dock is 20% bigger.
 - Gear shop pads wait a moment before taking coins, so walking across one buys nothing.
 - The menu, map, goals and Fishpedia buttons are there in the gear shop too.
 - Messages and goal cards stay until they can be read; the longest hints are shorter.

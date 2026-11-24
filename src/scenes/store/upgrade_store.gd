@@ -674,7 +674,7 @@ func _update_tutorial() -> void:
 	for s in _squares:
 		if s.visible and not _pad_tip(s.id).is_empty():
 			# Over the pad's north corner, the top one on screen, clear of its picture and text.
-			tips.append([ground_to_scene(s.ground_center - Vector2.ONE * Grid.UNIT * 0.5), _pad_tip(s.id)])
+			tips.append([ground_to_scene(s.ground_center - s.half_extents), _pad_tip(s.id)])
 	tutorial.show_tips(tips)
 
 

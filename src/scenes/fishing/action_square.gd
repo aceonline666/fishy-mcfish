@@ -2,7 +2,8 @@ class_name ActionSquare
 extends Node2D
 ## A pad on the ground that does something while the wader stands on it: store the catch, sell
 ## fish at a shop, pay towards a purchase, or go through a door. A raised slab with rounded corners
-## covering one cell of the layout grid (Grid). Drawn in code: the slab on the pads' layer and its
+## on one cell of the layout grid (Grid), a little smaller than the cell (SIZE), so neighbouring
+## pads keep a gap. Drawn in code: the slab on the pads' layer and its
 ## picture and texts on their own layer above it (Layers), both above every sprite, so the tank
 ## or a booth never hides them, and both under the wader.
 
@@ -14,16 +15,19 @@ const CALLING_COLOR := Color(1.0, 0.85, 0.2)
 const SUBTITLE_COLOR := Color(0.92, 0.96, 1.0)
 const DISABLED_COLOR := Color(0.62, 0.64, 0.68)
 const SHADOW := Color(0.0, 0.0, 0.0, 0.22)
-## Screen height of the slab's edge.
-const THICKNESS := 16.0
+## The pad's share of a cell's edge; its picture shrinks with it (the texts keep their size).
+const SIZE := 0.9
+## Screen height of the slab's edge, and the width of its dark outline.
+const THICKNESS := 13.0
+const OUTLINE_WIDTH := 4.5
 ## Corner radius in ground units.
 const CORNER_RADIUS := 50.0
-const DEFAULT_HALF := Vector2.ONE * Grid.UNIT * 0.5
-const ICON_HEIGHT := 125.0
-const ICON_MAX_WIDTH := 140.0
+const DEFAULT_HALF := Vector2.ONE * Grid.UNIT * 0.5 * SIZE
+const ICON_HEIGHT := 125.0 * SIZE
+const ICON_MAX_WIDTH := 140.0 * SIZE
 ## Screen x of the icon's centre and of the text next to it.
-const ICON_X := -118.0
-const TEXT_X_WITH_ICON := 52.0
+const ICON_X := -118.0 * SIZE
+const TEXT_X_WITH_ICON := 52.0 * SIZE
 
 var id := ""
 var kind := Kind.STORE
@@ -98,7 +102,7 @@ func _draw() -> void:
 	draw_colored_polygon(IsoDraw.rounded_footprint(Vector2(6.0, 12.0), half, CORNER_RADIUS), SHADOW)
 	# The slab's edge: everything between its bottom and its top outline.
 	var bottom := IsoDraw.rounded_footprint(Vector2.ZERO, half, CORNER_RADIUS)
-	IsoDraw.fill_outlined(self, Geometry2D.convex_hull(bottom + top), color.darkened(0.5), 6.0)
+	IsoDraw.fill_outlined(self, Geometry2D.convex_hull(bottom + top), color.darkened(0.5), OUTLINE_WIDTH)
 	# A BUY pad is dull until paid for; the paid share lights up along its row.
 	var face := color.darkened(0.3) if kind == Kind.BUY else color
 	if active:
@@ -115,7 +119,7 @@ func _draw() -> void:
 			IsoDraw.fill_vertical_gradient(self, part, color.lightened(0.45), color.lightened(0.05))
 	var border := top.duplicate()
 	border.append(top[0])
-	draw_polyline(border, IsoDraw.OUTLINE, 6.0, true)
+	draw_polyline(border, IsoDraw.OUTLINE, OUTLINE_WIDTH, true)
 	if calling:
 		draw_polyline(border, CALLING_COLOR, 3.5, true)
 	var rim := IsoDraw.rounded_footprint(lift, half - Vector2(16.0, 16.0), CORNER_RADIUS * 0.7)

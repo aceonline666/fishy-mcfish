@@ -130,6 +130,8 @@ const DRONE_DOCK_TEXTURE: Texture2D = preload("res://assets/sprites/props/drone_
 ## which are fitted to one cell.
 const DRONE_DOCK_ANCHOR := Vector2(654.0, 350.0)
 const DRONE_DOCK_CORNERS: Array[Vector2] = [Vector2(1.0, 286.0), Vector2(654.0, 628.0), Vector2(1308.0, 288.0)]
+## The dock is drawn this much bigger than its cell, so the drones have room to land.
+const DRONE_DOCK_SIZE := 1.2
 ## The tank's south-east cell, two rows off the water (room for the drones' dock in front): the
 ## tank covers its level's footprint (data/tanks.csv) from here to the west and up the beach. It
 ## cannot be walked on. Its store pad stands east of it.
@@ -1285,7 +1287,7 @@ func _build_squares() -> void:
 	_drone_dock.texture = DRONE_DOCK_TEXTURE
 	_drone_dock.centered = false
 	_drone_dock.offset = -DRONE_DOCK_ANCHOR
-	_drone_dock.scale = Vector2.ONE * Grid.fit_scale(DRONE_DOCK_CORNERS[0], DRONE_DOCK_CORNERS[1], DRONE_DOCK_CORNERS[2], Vector2i.ONE)
+	_drone_dock.scale = Vector2.ONE * DRONE_DOCK_SIZE * Grid.fit_scale(DRONE_DOCK_CORNERS[0], DRONE_DOCK_CORNERS[1], DRONE_DOCK_CORNERS[2], Vector2i.ONE)
 	_drone_dock.position = Iso.to_screen(DRONE_PAD)
 	_drone_dock.visible = false
 	Layers.put(_drone_dock, Layers.FLOOR)
@@ -1992,7 +1994,7 @@ func _update_tutorial() -> void:
 			var hire := square("hire_seller")
 			if _hire_tip_shown and hire != null:
 				# Over the pad's north corner, clear of its picture and text.
-				tutorial.show_tips([[ground_to_scene(hire.ground_center - Vector2.ONE * Grid.UNIT * 0.5),
+				tutorial.show_tips([[ground_to_scene(hire.ground_center - hire.half_extents),
 						tr("Sells fish for you")]] as Array[Array])
 			else:
 				tutorial.clear_tips()
