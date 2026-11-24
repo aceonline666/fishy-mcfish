@@ -235,3 +235,21 @@ func test_there_is_no_travel_pad_at_the_last_beach() -> void:
 	GameState.state.current_location = DataRegistry.locations[-1].id
 	_store._refresh_squares()
 	assert_null(_store.square("travel_next"))
+
+
+func test_the_menu_map_goals_and_fishpedia_buttons_are_there_in_the_shop_too() -> void:
+	var captions: Array[String] = []
+	for button: Button in _store._hud_buttons.get_children():
+		captions.append(button.text)
+	assert_eq(captions, ["", "Map", "Goals", "Fishpedia"] as Array[String], "the cog, then the panels")
+	(_store._hud_buttons.get_child(2) as Button).pressed.emit()
+	assert_true(_store.goals.visible, "a button opens its panel")
+
+
+func test_travelling_from_the_map_in_the_shop_rebuilds_the_beach() -> void:
+	var reef := DataRegistry.location("coral_reef")
+	GameState.state.unlocked_locations.append(reef.id)
+	watch_signals(_store)
+	_store.world_map.travel_chosen.emit(reef)
+	assert_eq(GameState.state.current_location, reef.id)
+	assert_signal_emitted(_store, "rebuild_requested")

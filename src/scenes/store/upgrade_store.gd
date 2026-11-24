@@ -13,15 +13,24 @@ extends Control
 signal left
 ## The wader travelled to the next beach (GameState already points there).
 signal travelled
+## The beach must be rebuilt: the player travelled from the World map or loaded another game in
+## the menu.
+signal rebuild_requested
 
 ## How much the room is magnified: in portrait, and in landscape, where it must fit a lower screen.
 const ZOOM := 1.5
 const LANDSCAPE_ZOOM := 1.2
 const CAMERA_SMOOTHING := 6.0
 const CAMERA_OVERSCROLL := 160.0
-## Screen pixels covered by the HUD bars at the top and bottom.
-const PLAY_MARGIN_TOP := 170.0
+## Screen pixels covered by the HUD at the top (in portrait the top bar and the buttons under it,
+## in landscape the buttons share the top bar's row, as on the beach) and at the bottom.
+const PLAY_MARGIN_TOP := 270.0
+const LANDSCAPE_MARGIN_TOP := 170.0
 const PLAY_MARGIN_BOTTOM := 190.0
+const MENU_ICON: Texture2D = preload("res://assets/ui/icon_cog.png")
+const MAP_ICON: Texture2D = preload("res://assets/ui/icon_map.png")
+const GOALS_ICON: Texture2D = preload("res://assets/ui/icon_trophy.png")
+const FISHPEDIA_ICON: Texture2D = preload("res://assets/ui/icon_book.png")
 const WALK_SPEED := 1.5
 
 #region Layout (on the layout grid, Grid; the front wall with the door is at row 0)
@@ -124,6 +133,17 @@ var _shown_money := 0.0
 ## Wader.steps_taken() last frame; a change is a footfall on the wooden floor.
 var _last_step := 0
 var _money_tween: Tween
+## The HUD buttons, as on the beach, and the panels they open.
+var game_menu := GameMenu.new()
+var world_map := WorldMap.new()
+var goals := GoalsPanel.new()
+var fishpedia := Fishpedia.new()
+var _hud_layout := VBoxContainer.new()
+var _top_row := HBoxContainer.new()
+var _hud_buttons := HBoxContainer.new()
+var _goals_button: Button
+var _margin_top := PLAY_MARGIN_TOP
+var _art: Dictionary[String, FishArt] = {}
 ## True while the shop's tutorial locks every pad but the bigger basket (_refresh_squares).
 var _tutorial_lock := false
 
@@ -159,10 +179,11 @@ func _ready() -> void:
 	# At the bottom, clear of the tips over the pads.
 	tutorial.bottom_offset = PLAY_MARGIN_BOTTOM + 10.0
 	add_child(tutorial)
-	_goal_banner.top_offset = PLAY_MARGIN_TOP + 260.0
+	_goal_banner.top_offset = _margin_top + 260.0
 	_goal_banner.wallet = _coin_icon
 	_goal_banner.coin_radius = 12.0 * zoom
 	add_child(_goal_banner)
+	_add_panels()
 	EventBus.money_changed.connect(_on_money_changed)
 	EventBus.achievement_reached.connect(_on_achievement_reached)
 	left.connect(func() -> void: Tutorial.complete(GameState.state, Tutorial.Step.SHOP))
@@ -268,12 +289,12 @@ func _build_hud() -> void:
 	hud.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	hud.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(hud)
-	var layout := VBoxContainer.new()
+	var layout := _hud_layout
 	layout.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hud.add_child(layout)
 	var top_bar := PanelContainer.new()
 	layout.add_child(top_bar)
-	var row := HBoxContainer.new()
+	var row := _top_row
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	top_bar.add_child(row)
 	_coin_icon.texture = COINS_ICON
@@ -291,6 +312,14 @@ func _build_hud() -> void:
 	_title_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	row.add_child(_title_label)
+	_hud_buttons.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_hud_buttons.alignment = BoxContainer.ALIGNMENT_END
+	_hud_buttons.add_theme_constant_override("separation", 16)
+	layout.add_child(_hud_buttons)
+	_hud_button(MENU_ICON, "", game_menu.open, 110.0)
+	_hud_button(MAP_ICON, "Map", world_map.open)
+	_goals_button = _hud_button(GOALS_ICON, "Goals", goals.open)
+	_hud_button(FISHPEDIA_ICON, "Fishpedia", fishpedia.open)
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -301,6 +330,52 @@ func _build_hud() -> void:
 	_hint_label.add_theme_color_override("font_color", Color(0.75, 0.88, 1.0))
 	_hint_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	bottom_bar.add_child(_hint_label)
+
+
+## A HUD button like the beach's: an icon, a caption (none for the menu's cog) and what it opens.
+func _hud_button(icon: Texture2D, caption: String, opens: Callable, width: float = 200.0) -> Button:
+	var button := Button.new()
+	button.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	button.custom_minimum_size = Vector2(width, 84.0)
+	button.icon = icon
+	button.text = caption
+	if caption.is_empty():
+		button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		button.add_theme_constant_override("icon_max_width", 60)
+	else:
+		button.add_theme_font_size_override("font_size", 32)
+		button.add_theme_constant_override("icon_max_width", 54)
+		button.add_theme_constant_override("h_separation", 10)
+	button.pressed.connect(opens)
+	_hud_buttons.add_child(button)
+	return button
+
+
+## The panels the HUD buttons open, over everything else.
+func _add_panels() -> void:
+	fishpedia.art_for = _art_for
+	add_child(fishpedia)
+	add_child(goals)
+	add_child(world_map)
+	world_map.travel_chosen.connect(_on_travel_chosen)
+	add_child(game_menu)
+	game_menu.game_replaced.connect(rebuild_requested.emit)
+
+
+func _art_for(species_id: String) -> FishArt:
+	if not _art.has(species_id):
+		_art[species_id] = FishArt.for_species(DataRegistry.species[species_id])
+	return _art[species_id]
+
+
+## Travels to another location from the World map (unlocking it first if needed), as on the beach.
+func _on_travel_chosen(def: LocationDef) -> void:
+	if not Travel.is_unlocked(GameState.state, def) and not GameState.unlock_location(def):
+		return
+	GameState.travel_to(def)
+	SaveSystem.save_game()
+	world_map.hide()
+	rebuild_requested.emit()
 
 
 func _update_texts() -> void:
@@ -327,7 +402,16 @@ func _place_fixtures() -> void:
 #region Camera
 
 func _on_resized() -> void:
-	zoom = LANDSCAPE_ZOOM if Platform.is_landscape(size) else ZOOM
+	var wide := Platform.is_landscape(size)
+	zoom = LANDSCAPE_ZOOM if wide else ZOOM
+	_margin_top = LANDSCAPE_MARGIN_TOP if wide else PLAY_MARGIN_TOP
+	_goal_banner.top_offset = _margin_top + 260.0
+	# In landscape the buttons sit beside the money in the top bar, as on the beach.
+	var buttons_home: Container = _top_row if wide else _hud_layout
+	if _hud_buttons.get_parent() != buttons_home:
+		_hud_buttons.reparent(buttons_home, false)
+		if not wide:
+			_hud_layout.move_child(_hud_buttons, 1)
 	_world.scale = Vector2.ONE * zoom
 	_goal_banner.coin_radius = 12.0 * zoom
 	_update_camera(0.0, true)
@@ -338,11 +422,11 @@ func _update_camera(delta: float, snap: bool = false) -> void:
 	if size.x <= 0.0:
 		return
 	var focus := Iso.to_screen(wader.ground_position) + Vector2(0.0, -60.0)
-	var view_center := Vector2(size.x * 0.5, (PLAY_MARGIN_TOP + size.y - PLAY_MARGIN_BOTTOM) * 0.5)
+	var view_center := Vector2(size.x * 0.5, (_margin_top + size.y - PLAY_MARGIN_BOTTOM) * 0.5)
 	var target := view_center - focus * zoom
 	var bounds := _floor.screen_bounds().grow(CAMERA_OVERSCROLL)
 	target.x = _clamp_axis(target.x, size.x - bounds.end.x * zoom, -bounds.position.x * zoom)
-	target.y = _clamp_axis(target.y, size.y - PLAY_MARGIN_BOTTOM - bounds.end.y * zoom, PLAY_MARGIN_TOP - bounds.position.y * zoom)
+	target.y = _clamp_axis(target.y, size.y - PLAY_MARGIN_BOTTOM - bounds.end.y * zoom, _margin_top - bounds.position.y * zoom)
 	_camera = target if snap else _camera.lerp(target, 1.0 - exp(-CAMERA_SMOOTHING * delta))
 	_world.position = _camera
 
@@ -620,6 +704,9 @@ func _pad_tip(square_id: String) -> String:
 
 func _on_achievement_reached(def: AchievementDef) -> void:
 	_goal_banner.celebrate(def)
+	_goals_button.pivot_offset = _goals_button.size * 0.5
+	_goals_button.scale = Vector2.ONE * 1.08
+	create_tween().tween_property(_goals_button, "scale", Vector2.ONE, 0.12)
 
 
 ## A message over the scene. It stays at least `hold_s`, and long enough to be read.
