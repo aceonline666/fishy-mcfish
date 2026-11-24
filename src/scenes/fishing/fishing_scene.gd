@@ -34,15 +34,15 @@ const CURRENTS: Dictionary[String, Vector2] = {"kuroshio": Vector2(-108.0, 0.0),
 ## Zones with ice floes on the surface (IceFloes): how many.
 const ICE_FLOES: Dictionary[String, int] = {"pack_ice": 11}
 ## Screen pixels covered by the HUD at the top (in landscape the buttons share the top bar's
-## row) and kept free at the bottom, under the charting line (_chart_label).
+## row) and kept free at the bottom.
 const PLAY_MARGIN_TOP := 270.0
 const PLAY_MARGIN_BOTTOM := 40.0
 const LANDSCAPE_MARGIN_TOP := 160.0
 const LANDSCAPE_MARGIN_BOTTOM := 40.0
-## The charting line at the bottom of the screen: its font size, and how far its lower edge
-## stays above the bottom.
+## The charting line at the top of the play area (_update_hud): its font size, and how far its
+## top stays below the HUD.
 const CHART_FONT_SIZE := 44
-const CHART_LABEL_BOTTOM := 60.0
+const CHART_LABEL_TOP := 30.0
 ## Seconds after seeing the deep sea horror or the eyes before their secret goal is counted.
 const SIGHTING_DELAY := 5.0
 
@@ -374,8 +374,9 @@ var _swell_time := 0.0
 @onready var _entities: Node2D = $World/Entities
 @onready var _effects: Node2D = $World/Effects
 @onready var _popups: Control = $Popups
-## The charting line at the bottom of the screen (_update_hud).
+## The charting line at the top of the play area (_update_hud), and whether it has something to show.
 var _chart_label := Label.new()
+var _chart_wanted := false
 @onready var _hud_layout: VBoxContainer = $Hud/Layout
 @onready var _top_row: HBoxContainer = $Hud/Layout/TopBar/Row
 @onready var _hud_buttons: HBoxContainer = $Hud/Layout/Buttons
@@ -739,7 +740,7 @@ func _apply_gear() -> void:
 	_buoys.setup(lines, _spot_rect.size.x)
 
 
-## Tracks which zone the wader is in; announces zones on entry.
+## Tracks which zone the wader is in; the charting line at the top shows it (_update_hud).
 func _update_zone() -> void:
 	var zone := Charting.zone_at(location.id, wader.ground_position.y) if wader.in_water else null
 	wader.swimming = zone != null and zone.order > 1
@@ -750,9 +751,6 @@ func _update_zone() -> void:
 	_wader_zone = zone
 	_update_location_label()
 	_update_hud()
-	if zone != null:
-		_announce(Vector2(size.x * 0.5, _margin_top + 120.0),
-				"%s\n%s" % [tr(zone.name), Charting.progress_text(GameState.state, zone)], STORED_COLOR, 0.8)
 
 
 ## The charting line, outlined like the announcements, under them.
@@ -1950,6 +1948,7 @@ func _update_tutorial() -> void:
 	if state.tutorial_step == Tutorial.Step.CATCH and live_well.is_full():
 		Tutorial.complete(state, Tutorial.Step.CATCH)
 	tutorial.allow_card(not goal_banner.is_showing())
+	_chart_label.visible = _chart_wanted and tutorial.message_title().is_empty()
 	tutorial.view_rect = Rect2(0.0, _margin_top, size.x, size.y - _margin_top - _margin_bottom)
 	match state.tutorial_step:
 		Tutorial.Step.CATCH:
@@ -2006,25 +2005,26 @@ func _point_tutorial_at(ground: Vector2) -> void:
 
 #region HUD
 
-## The charting line at the bottom: the zone the wader is in and how far it is charted, in the
-## look of the zone's announcement (_update_wader_zone). Until a zone is charted, it also says
-## what charting is for. Nothing on the beach.
+## The charting line at the top, where a zone used to be announced: the zone the wader is in and
+## how far it is charted, and until a zone is charted anywhere, what charting is for. Nothing on
+## the beach or once the zone is charted (its name shows in the location label), and it steps
+## aside while the tutorial's card shows (_update_tutorial).
 func _update_hud() -> void:
-	if _wader_zone == null:
+	_chart_wanted = _wader_zone != null and not Charting.is_charted(GameState.state, _wader_zone)
+	if not _chart_wanted:
 		_chart_label.hide()
 		return
 	var lines := [tr(_wader_zone.name), Charting.progress_text(GameState.state, _wader_zone)]
 	if not _any_zone_charted():
 		lines.append(tr("Chart it, then drones fish here"))
-	_chart_label.text = "
-".join(lines)
-	_chart_label.show()
+	_chart_label.text = "\n".join(lines)
+	_chart_label.visible = tutorial.message_title().is_empty()
 	_place_chart_label()
 
 
 func _place_chart_label() -> void:
 	_chart_label.size = _chart_label.get_minimum_size()
-	_chart_label.position = Vector2((size.x - _chart_label.size.x) * 0.5, size.y - CHART_LABEL_BOTTOM - _chart_label.size.y)
+	_chart_label.position = Vector2((size.x - _chart_label.size.x) * 0.5, _margin_top + CHART_LABEL_TOP)
 
 
 func _on_money_changed(money: float) -> void:

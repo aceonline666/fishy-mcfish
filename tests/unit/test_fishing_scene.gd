@@ -642,7 +642,7 @@ func test_back_at_the_booth_a_tip_explains_the_hire_seller_pad() -> void:
 	assert_eq(guide.tip_texts(), [] as Array[String])
 
 
-func test_a_line_at_the_bottom_shows_how_far_the_zone_the_wader_is_in_is_charted() -> void:
+func test_a_line_at_the_top_shows_how_far_the_zone_the_wader_is_in_is_charted() -> void:
 	var zone: ZoneDef = DataRegistry.zones_in(_scene.location.id)[0]
 	_wader.ground_position = Vector2(100.0, -300.0)
 	await wait_process_frames(2)
@@ -655,6 +655,14 @@ func test_a_line_at_the_bottom_shows_how_far_the_zone_the_wader_is_in_is_charted
 ")
 	assert_eq(lines[0], zone.name)
 	assert_eq(lines[1], Charting.progress_text(GameState.state, zone))
+	assert_lt(_scene._chart_label.position.y, _scene.size.y * 0.3, "at the top of the play area")
+
+	GameState.state.zone_catches[zone.id] = Charting.catches_needed(zone)
+	for id in Charting.required_species(zone):
+		GameState.state.species_caught[id] = 1
+	_scene._update_hud()
+	await wait_process_frames(2)
+	assert_false(_scene._chart_label.visible, "a charted zone needs no line")
 
 
 func test_the_tutorial_arrow_waits_at_the_edge_pointing_to_a_place_out_of_view() -> void:
