@@ -15,7 +15,9 @@ with `info`, `take`, `commit`, `discard` (see its docstring).
 
 ## Per species
 
-1. **Look it up**: `sprite.py info <species>`. It prints the id, the name and the full prompt.
+1. **Look it up**: `sprite.py info <species>`. It prints the id, the name, the full prompt and
+   `attach`: the images to upload, in that order (the cod, and the species' current sprite put
+   back together and turned head left).
    Ambiguous names list the matches: pick the right one or ask.
 2. **Open a fresh chat**: load the Chrome tools (tabs_context_mcp, tabs_create_mcp, navigate,
    computer, find, file_upload, javascript_tool, get_page_text, browser_batch), then
@@ -33,14 +35,15 @@ with `info`, `take`, `commit`, `discard` (see its docstring).
 4. **Prompt**: focus the box (`window.__ed().focus()`), press `ctrl+a` and `Delete` with the
    computer tool (ChatGPT sometimes restores a draft), then `window.__paste(<prompt as JSON string>)`.
    The two numbers it returns must be equal, or clear and paste again.
-5. **Reference image**: `find` "Dateien anhängen / attach files file input", take the one with the
-   highest ref number, and `file_upload` the absolute path of
-   `art_source/fish/species_style_side.png` (the cod from the side) to it (never click it). Zoom on
-   the composer to see the cod thumbnail. Without it the style drifts (thin outlines, realistic):
-   do not send.
+5. **Reference images**: `find` "Dateien anhängen / attach files file input", take the one with the
+   highest ref number, and `file_upload` the paths of `attach` to it in one call, in that order
+   (never click it): Image 1 is the cod from the side (the style), Image 2 the species' current
+   sprite (its anatomy, so the drawing does not drift towards the cod). Zoom on the composer to
+   see both thumbnails, the cod first. Without the cod the style drifts (thin outlines,
+   realistic): do not send.
 6. **Send** with `window.__send()` (a click on the arrow misses when the window size changed),
    then wait in a batch of 10 s waits (about 60 s) and check `window.__st()`: done when the stop
-   button is gone and the list shows `Benutzeranhang` (the reference) and a generated image.
+   button is gone and the list shows `Benutzeranhang` (the references) and a generated image.
    Still running: wait again. No image: read the page text (get_page_text). On
    "Limit für Bilder erreicht" / "image limit": stop the whole run and report the reset time.
 7. **Download**: `await window.__dl('fishy_<id>.png')`, then `sprite.py take <id>`. If the file
@@ -59,8 +62,8 @@ with `info`, `take`, `commit`, `discard` (see its docstring).
    - the anatomy is right for the species (band count, eye count, body shape, fins) and it has
      not drifted towards the cod: the characteristic features are
      clearly there (the basking shark's long snout, a wrasse's hump); compare with the old
-     sprite in `assets/sprites/fish_painted/<id>_body.png` (`git show HEAD:...`), it must not
-     look worse;
+     sprite (`build/sprite_check/reference_<id>.png`), it must not look worse, and it must not
+     copy that sprite's style or pose;
    - the cut sprites on red: nothing missing (belly, fins), no background left (checkerboard
      between fins), the tail split looks right.
    A clear error: `sprite.py discard <id>`, then ask in the same chat for a redraw naming the

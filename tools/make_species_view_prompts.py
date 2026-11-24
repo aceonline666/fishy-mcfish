@@ -172,7 +172,7 @@ Draw it in exactly the same view and style (cute comic style, dark outlines, fla
 cel shading, big friendly eyes, but accurate enough for a marine biologist), for a different
 species{not_cod}:
 
-{description}
+{description}{old_sprite}
 
 {outline}
 
@@ -185,6 +185,15 @@ no water, no text."""
 NOT_COD = """. Take only the view and style from Image 1, never the cod's shape: the
 head, snout, mouth, body outline, proportions and fins must be those of this species, with its
 characteristic features clearly shown; it must not look like a cod"""
+
+# Image 2: the species' current sprite (sprite.py info puts it back together, head left), for the
+# anatomy only, so the drawing keeps the species' own shape and does not drift towards the cod.
+OLD_SPRITE = """
+
+Image 2 shows this species as it looks in the game now, drawn in an older style. Use it only for
+the anatomy: the body shape and proportions, the fins and where they sit, the markings, and where
+the eye and the mouth are. Do not copy its style, line work, shading or pose: the view and the style
+come from Image 1 only."""
 
 # Every species is drawn on the same canvas but shown in the sea at its own size
 # (CatchRules.body_length: a blue whale about 8 times as long as the cod, a clownfish less than
@@ -260,19 +269,24 @@ def main() -> None:
         new = "" if cid in species else " – new (sheet 14), add to data/species.csv"
         if cid in species and os.path.exists(os.path.join(OUT, f"{cid}.png")):
             new = " – in the game (side view)"
+        has_sprite = cid != REFERENCE_ID and os.path.exists(
+            os.path.join(ROOT, "assets", "sprites", "fish_painted", f"{cid}_body.png"))
         table.append(f"| `{cid}` | {name}{new} |")
         sections.append(f"""## {name} – `{cid}`
 
 Save as `art_source/fish/views/{cid}.png`, then `python tools/extract_species_views.py {cid}`.
 
 ```
-{PROMPT.format(description=description, not_cod="" if cid == REFERENCE_ID else NOT_COD, outline=outline_text(scale))}
+{PROMPT.format(description=description, not_cod="" if cid == REFERENCE_ID else NOT_COD, outline=outline_text(scale),
+                old_sprite=OLD_SPRITE if has_sprite else "")}
 ```
 """)
     doc = f"""# Species views – generation prompts
 
-One image per species, in a NEW ChatGPT chat each: attach only `{REFERENCE}` (the cod from
-the side) and paste the species' prompt. Save the result here as `<id>.png` and cut it with
+One image per species, in a NEW ChatGPT chat each: attach `{REFERENCE}` (the cod from
+the side, Image 1) and, for a species already in the game, its current sprite put back together and
+turned head left (Image 2, written by `python .claude/skills/regenerate-species-sprite/sprite.py
+info <id>` to `build/sprite_check/reference_<id>.png`), then paste the species' prompt. Save the result here as `<id>.png` and cut it with
 `python tools/extract_species_views.py <id>` into the side-view sprites (`<id>_body.png`,
 `<id>_tail.png`) in `assets/sprites/fish_painted/`. Then import in Godot and turn mipmaps on for
 new sprites. Older images here also show two views from above; the game no longer uses them and

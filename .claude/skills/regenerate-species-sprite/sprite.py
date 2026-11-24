@@ -6,7 +6,9 @@
     python .claude/skills/regenerate-species-sprite/sprite.py discard <id>
 
 info    finds the species by id, English or Latin name (or the next one on the README TODO list)
-        and prints its id, names and the full ChatGPT prompt as a JSON string.
+        and prints its id, names, the full ChatGPT prompt as a JSON string and the images to attach
+        in this order: the cod (style) and the species' current sprite, put back together and turned
+        head left (anatomy; written to build/sprite_check/reference_<id>.png).
 take    moves ~/Downloads/fishy_<id>.png to art_source/fish/views/<id>.png, cuts it with
         tools/extract_species_views.py and writes two images to look at: the source (preview.jpg)
         and the cut sprites on red (check.png) in build/sprite_check/.
@@ -87,8 +89,37 @@ def prompt(species_id: str) -> str:
     return "\n\n".join(" ".join(p.split()) for p in body.strip().split("\n\n"))
 
 
+STYLE_REFERENCE = ROOT / "art_source" / "fish" / "species_style_side.png"
+
+
+def old_sprite_reference(species_id: str) -> Path | None:
+    """The species' current sprite as one side view, head left: the tail part put back behind the
+    body (tools/extract_painted.py's _write cuts both on a 240-unit body canvas with the body from
+    20 units and the tail root at 62 units of the tail canvas) and mirrored. None without a sprite."""
+    from PIL import Image
+
+    body_path = SPRITES / f"{species_id}_body.png"
+    if not body_path.exists():
+        return None
+    body = Image.open(body_path).convert("RGBA")
+    tail_path = SPRITES / f"{species_id}_tail.png"
+    tail = Image.open(tail_path).convert("RGBA") if tail_path.exists() else None
+    unit = body.width / 240.0
+    shift = round(42 * unit) if tail is not None and tail.width > 1 else 0
+    sheet = Image.new("RGBA", (body.width + shift, body.height), (0, 0, 0, 0))
+    if shift:
+        sheet.alpha_composite(tail.crop((0, 0, tail.width, body.height)), (0, 0))
+    sheet.alpha_composite(body, (shift, 0))
+    sheet = sheet.crop(sheet.getbbox() or (0, 0, sheet.width, sheet.height)).transpose(Image.FLIP_LEFT_RIGHT)
+    CHECK.mkdir(parents=True, exist_ok=True)
+    out = CHECK / f"reference_{species_id}.png"
+    sheet.save(out)
+    return out
+
+
 def info(query: str) -> None:
     row = find(query)
+    old = old_sprite_reference(row["id"]) if row["id"] != "atlantic_cod" else None
     print(json.dumps({
         "id": row["id"],
         "name": label(row),
@@ -96,6 +127,7 @@ def info(query: str) -> None:
         "has_view_image": (VIEWS / f"{row['id']}.png").exists(),
         "download_name": f"fishy_{row['id']}.png",
         "prompt": prompt(row["id"]),
+        "attach": [str(STYLE_REFERENCE)] + ([str(old)] if old else []),
     }, ensure_ascii=False, indent=1))
 
 
