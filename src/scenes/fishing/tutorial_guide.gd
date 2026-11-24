@@ -56,9 +56,11 @@ func _process(delta: float) -> void:
 		queue_redraw()
 
 
-## Shows the card with `title` and `body`; pops it in again whenever the text changes.
+## Shows the card with `title` and `body`; pops it in again whenever the title changes. A new
+## body under the same title (progress) just replaces the text.
 func show_message(title: String, body: String) -> void:
-	if _card_wanted and _title.text == title and _body.text == body:
+	if _card_wanted and _title.text == title:
+		_body.text = body
 		return
 	_card_wanted = true
 	_title.text = title
@@ -87,6 +89,10 @@ func allow_card(allowed: bool) -> void:
 
 func message_title() -> String:
 	return _title.text if _card_wanted else ""
+
+
+func message_body() -> String:
+	return _body.text if _card_wanted else ""
 
 
 ## Points the arrow at `at` (this control's coordinates): the place to walk to.

@@ -304,7 +304,6 @@ Rules of thumb:
     ([Freesound 522025](https://freesound.org/people/Nimlos/sounds/522025/)).
 
 ## TODOs
-- Charting-mechanism is unclear to new players. Explain it maybe in the tutorial?
 - Buying Pads in the Shop are too close together, which leads to accidental payments.
 - Regenerate the species sprites that are not yet in the new cute-comic format (one image per species in `art_source/fish/views/`, prompts in `art_source/fish/views/prompts.md`, cut with `tools/extract_species_views.py`):
   - Copper shark (Carcharhinus brachyurus) — realistic style, thin outline

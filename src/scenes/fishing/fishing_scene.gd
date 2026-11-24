@@ -1938,6 +1938,8 @@ func _update_tutorial() -> void:
 	var state := GameState.state
 	if state.tutorial_step == Tutorial.Step.CATCH and live_well.is_full():
 		Tutorial.complete(state, Tutorial.Step.CATCH)
+	if state.tutorial_step == Tutorial.Step.CHART and _any_zone_charted():
+		Tutorial.complete(state, Tutorial.Step.CHART)
 	tutorial.allow_card(not goal_banner.is_showing())
 	tutorial.view_rect = Rect2(0.0, _margin_top, size.x, size.y - _margin_top - _margin_bottom)
 	match state.tutorial_step:
@@ -1972,10 +1974,26 @@ func _update_tutorial() -> void:
 						tr("Sells fish for you")]] as Array[Array])
 			else:
 				tutorial.clear_tips()
+		Tutorial.Step.CHART:
+			tutorial.clear_tips()
+			tutorial.clear_arrow()
+			# The zone the wader is in, else the first one off this beach.
+			var zone := _wader_zone if _wader_zone != null else DataRegistry.zones_in(location.id)[0]
+			tutorial.show_message(tr("Chart the sea"),
+					tr("Catch fish and all common species of a zone to chart it. Drones fish only in charted zones.")
+					+ "
+" + tr("%s: %s") % [tr(zone.name), Charting.progress_text(state, zone)])
 		_:
 			tutorial.hide_message()
 			tutorial.clear_arrow()
 			tutorial.clear_tips()
+
+
+func _any_zone_charted() -> bool:
+	for zone in DataRegistry.zones:
+		if Charting.is_charted(GameState.state, zone):
+			return true
+	return false
 
 
 ## Points the tutorial's arrow at a ground point. For a pad that is its north corner, the top one

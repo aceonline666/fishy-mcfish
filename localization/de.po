@@ -1767,3 +1767,12 @@ msgstr "Metriorhynchus"
 
 msgid "A crocodile that lived only in the sea: instead of legs it had paddles, and its tail ended in a fin like a shark's."
 msgstr "Ein Krokodil, das nur im Meer lebte: Statt Beinen hatte es Paddel, und sein Schwanz endete in einer Flosse wie bei einem Hai."
+
+msgid "Chart the sea"
+msgstr "Kartiere das Meer"
+
+msgid "Catch fish and all common species of a zone to chart it. Drones fish only in charted zones."
+msgstr "Fange Fische und alle häufigen Arten einer Zone, um sie zu kartieren. Drohnen fischen nur in kartierten Zonen."
+
+msgid "%s: %s"
+msgstr "%s: %s"

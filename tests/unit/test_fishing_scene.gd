@@ -638,8 +638,30 @@ func test_back_at_the_booth_a_tip_explains_the_hire_seller_pad() -> void:
 	_stand_on("hire_seller")
 	await wait_seconds(2.0)
 	assert_eq(GameState.here().seller_count, 1)
-	assert_eq(GameState.state.tutorial_step, Tutorial.Step.DONE, "hiring ends the tutorial")
+	assert_eq(GameState.state.tutorial_step, Tutorial.Step.CHART, "hiring leads on to charting")
 	assert_eq(guide.tip_texts(), [] as Array[String])
+
+
+func test_the_last_step_explains_charting_with_the_zones_progress_until_a_zone_is_charted() -> void:
+	var guide: TutorialGuide = _scene.tutorial
+	var state := GameState.state
+	state.tutorial_step = Tutorial.Step.CHART
+	await wait_process_frames(2)
+	assert_eq(guide.message_title(), "Chart the sea")
+	var zone: ZoneDef = DataRegistry.zones_in(_scene.location.id)[0]
+	assert_string_contains(guide.message_body(), "%s: 0/%d fish" % [zone.name, Charting.catches_needed(zone)])
+
+	await _catch(["european_sprat"] as Array[String])
+	await wait_process_frames(2)
+	assert_eq(state.tutorial_step, Tutorial.Step.CHART)
+	assert_string_contains(guide.message_body(), "1/%d fish" % Charting.catches_needed(zone), "the progress counts along")
+
+	state.zone_catches[zone.id] = Charting.catches_needed(zone)
+	for id in Charting.required_species(zone):
+		state.species_caught[id] = 1
+	await wait_process_frames(2)
+	assert_eq(state.tutorial_step, Tutorial.Step.DONE, "a charted zone ends the tutorial")
+	assert_eq(guide.message_title(), "")
 
 
 func test_the_tutorial_arrow_waits_at_the_edge_pointing_to_a_place_out_of_view() -> void:
