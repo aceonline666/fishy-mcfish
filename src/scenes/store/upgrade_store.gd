@@ -74,6 +74,8 @@ const CELL_EDGE_ACROSS := Grid.UNIT * 0.70710678
 
 ## Seconds the wader stands on the doormat before walking out.
 const DOOR_DELAY_S := 0.3
+## The only pad that takes coins during the shop's tutorial.
+const TUTORIAL_PAD := "upgrade_backpack"
 ## Seconds the wader stands on a pad before it takes the first coin (or, if free, acts): crossing
 ## a pad on the way to another (about 0.4 s) buys nothing.
 const PAY_DELAY_S := 0.6
@@ -122,6 +124,8 @@ var _shown_money := 0.0
 ## Wader.steps_taken() last frame; a change is a footfall on the wooden floor.
 var _last_step := 0
 var _money_tween: Tween
+## True while the shop's tutorial locks every pad but the bigger basket (_refresh_squares).
+var _tutorial_lock := false
 
 
 func _ready() -> void:
@@ -414,6 +418,12 @@ func _refresh_squares() -> void:
 		_set_purchase(travel, tr("Travel to next beach"), 0.0 if open else next.travel_cost, _prop("location_%s" % next.id))
 		travel.disabled = not open and not Travel.can_unlock(state, next)
 		travel.subtitle = tr("Goal: %s") % tr(Travel.unlock_goal(next).name) if travel.disabled else tr(next.name)
+	# During the shop's tutorial only the bigger basket can be bought, the first upgrade to make.
+	_tutorial_lock = state.tutorial_step == Tutorial.Step.SHOP
+	if _tutorial_lock:
+		for s in _squares:
+			if s.id != TUTORIAL_PAD:
+				s.disabled = true
 
 
 ## A wader sprite from assets/sprites/wader by name, or null if there is none.
@@ -434,6 +444,7 @@ func _set_purchase(target: ActionSquare, title: String, price: float, icon: Text
 	target.price = price
 	target.paid = GameState.here().build_progress.get(target.id, 0.0)
 	target.visible = price >= 0.0
+	target.disabled = false
 
 
 ## The visible pad the wader stands on.
@@ -563,15 +574,18 @@ func _travel_next() -> void:
 #region Tutorial
 
 ## On the first visit (Tutorial.Step.SHOP) a card welcomes the player and a tip over each pad says
-## what it is for, until something is bought or the player leaves.
+## what it is for, until something is bought or the player leaves. Meanwhile only the bigger
+## basket can be bought.
 func _update_tutorial() -> void:
+	if _tutorial_lock != (GameState.state.tutorial_step == Tutorial.Step.SHOP):
+		_refresh_squares()
 	if GameState.state.tutorial_step != Tutorial.Step.SHOP:
 		tutorial.hide_message()
 		tutorial.clear_tips()
 		return
 	tutorial.allow_card(not _goal_banner.is_showing())
 	tutorial.show_message(tr("Welcome to the gear shop!"),
-			tr("Spend your coins here."))
+			tr("Buy a bigger basket first."))
 	var tips: Array[Array] = []
 	for s in _squares:
 		if s.visible and not _pad_tip(s.id).is_empty():

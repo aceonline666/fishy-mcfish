@@ -163,6 +163,26 @@ func test_on_the_first_visit_a_tip_over_each_pad_says_what_it_is_for() -> void:
 	assert_eq(_store.tutorial.tip_texts(), [] as Array[String])
 
 
+func test_during_the_shops_tips_only_the_bigger_basket_can_be_bought() -> void:
+	GameState.state.tutorial_step = Tutorial.Step.SHOP
+	await wait_process_frames(2)
+	for s in _store._squares:
+		if s.visible:
+			assert_eq(s.disabled, s.id != "upgrade_backpack", "%s is greyed out unless it is the basket" % s.id)
+	var money := Aquarium.tank_upgrade_cost(GameState.here())
+	GameState.add_money(money)
+	_stand_on("upgrade_tank")
+	await wait_seconds(UpgradeStore.PAY_DELAY_S + 0.5)
+	assert_eq(GameState.state.money, money, "a locked pad takes no coins")
+
+	_store.wader.ground_position = UpgradeStore.ENTRY
+	await wait_process_frames(2)
+	_stand_on("upgrade_backpack")
+	await wait_seconds(2.0)
+	assert_eq(GameState.here().backpack_level, 2)
+	assert_false(_store.square("upgrade_tank").disabled, "after the basket every pad is open")
+
+
 func test_leaving_the_gear_shop_ends_its_tips() -> void:
 	GameState.state.tutorial_step = Tutorial.Step.SHOP
 	_store.left.emit()

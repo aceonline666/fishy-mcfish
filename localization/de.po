@@ -1417,8 +1417,8 @@ msgstr "Gib sie im Angelladen aus."
 msgid "Welcome to the gear shop!"
 msgstr "Willkommen im Angelladen!"
 
-msgid "Spend your coins here."
-msgstr "Hier gibst du deine Münzen aus."
+msgid "Buy a bigger basket first."
+msgstr "Kauf dir zuerst einen größeren Korb."
 
 msgid "More fish at once"
 msgstr "Mehr Fische auf einmal"
