@@ -10,19 +10,19 @@ Newest first. The "What's new" block of each version is pasted into Play Console
 ```
 <en-US>
 • Weather: sun, rain and storms – snow and blizzards in Antarctica. Or pick one in the menu.
-• Livelier nights: seabirds sleep, your wake sparkles, some fish only come out at night, and the Coral Reef's beach glows.
-• Easier start: sunny daylight at first, cheap first upgrades, a clearer tutorial.
-• Charting progress shows at the top; locked zones glow red.
-• Map, goals and Fishpedia in the gear shop too.
+• Livelier nights: sleeping seabirds, a sparkling wake, night-only fish, a glowing beach at the Coral Reef.
+• Easier start: sunny daylight first, cheap first upgrades, a clearer tutorial.
+• Charting progress at the top; locked zones glow red.
+• Smaller pads that wait a moment before you pay – no more accidental purchases.
 • Tanks show your rarest fish.
 • 15 fish freshly drawn.
 </en-US>
 <de-DE>
-• Wetter: Sonne, Regen und Sturm – Schnee und Blizzard in der Antarktis. Oder fest im Menü wählen.
-• Lebendigere Nächte: Seevögel schlafen, deine Spur funkelt, manche Fische gibt es nur nachts, der Strand am Korallenriff leuchtet.
+• Wetter: Sonne, Regen und Sturm – Schnee und Blizzard in der Antarktis. Oder fest im Menü.
+• Lebendigere Nächte: schlafende Seevögel, funkelnde Spur, Fische nur bei Nacht, leuchtender Strand am Korallenriff.
 • Leichterer Start: erst sonniger Tag, günstige erste Upgrades, klareres Tutorial.
-• Der Kartierfortschritt steht oben; gesperrte Zonen leuchten rot.
-• Karte, Ziele und Fischpedia auch im Angelladen.
+• Kartierfortschritt oben; gesperrte Zonen leuchten rot.
+• Kleinere Felder, die kurz warten, bevor du zahlst – keine Fehlkäufe mehr.
 • Becken zeigen deine seltensten Fische.
 • 15 Fische neu gezeichnet.
 </de-DE>
@@ -41,9 +41,11 @@ Newest first. The "What's new" block of each version is pasted into Play Console
   progress (fish and species), in place of the zone announcement. The bottom info box is gone.
 - **Locked zones**: walking into the barrier makes the zones beyond it glow red with a lock,
   instead of a text.
-- Pads are 10% smaller with thinner outlines, closer to the painted style and further apart;
-  the drones' dock is bigger, with outlines as thick as the pier's.
-- Gear shop pads wait a moment before taking coins, so walking across one buys nothing.
+- **Pads** are 10% smaller with much thinner outlines (2.7 instead of 6 px), closer to the painted
+  style and further apart. Gear shop pads wait a moment before taking coins, so walking across
+  one buys nothing.
+- The drones' dock is bigger (1.35 times its cell, its outline as thick as the pier's) and sits
+  half a cell further west.
 - The menu, map, goals and Fishpedia buttons are there in the gear shop too.
 - Messages and goal cards stay until they can be read; the longest hints are shorter.
 - Tanks show their rarest fish first, so whales and other rare catches are always in view.
