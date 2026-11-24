@@ -67,3 +67,22 @@ func test_lightning_flickers_and_ends() -> void:
 	assert_gt(Lightning.brightness(0.02), 0.0)
 	assert_eq(Lightning.brightness(0.11), 0.0)
 	assert_eq(Lightning.brightness(Lightning.DURATION + 0.1), 0.0)
+
+
+func test_rain_comes_about_every_second_day() -> void:
+	var sun := Weather.SPELLS[Weather.Kind.SUNNY]
+	assert_gt((sun.x + sun.y) * 0.5, DayClock.FAST_CYCLE_S * 1.5, "a sunny spell lasts most of two days")
+	assert_lt((sun.x + sun.y) * 0.5, DayClock.FAST_CYCLE_S * 2.5)
+
+
+func test_random_weather_stays_sunny_in_the_first_minutes() -> void:
+	var original := GameState.state
+	var chosen := Settings.weather
+	Settings.weather = Settings.WEATHER_RANDOM
+	GameState.replace_state(PlayerState.new_game())
+	for i in 200:
+		WeatherCycle._left = 0.0
+		WeatherCycle._process(1.0)
+		assert_eq(WeatherCycle.kind(), Weather.Kind.SUNNY)
+	Settings.weather = chosen
+	GameState.replace_state(original)

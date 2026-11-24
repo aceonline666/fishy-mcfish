@@ -1,5 +1,6 @@
 extends Node
-## The time of day now (DayClock): the fast 20-minute cycle, the device clock, always day
+## The time of day now (DayClock): the fast 20-minute cycle (shifted per save so that a new game
+## starts in the morning, GameState.is_discovering), the device clock, always day
 ## (DAY_HOUR) or always night (NIGHT_HOUR), as chosen in the settings. In debug builds N moves the
 ## time on by an hour (and then holds it there, whatever the setting), Shift+N lets it run again.
 
@@ -21,7 +22,9 @@ func hour() -> float:
 			return NIGHT_HOUR
 		Settings.DAY_CYCLE_REAL:
 			return DayClock.clock_hour(Time.get_time_dict_from_system())
-	return DayClock.fast_hour(Time.get_unix_time_from_system())
+	if GameState.is_discovering():
+		return DayClock.fast_hour(GameState.state.played_s)
+	return DayClock.fast_hour(Time.get_unix_time_from_system() + GameState.state.day_offset_s)
 
 
 ## 0 in daylight to 1 at night.

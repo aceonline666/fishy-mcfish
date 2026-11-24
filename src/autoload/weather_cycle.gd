@@ -52,9 +52,14 @@ func snap() -> void:
 func _process(delta: float) -> void:
 	_left -= delta
 	if _left <= 0.0:
-		var following := Weather.next(_rng, _kind)
-		_kind = following[0]
-		_left = following[1]
+		if GameState.is_discovering():
+			# The first minutes of a new game stay sunny; the weather comes later.
+			_kind = Weather.Kind.SUNNY
+			_left = Weather.spell(_rng, _kind)
+		else:
+			var following := Weather.next(_rng, _kind)
+			_kind = following[0]
+			_left = following[1]
 	state = Weather.approach(state, Weather.target(kind(), polar), delta)
 	if not Weather.lightning(state):
 		return

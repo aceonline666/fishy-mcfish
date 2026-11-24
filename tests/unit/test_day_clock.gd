@@ -102,3 +102,19 @@ func test_moon_glitters_at_night() -> void:
 func test_glint_direction_is_a_unit_vector() -> void:
 	for hour in range(24):
 		assert_almost_eq(DayClock.glint(float(hour)).direction.length(), 1.0, 0.001)
+
+
+func test_a_new_game_starts_in_daylight_and_the_day_runs_on_without_a_jump() -> void:
+	var original := GameState.state
+	var chosen := Settings.day_cycle
+	Settings.day_cycle = Settings.DAY_CYCLE_FAST
+	GameState.replace_state(PlayerState.new_game())
+	assert_true(GameState.is_discovering())
+	assert_almost_eq(DayCycle.hour(), DayClock.DAWN.y, 0.001, "the morning of the first minute")
+	for i in int(PlayerState.DISCOVERY_S):
+		GameState._count_discovery(1.0)
+		assert_eq(DayCycle.darkness(), 0.0, "day all through the first minutes")
+	assert_false(GameState.is_discovering())
+	assert_almost_eq(DayCycle.hour(), DayClock.fast_hour(PlayerState.DISCOVERY_S), 0.01, "then it runs on from there")
+	Settings.day_cycle = chosen
+	GameState.replace_state(original)

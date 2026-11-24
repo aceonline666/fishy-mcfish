@@ -11,7 +11,8 @@ enum Kind { SUNNY, RAIN, STORM }
 const BLEND_S := 20.0
 ## How long a spell of each kind lasts (seconds, shortest and longest).
 const SPELLS: Dictionary[Kind, Vector2] = {
-	Kind.SUNNY: Vector2(360.0, 900.0),
+	# About 35 minutes of sun, so rain comes about every second (20-minute) day.
+	Kind.SUNNY: Vector2(1500.0, 2700.0),
 	Kind.RAIN: Vector2(120.0, 300.0),
 	Kind.STORM: Vector2(90.0, 180.0),
 }

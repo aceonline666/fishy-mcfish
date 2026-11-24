@@ -12,6 +12,9 @@ const LEGACY_TROPICAL_LOCATION := "coral_reef"
 ## no longer fit paid back at what they cost (sellers 5 to 10, before the location's prices).
 const LEGACY_SELLER_COSTS: Array[float] = [25000.0, 40000.0, 65000.0, 100000.0, 160000.0, 250000.0]
 const LEGACY_FIRST_SELLER := 4
+## The first minutes of a new game, before the weather and the night are there to discover: the
+## fast day cycle shows day and random weather stays sunny (GameState.is_discovering).
+const DISCOVERY_S := 600.0
 
 var money := 0.0
 ## Lifetime earnings. Used later to pick the "most progressed" save on cloud conflicts.
@@ -37,6 +40,11 @@ var tutorial_step := 0
 var chest_found_at: Dictionary[String, int] = {}
 ## Rare finds picked up (Curiosities), in the order they were found.
 var curiosities: Array[String] = []
+## Seconds played, counted up to DISCOVERY_S only. Saves from before it are past it.
+var played_s := 0.0
+## Seconds added to the clock for the fast day cycle (DayCycle): it starts in the morning with
+## the player's first minute and runs on from there.
+var day_offset_s := 0.0
 
 
 static func new_game() -> PlayerState:
@@ -134,6 +142,8 @@ func to_dict() -> Dictionary:
 		"tutorial_step": tutorial_step,
 		"chest_found_at": chest_found_at.duplicate(),
 		"curiosities": curiosities.duplicate(),
+		"played_s": played_s,
+		"day_offset_s": day_offset_s,
 	}
 
 
@@ -177,6 +187,8 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	var raw_finds: Array = data.get("curiosities", [])
 	for id: Variant in raw_finds:
 		state.curiosities.append(str(id))
+	state.played_s = float(data.get("played_s", DISCOVERY_S))
+	state.day_offset_s = float(data.get("day_offset_s", 0.0))
 
 	var raw_sites: Variant = data.get("sites")
 	if raw_sites is Dictionary:

@@ -188,10 +188,27 @@ func check_achievements() -> void:
 
 
 func _on_sim_tick(dt: float) -> void:
+	_count_discovery(dt)
 	Aquarium.advance(state, dt)
 	_run_sellers(dt)
 	_run_remote_drones(dt)
 	check_achievements()
+
+
+## True in the first minutes of a new game (PlayerState.DISCOVERY_S): day and sunny weather,
+## the night and the weather are for later.
+func is_discovering() -> bool:
+	return state.played_s < PlayerState.DISCOVERY_S
+
+
+## Counts the first minutes of play and keeps the fast day cycle on the player's own morning
+## meanwhile (it runs from the start of the day, DayClock.fast_hour at 0, with the time played),
+## so that afterwards it runs on from there without a jump.
+func _count_discovery(dt: float) -> void:
+	if not is_discovering():
+		return
+	state.played_s = minf(state.played_s + dt, PlayerState.DISCOVERY_S)
+	state.day_offset_s = state.played_s - Time.get_unix_time_from_system()
 
 
 ## The sellers of every location sell grown fish from the tank at their pace. Sales where the

@@ -41,6 +41,17 @@ func test_the_tutorial_step_is_saved_and_old_saves_skip_it() -> void:
 	assert_eq(PlayerState.from_dict({"money": 50.0}).tutorial_step, Tutorial.Step.DONE, "saves from before it are past it")
 
 
+func test_the_first_minutes_are_counted_and_old_saves_are_past_them() -> void:
+	var state := PlayerState.new_game()
+	assert_eq(state.played_s, 0.0, "a new game starts with the weather and the night to discover")
+	state.played_s = 123.0
+	state.day_offset_s = -456.0
+	var restored := PlayerState.from_dict(JSON.parse_string(JSON.stringify(state.to_dict())))
+	assert_eq(restored.played_s, 123.0)
+	assert_eq(restored.day_offset_s, -456.0)
+	assert_eq(PlayerState.from_dict({"money": 50.0}).played_s, PlayerState.DISCOVERY_S, "saves from before it are past them")
+
+
 func test_record_catch_reports_new_species_once() -> void:
 	var state := PlayerState.new()
 	assert_true(state.record_catch("european_sprat"))
