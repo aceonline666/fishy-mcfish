@@ -43,6 +43,8 @@ const LANDSCAPE_MARGIN_BOTTOM := 40.0
 ## top stays below the HUD.
 const CHART_FONT_SIZE := 52
 const CHART_LABEL_TOP := 30.0
+## How far into the locked water (and off its sides) the lock sits, in ground units.
+const LOCK_INSET := 260.0
 ## Seconds after seeing the deep sea horror or the eyes before their secret goal is counted.
 const SIGHTING_DELAY := 5.0
 
@@ -287,8 +289,10 @@ var _zone_spawns: Array[SpawnTable] = []
 var _zone_night_spawns: Array[SpawnTable] = []
 var _spawn_timer := 0.0
 var _wader_zone: ZoneDef
-## True while the wader stands against the locked zones' barrier (_update_gate).
+## True while the wader stands against the locked zones' barrier (_update_gate), and the red mark
+## over those zones then.
 var _at_gate := false
+var locked_water := LockedWater.new()
 var _squares: Array[ActionSquare] = []
 ## The location's painted seabed and sand tiles (assets/sprites/seafloor, beach), or null.
 var _floor_texture: Texture2D
@@ -412,6 +416,8 @@ func _ready() -> void:
 	Layers.put(_squares_layer, Layers.PADS)
 	Layers.put(_entities, Layers.OBJECTS)
 	Layers.put(_effects, Layers.EFFECTS)
+	locked_water.hide()
+	_effects.add_child(locked_water)
 	_world.add_child(night)
 	_world.add_sibling(night.shade)
 	# Rain falls over the world and under the time of day's tint; its rings lie on the surface.
@@ -569,14 +575,16 @@ func _walk_to(target: Vector2) -> void:
 	wader.walk_to(target)
 
 
-## Pops a lock over the wader each time it walks into the barrier of the zones its gear cannot
-## reach yet: heading further out, held at the walkable water's southern edge (the wader keeps
+## Marks the zones the gear cannot reach yet (red, with a lock in the first of them, in line with
+## the wader) each time the wader walks into their barrier: heading further out, held at the walkable water's southern edge (the wader keeps
 ## Wader.WALK_MARGIN off it).
 func _update_gate() -> void:
 	var edge := walk_area.rect.end.y - Wader.WALK_MARGIN - 2.0
 	var at_gate := wader.has_target() and wader.target().y > edge and wader.ground_position.y >= edge
 	if at_gate and not _at_gate and GameState.here().gear_level < DataRegistry.gear_levels.size():
-		LockPopup.pop(_popups, _world_to_scene(wader.stack_top_position() + Vector2(0.0, -90.0)))
+		var locked := Rect2(_spot_rect.position.x, walk_area.rect.end.y, _spot_rect.size.x, _spot_rect.end.y - walk_area.rect.end.y)
+		var lock_x := clampf(wader.ground_position.x, locked.position.x + LOCK_INSET, locked.end.x - LOCK_INSET)
+		locked_water.flash(locked, Vector2(lock_x, locked.position.y + LOCK_INSET))
 		Haptics.bump()
 	_at_gate = at_gate
 

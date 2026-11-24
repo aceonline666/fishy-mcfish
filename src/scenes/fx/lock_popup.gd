@@ -1,33 +1,22 @@
 class_name LockPopup
 extends Node2D
-## A golden padlock with a dark outline (in the look of the tutorial's arrows) that pops in at its
-## position, holds, then floats up and fades: the way on is locked. Frees itself when done.
+## A golden padlock with a dark outline (in the look of the tutorial's arrows) that pops in to
+## `full_scale` (LockedWater shows and fades it with the red water).
 
 const GOLD := Color(1.0, 0.85, 0.2)
 const SHADE := Color(0.85, 0.62, 0.1)
-## Height of the whole lock (shackle and body), in pixels.
+## Height of the whole lock (shackle and body) at scale 1, in pixels.
 const HEIGHT := 96.0
 const OUTLINE := 7.0
 const POP_IN_S := 0.25
-const HOLD_S := 0.9
-const LEAVE_S := 0.5
 
-
-static func pop(parent: Node, at: Vector2) -> LockPopup:
-	var lock := LockPopup.new()
-	lock.position = at
-	parent.add_child(lock)
-	return lock
+var full_scale := 1.0
 
 
 func _ready() -> void:
-	scale = Vector2.ONE * 0.3
+	scale = Vector2.ONE * 0.3 * full_scale
 	var tween := create_tween()
-	tween.tween_property(self, "scale", Vector2.ONE, POP_IN_S).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tween.tween_interval(HOLD_S)
-	tween.tween_property(self, "position:y", position.y - 70.0, LEAVE_S).set_ease(Tween.EASE_IN)
-	tween.parallel().tween_property(self, "modulate:a", 0.0, LEAVE_S)
-	tween.tween_callback(queue_free)
+	tween.tween_property(self, "scale", Vector2.ONE * full_scale, POP_IN_S).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 ## Centred on the position: the shackle on top, the body below with a keyhole.
