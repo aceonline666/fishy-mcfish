@@ -3,6 +3,54 @@
 Newest first. The "What's new" block of each version is pasted into Play Console as it stands
 (at most 500 characters per language).
 
+## 0.8.0 (version code 8)
+
+### What's new (Play Console)
+
+```
+<en-US>
+• Weather: sun, rain and storms – snow and blizzards in Antarctica. Or pick one in the menu.
+• Livelier nights: seabirds sleep, your wake sparkles, some fish only come out at night, and the Coral Reef's beach glows.
+• Easier start: sunny daylight at first, cheap first upgrades, a clearer tutorial.
+• Charting progress shows at the top; locked zones glow red.
+• Map, goals and Fishpedia in the gear shop too.
+• Tanks show your rarest fish.
+• 15 fish freshly drawn.
+</en-US>
+<de-DE>
+• Wetter: Sonne, Regen und Sturm – Schnee und Blizzard in der Antarktis. Oder fest im Menü wählen.
+• Lebendigere Nächte: Seevögel schlafen, deine Spur funkelt, manche Fische gibt es nur nachts, der Strand am Korallenriff leuchtet.
+• Leichterer Start: erst sonniger Tag, günstige erste Upgrades, klareres Tutorial.
+• Der Kartierfortschritt steht oben; gesperrte Zonen leuchten rot.
+• Karte, Ziele und Fischpedia auch im Angelladen.
+• Becken zeigen deine seltensten Fische.
+• 15 Fische neu gezeichnet.
+</de-DE>
+```
+
+### Changes
+
+- **Weather**: random spells of sun, rain and storm, with snow and blizzards in Antarctica; rain
+  comes about every second 20-minute day. The menu can fix the weather to one kind.
+- **Night**: seabirds sleep, the wake sparkles in the first zone, some species only come out at
+  night, and the Coral Reef's beach glows. Jellyfish tentacles wave like an octopus's arms.
+- **A gentler start**: a new game starts with ten minutes of sunny daylight; the night and the
+  weather come later. The first bigger basket costs 10 coins and the first seller 100. In the gear
+  shop's tutorial only the bigger basket can be bought.
+- **Charting at a glance**: while the wader is in an uncharted zone, a line at the top shows its
+  progress (fish and species), in place of the zone announcement. The bottom info box is gone.
+- **Locked zones**: walking into the barrier makes the zones beyond it glow red with a lock,
+  instead of a text.
+- Gear shop pads wait a moment before taking coins, so walking across one buys nothing.
+- The menu, map, goals and Fishpedia buttons are there in the gear shop too.
+- Messages and goal cards stay until they can be read; the longest hints are shorter.
+- Tanks show their rarest fish first, so whales and other rare catches are always in view.
+- Fishpedia pictures fit tall animals (jellyfish, seahorses) inside their cards.
+- **New cute-comic sprites** for 15 species: common bottlenose dolphin, Atlantic footballfish,
+  great barracuda, lion's mane, moon, blubber and Nomura's jellyfish (painted without eyes),
+  yellowfin tuna, reef manta ray, blue whale, smooth stingray, great white shark, blobfish,
+  common fangtooth and giant guitarfish.
+
 ## 0.7.0 (version code 7)
 
 ### What's new (Play Console)
