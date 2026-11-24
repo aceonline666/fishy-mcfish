@@ -11,8 +11,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Fishing screen
-msgid "Buy at the gear shop: %s\nto swim further out!"
-msgstr "Im Angelladen kaufen: %s\num weiter hinauszuschwimmen!"
+msgid "Get %s\nat the gear shop to go further"
+msgstr "Hol dir %s\nim Angelladen, um weiter zu kommen"
 
 msgid "Beach"
 msgstr "Strand"
@@ -62,8 +62,8 @@ msgstr "Trio."
 msgid "New species!"
 msgstr "Neue Art!"
 
-msgid "%s charted!\nDrones can fish here now"
-msgstr "%s kartiert!\nJetzt können hier Drohnen fischen"
+msgid "%s charted!\nDrones fish here now"
+msgstr "%s kartiert!\nDrohnen fischen jetzt hier"
 
 msgid "Sell fish"
 msgstr "Fisch verkaufen"
@@ -101,20 +101,20 @@ msgstr "+1 Verkäufer"
 msgid "More selling space!\nRoom for one more seller"
 msgstr "Mehr Verkaufsfläche!\nPlatz für einen weiteren Verkäufer"
 
-msgid "No room in the tank!"
-msgstr "Kein Platz im Becken!"
+msgid "Tank full!"
+msgstr "Becken voll!"
 
-msgid "Upgrade the tank."
-msgstr "Vergrößere das Becken."
+msgid "Upgrade it in the gear shop."
+msgstr "Vergrößere es im Angelladen."
 
 msgid "Tank  %s / %s L  ·  %d grown  ·  worth %s"
 msgstr "Becken  %s / %s L  ·  %d ausgewachsen  ·  Wert %s"
 
-msgid "Basket full! Grow the fish in the tank, then sell them."
-msgstr "Korb voll! Lass die Fische im Becken wachsen und verkaufe sie dann."
+msgid "Basket full! Bring the fish to the tank."
+msgstr "Korb voll! Bring die Fische ins Becken."
 
-msgid "Grown fish are worth 3 times as much. Sell them at the shop!"
-msgstr "Ausgewachsene Fische sind dreimal so viel wert. Verkaufe sie im Laden!"
+msgid "Sell grown fish at the shop!"
+msgstr "Verkaufe große Fische im Laden!"
 
 msgid "Upgrade your tank"
 msgstr "Vergrößere dein Becken"
@@ -146,11 +146,11 @@ msgstr "Größerer Korb!\n%d Fische"
 msgid "New drone!\nIt fishes here: %s"
 msgstr "Neue Drohne!\nSie fischt hier: %s"
 
-msgid "Seller hired!\nSells grown fish for you"
-msgstr "Verkäufer eingestellt!\nVerkauft ausgewachsene Fische für dich"
+msgid "Seller hired!\nSells for you"
+msgstr "Verkäufer eingestellt!\nVerkauft für dich"
 
-msgid "%s!\nBig fish are landed faster"
-msgstr "%s!\nGroße Fische landen schneller im Netz"
+msgid "%s!\nBig fish land faster"
+msgstr "%s!\nGroße Fische schneller im Netz"
 
 msgid "%s!\nNow you can reach: %s"
 msgstr "%s!\nJetzt erreichbar: %s"
@@ -164,11 +164,11 @@ msgstr "+%s Münzen"
 msgid "Basket  %d / %d"
 msgstr "Korb  %d / %d"
 
-msgid "Grow your catch in the tank. Only grown fish can be sold."
-msgstr "Lass deinen Fang im Becken wachsen. Nur ausgewachsene Fische lassen sich verkaufen."
+msgid "Let your catch grow in the tank."
+msgstr "Lass deinen Fang im Becken wachsen."
 
-msgid "Touch and hold to wade there and catch fish."
-msgstr "Tippe und halte, um hinzuwaten und Fische zu fangen."
+msgid "Touch and hold to wade and fish."
+msgstr "Tippe und halte zum Waten und Fischen."
 
 msgid "Basket full!"
 msgstr "Korb voll!"
@@ -1342,8 +1342,8 @@ msgstr "%d ausgewachsen"
 msgid "No grown fish"
 msgstr "Kein Fisch ausgewachsen"
 
-msgid "Only grown fish can be sold.\nGrow your catch in the tank first."
-msgstr "Nur ausgewachsene Fische lassen sich verkaufen.\nLass deinen Fang erst im Becken wachsen."
+msgid "No grown fish yet!\nLet them grow in the tank."
+msgstr "Noch keine großen Fische!\nLass sie im Becken wachsen."
 
 msgid "+%d sellers"
 msgstr "+%d Verkäufer"
@@ -1375,8 +1375,8 @@ msgstr "Größerer Laden"
 msgid "Prices ×%s"
 msgstr "Preise ×%s"
 
-msgid "Bigger shop!\nFish sell for %s× as much"
-msgstr "Größerer Laden!\nFische bringen %s× so viel"
+msgid "Bigger shop!\nPrices ×%s"
+msgstr "Größerer Laden!\nPreise ×%s"
 
 msgid "Needs a %s L tank"
 msgstr "Braucht ein %s-L-Becken"

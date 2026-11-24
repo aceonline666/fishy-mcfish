@@ -517,12 +517,12 @@ func _complete_purchase(target: ActionSquare) -> void:
 			elif more > 1:
 				message = tr("More selling space!\nRoom for %d more sellers") % more
 			else:
-				message = tr("Bigger shop!\nFish sell for %s× as much") % String.num(Selling.price_bonus(site), 2)
+				message = tr("Bigger shop!\nPrices ×%s") % String.num(Selling.price_bonus(site), 2)
 		"upgrade_net":
 			GameState.upgrade_net()
 			wader.net_level = site.net_level
 			wader.scoop_radius = Wader.SCOOP_RADIUS * (1.0 + NET_RADIUS_STEP * (site.net_level - 1))
-			message = tr("%s!\nBig fish are landed faster") % tr(DataRegistry.net_levels[site.net_level - 1].name)
+			message = tr("%s!\nBig fish land faster") % tr(DataRegistry.net_levels[site.net_level - 1].name)
 		"upgrade_gear":
 			GameState.upgrade_gear()
 			wader.gear_level = site.gear_level
@@ -604,8 +604,9 @@ func _on_achievement_reached(def: AchievementDef) -> void:
 	_goal_banner.celebrate(def)
 
 
+## A message over the scene. It stays at least `hold_s`, and long enough to be read.
 func _announce(at: Vector2, text: String, color: Color, hold_s: float = 0.35) -> void:
-	Juice.popup_text(_popups, at, text, 52, color, hold_s)
+	Juice.popup_text(_popups, at, text, 52, color, maxf(hold_s, Juice.reading_time(text)))
 
 
 func _on_money_changed(money: float) -> void:

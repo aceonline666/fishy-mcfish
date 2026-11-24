@@ -78,11 +78,11 @@ func test_the_fishing_screen_switches_language_live() -> void:
 	add_child_autofree(scene)
 	await wait_process_frames(2)
 	var hint: Label = scene.get_node("%HintLabel")
-	assert_eq(hint.text, "Touch and hold to wade there and catch fish.")
+	assert_eq(hint.text, "Touch and hold to wade and fish.")
 
 	Settings.set_language("de")
 	await wait_process_frames(1)
-	assert_eq(hint.text, "Tippe und halte, um hinzuwaten und Fische zu fangen.")
+	assert_eq(hint.text, "Tippe und halte zum Waten und Fischen.")
 	assert_eq(scene.square("store").title, "Ins Becken")
 
 

@@ -69,11 +69,25 @@ func test_banner_celebrates_goals_one_after_the_other() -> void:
 	var cards := banner.get_children().filter(func(child: Node) -> bool: return child is PanelContainer)
 	assert_eq(cards.size(), 1, "the second goal waits for the first")
 	assert_true(banner.is_showing())
-	await wait_seconds(GoalBanner.POP_IN_S + GoalBanner.HOLD_S + GoalBanner.LEAVE_S + 0.2)
+	await wait_seconds(GoalBanner.POP_IN_S + banner.hold_seconds(_def("first_catch")) - 0.3)
+	cards = banner.get_children().filter(func(child: Node) -> bool: return child is PanelContainer and not child.is_queued_for_deletion())
+	assert_eq(cards.size(), 1)
+	assert_has(_card_texts(banner), "Catch your first fish", "the first card stays long enough to be read")
+	await wait_seconds(0.3 + GoalBanner.LEAVE_S + 0.2)
 	cards = banner.get_children().filter(func(child: Node) -> bool: return child is PanelContainer and not child.is_queued_for_deletion())
 	assert_eq(cards.size(), 1, "then the second one shows")
-	await wait_seconds(GoalBanner.POP_IN_S + GoalBanner.HOLD_S + GoalBanner.LEAVE_S + 0.2)
+	await wait_seconds(GoalBanner.POP_IN_S + banner.hold_seconds(_def("combo_3")) + GoalBanner.LEAVE_S + 0.2)
 	assert_false(banner.is_showing())
+
+
+func test_a_goals_card_stays_long_enough_to_read_it() -> void:
+	var banner := GoalBanner.new()
+	add_child_autofree(banner)
+	var short := banner.hold_seconds(_def("combo_3"))
+	var long := banner.hold_seconds(_def("night_owl"))
+	assert_true(short >= GoalBanner.HOLD_S)
+	assert_gt(long, short, "a longer description stays longer")
+	assert_gt(long, 4.0, "about 15 characters a second")
 
 
 func test_welcome_back_card_shows_the_money_big_and_waits_for_a_tap() -> void:

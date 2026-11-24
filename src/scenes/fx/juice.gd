@@ -4,6 +4,15 @@ extends RefCounted
 
 const OUTLINE_COLOR := Color(0.07, 0.09, 0.15)
 const DROPLET_TEXTURE := preload("res://src/scenes/fx/droplet_texture.tres")
+## Reading speed for messages (characters per second, slow enough for children and a second
+## language) and the time added to notice a message at all.
+const READ_CHARS_PER_S := 15.0
+const NOTICE_S := 0.8
+
+
+## How long a message must stay so it can be read: longer texts (German) stay longer.
+static func reading_time(text: String) -> float:
+	return NOTICE_S + text.strip_edges().length() / READ_CHARS_PER_S
 
 
 static func ripple(parent: Node, at: Vector2, radius: float, color: Color = Color(1.0, 1.0, 1.0, 0.75)) -> void:

@@ -304,6 +304,8 @@ Rules of thumb:
     ([Freesound 522025](https://freesound.org/people/Nimlos/sounds/522025/)).
 
 ## TODOs
+- Charting-mechanism is unclear to new players. Explain it maybe in the tutorial?
+- Buying Pads in the Shop are too close together, which leads to accidental payments.
 - Regenerate the species sprites that are not yet in the new cute-comic format (one image per species in `art_source/fish/views/`, prompts in `art_source/fish/views/prompts.md`, cut with `tools/extract_species_views.py`):
   - Copper shark (Carcharhinus brachyurus) — realistic style, thin outline
   - Shortfin mako (Isurus oxyrinchus) — realistic style, thin outline
@@ -368,8 +370,6 @@ Rules of thumb:
   - Red lionfish (Pterois volitans) — cute-comic, but outline too thin at its small size (0.38x the cod's)
 
 ### Later 
-- Hints / Achievementtexts are too long and visible too shortly to read it. Shorten the texts and display them longer.
-- Charting-mechanism is unclear to new players. Explain it maybe in the tutorial?
 - Think about adjusting the map and the number of cashiers again. Currently one cashier would be enough to finish the game in every level. More cashiers don't add much speed. We need to rebalance this. If four cashiers are enough we could again display them in a row instead of a column. That would mean regeneration of all sprites (booths, cashiers, buyers, belt?)
 - The tank sprite's edge lines seem to be much thicker than the rest of the game's sprites. Maybe we need to regenerate these sprites too with better instructions regarding line thickness. When regenerating the tank sprites consider line thickness in comparison to tank size and the water filling animation and transparency of the tank. You should be able to see the beach behind it. And the water filling should have clear corners where to draw the water lines. Also the poles need to be in front of the fish inside so maybe two sprites are necessary per tank.
 - More secrets: secret species per location that only show under a condition (night, charted zone, ...). Need new sprites.
@@ -394,4 +394,5 @@ Rules of thumb:
 - Secret level entry somewhere in the depth on the east border. We could make a tiny hole into the rock barrier, which makes you enter a secret area.
 - Hand- or Headlamp for "night wader". Requires special night-sprites for the wader.
 - More languages for internationalization - select the device/playstore language by default.
+- Add "food-cycle" dynamics. For example turtles eating jellyfish, sharks/dolphins/tuna eating smaller fish etc. This should not affect the tanks, but in the open sea so you can also observe their behavior.
 - Connect the achievements to Google Play Games achievements (needs achievement IDs from the Play Console - which requires a Google Cloud Project - which would cause costs)

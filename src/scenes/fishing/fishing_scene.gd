@@ -570,7 +570,7 @@ func _walk_to(target: Vector2) -> void:
 		var next_gear := GameState.here().gear_level
 		if next_gear < DataRegistry.gear_levels.size():
 			_announce(Vector2(size.x * 0.5, _margin_top + 330.0),
-					tr("Buy at the gear shop: %s\nto swim further out!") % tr(DataRegistry.gear_levels[next_gear].name), WARNING_COLOR, 1.2)
+					tr("Get %s\nat the gear shop to go further") % tr(DataRegistry.gear_levels[next_gear].name), WARNING_COLOR, 1.2)
 			Haptics.bump()
 
 
@@ -1122,7 +1122,7 @@ func _record_catch(fish: SwimmingFish) -> void:
 		_bump(_fishpedia_button)
 	if not was_charted and Charting.is_charted(GameState.state, fish.zone):
 		_announce(Vector2(size.x * 0.5, _margin_top + 220.0),
-				tr("%s charted!\nDrones can fish here now") % tr(fish.zone.name), COMBO_COLOR, 1.6)
+				tr("%s charted!\nDrones fish here now") % tr(fish.zone.name), COMBO_COLOR, 1.6)
 		Sfx.play(&"ding", 1.0)
 		Sfx.play(&"ding", 1.26, -4.0)
 		_sync_drones()
@@ -1454,7 +1454,7 @@ func _store_one() -> void:
 		if live_well.count() > 0 and not _warned:
 			_warned = true
 			_announce(_world_to_scene(square_by_id("store").position + Vector2(0.0, -110.0)),
-					tr("No room in the tank!") + "\n" + tr("Upgrade the tank."), WARNING_COLOR, 1.2)
+					tr("Tank full!") + "\n" + tr("Upgrade it in the gear shop."), WARNING_COLOR, 1.2)
 			Haptics.bump()
 		return
 	var species_id := live_well.take_at(index)
@@ -1488,7 +1488,7 @@ func _sell_one(target: ActionSquare) -> bool:
 		if not _warned and _action_count == 0:
 			_warned = true
 			_announce(_world_to_scene(target.position + Vector2(0.0, -110.0)),
-					tr("Only grown fish can be sold.\nGrow your catch in the tank first."), WARNING_COLOR, 1.2)
+					tr("No grown fish yet!\nLet them grow in the tank."), WARNING_COLOR, 1.2)
 		return false
 	var buyer: Customer = _booths[0] if not _booths.is_empty() else null
 	if buyer == null or not buyer.is_waiting():
@@ -1535,7 +1535,7 @@ func _complete_purchase(target: ActionSquare) -> void:
 		GameState.hire_seller()
 		Tutorial.complete(GameState.state, Tutorial.Step.HIRE)
 		_sync_shops()
-		message = tr("Seller hired!\nSells grown fish for you")
+		message = tr("Seller hired!\nSells for you")
 	_announce(at, message, COMBO_COLOR, 1.0)
 	Sfx.play(&"ding", 1.0)
 	Sfx.play(&"ding", 1.5, -6.0)
@@ -1843,8 +1843,9 @@ func _on_achievement_reached(def: AchievementDef) -> void:
 	_bump(_goals_button)
 
 
+## A message over the scene. It stays at least `hold_s`, and long enough to be read.
 func _announce(at: Vector2, text: String, color: Color, hold_s: float = 0.35) -> void:
-	Juice.popup_text(_popups, at, text, 52, color, hold_s)
+	Juice.popup_text(_popups, at, text, 52, color, maxf(hold_s, Juice.reading_time(text)))
 
 
 ## A footfall that sounds like the ground (a slosh in the water, a knock on the pier, a crunch
@@ -1997,13 +1998,13 @@ func _update_hud() -> void:
 		NumberFormat.compact(Aquarium.used_space(site.tank)), NumberFormat.compact(Aquarium.capacity(site.tank)), adults,
 		NumberFormat.compact(Aquarium.tank_value(site))]
 	if live_well.is_full():
-		_hint_label.text = tr("Basket full! Grow the fish in the tank, then sell them.")
+		_hint_label.text = tr("Basket full! Bring the fish to the tank.")
 	elif live_well.count() > 0:
-		_hint_label.text = tr("Grow your catch in the tank. Only grown fish can be sold.")
+		_hint_label.text = tr("Let your catch grow in the tank.")
 	elif adults > 0 and site.seller_count == 0:
-		_hint_label.text = tr("Grown fish are worth 3 times as much. Sell them at the shop!")
+		_hint_label.text = tr("Sell grown fish at the shop!")
 	else:
-		_hint_label.text = tr("Touch and hold to wade there and catch fish.")
+		_hint_label.text = tr("Touch and hold to wade and fish.")
 
 
 func _on_money_changed(money: float) -> void:

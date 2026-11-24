@@ -13,6 +13,7 @@ const CONFETTI_COLORS: Array[Color] = [
 	Color(0.35, 0.7, 1.0), Color(0.85, 0.5, 1.0), Color(1.0, 1.0, 1.0),
 ]
 const POP_IN_S := 0.4
+## The least time a goal's card stays; a longer text stays longer (Juice.reading_time).
 const HOLD_S := 2.0
 const LEAVE_S := 0.35
 const MAX_COINS := 10
@@ -48,7 +49,16 @@ func celebrate(def: AchievementDef) -> void:
 	if def.reward > 0.0:
 		entry.lines.append([tr("+%s coins") % NumberFormat.compact(def.reward), 60, GOLD, false])
 	entry.reward = def.reward
+	entry.hold_s = hold_seconds(def)
 	_enqueue(entry)
+
+
+## How long the card of goal `def` stays: long enough to read it all.
+func hold_seconds(def: AchievementDef) -> float:
+	var text := "%s %s %s" % [tr("Goal reached!"), tr(def.name), tr(def.description)]
+	if def.reward > 0.0:
+		text += " " + tr("+%s coins") % NumberFormat.compact(def.reward)
+	return maxf(HOLD_S, Juice.reading_time(text))
 
 
 ## Welcomes the player back: the coins the sellers made (big) and the fish the drones stored.
