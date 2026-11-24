@@ -42,6 +42,21 @@ func test_paying_a_pad_upgrades_the_tank() -> void:
 	assert_not_null(_store.square("upgrade_tank"), "the next level is offered")
 
 
+func test_walking_across_a_pad_buys_nothing() -> void:
+	GameState.add_money(Aquarium.tank_upgrade_cost(GameState.here()))
+	var money := GameState.state.money
+	_stand_on("upgrade_tank")
+	await wait_seconds(UpgradeStore.PAY_DELAY_S * 0.7)
+	assert_eq(GameState.state.money, money, "no coins while passing over it")
+	_store.wader.ground_position = UpgradeStore.ENTRY
+	await wait_process_frames(2)
+	_stand_on("upgrade_tank")
+	await wait_seconds(UpgradeStore.PAY_DELAY_S * 0.7)
+	assert_eq(GameState.state.money, money, "the wait starts again on every visit")
+	await wait_seconds(UpgradeStore.PAY_DELAY_S)
+	assert_lt(GameState.state.money, money, "standing on it pays")
+
+
 func test_partial_payment_is_kept() -> void:
 	GameState.add_money(30.0)
 	_stand_on("upgrade_tank")
@@ -179,7 +194,7 @@ func test_the_travel_pad_is_free_once_the_beach_is_open() -> void:
 	_store._refresh_squares()
 	watch_signals(_store)
 	_stand_on("travel_next")
-	await wait_process_frames(3)
+	await wait_seconds(UpgradeStore.PAY_DELAY_S + 0.2)
 	assert_eq(GameState.state.current_location, "coral_reef")
 	assert_signal_emitted(_store, "travelled")
 

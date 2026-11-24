@@ -4,7 +4,8 @@ extends Control
 ## beach: a room in isometric view where the wader buys the upgrades by standing on their pads,
 ## as on the beach: diving gear and nets on the west side in front of their shelves, the backpack
 ## and drones on the east side, bigger tanks (in front of a shelf) and the market upgrade (at a
-## desk) at the back, and the doormat back to the beach at the front. The pads keep wide gaps, so nothing is bought by accident on the way.
+## desk) at the back, and the doormat back to the beach at the front. A pad only takes coins once the wader
+## has stood on it a moment (PAY_DELAY_S), so nothing is bought by accident on the way.
 ## Every location has one; the upgrades are bought for that location. The beach keeps running
 ## behind it (Main), and its drones keep fishing (GameState.in_store).
 
@@ -73,6 +74,9 @@ const CELL_EDGE_ACROSS := Grid.UNIT * 0.70710678
 
 ## Seconds the wader stands on the doormat before walking out.
 const DOOR_DELAY_S := 0.3
+## Seconds the wader stands on a pad before it takes the first coin (or, if free, acts): crossing
+## a pad on the way to another (about 0.4 s) buys nothing.
+const PAY_DELAY_S := 0.6
 ## Seconds between payments on a pad; each pays this share of the price.
 const PAY_INTERVAL_S := 0.05
 const PAY_SHARE := 0.04
@@ -446,7 +450,7 @@ func _update_squares(delta: float) -> void:
 		s.active = s == on
 	if on != _current_square:
 		_current_square = on
-		_action_timer = 0.0
+		_action_timer = PAY_DELAY_S
 		_action_count = 0
 		_warned = false
 		_purchase_done = false
