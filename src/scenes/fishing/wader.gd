@@ -15,6 +15,8 @@ const ACCELERATION := 2400.0
 ## Share of the speed kept when the finger lifts.
 const STOP_KEEP_SPEED := 0.2
 const ARRIVE_DISTANCE := 10.0
+## How far the wader keeps off the edges of the walkable area.
+const WALK_MARGIN := 20.0
 ## Starts slowing down this close to the target, so arrival feels soft.
 const SLOWDOWN_DISTANCE := 70.0
 ## Distance from the feet to the centre of the net hoop, in ground units.
@@ -248,6 +250,16 @@ func _gear() -> int:
 	return mini(gear_level, zone_order) if swimming else 1
 
 
+## True while the wader heads for a place (the finger is down), even if held back on the way.
+func has_target() -> bool:
+	return _has_target
+
+
+## Where the wader heads (see has_target).
+func target() -> Vector2:
+	return _target
+
+
 func is_walking() -> bool:
 	return ground_velocity.length() > 20.0
 
@@ -328,7 +340,7 @@ func simulate(delta: float, area: PlayArea) -> void:
 		else:
 			_has_target = false
 	ground_velocity = ground_velocity.move_toward(desired, ACCELERATION * delta)
-	ground_position = area.clamp_point(ground_position + (ground_velocity + drift) * delta, 20.0)
+	ground_position = area.clamp_point(ground_position + (ground_velocity + drift) * delta, WALK_MARGIN)
 	if is_walking():
 		facing = facing.slerp(ground_velocity.normalized(), clampf(10.0 * delta, 0.0, 1.0)).normalized()
 	_walk_phase += delta * ground_velocity.length() / 42.0

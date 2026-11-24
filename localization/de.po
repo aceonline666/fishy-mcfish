@@ -11,9 +11,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Fishing screen
-msgid "Get %s\nat the gear shop to go further"
-msgstr "Hol dir %s\nim Angelladen, um weiter zu kommen"
-
 msgid "Beach"
 msgstr "Strand"
 

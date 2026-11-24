@@ -745,3 +745,18 @@ func test_at_night_the_birds_sleep_and_ripples_glow() -> void:
 	DayCycle.override_hour = DayCycle.DAY_HOUR
 	await wait_process_frames(2)
 	assert_false(_scene.seabirds.grounded)
+
+
+func test_a_lock_pops_up_only_when_the_wader_walks_into_the_barrier_of_the_locked_zones() -> void:
+	var edge: float = _scene.walk_area.rect.end.y
+	var locks := func() -> int:
+		return _scene._popups.get_children().filter(func(c: Node) -> bool: return c is LockPopup and not c.is_queued_for_deletion()).size()
+	_wader.ground_position = Vector2(400.0, edge - 400.0)
+	_wader.walk_to(Vector2(400.0, edge + 600.0))
+	await wait_process_frames(2)
+	assert_eq(locks.call(), 0, "nothing on the way there")
+	await wait_seconds(1.5)
+	assert_eq(locks.call(), 1, "a lock at the barrier")
+	assert_almost_eq(_wader.ground_position.y, edge - Wader.WALK_MARGIN, 1.0)
+	await wait_seconds(0.5)
+	assert_eq(locks.call(), 1, "once, while held there")

@@ -287,7 +287,8 @@ var _zone_spawns: Array[SpawnTable] = []
 var _zone_night_spawns: Array[SpawnTable] = []
 var _spawn_timer := 0.0
 var _wader_zone: ZoneDef
-var _gate_warned := false
+## True while the wader stands against the locked zones' barrier (_update_gate).
+var _at_gate := false
 var _squares: Array[ActionSquare] = []
 ## The location's painted seabed and sand tiles (assets/sprites/seafloor, beach), or null.
 var _floor_texture: Texture2D
@@ -512,6 +513,7 @@ func _process(delta: float) -> void:
 	wader.in_water = wader.ground_position.y > SHORE_Y
 	wader.speed_multiplier = DataRegistry.gear_levels[GameState.here().gear_level - 1].capacity if wader.in_water else BEACH_SPEED
 	_update_zone()
+	_update_gate()
 	_update_camera(delta)
 	_update_spotlight(delta)
 	_update_weather(delta)
@@ -551,7 +553,6 @@ func _gui_input(event: InputEvent) -> void:
 			return
 		_holding = touch.pressed
 		if touch.pressed:
-			_gate_warned = false
 			_walk_to(scene_to_ground(touch.position))
 		else:
 			wader.stop()
@@ -563,16 +564,21 @@ func _gui_input(event: InputEvent) -> void:
 			accept_event()
 
 
-## Sends the wader towards a ground point; explains once if better gear is needed to get there.
+## Sends the wader towards a ground point.
 func _walk_to(target: Vector2) -> void:
 	wader.walk_to(target)
-	if target.y > walk_area.rect.end.y and not _gate_warned:
-		_gate_warned = true
-		var next_gear := GameState.here().gear_level
-		if next_gear < DataRegistry.gear_levels.size():
-			_announce(Vector2(size.x * 0.5, _margin_top + 330.0),
-					tr("Get %s\nat the gear shop to go further") % tr(DataRegistry.gear_levels[next_gear].name), WARNING_COLOR, 1.2)
-			Haptics.bump()
+
+
+## Pops a lock over the wader each time it walks into the barrier of the zones its gear cannot
+## reach yet: heading further out, held at the walkable water's southern edge (the wader keeps
+## Wader.WALK_MARGIN off it).
+func _update_gate() -> void:
+	var edge := walk_area.rect.end.y - Wader.WALK_MARGIN - 2.0
+	var at_gate := wader.has_target() and wader.target().y > edge and wader.ground_position.y >= edge
+	if at_gate and not _at_gate and GameState.here().gear_level < DataRegistry.gear_levels.size():
+		LockPopup.pop(_popups, _world_to_scene(wader.stack_top_position() + Vector2(0.0, -90.0)))
+		Haptics.bump()
+	_at_gate = at_gate
 
 
 #region Public helpers (also used by tests)
