@@ -56,7 +56,7 @@ const GLASS: Array[Dictionary] = [
 ## The water drawn in the glass: its sides and its surface.
 const WATER_SIDE_COLOR := Color(0.25, 0.62, 0.92, 0.42)
 const WATER_SURFACE_COLOR := Color(0.6, 0.86, 1.0, 0.55)
-## Fish drawn at most; the label shows the space used.
+## Fish drawn at most, the rarest first (drawn_fish); the label shows the space used.
 const MAX_DRAWN_FISH := 14
 ## Fish in the tank are drawn at this share of their size in the ocean (CatchRules.compact_length).
 const TANK_FISH_SCALE := 0.8
@@ -297,8 +297,7 @@ func _draw_fish(box: Array, depth: float) -> void:
 	var margin := lanes.x
 	var width := lanes.y
 	var swimmers: Array[Dictionary] = []
-	for i in mini(tank.fish.size(), MAX_DRAWN_FISH):
-		var fish := tank.fish[i]
+	for fish in drawn_fish():
 		var art: FishArt = art_for.call(fish.species_id)
 		var length := fish_length(art.species, fish.growth)
 		var seed := _seed(fish)
@@ -337,6 +336,20 @@ func _draw_fish(box: Array, depth: float) -> void:
 		art.draw(self, view, length, _time * 8.0 + seed * 9.0, 0.8, GLASS_TINT)
 
 
+## The fish drawn (MAX_DRAWN_FISH at most): the rarest ones, so whales and other rare catches
+## always show among the many common fish; of a rarity, those caught first.
+func drawn_fish() -> Array[TankFish]:
+	var picked: Array[TankFish] = []
+	for rarity in range(SpeciesDef.Rarity.LEGENDARY, SpeciesDef.Rarity.COMMON - 1, -1):
+		for fish in tank.fish:
+			if picked.size() >= MAX_DRAWN_FISH:
+				return picked
+			var species: SpeciesDef = DataRegistry.species.get(fish.species_id)
+			if species != null and species.rarity == rarity:
+				picked.append(fish)
+	return picked
+
+
 ## A fish's drawn length in the tank: a share of its size in the ocean, smaller while young.
 static func fish_length(species: SpeciesDef, growth: float) -> float:
 	return CatchRules.compact_length(species) * TANK_FISH_SCALE * (0.65 + 0.35 * growth)
@@ -367,10 +380,9 @@ func swim_room() -> Vector2:
 ## sticks out of shallow water.
 func _covering_level() -> float:
 	var tallest := 0.0
-	for i in mini(tank.fish.size(), MAX_DRAWN_FISH):
-		var species: SpeciesDef = DataRegistry.species.get(tank.fish[i].species_id)
-		if species != null:
-			tallest = maxf(tallest, fish_length(species, tank.fish[i].growth) * species.body_aspect)
+	for fish in drawn_fish():
+		var species: SpeciesDef = DataRegistry.species[fish.species_id]
+		tallest = maxf(tallest, fish_length(species, fish.growth) * species.body_aspect)
 	var glass_height: float = _glass_box(_sprite_rect())[4]
 	return clampf((tallest + 2.0 * FISH_CLEARANCE) / glass_height, 0.0, 1.0) if tallest > 0.0 else 0.0
 
