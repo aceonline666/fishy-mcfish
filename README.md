@@ -305,7 +305,6 @@ Rules of thumb:
 
 ## TODOs
 - Regenerate the species sprites that are not yet in the new cute-comic format (one image per species in `art_source/fish/views/`, prompts in `art_source/fish/views/prompts.md`, cut with `tools/extract_species_views.py`):
-  - Blue whale (Balaenoptera musculus) — too low resolution (stretched 3.3x), outline far too thick at its size (7.7x the cod's)
   - Humpback whale (Megaptera novaeangliae) — realistic style, too low resolution (stretched 1.9x)
   - Southern right whale (Eubalaena australis) — too low resolution (stretched 2x), outline too thick at its size (3.1x the cod's)
   - Vampire squid (Vampyroteuthis infernalis) — odd pose (upright, facing the viewer)
