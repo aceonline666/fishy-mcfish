@@ -131,8 +131,9 @@ const DRONE_DOCK_TEXTURE: Texture2D = preload("res://assets/sprites/props/drone_
 ## which are fitted to one cell.
 const DRONE_DOCK_ANCHOR := Vector2(654.0, 350.0)
 const DRONE_DOCK_CORNERS: Array[Vector2] = [Vector2(1.0, 286.0), Vector2(654.0, 628.0), Vector2(1308.0, 288.0)]
-## The dock is drawn this much bigger than its cell, so the drones have room to land.
-const DRONE_DOCK_SIZE := 1.2
+## The dock is drawn this much bigger than its cell, so the drones have room to land and its
+## outline (6 px in the painting) is as thick on screen as the pier's (about 2.1 px at zoom 1).
+const DRONE_DOCK_SIZE := 1.35
 ## The tank's south-east cell, two rows off the water (room for the drones' dock in front): the
 ## tank covers its level's footprint (data/tanks.csv) from here to the west and up the beach. It
 ## cannot be walked on. Its store pad stands east of it.
