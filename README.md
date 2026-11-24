@@ -305,7 +305,6 @@ Rules of thumb:
 
 ## TODOs
 - Regenerate the species sprites that are not yet in the new cute-comic format (one image per species in `art_source/fish/views/`, prompts in `art_source/fish/views/prompts.md`, cut with `tools/extract_species_views.py`):
-  - Common fangtooth (Anoplogaster cornuta) — realistic style, thin outline
   - Giant guitarfish (Rhynchobatus djiddensis) — realistic style, no outline
   - Copper shark (Carcharhinus brachyurus) — realistic style, thin outline
   - Shortfin mako (Isurus oxyrinchus) — realistic style, thin outline
